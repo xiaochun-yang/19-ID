@@ -1,0 +1,161 @@
+- How to change host for manual autoindexing (autoindex existing images from autoindex tab).
+
+  
+
+setenv WEBICE_HOME /home/webserverroot/servlets/tomcat5-prod/webice
+Edit $WEBICE_HOME/WEB-INF/webice.properties
+
+
+Set executable path for spotfinder:
+If the new host is a blcpu, set webice.binDir to
+webice.binDir=/usr/local/dcs/crystal-analysis/bin
+
+If the host is linux, set webice.binDir to
+webice.binDir=/home/sw/rhel3/crystal-analysis/bin
+
+Set host and port of impserver that will run spotfinder
+spotfinder.impersonHost=blcpu5.slac.stanford.edu
+spotfinder.impersonPort=61001
+
+Set host and port of impserver that will run autoindex & strategy
+autoindex.host=blcpu5.slac.stanford.edu
+autoindex.port=61001
+
+
+Restart webice or tomcat.
+
+
+- How to change host for autoindex in screening or from collect option (collect 2 images and autoindex).
+
+Autoindex & strategy for screening and for collectWeb is run by crystal-analysis, although the same
+scripts in $WEBICE/WEB-INF/scripts dir are used.
+
+setenv CRYSTAL_ANALYSIS /home/webserverroot/servlets/tomcat5-prod/crystal-analysis
+Edit $CRYSTAL_ANALYSIS/WEB-INF/server.config
+
+Modify config beginning with beamline name, for example:
+
+BL9-2.spotfinderHost=sdc04.slac.stanford.edu
+BL9-2.spotfinderPort=61001
+BL9-2.spotfinderQSize=1
+BL9-2.binDir=/home/sw/rhel3/crystal-analysis/bin
+BL9-2.autoindexHost=sdc04.slac.stanford.edu
+BL9-2.autoindexPort=61001
+BL9-2.autoindexQSize=1
+BL9-2.scriptDir=${scriptDir}
+BL9-2.strategyHost=sdc04.slac.stanford.edu
+BL9-2.strategyPort=61001
+BL9-2.strategyQSize=1
+BL9-2.strategyScriptDir=${strategyScriptDir}
+
+
+Change spotfinderHost, autoindexHost and strategyHost for this beamline to the new host(s). 
+For spotfinder, if the new host is blcpu, change binDir for this beamline to
+/usr/local/dcs/crystal-analysis/bin. But if host is linux, change it to
+/home/sw/rhel3/crystal-analysis/bin.
+
+
+- How to add a beamline.
+
+Go to crystals web page (http://smb.slac.stanford.edu/crystals). Click "Here is a page with all SMB Beamlines." link
+at the bottom of the page. Then click "Add beamline" link. Enter the beamline name.
+
+For strategy calculation scripts, add <beamline>.properties to /home/www/templates/beamline-properties dir.
+
+For dcss and bluice, create <beamline>.config and <beamline>.dat to /usr/local/dcs/dcsconfig/data dir.
+
+For webice to dcss connection, add <beamline>.dcssHost and <beamline>.dcssPort to $WEBICE/WEB-INF/webice.properties.
+
+For video feed in webice video tab, add a line to $WEBICE/pages/video/main.jsp, for example:
+videoBeamlines.put("SIM12-2", "9-2");
+
+
+
+- How to add simulated beamline to list of beamlines on tool bar.
+
+For each user, go to preference page and add the beamline name to Simulated Beamlines row in the autoindex table.
+Each beamline is separated by a space.
+
+
+
+- Which image server does webice use for loading images in image viewer and for getting image header
+  for autoindexing.
+
+Check in $WEBICE/WEB-INF/webice.properties
+
+# Image server
+imgsrv.host=smbdev2.slac.stanford.edu
+imgsrv.port=14007
+  
+  
+  
+- Which impersonation server does webice use for accessing files (reading, writing, deleting, 
+  getting file permissions, listing dir).
+  
+Check in $WEBICE/WEB-INF/webice.properties
+
+# Impersonation server
+imperson.host=smbdev1.slac.stanford.edu
+imperson.port=61001
+
+- Which image server used to get image header for autoindexing during screening and collectWeb.
+
+Check in $CRYSTAL_ANALYSIS/WEB-INF/server.config
+
+imgsrv.host=smbdev2.slac.stanford.edu
+imgsrv.port=14007
+
+- How many image servers are running?
+
+One on smbfs and one on smbdev2.
+
+
+- How does webice know which host and port to connect to for each beamline?
+
+Check config <beamline>.dcssHost and <beamline>.dcssPort in $WEBICE/WEB-INF/webice.properties, 
+for example:
+
+SIM9-1.dcssHost=smbdev2
+SIM9-1.dcssPort=14373
+
+
+
+- Which video feed for each beamline in video tab.
+
+Look for a mapping in  $WEBICE/pages/video/main.jsp, for example:
+
+videoBeamlines.put("BL-sim", "9-2");
+
+BL-sim beamline takes video feed from BL9-2.
+
+
+
+- Got many "Connection refused" error messages in webice all at once.
+
+Most likely coming from impserver on smbdev1. Xinetd has security setup that limits 
+the number of connections per seconds to 60 (increased from 25) and total number of connections at any 
+time to 60.
+
+
+- How to replace autoindexing images for simulated beamlines.
+
+Check config simdetector.imageDir in /usr/local/dcs/dcsconfig/data/<beamline>.config, for example:
+
+simdetector.imageDir=/data/blctl/simdetector_images/SIM1-5
+
+Replace images in the directory. 
+
+Change detectorType in dcss database file to match the detector type from image header.
+
+
+
+- webice run monitoring page says collectWeb is running and never seems to stop.
+
+Check /data/<user>/webice/autoindex/<runName>/collect.out.
+If the first number is 0, it means it is no longer running. Second parameter is the message. Look out for error messages.
+
+Click "Reload" to reload the run. Alternatively, select another run and then reselect this run.
+
+
+
+

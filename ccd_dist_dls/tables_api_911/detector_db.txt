@@ -1,0 +1,25 @@
+#
+# 900  -  simulation 3x3
+#
+chip 2160 2124 2048
+host 911-0 1
+host 911-1 1
+host 911-2 1
+host 911-3 1
+host 911-4 1
+host 911-5 1
+host 911-6 1
+host 911-7 1
+host 911-8 1
+#
+#	ON THE LINUX SIDE, THE MODULE NUMBERS (like 2810) don't matter
+#
+module ? slave   2810 0  270  911-0 9041 9042 9049
+module ? slave   2809 1  270  911-1 9041 9042 9049
+module ? master   2874 2  270  911-2 9041 9042 9049
+module ? slave   4127 3  270  911-3 9041 9042 9049
+module ? slave   3266 4  270  911-4 9041 9042 9049
+module ? slave   3252 5  270  911-5 9041 9042 9049
+module ? slave   3256 6  270  911-6 9041 9042 9049
+module ? slave   3253 7  270  911-7 9041 9042 9049
+module ? slave   2803 8  270  911-8 9041 9042 9049

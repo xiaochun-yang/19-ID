@@ -1,0 +1,89 @@
+
+
+	Detector Control Scheme for the ESRF.
+	=====================================
+
+Preliminaries.
+--------------
+
+	This implimentation of the ADSC detector software differs
+from the standard in that it is a "detector only" software package.
+Functions will be provided by the package, "adsc_det_server", to
+take images, correct them if necesasry, and write them to disk
+in an approprite format with proper header information.  Status
+and the current state of important parameters will be provided.
+Other processes/servers will be responsible for exposure timing,
+motor motion, setting of important detector parameters and modes,
+filenames and information going into the final image header, and
+the graphical user interface.
+
+Overall Scheme.
+---------------
+
+	The detector control package will consist of three cooperating
+parts.  The first part will be the standard ADSC det_api process running
+on the Windows 95 "frame grabber" PC.  The second part will be an 
+independent process, ccd_xform_new_api, which will serve to gather
+images from det_api, correct the images if necessary, and handle the
+outputting of image data to disk.  The third part will be the detector
+control process, det_control.  This process will be responsible for
+taking direction from "outside" processes and properly coordinating
+the actions of det_api and ccd_xform_new_api.
+
+det_control.
+------------
+
+	This is the only totally new piece of the package.  Without
+knowing how this is actually going to play out, it seems appropriate
+that the core of det_control be a library which impliments the core
+functions we need to have.  This may allow us to use the core in
+several different kinds of implimentations and to closely model
+the way that the TACO system will want to interface into the ADSC
+software.
+
+	Features we'll need:
+
+	  1.	Network code to interface to det_api and xform_api.
+
+	  2.	Core routines to impliment the primary functions
+		for detector control.
+
+	  3.	Ability to layer an additional network interface
+		to communicate with other processes.  This would
+		be outside of the core, and, for example, could
+		be used to re-impliment the usual ADSC software
+		in this new context.
+
+Core functions.
+---------------
+
+	This follows Darren's basic outline of functions we need
+to impliment:
+
+	CCDStartExposure
+
+	CCDStopExposure
+
+	CCDStatus
+
+	CCDSetFilePar
+	
+	CCDGetFilePar
+
+	CCDSetHwPar
+
+	CCDGetHwPar
+
+	CCDGetImage
+
+	CCDCorrectImage
+
+	CCDWriteImage
+
+	CCDGetLastError
+
+	CCDAbort
+
+	CCDReset
+
+	CCDInitialize

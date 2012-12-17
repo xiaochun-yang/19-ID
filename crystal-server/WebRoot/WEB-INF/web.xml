@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+	 version="2.4" >
+
+	<display-name>Crystal-Server</display-name>
+
+ <!-- This causes applicationContext.xml to be loaded -->
+<!--  <listener>
+      <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>-->
+  
+   <!-- This also causes applicationContext.xml to be loaded -->
+   <servlet>
+      <servlet-name>spring</servlet-name>
+      <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <init-param>
+      <param-name>contextConfigLocation</param-name>
+      <param-value>/WEB-INF/applicationContext.xml</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+   </servlet>
+ 
+  <!-- Servlet Mappings -->
+    <servlet-mapping>
+      <servlet-name>spring</servlet-name>
+      <url-pattern>*.html</url-pattern>
+   </servlet-mapping>
+   
+	<servlet-mapping>
+      <servlet-name>spring</servlet-name>
+      <url-pattern>*.do</url-pattern>
+   </servlet-mapping>
+   
+    <servlet-mapping>
+      <servlet-name>spring</servlet-name>
+      <url-pattern>*.xls</url-pattern>
+   </servlet-mapping>
+   
+	<servlet-mapping>
+      <servlet-name>spring</servlet-name>
+      <url-pattern>*.xlsx</url-pattern>
+   </servlet-mapping>
+
+	<servlet-mapping>
+      <servlet-name>spring</servlet-name>
+      <url-pattern>*.sxc</url-pattern>
+   </servlet-mapping>
+      
+  <!-- The Welcome File List -->
+  <welcome-file-list>
+    <welcome-file>index.htm</welcome-file>
+  </welcome-file-list>
+</web-app>

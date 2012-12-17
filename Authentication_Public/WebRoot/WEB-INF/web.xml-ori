@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!DOCTYPE web-app >
+	
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee" 
+	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee web-app_2_4.xsd"
+	 version="2.4" >
+
+	<display-name>Authentication Gateway (smbdev1)</display-name>
+	<description>
+		Authentication Server for smbdev1
+	</description>
+
+	<servlet>
+		<servlet-name>APPFORWARD</servlet-name>
+		<servlet-class>APPFORWARD</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>APPFORWARD</servlet-name>
+		<url-pattern>/servlet/APPFORWARD</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>APPLOGIN</servlet-name>
+		<servlet-class>APPLOGIN</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>APPLOGIN</servlet-name>
+		<url-pattern>/servlet/APPLOGIN</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>EndSession</servlet-name>
+		<servlet-class>EndSession</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>EndSession</servlet-name>
+		<url-pattern>/servlet/EndSession</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>FRAMELOGIN</servlet-name>
+		<servlet-class>FRAMELOGIN</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>FRAMELOGIN</servlet-name>
+		<url-pattern>/servlet/FRAMELOGIN</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>SessionStatus</servlet-name>
+		<servlet-class>SessionStatus</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SessionStatus</servlet-name>
+		<url-pattern>/servlet/SessionStatus</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>GetOneTimeSession</servlet-name>
+		<servlet-class>GetOneTimeSession</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GetOneTimeSession</servlet-name>
+		<url-pattern>/servlet/GetOneTimeSession</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>WEBLOGIN</servlet-name>
+		<servlet-class>WEBLOGIN</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>WEBLOGIN</servlet-name>
+		<url-pattern>/servlet/WEBLOGIN</url-pattern>
+	</servlet-mapping>
+
+
+</web-app>

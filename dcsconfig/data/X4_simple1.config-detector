@@ -1,0 +1,144 @@
+##############################
+# BL_simple1.config
+##############################
+
+# dcss server.
+dcss.host=localhost
+
+#serverPorts.txt file fields conversion table
+#   1st -->dcss.scriptPort 
+#   2nd -->dcss.hardwarePort
+#   3rd -->dcss.guiPort
+dcss.scriptPort=14244
+dcss.hardwarePort=14242
+dcss.guiPort=14243
+dcss.authProtocol=2
+
+# how often to validate session ids (in msec)
+dcss.validationRate=30000
+
+# Location of the dabase memory map file
+dcss.dbMapFile=/home/yangx/release-5_1/dcss/dbmapfile/X4_simple1.dat
+dcss.certificate=/home/yangx/release-5_1/dcsconfig/data/X4_simple1.crt
+
+# dcss logging: 
+# To turn off stdout logging, set logStdout to false
+# To turn off udp log, set logUdpHost or logUdpPort to an empty string.
+# To turn off log file, set logFilePattern or logFileSize or logFileMax to an empty string
+# logLevel can be OFF, SEVERE, WARNING, INFO, CONFIG, FINE, FINER, FINEST OR ALL.
+dcss.logStdout=true
+dcss.logUdpHost=
+dcss.logUdpPort=
+dcss.logFilePattern=./X4_simple1_dcss_log_%g_%u.txt
+#dcss.logFilePattern=
+dcss.logFileSize=31457280
+dcss.logFileMax=20
+dcss.logLevel=ALL
+dcss.logLibs=
+
+# Dumping database.dat to text file. Set dbDumpFlag=false to turn it off.
+dcss.dbDumpFlag=false
+dcss.dbDumpFile=../../dcsconfig/data/X4_simple1.dump
+dcss.dbDumpRate=10000
+
+
+dcss.forcedDoor=closed
+
+# override the default config in default.config
+# authentication server
+#auth.host=localhost
+#auth.port=8088
+#auth.secureHost=localhost
+#auth.securePort=8443
+
+auth.host=localhost
+auth.port=8080
+auth.method=smb_config_database
+#auth.method=smb_pam
+auth.secureHost=localhost
+auth.securePort=8443
+#comment following to accept any certificates
+auth.trusted_ca_file=/home/yangx/release-5_1/dcsconfig/data/server-jsse.crt
+
+bluice.useSsl=0
+bluice.useRobot=0
+bluice.tabOrder=Hutch Collect Users Setup 
+#bluice.deviceDefinitionFilename=
+#bluice.mirrorView=
+bluice.hutchView=DCS::HutchOverview
+bluice.monoView=DoubleCrystalMonoView
+bluice.toroidView=ToroidView
+bluice.beamlineView=goniometer detectorPosition
+
+dcss.display=local koala:0.0 #Beamline console
+dcss.display=local localhost :0.0 #Beamline console
+
+simdetector.name=detector
+simdetector.imageDir=/home/yangx/data
+simdetector.imageFilter=*.img
+
+# quantum 4 detector
+dhs.instance=detector quantumr4 /home/yangx/release-5_1/X4/detector_%g_%u.log /home/yangx/release-5_1/X4/detector.dat 500 1000 200
+quantum4.commandHostname=yangx
+quantum4.dataPort=8042
+quantum4.commandPort=8041
+#quantum315.dataHostnameList=904-0 904-1 904-2 904-3 904-4 904-5 904-6 904-7 904-8
+#quantum315.dataPortList=9042 9042 9042 9042 9042 9042 9042 9042 9042
+quantum4.beamCenter=94.0 94.0
+quantum4.darkRefreshTime=7200
+quantum4.darkExposureTolerance=0.10
+quantum4.writeRawImages=n
+quantum4.serialNumber=411
+
+# impersoanation server
+imperson.host=localhost
+imperson.port=61001
+imperson.readonlyHost=localhost
+imperson.readonlyPort=61002
+
+# imperson dhs
+impdhs.name=imperson
+impdhs.tmpDir=/tmp
+impdhs.choochBinDir=/home/yangx/tmp/autochooch/bin
+impdhs.choochDatDir=/home/yangx/tmp/autochooch/data
+impdhs.cameraHost=localhost
+impdhs.cameraPort=80
+
+
+# image server
+imgsrv.host=localhost
+imgsrv.guiPort=14005
+imgsrv.webPort=14006
+imgsrv.httpPort=14007
+imgsrv.tmpDir=/home/yangx/tmp
+imgsrv.maxIdleTime=60
+imgsrv.logStdout=true
+imgsrv.logUdpHost=
+imgsrv.logUdpPort=
+imgsrv.logFilePattern=./imgsrv_log_%d.log
+imgsrv.logFileSize=31457280
+imgsrv.logFileMax=1
+imgsrv.logLevel=ALL
+imgsrv.logLibs=
+
+#screening.latestEventIdUrl=https://localhost:8443/crystals-dev/getLatestEventId.do
+#screening.defaultSILUrl=https://localhost:8443/crystals-dev/createDefaultSil.do
+#screening.uploadSILUrl=https://localhost:8443/crystals-dev/uploadSil.do
+#screening.downloadSILUrl=https://localhost:8443/crystals-dev/downloadSil.do
+#screening.lockSILUrl=https://localhost:8443/crystals-dev/setSilLock.do
+#screening.unassignSILUrl=https://localhost:8443/crystals-dev/unassignSil.do
+#screening.moveCrystalUrl=https://localhost:8443/crystals-dev/moveCrystal.do
+#screening.cassetteDataUrl=https://localhost:8443/crystals-dev/getCassetteData.do
+#screening.cassetteInfoUrl=https://localhost:8443/crystals-dev/CassetteInfo.jsp
+#screening.crystalDataUrl=https://localhost:8443/crystals-dev/getCrystalData.do
+#screening.crystalUpdateUrl=https://localhost:8443/crystals-dev/updateCrystalData.do
+#screening.crystalEditUrl=https://localhost:8443/crystals-dev/setCrystal.do
+#screening.crystalSetAttributeUrl=https://localhost:8443/crystals-dev/setCrystalAttribute.do
+#screening.crystalGetChangesUrl=https://localhost:8443/crystals-dev/getChangesSince.do
+#screening.crystalClearImagesUrl=https://localhost:8443/crystals-dev/clearCrystalImages.do
+#screening.crystalClearResultsUrl=https://localhost:8443/crystals-dev/clearCrystal.do
+#screening.crystalClearAllCrystalsUrl=https://localhost:8443/crystals-dev/clearAllCrystals.do
+#screening.crystalAddImageUrl=https://localhost:8443/crystals-dev/addCrystalImage.do
+#screening.SILRowDataUrl=https://localhost:8443/crystals-dev/jsp/getRow.jsp
+#screening.silIdAndEventIdUrl=https://localhost:8443/crystals-dev/getSilIdAndEventId.do
+

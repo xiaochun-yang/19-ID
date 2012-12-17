@@ -1,0 +1,64 @@
+#Main Sconscript for the ---logging--- module
+# An experimental build system used at LBNL (Nick Sauter) to compile the SSRL
+# packages for WebIce.  Build tools include SCons & cctbx, not gmake.
+
+import libtbx.load_env
+import os
+Import("env_base", "env_etc")
+
+env_etc.logging_dist = libtbx.env.dist_path("logging")
+
+env_etc.logging_include = env_etc.norm_join(env_etc.logging_dist,"src")
+env_etc.logging_common_includes = [
+  env_etc.logging_include,
+  env_etc.xos_include,
+]
+
+env = env_base.Copy()
+
+env_etc.include_registry.append(
+  env=env,
+  paths=env_etc.logging_common_includes)
+
+env_logging = env.Copy(
+  LIBS = env_etc.libm + ["rt","pthread","c"],
+)
+
+arch_dependent_flags={"irix_CC":["-DIRIX","-DPTHREADS","-MP:dsm=off"],
+                      "unix_gcc":["-DLINUX","-fexceptions","-pthread"],
+                      "tru64_cxx":["-DDEC_UNIX","-pthread"]}
+
+env_logging.Append(
+CCFLAGS=["-D_REENTRANT"]+arch_dependent_flags[env_etc.compiler])
+
+env_logging.Append(LIBPATH=["#lib",])
+
+lib_logging_sources = [
+  "src/log_level.c",
+  "src/log_record.c",
+  "src/log_formatter.c",
+  "src/log_simple_formatter.c",
+  "src/log_token_formatter.c",
+  "src/log_trace_formatter.c",
+  "src/log_xml_formatter.c",
+  "src/log_filter.c",
+  "src/log_handler_factory.c",
+  "src/log_handler.c",
+  "src/log_console_handler.c",
+  "src/log_udp_handler.c",
+  "src/log_socket_handler.c",
+  "src/log_file_handler.c",
+  "src/logger.c",
+  "src/log_manager.c",
+  "src/log_quick.c",
+  "src/log_native_handler.c",
+  "src/loglib_quick.c",
+  "src/log_syslog_util.c",
+  "src/log_syslog_handler.c",
+]
+
+builder = env_logging.StaticLibrary
+builder(
+    target="#lib/logging",
+    source=lib_logging_sources,
+)

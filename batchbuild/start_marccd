@@ -1,0 +1,40 @@
+#!/bin/bash
+#
+DCS_ROOT=/usr/local/dcs
+
+PID_DHS=`/bin/ps -ef | /bin/grep 'dhs BL9-2' | \
+			/bin/grep -v grep | \
+			/bin/grep -v xterm | \
+			/bin/awk '{ print $2 }'`
+            
+PID_MARCCD=`/bin/ps -ef | /bin/grep '/opt/marccd/bin/linux/marccd' | \
+			/bin/grep -v grep | \
+			/bin/grep -v xterm | \
+			/bin/awk '{ print $2 }'`
+
+
+if [[ ${PID_DHS:=x} != 'x' ]] ;then
+   echo "Killing old \"dhs detector\" process"
+   kill $PID_DHS
+fi
+
+
+if [[ ${PID_MARCCD:=x} != 'x' ]] ;then
+   echo "Killing old \"marccd\" process"
+   kill $PID_MARCCD
+fi
+
+POS_X=$1
+POS_Y=$2
+DELTA_X=$3
+DELTA_Y=$4
+POS_X=$(($POS_X + $DELTA_X))
+POS_Y=$(($POS_Y + $DELTA_Y))
+echo "restart marccd program"
+xterm -geometry 80x24+$POS_X+$POS_Y -e "marccd -r" &
+
+echo "Starting new \"dhs detector\" process on smblxmar"
+POS_X=$(($POS_X + $DELTA_X))
+POS_Y=$(($POS_Y + $DELTA_Y))
+xterm -geometry 80x24+$POS_X+$POS_Y -e "cd ${DCS_ROOT}/dhs/linux;./dhs BL9-2 detector" &
+

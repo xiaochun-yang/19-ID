@@ -1,0 +1,13 @@
+# Name of pam service name is web-auth. There must be a file of this name
+# installed in /etc/pam.d directory
+# pamExePath is the name of executable that calls PAM service.
+# The UID of this executable must be root and must be executable 
+# by tomcat.
+pamExePath=/usr/local/sbin/pam_authenticate
+
+# Full path to jpam shared library
+# If full path is given it will be used
+# If no path is given, it will assume that the lib is in WEB-INF/lib dir.
+# If pamLibPath is empty, it will assume that the lib is WEB-INF/lib/libjpam.so.
+pamLibPath=libjpam.so
+

@@ -1,0 +1,16 @@
+#parse("/silPages/topbanner.html")
+
+<body>
+#if ($error)
+<span class="error">$error</span>
+#else
+
+<table>
+<tr><td align="center"><img src="downloadDiffImage.do?filePath=$filePath" width="400" height="400"/></td></tr>
+<tr><td align="center">$!filePath</td></tr>
+</table>
+#end
+
+</body>
+
+</html>

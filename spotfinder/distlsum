@@ -1,0 +1,222 @@
+#!/usr/local/bin/python
+import sys
+import getopt
+from array import array
+
+def mean(data):
+	return sum(data) / len(data)
+
+def span(data):
+	# range would be a better name but it's taken by the language.
+	return max(data) - min(data)
+
+def sum(data):
+	ans = 0
+	for d in data:
+		ans = ans + d
+	return ans
+	
+
+def printhelp():
+	print 'NAME'
+	print '    distlsum - spotfinder log file postprocessor'
+	print
+	print 'SYNOPSIS'
+	print '    distlesum [options] [.log files]'
+	print
+	print 'DESCRIPTION'
+	print '    distlsum is a Python script post-processing output log file'
+	print '    of the program "spotfinder" and writing summary statistics for'
+	print '    multiple images in am space delimited format.'
+	print 
+	print '    Each option is followed by a string argument.'
+	print '    After all options are a list of log files output by the program'
+	print '    spotfinder.'
+	print 
+	print 'OPTIONS'
+	print '    -c  Name of file for crystal summary. If absent, "cryststat.txt" is used.'
+	print '    -f  Name of file for image summary. If absent, "imgstat.txt" is used.'
+	print '    -i  Input file containing name of log files to be read.'
+	print '        File names are separated by space or line breaks;'
+	print '        path should be provided if the file is not in current directory.'
+	print '        When this option is provided, log file list on the command line'
+	print '        is optional and, if present, is supplementary. Order of log files'
+	print '        is insignificant as they will be sorted in the program.'
+	print '        This option can be used multiple times to provide multiple input files.'
+	print 
+	print 'OUTPUT'
+	print '    Two text files are output, one of summary for each file,'
+	print '    the other one of summary for each crystal. Name of the log files'
+	print '    are assumed to be like *_[^_]+.log. The * part is taken as name'
+	print '    of the crystal; if no underscore is present in the file name,'
+	print '    crystal name is taken to be the file name without suffix ".log".'
+	print '    In the crystal summary file, average and range of a specific statistic'
+	print '    over all (possibly one) images for the same crystal are reported.'
+
+
+cryststatfile = 'cryststat.txt'
+imgstatfile = 'imgstat.txt'
+loginputfile = ''
+
+
+if len(sys.argv) == 1:
+	printhelp()
+	sys.exit()
+
+opts, images = getopt.getopt(sys.argv[1:], 'c:f:i:')
+for optpair in opts:
+	if optpair[0][1] == 'c':
+		cryststatfile = optpair[1]
+	elif optpair[0][1] == 'f':
+		imgstatfile = optpair[1]
+	else:
+		loginputfile = optpair[1]
+		images.extend(open(loginputfile).read().split())
+
+images.sort()
+nimg = len(images)
+
+spotnum = array('i', [0] * nimg)
+spotovernum = array('i', [0] * nimg)
+spotclosenum = array('i', [0] * nimg)
+spotmmaxnum = array('i', [0] * nimg)
+spotsize = array('i', [0] * nimg)
+spotshape = array('f', [0.0] * nimg)
+resol = array('f', [0.0] * nimg)
+iceringnum = array('i', [0] * nimg)
+iceringstrength = array('f', [0.0] * nimg)
+overloadpatchsize = array('i', [0] * nimg)
+
+foutimg = open(imgstatfile, 'w')
+foutimg.write('ImageName  SpotCount  SpotOverloadCount SpotCloseCount SpotMmaxCount  ' +
+	'SpotSizeMedian  SpotShapeMedian  Resol  ' +
+	'IceringCount  IceringStrength  OverloadPatchSize' + '\n\n')
+
+
+for imgidx in range(nimg):
+	img = images[imgidx]
+	if not img.endswith('.log'):
+		print 'Encountered an input file not of type ".log". Program aborted unexpectedly.'
+		sys.exit()
+
+
+	flog = open(img)
+	for i in range(5):
+		flog.readline()
+	
+	line = flog.readline()
+	spotnum[imgidx] = int(line.split(' ', 1)[0])
+
+	line = flog.readline()
+	spotovernum[imgidx] = int(line.split(' ', 1)[0])
+
+	line = flog.readline()
+	spotclosenum[imgidx] = int(line.split(' ', 1)[0])
+
+	line = flog.readline()
+	spotmmaxnum[imgidx] = int(line.split(' ', 1)[0])
+
+	line = flog.readline()
+	spotsize[imgidx] = int(line.split(' ', 1)[0])
+
+	line = flog.readline()
+	spotshape[imgidx] = float(line.split(' ', 1)[0])
+
+	line = flog.readline()
+	line = flog.readline()
+
+	line = flog.readline()
+	resol[imgidx] = float(line.split(' ', 1)[0])
+
+	line = flog.readline()
+	line = flog.readline()
+
+	line = flog.readline()
+	iceringnum[imgidx] = int(line.split(' ', 1)[0])
+
+	line = flog.readline()
+	iceringstrength[imgidx] = float(line.split(' ', 1)[0])
+
+	line = flog.readline()
+
+	line = flog.readline()
+	overloadpatchsize[imgidx] = int(line.split(' ', 1)[0])
+
+	flog.close()
+
+	foutimg.write(
+		img[:-4].ljust(20) + ' ' + 
+		'%6d' % spotnum[imgidx] +
+		'%6d' % spotovernum[imgidx] +
+		'%6d' % spotclosenum[imgidx] +
+		'%6d' % spotmmaxnum[imgidx] +
+		'%6d' % spotsize[imgidx] +
+		'%8.2f' % spotshape[imgidx] +
+		'%8.2f' % resol[imgidx] +
+		'%6d' % iceringnum[imgidx] +
+		'%8.2f' % iceringstrength[imgidx] +
+		'%6d' % overloadpatchsize[imgidx] +
+		'\n')
+
+foutimg.close()
+
+foutcryst = open(cryststatfile, 'w')
+foutcryst.write('CrystName  ' +
+	'SpotCount  SpotOverCount  SpotCloseCount  SpotMmaxCount ' +
+	'SpotSizeMedian  SpotShapeMedian  Resol  IceringCount  ' +
+	'IceringStrength  OverloadPatchSize  ' +
+	'Images  ' +
+	'SpotcountRange  SpotOverCountRange  SpotCloseCountRange  SpotMmaxCountRange  ' +
+	'SpotSizeMedianRange  SpotShapeMeidanRange  ResolRange  IceringCountRange  ' +
+	'IceringStrengthRange  OverloadPatchSizeRange  ' +
+	'\n\n')
+
+crystname = '###'
+imgidx = 0
+while imgidx < nimg:
+	images[imgidx] = images[imgidx][:-4]
+
+	if images[imgidx].startswith(crystname):
+		crystimgidx2 = imgidx
+	else:
+		crystimgidx1 = imgidx
+		crystimgidx2 = imgidx
+		tempidx = images[imgidx].rfind('_')
+		if tempidx > 0:
+			crystname = images[imgidx][:tempidx]
+		else:
+			crystname = images[imgidx]
+	imgidx += 1
+
+	if imgidx == nimg or not images[imgidx].startswith(crystname):
+		foutcryst.write(
+			crystname.ljust(20) + ' ' +
+			'%6d' % mean(spotnum[crystimgidx1 : crystimgidx2+1]) +
+			'%6d' % mean(spotovernum[crystimgidx1 : crystimgidx2+1]) +
+			'%6d' % mean(spotclosenum[crystimgidx1 : crystimgidx2+1]) +
+			'%6d' % mean(spotmmaxnum[crystimgidx1 : crystimgidx2+1]) +
+			'%6d' % mean(spotsize[crystimgidx1 : crystimgidx2+1]) +
+			'%8.2f' % mean(spotshape[crystimgidx1 : crystimgidx2+1]) +
+			'%8.2f' % mean(resol[crystimgidx1 : crystimgidx2+1]) +
+			'%6d' % mean(iceringnum[crystimgidx1 : crystimgidx2+1]) +
+			'%8.2f' % mean(iceringstrength[crystimgidx1 : crystimgidx2+1]) +
+			'%6d' % mean(overloadpatchsize[crystimgidx1 : crystimgidx2+1]) +
+			'  ' + ','.join(images[crystimgidx1 : crystimgidx2+1]))
+		if crystimgidx2 > crystimgidx1: 
+			foutcryst.write(
+				'%6d' % span(spotnum[crystimgidx1 : crystimgidx2+1]) +
+				'%6d' % span(spotovernum[crystimgidx1 : crystimgidx2+1]) +
+				'%6d' % span(spotclosenum[crystimgidx1 : crystimgidx2+1]) +
+				'%6d' % span(spotmmaxnum[crystimgidx1 : crystimgidx2+1]) +
+				'%6d' % span(spotsize[crystimgidx1 : crystimgidx2+1]) +
+				'%8.2f' % span(spotshape[crystimgidx1 : crystimgidx2+1]) +
+				'%8.2f' % span(resol[crystimgidx1 : crystimgidx2+1]) +
+				'%6d' % span(iceringnum[crystimgidx1 : crystimgidx2+1]) +
+				'%8.2f' % span(iceringstrength[crystimgidx1 : crystimgidx2+1]) +
+				'%6d' % span(overloadpatchsize[crystimgidx1 : crystimgidx2+1]))
+		foutcryst.write('\n')
+
+foutcryst.close()
+
+
+

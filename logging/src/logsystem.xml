@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE logsystem SYSTEM "logsystem.dtd">
+<logsystem>
+<logger name="aa" parent="" level="ALL"/>
+  <formatter name="xml_formatter" type="xml">
+  </formatter>
+  <formatter name="simple_formatter" type="simple">
+	<property name="pattern" value="%m [%p,%t]: %s"/>
+  </formatter>
+  <handler name="file_handler" type="file" level="ALL" filter="" formatter="xml_formatter">
+	<property name="pattern" value="c:\\temp\\log_%g.%u.log"/>
+	<property name="is_append" value="false"/>
+	<property name="max_size" value="5000"/>
+	<property name="num_files" value="50"/>
+  </handler>
+  <handler name="console_handler" type="console" level="SEVERE" filter="" formatter="simple_formatter>
+  </handler>
+</logger>
+</logsystem>

@@ -1,0 +1,46 @@
+WebIce Release Checklist
+========================
+
+- Make sure there is no modified files in the production dir.
+
+> cvs -n update
+
+  Look for "M".
+  
+- Make sure WEB-INF/src/setp_ant.csh contains correct paths, 
+  including java 1.5.
+  
+- Make sure WEB/src/build.xml has correct path to tomcat home dir.
+
+- After cvs update, build the source files
+
+> cvs update
+> cd WEB-INF/src
+> source setup_ant.csh
+> ant clean
+> ant
+
+- Build applets manually with java 1.4.
+
+- Make sure all files have read and executable permissions.
+
+> chmod -R oug+rx
+> chmod -R ug+rwx
+
+- Make sure WEB-INF/webice.properties has correct settings for
+  each host that runs spotfinder and autoindex, including 
+  blcpu and sdc computers.
+
+- Make sure WEB-INF/scripts/setup_env.csh has correct settings.
+- Make sure $host.csh file exists for the host that runs spotfinder
+  and autoindex. See settings in webice.properties.
+
+- Make sure <tomcat root>/common/classes dir has log4j.properties
+  and it is set up correctly.
+
+- Restart webice using tomcat manager or restart tomcat
+
+> sudo /etc/init.d/Tomcat5 stop t5-webice
+> sudo /etc/init.d/Tomcat5 start t5-webice
+
+

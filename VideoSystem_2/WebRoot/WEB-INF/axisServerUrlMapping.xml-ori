@@ -1,0 +1,1354 @@
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+"http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+
+<bean id="noVideoJpeg" class="videoSystem.JpegBeanFactory">
+	<property name="filename" value="/WEB-INF/novideo.jpg"/>
+</bean>
+
+<bean id="passwordFactory" class="videoSystem.PasswordFileReader" singleton="true">
+	<property name="passwordFile" value="/usr/local/dcs/passwords/axis.txt,/usr/local/tomcat/access/axis.txt"/>
+	</bean>
+
+<bean id="videoStandard" abstract="true">
+ <property name="smallSize" value="resolution=176x112"/>
+ <property name="mediumSize" value="resolution=352x240"/>
+ <property name="largeSize" value="resolution=704x480"/>
+
+ <property name="low" value="compression=100"/>
+ <property name="medium" value="compression=50"/>
+ <property name="high" value="compression=0"/>
+ <property name="timeout" value="6000"/>
+ <property name="streamKeepAliveTimeMs" value="5000"/>
+ <property name="nullImage"><ref local="noVideoJpeg"/></property>
+</bean>
+
+<bean id="axis2110" parent="videoStandard" abstract="true">
+ <property name="smallSize" value="resolution=320x240"/>
+ <property name="mediumSize" value="resolution=320x240"/>
+ <property name="largeSize" value="resolution=640x480"/>
+
+ <property name="imageServletName" value="/cgi-bin/mjpg/video.cgi"/>
+ <property name="sleepTimeBetweenImagesMs" value="1"/>
+ <property name="videoClientFactory" ref="httpVideoImageFactoryAxisServer"></property>
+</bean>
+
+<bean id="axis2120" parent="videoStandard" abstract="true">
+ <property name="smallSize" value="resolution=352x240"/>
+ <property name="mediumSize" value="resolution=352x240"/>
+ <property name="largeSize" value="resolution=704x480"/>
+
+ <property name="imageServletName" value="/cgi-bin/mjpg/video.cgi"/>
+ <property name="sleepTimeBetweenImagesMs" value="1"/>
+ <property name="videoClientFactory" ref="httpVideoImageFactoryAxisServer"></property>
+
+</bean>
+
+
+<bean id="axis2400" parent="videoStandard"  abstract="true">
+ <property name="smallSize" value="resolution=176x112"/>
+ <property name="mediumSize" value="resolution=352x240"/>
+ <property name="largeSize" value="resolution=704x480"/>
+
+ <property name="imageServletName" value="/axis-cgi/mjpg/video.cgi"/>
+ <property name="sleepTimeBetweenImagesMs" value="2"/>
+ <property name="videoClientFactory" ref="httpVideoImageFactoryAxisServer"></property>
+</bean>
+
+<bean id="axis241Q" parent="videoStandard"  abstract="true">
+ <property name="smallSize" value="resolution=176x120"/>
+ <property name="mediumSize" value="resolution=352x240"/>
+ <property name="largeSize" value="resolution=704x480"/>
+
+ <property name="imageServletName" value="/axis-cgi/mjpg/video.cgi"/>
+ <property name="sleepTimeBetweenImagesMs" value="2"/>
+ <property name="videoClientFactory" ref="httpVideoImageFactoryAxisServer"></property>
+</bean>
+
+<bean id="axis210" parent="videoStandard" abstract="true">
+ <property name="imageServletName" value="/axis-cgi/mjpg/video.cgi"/>
+ <property name="sleepTimeBetweenImagesMs" value="1"/>
+ <property name="videoClientFactory" ref="httpVideoImageFactoryAxisServer"></property>
+</bean>
+
+
+<bean id="httpVideoImageFactory" class="videoSystem.VideoAccessObjectFactory">
+ <property name="className" value="videoSystem.VideoAccessObjectSimpleHttp"/>
+</bean>
+
+<bean id="httpVideoImageFactoryAxisServer" class="videoSystem.VideoAccessObjectFactory">
+ <property name="className" value="videoSystem.VideoAccessObjectAxisServer"/>
+</bean>
+
+<bean id="axisServerVideoImageFactory" class="videoSystem.VideoAccessObjectFactory">
+ <property name="className" value="videoSystem.VideoImageAxisClient"/>
+</bean>
+
+<bean id="standardAxis2400Config" class="videoSystem.HostConfigBean"  abstract="true">
+ <property name="port" value="8000"/>
+ <property name="passwordFactory"><ref local="passwordFactory"/></property>
+</bean>
+
+<bean id="standardAxis2100Config" class="videoSystem.HostConfigBean"  abstract="true">
+ <property name="port" value="8080"/>
+ <property name="passwordFactory"><ref local="passwordFactory"/></property>
+</bean>
+<bean id="standardAxis210Config" class="videoSystem.HostConfigBean"  abstract="true">
+ <property name="port" value="8080"/>
+ <property name="passwordFactory"><ref local="passwordFactory"/></property>
+</bean>
+
+
+ 
+<!--  ####################################### START BEAMLINE DEFINITIONS ########################### -->
+
+<bean id="bl15aaxis" class="videoSystem.HostConfigBean" parent="standardAxis2400Config">
+ <property name="host" value="bl15aaxis"/>
+</bean>
+
+<bean id="bl15_hutch" class="videoSystem.VideoStreamDefinition" parent="axis2400">
+ <property name="hostConfig" ref="bl15aaxis"/>
+ <property name="cameraChannel" value="1"/>
+</bean>
+
+<bean id="BL1-5_HUTCH" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl15_hutch"/>
+ <property name="groups" value="BL1-5,SIM1-5,HUTCH"/>
+</bean>
+
+<bean id="bl15_sample" class="videoSystem.VideoStreamDefinition" parent="axis2400">
+ <property name="hostConfig" ref="bl15aaxis"/>
+ <property name="cameraChannel" value="2"/>
+ <property name="textParam"><value>&amp;date=0&amp;clock=0&amp;text=0</value></property>
+</bean>
+
+<bean id="BL1-5_SAMPLE" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl15_sample"/>
+ <property name="groups" value="BL1-5,SIM1-5,SAMPLE"/>
+</bean>
+
+<bean id="bl15_robot" class="videoSystem.VideoStreamDefinition" parent="axis2400">
+ <property name="hostConfig" ref="bl15aaxis"/>
+ <property name="cameraChannel" value="3"/>
+</bean>
+
+
+<bean id="BL1-5_ROBOT" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl15_robot"/>
+ <property name="groups" value="BL1-5,SIM1-5,ROBOT"/>
+</bean>
+
+<bean id="bl15_spare1" class="videoSystem.VideoStreamDefinition" parent="axis2400">
+ <property name="hostConfig" ref="bl15aaxis"/>
+ <property name="cameraChannel" value="4"/>
+</bean>
+
+<bean id="BL1-5_SPARE1" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl15_spare1"/>
+ <property name="groups" value="BL1-5,SIM1-5,SPARE"/>
+</bean>
+
+<bean id="bl15baxis" class="videoSystem.HostConfigBean" parent="standardAxis2400Config">
+ <property name="host" value="bl15baxis"/>
+</bean>
+
+<bean id="bl15_panel" class="videoSystem.VideoStreamDefinition" parent="axis2400">
+ <property name="hostConfig" ref="bl15baxis"/>
+ <property name="cameraChannel" value="1"/>
+</bean>
+
+<bean id="BL1-5_PANEL" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl15_panel"/>
+ <property name="groups" value="BL1-5,SIM1-5,PANEL"/>
+</bean>
+
+<bean id="bl15caxis" class="videoSystem.HostConfigBean" parent="standardAxis2100Config">
+ <property name="host" value="bl15caxis"/>
+</bean>
+
+<bean id="bl15_spare2" class="videoSystem.VideoStreamDefinition" parent="axis2400">
+ <property name="hostConfig" ref="bl15baxis"/>
+ <property name="cameraChannel" value="2"/>
+</bean>
+
+<bean id="BL1-5_SPARE2" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl15_spare2"/>
+ <property name="groups" value="BL1-5,SIM1-5,SPARE"/>
+</bean>
+
+<bean id="bl15_spare3" class="videoSystem.VideoStreamDefinition" parent="axis2400">
+ <property name="hostConfig" ref="bl15baxis"/>
+ <property name="cameraChannel" value="3"/>
+</bean>
+
+<bean id="BL1-5_SPARE3" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl15_spare3"/>
+ <property name="groups" value="BL1-5,SIM1-5,SPARE"/>
+</bean>
+
+<bean id="bl15_spare4" class="videoSystem.VideoStreamDefinition" parent="axis2400">
+ <property name="hostConfig" ref="bl15baxis"/>
+ <property name="cameraChannel" value="4"/>
+</bean>
+
+<bean id="BL1-5_SPARE4" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl15_spare4"/>
+ <property name="groups" value="BL1-5,SIM1-5,SPARE"/>
+</bean>
+
+<bean id="bl15_mono" class="videoSystem.VideoStreamDefinition" parent="axis210">
+ <property name="hostConfig" ref="bl15caxis"/>
+</bean>
+
+<bean id="BL1-5_MONO" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl15_mono"/>
+ <property name="groups" value="BL1-5,SIM1-5,MONO"/>
+</bean>
+
+
+<bean id="bl71aaxis" class="videoSystem.HostConfigBean" parent="standardAxis2400Config">
+ <property name="host" value="bl71aaxis"/>
+</bean>
+
+<bean id="bl71_spare1" class="videoSystem.VideoStreamDefinition" parent="axis2400">
+ <property name="hostConfig" ref="bl71aaxis"/>
+ <property name="cameraChannel" value="1"/>
+</bean>
+
+<bean id="BL7-1_SPARE1" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl71_spare1"/>
+ <property name="groups" value="BL7-1,SIM7-1,SPARE"/>
+</bean>
+
+<bean id="bl71_sample" class="videoSystem.VideoStreamDefinition" parent="axis2400">
+ <property name="hostConfig" ref="bl71aaxis"/>
+ <property name="cameraChannel" value="2"/>
+ <property name="textParam"><value>&amp;date=0&amp;clock=0&amp;text=0</value></property>
+</bean>
+
+<bean id="BL7-1_SAMPLE" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl71_sample"/>
+ <property name="groups" value="BL7-1,SIM7-1,SAMPLE"/>
+</bean>
+
+<bean id="bl71_spare2" class="videoSystem.VideoStreamDefinition" parent="axis2400">
+ <property name="hostConfig" ref="bl71aaxis"/>
+ <property name="cameraChannel" value="3"/>
+</bean>
+
+<bean id="BL7-1_SPARE2" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl71_spare2"/>
+</bean>
+
+<bean id="bl71_microscope" class="videoSystem.VideoStreamDefinition" parent="axis241Q">
+ <property name="hostConfig" ref="bl71baxis"/>
+ <property name="cameraChannel" value="4"/>
+</bean>
+
+<bean id="BL7-1_MICROSCOPE" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl71_microscope"/>
+  <property name="groups" value="BL7-1,SIM7-1,SPARE"/>
+</bean>
+
+<bean id="bl71baxis" class="videoSystem.HostConfigBean" parent="standardAxis2400Config">
+ <property name="host" value="bl71baxis"/>
+</bean>
+
+<bean id="bl71_panel" class="videoSystem.VideoStreamDefinition" parent="axis241Q">
+ <property name="hostConfig" ref="bl71baxis"/>
+ <property name="cameraChannel" value="1"/>
+</bean>
+
+<bean id="BL7-1_PANEL" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl71_panel"/>
+ <property name="groups" value="BL7-1,SIM7-1,PANEL"/>
+</bean>
+
+<bean id="bl71_hutch" class="videoSystem.VideoStreamDefinition" parent="axis241Q">
+ <property name="hostConfig" ref="bl71baxis"/>
+ <property name="cameraChannel" value="2"/>
+</bean>
+
+<bean id="BL7-1_HUTCH" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl71_hutch"/>
+ <property name="groups" value="BL7-1,SIM7-1,HUTCH"/>
+</bean>
+
+
+<bean id="bl71_robot" class="videoSystem.VideoStreamDefinition" parent="axis241Q">
+ <property name="hostConfig" ref="bl71baxis"/>
+ <property name="cameraChannel" value="3"/>
+</bean>
+
+<bean id="BL7-1_ROBOT" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl71_robot"/>
+ <property name="groups" value="BL7-1,SIM7-1,ROBOT"/>
+</bean>
+
+<bean id="bl71_spare3" class="videoSystem.VideoStreamDefinition" parent="axis241Q">
+ <property name="hostConfig" ref="bl71baxis"/>
+ <property name="cameraChannel" value="4"/>
+</bean>
+
+<bean id="BL7-1_SPARE3" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl71_spare3"/>
+ <property name="groups" value="BL7-1,SIM7-1,SPARE"/>
+</bean>
+
+<bean id="bl71caxis" class="videoSystem.HostConfigBean" parent="standardAxis2100Config">
+ <property name="host" value="bl71caxis"/>
+</bean>
+
+<bean id="bl71_mono" class="videoSystem.VideoStreamDefinition" parent="axis210">
+ <property name="hostConfig" ref="bl71caxis"/>
+</bean>
+
+<bean id="BL7-1_MONO" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl71_mono"/>
+ <property name="groups" value="BL7-1,SIM7-1,MONO"/>
+</bean>
+
+<bean id="bl91aaxis" class="videoSystem.HostConfigBean" parent="standardAxis2400Config">
+ <property name="host" value="bl91aaxis"/>
+</bean>
+
+<bean id="bl91_hutch" class="videoSystem.VideoStreamDefinition" parent="axis2400">
+ <property name="hostConfig" ref="bl91aaxis"/>
+ <property name="cameraChannel" value="1"/>
+</bean>
+
+<bean id="BL9-1_HUTCH" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl91_hutch"/>
+ <property name="groups" value="BL9-1,SIM9-1,HUTCH"/>
+</bean>
+
+<bean id="bl91_sample" class="videoSystem.VideoStreamDefinition" parent="axis2400">
+ <property name="hostConfig" ref="bl91aaxis"/>
+ <property name="cameraChannel" value="2"/>
+ <property name="textParam"><value>&amp;date=0&amp;clock=0&amp;text=0</value></property>
+</bean>
+
+<bean id="BL9-1_SAMPLE" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl91_sample"/>
+ <property name="groups" value="BL9-1,SIM9-1,SAMPLE"/>
+</bean>
+
+<bean id="bl91_robot" class="videoSystem.VideoStreamDefinition" parent="axis2400">
+ <property name="hostConfig" ref="bl91aaxis"/>
+ <property name="cameraChannel" value="3"/>
+</bean>
+
+<bean id="BL9-1_ROBOT" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl91_robot"/>
+ <property name="groups" value="BL9-1,SIM9-1,ROBOT"/>
+</bean>
+
+<bean id="bl91_spare1" class="videoSystem.VideoStreamDefinition" parent="axis2400">
+ <property name="hostConfig" ref="bl91aaxis"/>
+ <property name="cameraChannel" value="4"/>
+</bean>
+
+<bean id="BL9-1_SPARE1" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl91_spare1"/>
+ <property name="groups" value="BL9-1,SIM9-1,SPARE"/>
+</bean>
+
+<bean id="bl91baxis" class="videoSystem.HostConfigBean" parent="standardAxis2400Config">
+ <property name="host" value="bl91baxis"/>
+</bean>
+
+<bean id="bl91_panel" class="videoSystem.VideoStreamDefinition" parent="axis2400">
+ <property name="hostConfig" ref="bl91baxis"/>
+ <property name="cameraChannel" value="1"/>
+</bean>
+
+<bean id="BL9-1_PANEL" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl91_panel"/>
+ <property name="groups" value="BL9-1,SIM9-1,SPARE"/>
+</bean>
+
+<bean id="bl91_spare2" class="videoSystem.VideoStreamDefinition" parent="axis2400">
+ <property name="hostConfig" ref="bl91baxis"/>
+ <property name="cameraChannel" value="2"/>
+</bean>
+
+<bean id="BL9-1_SPARE2" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl91_spare2"/>
+ <property name="groups" value="BL9-1,SIM9-1,SPARE"/>
+</bean>
+
+
+<bean id="bl91_spare3" class="videoSystem.VideoStreamDefinition" parent="axis2400">
+ <property name="hostConfig" ref="bl91baxis"/>
+ <property name="cameraChannel" value="3"/>
+</bean>
+
+<bean id="BL9-1_SPARE3" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl91_spare3"/>
+ <property name="groups" value="BL9-1,SIM9-1,SPARE"/>
+</bean>
+
+<bean id="bl91_spare4" class="videoSystem.VideoStreamDefinition" parent="axis2400">
+ <property name="hostConfig" ref="bl91baxis"/>
+ <property name="cameraChannel" value="4"/>
+</bean>
+
+<bean id="BL9-1_SPARE4" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl91_spare4"/>
+ <property name="groups" value="BL9-1,SIM9-1,SPARE"/>
+</bean>
+
+<bean id="bl91caxis2" class="videoSystem.HostConfigBean" parent="standardAxis2100Config">
+ <property name="host" value="134.79.43.63"/>
+</bean>
+
+
+<bean id="bl91_mono" class="videoSystem.VideoStreamDefinition" parent="axis2110">
+ <property name="hostConfig" ref="bl91caxis2"/>
+</bean>
+
+<bean id="BL9-1_MONO" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl91_mono"/>
+ <property name="groups" value="BL9-1,SIM9-1,MONO"/>
+</bean>
+
+<bean id="bl91caxis" class="videoSystem.HostConfigBean" parent="standardAxis2100Config">
+ <property name="host" value="bl91caxis"/>
+</bean>
+
+<bean id="bl91_portable_spare" class="videoSystem.VideoStreamDefinition" parent="axis2120">
+ <property name="hostConfig" ref="bl91caxis"/>
+</bean>
+
+<bean id="BL9-1_PORTABLE_SPARE" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl91_portable_spare"/>
+ <property name="groups" value="BL1-5,SIM1-5,SPARE"/>
+</bean>
+
+<bean id="bl92aaxis" class="videoSystem.HostConfigBean" parent="standardAxis2400Config">
+ <property name="host" value="bl92aaxis"/>
+</bean>
+
+<bean id="bl92_hutch" class="videoSystem.VideoStreamDefinition" parent="axis2400">
+ <property name="hostConfig" ref="bl92aaxis"/>
+ <property name="cameraChannel" value="3"/>
+</bean>
+
+<bean id="BL9-2_HUTCH" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl92_hutch"/>
+ <property name="groups" value="BL9-2,SIM9-2,BL-sim,HUTCH"/>
+</bean>
+
+<bean id="bl92_sample" class="videoSystem.VideoStreamDefinition" parent="axis2400">
+ <property name="hostConfig" ref="bl92aaxis"/>
+ <property name="cameraChannel" value="2"/>
+ <property name="textParam"><value>&amp;date=0&amp;clock=0&amp;text=0</value></property>
+</bean>
+<bean id="BL9-2_SAMPLE" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl92_sample"/>
+ <property name="groups" value="BL9-2,SIM9-2,BL-sim,SAMPLE"/>
+</bean>
+
+<bean id="bl92_robot" class="videoSystem.VideoStreamDefinition" parent="axis2400">
+ <property name="hostConfig" ref="bl92aaxis"/>
+ <property name="cameraChannel" value="1"/>
+</bean>
+
+
+<bean id="BL9-2_ROBOT" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl92_robot"/>
+ <property name="groups" value="BL9-2,SIM9-2,BL-sim,ROBOT"/>
+</bean>
+
+<bean id="bl92_spare1" class="videoSystem.VideoStreamDefinition" parent="axis2400">
+ <property name="hostConfig" ref="bl92aaxis"/>
+ <property name="cameraChannel" value="4"/>
+</bean>
+
+<bean id="BL9-2_SPARE1" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl92_spare1"/>
+ <property name="groups" value="BL9-2,SIM9-2,BL-sim,SPARE"/>
+</bean>
+
+<bean id="bl92baxis" class="videoSystem.HostConfigBean" parent="standardAxis2400Config">
+ <property name="host" value="bl92baxis"/>
+</bean>
+
+<bean id="bl92_panel" class="videoSystem.VideoStreamDefinition" parent="axis2400">
+ <property name="hostConfig" ref="bl92baxis"/>
+ <property name="cameraChannel" value="1"/>
+</bean>
+
+<bean id="BL9-2_PANEL" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl92_panel"/>
+ <property name="groups" value="BL9-2,SIM9-2,BL-sim,PANEL"/>
+</bean>
+
+<bean id="bl92_spare2" class="videoSystem.VideoStreamDefinition" parent="axis2400">
+ <property name="hostConfig" ref="bl92baxis"/>
+ <property name="cameraChannel" value="2"/>
+</bean>
+
+<bean id="BL9-2_SPARE2" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl92_spare2"/>
+ <property name="groups" value="BL9-2,SIM9-2,BL-sim,SPARE"/>
+</bean>
+
+<bean id="bl92_spare3" class="videoSystem.VideoStreamDefinition" parent="axis2400">
+ <property name="hostConfig" ref="bl92baxis"/>
+ <property name="cameraChannel" value="3"/>
+</bean>
+
+<bean id="BL9-2_SPARE3" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl92_spare3"/>
+ <property name="groups" value="BL9-2,SIM9-2,BL-sim,SPARE"/>
+</bean>
+
+<bean id="bl92_spare4" class="videoSystem.VideoStreamDefinition" parent="axis2400">
+ <property name="hostConfig" ref="bl92baxis"/>
+ <property name="cameraChannel" value="4"/>
+</bean>
+
+<bean id="BL9-2_SPARE4" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl92_spare4"/>
+ <property name="groups" value="BL9-2,SIM9-2,BL-sim,SPARE"/>
+</bean>
+
+<bean id="bl92caxis" class="videoSystem.HostConfigBean" parent="standardAxis2100Config">
+ <property name="host" value="bl92caxis"/>
+</bean>
+
+<bean id="bl92_mono" class="videoSystem.VideoStreamDefinition" parent="axis2120">
+ <property name="hostConfig" ref="bl92caxis"/>
+</bean>
+
+<bean id="BL9-2_MONO" class="videoSystem.StreamDefinitionBean" >
+ <property name="videoDefinition" ref="bl92_mono"/>
+ <property name="groups" value="BL9-2,SIM9-2,BL-sim,MONO"/>
+</bean>
+
+
+<bean id="bl92caxis2" class="videoSystem.HostConfigBean" parent="standardAxis2400Config">
+ <property name="host" value="bl92caxis2"/>
+</bean>
+
+<bean id="bl92_portable_spare" class="videoSystem.VideoStreamDefinition" parent="axis2120">
+ <property name="hostConfig" ref="bl92caxis2"/>
+</bean>
+
+<bean id="BL9-2_PORTABLE_SPARE" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl92_portable_spare"/>
+ <property name="groups" value="BL9-2,SIM9-2,BL-sim,SPARE"/>
+</bean>
+
+
+<bean id="bl93aaxis" class="videoSystem.HostConfigBean" parent="standardAxis2400Config">
+ <property name="host" value="bl93-axissrv.slac.stanford.edu"/>
+ <property name="port" value="80"/>
+</bean>
+
+<bean id="bl93_hutch" class="videoSystem.VideoStreamDefinition" parent="axis2400">
+ <property name="hostConfig" ref="bl93aaxis"/>
+ <property name="cameraChannel" value="1"/>
+</bean>
+
+<bean id="BL9-3_HUTCH" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl93_hutch"/>
+ <property name="groups" value="BL9-3,SIM9-3,BL-sim,HUTCH"/>
+</bean>
+
+<bean id="bl93_sample" class="videoSystem.VideoStreamDefinition" parent="axis2400">
+ <property name="hostConfig" ref="bl93aaxis"/>
+ <property name="cameraChannel" value="3"/>
+ <property name="textParam"><value>&amp;date=0&amp;clock=0&amp;text=0</value></property>
+</bean>
+<bean id="BL9-3_SAMPLE" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl93_sample"/>
+ <property name="groups" value="BL9-3,SIM9-3,BL-sim,SAMPLE"/>
+</bean>
+
+
+<bean id="bl93_spare1" class="videoSystem.VideoStreamDefinition" parent="axis2400">
+ <property name="hostConfig" ref="bl93aaxis"/>
+ <property name="cameraChannel" value="2"/>
+ <property name="textParam"><value>&amp;date=0&amp;clock=0&amp;text=0</value></property>
+</bean>
+<bean id="BL9-3_SPARE1" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl93_spare1"/>
+ <property name="groups" value="BL9-3,SIM9-3,BL-sim,SAMPLE"/>
+</bean>
+
+
+<bean id="bl93_spare2" class="videoSystem.VideoStreamDefinition" parent="axis2400">
+ <property name="hostConfig" ref="bl93aaxis"/>
+ <property name="cameraChannel" value="4"/>
+ <property name="textParam"><value>&amp;date=0&amp;clock=0&amp;text=0</value></property>
+</bean>
+<bean id="BL9-3_SPARE2" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl93_spare2"/>
+ <property name="groups" value="BL9-3,SIM9-3,BL-sim,SAMPLE"/>
+</bean>
+
+
+<bean id="bl111aaxis" class="videoSystem.HostConfigBean" parent="standardAxis2400Config">
+ <property name="host" value="bl111aaxis"/>
+</bean>
+
+<bean id="bl111_hutch" class="videoSystem.VideoStreamDefinition" parent="axis2400">
+ <property name="hostConfig" ref="bl111aaxis"/>
+ <property name="cameraChannel" value="1"/>
+</bean>
+
+<bean id="BL11-1_HUTCH" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl111_hutch"/>
+ <property name="groups" value="BL11-1,SIM11-1,HUTCH"/>
+</bean>
+
+
+<bean id="bl111_sample" class="videoSystem.VideoStreamDefinition" parent="axis2400">
+ <property name="hostConfig" ref="bl111aaxis"/>
+ <property name="cameraChannel" value="2"/>
+ <property name="textParam"><value>&amp;date=0&amp;clock=0&amp;text=0</value></property>
+</bean>
+
+<bean id="BL11-1_SAMPLE" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl111_sample"/>
+ <property name="groups" value="BL11-1,SIM11-1,SAMPLE"/>
+</bean>
+
+
+<bean id="bl111_robot" class="videoSystem.VideoStreamDefinition" parent="axis2400">
+ <property name="hostConfig" ref="bl111aaxis"/>
+ <property name="cameraChannel" value="3"/>
+</bean>
+
+
+<bean id="BL11-1_ROBOT" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl111_robot"/>
+ <property name="groups" value="BL11-1,SIM11-1,ROBOT"/>
+</bean>
+
+<bean id="bl111_spare1" class="videoSystem.VideoStreamDefinition" parent="axis2400">
+ <property name="hostConfig" ref="bl111aaxis"/>
+ <property name="cameraChannel" value="4"/>
+</bean>
+
+<bean id="BL11-1_SPARE1" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl111_spare1"/>
+ <property name="groups" value="BL11-1,SIM11-1,SPARE"/>
+</bean>
+
+<bean id="bl111baxis" class="videoSystem.HostConfigBean" parent="standardAxis2400Config">
+ <property name="host" value="bl111baxis"/>
+</bean>
+
+
+<bean id="bl111_panel" class="videoSystem.VideoStreamDefinition" parent="axis2400">
+ <property name="hostConfig" ref="bl111baxis"/>
+ <property name="cameraChannel" value="1"/>
+</bean>
+
+
+<bean id="BL11-1_PANEL" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl111_panel"/>
+ <property name="groups" value="BL11-1,SIM11-1,PANEL"/>
+</bean>
+
+<bean id="bl111_spare2" class="videoSystem.VideoStreamDefinition" parent="axis2400">
+ <property name="hostConfig" ref="bl111baxis"/>
+ <property name="cameraChannel" value="2"/>
+</bean>
+
+<bean id="BL11-1_SPARE2" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl111_spare2"/>
+ <property name="groups" value="BL11-1,SIM11-1,SPARE"/>
+</bean>
+
+<bean id="bl111_spare3" class="videoSystem.VideoStreamDefinition" parent="axis2400">
+ <property name="hostConfig" ref="bl111baxis"/>
+ <property name="cameraChannel" value="3"/>
+</bean>
+
+<bean id="BL11-1_SPARE3" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl111_spare3"/>
+  <property name="groups" value="BL11-1,SIM11-1,SPARE"/>
+</bean>
+
+<bean id="bl111_spare4" class="videoSystem.VideoStreamDefinition" parent="axis2400">
+ <property name="hostConfig" ref="bl111baxis"/>
+ <property name="cameraChannel" value="4"/>
+</bean>
+
+<bean id="BL11-1_SPARE4" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl111_spare4"/>
+ <property name="groups" value="BL11-1,SIM11-1,SPARE"/>
+</bean>
+
+<bean id="bl111caxis" class="videoSystem.HostConfigBean" parent="standardAxis2100Config">
+ <property name="host" value="bl111caxis"/>
+</bean>
+
+<bean id="bl111_mono" class="videoSystem.VideoStreamDefinition" parent="axis2110">
+ <property name="hostConfig" ref="bl111caxis"/>
+</bean>
+
+<bean id="BL11-1_MONO" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl111_mono"/>
+ <property name="groups" value="BL11-1,SIM11-1,MONO"/>
+</bean>
+
+<bean id="bl111caxis2" class="videoSystem.HostConfigBean" parent="standardAxis2400Config">
+ <property name="host" value="bl111caxis2"/>
+</bean>
+
+<bean id="bl111_portable_spare" class="videoSystem.VideoStreamDefinition" parent="axis2400">
+ <property name="hostConfig" ref="bl111caxis2"/>
+</bean>
+
+
+<bean id="bl113aaxis" class="videoSystem.HostConfigBean" parent="standardAxis2400Config">
+ <property name="host" value="bl113aaxis"/>
+</bean>
+
+<bean id="bl113_hutch" class="videoSystem.VideoStreamDefinition" parent="axis2400">
+ <property name="hostConfig" ref="bl113aaxis"/>
+ <property name="cameraChannel" value="1"/>
+</bean>
+
+<bean id="BL11-3_HUTCH" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl113_hutch"/>
+ <property name="groups" value="BL11-3,SIM11-3,HUTCH"/>
+</bean>
+
+<bean id="bl113_sample" class="videoSystem.VideoStreamDefinition" parent="axis2400">
+ <property name="hostConfig" ref="bl113aaxis"/>
+ <property name="cameraChannel" value="2"/>
+ <property name="textParam"><value>&amp;date=0&amp;clock=0&amp;text=0</value></property>
+</bean>
+
+<bean id="BL11-3_SAMPLE" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl113_sample"/>
+ <property name="groups" value="BL11-3,SIM11-3,SAMPLE"/>
+</bean>
+
+<bean id="bl113_spare1" class="videoSystem.VideoStreamDefinition" parent="axis2400">
+ <property name="hostConfig" ref="bl113aaxis"/>
+ <property name="cameraChannel" value="4"/>
+</bean>
+
+<bean id="BL11-3_SPARE1" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl113_spare1"/>
+ <property name="groups" value="BL11-3,SIM11-3,SPARE"/>
+</bean>
+
+<bean id="bl113_robot" class="videoSystem.VideoStreamDefinition" parent="axis2400">
+ <property name="hostConfig" ref="bl113aaxis"/>
+ <property name="cameraChannel" value="3"/>
+</bean>
+
+<bean id="BL11-3_ROBOT" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl113_robot"/>
+ <property name="groups" value="BL11-3,SIM11-3,ROBOT"/>
+</bean>
+
+<bean id="bl113_panel" class="videoSystem.VideoStreamDefinition" parent="axis2400">
+ <property name="hostConfig" ref="bl113baxis"/>
+ <property name="cameraChannel" value="1"/>
+</bean>
+
+<bean id="BL11-3_PANEL" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl113_panel"/>
+ <property name="groups" value="BL11-3,SIM11-3,PANEL"/>
+</bean>
+
+<bean id="bl113baxis" class="videoSystem.HostConfigBean" parent="standardAxis2400Config">
+ <property name="host" value="bl113baxis"/>
+</bean>
+
+<bean id="bl113_spare2" class="videoSystem.VideoStreamDefinition" parent="axis2400">
+ <property name="hostConfig" ref="bl113baxis"/>
+ <property name="cameraChannel" value="2"/>
+</bean>
+
+<bean id="BL11-3_SPARE2" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl113_spare2"/>
+ <property name="groups" value="BL11-3,SIM11-3,SPARE"/>
+</bean>
+
+<bean id="bl113_spare3" class="videoSystem.VideoStreamDefinition" parent="axis2400">
+ <property name="hostConfig" ref="bl113baxis"/>
+ <property name="cameraChannel" value="3"/>
+</bean>
+
+<bean id="BL11-3_SPARE3" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl113_spare3"/>
+ <property name="groups" value="BL11-3,SIM11-3,SPARE"/>
+</bean>
+
+
+<bean id="bl113_spare4" class="videoSystem.VideoStreamDefinition" parent="axis2400">
+ <property name="hostConfig" ref="bl113baxis"/>
+ <property name="cameraChannel" value="4"/>
+</bean>
+
+<bean id="BL11-3_SPARE4" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl113_spare4"/>
+ <property name="groups" value="BL11-3,SIM11-3,SPARE"/>
+</bean>
+
+<bean id="bl113caxis" class="videoSystem.HostConfigBean" parent="standardAxis2100Config">
+ <property name="host" value="bl113caxis"/>
+</bean>
+
+<bean id="bl113_mono" class="videoSystem.VideoStreamDefinition" parent="axis2110">
+ <property name="hostConfig" ref="bl113caxis"/>
+</bean>
+
+<bean id="BL11-3_PORTABLE_SPARE" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl113_mono"/>
+ <property name="groups" value="BL11-3,SIM11-3,MONO"/>
+</bean>
+
+
+<bean id="bl113caxis2" class="videoSystem.HostConfigBean" parent="standardAxis2400Config">
+ <property name="host" value="bl113caxis2"/>
+</bean>
+
+
+<bean id="bl113_portable_spare" class="videoSystem.VideoStreamDefinition" parent="axis2400">
+ <property name="hostConfig" ref="bl113caxis2"/>
+</bean>
+
+
+<bean id="bl122aaxis" class="videoSystem.HostConfigBean" parent="standardAxis2400Config">
+ <property name="host" value="bl122aaxis"/>
+</bean>
+
+<bean id="bl122_spare1" class="videoSystem.VideoStreamDefinition" parent="axis2400">
+ <property name="hostConfig" ref="bl122aaxis"/>
+ <property name="cameraChannel" value="1"/>
+</bean>
+
+<bean id="BL12-2_SPARE1" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl122_spare1"/>
+ <property name="groups" value="BL12-2,SIM12-2,SPARE"/>
+</bean>
+
+<bean id="bl122_sample" class="videoSystem.VideoStreamDefinition" parent="axis2400">
+ <property name="hostConfig" ref="bl122aaxis"/>
+ <property name="cameraChannel" value="2"/>
+ <property name="textParam"><value>&amp;date=0&amp;clock=0&amp;text=0</value></property>
+</bean>
+
+<bean id="BL12-2_SAMPLE" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl122_sample"/>
+ <property name="groups" value="BL12-2,SIM12-2,SAMPLE"/>
+</bean>
+
+
+<bean id="bl122_robot" class="videoSystem.VideoStreamDefinition" parent="axis2400">
+ <property name="hostConfig" ref="bl122aaxis"/>
+ <property name="cameraChannel" value="3"/>
+</bean>
+
+<bean id="BL12-2_ROBOT" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl122_robot"/>
+ <property name="groups" value="BL12-2,SIM12-2,ROBOT"/>
+</bean>
+
+<bean id="bl122_spare2" class="videoSystem.VideoStreamDefinition" parent="axis2400">
+ <property name="hostConfig" ref="bl122aaxis"/>
+ <property name="cameraChannel" value="4"/>
+</bean>
+
+<bean id="BL12-2_SPARE2" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl122_spare2"/>
+ <property name="groups" value="BL12-2,SIM12-2,SPARE"/>
+</bean>
+
+
+<bean id="bl122baxis" class="videoSystem.HostConfigBean" parent="standardAxis2400Config">
+ <property name="host" value="bl122baxis"/>
+</bean>
+
+<bean id="bl122_panel" class="videoSystem.VideoStreamDefinition" parent="axis241Q">
+ <property name="hostConfig" ref="bl122baxis"/>
+ <property name="cameraChannel" value="1"/>
+</bean>
+
+<bean id="BL12-2_PANEL" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl122_panel"/>
+ <property name="groups" value="BL12-2,SIM12-2,PANEL"/>
+</bean>
+
+<bean id="bl122_spare3" class="videoSystem.VideoStreamDefinition" parent="axis241Q">
+ <property name="hostConfig" ref="bl122baxis"/>
+ <property name="cameraChannel" value="2"/>
+</bean>
+
+<bean id="BL12-2_SPARE3" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl122_spare3"/>
+ <property name="groups" value="BL12-2,SIM12-2,SPARE"/>
+</bean>
+
+<bean id="bl122_spare4" class="videoSystem.VideoStreamDefinition" parent="axis241Q">
+ <property name="hostConfig" ref="bl122baxis"/>
+ <property name="cameraChannel" value="3"/>
+</bean>
+
+<bean id="BL12-2_SPARE4" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl122_spare4"/>
+ <property name="groups" value="BL12-2,SIM12-2,SPARE"/>
+</bean>
+
+<bean id="bl122_hutch" class="videoSystem.VideoStreamDefinition" parent="axis241Q">
+ <property name="hostConfig" ref="bl122baxis"/>
+ <property name="cameraChannel" value="4"/>
+</bean>
+
+<bean id="BL12-2_HUTCH" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl122_hutch"/>
+ <property name="groups" value="BL12-2,SIM12-2,HUTCH"/>
+</bean>
+
+
+<bean id="bl122caxis" class="videoSystem.HostConfigBean" parent="standardAxis2100Config">
+ <property name="host" value="bl122caxis"/>
+</bean>
+
+<bean id="bl122_mono" class="videoSystem.VideoStreamDefinition" parent="axis2110">
+ <property name="hostConfig" ref="bl122caxis"/>
+</bean>
+
+<bean id="BL12-2_PORTABLE_SPARE1" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl122_mono"/>
+ <property name="groups" value="BL12-2,SIM12-2,SPARE"/>
+</bean>
+
+<bean id="bl122caxis2" class="videoSystem.HostConfigBean" parent="standardAxis2100Config">
+ <property name="host" value="bl122caxis2"/>
+</bean>
+
+<bean id="bl122_portable_spare" class="videoSystem.VideoStreamDefinition" parent="axis2110">
+ <property name="hostConfig" ref="bl122caxis2"/>
+</bean>
+
+<bean id="BL12-2_PORTABLE_SPARE2" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl122_portable_spare"/>
+ <property name="groups" value="BL12-2,SIM12-2,SPARE"/>
+</bean>
+
+
+
+<bean id="bl141aaxis" class="videoSystem.HostConfigBean">
+	<property name="host" value="bl141aaxis"/>
+	<property name="port" value="80"/>
+	<property name="passwordFactory"><ref local="passwordFactory"/></property>
+</bean>
+
+<bean id="bl141baxis" class="videoSystem.HostConfigBean">
+	<property name="host" value="bl141baxis"/>
+	<property name="port" value="80"/>
+	<property name="passwordFactory"><ref local="passwordFactory"/></property>
+</bean>
+
+<bean id="bl141caxis" class="videoSystem.HostConfigBean">
+	<property name="host" value="bl141caxis"/>
+	<property name="port" value="80"/>
+	<property name="passwordFactory"><ref local="passwordFactory"/></property>
+</bean>
+
+<bean id="bl141daxis" class="videoSystem.HostConfigBean">
+	<property name="host" value="bl141daxis"/>
+	<property name="port" value="80"/>
+	<property name="passwordFactory"><ref local="passwordFactory"/></property>
+</bean>
+
+
+<bean id="bl141_a_1" class="videoSystem.VideoStreamDefinition" parent="axis241Q">
+ <property name="hostConfig" ref="bl141aaxis"/>
+ <property name="cameraChannel" value="1"/>
+</bean>
+
+<bean id="bl141_a_2" class="videoSystem.VideoStreamDefinition" parent="axis241Q">
+ <property name="hostConfig" ref="bl141aaxis"/>
+ <property name="cameraChannel" value="2"/>
+</bean>
+<bean id="bl141_a_3" class="videoSystem.VideoStreamDefinition" parent="axis241Q">
+ <property name="hostConfig" ref="bl141aaxis"/>
+ <property name="cameraChannel" value="3"/>
+</bean>
+<bean id="bl141_a_4" class="videoSystem.VideoStreamDefinition" parent="axis241Q">
+ <property name="hostConfig" ref="bl141aaxis"/>
+ <property name="cameraChannel" value="4"/>
+</bean>
+
+<bean id="bl141_b_1" class="videoSystem.VideoStreamDefinition" parent="axis2400">
+ <property name="hostConfig" ref="bl141baxis"/>
+ <property name="cameraChannel" value="1"/>
+</bean>
+
+<bean id="bl141_b_2" class="videoSystem.VideoStreamDefinition" parent="axis2400">
+ <property name="hostConfig" ref="bl141baxis"/>
+ <property name="cameraChannel" value="2"/>
+</bean>
+<bean id="bl141_b_3" class="videoSystem.VideoStreamDefinition" parent="axis2400">
+ <property name="hostConfig" ref="bl141baxis"/>
+ <property name="cameraChannel" value="3"/>
+</bean>
+
+<bean id="bl141_b_4" class="videoSystem.VideoStreamDefinition" parent="axis2400">
+ <property name="hostConfig" ref="bl141baxis"/>
+ <property name="cameraChannel" value="4"/>
+</bean>
+
+<bean id="bl141_c" class="videoSystem.VideoStreamDefinition" parent="axis2110">
+ <property name="hostConfig" ref="bl141caxis"/>
+</bean>
+
+<bean id="bl141_d" class="videoSystem.VideoStreamDefinition" parent="axis2110">
+ <property name="hostConfig" ref="bl141daxis"/>
+</bean>
+
+
+
+<bean id="BL14-1_A_1" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl141_a_1"/>
+ <property name="groups" value="BL14-1"/>
+</bean>
+
+<bean id="BL14-1_A_2" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl141_a_2"/>
+ <property name="groups" value="BL14-1"/>
+</bean>
+
+<bean id="BL14-1_A_3" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl141_a_3"/>
+ <property name="groups" value="BL14-1"/>
+</bean>
+
+<bean id="BL14-1_A_4" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl141_a_4"/>
+ <property name="groups" value="BL14-1"/>
+</bean>
+
+<bean id="BL14-1_B_1" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl141_b_1"/>
+ <property name="groups" value="BL14-1"/>
+</bean>
+
+<bean id="BL14-1_B_2" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl141_b_2"/>
+ <property name="groups" value="BL14-1"/>
+</bean>
+
+<bean id="BL14-1_B_3" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl141_b_3"/>
+ <property name="groups" value="BL14-1"/>
+</bean>
+
+<bean id="BL14-1_B_4" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl141_b_4"/>
+ <property name="groups" value="BL14-1"/>
+</bean>
+
+<bean id="BL14-1_C" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl141_c"/>
+ <property name="groups" value="BL14-1"/>
+</bean>
+
+<bean id="BL14-1_D" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl141_d"/>
+ <property name="groups" value="BL14-1"/>
+</bean>
+
+
+<bean id="bl00aaxis" class="videoSystem.HostConfigBean" parent="standardAxis2400Config">
+ <property name="host" value="blsimaaxis"/>
+</bean>
+
+<bean id="bl00_sample" class="videoSystem.VideoStreamDefinition" parent="axis241Q">
+ <property name="hostConfig" ref="bl00aaxis"/>
+ <property name="cameraChannel" value="1"/>
+ <property name="textParam"><value>&amp;date=0&amp;clock=0&amp;text=0</value></property>
+</bean>
+
+<bean id="BL0-0_SAMPLE" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl00_sample"/>
+ <property name="groups" value="BL0-0,SAMPLE"/>
+</bean>
+
+
+<bean id="bl00_hutch" class="videoSystem.VideoStreamDefinition" parent="axis241Q">
+ <property name="hostConfig" ref="bl00aaxis"/>
+ <property name="cameraChannel" value="2"/>
+</bean>
+
+<bean id="BL0-0_HUTCH" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl00_hutch"/>
+ <property name="groups" value="BL0-0,HUTCH"/>
+</bean>
+
+
+<bean id="bl00_robot" class="videoSystem.VideoStreamDefinition" parent="axis241Q">
+ <property name="hostConfig" ref="bl00aaxis"/>
+ <property name="cameraChannel" value="3"/>
+</bean>
+
+
+<bean id="BL0-0_ROBOT" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl00_robot"/>
+ <property name="groups" value="BL0-0,ROBOT"/>
+</bean>
+
+<bean id="bl00_panel" class="videoSystem.VideoStreamDefinition" parent="axis241Q">
+ <property name="hostConfig" ref="bl00aaxis"/>
+ <property name="cameraChannel" value="4"/>
+</bean>
+
+<bean id="BL0-0_PANEL" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl00_panel"/>
+ <property name="groups" value="BL0-0,PANEL"/>
+</bean>
+
+
+
+
+
+
+<bean id="httpVideoImageFactoryHttpPng" class="videoSystem.VideoAccessObjectFactory">
+ <property name="className" value="videoSystem.VideoAccessObjectSimpleHttpPngToJpeg"/>
+</bean>
+
+
+<bean id="ssrl" class="videoSystem.HostConfigBean">
+ <property name="host" value="ssrl"/>
+ <property name="port" value="80"/>
+</bean>
+
+<bean id="spear_ptz" class="videoSystem.PtzControlAxis2400">
+ <property name="hostConfig" ref="bl15aaxis"/>
+</bean>
+
+
+<bean id="spear" class="videoSystem.VideoStreamDefinition">
+ <property name="hostConfig" ref="ssrl"/>
+ <property name="timeout" value="6000"/>
+ <property name="streamKeepAliveTimeMs" value="60000"/>
+ <property name="nullImage"><ref local="noVideoJpeg"/></property>
+ <property name="videoClientFactory" ref="httpVideoImageFactoryHttpPng"></property>
+ <property name="sleepTimeBetweenImagesMs" value="30000"/>
+ <property name="imageServletName" value="/cgi-bin/SPEAR_DCCTPLOT.PNG"/>
+</bean>
+
+<bean id="SPEAR" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="spear"/>
+ <property name="ptzControl" ref="spear_ptz"/>
+ <property name="groups" value="BL1-5,BL7-1,BL9-1,BL9-2,BL9-3,BL11-1,BL11-3,BL12-2,SIM1-5,SIM7-1,SIM9-1,SIM11-1,SIM11-3,SIM12-2,BL-sim"/>
+</bean>
+
+
+
+<bean id="scott_axis1" class="videoSystem.HostConfigBean" parent="standardAxis2400Config">
+ <property name="host" value="192.168.1.2"/>
+</bean>
+
+<bean id="scott_axis2" class="videoSystem.HostConfigBean" parent="standardAxis2400Config">
+ <property name="host" value="192.168.1.3"/>
+</bean>
+
+<bean id="scott_axis3" class="videoSystem.HostConfigBean" parent="standardAxis2400Config">
+ <property name="host" value="192.168.1.3"/>
+</bean>
+
+<bean id="scott_axis4" class="videoSystem.HostConfigBean" parent="standardAxis2100Config">
+ <property name="host" value="192.168.1.4"/>
+</bean>
+
+<bean id="scott_office" class="videoSystem.VideoStreamDefinition" parent="axis2400">
+ <property name="hostConfig" ref="scott_axis1"/>
+ <property name="cameraChannel" value="1"/>
+  <property name="textParam"><value>&amp;date=0&amp;clock=0&amp;text=0</value></property>
+</bean>
+
+<bean id="SCOTT_OFFICE" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="scott_office"/>
+ <property name="groups" value="DEVELOPMENT,BL9-2"/>
+</bean>
+
+
+<bean id="developmentVideoServer" class="videoSystem.HostConfigBean">
+ <property name="host" value="smbdev1.slac.stanford.edu"/>
+ <property name="port" value="8080"/>
+</bean>
+
+<!--#image definitions for another web application like this one-->
+<bean id="webservice" abstract="true">
+ <property name="imageServletName" value="/VideoSystem/video.html"/>
+ <property name="smallSize" value="size=small"/>
+ <property name="mediumSize" value="size=medium"/>
+ <property name="largeSize" value="size=large"/>
+ <property name="low" value="resolution=low"/>
+ <property name="medium" value="resolution=medium"/>
+ <property name="high" value="resolution=high"/>
+ <property name="timeout" value="6000"/>
+ <property name="sleepTimeBetweenImagesMs" value="500"/>
+ <property name="videoClientFactory" ref="httpVideoImageFactory"></property>
+</bean>
+
+
+<bean id="developmentVideoServerSampleBL9-2" class="videoSystem.VideoStreamDefinition" parent="webservice">
+ <property name="hostConfig" ref="developmentVideoServer"/>
+ <property name="cameraChannel" value="BL9-2_SAMPLE"/>
+
+</bean>
+
+<bean id="VIDEOSERVER-BL9-2_SAMPLE" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="developmentVideoServerSampleBL9-2"/>
+ <property name="groups" value="DEVELOPMENT,BL-sim"/>
+ <property name="ptzControl" ref="spear_ptz"/>
+</bean>
+
+
+
+<bean id="developmentVideoServerSampleBL9-1" class="videoSystem.VideoStreamDefinition" parent="webservice">
+ <property name="hostConfig" ref="developmentVideoServer"/>
+ <property name="cameraChannel" value="BL9-1_SAMPLE"/>
+
+</bean>
+
+<bean id="VIDEOSERVER-BL9-1_SAMPLE" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="developmentVideoServerSampleBL9-1"/>
+ <property name="groups" value="DEVELOPMENT,BL-sim"/>
+ <property name="ptzControl" ref="spear_ptz"/>
+</bean>
+
+
+<bean id="developmentVideoServerSampleBL7-1" class="videoSystem.VideoStreamDefinition" parent="webservice">
+ <property name="hostConfig" ref="developmentVideoServer"/>
+ <property name="cameraChannel" value="BL7-1_SAMPLE"/>
+
+</bean>
+
+<bean id="VIDEOSERVER-BL7-1_SAMPLE" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="developmentVideoServerSampleBL7-1"/>
+ <property name="groups" value="DEVELOPMENT,BL-sim"/>
+ <property name="ptzControl" ref="spear_ptz"/>
+</bean>
+
+
+
+<bean id="streamMap" class="videoSystem.StreamMap" >
+	<property name="streamMap">
+		<map>
+
+		<entry key="BL0-0_HUTCH" value-ref="BL0-0_HUTCH"/>
+		<entry key="BL0-0_ROBOT" value-ref="BL0-0_ROBOT"/>
+		<entry key="BL0-0_SAMPLE" value-ref="BL0-0_SAMPLE"/>
+		<entry key="BL0-0_PANEL" value-ref="BL0-0_PANEL"/>
+
+		<entry key="BL1-5_HUTCH" value-ref="BL1-5_HUTCH"/>
+		<entry key="BL1-5_ROBOT" value-ref="BL1-5_ROBOT"/>
+		<entry key="BL1-5_SAMPLE" value-ref="BL1-5_SAMPLE"/>
+		<entry key="BL1-5_PANEL" value-ref="BL1-5_PANEL"/>
+		<entry key="BL1-5_SPARE1" value-ref="BL1-5_SPARE1"/>
+		<entry key="BL1-5_SPARE2" value-ref="BL1-5_SPARE2"/>
+		<entry key="BL1-5_SPARE3" value-ref="BL1-5_SPARE3"/>
+		<entry key="BL1-5_SPARE4" value-ref="BL1-5_SPARE4"/>
+		
+
+		<entry key="BL7-1_HUTCH" value-ref="BL7-1_HUTCH"/>
+		<entry key="BL7-1_ROBOT" value-ref="BL7-1_ROBOT"/>
+		<entry key="BL7-1_SAMPLE" value-ref="BL7-1_SAMPLE"/>
+		<entry key="BL7-1_PANEL" value-ref="BL7-1_PANEL"/>
+		<entry key="BL7-1_MICROSCOPE" value-ref="BL7-1_MICROSCOPE"/>
+		<entry key="BL7-1_MONO" value-ref="BL7-1_MONO"/>
+		<entry key="BL7-1_SPARE1" value-ref="BL7-1_SPARE1"/>
+		<entry key="BL7-1_SPARE2" value-ref="BL7-1_SPARE2"/>
+		<entry key="BL7-1_SPARE3" value-ref="BL7-1_SPARE3"/>
+
+		<entry key="BL9-1_HUTCH" value-ref="BL9-1_HUTCH"/>
+		<entry key="BL9-1_ROBOT" value-ref="BL9-1_ROBOT"/>
+		<entry key="BL9-1_SAMPLE" value-ref="BL9-1_SAMPLE"/>
+		<entry key="BL9-1_PANEL" value-ref="BL9-1_PANEL"/>
+		<entry key="BL9-1_SPARE1" value-ref="BL9-1_SPARE1"/>
+		<entry key="BL9-1_SPARE2" value-ref="BL9-1_SPARE2"/>
+		<entry key="BL9-1_SPARE3" value-ref="BL9-1_SPARE3"/>
+		<entry key="BL9-1_SPARE4" value-ref="BL9-1_SPARE4"/>
+		<entry key="BL9-1_MONO" value-ref="BL9-1_MONO"/>
+		<entry key="BL1-5_MONO" value-ref="BL9-1_PORTABLE_SPARE"/>
+
+
+		<entry key="BL9-2_HUTCH" value-ref="BL9-2_HUTCH"/>
+		<entry key="BL9-2_ROBOT" value-ref="BL9-2_ROBOT"/>
+		<entry key="BL9-2_SAMPLE" value-ref="BL9-2_SAMPLE"/>
+		<entry key="BL9-2_PANEL" value-ref="BL9-2_PANEL"/>
+		<entry key="BL9-2_SPARE1" value-ref="BL9-2_SPARE1"/>
+		<entry key="BL9-2_SPARE2" value-ref="BL9-2_SPARE2"/>
+		<entry key="BL9-2_SPARE3" value-ref="BL9-2_SPARE3"/>
+		<entry key="BL9-2_SPARE4" value-ref="BL9-2_SPARE4"/>
+		<entry key="BL9-2_MONO" value-ref="BL9-2_MONO"/>
+		<entry key="BL9-2_PORTABLE_SPARE" value-ref="BL9-2_PORTABLE_SPARE"/>
+
+		<entry key="BL9-3_HUTCH" value-ref="BL9-3_HUTCH"/>
+		<entry key="BL9-3_SAMPLE" value-ref="BL9-3_SAMPLE"/>
+		<entry key="BL9-3_SPARE1" value-ref="BL9-3_SPARE1"/>
+		<entry key="BL9-3_SPARE2" value-ref="BL9-3_SPARE2"/>
+
+		<entry key="BL11-1_HUTCH" value-ref="BL11-1_HUTCH"/>
+		<entry key="BL11-1_ROBOT" value-ref="BL11-1_ROBOT"/>
+		<entry key="BL11-1_SAMPLE" value-ref="BL11-1_SAMPLE"/>
+		<entry key="BL11-1_PANEL" value-ref="BL11-1_PANEL"/>
+		<entry key="BL11-1_SPARE1" value-ref="BL11-1_SPARE1"/>
+		<entry key="BL11-1_MICROSCOPE" value-ref="BL11-1_SPARE2"/>
+		<entry key="BL11-1_SPARE3" value-ref="BL11-1_SPARE3"/>
+		<entry key="BL11-1_SPARE4" value-ref="BL11-1_SPARE4"/>
+		<entry key="BL11-1_MONO" value-ref="BL11-1_MONO"/>
+
+
+		<entry key="BL11-3_HUTCH" value-ref="BL11-3_HUTCH"/>
+		<entry key="BL11-3_ROBOT" value-ref="BL11-3_ROBOT"/>
+		<entry key="BL11-3_SAMPLE" value-ref="BL11-3_SAMPLE"/>
+		<entry key="BL11-3_PANEL" value-ref="BL11-3_PANEL"/>
+		<entry key="BL11-3_SPARE1" value-ref="BL11-3_SPARE1"/>
+		<entry key="BL11-3_SPARE2" value-ref="BL11-3_SPARE2"/>
+		<entry key="BL11-3_SPARE3" value-ref="BL11-3_SPARE3"/>
+		<entry key="BL11-3_SPARE4" value-ref="BL11-3_SPARE4"/>
+		<entry key="BL11-3_PORTABLE_SPARE" value-ref="BL11-3_PORTABLE_SPARE"/>
+
+		<entry key="BL12-2_HUTCH" value-ref="BL12-2_HUTCH"/>
+		<entry key="BL12-2_ROBOT" value-ref="BL12-2_ROBOT"/>
+		<entry key="BL12-2_SAMPLE" value-ref="BL12-2_SAMPLE"/>
+		<entry key="BL12-2_PANEL" value-ref="BL12-2_PANEL"/>
+		<entry key="BL12-2_MONO" value-ref="BL12-2_SPARE1"/>
+		<entry key="BL12-2_SPARE2" value-ref="BL12-2_SPARE2"/>
+		<entry key="BL12-2_SPARE3" value-ref="BL12-2_SPARE3"/>
+		<entry key="BL12-2_SPARE4" value-ref="BL12-2_SPARE4"/>
+		<entry key="BL12-2_PORTABLE_SPARE1" value-ref="BL12-2_PORTABLE_SPARE1"/>
+		<entry key="BL12-2_PORTABLE_SPARE2" value-ref="BL12-2_PORTABLE_SPARE2"/>
+		
+		<entry key="BL14-1_HUTCH" value-ref="BL14-1_A_1"/>
+		<entry key="BL14-1_ROBOT" value-ref="BL14-1_A_4"/>
+		<entry key="BL14-1_PANEL" value-ref="BL14-1_A_3"/>
+		<entry key="BL14-1_SAMPLE" value-ref="BL14-1_A_2"/>
+		
+		<entry key="BL14-1_B_1" value-ref="BL14-1_B_1"/>
+		<entry key="BL14-1_B_2" value-ref="BL14-1_B_2"/>
+		<entry key="BL14-1_B_3" value-ref="BL14-1_B_3"/>
+		<entry key="BL14-1_B_4" value-ref="BL14-1_B_4"/>
+
+		<entry key="BL14-1_MONO" value-ref="BL14-1_C"/>
+		<entry key="BL14-1_MONO_DIAGNOSTIC_VERT" value-ref="BL14-1_D"/>
+
+		<entry key="SPEAR" value-ref="SPEAR"/>
+
+		<entry key="VIDEOSERVER-BL9-2_SAMPLE" value-ref="VIDEOSERVER-BL9-2_SAMPLE"/>
+		<entry key="VIDEOSERVER-BL9-1_SAMPLE" value-ref="VIDEOSERVER-BL9-1_SAMPLE"/>
+		<entry key="VIDEOSERVER-BL7-1_SAMPLE" value-ref="VIDEOSERVER-BL7-1_SAMPLE"/>
+
+		</map>
+	</property>
+</bean>
+
+
+</beans>

@@ -1,0 +1,1548 @@
+#
+#                        Copyright 2001
+#                              by
+#                 The Board of Trustees of the 
+#               Leland Stanford Junior University
+#                      All rights reserved.
+#
+#                       Disclaimer Notice
+#
+#     The items furnished herewith were developed under the sponsorship
+# of the U.S. Government.  Neither the U.S., nor the U.S. D.O.E., nor the
+# Leland Stanford Junior University, nor their employees, makes any war-
+# ranty, express or implied, or assumes any liability or responsibility
+# for accuracy, completeness or usefulness of any information, apparatus,
+# product or process disclosed, or represents that its use will not in-
+# fringe privately-owned rights.  Mention of any product, its manufactur-
+# er, or suppliers shall not, nor is it intended to, imply approval, dis-
+# approval, or fitness for any particular use.  The U.S. and the Univer-
+# sity at all times retain the right to use and disseminate the furnished
+# items for any purpose whatsoever.                       Notice 91 02 01
+#
+#   Work supported by the U.S. Department of Energy under contract
+#   DE-AC03-76SF00515; and the National Institutes of Health, National
+#   Center for Research Resources, grant 2P41RR01209. 
+#
+##########################################################################
+#
+#                       Permission Notice
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included
+# in all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTA-
+# BILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO
+# EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+# DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+# OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR
+# THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+#
+##########################################################################
+
+package provide BLUICESamplePosition 1.0
+ 
+# load standard packages
+package require Iwidgets
+package require BWidget
+
+# load other DCS packages
+package require DCSUtil
+package require DCSSet
+package require DCSComponent
+
+package require DCSDeviceView
+package require DCSProtocol
+package require DCSOperationManager
+package require DCSHardwareManager
+package require DCSPrompt
+package require DCSMotorControlPanel
+package require DCSDeviceFactory
+
+package require DCSMotorButton
+package require DCSVideo
+
+class SamplePositioningWidget {
+	inherit ::itk::Widget
+
+    itk_option define -controlSystem controlSystem ControlSystem ::dcss
+
+	protected variable minimumHorzStep [expr 1.0/354]
+	protected variable minimumVertStep [expr 1.0/240]
+
+	public method addChildVisibilityControl
+
+    public method takeVideoSnapshot { }
+    public method saveVideoSnapshot { filename }
+
+    ### horz vert here are microns
+    public method setGrid { hoff voff horz vert n_horz n_vert color } {
+        $itk_component(video) setGrid $hoff $voff $horz $vert $n_horz $n_vert $color
+    }
+
+    public method addInputForRaster { input } {
+        $itk_component(snapshot) addInput $input
+        $itk_component(center) addInput $input
+    }
+
+    public method configSnapshotButton { args } {
+        eval $itk_component(snapshot) configure $args
+        pack $itk_component(snapshot) -before $itk_component(zoomLabel)
+    }
+
+    public method configCenterLoopButton { args } {
+        eval $itk_component(center) configure $args
+    }
+
+    public method centerCrystal { } {
+        set user [$itk_option(-controlSystem) getUser]
+        global gEncryptSID
+        if {$gEncryptSID} {
+            set SID SID
+        } else {
+            set SID  PRIVATE[$itk_option(-controlSystem) getSessionId]
+        }
+        set dir  /data/$user/centerCrystal
+        set fileRoot [::config getConfigRootName]
+        $m_opCenterCrystal startOperation $user $SID $dir $fileRoot
+    }
+    public method handleCrystalEnabledEvent { stringName_ ready_ alias_ contents_ - } {
+        if {!$ready_} return
+
+        if {$contents_ == ""} {
+            set contents_ 0
+        }
+
+        #####do not show this button for now
+        set contents_ 0
+
+        if {$m_centerCrystalEnabled == $contents_} return
+        set m_centerCrystalEnabled $contents_
+
+        if {$m_centerCrystalEnabled} {
+            pack $itk_component(crystal)
+        } else {
+            pack forget $itk_component(crystal)
+        }
+    }
+
+    private variable m_deviceFactory
+    private variable m_opCenterCrystal
+    private variable m_centerCrystalEnabled 0
+	
+	# constructor
+	constructor { url paraName zoomName opNameCenterLoop opNameMoveSample args } {
+        set m_deviceFactory [DCS::DeviceFactory::getObject]
+        set objCenterCrystalConst [$m_deviceFactory createString center_crystal_const]
+        $objCenterCrystalConst createAttributeFromField system_on 0
+
+		itk_component add control {
+			frame $itk_interior.c
+		}
+
+		itk_component add zoomLabel {
+			# create the camera zoom label
+			label $itk_component(control).zoomLabel \
+				 -text "Select Zoom Level" \
+				 -font "helvetica -14 bold"
+		}
+
+		itk_component add zoomFrame {
+			frame $itk_component(control).z
+		}
+
+		itk_component add zoomLow {
+			# make the low zoom button
+			DCS::MoveMotorsToTargetButton $itk_component(zoomFrame).zoomLow \
+				 -text "Low" \
+				 -width 2  -background #c0c0ff -activebackground #c0c0ff
+		} {}
+
+		
+		itk_component add zoomMed {
+			# make the medium zoom button
+			DCS::MoveMotorsToTargetButton $itk_component(zoomFrame).zoomMed \
+				 -text "Med" \
+				 -width 2  -background #c0c0ff -activebackground #c0c0ff
+		} {}
+		
+		itk_component add zoomHigh {
+			# make the medium zoom button
+			DCS::MoveMotorsToTargetButton  $itk_component(zoomFrame).zoomHigh \
+				 -text "High" \
+				 -width 2  -background #c0c0ff -activebackground #c0c0ff
+		} {	
+		}
+
+		itk_component add moveSampleLabel {
+			# create the move sample label
+			label $itk_component(control).sampleLabel \
+				 -text "Move Sample" \
+				 -font "helvetica -14 bold"
+		}
+
+
+		#itk_component add moveSampleFrame {
+		#	frame $itk_component(control).s
+		#}
+
+		# make joypad
+		itk_component add arrowPad {
+			DCS::ArrowPad $itk_component(control).ap \
+				 -activeClientOnly 1 \
+				 -debounceTime 100 -buttonBackground #c0c0ff
+		} {
+		}
+
+		itk_component add phiLabel {
+			# create the phi label
+			label $itk_component(control).phiLabel \
+				 -text "Rotate Phi" \
+				 -font "helvetica -14 bold"
+		}
+
+
+		itk_component add phiFrame {
+			frame $itk_component(control).p
+		}
+
+		itk_component add minus10 {
+			DCS::MoveMotorRelativeButton $itk_component(phiFrame).minus10 \
+				 -delta "-10" \
+				 -text "-10" \
+				 -background #c0c0ff -activebackground #c0c0ff \
+             -device ::device::gonio_phi
+		} {
+		}
+
+		itk_component add plus10 {
+			DCS::MoveMotorRelativeButton $itk_component(phiFrame).plus10 \
+				 -delta "10" \
+				 -text "+10" \
+				 -background #c0c0ff -activebackground #c0c0ff \
+             -device ::device::gonio_phi
+		} {
+		}
+
+		# make the Phi -90 button
+		itk_component add minus90 {
+			DCS::MoveMotorRelativeButton $itk_component(phiFrame).minus90 \
+				 -delta "-90" \
+				 -text "-90" \
+				 -width 2  -background #c0c0ff -activebackground #c0c0ff \
+			         -device ::device::gonio_phi
+		} {
+		}
+
+		# make the Phi +90 button
+		itk_component add plus90 {
+			DCS::MoveMotorRelativeButton $itk_component(phiFrame).plus90 \
+				 -delta "90" \
+				 -text "+90" \
+				 -width 2  -background #c0c0ff -activebackground #c0c0ff \
+             			 -device ::device::gonio_phi
+		} {
+		}
+
+
+		itk_component add plus180 {
+			DCS::MoveMotorRelativeButton $itk_component(phiFrame).plus180 \
+				 -delta "180" \
+				 -text "+180" \
+				 -width 2  -background #c0c0ff -activebackground #c0c0ff \
+             			 -device ::device::gonio_phi
+		} {
+		}
+
+#		itk_component add center {
+#			::DCS::Button $itk_component(control).center \
+#				 -text "Center Loop" \
+#				 -width 15 -activeClientOnly 1
+#		} {
+#		}
+
+#yangx disable the Center Loop for now
+
+                itk_component add center {
+                        ::DCS::Button $itk_component(control).center \
+                                 -text "Center Loop" \
+                                 -width 15 -state disabled
+                } {
+                }
+
+		itk_component add crystal {
+			::DCS::Button $itk_component(control).crystal \
+				 -text "Center Crystal" \
+				 -width 15 -activeClientOnly 1
+		} {
+		}
+		itk_component add snapshot {
+		    ::DCS::Button $itk_component(control).snapshot \
+            -systemIdleOnly 0 \
+            -activeClientOnly 0 \
+			-text "Video Snapshot" \
+			-width 15 \
+            -command "$this takeVideoSnapshot"
+		} {
+		}
+
+
+		# create the video image of the sample
+		itk_component add video {
+			SampleVideoWidget $itk_interior.video \
+            -imageSettings "$url $paraName $zoomName $opNameMoveSample"
+		} {
+			keep -videoParameters
+			keep -videoEnabled
+            keep -beamWidthWidget
+            keep -beamHeightWidget
+            keep -purpose
+            keep -mode
+            keep -packOption
+		}
+
+		# evaluate configuration parameters
+		eval itk_initialize $args
+		
+		set centerLoopOperation [$m_deviceFactory getObjectName $opNameCenterLoop]
+		$itk_component(center) configure -command "$centerLoopOperation startOperation"
+		#$itk_component(center) addInput "::dataCollectionActive gateOutput 1 {Data Collection is in progress}"
+		$itk_component(center) addInput "$centerLoopOperation status inactive {supporting device}"
+		$itk_component(center) addInput "::device::getLoopTip status inactive {supporting device}"
+		$itk_component(center) addInput "::device::gonio_phi status inactive {supporting device}"
+		$itk_component(center) addInput "::device::camera_zoom status inactive {supporting device}"
+
+		set m_opCenterCrystal [$m_deviceFactory getObjectName centerCrystal]
+		$itk_component(crystal) configure -command "$this centerCrystal"
+
+		set moveSampleOperation [$m_deviceFactory getObjectName $opNameMoveSample]
+		$itk_component(arrowPad) configure \
+			 -leftCommand  "$moveSampleOperation startOperation -$minimumHorzStep 0.0" \
+			 -upCommand  "$moveSampleOperation startOperation 0.0 -$minimumVertStep" \
+			 -downCommand "$moveSampleOperation startOperation 0.0 $minimumVertStep" \
+			 -rightCommand "$moveSampleOperation startOperation $minimumHorzStep 0.0" \
+			 -fastLeftCommand "$moveSampleOperation startOperation -0.5 0.0" \
+			 -fastRightCommand "$moveSampleOperation startOperation 0.5 0.0"
+
+		$itk_component(arrowPad) addInput left "::device::sample_z status inactive {supporting device}"
+		$itk_component(arrowPad) addInput right "::device::sample_z status inactive {supporting device}"
+		$itk_component(arrowPad) addInput fastLeft "::device::sample_z status inactive {supporting device}"
+		$itk_component(arrowPad) addInput fastRight "::device::sample_z status inactive {supporting device}"
+		$itk_component(arrowPad) addInput up "::device::sample_y status inactive {supporting device}"
+		$itk_component(arrowPad) addInput down "::device::sample_y status inactive {supporting device}"
+		$itk_component(arrowPad) addInput up "::device::sample_x status inactive {supporting device}"
+		$itk_component(arrowPad) addInput down "::device::sample_x status inactive {supporting device}"
+
+		$itk_component(arrowPad) addInput left "$centerLoopOperation status inactive {supporting device}"
+		$itk_component(arrowPad) addInput right "$centerLoopOperation status inactive {supporting device}"
+		$itk_component(arrowPad) addInput fastLeft "$centerLoopOperation status inactive {supporting device}"
+		$itk_component(arrowPad) addInput fastRight "$centerLoopOperation status inactive {supporting device}"
+		$itk_component(arrowPad) addInput up "$centerLoopOperation status inactive {supporting device}"
+		$itk_component(arrowPad) addInput down "$centerLoopOperation status inactive {supporting device}"
+
+		$itk_component(zoomLow) addInput "$centerLoopOperation status inactive {supporting device}"
+		$itk_component(zoomMed) addInput "$centerLoopOperation status inactive {supporting device}"
+		$itk_component(zoomHigh) addInput "$centerLoopOperation status inactive {supporting device}"
+
+		$itk_component(minus10) addInput "$centerLoopOperation status inactive {supporting device}"
+		$itk_component(plus10) addInput "$centerLoopOperation status inactive {supporting device}"
+		$itk_component(minus90) addInput "$centerLoopOperation status inactive {supporting device}"
+		$itk_component(plus90) addInput "$centerLoopOperation status inactive {supporting device}"
+		$itk_component(plus180) addInput "$centerLoopOperation status inactive {supporting device}"
+
+		#don't allow the sample to be centered while the sample is already moving
+		$itk_component(center) addInput "::device::gonio_phi status inactive {supporting device}"
+		$itk_component(video) addInput "::device::gonio_phi status inactive {supporting device}"
+
+		#don't allow the sample to be centered while the sample is already moving
+		$itk_component(center) addInput "::device::sample_x status inactive {supporting device}"
+		$itk_component(center) addInput "::device::sample_y status inactive {supporting device}"
+		$itk_component(center) addInput "::device::sample_z status inactive {supporting device}"
+
+		$itk_component(zoomLow) addMotor ::device::$zoomName 0.0
+		$itk_component(zoomMed) addMotor ::device::$zoomName 0.75
+		$itk_component(zoomHigh) addMotor ::device::$zoomName 1.0
+
+		# pack the components
+      		pack $itk_interior -expand yes -fill both
+		pack $itk_component(control) -side left -anchor nw -ipadx 0 -padx 0
+		pack $itk_component(video) -side left -expand yes -fill both -ipadx 0 -padx 0
+		pack $itk_component(zoomLabel) -anchor n
+
+		pack $itk_component(zoomFrame) -anchor n
+		pack $itk_component(zoomLow) -side left
+		pack $itk_component(zoomMed) -side left
+		pack $itk_component(zoomHigh) -side left
+
+		pack $itk_component(moveSampleLabel) -anchor n
+		pack $itk_component(arrowPad) -anchor n
+
+		pack $itk_component(phiLabel) -anchor n
+		pack $itk_component(phiFrame) -anchor n
+		pack $itk_component(minus10) -side left
+		pack $itk_component(plus10) -side left
+		pack $itk_component(minus90) -side left
+		pack $itk_component(plus90) -side left
+		pack $itk_component(plus180) -side left
+		
+        if {$opNameCenterLoop != "not_available"} {
+		    pack $itk_component(center)
+        }
+		pack $itk_component(snapshot)
+		#$itk_component(videoCanvas) configure -cursor "@crossfg.bmp crossbg.bmp  white red"
+        $objCenterCrystalConst register $this system_on handleCrystalEnabledEvent
+	}
+    destructor {
+        set objCenterCrystalConst [$m_deviceFactory createString center_crystal_const]
+        $objCenterCrystalConst unregister $this system_on handleCrystalEnabledEvent
+    }
+}
+
+#thin wrapper for the video enable
+body SamplePositioningWidget::addChildVisibilityControl { args} {
+	
+	eval $itk_component(video) addChildVisibilityControl $args
+	
+}
+body SamplePositioningWidget::takeVideoSnapshot { } {
+    set user [$itk_option(-controlSystem) getUser]
+
+    ###try to get what's on the goniometer
+    set hint ""
+    if {[catch {
+        set contents [::device::robot_status getContents]
+        set sample [lindex $contents 15]
+        if {[llength $sample] == 3} {
+            foreach {cas row col} $sample break
+            set hint "${cas}${col}${row}.jpg"
+        }
+    } errMsg]} {
+        puts "trying to get hints for filename failed: $errMsg"
+    }
+
+    set types [list [list JPEG .jpg]]
+    puts "hint: $hint"
+
+    set fileName [tk_getSaveFile \
+    -initialdir /data/$user \
+    -filetypes $types \
+    -defaultextension ".jpg" \
+    -initialfile $hint
+    ]
+
+    if {$fileName == ""} return
+
+    if {[catch {open $fileName w} ch]} {
+        log_error failed to open file $fileName to write image: $ch
+        return
+    }
+    if {[catch {
+        fconfigure $ch -translation binary -encoding binary
+        set data [$itk_component(video) getImageData]
+        puts -nonewline $ch $data
+    } errMsg]} {
+        log_error failed to write image to the file $fileName: $errMsg
+    }
+    close $ch
+    log_warning snapshot saved to $fileName
+}
+body SamplePositioningWidget::saveVideoSnapshot { fileName } {
+
+    if {$fileName == ""} return
+
+    if {![$itk_component(video) visible]} {
+        puts "skip save video to $fileName: not visible and not updating"
+        return
+    }
+
+    if {[catch {open $fileName w} ch]} {
+        log_error failed to open file $fileName to write image: $ch
+        return
+    }
+    if {[catch {
+        fconfigure $ch -translation binary -encoding binary
+        set data [$itk_component(video) getImageData]
+        puts -nonewline $ch $data
+    } errMsg]} {
+        log_error failed to write image to the file $fileName: $errMsg
+    }
+    close $ch
+    log_warning snapshot saved to $fileName
+}
+
+class SampleVideoWidget {
+	inherit DCS::Video
+
+    itk_option define -beamWidthWidget beamWidthWidget BeamWidthWidget ""
+    itk_option define -beamHeightWidget beamHeightWidget BeamHeightWidget ""
+
+    ### "move_sample" or "define_scan_area" "define_scan_depth"
+    itk_option define -purpose purpose Purpose "move_sample"
+
+    ### all dynamic
+    itk_option define -imageSettings imageSettings ImageSettings ""
+
+    itk_option define -mode mode Mode "both" {
+	    $_crosshair configure -mode $itk_option(-mode)
+    }
+
+    ### implement base 
+	public method handleVideoClick
+    public method resizeCallback
+	public method handleVideoMotion
+	public method handleVideoRelease
+	# public methods
+
+	public method updateBeamPosition
+	public method updateBeamSize
+	public method updateGrid
+	protected method handleNewOutput
+	protected method updateBubble
+    
+    ### horz vert here are microns
+    public method setGrid { hoff voff horz vert n_horz n_vert color } {
+        set m_gridInfo [list $hoff $voff $horz $vert $n_horz $n_vert $color]
+        updateGrid
+    }
+
+    public method visible { } {
+        return $_visibility
+    }
+    
+    private method _internalUpdateBeamSize
+
+	#callbacks
+    ### these will be called very seldomly.
+    public method handleNewSampleCameraConstants
+    public method handleBeamsizeUpdate { object_ ready_ - value_ - } {
+        if {!$ready_} return
+        foreach {_beamSizeX _beamSizeY _beamColor} $value_ break
+		updateBeamSize
+    }
+
+    ### these will be called frequently
+    public method handleCameraZoom
+
+    ##for snapshot
+    public method getImageData { } {
+        return $_imageData
+    }
+
+	private variable _crosshair ""
+    ### will change from motors of SampleImageWidth and SampleImageHeight
+    #### where is the beam center on the screen [0,1]
+    private variable _beamCenterH 0.5
+    private variable _beamCenterV 0.5
+    ##### to convert beam size from mm to pixel we need
+    private variable _zoomMaxScale 1.9262
+    private variable _zoomMinScale 19.184
+    private variable _cameraZoom  0.75
+    private variable _sampleAspectRatio 1.12
+    private variable _calibrationImageWidth 352
+    private variable _calibrationImageHeight 240
+    private variable _beamSizeX    0.25
+    private variable _beamSizeY    0.25
+    private variable _beamColor    white
+
+    private variable m_indexMap
+    private variable m_variableList
+
+    ##### half of the width and height
+	private variable _crosshairX 176
+	private variable _crosshairY 120
+
+    private variable m_b1PressX 0
+    private variable m_b1PressY 0
+
+    private variable m_b1ReleaseX 0
+    private variable m_b1ReleaseY 0
+
+    private variable m_gridInfo "0 0 0 0 1 1"
+    private variable m_gridWidthPixel 0
+    private variable m_gridWidthOffsetPixel 0
+
+    private variable m_deviceFactory
+
+    private variable m_paraName ""
+    private variable m_zoomName ""
+    private variable m_objMoveSample ""
+    private variable m_objDefineScanArea ""
+
+	constructor { args } {
+        set m_deviceFactory [DCS::DeviceFactory::getObject]
+        set m_objDefineScanArea [$m_deviceFactory getObjectName scan3DSetup]
+
+        set cfgNameList [::config getStr sampleCameraConstantsNameList]
+        set m_variableList [list \
+        _beamCenterH \
+        _beamCenterV \
+        _zoomMaxScale \
+        _zoomMinScale \
+        _sampleAspectRatio \
+        _calibrationImageWidth \
+        _calibrationImageHeight \
+        ]
+        set fieldList [list \
+        zoomMaxXAxis \
+        zoomMaxYAxis \
+        zoomMaxScale \
+        zoomMinScale \
+        sampleAspectRatio \
+        sampleImageWidth \
+        sampleImageHeight \
+        ]
+
+        foreach v $m_variableList f $fieldList {
+            set index [lsearch -exact $cfgNameList $f]
+            set m_indexMap($v) $index
+            if {$index < 0} {
+                puts "ERROR wrong field {$f} for $paraName"
+            }
+        }
+		
+
+	# draw cross-hairs on image
+	set _crosshair [DCS::Crosshair \#auto $itk_component(canvas) \
+								 -x $_crosshairX \
+								 -y $_crosshairY \
+								 -width 20 \
+								 -height 20
+						  ]
+        itk_component add beamsize {
+            BeamsizeToDisplay $itk_interior.beamsize \
+        } {
+            keep -beamWidthWidget
+            keep -beamHeightWidget
+        }
+
+        $itk_component(beamsize) configure \
+        -honorCollimator [$m_deviceFactory operationExists collimatorMove]
+
+        $itk_component(beamsize) register $this beamsize handleBeamsizeUpdate
+
+		addUpdateSpeedInput "::device::gonio_phi status moving {gonio_phi is moving}"
+
+		addInput "::device::sample_x status inactive {supporting device}"
+		addUpdateSpeedInput "::device::sample_y status moving {sample_x is moving}"
+		addInput "::device::sample_y status inactive {supporting device}"
+		addUpdateSpeedInput "::device::sample_y status moving {sample_y is moving}"
+		addInput "::device::sample_z status inactive {supporting device}"
+		addUpdateSpeedInput "::device::sample_z status moving {sample_z is moving}"
+
+		eval itk_initialize $args
+
+		addInput "::dcss clientState active {Must be active to move the sample}"
+        set systemIdle [$m_deviceFactory createString system_idle]
+		addInput "$systemIdle contents {} {supporting device}"
+
+		announceExist
+
+	}
+
+	destructor {
+		destroy $_crosshair
+	}
+
+}
+configbody SampleVideoWidget::imageSettings {
+    if {[llength $itk_option(-imageSettings)] < 4} {
+        return
+    }
+
+    foreach {url newParaName newZoomName newMoveName} \
+    $itk_option(-imageSettings) break
+
+    ### clear up old ones
+    if {$m_paraName != ""} {
+		::mediator unregister $this ::device::$m_paraName contents
+    }
+    if {$m_zoomName != ""} {
+		::mediator unregister $this ::device::$m_zoomName scaledPosition
+    }
+
+    configure -imageUrl $url
+
+    set m_paraName $newParaName
+    set m_zoomName $newZoomName
+    set m_objMoveSample [$m_deviceFactory getObjectName $newMoveName]
+
+    if {$m_paraName != ""} {
+		::mediator register $this ::device::$m_paraName contents handleNewSampleCameraConstants
+    }
+    if {$m_zoomName != ""} {
+		::mediator register $this ::device::$m_zoomName scaledPosition handleCameraZoom
+		addUpdateSpeedInput "::device::$m_zoomName status moving {camera_zoom is moving}"
+        ## sorry no remove of speed input
+    }
+}
+
+body SampleVideoWidget::resizeCallback { } {
+    puts "SampleVideoWidget resizeCallback: update all"
+	updateBeamPosition
+	updateBeamSize
+	updateGrid
+}
+
+body SampleVideoWidget::handleVideoClick { x y } {
+    puts "handleVideoClick $x $y"
+    $itk_component(canvas) delete -tag dash_area
+
+	if { $_gateOutput == 1 } {
+
+        #####
+        set x [$itk_component(canvas) canvasx $x]
+        set y [$itk_component(canvas) canvasy $y]
+
+        set m_b1PressX $x
+        set m_b1PressY $y
+        if {$itk_option(-purpose) != "move_sample"} {
+            return
+        }
+
+        if {$m_imageWidth <=0 || $m_imageHeight <=0} {
+            log_error NO IMAGE displayed, click ignored
+            return
+        }
+
+        if {$x < 0 || $x >= $m_imageWidth \
+        || $y < 0 || $y >= $m_imageHeight} {
+            puts "clicked empty area"
+            return
+        }
+
+		set deltaX [expr ($_crosshairX - $x) / $m_imageWidth]
+		set deltaY [expr ( $_crosshairY - $y) / $m_imageHeight]
+		
+		
+		$m_objMoveSample startOperation $deltaX $deltaY
+	}
+}
+
+body SampleVideoWidget::handleVideoMotion { x y } {
+    puts "handleVideoMotion $x $y"
+    if {$itk_option(-purpose) == "move_sample" \
+    || $itk_option(-purpose) == "display_only"} {
+        return
+    }
+
+	if { $_gateOutput != 1 } {
+        return
+    }
+
+    set x [$itk_component(canvas) canvasx $x]
+    set y [$itk_component(canvas) canvasy $y]
+    set m_b1ReleaseX $x
+    set m_b1ReleaseY $y
+    
+    if {$itk_option(-purpose) == "define_scan_depth"} {
+        set halfW [expr 0.5 * $m_gridWidthPixel]
+        set m_b1PressX   [expr $_crosshairX + $m_gridWidthOffsetPixel - $halfW]
+        set m_b1ReleaseX [expr $m_b1PressX + $m_gridWidthPixel]
+
+        set b1PressY   [expr 2 * $_crosshairY - $y]
+        set b1ReleaseY $y
+    }
+
+
+    $itk_component(canvas) delete -tag dash_area
+    $itk_component(canvas) create rectangle \
+    $m_b1PressX $m_b1PressY $m_b1ReleaseX $m_b1ReleaseY \
+    -width 1 \
+    -outline green \
+    -dash . \
+    -tags dash_area
+}
+
+body SampleVideoWidget::handleVideoRelease { x y } {
+    puts "handleVideoRelease $x $y"
+    if {$itk_option(-purpose) == "move_sample"} {
+        return
+    }
+    if {$itk_option(-purpose) == "display_only"} {
+        log_error not in the right place to define scan area
+        return
+    }
+
+	if { $_gateOutput != 1 } {
+        return
+    }
+
+    #set x [$itk_component(canvas) canvasx $x]
+    #set y [$itk_component(canvas) canvasy $y]
+    #set m_b1ReleaseX $x
+    #set m_b1ReleaseY $y
+    
+    $itk_component(canvas) delete -tag dash_area
+    if {$m_imageWidth <=0 || $m_imageHeight <=0} {
+        log_error NO IMAGE displayed, click ignored
+        return
+    }
+
+    if {$m_b1PressX  < 0 || $m_b1PressX   >= $m_imageWidth \
+    || $m_b1PressY   < 0 || $m_b1PressY   >= $m_imageHeight \
+    || $m_b1ReleaseX < 0 || $m_b1ReleaseX >= $m_imageWidth \
+    || $m_b1ReleaseY < 0 || $m_b1ReleaseY >= $m_imageHeight \
+    } {
+        puts "clicked empty area"
+        return
+    }
+
+    set x0 [expr double($m_b1PressX) / $m_imageWidth]
+    set x1 [expr double($m_b1ReleaseX) / $m_imageWidth]
+    set y0 [expr double($m_b1PressY) / $m_imageHeight]
+    set y1 [expr double($m_b1ReleaseY) / $m_imageHeight]
+		
+    $m_objDefineScanArea startOperation define_scan_area $x0 $y0 $x1 $y1
+}
+
+body SampleVideoWidget::handleNewOutput {} {
+	if { $_gateOutput == 0 } {
+		$itk_component(canvas) config -cursor watch
+#"@stop.xbm black"
+	} else {
+      set cursor [. cget -cursor]
+		$itk_component(canvas) config -cursor $cursor 
+	}
+	updateBubble
+}
+
+#Update the help message
+body SampleVideoWidget::updateBubble {} {
+
+
+	#delete the help balloon
+	catch {wm withdraw .help_shell}
+	set message "this blu-ice has a bug"
+	
+	set outputMessage [getOutputMessage]
+	
+	foreach {output blocker status reason} $outputMessage {break}
+
+	foreach {object attribute} [split $blocker ~] break
+	
+	if { ! $_onlineStatus } {
+		set message $reason
+		#the button has bad inputs and is not ready
+		#if { [info commands $object] == "" } {
+		#	set message "$object does not exist: $blocker."
+		#} else {
+		#	set message "Internal errors in $blocker"
+		#}
+	} elseif { $output } {
+		#the widget is enabled
+		set message ""
+	} else {
+		#set deviceStatus $itk_option(-device).status
+		#the widget is disabled
+		if {$reason == "supporting device" } {
+
+			#something is happening with the device we are interested in.
+			switch $status {
+				inactive {
+			#		configure -labelBackground lightgrey
+			#		configure -labelForeground	black
+					set message "Device is ready to move."
+				}
+				moving   {
+			#		configure -labelBackground \#ff4040
+			#		configure -labelForeground white
+					set message "[namespace tail $object] is moving."
+				}
+				offline  {
+			#		configure -labelBackground black
+			#		configure -labelForeground white
+					set message "DHS '[$object cget -controller]' is offline (needed for [namespace tail $object])."
+				}
+				default {
+			#		configure -labelBackground black
+			#		configure -labelForeground white
+					set message "[namespace tail $object] is not ready: $status"
+				}
+			} 
+		} else {
+			#unhandled reason, use default reason specified with addInput
+			set message "$reason"
+		}
+	}
+
+	DynamicHelp::register $itk_component(canvas) balloon $message
+	#DynamicHelp::configure $itk_component(button) balloon -background blue -foreground white
+}
+
+
+
+body SampleVideoWidget::handleNewSampleCameraConstants { - targetStatus - contents_ -} {
+	if {!$targetStatus} return
+
+    if {$contents_ == ""} return
+
+    foreach name $m_variableList {
+        set index $m_indexMap($name)
+        if {$index >= 0} {
+            set value [lindex $contents_ $index]
+            if {[string is double -strict $value]} {
+                #puts "setting $name to $value"
+                set $name $value
+            }
+        }
+    }
+    updateBeamPosition
+}
+
+body SampleVideoWidget::handleCameraZoom { - targetStatus - value_ -} {
+	if { $targetStatus } {
+		foreach { value units } $value_ break;
+        set _cameraZoom $value
+		updateBeamSize
+        updateGrid
+	}
+}
+
+body SampleVideoWidget::updateBeamPosition {} {
+	# update the position of the crosshair
+    set _crosshairX [expr $m_imageWidth * $_beamCenterH]
+    set _crosshairY [expr $m_imageHeight * $_beamCenterV]
+
+    if {$_crosshair != ""} {
+	    $_crosshair moveTo $_crosshairX $_crosshairY
+    }
+}
+
+body SampleVideoWidget::updateBeamSize { } {
+    if {[catch _internalUpdateBeamSize errMsg]} {
+        log_error updateBeamSize failed: $errMsg
+    }
+}
+body SampleVideoWidget::_internalUpdateBeamSize { } {
+    ##### copied from operation moveSample
+    set horzScale [expr $_zoomMinScale * \
+    exp ( log ($_zoomMaxScale / $_zoomMinScale) * $_cameraZoom )]
+    set vertScale [expr $horzScale * $_sampleAspectRatio]
+
+    #### these scale factors are based on image size:
+    #### _calibrationImageWidth
+    #### _calibrationImageHeight
+    #### Current image size: m_imageWidth m_imageHeight
+
+    set image_scale [expr double($m_imageWidth) / $_calibrationImageWidth]
+
+    set beamWidthPixel [expr $_beamSizeX * 1000.0 / $horzScale * $image_scale]
+    set beamHeightPixel [expr $_beamSizeY * 1000.0 / $vertScale * $image_scale]
+
+    if {$_crosshair != ""} {
+        $_crosshair setBeamSize $beamWidthPixel $beamHeightPixel $_beamColor
+    }
+}
+
+body SampleVideoWidget::updateGrid { } {
+    set horzScale [expr $_zoomMinScale * \
+    exp ( log ($_zoomMaxScale / $_zoomMinScale) * $_cameraZoom )]
+    set vertScale [expr $horzScale * $_sampleAspectRatio]
+
+    #### these scale factors are based on image size:
+    #### _calibrationImageWidth
+    #### _calibrationImageHeight
+    #### Current image size: m_imageWidth m_imageHeight
+    set image_scale [expr double($m_imageWidth) / $_calibrationImageWidth]
+
+    foreach {hoff voff horz vert n_horz n_vert color} $m_gridInfo break
+
+    set m_gridWidthOffsetPixel [expr 1.0 * $hoff / $horzScale * $image_scale]
+    set gridHeightOffsetPixel  [expr 1.0 * $voff / $vertScale * $image_scale]
+    set m_gridWidthPixel       [expr 1.0 * $horz / $horzScale * $image_scale]
+    set gridHeightPixel        [expr 1.0 * $vert / $vertScale * $image_scale]
+
+    $_crosshair setGrid \
+    $m_gridWidthOffsetPixel $gridHeightOffsetPixel \
+    $m_gridWidthPixel $gridHeightPixel $n_horz $n_vert $color
+}
+
+
+#testSamplePosition
+
+class ComboSamplePositioningWidget {
+	inherit ::itk::Widget
+
+    itk_option define -controlSystem controlSystem ControlSystem ::dcss
+
+    ### "sample" means sample camera only
+    ### "inline" means inline camera only
+    ### other means user selectable
+    itk_option define -fixedView fixedView FixedView ""
+
+	protected variable minimumHorzStep [expr 1.0/354]
+	protected variable minimumVertStep [expr 1.0/240]
+
+    public method addInputForRaster { input } {
+        $itk_component(snapshot) addInput $input
+        $itk_component(center) addInput $input
+    }
+
+    public method configSnapshotButton { args } {
+        eval $itk_component(snapshot) configure $args
+        pack $itk_component(snapshot) -before $itk_component(zoomLabel)
+    }
+
+    public method configCenterLoopButton { args } {
+        eval $itk_component(center) configure $args
+    }
+
+	public method addChildVisibilityControl
+
+    public method takeVideoSnapshot { }
+    public method saveVideoSnapshot { filename }
+
+    public method setGrid { hoff voff horz vert n_horz n_vert color } {
+        $itk_component(video) setGrid $hoff $voff $horz $vert $n_horz $n_vert $color
+    }
+
+
+    public method getWrap { } {
+        return $m_showingInlineViewWrap
+    }
+
+    private method getMoveOperation { } {
+        if {[$m_showingInlineViewWrap getValue]} {
+            set op $m_opInlineMove
+        } else {
+            set op $m_opMove
+        }
+        return $op
+    }
+
+    public method padLeft { } {
+        [getMoveOperation] startOperation -$minimumHorzStep 0.0
+    }
+    public method padRight { } {
+        [getMoveOperation] startOperation $minimumHorzStep 0.0
+    }
+    public method padUp { } {
+        [getMoveOperation] startOperation 0.0 -$minimumVertStep
+    }
+    public method padDown { } {
+        [getMoveOperation] startOperation 0.0 $minimumVertStep
+    }
+    public method padFastLeft { } {
+        [getMoveOperation] startOperation -0.5 0.0
+    }
+    public method padFastRight { } {
+        [getMoveOperation] startOperation 0.5 0.0
+    }
+
+    public method centerCrystal { } {
+        set user [$itk_option(-controlSystem) getUser]
+        global gEncryptSID
+        if {$gEncryptSID} {
+            set SID SID
+        } else {
+            set SID  PRIVATE[$itk_option(-controlSystem) getSessionId]
+        }
+        set dir  /data/$user/centerCrystal
+        set fileRoot [::config getConfigRootName]
+        $m_opCenterCrystal startOperation $user $SID $dir $fileRoot
+    }
+    public method handleCrystalEnabledEvent { stringName_ ready_ alias_ contents_ - } {
+        if {!$ready_} return
+
+        if {$contents_ == ""} {
+            set contents_ 0
+        }
+
+        #####do not show this button for now
+        set contents_ 0
+
+        if {$m_centerCrystalEnabled == $contents_} return
+        set m_centerCrystalEnabled $contents_
+
+        if {$m_centerCrystalEnabled} {
+            pack $itk_component(crystal)
+        } else {
+            pack forget $itk_component(crystal)
+        }
+    }
+    public method handleZoomSwitchEvent { - ready_ - pos - } {
+        if {!$ready_} return
+
+        updateUrl
+    }
+
+    public method switchView { } {
+        set cur [$m_showingInlineViewWrap getValue]
+
+        switch -exact -- $itk_option(-fixedView) {
+            sample {
+                set newV 0
+            }
+            inline {
+                set newV 1
+            }
+            default {
+                if {$cur} {
+                    set newV 0
+                } else {
+                    set newV 1
+                }
+            }
+        }
+        $m_showingInlineViewWrap setValue $newV
+        updateSwitchLabel
+        updateUrl
+    }
+
+    public method switchToSampleView { } {
+        if {[$m_showingInlineViewWrap getValue]} {
+            $m_showingInlineViewWrap setValue 0
+            updateSwitchLabel
+            updateUrl
+        }
+    }
+
+    private method updateUrl { }
+
+    private method updateSwitchLabel { } {
+        if {[$m_showingInlineViewWrap getValue]} {
+            $itk_component(onAxis) configure \
+            -text "Profile"
+        } else {
+            $itk_component(onAxis) configure \
+            -text "On-Axis"
+        }
+    }
+
+    private variable m_deviceFactory
+    private variable m_opCenterCrystal
+    private variable m_centerCrystalEnabled 0
+    private variable m_noInline 1
+    private variable m_opMove
+    private variable m_opInlineMove
+    private variable m_mtZoomSwitch
+
+    private variable m_showingInlineViewWrap ""
+
+    private variable m_sampleSettings ""
+    private variable m_inlineSettings ""
+	
+	# constructor
+	constructor { sampleSet inlineSet args } {
+        set m_showingInlineViewWrap [::DCS::ManualInputWrapper ::#auto]
+        set m_deviceFactory [DCS::DeviceFactory::getObject]
+
+        if {[llength $sampleSet] < 5} {
+            puts "software ERROR, please let programmer know"
+            puts "wrong argument for ComboSampleVideo"
+            exit
+        }
+
+        foreach {url paraName zoomName opNameCenterLoop opNameMoveSample} \
+        $sampleSet break
+
+        set m_sampleSettings [list $url $paraName $zoomName $opNameMoveSample]
+
+		set m_opMove [$m_deviceFactory getObjectName $opNameMoveSample]
+
+        if {[llength $inlineSet] >=2} {
+            set m_noInline 0
+            set m_mtZoomSwitch [$m_deviceFactory getObjectName zoomSwitch]
+
+            foreach \
+            {inlineUrl inlineParaName inlineZoomName inlineOpNameMoveSample} \
+            $inlineSet break
+
+            set m_inlineSettings [list \
+            $inlineUrl $inlineParaName $inlineZoomName $inlineOpNameMoveSample]
+
+		    set m_opInlineMove \
+            [$m_deviceFactory getObjectName $inlineOpNameMoveSample]
+        }
+
+        set objCenterCrystalConst \
+        [$m_deviceFactory createString center_crystal_const]
+
+        $objCenterCrystalConst createAttributeFromField system_on 0
+
+		itk_component add control {
+			frame $itk_interior.c
+		}
+
+		itk_component add zoomLabel {
+			# create the camera zoom label
+			label $itk_component(control).zoomLabel \
+				 -text "Select Zoom Level" \
+				 -font "helvetica -14 bold"
+		}
+
+		itk_component add zoomFrame {
+			frame $itk_component(control).z
+		}
+
+		itk_component add zoomLow {
+			# make the low zoom button
+			DCS::MoveMotorsToTargetButton $itk_component(zoomFrame).zoomLow \
+				 -text "Low" \
+				 -width 2  -background #c0c0ff -activebackground #c0c0ff
+		} {}
+
+		
+		itk_component add zoomMed {
+			# make the medium zoom button
+			DCS::MoveMotorsToTargetButton $itk_component(zoomFrame).zoomMed \
+				 -text "Med" \
+				 -width 2  -background #c0c0ff -activebackground #c0c0ff
+		} {}
+		
+		itk_component add zoomHigh {
+			# make the medium zoom button
+			DCS::MoveMotorsToTargetButton  $itk_component(zoomFrame).zoomHigh \
+				 -text "High" \
+				 -width 2  -background #c0c0ff -activebackground #c0c0ff
+		} {	
+		}
+
+		itk_component add onAxis {
+			button $itk_component(zoomFrame).onAxis \
+            -command "$this switchView" \
+            -width 7 \
+			-background #c0c0ff \
+            -activebackground #c0c0ff
+		} {	
+		}
+
+		itk_component add moveSampleLabel {
+			# create the move sample label
+			label $itk_component(control).sampleLabel \
+				 -text "Move Sample" \
+				 -font "helvetica -14 bold"
+		}
+
+
+		#itk_component add moveSampleFrame {
+		#	frame $itk_component(control).s
+		#}
+
+		# make joypad
+		itk_component add arrowPad {
+			DCS::ArrowPad $itk_component(control).ap \
+				 -activeClientOnly 1 \
+				 -debounceTime 100 -buttonBackground #c0c0ff
+		} {
+		}
+
+		itk_component add phiLabel {
+			# create the phi label
+			label $itk_component(control).phiLabel \
+				 -text "Rotate Phi" \
+				 -font "helvetica -14 bold"
+		}
+
+
+		itk_component add phiFrame {
+			frame $itk_component(control).p
+		}
+
+		itk_component add minus10 {
+			DCS::MoveMotorRelativeButton $itk_component(phiFrame).minus10 \
+				 -delta "-10" \
+				 -text "-10" \
+				 -background #c0c0ff -activebackground #c0c0ff \
+             -device ::device::gonio_phi
+		} {
+		}
+
+		itk_component add plus10 {
+			DCS::MoveMotorRelativeButton $itk_component(phiFrame).plus10 \
+				 -delta "10" \
+				 -text "+10" \
+				 -background #c0c0ff -activebackground #c0c0ff \
+             -device ::device::gonio_phi
+		} {
+		}
+
+
+		# make the Phi -90 button
+		itk_component add minus90 {
+			DCS::MoveMotorRelativeButton $itk_component(phiFrame).minus90 \
+				 -delta "-90" \
+				 -text "-90" \
+				 -width 2  -background #c0c0ff -activebackground #c0c0ff \
+             			 -device ::device::gonio_phi
+		} {
+		}
+
+		# make the Phi +90 button
+		itk_component add plus90 {
+			DCS::MoveMotorRelativeButton $itk_component(phiFrame).plus90 \
+				 -delta "90" \
+				 -text "+90" \
+				 -width 2  -background #c0c0ff -activebackground #c0c0ff \
+             			 -device ::device::gonio_phi
+		} {
+		}
+
+
+		itk_component add plus180 {
+			DCS::MoveMotorRelativeButton $itk_component(phiFrame).plus180 \
+				 -delta "180" \
+				 -text "+180" \
+				 -width 2  -background #c0c0ff -activebackground #c0c0ff \
+             			 -device ::device::gonio_phi
+		} {
+		}
+
+		itk_component add center {
+			::DCS::Button $itk_component(control).center \
+				 -text "Center Loop" \
+				 -width 15 -activeClientOnly 1
+		} {
+		}
+		itk_component add crystal {
+			::DCS::Button $itk_component(control).crystal \
+				 -text "Center Crystal" \
+				 -width 15 -activeClientOnly 1
+		} {
+		}
+		itk_component add snapshot {
+		    ::DCS::Button $itk_component(control).snapshot \
+            -systemIdleOnly 0 \
+            -activeClientOnly 0 \
+			-text "Video Snapshot" \
+			-width 15 \
+            -command "$this takeVideoSnapshot"
+		} {
+		}
+
+
+		# create the video image of the sample
+		itk_component add video {
+			SampleVideoWidget $itk_interior.video \
+		} {
+            keep -purpose
+            keep -mode
+			keep -videoParameters
+			keep -videoEnabled
+            keep -beamWidthWidget
+            keep -beamHeightWidget
+            keep -packOption
+		}
+
+		# evaluate configuration parameters
+		eval itk_initialize $args
+		
+        updateSwitchLabel
+        updateUrl
+
+		set centerLoopOperation [$m_deviceFactory getObjectName $opNameCenterLoop]
+		$itk_component(center) configure -command "$centerLoopOperation startOperation"
+		#$itk_component(center) addInput "::dataCollectionActive gateOutput 1 {Data Collection is in progress}"
+		$itk_component(center) addInput "$centerLoopOperation status inactive {supporting device}"
+		$itk_component(center) addInput "::device::getLoopTip status inactive {supporting device}"
+		$itk_component(center) addInput "::device::gonio_phi status inactive {supporting device}"
+		$itk_component(center) addInput "::device::camera_zoom status inactive {supporting device}"
+		$itk_component(center) addInput "$m_showingInlineViewWrap value 0 {loop is too big for this camera}"
+
+		set m_opCenterCrystal [$m_deviceFactory getObjectName centerCrystal]
+		$itk_component(crystal) configure -command "$this centerCrystal"
+
+		$itk_component(arrowPad) configure \
+			 -leftCommand      "$this padLeft" \
+			 -upCommand        "$this padUp" \
+			 -downCommand      "$this padDown" \
+			 -rightCommand     "$this padRight" \
+			 -fastLeftCommand  "$this padFastLeft" \
+			 -fastRightCommand "$this padFastRight"
+
+		$itk_component(arrowPad) addInput left "::device::sample_z status inactive {supporting device}"
+		$itk_component(arrowPad) addInput right "::device::sample_z status inactive {supporting device}"
+		$itk_component(arrowPad) addInput fastLeft "::device::sample_z status inactive {supporting device}"
+		$itk_component(arrowPad) addInput fastRight "::device::sample_z status inactive {supporting device}"
+		$itk_component(arrowPad) addInput up "::device::sample_y status inactive {supporting device}"
+		$itk_component(arrowPad) addInput down "::device::sample_y status inactive {supporting device}"
+		$itk_component(arrowPad) addInput up "::device::sample_x status inactive {supporting device}"
+		$itk_component(arrowPad) addInput down "::device::sample_x status inactive {supporting device}"
+
+		$itk_component(arrowPad) addInput left "$centerLoopOperation status inactive {supporting device}"
+		$itk_component(arrowPad) addInput right "$centerLoopOperation status inactive {supporting device}"
+		$itk_component(arrowPad) addInput fastLeft "$centerLoopOperation status inactive {supporting device}"
+		$itk_component(arrowPad) addInput fastRight "$centerLoopOperation status inactive {supporting device}"
+		$itk_component(arrowPad) addInput up "$centerLoopOperation status inactive {supporting device}"
+		$itk_component(arrowPad) addInput down "$centerLoopOperation status inactive {supporting device}"
+
+		$itk_component(zoomLow) addInput "$centerLoopOperation status inactive {supporting device}"
+		$itk_component(zoomMed) addInput "$centerLoopOperation status inactive {supporting device}"
+		$itk_component(zoomHigh) addInput "$centerLoopOperation status inactive {supporting device}"
+
+		$itk_component(minus10) addInput "$centerLoopOperation status inactive {supporting device}"
+		$itk_component(plus10) addInput "$centerLoopOperation status inactive {supporting device}"
+		$itk_component(minus90) addInput "$centerLoopOperation status inactive {supporting device}"
+		$itk_component(plus90) addInput "$centerLoopOperation status inactive {supporting device}"
+		$itk_component(plus180) addInput "$centerLoopOperation status inactive {supporting device}"
+
+		#don't allow the sample to be centered while the sample is already moving
+		$itk_component(center) addInput "::device::gonio_phi status inactive {supporting device}"
+		$itk_component(video) addInput "::device::gonio_phi status inactive {supporting device}"
+
+		#don't allow the sample to be centered while the sample is already moving
+		$itk_component(center) addInput "::device::sample_x status inactive {supporting device}"
+		$itk_component(center) addInput "::device::sample_y status inactive {supporting device}"
+		$itk_component(center) addInput "::device::sample_z status inactive {supporting device}"
+
+		#$itk_component(zoomLow) addMotor ::device::camera_zoom 0.0
+		#$itk_component(zoomMed) addMotor ::device::camera_zoom 0.75
+		#$itk_component(zoomHigh) addMotor ::device::camera_zoom 1.0
+
+		# pack the components
+      pack $itk_interior -expand yes -fill both
+		pack $itk_component(control) -side left -anchor nw -ipadx 0 -padx 0
+		pack $itk_component(video) -side left -expand yes -fill both -ipadx 0 -padx 0
+		pack $itk_component(zoomLabel) -anchor n
+
+		pack $itk_component(zoomFrame) -anchor n
+		pack $itk_component(zoomLow) -side left
+		pack $itk_component(zoomMed) -side left
+		pack $itk_component(zoomHigh) -side left
+		pack $itk_component(onAxis) -side left
+
+		pack $itk_component(moveSampleLabel) -anchor n
+		pack $itk_component(arrowPad) -anchor n
+
+		pack $itk_component(phiLabel) -anchor n
+		pack $itk_component(phiFrame) -anchor n
+		pack $itk_component(minus10) -side left
+		pack $itk_component(plus10) -side left
+		pack $itk_component(minus90) -side left
+		pack $itk_component(plus90) -side left
+		pack $itk_component(plus180) -side left
+		
+        if {$opNameCenterLoop != "not_available"} {
+		    pack $itk_component(center)
+        }
+		pack $itk_component(snapshot)
+		#$itk_component(videoCanvas) configure -cursor "@crossfg.bmp crossbg.bmp  white red"
+        $objCenterCrystalConst register $this system_on handleCrystalEnabledEvent
+
+		#$m_mtZoomSwitch register $this scaledPosition handleZoomSwitchEvent
+
+        switch -exact -- $itk_option(-fixedView) {
+            sample {
+                pack forget $itk_component(onAxis)
+            }
+            inline {
+                $m_showingInlineViewWrap setValue 1
+                updateSwitchLabel
+                updateUrl
+                pack forget $itk_component(onAxis)
+            }
+        }
+	}
+    destructor {
+		#$m_mtZoomSwitch unregister $this scaledPosition handleZoomSwitchEvent
+        set objCenterCrystalConst [$m_deviceFactory createString center_crystal_const]
+        $objCenterCrystalConst unregister $this system_on handleCrystalEnabledEvent
+    }
+}
+
+#thin wrapper for the video enable
+body ComboSamplePositioningWidget::addChildVisibilityControl { args} {
+	
+	eval $itk_component(video) addChildVisibilityControl $args
+	
+}
+body ComboSamplePositioningWidget::takeVideoSnapshot { } {
+    set user [$itk_option(-controlSystem) getUser]
+
+    ###try to get what's on the goniometer
+    set hint ""
+    if {[catch {
+        set contents [::device::robot_status getContents]
+        set sample [lindex $contents 15]
+        if {[llength $sample] == 3} {
+            foreach {cas row col} $sample break
+            set hint "${cas}${col}${row}.jpg"
+        }
+    } errMsg]} {
+        puts "trying to get hints for filename failed: $errMsg"
+    }
+
+    set types [list [list JPEG .jpg]]
+    puts "hint: $hint"
+
+    set fileName [tk_getSaveFile \
+    -initialdir /data/$user \
+    -filetypes $types \
+    -defaultextension ".jpg" \
+    -initialfile $hint
+    ]
+
+    if {$fileName == ""} return
+
+    if {[catch {open $fileName w} ch]} {
+        log_error failed to open file $fileName to write image: $ch
+        return
+    }
+    if {[catch {
+        fconfigure $ch -translation binary -encoding binary
+        set data [$itk_component(video) getImageData]
+        puts -nonewline $ch $data
+    } errMsg]} {
+        log_error failed to write image to the file $fileName: $errMsg
+    }
+    close $ch
+    log_warning snapshot saved to $fileName
+}
+body ComboSamplePositioningWidget::saveVideoSnapshot { fileName } {
+    if {$fileName == ""} return
+
+    if {![$itk_component(video) visible]} {
+        puts "skip save video to $fileName: not visible and not updating"
+        return
+    }
+
+    if {[catch {open $fileName w} ch]} {
+        log_error failed to open file $fileName to write image: $ch
+        return
+    }
+    if {[catch {
+        fconfigure $ch -translation binary -encoding binary
+        set data [$itk_component(video) getImageData]
+        puts -nonewline $ch $data
+    } errMsg]} {
+        log_error failed to write image to the file $fileName: $errMsg
+    }
+    close $ch
+    log_warning snapshot saved to $fileName
+}
+
+body ComboSamplePositioningWidget::updateUrl { } {
+    if {![$m_showingInlineViewWrap getValue]} {
+        puts "trying to set to sample: $m_sampleSettings"
+        $itk_component(video) config \
+        -imageSettings $m_sampleSettings
+
+		$itk_component(zoomLow)  removeMotor ::device::inline_camera_zoom 0.2
+		$itk_component(zoomMed)  removeMotor ::device::inline_camera_zoom 0.75
+		$itk_component(zoomHigh) removeMotor ::device::inline_camera_zoom 1.0
+
+		$itk_component(zoomLow) addMotor ::device::camera_zoom 0.0
+		$itk_component(zoomMed) addMotor ::device::camera_zoom 0.75
+		$itk_component(zoomHigh) addMotor ::device::camera_zoom 1.0
+    } else {
+        puts "trying to set to inlinle: $m_inlineSettings"
+        $itk_component(video) config \
+        -imageSettings $m_inlineSettings
+
+		$itk_component(zoomLow)  removeMotor ::device::camera_zoom 0.0
+		$itk_component(zoomMed)  removeMotor ::device::camera_zoom 0.75
+		$itk_component(zoomHigh) removeMotor ::device::camera_zoom 1.0
+
+		$itk_component(zoomLow)  addMotor ::device::inline_camera_zoom 0.2
+		$itk_component(zoomMed)  addMotor ::device::inline_camera_zoom 0.75
+		$itk_component(zoomHigh) addMotor ::device::inline_camera_zoom 1.0
+    }
+}
+

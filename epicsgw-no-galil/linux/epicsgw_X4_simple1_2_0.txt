@@ -1,0 +1,128 @@
+05/20/11 16:26:08 3086612176   FINEST    run from front, not as a daemon {src/epicsgw.cc 54  }
+05/20/11 16:26:08 3086612176   FINEST    context=(nil) {src/epicsgw.cc 58  }
+05/20/11 16:26:08 3086612176   FINEST    DcsMessageManager constructor enter {src/DcsMessageManager.cxx 18  }
+05/20/11 16:26:08 3086612176   FINEST    DcsMessageManager constructor exit {src/DcsMessageManager.cxx 33  }
+05/20/11 16:26:08 3086612176   FINEST    +GatewayDeviceManager constructor {src/gw_device_mgr.cc 29  }
+05/20/11 16:26:08 3086612176   FINEST    -GatewayDeviceManager constructor {src/gw_device_mgr.cc 42  }
+05/20/11 16:26:08 3086612176   FINEST    +ChidManager constructor {src/chid_mgr.cc 96  }
+05/20/11 16:26:08 3086612176   FINEST    -ChidManager constructor {src/chid_mgr.cc 106  }
+05/20/11 16:26:08 3086612176   FINEST    DcsMessageService constructor enter {src/DcsMessageService.cxx 9  }
+05/20/11 16:26:08 3086612176   FINEST    DcsMessageService constructor exit {src/DcsMessageService.cxx 13  }
+05/20/11 16:26:08 3086612176   FINEST    +GatewayService constructor {src/gw_service.cc 20  }
+05/20/11 16:26:08 3086612176   FINEST    -GatewayService constructor {src/gw_service.cc 37  }
+05/20/11 16:26:08 3086612176   FINEST    +GatewaySystem constructor {src/gw_system.cc 16  }
+05/20/11 16:26:08 3086612176   FINEST    -GatewaySystem constructor {src/gw_system.cc 19  }
+05/20/11 16:26:08 3086612176     INFO    m_ServerName points to: 'localhost' {src/DcsMessageHandler.cxx 43  }
+05/20/11 16:26:08 3086612176     INFO    m_DHSName points to: 'epics_gateway' {src/DcsMessageHandler.cxx 62  }
+05/20/11 16:26:08 3086609296   FINEST    SENDER wait for socket lock 11111 {src/DcsMessageService.cxx 87  }
+05/20/11 16:26:08 3086609296   FINEST    SENDER got socket lock 111111 {src/DcsMessageService.cxx 89  }
+05/20/11 16:26:08 3086609296   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
+05/20/11 16:26:08 3086609296   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
+05/20/11 16:26:08 3086609296  WARNING    Unable to connect to server: localhost {src/DcsMessageHandler.cxx 143  }
+05/20/11 16:26:08 3086609296  WARNING    WINSOCK ERROR--xos_socket_make_connection failed {src/DcsMessageHandler.cxx 144  }
+05/20/11 16:26:08 3076119440   FINEST    receiver is waiting sender done for start {src/DcsMessageService.cxx 151  }
+05/20/11 16:26:08 3064834960   FINEST    enter DcsScanThread {src/gw_service.cc 128  }
+05/20/11 16:26:08 3064834960   FINEST    Dcs scan thread looping {src/gw_service.cc 132  }
+05/20/11 16:26:08 3054345104   FINEST    enter EpicsMonitorThread {src/gw_service.cc 50  }
+05/20/11 16:26:08 3054345104   FINEST    mark object ready {src/gw_service.cc 69  }
+05/20/11 16:26:13 3086609296   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
+05/20/11 16:26:13 3086609296  WARNING    MakeSocketConnection failed {src/DcsMessageHandler.cxx 105  }
+05/20/11 16:26:13 3086609296   FINEST    -DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 106  }
+05/20/11 16:26:18 3086609296   FINEST    trying to connect to DCSS {src/DcsMessageService.cxx 93  }
+05/20/11 16:26:18 3086609296   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
+05/20/11 16:26:18 3086609296   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
+05/20/11 16:26:18 3086609296     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
+05/20/11 16:26:18 3086609296   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
+05/20/11 16:26:18 3086609296   FINEST    Sending: 'htos_client_is_hardware epics_gateway' {src/DcsMessageHandler.cxx 188  }
+05/20/11 16:26:18 3086609296   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
+05/20/11 16:26:18 3086609296   FINEST    SENDER unlock socket lock 11111111111 {src/DcsMessageService.cxx 102  }
+05/20/11 16:26:18 3086609296     INFO    connected to DCSS with DCS protocol, sender ready {src/DcsMessageService.cxx 104  }
+05/20/11 16:26:18 3086609296   FINEST    SENDER enter loop {src/DcsMessageService.cxx 109  }
+05/20/11 16:26:18 3076119440   FINEST    receiver waiting done {src/DcsMessageService.cxx 153  }
+05/20/11 16:26:18 3076119440     INFO    receiver ready: whole DcsMessageService Ready {src/DcsMessageService.cxx 167  }
+05/20/11 16:26:18 3076119440   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/20/11 16:26:18 3076119440   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/20/11 16:26:18 3076119440   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x8b2c9d8 {src/DcsMessageManager.cxx 168  }
+05/20/11 16:26:18 3076119440   FINEST    DcsMessageManager::NewDcsMessage: new MAX TEXT SIZE 43 {src/DcsMessageManager.cxx 174  }
+05/20/11 16:26:18 3076119440   FINEST    Receiving: 'stoh_register_operation getEPICSPV getPV
+' {src/DcsMessageHandler.cxx 250  }
+05/20/11 16:26:18 3076119440   FINEST    +GatewayService::ConsumeDcsMessage {src/gw_service.cc 428  }
+05/20/11 16:26:18 3076119440   FINEST    -GatewayService::ConsumeDcsMessage {src/gw_service.cc 447  }
+05/20/11 16:26:18 3054345104   FINEST    epics thread out of waiting {src/gw_service.cc 77  }
+05/20/11 16:26:18 3054345104     INFO    queue length before dequeue: 1 {src/gw_service.cc 93  }
+05/20/11 16:26:18 3054345104     INFO    queue length after dequeue: 0 {src/gw_service.cc 95  }
+05/20/11 16:26:18 3054345104   FINEST    +GatewayService::doTask {src/gw_service.cc 185  }
+05/20/11 16:26:18 3054345104   FINEST    do task:{stoh_register_operation getEPICSPV getPV
+} {src/gw_service.cc 193  }
+05/20/11 16:26:18 3054345104   FINEST    -GatewayService::doTask no match pass on {src/gw_service.cc 421  }
+05/20/11 16:26:18 3054345104   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x8b2c9d8) {src/DcsMessageManager.cxx 191  }
+05/20/11 16:26:18 3076119440   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/20/11 16:26:18 3076119440   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/20/11 16:26:18 3076119440   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/20/11 16:26:18 3076119440   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x8b2c9d8 {src/DcsMessageManager.cxx 168  }
+05/20/11 16:26:18 3076119440   FINEST    Receiving: 'stoh_register_operation putEPICSPV putPV
+' {src/DcsMessageHandler.cxx 250  }
+05/20/11 16:26:18 3076119440   FINEST    +GatewayService::ConsumeDcsMessage {src/gw_service.cc 428  }
+05/20/11 16:26:18 3076119440   FINEST    -GatewayService::ConsumeDcsMessage {src/gw_service.cc 447  }
+05/20/11 16:26:18 3054345104   FINEST    epics thread out of waiting {src/gw_service.cc 77  }
+05/20/11 16:26:18 3054345104     INFO    queue length before dequeue: 1 {src/gw_service.cc 93  }
+05/20/11 16:26:18 3054345104     INFO    queue length after dequeue: 0 {src/gw_service.cc 95  }
+05/20/11 16:26:18 3054345104   FINEST    +GatewayService::doTask {src/gw_service.cc 185  }
+05/20/11 16:26:18 3054345104   FINEST    do task:{stoh_register_operation putEPICSPV putPV
+} {src/gw_service.cc 193  }
+05/20/11 16:26:18 3054345104   FINEST    -GatewayService::doTask no match pass on {src/gw_service.cc 421  }
+05/20/11 16:26:18 3054345104   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x8b2c9d8) {src/DcsMessageManager.cxx 191  }
+05/20/11 16:26:18 3076119440   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/20/11 16:26:18 3076119440   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/20/11 16:26:18 3076119440   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/20/11 16:26:18 3076119440   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x8b2c9d8 {src/DcsMessageManager.cxx 168  }
+05/20/11 16:26:18 3076119440   FINEST    DcsMessageManager::NewDcsMessage: new MAX TEXT SIZE 58 {src/DcsMessageManager.cxx 174  }
+05/20/11 16:26:18 3076119440   FINEST    Receiving: 'stoh_register_operation forceReadString forceReadString
+' {src/DcsMessageHandler.cxx 250  }
+05/20/11 16:26:18 3076119440   FINEST    +GatewayService::ConsumeDcsMessage {src/gw_service.cc 428  }
+05/20/11 16:26:18 3076119440   FINEST    -GatewayService::ConsumeDcsMessage {src/gw_service.cc 447  }
+05/20/11 16:26:18 3076119440   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/20/11 16:26:18 3054345104   FINEST    epics thread out of waiting {src/gw_service.cc 77  }
+05/20/11 16:26:18 3054345104     INFO    queue length before dequeue: 1 {src/gw_service.cc 93  }
+05/20/11 16:26:18 3054345104     INFO    queue length after dequeue: 0 {src/gw_service.cc 95  }
+05/20/11 16:26:18 3054345104   FINEST    +GatewayService::doTask {src/gw_service.cc 185  }
+05/20/11 16:26:18 3054345104   FINEST    do task:{stoh_register_operation forceReadString forceReadString
+} {src/gw_service.cc 193  }
+05/20/11 16:26:18 3054345104   FINEST    -GatewayService::doTask no match pass on {src/gw_service.cc 421  }
+05/20/11 16:26:18 3054345104   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x8b2c9d8) {src/DcsMessageManager.cxx 191  }
+05/20/11 16:26:18 3076119440   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/20/11 16:26:18 3076119440   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/20/11 16:26:18 3076119440   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x8b2c9d8 {src/DcsMessageManager.cxx 168  }
+05/20/11 16:26:18 3076119440   FINEST    Receiving: 'stoh_register_string beamlineOpenState BL09:OpenState
+' {src/DcsMessageHandler.cxx 250  }
+05/20/11 16:26:18 3076119440   FINEST    +GatewayService::ConsumeDcsMessage {src/gw_service.cc 428  }
+05/20/11 16:26:18 3076119440   FINEST    -GatewayService::ConsumeDcsMessage {src/gw_service.cc 447  }
+05/20/11 16:26:18 3076119440   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/20/11 16:26:18 3054345104   FINEST    epics thread out of waiting {src/gw_service.cc 77  }
+05/20/11 16:26:18 3054345104     INFO    queue length before dequeue: 1 {src/gw_service.cc 93  }
+05/20/11 16:26:18 3054345104     INFO    queue length after dequeue: 0 {src/gw_service.cc 95  }
+05/20/11 16:26:18 3054345104   FINEST    +GatewayService::doTask {src/gw_service.cc 185  }
+05/20/11 16:26:18 3054345104   FINEST    do task:{stoh_register_string beamlineOpenState BL09:OpenState
+} {src/gw_service.cc 193  }
+05/20/11 16:26:18 3054345104   FINEST    +GwDeviceMgr::addString beamlineOpenState {src/gw_device_mgr.cc 56  }
+05/20/11 16:26:18 3054345104   FINEST    hold lock {src/gw_device_mgr.cc 60  }
+05/20/11 16:26:18 3054345104   FINEST    find string {src/gw_device_mgr.cc 62  }
+05/20/11 16:26:18 3054345104   FINEST    +makeSureDeviceNotExits beamlineOpenState {src/gw_device_mgr.cc 485  }
+05/20/11 16:26:18 3054345104   FINEST    +findDevice beamlineOpenState {src/gw_device_mgr.cc 384  }
+05/20/11 16:26:18 3054345104   FINEST    -findDevice not found {src/gw_device_mgr.cc 400  }
+05/20/11 16:26:18 3054345104   FINEST    -makeSureDeviceNotExits OK {src/gw_device_mgr.cc 490  }
+05/20/11 16:26:18 3054345104   FINEST    before new string {src/gw_device_mgr.cc 93  }
+05/20/11 16:26:18 3054345104   FINEST    calling ca_attach_context {src/GwBaseDevice.cc 611  }
+05/20/11 16:26:18 3054345104   FINEST    String beamlineOpenState fill PV[0] BL09:OpenState {src/GwString.cc 54  }
+05/20/11 16:26:18 3054345104   FINEST    String beamlineOpenState read as DBR_STRING {src/GwString.cc 61  }
+05/20/11 16:26:18 3054345104   FINEST    create channel for beamlineOpenState PV[0] BL09:OpenState {src/GwBaseDevice.cc 328  }
+05/20/11 16:26:18 3054345104   FINEST    -GwDeviceMgr::addString OK {src/gw_device_mgr.cc 103  }
+05/20/11 16:26:18 3054345104   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x8b2c9d8) {src/DcsMessageManager.cxx 191  }
+05/20/11 16:26:54 3076119440   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/20/11 16:26:54 3076119440   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/20/11 16:26:54 3076119440  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 269  }
+05/20/11 16:26:55 3076119440     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
+05/20/11 16:26:55 3076119440   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
+05/20/11 16:26:55 3076119440   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
+05/20/11 16:26:55 3076119440  WARNING    Unable to connect to server: localhost {src/DcsMessageHandler.cxx 143  }
+05/20/11 16:26:55 3076119440  WARNING    WINSOCK ERROR--xos_socket_make_connection failed {src/DcsMessageHandler.cxx 144  }

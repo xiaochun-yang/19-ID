@@ -1,0 +1,116 @@
+#parse("/silPages/topbanner.html")
+<body>
+<span style="float:right; font-size:100%; padding-right:10px">
+You are $appSession.authSession.userName<br/><a class="link" href="Logout.html">Logout</a>
+</span>
+<h1><a href="http://ssrl.slac.stanford.edu"><img src="images/ssrl2.gif" border="0"  height="50" width="50"/></a>Edit Run Definition Form</h1>
+<font color="red">
+#springBind("run")
+$status.errorMessage
+</font>
+
+<a href="showSil.html">Show Sil $silId</a>
+&nbsp;|&nbsp;<a href="repositionDataForm.html">Reposition Data Form</a>
+&nbsp;|&nbsp;<a href="addBlankRunDefinition.html">Add Run Definition</a>
+
+<p></p>
+
+#if ($numRuns > 0)
+#set ($index = 0)
+Run Definitions:&nbsp;
+#foreach ($label in $runLabels)
+#if (($runIndex > -1) && ($run.runLabel == $label))
+<a href="chooseRunDefinition.html?runIndex=${index}"><b>$label</b></a>&nbsp;|&nbsp;
+#else
+<a href="chooseRunDefinition.html?runIndex=${index}">$label</a>&nbsp;|&nbsp;
+#end
+#set ($index = $index + 1)
+#end
+#else
+<p>This crystal currently has no run definition.</p>
+#end
+
+<p></p>
+
+#if (($numRuns > 0) && ($runIndex > -1))
+
+<form name="runDefinitionForm" method="post">
+ <table class="sil" border="1">
+	#springBind("run.runLabel")
+	<tr><th>Label</th><td><input type="text" value="$!status.value" disabled/><span class="error">$status.errorMessage</span></td></tr>
+	#springBind("run.runStatus")
+	<tr><th>Status</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+	#springBind("run.nextFrame")
+	<tr><th>Next Frame</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+ 	#springBind("run.fileRoot")
+	<tr><th>File Root</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+ 	#springBind("run.directory")
+	<tr><th>Directory</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+ 	#springBind("run.startFrame")
+	<tr><th>Start Frame</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+ 	#springBind("run.axisMotorName")
+	<tr><th>Axis Motor Name</th><td><iut type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+ 	#springBind("run.startAngle")
+	<tr><th>Start Angle</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+ 	#springBind("run.endAngle")
+	<tr><th>End Angle</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+ 	#springBind("run.delta")
+	<tr><th>Delta</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+ 	#springBind("run.wedgeSize")
+	<tr><th>Wedge Size</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+ 	#springBind("run.doseMode")
+	<tr><th>Dose Mode</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+ 	#springBind("run.attenuation")
+	<tr><th>Attenuation</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+ 	#springBind("run.exposureTime")
+	<tr><th>Exposure Time</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+ 	#springBind("run.photonCount")
+	<tr><th>Photon Count</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+ 	#springBind("run.resolutionMode")
+	<tr><th>Resolution Mode</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+ 	#springBind("run.resolution")
+	<tr><th>Resolution</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+ 	#springBind("run.distance")
+	<tr><th>Distance</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+ 	#springBind("run.beamStop")
+	<tr><th>Beam Stop</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+ 	#springBind("run.numEnergy")
+	<tr><th>Num Energy</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+ 	#springBind("run.energy1")
+	<tr><th>Energy1</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+ 	#springBind("run.energy2")
+	<tr><th>Energy2</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+ 	#springBind("run.energy3")
+	<tr><th>Energy3</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+ 	#springBind("run.energy4")
+	<tr><th>Energy4</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+ 	#springBind("run.energy5")
+	<tr><th>Energy5</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+ 	#springBind("run.detectorMode")
+	<tr><th>Detector Mode</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+ 	#springBind("run.inverse")
+	<tr><th>Inverse On</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+ 	#springBind("run.repositionId")
+	<tr><th>Reposition ID</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+	<tr><th>Reposition Label</th><td>$!repos.label</td></tr>
+	<tr><th>Crystal Jpeg1</th><td>$!repos.jpeg1</td></tr>
+	<tr><th>Crystal Jpeg2</th><td>$!repos.jpeg2</td></tr>
+	<tr><th>Crystal Crystal Jpeg1 With Box</th><td>$!repos.jpegBox1</td></tr>
+	<tr><th>Crystal Crystal Jpeg2 With Box</th><td>$!repos.jpegBox2</td></tr>
+	<tr><th>Beam Size X</th><td>$!repos.beamSizeX</td></tr>
+	<tr><th>Beam Size Y</th><td>$!repos.beamSizeY</td></tr>
+	<tr><th>Reposition X</th><td>$!repos.offsetX</td></tr>
+	<tr><th>Reposition Y</th><td>$!repos.offsetY</td></tr>
+	<tr><th>Reposition Z</th><td>$!repos.offsetZ</td></tr>
+	<tr><th>Autoindex Dir</th><td>$!repos.autoindexResult.dir</td></tr>
+</table> 
+<input type="submit" name="submit" value="Submit"/>
+<input type="submit" name="_cancel" value="Cancel"/>
+<input type="submit" name="deleteRun" value="Delete Run"/>
+</form>
+
+#end
+
+</body>
+
+</html>

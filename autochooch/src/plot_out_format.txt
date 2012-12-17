@@ -1,0 +1,82 @@
+# Information about the graph title
+_graph_title.text			"Test Graph"
+
+# Information about the currently defined axes
+_graph_axes.xLabel			"Time (years)"
+_graph_axes.x2Label			""
+_graph_axes.yLabel			"Population"
+_graph_axes.y2Label			"Births/year"
+
+# write information about the plot background
+_graph_background.showGrid		1
+
+loop_
+_line_marker.type
+_line_marker.label
+_line_marker.position
+_line_marker.color
+_line_marker.width
+vertical  "Time (years)"  410  red  1
+horizontal  "Population"  0  black  2
+
+# data for trace scan2
+data_
+_trace.name 	scan2
+_trace.xLabels	"{Time (years)}"
+_trace.hide		0
+
+loop_
+_sub_trace.name
+_sub_trace.yLabels
+_sub_trace.color
+_sub_trace.width
+_sub_trace.symbol
+_sub_trace.symbolSize
+births "Births/year" #cc0000 1 circle 2
+population "Population" blue 1 circle 2
+
+loop_
+_sub_trace.x
+_sub_trace.y1
+_sub_trace.y2
+0.0 0.0 0.0 
+600.0 0.0246514707866 0.156792694723 
+1200.0 0.393343185896 0.623735071751 
+.
+.
+.
+.
+72000.0 6.68042069612e-12 -2.58465098149e-06 
+
+# data for trace fluorescence1
+data_
+_trace.name 	fluorescence1
+_trace.xLabels	"{Energy (eV)}"
+_trace.hide		0
+
+loop_
+_sub_trace.name
+_sub_trace.yLabels
+_sub_trace.color
+_sub_trace.width
+_sub_trace.symbol
+_sub_trace.symbolSize
+absorbance "Absorbance" black 1 circle 2
+i0 "{Reference Counts} Counts" red 1 circle 2
+transmission "Transmission" black 1 circle 2
+i1 "{Signal Counts} Counts" black 1 circle 2
+
+loop_
+_sub_trace.x
+_sub_trace.y1
+_sub_trace.y2
+_sub_trace.y3
+_sub_trace.y4
+0.0 0.5 0.0 0.0 0.0 
+300.0 0.5 0.15700786855 0.3140157371 -0.3140157371 
+600.0 0.5 0.627170778892 1.25434155778 -1.25434155778 
+.
+.
+.
+35700.0 0.5 -18.683938917 -37.367877834 37.367877834 
+36000.0 0.5 -2.58465098149e-06 -5.16930196298e-06 5.16930196298e-06

@@ -1,0 +1,89 @@
+# sample_x.tcl:
+# This is for x4a crystal logic goniometer x combo motion.
+
+proc sample_x_initialize {} {
+
+	# specify children devices
+	set_children tripot_1 tripot_2 tripot_3
+	# set_siblings sample_y sample_z
+}
+
+
+proc sample_x_move { new_sample_x } {
+	#global 
+	#global gDevice
+
+	# global variables
+	variable sample_x
+    variable tripot_1
+    variable tripot_2
+    variable tripot_3
+
+	# calculate new positions of the two motors
+	set new_tripot_1 [tripot_1_calculate $new_sample_x $sample_x $tripot_1]
+	set new_tripot_2 [tripot_2_calculate $new_sample_x $sample_x $tripot_2]
+    set new_tripot_3 [tripot_3_calculate $new_sample_x $sample_x $tripot_3]
+
+	#check to see if the move can be completed by the real motors
+	assertMotorLimit tripot_1 $new_tripot_1
+	assertMotorLimit tripot_2 $new_tripot_2
+    assertMotorLimit tripot_3 $new_tripot_3
+
+	# move motors in order that avoids collisions
+	move tripot_1 to $new_tripot_1
+	move tripot_2 to $new_tripot_2
+	move tripot_3 to $new_tripot_3
+
+	# wait for the moves to complete
+	wait_for_devices tripot_1 tripot_2 tripot_3
+}
+
+
+proc sample_x_set { new_sample_x } {
+
+	# global variables
+	variable tripot_1
+	variable tripot_2
+	variable tripot_3
+    variable sample_x
+
+	# set three motors
+	set tripot_1 [tripot_1_calculate $new_sample_x $sample_x $tripot_1]
+	set tripot_2 [tripot_2_calculate $new_sample_x $sample_x $tripot_2]
+	set tripot_3 [tripot_3_calculate $new_sample_x $sample_x $tripot_3]
+}
+
+
+proc sample_x_update {} {
+
+	# global variables
+   	variable tripot_1
+    variable tripot_2
+
+	# calculate from real motor positions and motor parameters
+	return [sample_x_calculate $tripot_1 $tripot_3]
+}
+
+
+proc sample_x_calculate { t1 t3 } {
+	
+	return [expr (97 * (2*$t1-$t3) / 44.45)]
+}
+
+
+proc tripot_1_calculate { nx cx t1} {
+
+	return [expr ($t1 + 11.1125 * ($nx-$cx) / 97.0) ]
+}
+
+
+proc tripot_2_calculate { nx cx t2} {
+
+	return [expr ($t2 + 11.1125 * ($nx-$cx) / 97.0) ]
+}
+
+proc tripot_3_calculate { nx cx t3} {
+
+    	return [expr($t3 + 22.225 * ($cx-$nx) / 97.0) ]
+}
+

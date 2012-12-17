@@ -1,0 +1,79 @@
+#Main Sconscript for the ---imperson_cpp--- module
+# This is an experimental build system used at ALS (Nick Sauter) to build
+# the SSRL package.  Based on Scons & cctbx, it is independent of gmake.
+
+import libtbx.load_env
+import os
+Import("env_base", "env_etc")
+Import("env_diffimage_special_filenames")
+
+env_etc.imperson_cpp_dist = libtbx.env.dist_path("imperson_cpp")
+
+env_etc.imperson_cpp_common_includes = [
+  env_etc.scitbx_include,
+  env_etc.norm_join(env_etc.imperson_cpp_dist,"src"),
+  env_etc.logging_include,
+  env_etc.xos_cpp_include,
+  env_etc.http_cpp_include,
+  env_etc.dcsconfig_include,
+  "../auth_client/src/",
+]
+
+env_etc.include_registry.append(
+  env=env_diffimage_special_filenames,
+  paths=env_etc.imperson_cpp_common_includes)
+
+lib_imperson_cpp_sources = [
+  "src/ImpCommandFactory.cxx",
+  "src/ImpReadFile.cxx",
+  "src/ImpWriteFile.cxx",
+  "src/ImpRunExecutable.cxx",
+  "src/ImpRunScript.cxx",
+  "src/ImpListDirectory.cxx",
+  "src/ImpFileAccess.cxx",
+  "src/ImpVersion.cxx",
+  "src/ImpProcess.cxx",
+  "src/ImpServer.cxx",
+]
+
+builder = env_diffimage_special_filenames.StaticLibrary
+builder(
+    target="#lib/imperson_cpp",
+    source=lib_imperson_cpp_sources)
+
+env_standalone = env_diffimage_special_filenames.Copy()
+
+env_standalone.Prepend(LIBS=[
+  "ssl","imperson_cpp","auth_client",
+  "imgsrv","diffimage","jpegsoc","http_cpp","dcsconfig",
+  "logging","xos_cpp","xos","cbf"])
+env_standalone.Append(LIBS=[])
+
+for source in ["src/ImpGetImage.cxx",]:
+  target = "imgsrv.d"
+  exe = env_standalone.Program(
+    target="#exe/"+env_diffimage_special_filenames["PROGPREFIX"]+target+env_diffimage_special_filenames["PROGSUFFIX"],
+    source=source)
+  libtbx.env.write_dispatcher_in_bin(
+    source_file=exe[0].get_abspath(),
+    target_file=target)
+
+source = ["src/ImpCommandFactory.cxx", "src/ImpReadFile.cxx", "src/ImpWriteFile.cxx", "src/ImpRunExecutable.cxx",
+    "src/ImpRunScript.cxx", "src/ImpListDirectory.cxx", "src/ImpFileAccess.cxx", "src/ImpVersion.cxx", 
+    "src/ImpProcess.cxx", "src/ImpServer.cxx",]
+target = "imperson.d"
+
+# Not necessary to link against libpng; first step towards producing an efficient build from SCons.
+import copy
+imperson_libs = copy.deepcopy(env_standalone._dict["LIBS"])
+for unnecessary_lib in ["png", "cbf", "jpeg", "Magick++", "Wand", "Magick"]:
+  imperson_libs.remove(unnecessary_lib)
+env_standalone_imperson = env_standalone.Copy(LIBS=imperson_libs)
+exe = env_standalone_imperson.Program(
+    target="#exe/"+env_diffimage_special_filenames["PROGPREFIX"]+target+env_diffimage_special_filenames["PROGSUFFIX"],
+    source=source)
+libtbx.env.write_dispatcher_in_bin(
+    source_file=exe[0].get_abspath(),
+    target_file=target)
+
+

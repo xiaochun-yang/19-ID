@@ -1,0 +1,183 @@
+What's this?
+============
+
+This document explains how to set up a connection from webice to dcss. It is important to know that 
+webice makes 2 types of connections to dcsss: passive and active connections. When you first open 
+a bluice window (after logging in), you are connected to the dcss in a passive mode. When you look 
+at the Users tab, this user is listed in the user list. This the passive mode this user cannot start 
+operations including a data collection or screening. These operations can only be started by an 
+active user. There is only one active user at any time. In bluice, to become and active user, click 
+the "Passive" text in the status bar (bottom right corner). The text will change into "Active" in red.
+In the Users tab, this user is now displayed in red text with "Active-->" in front. To become a 
+passive user again, click "Active" text and the text will change to "Passive".
+
+When webice connects to the dcss in the passive mode, it acts just like a bluice in the passive mode.
+The passive connection is used when the user selects a beamline from the dropdown menu in the toolbar 
+or from the beamline selection in the Beamline tab. Webice makes one connection to dcss as 'webice'
+user. If you look in the Users tab in bluice, you will see user 'webice' on the user list. This 'webice'
+user never becomes an active user and therefore never starts an operation. There is only one passive
+connection per beamline even if there are multiple web clients connecting to the same beamline in webice. 
+Once connected to the dcss, webice can retrieve beamline status and parameters which can be used 
+during strategy calculations. For example, when the user creates a new autoindex run, an option to 
+autoindex and generate strategy for the selected beamline will become available. Device properties such 
+as detector type, detector distance, beam stop, beam size, current exposure time and current oscillation 
+angle will be used to calculate startegy. 
+
+The features in webice that require a passive dcss connection:
+
+- Autoindex tab: New run/Autoindex existing images/Generate strategy for beamline XXX.
+- Video tab
+- Beamline tab
+- Screening tab: Viewing cassettes (SIL) assigned to a beamline
+- Image Viewer tab: "Last Image" button becomes enabled. When you click on it, the last image collected 
+  at the beamline will be displayed. "Prev" and "Next" button will display images in the same data 
+  collection series.
+
+
+An active connection is made only after a passive connection to the same beamline has been established 
+and only when the user uses one of the following features:
+
+- Autoindex tab: New Run/Collect 2 images and autoindex (for beamline BL9-1)/Use currently mounted sample
+- Autoindex tab: select a run and view strategy:
+    - "Export to Blu-Ice" button
+    - "Recollect Test Images" button
+    - "Collect Dataset" button
+
+The active connection is made on behalf of the user (not as 'webice' user). In bluice, if you are quick enough to
+see, you will notice the user name on the list of connected users in the Users tab. This user becomes active, 
+starts a data collection operation and immediately disconnects. Because the connection lasts only monentarily, 
+in practice, you will probably never this connection come on the user list. You may notice, however, that 
+the previously active user is now a passive user. The active connection from webice will be rejected if there
+is an operation currently running (such as a data collection or screening or scan) at the beamline. In this case,
+you will see an error reported in webice. 
+
+
+Setting up a dcss connection
+============================
+
+Prerequisite:
+- Installed dcss/dhs/bluice
+- Installed webice
+- Installed authentication server
+
+- Add beamline names to the beamline selections and dropdown menu in webice. There are two types of beamlines: 
+real beamlines and simulated beamlines. Real beamlines are recognized by the authentication server and the 
+simulated beamlines are not. A user is granted access to a beamline for a period of time. When the time is over, 
+the user should be denied access to the beamline via any software. The authentication server is responsible for
+tell all software applications whether the user has access to a given beamline. When an application (like bluice
+or webice) sends a username/password or a session id to the auth server, the auth server checks if the user has 
+access to which beamlines. It then returns this information back to the application that tries to validate this 
+user. This info is sent in the HTTP header and body as Auth.AllBeamlines, for example: 
+
+in the header
+
+Auth.Beamlines: BL9-1
+
+and in the body 
+
+Auth.Beamlines=BL9-1
+
+Sometimes, Auth.Beamlines is set to ALL. In this case, the auth server must send another data that lists the names
+of all beamlines in Auth.AllBeamlines.
+
+in the header
+
+Auth.AllBeamlines: BL9-1;BL9-2;BL9-3
+
+and in the body 
+
+Auth.AllBeamlines=BL9-1;BL9-2;BL9-3
+
+
+Depending on how you have setup the authentication server, you will need to make it include these two headers:
+Auth.Beamlines and Auth.AllBeamlines. For example, if you use the SimpleUserDB method, list all beamlines in 
+SimpleUserDB.xml:
+
+<AllBeamlines id="BL9-1;BL9-2;BL9-3">
+
+To enable the user to access a beamline in the authentication server DB in SimpleUserDB.xml:
+
+   <UserInfo id="JohnDoh">
+      <password>abc</password>
+      <UserPriv>4</UserPriv>
+      <UserName>Test User 1</UserName>
+      <OfficePhone>1-650-555-1212</OfficePhone>
+      <JobTitle>Beamline Scientist</JobTitle>
+      <Beamlines>ALL</Beamlines>
+      <UserStaff>Y</UserStaff>
+      <RemoteAccess>Y</RemoteAccess>
+      <Enabled>Y</Enabled>
+   </UserInfo>
+
+Notice that Beamlines is ALL. Beamlines can also be set to a list of beamlines, for example:
+
+<Beamlines>BL9-1;BL9-2</Beamlines>
+
+- For a simulated beamline which is not in the Auth.AllBeamlines, add it to webice.properties file.
+
+# List of simulated beamlines
+webice.beamlines=SIM1-5,SIM7-1,SIM9-1,SIM9-2,SIM9-3
+
+- after the above config are set, the beamline selections in the Beamline tab and the beamline dropdown menu on 
+the tool bar will contain the list of beamlines to which the user has access.
+
+- Telll webice where the dcss is running. Add <beamline>.dcssHost and <beamline>.dcssPort to webice.properties.
+For example, for beamline BL9-1:
+
+BL9-1.dcssHost=blctl15
+BL9-1.dcssPort=14243
+
+These config tell webice which host and port to connect to the dcss. Note that webice connects to the dcss 
+just like the way bluice connects. According to the dcss, it thinks that this is another bluice. The port 
+number in this case must be the dcss.guiPort in /usr/local/dcs/dcsconfig/data/BL9-1.config (This dir is part 
+of dcs installation).
+
+dcss.guiPort=14243
+
+- Some beamline parameters are constant and are not stored by dcss. These parameters are stored in a beamline 
+properties file, <beamline>.properties. There is one file per beamline, for example BL1-5.properties for 
+beamline BL1-5. The file can be found in a directory specified by config webice.beamlineDir in webice.properties 
+file.
+
+# Directory containing beamline property files, e.g. BL1-5.properties
+webice.beamlineDir=${webice.rootDir}/data/beamline-properties
+
+See data/beamline-properties/BL9-1.properties as example. default.properties will be used when to generate 
+strategy offline or when the selected beamline does not have a beamline property file in webice.beamlineDir 
+directory.
+
+- Setting up dcs dump file. This file is generated by the dcss every XX seconds. The directory and frequency
+are configurable in /usr/local/dcs/dcsconfig/data/<beamline>.config. Filename should be the same as beamline
+name. File extenstion should be ".dump". For example:
+
+# Dumping database.dat to text file. Set dbDumpFlag=false to turn it off.
+dcss.dbDumpFlag=true
+dcss.dbDumpFile=/home/webserverroot/servlets/webice/data/dcs/BL9-1.dump
+dcss.dbDumpRate=1000
+
+dcss.dbDumpRate has a unit in millisecond. In the above example, the file will be generated at a 1 second interval. 
+
+- set config dcs.dumpFile in webice.properties so that the value matches that of dcss.dbDumpFile in the above step.
+
+dcs.dumpDir=/home/webserverroot/servlets/webice/data/dcs
+
+Webice reads the dump file every time it attempts to make a connection to the dcss, in order to get the params 
+while the connection is being established.
+
+- As mentioned above, webice connects to dcss as a passive connection as user 'webice'. You must configure the 
+authentication server so that this user has access to all beamlines. 
+
+- Create webice.txt in WEB-INF directory. The file should contain 'webice' password so that webice can use this 
+password together with username 'webice' to login and create a session id, which is required when connecting to 
+the dcss. webice.txt file should be owned and readable only by tomcat.
+
+# webice user and session to connect to dcss
+# to monitor beamline status
+webice.user=webice
+webice.passwdFile=${webice.rootDir}/WEB-INF/webice.txt
+
+
+
+
+
+

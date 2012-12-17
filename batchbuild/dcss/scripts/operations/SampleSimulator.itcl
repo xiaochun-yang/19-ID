@@ -1,0 +1,2076 @@
+package require Itcl
+
+#DCS::String "table_property" stores data not changeable for table
+#You should be able to get these data from drawings of table.
+
+#field 0: level distance between V-pivot to top table downstream edge.
+#         normally the distance from V-pivot to upstream edge of
+#         the top table is measurable or can be calculated from drauwings.
+
+#field 1: distance from H-pivot to top table downstream edge.
+#         normally, you have to get it from drawings.
+
+#field 2: level distance from goniometer head to downstream edge of
+#         goniometer table (normally 4.5inch)
+
+#fidle 3: height from sub-frame top plane to the V-pivot.
+#         if they are linked by "SPB 32 ADJ", it is 2.125inch.
+
+#field 4: neight from sub-frame top plane to goniometer height.
+
+#field 5: distance from H2 displacement sensor to downstream edge of top table
+
+#DCS::string "table_setup"
+#These values need to be updated if table setup changed them.
+
+#field 0: level distance from downstream edge of goniometer table
+#         to downstreams edge of top table.
+
+#field 1: safe sample Z value for mount/dismount:
+#         The distance from cryojet should be enough for tong to move in +5mm
+
+#field 2: the distance from goniometer head to center line of top table
+#         (the center line is beamline) when the goniometer is at the
+#         safe_Z position.
+
+#field 3: detector_z value for mount/dismount. Make sure this
+#         is big enough that the detector clears the robot
+#         interlock IR beam.
+
+#DCS::String "table_position"
+#            Save the table position when you run the goniometer-calibration
+#            You can move back to this position to mount/dismount
+# fields:  H1, H2, V1, V2
+
+#DCS::String "table_adjust"
+#which table motors will be moved to access position
+#if "table_vert1" is found, both table_vett1 and table_vert2 will be moved
+#                           to "table_position"
+#else if "table_vert2" is found, it will be moved to tanle_vert1, so no pitch
+#else no movement in vertical aspect. 
+
+#SAME goes to horizontal
+
+#DCS::String "table_gonio_scale"
+#from the above strings, we can calculate:
+# length_V1_to_gonio
+# height_V1_to_gonio
+# length_H1_to_gonio
+# offset_H1_to_gonio
+#This string is to store the scales for these values from calibration
+
+#######======================== laser displacement sensor ==================
+#DCS::String "dsensor_to_motor_offset"
+#           displacement sensor readings when motors are at 0
+# same order as operation readAnalog 
+# sample_exist, sample_z, V1, V2, H1, H2
+#unlike motor table_horz_2, the displacement sensor H2 is monitoring the
+# the result of both table_horz_1 and table_horz_2 at that position
+
+############## Displacement sensor to robot goniometer position ##########
+#DCS::String "dsensor_to_robot_config"
+# same order as Operation "readAnalog", for each reading, 1 pair of (a, b)
+# y=aX+b
+#The 0 position for V1,V2,H1,H2 sensor is an arbitory position when table was leveled.
+# after the pairs for earch reading, 3 more special parameters are appended:
+# dx = c*V1
+# dy = d*V1
+# dx = c*H1
+# these parameters descripe how much X and Y moved when V1 and H1 motors moved.
+# This is because mechanical nonperfection.
+# at the end is the most important one:
+# 1: use displacement sensor to do calculation
+# 0: do not use displacement sensor to do calculation
+
+#DCS::String "dsensor_z_scale"
+# calibration results for pitch and yaw using displacement sensor
+# there are Z positions for the sensor from table drawings more measure.
+# These scales adjust these positions to get better pitch and yaw
+#FIELD 0: vertical scale
+#FIELD 1: horizontal scale
+
+####################### table motor to robot goniometer position ###########333
+###### MAY BE DISCARDED WHEN DISPLACEMENT SENSORS ARE TESTED RELIABLE #######
+# Currenly, are used to calculate the goniometer position and compare with
+# results from displacement sensors.
+# if off too much(1mm), will stop robot.
+
+#DCS::String "motor_to_robot_config"
+#ORDER: V1, V2, H1, H2:
+#(y=ax+b)
+#FILED 0:   a for V1
+#FIELD 1:   b for V1
+#FIELD 2:   c for V1  dx=c*V1
+#FIELD 3:   d for V1  dy=d*V1
+#FILED 4:   a for V2
+#FIELD 5:   b for V2
+#FIELD 6:   a for H1
+#FIELD 7:   c for H1 dx=c*H1
+#field 8:   a for H2
+
+# b is not needed for H1, we cannot check whether the table is in the center when H1=0
+# b is not needed for H2, we cannot check whether the table is straight when H2=0
+
+#DCS::String "motor_z_scale"
+#currently, only 1 field: the scale for pitch (or the Z position for Vertical motors)
+#the scalel for yaw is built into the FIELD 8 of "motor_to_robot_config"
+
+
+######################################
+#DCS::String: sensor_to_motor_config
+# most of the fields here can be calculated from
+# motor_to_robot_config and dsensor_to_robot_config
+# but not all of them.
+#FIELD 0:   delta_V1/delta_SV1
+#FIELD 1:   delta_V2/delta_SV2
+#FIELD 2:   delta_H1/delta_SH1
+#FIELD 3:   delta_H1/delta_SH2
+#FIELD 4:   delta_H2/delta_SH2
+
+
+itcl::class SampleMountingDevice {
+
+    # private data members -- beamline component interactions
+    private {
+        variable safedistanceArray
+        variable moveToAccessArray
+        variable moveBackArray
+        variable validcassetteList
+        variable validcolumnList
+        variable validrowList
+
+        #static values
+        variable camera_zoom_safe 0
+        variable detector_safe 300.00
+        variable beamstop_z_safe 40.00
+        variable gonio_phi_safe 0.00 
+        variable sample_x_safe 0.00 
+        variable sample_y_safe 0.00 
+
+        #3 seconds
+        variable AVERAGE_TIME 3000
+
+        #will be overrided from table_property and table_setup
+        variable sample_z_safe 4.5
+        variable length_vert1_gonio 890
+        variable height_vert1_gonio 630
+        variable length_horz1_gonio 100
+        variable offset_horz1_gonio 30
+        variable raw_length_vert1_gonio 890
+        variable raw_height_vert1_gonio 630
+        variable raw_length_horz1_gonio 100
+        variable raw_offset_horz1_gonio 30
+    }
+
+    private variable _continue 0
+
+    public method constructor
+
+    #call after table_property or table_setup changes
+    public method calculateTableSetup
+
+    #should be private, put here to debug
+    public method fillSafeDistanceArray { move_table_option }
+    public method fillMoveList { move_table_option }
+    public method getDeltaGonioPosFromDisplacementSensor { }
+    public method getDeltaGonioPosFromMotor { }
+    public method getDeltaGonioPosFromFutureMotor { }
+    public method getDeltaGonioPosFromMotorArgument { V1 V2 H1 H2 }
+    public method getReadAnalogResult { average_time }
+    public method doGonioCALForTableCAL { result_index }
+
+    # for reset
+    public method resetProcedure
+    public method goToNextResetStep
+    public method getRobotState { }
+    public method resetAllowed { }
+    public method openGripper { }
+    public method heatGripper { heatsecs }
+    public method returnDumbbell { }
+    public method moveToCheckPoint { }
+    public method check { tool }
+    public method performNextRobotResetStep
+
+    # for crystal
+    public method mountCrystal { cassette row column wash_cycle }
+    public method dismountCrystal { cassette row column }
+    public method mountNextCrystal { cassette row column cassette_nxt row_nxt column_nxt wash_cycle }
+    public method moveCrystal { args }
+    public method washCrystal { args }
+
+    # for calibration
+    public method calibrateMagnet { { find_magnet 0 } {quick 0} } 
+    public method calibrateCassette { cassettes { init 0 } } 
+    public method calibrateGoniometer { { init 0 } }
+    public method getGonioCALDATA { }
+    public method calibrateBeamLineTool { { init 0 } }
+    public method mountBeamLineTool {  }
+    public method dismountBeamLineTool {  }
+    public method newGonioCAL { }
+    public method oneCalibrate { }
+
+    #special gonio cal for table CAL
+    #it does not calculate dx, dy, dz and du
+    #in short: no call to getDeltaGonioPos
+    #to avoid operation readAnalog
+    public method specialGonioCAL { dx dy dz du }
+    public method newSpecialGonioCAL { dx dy dz du }
+    
+    #for table motors and displacement sensors calibration
+    public method doTableHorzCAL { }
+    public method doTableVertCAL { }
+    public method doTableCALCalculation { {auto_save 0 } }
+    public method doTableCALVertCal { {auto_save 0 } }
+    
+    #for manula goniometer cal
+    public method moveToGoniometer { }
+    public method teachGoniometer { }
+    public method moveHome { }
+
+    
+
+    public method readSampleBarcode { port time_wait {goHome 1}}
+    public method readCassetteIdBarcode { }
+    public method updateCassetteOwnerFromBarcode { }
+
+    ### this is here because we want to trigger updateCassetteOwner
+    public method addUsersToBarcode { barcode users }
+
+    private proc getDefaultBarcodePort { cas }
+    #for Robot_Test
+    public method prepareRobotTest { }
+
+    ###### to do more parallel
+    public method getMovingBackMotorList { } {
+        return [array names moveBackArray]
+    }
+
+    # private methods
+    private method validPort { cassette row column }
+    private method getDeltaGonioPos { }
+    private method calculateDeltaGonioPos { V1 Pitch H1 Yaw XAdjust YAdjust }
+    private method calculateDeltaGonioPosFromDisplacementSensor { raw_V1 raw_V2 raw_H1 raw_H2 }
+    private method moveToAccessPosition { }
+    private method moveBackToOriginalPosition { }
+    private method saveCurrentTablePosition { }
+    private method clearTableCALDATA { }
+    private method checkIfRecoverableError { result_message }
+    private method autoSampleCheck { }
+    private method autoSampleCalibrate { }
+}
+
+itcl::body SampleMountingDevice::constructor { } {
+    calculateTableSetup 
+
+    set validcassetteList [ list l m r ]
+    set validcolumnList [ list A B C D E F G H I J K L ]
+    set validrowList [ list 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16]
+}
+itcl::body SampleMountingDevice::saveCurrentTablePosition { } {
+    variable ::nScripts::table_position
+
+    set table_position [list \
+        $::gDevice(table_horz_1,scaled) \
+        $::gDevice(table_horz_2,scaled) \
+        $::gDevice(table_vert_1,scaled) \
+        $::gDevice(table_vert_2,scaled)]
+
+    set sensor_result [getReadAnalogResult $AVERAGE_TIME]
+    eval lappend table_position [lrange $sensor_result 2 5]
+}
+itcl::body SampleMountingDevice::moveToAccessPosition { } {
+    foreach device [array names moveToAccessArray] {
+        move $device to $moveToAccessArray($device)
+    }
+    eval wait_for_devices [array names moveToAccessArray]
+}
+itcl::body SampleMountingDevice::moveBackToOriginalPosition { } {
+    foreach device [array names moveBackArray] {
+        move $device to $moveBackArray($device)
+    }
+    eval wait_for_devices [array names moveBackArray]
+}
+itcl::body SampleMountingDevice::fillSafeDistanceArray { move_table_option } {
+    variable ::nScripts::table_setup
+    variable ::nScripts::table_position
+    variable ::nScripts::table_adjust
+
+    # get safe values that are not hardcoded
+    set sample_z_safe [lindex $table_setup 1]
+    if {$sample_z_safe == ""} {
+        log_severe "bad table_setup field 1: sample_z_safe"
+        return -code error "bad table_setup field 1: sample_z_safe"
+    }
+    set table_horz_1_safe [lindex $table_position 0]
+    set table_horz_2_safe [lindex $table_position 1]
+    set table_vert_1_safe [lindex $table_position 2]
+    set table_vert_2_safe [lindex $table_position 3]
+    if {$table_horz_1_safe == "" || $table_horz_2_safe == ""} {
+        log_error "bad table_position field 0 and 1"
+        return -code error "bad table_position field 0 and 1"
+    }
+    if {$table_vert_1_safe == "" || $table_vert_2_safe == ""} {
+        log_error "bad table_position field 2 and 3"
+        return -code error "bad table_position field 2 and 3"
+    }
+
+    if {[llength $table_setup] >= 4} {
+        #default is 300
+        set detector_safe [lindex $table_setup 3]
+    }
+
+    ##### these motors are always moved
+    array unset safedistanceArray
+    array set safedistanceArray [list detector_z $detector_safe \
+                    camera_zoom $camera_zoom_safe \
+                    beamstop_z $beamstop_z_safe \
+                    gonio_phi $gonio_phi_safe \
+                    sample_x $sample_x_safe  \
+                    sample_y $sample_y_safe \
+                    sample_z $sample_z_safe ]
+
+    #########check if we need to move table motors
+    switch -exact -- $move_table_option {
+        not_move_table {
+        }
+        forced_move_table {
+            set safedistanceArray(table_horz_1) $table_horz_1_safe
+            set safedistanceArray(table_horz_2) $table_horz_2_safe
+            set safedistanceArray(table_vert_1) $table_vert_1_safe
+            set safedistanceArray(table_vert_2) $table_vert_2_safe
+        }
+        depend_on_table_adjust -
+        default {
+            if {[lsearch -exact $table_adjust table_horz_1] >= 0} {
+                set safedistanceArray(table_horz_1) $table_horz_1_safe
+                set safedistanceArray(table_horz_2) $table_horz_2_safe
+            } elseif {[lsearch -exact $table_adjust table_horz_2] >= 0} {
+                set safedistanceArray(table_horz_2) 0
+            }
+            
+            if {[lsearch -exact $table_adjust table_vert_1] >= 0} {
+                set safedistanceArray(table_vert_1) $table_vert_1_safe
+                set safedistanceArray(table_vert_2) $table_vert_2_safe
+            } elseif {[lsearch -exact $table_adjust table_vert_2] >= 0} {
+                set safedistanceArray(table_vert_2) $::gDevice(table_vert_1, scaled)
+            }
+        }
+    }
+    return "[array names safedistanceArray]"
+}
+############fill move and delta list
+itcl::body SampleMountingDevice::fillMoveList { move_table_option } {
+    variable ::nScripts::detector_z
+
+    #fill safe distance array first
+    fillSafeDistanceArray $move_table_option
+
+    ######### reset array to empty
+    array unset moveToAccessArray
+    array unset moveBackArray
+
+    foreach device [array names safedistanceArray] {
+        set add_to_move 0
+        set add_to_back 0
+
+        #all cases must define current_position
+        switch -exact -- $device { 
+            detector_z {
+                set current_position $detector_z
+                set deltaDistance \
+                [expr $safedistanceArray($device) - $current_position]
+                if {$deltaDistance > 0.001} {
+                    set add_to_move 1
+                    set add_to_back 1
+                }
+            }
+            beamstop_z {
+                #add cases that only move if less than the safe position
+                set current_position $::gDevice($device,scaled)
+                set deltaDistance \
+                [expr $safedistanceArray($device) - $current_position]
+                #there is no abs in the following line
+                if { $deltaDistance > 0.001 } {
+                    set add_to_move 1
+                    set add_to_back 1
+                }
+            }
+            camera_zoom -
+            sample_x -
+            sample_y -
+            gonio_phi {
+                #add cases that do not need move back
+                set current_position $::gDevice($device,scaled)
+                set deltaDistance \
+                [expr $safedistanceArray($device) - $current_position]
+                if { abs($deltaDistance) > 0.001 } {
+                    set add_to_move 1
+                    set add_to_back 0
+                }
+            }
+            default {
+                #move and back if not at the safe position
+                set current_position $::gDevice($device,scaled)
+                set deltaDistance \
+                [expr $safedistanceArray($device) - $current_position]
+                if { abs($deltaDistance) > 0.001 } {
+                    set add_to_move 1
+                    set add_to_back 1
+                }
+            }
+        }
+        if {$add_to_move} {
+            set moveToAccessArray($device) $safedistanceArray($device)
+            if {$add_to_back} {
+                set moveBackArray($device) $current_position
+            }
+        }
+    }
+    puts "fill move list: move: [array names moveToAccessArray]"
+    puts "fill move list: back: [array names moveBackArray]"
+    return "move: [array get moveToAccessArray] back: [array get moveBackArray]"
+}
+
+itcl::body SampleMountingDevice::calculateTableSetup { } {
+    variable ::nScripts::table_property
+    variable ::nScripts::table_setup
+    variable ::nScripts::table_gonio_scale
+
+    ##################length_vert1_gonio
+    set l_vert1_to_top_edge [lindex $table_property 0]
+    set l_gonio_edge_to_top_edge [lindex $table_setup 0]
+    set l_gonio_to_edge [lindex $table_property 2]
+
+    if {$l_vert1_to_top_edge == "" || $l_vert1_to_top_edge == 0} {
+        return -code error "bad table_property field 0"
+    }
+    if {$l_gonio_edge_to_top_edge  == "" || $l_gonio_edge_to_top_edge  == 0} {
+        return -code error "bad table_setup field 0"
+    }
+    if {$l_gonio_to_edge  == "" || $l_gonio_to_edge  == 0} {
+        return -code error "bad table_property field 2"
+    }
+
+    set raw_length_vert1_gonio [expr "$l_vert1_to_top_edge - $l_gonio_edge_to_top_edge - $l_gonio_to_edge"]
+
+    if {$raw_length_vert1_gonio <= 0} {
+        return -code error "bad length_vert1_gonio=$length_vert1_gonio"
+    }
+
+    #################height_vert1_gonio
+    set h_vert1_to_plane [lindex $table_property 3]
+    set h_gonio_to_plane [lindex $table_property 4]
+    
+    if {$h_vert1_to_plane  == "" || $h_vert1_to_plane  == 0} {
+        return -code error "bad table_property field 3"
+    }
+    if {$h_gonio_to_plane  == "" || $h_gonio_to_plane  == 0} {
+        return -code error "bad table_property field 4"
+    }
+
+    set raw_height_vert1_gonio [expr "$h_gonio_to_plane - $h_vert1_to_plane"]
+    if {$raw_height_vert1_gonio  <= 0} {
+        return -code error "bad height_vert1_gonio=$height_vert1_gonio"
+    }
+
+
+    #################3 length_horz1_gonio
+    set l_horz1_to_top_edge [lindex $table_property 1]
+    if {$l_horz1_to_top_edge == "" || $l_horz1_to_top_edge  == 0} {
+        return -code error "bad table_property field 1"
+    }
+
+    #this one maybe negative
+    set raw_length_horz1_gonio [expr "$l_horz1_to_top_edge - $l_gonio_edge_to_top_edge - $l_gonio_to_edge"]
+
+    #########offset_horz1_gonio
+    set raw_offset_horz1_gonio [lindex $table_setup 2]
+    if {$raw_offset_horz1_gonio == "" || $raw_offset_horz1_gonio == 0} {
+        return -code error "bad table_setup field 2"
+    }
+
+    ############### SCALE THEM ####################
+    set length_vert1_gonio [expr $raw_length_vert1_gonio * [lindex $table_gonio_scale 0]]
+    set height_vert1_gonio [expr $raw_height_vert1_gonio * [lindex $table_gonio_scale 1]]
+    set length_horz1_gonio [expr $raw_length_horz1_gonio * [lindex $table_gonio_scale 2]]
+    set offset_horz1_gonio [expr $raw_offset_horz1_gonio * [lindex $table_gonio_scale 3]]
+
+    set result [format "%2.4f %2.4f %2.4f %2.4f" \
+            $length_vert1_gonio \
+            $height_vert1_gonio \
+            $length_horz1_gonio \
+            $offset_horz1_gonio]
+    puts "calculateTableSetup: $result"
+
+    return $result
+}
+
+itcl::body SampleMountingDevice::getRobotState { } {
+    return 0
+}
+
+itcl::body SampleMountingDevice::resetAllowed { } {
+        puts "resetAllowed called"
+
+        fillMoveList depend_on_table_adjust
+        moveToAccessPosition 
+
+        set result "RobotDHSOK"
+        return $result 
+}
+
+
+itcl::body SampleMountingDevice::moveToCheckPoint { } {
+        return "RobotDHSOK"
+}
+
+itcl::body SampleMountingDevice::check { tool } {
+
+        fillMoveList depend_on_table_adjust
+        moveToAccessPosition 
+        
+        return "RobotDHSOK"
+}
+
+itcl::body SampleMountingDevice::openGripper { } {
+
+        return "RobotDHSOK"
+}
+
+itcl::body SampleMountingDevice::heatGripper { heatsecs } {
+        
+        return "RobotDHSOK"
+}
+
+itcl::body SampleMountingDevice::returnDumbbell { } {
+        
+        return "RobotDHSOK"
+}
+
+itcl::body SampleMountingDevice::calibrateMagnet { { find_magnet 0 } { quick 0 } } {
+        return OK
+}
+itcl::body SampleMountingDevice::calibrateCassette { cassettes { init 0 } } {
+    set ll [string length $cassettes]
+    if { $ll <= 0 || $ll > 3 } {
+        return -code error "Cassettes should be any one or more of lmr."
+    }
+    for {set index 0} {$index < $ll} {incr index} {
+        set one_cassette [string range $cassettes $index $index]
+        if { $one_cassette != "l" && $one_cassette != "m" && $one_cassette != "r" } {
+            return -code error "Cassettes should be any one or more of lmr."
+        }
+    }
+
+        return OK
+ }
+
+itcl::body SampleMountingDevice::calibrateGoniometer { { init 0 } } {
+    block_all_motors
+    #set argument "0 0 5"
+    if { [catch {
+        # not include_move_table
+        fillMoveList not_move_table
+        moveToAccessPosition
+    } e ] } {
+        log_error $e
+        return -code error $e
+    }
+
+    #this function must NOT be called before moveToAccessPosition
+
+        saveCurrentTablePosition
+
+    if { [catch {
+        moveBackToOriginalPosition
+    } e ] } {
+        log_error $e
+    }
+    unblock_all_motors
+    return OK
+}
+itcl::body SampleMountingDevice::newGonioCAL { } {
+    return OK
+}
+itcl::body SampleMountingDevice::specialGonioCAL { dx dy dz du } {
+    return OK
+}
+itcl::body SampleMountingDevice::newSpecialGonioCAL { dx dy dz du } {
+    return OK
+}
+itcl::body SampleMountingDevice::getGonioCALDATA { } {
+    fillMoveList not_move_table
+    return "$sample_z_safe [getDeltaGonioPos]"
+}
+itcl::body SampleMountingDevice::calibrateBeamLineTool { { init 0 } } {
+    return OK
+}
+itcl::body SampleMountingDevice::mountBeamLineTool { } {
+    return OK
+}
+itcl::body SampleMountingDevice::dismountBeamLineTool { } {
+    return OK
+}
+itcl::body SampleMountingDevice::moveToGoniometer { } {
+    variable ::nScripts::robot_status
+
+    set robot_status [lreplace $robot_status 21 21 1]
+
+    return OK
+}
+itcl::body SampleMountingDevice::teachGoniometer { } {
+    return OK
+}
+itcl::body SampleMountingDevice::moveHome { } {
+    variable ::nScripts::robot_status
+    set robot_status [lreplace $robot_status 21 21 0]
+    return OK
+}
+itcl::body SampleMountingDevice::moveCrystal { args } {
+    set Nargs [ llength $args ]
+
+    if { $Nargs == 0 } {
+        return -code error "ERROR: Invalid number of ports specified"
+    }
+
+    for { set i 0 } {$i < $Nargs } { incr i } {
+        set OnePair [lindex $args $i]
+        if { [string length $OnePair] < 8 } {
+            return -code error "Invalid pair length specified: $OnePair, should be something like lA8->rB1."
+        }
+        set indexArrow [string first "->" $OnePair]
+        if { $indexArrow < 3 } {
+            return -code error "Invalid pair format specified: $OnePair, should be something like lA8->rB1."
+        }
+        set S_Cassette [string index $OnePair 0]
+        set S_Column [string index $OnePair 1]
+        set end_row [expr $indexArrow - 1]
+        set S_Row [string range $OnePair 2 $end_row]
+
+        set targetIndex [expr $indexArrow + 2]
+
+        set T_Cassette [string index $OnePair $targetIndex]
+        incr targetIndex
+        set T_Column [string index $OnePair $targetIndex]
+        incr targetIndex
+        set T_Row [string range $OnePair $targetIndex end]
+
+        puts "one pair: $S_Cassette $S_Column $S_Row ---> $T_Cassette $T_Column $T_Row"
+
+
+
+        if { ![ validPort $S_Cassette $S_Row $S_Column ] || ![ validPort $T_Cassette $T_Row $T_Column ] } {
+            return -code error "Invalid port specified."
+        }
+    }
+    return OK
+}
+itcl::body SampleMountingDevice::mountCrystal { cassette row column wash_cycle } {
+    variable ::nScripts::robot_status
+    variable ::nScripts::robot_cassette
+
+    if { ![ validPort $cassette $row $column ] } {
+        return -code error "Invalid port specified."
+    }
+
+    #wait_for_time 60000
+    wait_for_time 3000
+
+    set robot_cassette [string map {m 1} $robot_cassette]
+
+    set robot_status [lreplace $robot_status 15 15 "$cassette $row $column"]
+    set index [SequenceDevice::getPortIndexInCassette $cassette $row $column]
+    if {$index >= 0} {
+        set robot_cassette [lreplace $robot_cassette $index $index m]
+    }
+    
+    return "normal $cassette $row $column"
+}
+
+itcl::body SampleMountingDevice::dismountCrystal { cassette row column } {
+    variable ::nScripts::robot_status
+    variable ::nScripts::robot_cassette
+
+    if { ![ validPort $cassette $row $column ] } {
+        return -code error "Invalid port specified."
+    }
+    #wait_for_time 60000
+    wait_for_time 3000
+    set robot_status [lreplace $robot_status 15 15 {}]
+    set index [SequenceDevice::getPortIndexInCassette $cassette $row $column]
+    if {$index >= 0} {
+        set robot_cassette [lreplace $robot_cassette $index $index 1]
+    }
+    set robot_cassette [string map {m 1} $robot_cassette]
+    
+    return "normal $cassette $row $column"
+}
+itcl::body SampleMountingDevice::washCrystal { times } {
+    return "normal OK"
+}
+
+itcl::body SampleMountingDevice::mountNextCrystal { cassette row column cassette_nxt row_nxt column_nxt wash_cycle } {
+    variable ::nScripts::robot_status
+    variable ::nScripts::robot_cassette
+
+    if { ![ validPort $cassette $row $column ] } {
+        return -code error "Invalid port specified."
+    }
+    if { ![ validPort $cassette_nxt $row_nxt $column_nxt ] } {
+        return -code error "Invalid port specified."
+    }
+    #wait_for_time 120000
+    wait_for_time 6000
+    set robot_status [lreplace $robot_status 15 15 "$cassette_nxt $row_nxt $column_nxt"]
+    set index [SequenceDevice::getPortIndexInCassette $cassette $row $column]
+    if {$index >= 0} {
+        set robot_cassette [lreplace $robot_cassette $index $index 1]
+    }
+    set robot_cassette [string map {m 1} $robot_cassette]
+    set index [SequenceDevice::getPortIndexInCassette $cassette_nxt $row_nxt $column_nxt]
+    if {$index >= 0} {
+        set robot_cassette [lreplace $robot_cassette $index $index m]
+    }
+    
+    return "normal $cassette $row $column normal $cassette_nxt $row_nxt $column_nxt"
+}
+
+itcl::body SampleMountingDevice::validPort { cassette row column } {
+
+    set portOK 0
+
+    set cassOK [ lsearch -exact $validcassetteList $cassette ]
+    set colOK [ lsearch -exact $validcolumnList $column ]
+    set rowOK [ lsearch -exact $validrowList $row ]
+
+    if { $cassOK != -1 && $colOK != -1 && $rowOK != -1 } {
+        set portOK 1
+    }
+
+    return $portOK
+}
+
+itcl::body SampleMountingDevice::calculateDeltaGonioPos { V1 Pitch H1 Yaw XAdjust YAdjust } {
+    set length_adjust \
+    [ expr $length_horz1_gonio*(1 - cos($Yaw)) + $offset_horz1_gonio*sin($Yaw)]
+    
+    set adjusted_length_vert1_gonio [expr $length_vert1_gonio - $length_adjust]
+
+    set dx_robot [ expr $adjusted_length_vert1_gonio*(1- cos($Pitch)) + $height_vert1_gonio*sin($Pitch) + $length_adjust + $XAdjust ]
+    set dz_robot [ expr $adjusted_length_vert1_gonio*sin($Pitch) + $height_vert1_gonio*(cos($Pitch) - 1) + $V1 ]
+
+    set dy_robot [ expr $offset_horz1_gonio * (1-cos($Yaw)) - $length_horz1_gonio * sin($Yaw) - $H1 + $YAdjust ]
+
+    #####3 DU is very small, you can ignore. anyway here is the formylar
+    set du_robot [expr atan(sin($Yaw)/(cos($Pitch) * cos($Yaw)))]
+    set du_robot [::nScripts::deg $du_robot]
+
+    #### do not use du_robot until cavity toolset is put into all codes.
+    set du_robot 0
+    
+    return [ format "%2.4f %2.4f %2.4f %2.4f" $dx_robot $dy_robot $dz_robot $du_robot] 
+
+}
+itcl::body SampleMountingDevice::getDeltaGonioPos { } {
+    variable ::nScripts::dsensor_to_robot_config
+
+
+    set Sensor_Ready [lindex $dsensor_to_robot_config 19]
+
+    if {$Sensor_Ready == ""} {
+        set Sensor_Ready 0
+    }
+
+    if {!$Sensor_Ready} {
+        return [getDeltaGonioPosFromMotor]
+    }
+
+    set result_from_motor [getDeltaGonioPosFromMotor]
+    set result_from_sensor [getDeltaGonioPosFromDisplacementSensor]
+
+    #compare these two results, if not too much difference, we will
+    #take result from the displacement sensor.
+    #Otherwise, return error
+    set DX [expr [lindex $result_from_sensor 0] - [lindex $result_from_motor 0]]
+    set DY [expr [lindex $result_from_sensor 1] - [lindex $result_from_motor 1]]
+    set DZ [expr [lindex $result_from_sensor 2] - [lindex $result_from_motor 2]]
+    set DU [expr [lindex $result_from_sensor 3] - [lindex $result_from_motor 3]]
+
+    ##############LOG##############3
+    if {![catch {open diff_sensor_motor a} handle]} {
+        set timeStamp [clock format [clock seconds] -format "%D-%T"]
+        puts $handle "$timeStamp $DX $DY $DZ $DU"
+        close $handle
+    }
+
+    set DX [expr abs($DX)]
+    set DY [expr abs($DY)]
+    set DZ [expr abs($DZ)]
+    set DU [expr abs($DU)]
+
+    if {$DX > 2 || $DY > 2 || $DZ > 2 || $DU >5} {
+        log_severe "difference between motor and displacement sensor is too big: $DX $DY $DZ $DU"
+        return -code error "difference between motor and displacement sensor is too big: $DX $DY $DZ $DU"
+    }
+
+    return $result_from_sensor
+}
+itcl::body SampleMountingDevice::getDeltaGonioPosFromMotor { } {
+    set raw_V1 $::gDevice(table_vert_1,scaled)
+    set raw_V2 $::gDevice(table_vert_2,scaled)
+    set raw_H1 $::gDevice(table_horz_1,scaled)
+    set raw_H2 $::gDevice(table_horz_2,scaled)
+
+    return [getDeltaGonioPosFromMotorArgument $raw_V1 $raw_V2 $raw_H1 $raw_H2]
+}
+itcl::body SampleMountingDevice::getDeltaGonioPosFromFutureMotor { } {
+    #get default value: current value
+    set raw_V1 $::gDevice(table_vert_1,scaled)
+    set raw_V2 $::gDevice(table_vert_2,scaled)
+    set raw_H1 $::gDevice(table_horz_1,scaled)
+    set raw_H2 $::gDevice(table_horz_2,scaled)
+
+    #if the motor name exist in moveArray, then take the future value
+    if {[info exists moveToAccessArray(table_vert_1)]} {
+        set raw_V1 moveToAccessArray(table_vert_1)
+    }
+    if {[info exists moveToAccessArray(table_vert_2)]} {
+        set raw_V2 moveToAccessArray(table_vert_2)
+    }
+    if {[info exists moveToAccessArray(table_horz_1)]} {
+        set raw_H1 moveToAccessArray(table_horz_1)
+    }
+    if {[info exists moveToAccessArray(table_horz_2)]} {
+        set raw_H2 moveToAccessArray(table_horz_2)
+    }
+
+    return [getDeltaGonioPosFromMotorArgument $raw_V1 $raw_V2 $raw_H1 $raw_H2]
+}
+itcl::body SampleMountingDevice::getDeltaGonioPosFromMotorArgument { raw_V1 raw_V2 raw_H1 raw_H2 } {
+    variable ::nScripts::motor_to_robot_config
+    variable ::nScripts::motor_z_scale
+
+    #calculate V1, H1, pitch and yaw from the real motors.
+    # 111111111 get raw data
+    set raw_l_V2_V1 [expr $::gDevice(table_v2_z,scaled) \
+                         -$::gDevice(table_v1_z,scaled)]
+
+    set raw_l_H2_H1 $::gDevice(table_h2_z,scaled)
+
+    puts "raw data: $raw_V1 $raw_V2 $raw_l_V2_V1 $raw_H1 $raw_H2 $raw_l_H2_H1"
+
+    #222222222 transform according to calibration
+    set V1_a [lindex $motor_to_robot_config 0]
+    set V1_b [lindex $motor_to_robot_config 1]
+    set V1_c [lindex $motor_to_robot_config 2]
+    set V1_d [lindex $motor_to_robot_config 3]
+    set V2_a [lindex $motor_to_robot_config 4]
+    set V2_b [lindex $motor_to_robot_config 5]
+    set H1_a [lindex $motor_to_robot_config 6]
+    set H1_c [lindex $motor_to_robot_config 7]
+    set H2_a [lindex $motor_to_robot_config 8]
+
+    ## V1 and Pitch
+    set V1 [expr $raw_V1 * $V1_a + $V1_b]
+    set V2_tmp [expr $raw_V2 * $V2_a + $V2_b]
+    set l_V2_V1_tmp [expr $raw_l_V2_V1 * $motor_z_scale]
+    if {$l_V2_V1_tmp <= 0} {
+        log_severe "bad distance between V1 and V2: $l_V2_V1_tmp"
+        return -code error "bad distance between V1 and V2: $l_V2_V1_tmp" 
+    }
+    set Pitch [expr ($V2_tmp - $V1) / $l_V2_V1_tmp]
+    set Pitch [expr atan($Pitch)]
+
+    ##H1 and Yaw
+    set H1 [expr $raw_H1 * $H1_a]
+    set H2_tmp [expr $raw_H2 * $H2_a]
+    if {$raw_l_H2_H1 <= 0} {
+        log_severe "bad distance between H1 and H2: $raw_l_H2_H1"
+        return -code error "bad distance between H1 and H2: $raw_l_H2_H1"
+    }
+    set Yaw [expr $H2_tmp / $raw_l_H2_H1]
+    # atan here is not very accurate from theory, but small angle is OK
+    set Yaw [expr atan($Yaw)]
+
+    puts "cooked data: $V1 [::nScripts::deg $Pitch] $H1 [::nScripts::deg $Yaw]"
+
+    ########## XAdjust: X move may be caused by V1 and H1 in real world #####
+    set XAdjust [expr $raw_V1 * $V1_c + $raw_H1 * $H1_c]
+    puts "x adjust in motors: $XAdjust"
+
+    ########## YAdjust: Y move may be caused by V1 real world #####
+    set YAdjust [expr $raw_V1 * $V1_d]
+    puts "y adjust in motors: $YAdjust"
+
+
+    return [calculateDeltaGonioPos $V1 $Pitch $H1 $Yaw $XAdjust $YAdjust]
+}
+
+itcl::body SampleMountingDevice::resetProcedure { } {
+    variable ::nScripts::robotResetStep
+   #gContinueResetProcedure set by the continueResetProcedure operation 
+    global gContinueResetProcedure
+
+    block_all_motors
+    
+    set gContinueResetProcedure 0
+    
+    if { [catch {
+        
+        for { set step 1 } {$step < 22} {incr step} {
+            
+            performNextRobotResetStep $step
+            
+            set robotResetStep $step
+
+            #loop until we get an abort or the continueResetProcedure is called
+            while { $gContinueResetProcedure == 0 } {
+                wait_for_time 200
+            }
+            
+            set gContinueResetProcedure 0
+            
+        }
+    } errorResult ] } {
+        set gContinueResetProcedure 0 
+        set robotResetStep 0
+        
+        log_error $errorResult
+        return -code error $errorResult
+   }
+
+    set gContinueResetProcedure 0 
+    set robotResetStep 0
+}
+
+itcl::body SampleMountingDevice::calculateDeltaGonioPosFromDisplacementSensor { raw_V1 raw_V2 raw_H1 raw_H2 } {
+    variable ::nScripts::dsensor_to_robot_config
+    variable ::nScripts::dsensor_z_scale
+    variable ::nScripts::table_property
+
+    #same as motors
+    set raw_l_SV2_SV1 [expr $::gDevice(table_v2_z,scaled) \
+                           -$::gDevice(table_v1_z,scaled)]
+
+    set raw_l_SH2_SH1 [expr [lindex $table_property 1] \
+                          - [lindex $table_property 5]]
+
+    puts "raw l V: $raw_l_SV2_SV1 H: $raw_l_SH2_SH1"
+
+    #transform
+    set V1_a [lindex $dsensor_to_robot_config 4]
+    set V1_b [lindex $dsensor_to_robot_config 5]
+    set V2_a [lindex $dsensor_to_robot_config 6]
+    set V2_b [lindex $dsensor_to_robot_config 7]
+    set H1_a [lindex $dsensor_to_robot_config 8]
+    set H1_b [lindex $dsensor_to_robot_config 9]
+    set H2_a [lindex $dsensor_to_robot_config 10]
+    set H2_b [lindex $dsensor_to_robot_config 11]
+    set V1_c [lindex $dsensor_to_robot_config 16]
+    set V1_d [lindex $dsensor_to_robot_config 17]
+    set H1_c [lindex $dsensor_to_robot_config 18]
+    set VZ_Scale [lindex $dsensor_z_scale 0]
+    set HZ_Scale [lindex $dsensor_z_scale 1]
+
+    set V1 [expr $raw_V1 * $V1_a + $V1_b]
+    set V2_tmp [expr $raw_V2 * $V2_a + $V2_b]
+    set l_SV2_SV1_tmp [expr $raw_l_SV2_SV1 * $VZ_Scale]
+    if {$l_SV2_SV1_tmp <= 0} {
+        log_severe "bad distance between SV1 and SV2: $l_SV2_SV1_tmp"
+        return -code error "bad distance between SV1 and SV2: $l_SV2_SV1_tmp" 
+    }
+    set Pitch [expr ($V2_tmp - $V1) / $l_SV2_SV1_tmp]
+    set Pitch [expr atan($Pitch)]
+
+    set H1 [expr $raw_H1 * $H1_a + $H1_b]
+    set H2_tmp [expr $raw_H2 * $H2_a + $H2_b]
+    set l_SH2_SH1_tmp [expr $raw_l_SH2_SH1 * $HZ_Scale]
+    if {$l_SH2_SH1_tmp <= 0} {
+        log_severe "bad distance between SH1 and SH2: $l_SH2_SH1_tmp"
+        return -code error "bad distance between SH1 and SH2: $l_SH2_SH1_tmp" 
+    }
+    set Yaw [expr ($H2_tmp - $H1) / $l_SH2_SH1_tmp]
+    set Yaw [expr atan($Yaw)]
+
+    puts "cooked: $V1 [::nScripts::deg $Pitch] $H1 [::nScripts::deg $Yaw]"
+
+    set XAdjust 0
+    set YAdjust 0
+    
+    return [calculateDeltaGonioPos $V1 $Pitch $H1 $Yaw $XAdjust $YAdjust]
+}
+#03/16/04: P20 stores goniometer position when MOTOR V1=V2=H1=H2=0
+itcl::body SampleMountingDevice::getDeltaGonioPosFromDisplacementSensor { } {
+    variable ::nScripts::dsensor_to_motor_offset
+    variable ::nScripts::dsensor_to_robot_config
+
+    #get raw data
+    if { [catch { 
+        set result [getReadAnalogResult $AVERAGE_TIME]
+    } e ] } {
+        log_error $e
+        return -code error $e
+    }
+    puts "read result $result"
+    set raw_V1 [lindex $result 2]
+    set raw_V2 [lindex $result 3]
+    set raw_H1 [lindex $result 4]
+    set raw_H2 [lindex $result 5]
+
+    if {$result == "0 0 0 0 0 0 0 0"} {
+        return -code error "DHS for readAnalog offline"
+    }
+    
+    puts "raw displacement sensor data $raw_V1 $raw_V2 $raw_H1 $raw_H2"
+    set delta [calculateDeltaGonioPosFromDisplacementSensor \
+    $raw_V1 $raw_V2 $raw_H1 $raw_H2]
+    puts "offset $delta"
+
+    #find P20 buildin delta
+    set raw_V1_0 [lindex $dsensor_to_motor_offset 2]
+    set raw_V2_0 [lindex $dsensor_to_motor_offset 3]
+    set raw_H1_0 [lindex $dsensor_to_motor_offset 4]
+    set raw_H2_0 [lindex $dsensor_to_motor_offset 5]
+    puts "raw displacement sensor data for 0000 $raw_V1_0 $raw_V2_0 $raw_H1_0 $raw_H2_0"
+    set delta_0 [calculateDeltaGonioPosFromDisplacementSensor \
+    $raw_V1_0 $raw_V2_0 $raw_H1_0 $raw_H2_0]
+    puts "offset_0 $delta_0"
+
+    #get the difference
+    set DX [expr [lindex $delta 0] - [lindex $delta_0 0]]
+    set DY [expr [lindex $delta 1] - [lindex $delta_0 1]]
+    set DZ [expr [lindex $delta 2] - [lindex $delta_0 2]]
+    set DU [expr [lindex $delta 3] - [lindex $delta_0 3]]
+
+    # adjust X Y
+    set V1_c [lindex $dsensor_to_robot_config 16]
+    set V1_d [lindex $dsensor_to_robot_config 17]
+    set H1_c [lindex $dsensor_to_robot_config 18]
+
+    set XAdjust [expr ($raw_V1 - $raw_V1_0) * $V1_c + \
+                      ($raw_H1 - $raw_H1_0) * $H1_c]
+
+    set YAdjust [expr ($raw_V1 - $raw_V1_0) * $V1_d]
+
+    puts "XAdjust=$XAdjust"
+    puts "YAdjust=$YAdjust"
+    set DX [expr $DX + $XAdjust]
+    set DY [expr $DY + $YAdjust]
+
+    set DU 0
+    
+    return [ format "%2.4f %2.4f %2.4f %2.4f" $DX $DY $DZ $DU] 
+}
+
+itcl::body SampleMountingDevice::performNextRobotResetStep { step_ } {
+    
+    switch $step_ {
+      1 {
+            # do not use robot for Screening
+            set handle [start_waitable_operation sequenceSetConfig setConfig useRobot "0"]
+            wait_for_operation $handle
+            
+            # send dismount message to dcss to reset the crystal
+            #state to "no crystal mounted"
+            #set handle [start_waitable_operation sequenceSetConfig setConfig dismount 1]
+            #wait_for_operation $handle
+       }
+       2 {
+            #Press the green hutch reset button.
+      }
+      3 {
+        #The robot server now performs a check to see if a Reset is allowed.
+      }
+      4 {
+            resetAllowed
+            
+            #The robot will now move the gripper arm to an accessible location
+      }
+      5 {
+            moveToCheckPoint
+            #Manually remove any crystal from the goniometer.
+      }
+      6 {
+            #If the gripper is closed use a heat gun to melt any excess ice
+            #on the gripper.
+      }
+      7 {
+            #The robot will now open the grippers
+      }
+      8 {
+            openGripper
+            #Please remove the dumbbell magnet and any crystal on it.
+        }
+        9 {
+        #Please remove any crystal from inside the gripper cavity.
+        }
+        10 {
+            #The robot will now move the gripper to the heating chamber and
+            #dry the gripper arms.
+        }
+        11 {
+            heatGripper 10
+         #The robot gripper will now try to retrieve a dumbbell magnet.
+        }
+        12 {
+            check dumbbell
+            #The robot will now move the gripper arm to an accessible location
+        }
+        13 {
+            moveToCheckPoint
+            
+          openGripper
+
+            #Remove the dumbbell magnet and any crystal on it.
+        }
+        14 {
+            #The robot will now move the gripper to the heating chamber and
+            #dry the gripper arms
+    }
+        15 {
+            heatGripper 0
+            #The robot will now move the gripper arm to an accessible location
+            #above the dispensing Dewar, with the lid closed.
+        }
+        16 {
+            moveToCheckPoint
+            #Use a heat gun to make sure the dumbbell magnet is free
+            #from ice and dry
+        }
+        17 {
+            #Please replace the dumbbell magnet
+        }
+        18 {
+            #The robot will now return the dumbbell magnet to the dispensing
+        }
+        19 {
+            returnDumbbell
+            #Please verify that the cassettes inside the Dewar correspond to
+            #the ones loaded into the Screening Web Interface.
+        }
+        20 {
+            # enable robot mode
+            set handle [start_waitable_operation sequenceSetConfig setConfig useRobot "1"]
+            wait_for_operation $handle
+            # sync with robot if it can
+            set handle [start_waitable_operation sequenceSetConfig syncWithRobot 1]
+            wait_for_operation $handle
+            
+            #Please use the Search / Reset key to interlock the hutch and close the hutch door.
+        }
+        21 {
+            #Enable Safeguard and press the Safeguard release button.
+        }
+        default {
+            return -code error "Unknown robot reset step."
+        }
+    }
+}
+
+itcl::body SampleMountingDevice::clearTableCALDATA { } {
+    variable ::nScripts::table_calibration0
+    variable ::nScripts::table_calibration1
+    variable ::nScripts::table_calibration2
+    variable ::nScripts::table_calibration3
+    variable ::nScripts::table_calibration4
+
+    set timeStamp [clock format [clock seconds] -format "%D-%T"]
+    set table_calibration0 [lreplace table_calibration0 0 1 0 $timeStamp]
+    set table_calibration1 [lreplace table_calibration1 0 1 0 $timeStamp]
+    set table_calibration2 [lreplace table_calibration2 0 1 0 $timeStamp]
+    set table_calibration3 [lreplace table_calibration3 0 1 0 $timeStamp]
+    set table_calibration4 [lreplace table_calibration4 0 1 0 $timeStamp]
+    return "all data cleared"
+}
+itcl::body SampleMountingDevice::doTableHorzCAL { } {
+    ############################################
+    # 1: move motor H1 and H2 to lower limit
+    # 2: do goniometer calibration (save to table_calibration0)
+    # 3: move H2 to 0 (H1 no change)
+    # 4: do goniometer calibration (save to table_calibration1)
+    # 5: move H1 to 0 (H2 = 0)
+    # 6: do goniometer calibration (save to table_calibration2)
+    #############################################
+
+    # step 1
+    log_note "doTableHorzCAL step 1: move horz 1 and 2 to lower limits"
+	set lowerLimit1 $::gDevice(table_horz_1,scaledLowerLimit)
+	if {$::gDevice(table_horz_1,backlashOn) && $::gDevice(table_horz_1,scaledBacklash) > 0 } {
+		set lowerLimit1 [expr $lowerLimit1 + $::gDevice(table_horz_1,scaledBacklash)]
+	}
+	set lowerLimit2 $::gDevice(table_horz_2,scaledLowerLimit)
+	if {$::gDevice(table_horz_2,backlashOn) && $::gDevice(table_horz_2,scaledBacklash) > 0 } {
+		set lowerLimit2 [expr $lowerLimit2 + $::gDevice(table_horz_2,scaledBacklash)]
+	}
+
+    move table_horz_1 to $lowerLimit1
+    wait_for_devices table_horz_1
+    move table_horz_2 to $lowerLimit2
+    wait_for_devices table_horz_2
+
+    # step 2
+    log_note "doTableHorzCAL step 2: do gonioCAL and save result"
+    doGonioCALForTableCAL 0
+
+    # step 3
+    log_note "doTableHorzCAL step 3: move h2 to 0"
+    move table_horz_2 to 0
+    wait_for_devices table_horz_2
+
+    # step 4
+    log_note "doTableHorzCAL step 4: do gonioCAL and save result"
+    doGonioCALForTableCAL 1
+
+    # step 5
+    log_note "doTableHorzCAL step 5: move h1 to 0"
+    move table_horz_1 to 0
+    wait_for_devices table_horz_1
+
+    # step 6
+    log_note "doTableHorzCAL step 6: do gonioCAL and save result"
+    doGonioCALForTableCAL 2
+
+    return "OK"
+}
+
+itcl::body SampleMountingDevice::doTableVertCAL { } {
+    ############################################
+    # 0. ask user to raise table to the highest leveled position
+    # 1. do gonio for vert
+    # 2: move table_vert_2 to 0
+    # 3: do gonio for pitch
+    # 4: (option) move table back to 1 position
+    #############################################
+
+    # step 1:
+    doGonioCALForTableCAL 3
+
+    # step 2:
+    #ignore errors like hit hardware or software limit
+    if { [catch { 
+        move table_vert_2 to 0
+        wait_for_devices table_vert_2
+    } e ] } {
+        log_error $e
+    }
+
+    # step 3:
+    doGonioCALForTableCAL 4
+}
+itcl::body SampleMountingDevice::doGonioCALForTableCAL { result_index } {
+    variable ::nScripts::table_calibration0
+    variable ::nScripts::table_calibration1
+    variable ::nScripts::table_calibration2
+    variable ::nScripts::table_calibration3
+    variable ::nScripts::table_calibration4
+
+    log_note "doGonioCALForTableCAL $result_index"
+
+    if {$result_index < 0 || $result_index > 4} {
+        retun -code error "result_index $result_index should be 0-4"
+    }
+
+    set argument [getDeltaGonioPos]
+
+    #read analog average time 20 seconds while doing gonio CAL
+    set adc_op_handle [start_waitable_operation readAnalog 20000]
+
+    set gonio_result [eval newSpecialGonioCAL $argument]
+    if {[lindex $gonio_result 0] != "normal"} {
+        return -code error "gonioCAL failed for table_calibration$result_index" 
+    }
+    #### save result
+    set timeStamp [clock format [clock seconds] -format "%D-%T"]
+    set cal_average_time [expr $AVERAGE_TIME * 5]
+    set adc_result [wait_for_operation_to_finish $adc_op_handle]
+    log_note "read analog result=$adc_result"
+    
+    set table_calibration$result_index [list 1 $timeStamp \
+    $::gDevice(table_vert_1,scaled) $::gDevice(table_vert_2,scaled) \
+    $::gDevice(table_horz_1,scaled) $::gDevice(table_horz_2,scaled)]
+    eval lappend table_calibration$result_index [lrange $adc_result 3 6]
+    eval lappend table_calibration$result_index [lrange $gonio_result 1 4]
+    return "normal OK"
+}
+itcl::body SampleMountingDevice::doTableCALCalculation { {auto_save 0 } } {
+    variable ::nScripts::table_property
+
+    variable ::nScripts::dsensor_to_motor_offset
+    variable ::nScripts::dsensor_to_robot_config
+    variable ::nScripts::dsensor_to_motor_config
+    variable ::nScripts::dsensor_z_scale
+    variable ::nScripts::motor_to_robot_config
+    variable ::nScripts::motor_z_scale
+    variable ::nScripts::table_gonio_scale
+
+    variable ::nScripts::table_calibration0
+    variable ::nScripts::table_calibration1
+    variable ::nScripts::table_calibration2
+    variable ::nScripts::table_calibration3
+    variable ::nScripts::table_calibration4
+
+    set VZ_Scale [lindex $dsensor_z_scale 0]
+    set HZ_Scale [lindex $dsensor_z_scale 1]
+
+    set l_scale 1
+    set h_scale 1
+    set r_scale 1
+    set t_scale 1
+    ######## Validate Data #############
+    # valid indicator
+    set valid0 [lindex $table_calibration0 0]
+    set valid1 [lindex $table_calibration1 0]
+    set valid2 [lindex $table_calibration2 0]
+    set valid3 [lindex $table_calibration3 0]
+    set valid4 [lindex $table_calibration4 0]
+    if {!$valid0 || !$valid1 || !$valid2 || !$valid3 || !$valid4 } {
+        log_error "not all data valid yet"
+        return -code error "not all data valid yet"
+    }
+    # table motor positions
+    set V10 [lindex $table_calibration0 2]
+    set V11 [lindex $table_calibration1 2]
+    set V12 [lindex $table_calibration2 2]
+    set V13 [lindex $table_calibration3 2]
+    set V14 [lindex $table_calibration4 2]
+
+    set V20 [lindex $table_calibration0 3]
+    set V21 [lindex $table_calibration1 3]
+    set V22 [lindex $table_calibration2 3]
+    set V23 [lindex $table_calibration3 3]
+    set V24 [lindex $table_calibration4 3]
+
+    set H10 [lindex $table_calibration0 4]
+    set H11 [lindex $table_calibration1 4]
+    set H12 [lindex $table_calibration2 4]
+    set H13 [lindex $table_calibration3 4]
+    set H14 [lindex $table_calibration4 4]
+
+    set H20 [lindex $table_calibration0 5]
+    set H21 [lindex $table_calibration1 5]
+    set H22 [lindex $table_calibration2 5]
+    set H23 [lindex $table_calibration3 5]
+    set H24 [lindex $table_calibration4 5]
+
+
+    #displacement sensor readings
+    set SV10 [lindex $table_calibration0 6]
+    set SV11 [lindex $table_calibration1 6]
+    set SV12 [lindex $table_calibration2 6]
+    set SV13 [lindex $table_calibration3 6]
+    set SV14 [lindex $table_calibration4 6]
+
+    set SV20 [lindex $table_calibration0 7]
+    set SV21 [lindex $table_calibration1 7]
+    set SV22 [lindex $table_calibration2 7]
+    set SV23 [lindex $table_calibration3 7]
+    set SV24 [lindex $table_calibration4 7]
+
+    set SH10 [lindex $table_calibration0 8]
+    set SH11 [lindex $table_calibration1 8]
+    set SH12 [lindex $table_calibration2 8]
+    set SH13 [lindex $table_calibration3 8]
+    set SH14 [lindex $table_calibration4 8]
+
+    set SH20 [lindex $table_calibration0 9]
+    set SH21 [lindex $table_calibration1 9]
+    set SH22 [lindex $table_calibration2 9]
+    set SH23 [lindex $table_calibration3 9]
+    set SH24 [lindex $table_calibration4 9]
+    
+    if {abs( $V11 - $V10 ) > 0.01 || \
+        abs( $V21 - $V20 ) > 0.01 || \
+        abs( $H11 - $H10 ) > 0.01 } {
+        log_error "0-1 bad table position"
+        return -code error "horz 0-1 bad table position"
+    }
+    if {abs( $V12 - $V11 ) > 0.01 || \
+        abs( $V22 - $V21 ) > 0.01 || \
+        abs( $H22 - $H21 ) > 0.01 } {
+        log_error "1-2 bad table position"
+        return -code error "1-2 bad table position"
+    }
+    if {abs( $H13 - $H12 ) > 0.01 || \
+        abs( $H23 - $H22 ) > 0.01 } {
+        log_error "2-3 bad table position"
+        return -code error "2-3 bad table position"
+    }
+    if {abs( $V14 - $V13 ) > 0.01 || \
+        abs( $H14 - $H13 ) > 0.01 || \
+        abs( $H24 - $H23 ) > 0.01 } {
+        log_error "3-4 bad table position"
+        log_error "V13=$V13 V14=$V14"
+        log_error "H13=$H13 H14=$H14"
+        log_error "H23=$H23 H14=$H14"
+        return -code error "3-4 bad table position"
+    }
+
+    ######### from HORZ ############
+
+    log_note "calculate form horz"
+    
+    set dy_h [expr [lindex $table_calibration2 11] - [lindex $table_calibration1 11]]
+    set dx_h [expr [lindex $table_calibration2 10] - [lindex $table_calibration1 10]]
+
+    log_note "dy=$dy_h dx=$dx_h"
+
+    set dH1 [expr $H12 - $H11]
+    if {abs($dH1) < 5} {
+        log_error "table move too little in horz"
+        return -code error "table move too little in horz"
+    } else {
+        set H1_a [expr -$dy_h / $dH1]
+        set H1_c [expr $dx_h / $dH1]
+    }
+
+    
+    set dSH1 [expr $SH12 - $SH11]
+    set dSH2 [expr $SH22 - $SH21]
+
+    
+    if {abs($dSH1) < 0.5 || abs($dSH2) < 0.5} {
+        log_error "bad or no displacement sensor for table horizontal movement"
+        #set mark: displacement sensor not ready yet
+        set dsensor_to_robot_config [lreplace $dsensor_to_robot_config 0 0 0.000000]
+    } else {
+        set dsensor_to_robot_config [lreplace $dsensor_to_robot_config 0 0 10.000000]
+        set SH1_a [expr -$dy_h / $dSH1]
+        set SH2_a [expr -$dy_h / $dSH2]
+
+        set SH1_b [expr -$SH1_a * $SH12]
+        set SH2_b [expr -$SH2_a * $SH22]
+
+        set SH1_c [expr $dx_h / $dSH1]
+
+        set H1_SH1_rate [expr $dH1 / $dSH1]
+        set H1_SH2_rate [expr $dH1 / $dSH2]
+    }
+
+    ########### from YAW #################
+    log_note "calculate form yaw"
+    set raw_l_SH2_SH1 [expr [lindex $table_property 1] - [lindex $table_property 5]]
+    set l_SH2_SH1 [expr $raw_l_SH2_SH1 * $HZ_Scale ]
+
+    if {abs($H20 - $H21) < 5} {
+        log_error "table move too little in yaw"
+        return -code error "table move too little in yaw"
+    }
+    set dy_y [expr [lindex $table_calibration0 11] - [lindex $table_calibration1 11]]
+    set dx_y [expr [lindex $table_calibration0 10] - [lindex $table_calibration1 10]]
+
+    log_note "dy=$dy_y dx=$dx_y"
+    
+    if {[lindex $dsensor_to_robot_config 0] != 0} {
+        #trust table property and setup
+        #scale l h r t
+        set dSH2 [expr $SH20 - $SH21]
+        set dSH2_cooked [expr $SH2_a * $dSH2]
+        set yaw [expr atan( $dSH2_cooked / $l_SH2_SH1)]
+
+        log_note "yaw=$yaw =[::nScripts::deg $yaw] degree"
+        log_note "dSH2_cooked=$dSH2_cooked"
+
+        set H2_SH2_rate [expr ($H20 - $H21) / $dSH2]
+
+        if {abs($dy_y) >= 0.1} {
+            set r_scale [expr -$dy_y / $yaw / $raw_length_horz1_gonio ]
+        } else {
+            log_note "dy too small in yaw, skip r_scale"
+        }
+        if {abs($dx_y) >= 0.1} {
+            set t_scale [expr $dx_y / $yaw / $raw_offset_horz1_gonio ]
+        } else {
+            log_note "dx too small in yaw, skip t_scale"
+        }
+    } else {
+        #trust l h r t
+        #scale motor positions
+        set yaw [expr $dy_y / $raw_length_horz1_gonio]
+        
+        set t_scale [expr $dx_y / $yaw / $raw_offset_horz1_gonio ]
+    }
+    set H2_a [expr $::gDevice(table_h2_z,scaled) * $yaw / ($H20 - $H21)]
+
+    #################################### VERT ########################
+    log_note "calculate from vert"
+    set dz_v [expr [lindex $table_calibration3 12] - [lindex $table_calibration2 12]]
+    set dy_v [expr [lindex $table_calibration3 11] - [lindex $table_calibration2 11]]
+    set dx_v [expr [lindex $table_calibration3 10] - [lindex $table_calibration2 10]]
+
+    log_note "dz=$dz_v dy=$dy_v dx=$dx_v"
+
+    set dV1 [expr $V13 - $V12]
+    set dV2 [expr $V23 - $V22]
+    if {abs($dV1) < 2 || abs($dV2) < 2} {
+        log_error "table move too little in vert"
+        return -code error "table move too little in vert"
+    } else {
+        set V1_a [expr $dz_v / $dV1]
+        set V2_a [expr $dz_v / $dV2]
+        set V1_c [expr $dx_v / $dV1]
+        set V1_d [expr $dy_v / $dV1]
+    }
+    
+    set dSV1 [expr $SV13 - $SV12]
+    set dSV2 [expr $SV23 - $SV22]
+    if {abs($dSV1) < 0.2 || abs($dSV2) < 0.2} {
+        log_error "bad or no displacement sensor for table vertical movement"
+        log_error "dSV1=$dSV1 dSV2=$dSV2"
+        #set mark: displacement sensor not ready yet
+        set dsensor_to_robot_config [lreplace $dsensor_to_robot_config 0 0 0]
+    } else {
+        set SV1_a [expr $dz_v / $dSV1]
+        set SV2_a [expr $dz_v / $dSV2]
+
+        set SV1_b [expr -$SV1_a * $SV12]
+        set SV2_b [expr -$SV2_a * $SV22]
+
+        set SV1_c [expr $dx_v / $dSV1]
+        set SV1_d [expr $dy_v / $dSV1]
+
+        set V1_SV1_rate [expr $dV1 /$dSV1]
+        set V2_SV2_rate [expr $dV2 /$dSV2]
+    }
+
+    ################# PITCH #################
+    log_note "calculate from pitch"
+    # sensor and the motor have the same raw_l_V2_V1
+    set raw_l_V2_V1 [expr $::gDevice(table_v2_z,scaled) \
+                         - $::gDevice(table_v1_z,scaled)]
+
+    if {abs($V24 - $V23) < 2} {
+        log_error "table move too little in pitch"
+        return -code error "table move too little in pitch"
+    }
+    set dz_p [expr [lindex $table_calibration4 12] - [lindex $table_calibration3 12]]
+    set dx_p [expr [lindex $table_calibration4 10] - [lindex $table_calibration3 10]]
+
+    log_note "dz=$dz_p dx=$dx_p"
+    
+    if {[lindex $dsensor_to_robot_config 0] != 0} {
+        #trust table property and setup
+        #scale l h r t
+        set dSV2 [expr $SV24 - $SV23]
+        set dSV2_cooked [expr $SV2_a * $dSV2]
+        set l_V2_V1 [expr $raw_l_V2_V1 * $VZ_Scale]
+        set pitch [expr atan( $dSV2_cooked / $l_V2_V1)]
+        log_note "pitch=$pitch =[::nScripts::deg $pitch] degree"
+
+        if {abs($dz_p) >= 0.1} {
+            set l_scale [expr $dz_p / $pitch / $raw_length_vert1_gonio ]
+        } else {
+            log_note "dz <0.1 in pitch skip l_scale"
+        }
+        if {abs($dx_p) >= 0.1} {
+            set h_scale [expr $dx_p / $pitch / $raw_height_vert1_gonio ]
+        } else {
+            log_note "dx <0.1 in pitch skip h_scale"
+        }
+    } else {
+        #trust l h r t
+        #scale motor positions
+        set pitch [expr $dz_p / $raw_length_vert1_gonio]
+        
+        if {abs($dx_p) >= 0.1} {
+        set h_scale [expr $dx_p / $pitch / $raw_height_vert1_gonio ]
+        } else {
+            log_note "dx <0.1 in pitch skip h_scale"
+        }
+    }
+    set V_motor_z_scale [expr ($V24 - $V23) / $pitch / $raw_l_V2_V1]
+
+    ################### sensor to motor offset ########################
+    # sensor readings when all V1 V2 H1 H2 are 0s.
+    log_note "do offset"
+    if {[lindex $dsensor_to_robot_config 0] != 0} {
+        set SV1_offset [expr ($V13 * $SV12 - $V12 * $SV13) / ($V13 - $V12)]
+        set SV2_offset [expr ($V23 * $SV22 - $V22 * $SV23) / ($V23 - $V22)]
+        set SH1_offset [expr ($H12 * $SH10 - $H10 * $SH12) / ($H12 - $H10)]
+        set SH2_offset [expr ($H22 * $SH20 - $H20 * $SH22) / ($H22 - $H20)]
+    }
+
+    ######################### result ########################
+    log_note "motors: V1_a=$V1_a V1_c=$V1_c V1_d=$V1_d V2_a=$V2_a"
+    log_note "motors: H1_a=$H1_a H1_c=$H1_c H2_a=$H2_a"
+    if {[lindex $dsensor_to_robot_config 0] != 0} {
+        log_note "sensors: SV1_a=$SV1_a SV1_b=$SV1_b SV1_c=$SV1_c SV1_d=$SV1_d"
+        log_note "sensors: SV2_a=$SV2_a SV2_b=$SV2_b"
+        log_note "sensors: SH1_a=$SH1_a SH1_b=$SH1_b SH1_c=$SH1_c"
+        log_note "sensors: SH2_a=$SH2_a SH2_b=$SH2_b"
+        log_note "sensor offset to motor: $SV1_offset $SV2_offset $SH1_offset $SH2_offset"
+    }
+    log_note "l_scale=$l_scale h_scale=$h_scale r_scale=$r_scale t_scale=$t_scale"
+    log_note "motor_z scale V=$V_motor_z_scale"
+
+    set new_motor_to_robot_config [format "%f %f %f %f %f %f %f %f %f" $V1_a 0 $V1_c $V1_d $V2_a 0 $H1_a $H1_c $H2_a]
+    set new_dsensor_to_robot_config [format "%f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f 1" 10 0 10 0 $SV1_a $SV1_b $SV2_a $SV2_b $SH1_a $SH1_b $SH2_a $SH2_b 10 0 10 0 $SV1_c $SV1_d $SH1_c]
+    set new_dsensor_to_motor_offset [format "%f %f %f %f %f %f %f %f" 0 0 $SV1_offset $SV2_offset $SH1_offset $SH2_offset 0 0]
+    set new_table_gonio_scale [format "%f %f %f %f" $l_scale $h_scale $r_scale $t_scale]
+    set new_motor_z_scale [format "%f" $V_motor_z_scale]
+
+    set new_dsensor_to_motor_config [format "%f %f %f %f %f" $V1_SV1_rate $V2_SV2_rate $H1_SH1_rate $H1_SH2_rate $H2_SH2_rate]
+
+    log_note "old motor_to_robot_config: $motor_to_robot_config"
+    log_note "new motor_to_robot_config: $new_motor_to_robot_config"
+
+    log_note "old dsensor_to_robot_config: $dsensor_to_robot_config"
+    log_note "new dsensor_to_robot_config: $new_dsensor_to_robot_config"
+
+    log_note "old dsensor_to_motor_offset: $dsensor_to_motor_offset"
+    log_note "new dsensor_to_motor_offset: $new_dsensor_to_motor_offset"
+
+    log_note "old table_gonio_scale: $table_gonio_scale"
+    log_note "new table_gonio_scale: $new_table_gonio_scale"
+
+    log_note "old motor_z_scale: $motor_z_scale"
+    log_note "new motor_z_scale: $new_motor_z_scale"
+
+    log_note "old dsensor_to_motor_config $dsensor_to_motor_config"
+    log_note "new dsensor_to_motor_config $new_dsensor_to_motor_config"
+    if {$auto_save} {
+        set motor_to_robot_config $new_motor_to_robot_config 
+        set dsensor_to_robot_config $new_dsensor_to_robot_config 
+        set dsensor_to_motor_offset $new_dsensor_to_motor_offset 
+        set table_gonio_scale $new_table_gonio_scale 
+        set motor_z_scale $new_motor_z_scale 
+        set dsensor_to_motor_config $new_dsensor_to_motor_config
+
+        #re calculate l h r t
+        calculateTableSetup
+    }
+
+    return "normal OK"
+}
+
+itcl::body SampleMountingDevice::doTableCALVertCal { {auto_save 0 } } {
+    variable ::nScripts::table_property
+
+    variable ::nScripts::dsensor_to_motor_offset
+    variable ::nScripts::dsensor_to_robot_config
+    variable ::nScripts::dsensor_z_scale
+    variable ::nScripts::motor_to_robot_config
+    variable ::nScripts::motor_z_scale
+    variable ::nScripts::table_gonio_scale
+
+    variable ::nScripts::table_calibration2
+    variable ::nScripts::table_calibration3
+    variable ::nScripts::table_calibration4
+
+    set VZ_Scale [lindex $dsensor_z_scale 0]
+    set HZ_Scale [lindex $dsensor_z_scale 1]
+
+    set l_scale 1
+    set h_scale 1
+    set r_scale 1
+    set t_scale 1
+    ######## Validate Data #############
+    # valid indicator
+    set valid2 [lindex $table_calibration2 0]
+    set valid3 [lindex $table_calibration3 0]
+    set valid4 [lindex $table_calibration4 0]
+    if { !$valid2 || !$valid3 || !$valid4 } {
+        log_error "not all data valid yet"
+        return -code error "not all data valid yet"
+    }
+    # table motor positions
+    set V12 [lindex $table_calibration2 2]
+    set V13 [lindex $table_calibration3 2]
+    set V14 [lindex $table_calibration4 2]
+
+    set V22 [lindex $table_calibration2 3]
+    set V23 [lindex $table_calibration3 3]
+    set V24 [lindex $table_calibration4 3]
+
+    set H12 [lindex $table_calibration2 4]
+    set H13 [lindex $table_calibration3 4]
+    set H14 [lindex $table_calibration4 4]
+
+    set H22 [lindex $table_calibration2 5]
+    set H23 [lindex $table_calibration3 5]
+    set H24 [lindex $table_calibration4 5]
+
+
+    #displacement sensor readings
+    set SV12 [lindex $table_calibration2 6]
+    set SV13 [lindex $table_calibration3 6]
+    set SV14 [lindex $table_calibration4 6]
+
+    set SV22 [lindex $table_calibration2 7]
+    set SV23 [lindex $table_calibration3 7]
+    set SV24 [lindex $table_calibration4 7]
+
+    set SH12 [lindex $table_calibration2 8]
+    set SH13 [lindex $table_calibration3 8]
+    set SH14 [lindex $table_calibration4 8]
+
+    set SH22 [lindex $table_calibration2 9]
+    set SH23 [lindex $table_calibration3 9]
+    set SH24 [lindex $table_calibration4 9]
+    
+    if {abs( $H13 - $H12 ) > 0.01 || \
+        abs( $H23 - $H22 ) > 0.01 } {
+        log_error "2-3 bad table position"
+        return -code error "2-3 bad table position"
+    }
+    if {abs( $V14 - $V13 ) > 0.01 || \
+        abs( $H14 - $H13 ) > 0.01 || \
+        abs( $H24 - $H23 ) > 0.01 } {
+        log_error "3-4 bad table position"
+        log_error "V13=$V13 V14=$V14"
+        log_error "H13=$H13 H14=$H14"
+        log_error "H23=$H23 H14=$H14"
+        return -code error "3-4 bad table position"
+    }
+
+    #################################### VERT ########################
+    log_note "calculate from vert"
+    set dz_v [expr [lindex $table_calibration3 12] - [lindex $table_calibration2 12]]
+    set dy_v [expr [lindex $table_calibration3 11] - [lindex $table_calibration2 11]]
+    set dx_v [expr [lindex $table_calibration3 10] - [lindex $table_calibration2 10]]
+
+    log_note "dz=$dz_v dy=$dy_v dx=$dx_v"
+
+    set dV1 [expr $V13 - $V12]
+    set dV2 [expr $V23 - $V22]
+    if {abs($dV1) < 5 || abs($dV2) < 5} {
+        log_error "table move too little in vert"
+        return -code error "table move too little in vert"
+    } else {
+        set V1_a [expr $dz_v / $dV1]
+        set V2_a [expr $dz_v / $dV2]
+        set V1_c [expr $dx_v / $dV1]
+        set V1_d [expr $dy_v / $dV1]
+    }
+    
+    set dSV1 [expr $SV13 - $SV12]
+    set dSV2 [expr $SV23 - $SV22]
+    if {abs($dSV1) < 0.2 || abs($dSV2) < 0.2} {
+        log_error "bad or no displacement sensor for table vertical movement"
+        #set mark: displacement sensor not ready yet
+        set dsensor_to_robot_config [lreplace $dsensor_to_robot_config 0 0 0]
+        set SV1_a 0
+        set SV2_a 0
+
+        set SV1_b 0
+        set SV2_b 0
+
+        set SV1_c 0
+        set SV1_d 0
+    } else {
+        set SV1_a [expr $dz_v / $dSV1]
+        set SV2_a [expr $dz_v / $dSV2]
+
+        set SV1_b [expr -$SV1_a * $SV12]
+        set SV2_b [expr -$SV2_a * $SV22]
+
+        set SV1_c [expr $dx_v / $dSV1]
+        set SV1_d [expr $dy_v / $dSV1]
+    }
+
+    ################# PITCH #################
+    log_note "calculate from pitch"
+    # sensor and the motor have the same raw_l_V2_V1
+    set raw_l_V2_V1 [expr $::gDevice(table_v2_z,scaled) \
+                         - $::gDevice(table_v1_z,scaled)]
+
+    if {abs($V24 - $V23) < 2} {
+        log_error "table move too little in pitch"
+        return -code error "table move too little in pitch"
+    }
+    set dz_p [expr [lindex $table_calibration4 12] - [lindex $table_calibration3 12]]
+    set dx_p [expr [lindex $table_calibration4 10] - [lindex $table_calibration3 10]]
+
+    log_note "dz=$dz_p dx=$dx_p"
+    
+    if {[lindex $dsensor_to_robot_config 0] != 0} {
+        #trust table property and setup
+        #scale l h r t
+        set dSV2 [expr $SV24 - $SV23]
+        set dSV2_cooked [expr $SV2_a * $dSV2]
+        set l_V2_V1 [expr $raw_l_V2_V1 * $VZ_Scale]
+        set pitch [expr atan( $dSV2_cooked / $l_V2_V1)]
+        log_note "pitch=$pitch =[::nScripts::deg $pitch] degree"
+
+        if {abs($dz_p) >= 0.1} {
+            set l_scale [expr $dz_p / $pitch / $raw_length_vert1_gonio ]
+        } else {
+            log_note "dz <0.1 in pitch skip l_scale"
+        }
+        if {abs($dx_p) >= 0.1} {
+            set h_scale [expr $dx_p / $pitch / $raw_height_vert1_gonio ]
+        } else {
+            log_note "dx <0.1 in pitch skip h_scale"
+        }
+    } else {
+        #trust l h r t
+        #scale motor positions
+        set pitch [expr $dz_p / $raw_length_vert1_gonio]
+        
+        if {abs($dx_p) >= 0.1} {
+        set h_scale [expr $dx_p / $pitch / $raw_height_vert1_gonio ]
+        } else {
+            log_note "dx <0.1 in pitch skip h_scale"
+        }
+    }
+    set V_motor_z_scale [expr ($V24 - $V23) / $pitch / $raw_l_V2_V1]
+
+    ################### sensor to motor offset ########################
+    # sensor readings when all V1 V2 H1 H2 are 0s.
+    log_note "do offset"
+    if {[lindex $dsensor_to_robot_config 0] != 0} {
+        set SV1_offset [expr ($V13 * $SV12 - $V12 * $SV13) / ($V13 - $V12)]
+        set SV2_offset [expr ($V23 * $SV22 - $V22 * $SV23) / ($V23 - $V22)]
+        set SH1_offset [expr ($H12 * $SH10 - $H10 * $SH12) / ($H12 - $H10)]
+        set SH2_offset [expr ($H22 * $SH20 - $H20 * $SH22) / ($H22 - $H20)]
+    }
+
+    ######################### result ########################
+    log_note "motors: V1_a=$V1_a V1_c=$V1_c V1_d=$V1_d V2_a=$V2_a"
+    if {[lindex $dsensor_to_robot_config 0] != 0} {
+        log_note "sensors: SV1_a=$SV1_a SV1_b=$SV1_b SV1_c=$SV1_c SV1_d=$SV1_d"
+        log_note "sensors: SV2_a=$SV2_a SV2_b=$SV2_b"
+        log_note "sensor offset to motor: $SV1_offset $SV2_offset $SH1_offset $SH2_offset"
+    }
+    log_note "l_scale=$l_scale h_scale=$h_scale r_scale=$r_scale t_scale=$t_scale"
+    log_note "motor_z scale V=$V_motor_z_scale"
+
+    if {[lindex $dsensor_to_robot_config 0] != 0} {
+        set new_dsensor_to_robot_config [format "%f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f 1" 10 0 10 0 $SV1_a $SV1_b $SV2_a $SV2_b $SH1_a $SH1_b $SH2_a $SH2_b 10 0 10 0 $SV1_c $SV1_d $SH1_c]
+        set new_dsensor_to_motor_offset [format "%f %f %f %f %f %f %f %f" 0 0 $SV1_offset $SV2_offset $SH1_offset $SH2_offset 0 0]
+
+        log_note "old dsensor_to_robot_config: $dsensor_to_robot_config"
+        log_note "new dsensor_to_robot_config: $new_dsensor_to_robot_config"
+
+        log_note "old dsensor_to_motor_offset: $dsensor_to_motor_offset"
+        log_note "new dsensor_to_motor_offset: $new_dsensor_to_motor_offset"
+        if {$auto_save} {
+            set dsensor_to_robot_config $new_dsensor_to_robot_config 
+            set dsensor_to_motor_offset $new_dsensor_to_motor_offset 
+        }
+    }
+    
+    
+    set new_motor_to_robot_config [format "%f %f %f %f %f %f %f %f %f" $V1_a 0 $V1_c $V1_d $V2_a 0 1 0 1]
+    set new_table_gonio_scale [format "%f %f %f %f" $l_scale $h_scale $r_scale $t_scale]
+    set new_motor_z_scale [format "%f" $V_motor_z_scale]
+
+    log_note "old motor_to_robot_config: $motor_to_robot_config"
+    log_note "new motor_to_robot_config: $new_motor_to_robot_config"
+
+    log_note "old table_gonio_scale: $table_gonio_scale"
+    log_note "new table_gonio_scale: $new_table_gonio_scale"
+
+    log_note "old motor_z_scale: $motor_z_scale"
+    log_note "new motor_z_scale: $new_motor_z_scale"
+    if {$auto_save} {
+        set motor_to_robot_config $new_motor_to_robot_config 
+        set table_gonio_scale $new_table_gonio_scale 
+        set motor_z_scale $new_motor_z_scale 
+
+        #re calculate l h r t
+        calculateTableSetup
+    }
+    return "normal OK"
+}
+itcl::body SampleMountingDevice::getReadAnalogResult { average_time } {
+    if { [catch { 
+        #make sure the lasers are turn on
+        set operationHandle [eval start_waitable_operation setDigitalOutput 1 255 252]
+        set result [wait_for_operation_to_finish $operationHandle]
+
+        #read the input
+        set operationHandle [eval start_waitable_operation readAnalog $average_time]
+        set result [wait_for_operation_to_finish $operationHandle]
+    } e ] } {
+        log_error $e
+        return "0 0 0 0 0 0 0 0"
+    }
+    set status [lindex $result 0]
+    set ll [llength $result]
+    if {$status != "normal" || $ll < 9} {
+        return -code error "bad result: $result"
+    }
+    return [lrange $result 1 end]
+}
+itcl::body SampleMountingDevice::checkIfRecoverableError { result_message } {
+    variable ::nScripts::robot_attribute
+    #currently only deal with goniometer unreachable error
+
+    if {[lindex $result_message 0] != "out"} {
+        return 0
+    }
+    if {[llength $result_message] < 4} {
+        return 0
+    }
+    if {[lindex $result_message 1] != "of" || \
+        [lindex $result_message 2] != "robot" || \
+        [lindex $result_message 3] != "range"} {
+        return 0
+    }
+
+    #check to see if robot_attribute for "move table in case of goniometer unreachable is turned on"
+    set move_table_if_need [lindex $robot_attribute 10]
+    if {$move_table_if_need != "1"} {
+        return 0
+    }
+
+    #re-fill the list with forced_move_table
+    fillMoveList forced_move_table
+    return 1
+}
+
+itcl::body SampleMountingDevice::prepareRobotTest { } {
+    #set argument "0 0 5"
+    if { [catch {
+        # not include_move_table
+        fillMoveList not_move_table
+        moveToAccessPosition
+    } e ] } {
+        log_error $e
+        return -code error $e
+    }
+    #this function must NOT be called before moveToAccessPosition
+    return [getDeltaGonioPos]
+}
+itcl::body SampleMountingDevice::autoSampleCheck { } {
+}
+itcl::body SampleMountingDevice::autoSampleCalibrate { } {
+}
+itcl::body SampleMountingDevice::oneCalibrate { } {
+    variable ::nScripts::robot_cal_config
+
+    foreach {mask_auto mask_tool mask_cas mask_gonio mask_find mask_quick mask_left mask_middle mask_right } $robot_cal_config break
+
+    if {$mask_tool == "1"} {
+        calibrateMagnet 1 0
+    }
+    ###call to allow change during run
+    foreach {mask_auto mask_tool mask_cas mask_gonio mask_find mask_quick mask_left mask_middle mask_right } $robot_cal_config break
+    if {$mask_cas} {
+        set cas ""
+        if {$mask_left == "1"} {
+            append cas l
+        }
+        if {$mask_middle == "1"} {
+            append cas m
+        }
+        if {$mask_right == "1"} {
+            append cas r
+        }
+        if {$cas != ""} {
+            calibrateCassette $cas 0
+        }
+    }
+    ###call to allow change during run
+    foreach {mask_auto mask_tool mask_cas mask_gonio mask_find mask_quick mask_left mask_middle mask_right } $robot_cal_config break
+    if {$mask_gonio} {
+        calibrateGoniometer 0
+    }
+}
+itcl::body SampleMountingDevice::readSampleBarcode { port wait_time {goHome 1}} {
+    puts "readSampleBarcode $port"
+    if {$port == "lA1"} {
+        return SSRL88100
+    } elseif {$port == "mA1"} {
+        return SSRL88050
+    } else {
+        return SSRL88041
+    }
+}
+itcl::body SampleMountingDevice::updateCassetteOwnerFromBarcode { } {
+    variable ::nScripts::cassette_barcode
+    variable ::nScripts::cassette_owner
+
+    set ll [llength $cassette_barcode]
+    if {$ll < 4} {
+        set lNeed [expr 4 - $ll]
+        for {set i 0} {$i < $lNeed} {incr i} {
+            lappend cassette_barcode ""
+        }
+    }
+
+    set ulList [eval ::nScripts::barcodeData_start get_multiple_user_list $cassette_barcode]
+    set cassette_owner $ulList
+}
+itcl::body SampleMountingDevice::addUsersToBarcode { barcode users } {
+    variable ::nScripts::cassette_barcode
+    variable ::nScripts::cassette_owner
+
+    if {$barcode == "" || $barcode == "unknown" || $users == ""} {
+        return NO_NEED
+    }
+
+    eval ::nScripts::barcodeData_start add_user $barcode $users
+
+    if {[lsearch -exact $cassette_barcode $barcode] >= 0} {
+        updateCassetteOwnerFromBarcode
+    }
+}
+itcl::body SampleMountingDevice::getDefaultBarcodePort { cas } {
+    variable ::nScripts::robot_cassette
+    switch -exact -- $cas {
+        l {
+            set index 0
+        }
+        m {
+            set index 97
+        }
+        r {
+            set index 194
+        }
+        default {
+            log_error wrong cassette $cas. Only l m r
+            return -code error wrong_cassette
+        }
+    }
+    set casStatus [lindex $robot_cassette $index]
+    if {$casStatus == 3} {
+        # puck adaptor
+        return [list A1 B1 C1 D1]
+    } else {
+        return A1
+    }
+}
+itcl::body SampleMountingDevice::readCassetteIdBarcode { } {
+    variable ::nScripts::scanId_config
+    variable ::nScripts::cassette_barcode
+    variable ::nScripts::barcode_port
+
+    set deltaGonioPos [getDeltaGonioPos]
+    set casList [list l m r]
+
+    for {set i 0} {$i < 3} {incr i} {
+        set enabled [lindex $scanId_config $i]
+        if {!$enabled} {
+            continue
+        }
+        set cas      [lindex $casList $i]
+        set portList [lindex $barcode_port  $i]
+        if {$portList == ""} {
+            set portList [getDefaultBarcodePort $cas]
+        }
+        set gotBarcode 0
+        set barcode unknown
+        foreach colRow $portList {
+            set port $cas$colRow
+            if {[catch {
+                set barcode [readSampleBarcode $port 2000.0 0]
+                puts "got barcode=$barcode for $port"
+                set gotBarcode 1
+            } errMsg] == 1} {
+                puts "readBarcode $port failed: $errMsg"
+            }
+            if {$gotBarcode} {
+                break
+            }
+        }
+        if {!$gotBarcode} {
+            set barcode unknown
+        }
+        set offset [expr $i + 1]
+        set cassette_barcode \
+        [setStringFieldWithPadding $cassette_barcode $offset $barcode]
+    }
+    updateCassetteOwnerFromBarcode
+    start_recovery_operation robot_standby
+}

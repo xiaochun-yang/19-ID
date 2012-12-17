@@ -1,0 +1,92 @@
+# sample_x.tcl
+# This is for x4a crystal logic goniometer x combo motion.
+
+proc sample_x_initialize {} {
+
+	# specify children devices
+	set_children tripot_1 tripot_2 tripot_3
+	# set_siblings sample_y sample_z
+}
+
+
+proc sample_x_move { new_sample_x } {
+	#global 
+	#global gDevice
+
+	# global variables
+	variable sample_x
+	variable sample_y
+    variable sample_z
+
+	# calculate new positions of the two motors
+	set new_tripot_1 [tripot_1_calculate $new_sample_x ]
+	set new_tripot_2 [tripot_2_calculate $new_sample_x ]
+    set new_tripot_3 [tripot_3_calculate $new_sample_x ]
+
+	#check to see if the move can be completed by the real motors
+	assertMotorLimit tripot_1 $new_tripot_1
+	assertMotorLimit tripot_2 $new_tripot_2
+    assertMotorLimit tripot_3 $new_tripot_3
+
+	# move motors in order that avoids collisions
+#	if { $new_sample_x > $sample_x} { 
+		move tripot_1 to $new_tripot_1
+		move tripot_2 to $new_tripot_2
+		move tripot_3 to $new_tripot_3
+#	} else {
+#	    move tripot_1 to $new_tripot_3
+#        move tripot_2 to $new_tripot_2
+#        move tripot_3 to $new_tripot_1
+#	}
+
+	# wait for the moves to complete
+	wait_for_devices tripot_1 tripot_2 tripot_3
+}
+
+
+proc sample_x_set { new_sample_x } {
+
+	# global variables
+	variable tripot_1
+	variable tripot_2
+    variable tripot_3
+
+	# set three motors
+	set tripot_1 [tripot_1_calculate $new_sample_x ]
+	set tripot_2 [tripot_2_calculate $new_sample_x ]
+	set tripot_3 [tripot_3_calculate $new_sample_x ]
+}
+
+
+proc sample_x_update {} {
+
+	# global variables
+    variable tripot_3
+
+	# calculate from real motor positions and motor parameters
+	return [sample_x_calculate $tripot_3]
+}
+
+
+proc sample_x_calculate { t3 } {
+	
+	return [expr (97 * $t3)/ 22.225]
+}
+
+
+proc tripot_1_calculate { x } {
+
+	return [expr 11.1125 * $x / 97.0 ]
+}
+
+
+proc tripot_2_calculate { x } {
+
+	return [expr 11.1125 * $x / 97.0 ]
+}
+
+proc tripot_3_calculate { x } {
+
+    return [expr 22.225 * $x / 97.0 ]
+}
+

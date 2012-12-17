@@ -1,0 +1,14 @@
+#
+# buildjar.txt
+#
+
+#setenv JAVA_HOME /usr/local/java/j2sdk1.4.0
+setenv ORACLE_JDBC /home/sdcsoftware/oraclejdbc/classes111.jar
+setenv J2EE_HOME /home/sdcsoftware/j2ee/j2sdkee1.3.1
+#setenv CLASSPATH .:/usr/local/java/lib:${J2EE_HOME}/lib/j2ee.jar:${J2EE_HOME}/lib/locale:${ORACLE_JDBC}
+setenv CLASSPATH .:${CLASSPATH}:${J2EE_HOME}/lib/j2ee.jar:${J2EE_HOME}/lib/locale:${ORACLE_JDBC}
+
+
+javac *.java
+cd ..
+jar cvf cts.jar cts/*.class

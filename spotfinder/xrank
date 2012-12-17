@@ -1,0 +1,445 @@
+#!/usr/bin/perl -w
+
+# A screening prototype developed by Qingping Xu @ SSRL Oct 26, 2004
+
+use strict;
+use File::Find;
+use Data::Dumper;
+use Getopt::Std;
+
+# define location of programs used
+my $ostype=$ENV{OSTYPE};
+
+my $spotfinder='';
+if($ostype eq 'linux') {
+  $spotfinder='/home/sdcsoftware/linux/beta/spotfinder_lnx';
+} elsif ($ostype eq 'osf1') {
+  $spotfinder='/home/sdcsoftware/linux/beta/spotfinder_dec';
+} else {
+   print "sorry,unsupported platform, linux/dec only.\n";
+   exit;
+}
+
+my %options=();
+getopts("n:d:",\%options);
+
+my $USEIMAGES=1;
+if (defined $options{n}) {
+   $USEIMAGES=$options{n};
+}
+
+my $input;
+if (defined $options{d}) {
+   $input=$options{d};
+} else {
+   print "Usage: xrank -d filelist|directory-absolute-path [-n 1|2]\n";
+   exit;
+}
+print "use $USEIMAGES images.\n";
+
+# get all files
+my %DATA = (); # use hash to storage what needed
+if(-f $input) {
+   getfilelist_from_file($input);
+} else {
+   find(\&getfilelist_from_dir, $input);
+}
+#print Dumper \%DATA;
+
+# keep only two images per crystal
+last2images();
+#print Dumper \%DATA;
+
+# for each crystal, run spot finder, analyze log file  and store the results
+my %STATS=();
+collect();
+
+# analysis based on spotfinder staticstics
+my %BLSTATS=();
+combine();
+
+# dump all stats into a file
+statsdumper();
+
+exit;
+
+#########################
+## List of subroutines ##
+#########################
+
+sub getfilelist_from_dir {
+  my $fullname= $File::Find::name;
+  my $path=$File::Find::dir;
+  my $filename =$_;
+
+  #if ( $path !~ /micro/ && $filename =~ m/\.img/) {
+  if ( $filename =~ m/\.mar\d\d\d\d/ || $filename =~ m/\.img/) {
+       my @arr = split (/\_/, $filename);
+       my $xtalid = $arr[0];
+       if (-e "$path/$xtalid\_0deg_001.jpg" ) {
+         push @{$DATA{$xtalid}}, $fullname;
+       }
+  }
+  return;
+}
+
+sub getfilelist_from_file {
+  my $flist= $_[0];
+  open(F,$flist) || die "cannot open $flist.";
+  while(my $line=<F>) {
+        chop $line;
+        my ($path,$filename,$root)= pathname($line);
+        my @arr = split(/\_/,$filename);
+        push @{$DATA{$arr[0]}}, $line;
+
+  }
+  return;
+}
+
+sub last2images {
+  while ( my ($k,$v) = each(%DATA)) {
+        my @arr=@$v;
+        my @sorted_arr= sort @arr;
+        my $nimg = @sorted_arr;
+
+        for(my $i=0; $i< $nimg-$USEIMAGES; $i++) {
+           shift(@sorted_arr);
+        }
+        $DATA{$k} = \@sorted_arr;
+  }
+  return;
+}
+
+# dump statistics into csv file
+sub statsdumper {
+
+  my $sp="\t";
+  my @sorted_variblenames;
+ 
+  while ( my ($k,$v) = each(%STATS)) {
+    @sorted_variblenames = sort ( keys %$v ); 
+    last;
+  }
+
+  open(FSTAT,"> screening.dat");
+
+  print FSTAT "xtalid\t";
+  print FSTAT "IceRings\tDiffractionStrength\tSpotQuality\tMaximumRes\tQuality\tComments\tSingleCrystalYorN\t";
+  # print header
+  for(my $i=1;$i<=$USEIMAGES;$i++) {
+     print FSTAT "filename$i\t";
+     foreach my $vn (@sorted_variblenames) {
+       print FSTAT $vn."$i",$sp;
+     }
+  }
+  print FSTAT "\n";
+  while ( my ($k,$v) = each(%DATA)) {
+     my @arr=@$v;
+     print FSTAT $k, $sp;
+     print FSTAT $BLSTATS{$k}{IceRings},"\t",$BLSTATS{$k}{DiffractionStrength},"\t",$BLSTATS{$k}{SpotQuality},"\t",$BLSTATS{$k}{MaximumRes},"\t",
+           $BLSTATS{$k}{Quality},"\t",$BLSTATS{$k}{Comments},"\t",$BLSTATS{$k}{SingleCrystalYorN},"\t";
+     foreach my $file (@arr) {
+     	print FSTAT $file, $sp;
+	my $href=$STATS{$file};
+        foreach my $vname (@sorted_variblenames) {
+          print FSTAT $href->{$vname},$sp;
+        }
+     }
+     print FSTAT "\n";
+  }
+  close(FSTAT);
+}
+
+
+# run spotfinder for every image and collect statistics
+sub collect {
+  #my $spotfinder='/home/qxu/spotfinder/spotfinder/linux/spotfinder';
+  while ( my ($k,$v) = each(%DATA)) {
+     my @arr=@$v;
+     foreach my $file (@arr) {
+        my ($path, $filename, $root) = pathname($file); 
+        system("$spotfinder -d . $file");
+        my $href=spotfinderLogparser("$root.log");
+	$STATS{$file}=$href;
+     }
+  }
+  return;
+}
+
+# given a full path filename, return path, filename and its root
+# pathname("/home/qxu/123/456.img");
+sub pathname {
+   my $fullname=$_[0];
+   my @arr=split(/\//,$fullname);
+   my $filename=$arr[-1];
+
+   $fullname =~ /(.+)$filename/;
+   my $path=$1;
+   $filename =~ /(.+)\.[img|mar\d\d\d\d]/;
+   my $root=$1;
+   # print "fullname ", $fullname," path=",$path," root=", $root," filename=",$filename, "\n";
+   return ($path,$filename,$root);
+}
+
+#print Dumper spotfinderLogparser("10331_001.log");
+sub spotfinderLogparser {
+  my $file=$_[0];
+  my %imgstat=(
+     #iceringlocation=>$iceringlocation,
+     nspots=>-1,
+     noverloads=>'',
+     nclose=>'',
+     nsplit=>'',
+     mediumspotsize=>'',
+     resolutionw=>'',
+     resolution2=>'',
+     resolutionw=>'',
+     score=>'',
+     diffstrength=>'',
+     mediumspotsshape=>'',
+     shape_mean=>'',
+     shape_median=>'',
+     shape_sd=>'',
+     ellip_mean=>'',
+     ellip_median=>'',
+     ellip_sd=>'',
+     resolution2badness=>'',
+     nicerings=>'',
+     iceringstrength=>'',
+     largestOverloadsize=>'',
+     largestOverloadonIcering=>''
+  );
+
+  if (! -e $file) {
+     print "WARNING: $file open failed.\n";
+     return \%imgstat;
+  }
+
+  open(LOG,$file ); 
+  local $/="\f";
+  my $log=<LOG>;
+  close(LOG);
+
+  $log =~ /\s+(\d+)# number of spots/;
+  my $nspots=$1;
+  $log =~ /\s+(\d+)# number of spots with overloaded pixels/;
+  my $noverloads=$1;
+  $log =~ /\s+(\d+)# number of spots with close neighbors/;
+  my $nclose=$1;
+  $log =~ /\s+(\d+)# number of spots with multiple maxima/;
+  my $nsplit=$1;
+  $log =~ /\s+(\d+)# spot size median/;
+  my $mediumspotsize=$1;
+  $log =~ /\s+(\d+(\.\d+)?)# spot shape median/;
+  my $mediumspotsshape=$1;
+  $log =~ /\s+(\d+(\.\d+)?)# resolution boundary by Method W/;
+  my $resolutionw=$1;
+  $log =~ /\s+(\d+(\.\d+)?)# resolution boundary by Method 2/;
+  my $resolution2=$1;
+  $log =~ /\s+(\d+(\.\d+)?)# badness of curve in Method 2/;
+  my $resolution2badness=$1;
+  $log =~ /\s+(\d+)# number of ice-rings/;
+  my $nicerings=$1;
+  $log =~ /\s+(\d+)# strength of the strongest ice-ring/;
+  my $iceringstrength=$1;
+  $log =~ /\s+(\d+)# size of largest overloaded patch/;
+  my $largestOverloadsize=$1;
+  $log =~ /\s+(\d+)# whether or not the largest overloaded patch lies on ice-ring/;
+  my $largestOverloadonIcering=$1;
+  $log =~ /(<.+>)\s+# location of ice-rings/;
+  my $iceringlocation=$1;  
+  $log =~ /\s+(\d+(\.\d+)?)# maximum \(peak\) pixel value between 15-4A in a spot/;
+  my $diffstrength=$1;
+  $log =~ /\s+(\d+(\.\d+)?)# spot shape, \<Dmax\/Dmin\>, 1 for circle/;
+  my $shape_mean=$1;
+  $log =~ /\s+(\d+(\.\d+)?)# spot shape, median Dmax\/Dmin, 1 for circle/;
+  my $shape_median=$1;
+  $log =~ /\s+(\d+(\.\d+)?)# spot shape, standard derivation/;
+  my $shape_sd=$1;
+  $log =~ /\s+(\d+(\.\d+)?)# ellipoid spot shape, mean of ratio of ellipoid axes, 1 for disk/;
+  my $ellip_mean=$1;
+  $log =~ /\s+(\d+(\.\d+)?)# ellipoid spot shape, median of ellipoid axes ratio, 1 for disk/;
+  my $ellip_median=$1;
+  $log =~ /\s+(\d+(\.\d+)?)# ellipoid spot shape, standard derivation of ellipoid axes/;
+  my $ellip_sd=$1;
+  $log =~ /\s+(\d+(\.\d+)?)# composite score/;
+  my $score=$1;
+
+  %imgstat=(
+     #iceringlocation=>$iceringlocation,
+     nspots=>$nspots,
+     noverloads=>$noverloads,
+     nclose=>$nclose,
+     nsplit=>$nsplit,
+     mediumspotsize=>$mediumspotsize,
+     mediumspotsshape=>$mediumspotsshape,
+     resolutionw=>$resolutionw,
+     resolution2=>$resolution2,
+     score=>$score,
+     shape_mean=>$shape_mean,
+     shape_median=>$shape_median,
+     shape_sd=>$shape_sd,
+     ellip_mean=>$ellip_mean,
+     ellip_median=>$ellip_median,
+     ellip_sd=>$ellip_sd,
+     diffstrength=>$diffstrength,
+     resolution2badness=>$resolution2badness,
+     nicerings=>$nicerings,
+     iceringstrength=>$iceringstrength,
+     largestOverloadsize=>$largestOverloadsize,
+     largestOverloadonIcering=>$largestOverloadonIcering
+  );
+  
+  # print Dumper \%imgstat;
+  return \%imgstat;
+}
+
+# generate beamline report statistics based on spotfinder statistics
+sub combine {
+
+  while ( my ($k,$v) = each(%DATA)) {
+     my @arr=@$v;
+
+     my %blstat=(
+       IceRings=>0,
+       DiffractionStrength=>0,
+       SingleCrystalYorN=>'?',
+       SpotQuality=>0,
+       MaximumRes=>99,
+       Comments=>'',
+       Quality=>0
+     );
+
+     # nspots, will be used for weighting
+     my @weight=();
+     foreach my $file (@arr) {
+        my $href=$STATS{$file};
+        push @weight,$href->{nspots};
+     }
+
+     # MaximumRes
+     my @var1=();
+     my @var2=();
+     foreach my $file (@arr) {
+        my $href=$STATS{$file};
+        push @var1,$href->{resolutionw};
+        push @var2,$href->{resolution2};
+     }
+     my $resolw=weighted_avg(\@weight,\@var1);
+     my $resol2=weighted_avg(\@weight,\@var2);
+     $blstat{MaximumRes}=sprintf("%.2f",$resolw);
+     # if resolw and resol2 does not agree, put a warning for manual check
+     if ($resol2<4.0) {
+        if( abs($resolw-$resol2)>0.5) { $blstat{Comments}='check'; }
+     } else {
+        if( abs($resolw-$resol2)>1.0) { $blstat{Comments}='check'; }
+     }
+
+     # Quality
+     my @score=();
+     foreach my $file (@arr) {
+        my $href=$STATS{$file};
+        push @score,$href->{score};
+     }
+     $blstat{Quality}=sprintf("%.2f",weighted_avg(\@weight,\@score));
+
+     # Diffraction Strength
+     my @ds=();
+     foreach my $file (@arr) {
+        my $href=$STATS{$file};
+        push @ds,$href->{diffstrength};
+     }
+     $blstat{DiffractionStrength}=sprintf("%.1f",weighted_avg(\@weight,\@ds));
+
+     # ice rings
+     @var1=();
+     @var2=();
+     foreach my $file (@arr) {
+        my $href=$STATS{$file};
+        push @var1,$href->{nicerings};
+        push @var2,$href->{iceringstrength};
+     }
+     $blstat{IceRings}=sprintf("%.1f",weighted_avg(\@var1,\@var2));;
+
+     # Spot quality
+     my @var=();
+     foreach my $file (@arr) {
+        my $href=$STATS{$file};
+        push @var,$href->{mediumspotsshape} *10;
+     }
+     $blstat{SpotQuality}=sprintf("%.1f",avg(@var));
+
+     # SingleCrystalYorN
+     @var1=();
+     @var2=();
+     foreach my $file (@arr) {
+        my $href=$STATS{$file};
+        push @var1,$href->{nclose};
+        push @var1,$href->{nsplit};
+        push @var2,$href->{nspots};
+     }
+     my $nbad=sum(@var1);
+     my $nspts=sum(@var2);
+     my $per=$nbad/$nspts;
+
+     if ($per < 0.2 ) {
+         $blstat{SingleCrystalYorN}=1;
+     } elsif ($per > 0.9) {
+         $blstat{SingleCrystalYorN}=0;
+     } else {
+         $blstat{SingleCrystalYorN}='?';
+     }
+
+     # store save parameters in a big hash
+     $BLSTATS{$k}=\%blstat;
+  }
+  return;
+}
+
+# this min/max function are not efficient for large array!
+sub max {
+   return (sort {$a<$b} @_)[0];
+}
+
+sub min {
+   return (sort {$a>$b} @_)[0];
+}
+
+sub avg {
+   my $s= sum(@_);
+   my $n= @_;
+   return $s/$n;
+}
+
+sub sum {
+   my $s=0;
+   foreach my $el (@_) {
+     $s=$s+$el;
+   }
+   return $s;
+}
+
+# calculated weighted average of two array
+# usuage: weighted_avg(\@weight,\@arr);
+sub weighted_avg {
+   my $wref=$_[0];
+   my $aref=$_[1];
+
+   my @w=@$wref;
+   my @a=@$aref;
+
+   my $s1=0;
+   my $s2=0;
+   my $lenw=@w;
+   my $lena=@a;
+   if ($lena != $lenw) {
+        print "Error in input, array not equal length.\n";
+        return -1;
+   }
+   for(my $i=0;$i<$lenw;$i++)  {
+     $s1=$s1+$w[$i]*$a[$i];
+     $s2=$s2+$w[$i];
+   }
+   if ($s2<0.001) { return 0; }
+   return $s1/$s2;
+}

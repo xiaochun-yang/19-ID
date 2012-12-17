@@ -1,0 +1,34 @@
+The following are the results of the test. This test is before installing
+dcss .. imgsrv .. But it requires the certificate files. since my certificate
+file stored in dcsconfig/data I have to install the dcsconfig/data dir.
+
+
+
+[yangx@koala imperson_cpp]$ ./test.csh localhost 61001 localhost 61001
+...
+...
+Testing impersonation daemon on localhost:61001
+...
+Caught XosException: should_not_retry
+Session id for user yangx in /home/yangx/.bluice/session is still valid
+IMPERSON TEST START
+testGetVersion PASSED: version = 4.5
+rootDir = /home/yangx/release-5_1/imperson_cpp
+testReadFile PASSED
+testIsFileReadable PASSED
+testWriteFile PASSED
+testRunExecutable PASSED
+testRunScript PASSED
+testListDirectory PASSED
+testGetFilePermissions PASSED
+testGetFileStatus PASSED
+testCreateDirectory PASSED
+testDeleteDirectory PASSED
+testCopyFile PASSED
+testRenameFile PASSED
+testDeleteFile PASSED
+testCopyDirectory PASSED
+testDeleteDirectory PASSED
+IMPERSON TEST DONE
+[yangx@koala imperson_cpp]$ 
+

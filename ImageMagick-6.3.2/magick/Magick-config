@@ -1,0 +1,47 @@
+#!/bin/sh
+#
+# Configure options script for re-calling MagickCore compilation options
+# required to use the MagickCore library.
+#
+usage="\
+Usage: Magick-config [--cflags] [--cppflags] [--exec-prefix] [--ldflags] [--libs] [--prefix] [--version]"
+
+if test $# -eq 0; then
+      echo "${usage}" 1>&2
+      echo "Example: gcc \`Magick-config --cflags --cppflags\` -o core core.c \`Magick-config --ldflags --libs\`" 1>&2
+      exit 1
+fi
+
+while test $# -gt 0; do
+  case $1 in
+    --prefix)
+      echo /usr/local
+      ;;
+    --exec-prefix)
+      echo /usr/local
+      ;;
+    --version)
+      echo 6.3.2
+      ;;
+    --cflags)
+      echo '-g -O2 -Wall -W -pthread'
+      ;;
+    --cxxflags)
+      echo '-g -O2 -Wall -W -pthread'
+      ;;
+    --cppflags)
+      echo '-I/usr/local/include'
+      ;;
+    --ldflags)
+      echo '-L/usr/local/lib -lfreetype'
+      ;;
+    --libs)
+      echo '-lMagick -llcms -ltiff -lfreetype -ljpeg -lfontconfig -lXext -lSM -lICE -lX11 -lXt -lbz2 -lz -lpthread -lm -lpthread -lWand -lMagick'
+      ;;
+    *)
+      echo "${usage}" 1>&2
+      exit 1
+      ;;
+  esac
+  shift
+done

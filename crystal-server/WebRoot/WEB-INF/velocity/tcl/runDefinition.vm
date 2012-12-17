@@ -1,0 +1,18 @@
+#parse("/tcl/macros.vm")
+$silId $row $uniqueId $crystalEventId
+#if ($labels)
+{#foreach ($label in $labels)$label #end}
+#else
+{}
+#end
+#if ($statusList)
+{#foreach ($st in $statusList)$st #end}
+#else
+{}
+#end
+#if ($run)
+{$silId $row $uniqueId {$!runIndex} {$!run.repositionId} {$!run.runStatus} {$!run.nextFrame} {$!run.runLabel} {$!run.fileRoot} {$!run.directory} {$!run.startFrame} {$!run.axisMotorName} {$!run.startAngle} {$!run.endAngle} {$!run.delta} {$!run.wedgeSize} {$!run.doseMode} {$!run.attenuation} {$!run.exposureTime} {$!run.photonCount} {$!run.resolutionMode} {$!run.resolution} {$!run.distance} {$!run.beamStop} {$!run.numEnergy} {$!run.energy1} {$!run.energy2} {$!run.energy3} {$!run.energy4} {$!run.energy5} {$!run.detectorMode} {$!run.inverse} {$!repos.beamSizeX} {$!repos.beamSizeY} {$!repos.offsetX} {$!repos.offsetY} {$!repos.offsetZ}}
+#else
+{}
+#end
+#outputRepositionData($silId $row $uniqueId $repos $reposList)

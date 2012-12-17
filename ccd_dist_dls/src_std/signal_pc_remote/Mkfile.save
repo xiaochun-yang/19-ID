@@ -1,0 +1,22 @@
+CC = cc
+CFLAGS = $(CFLAGS_OS) -D$(OSTYPE) -DUNIX -Dunix -DSIGNAL_PC_REMOTE_MAIN
+IOFLAGS = 
+OEXTS = signal_pc_remote.o
+OBS  =
+OBJS = $(OEXTS) $(OBS) ../../lib/$(OSTYPE)/auxlib.a ../../lib/$(OSTYPE)/libwincompat.a
+DD = ../../bin/$(OSTYPE)
+
+PRCMD = pr
+
+$(DD)/signal_pc_remote : $(OBJS) ../../lib/$(OSTYPE)/auxlib.a
+	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) $(IOFLAGS) -o $(DD)/signal_pc_remote $(LIBFILE)
+
+
+$(OEXTS):
+
+clean :	$(OEXTS) $(OBS)
+	rm $?
+
+print :	*.c *.h Makefile
+	$(PRCMD) $?
+	touch print

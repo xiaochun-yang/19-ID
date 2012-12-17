@@ -1,0 +1,61 @@
+#Main Sconscript for the ---xos_cpp--- module
+# An experimental build system used at LBNL (Nick Sauter) to compile the SSRL
+# packages for WebIce.  Build tools include SCons & cctbx, not gmake.
+
+import libtbx.load_env
+import os
+Import("env_base", "env_etc")
+
+env_etc.xos_cpp_dist = libtbx.env.dist_path("xos_cpp")
+
+env_etc.xos_cpp_include = env_etc.norm_join(env_etc.xos_cpp_dist,"src")
+env_etc.xos_cpp_common_includes = [
+  env_etc.xos_cpp_include,
+  env_etc.xos_include,
+]
+
+env = env_base.Copy(
+  CXXFLAGS=env_etc.cxxflags_base,
+  SHCXXFLAGS=env_etc.cxxflags_base,
+  SHLINKFLAGS=env_etc.shlinkflags,
+)
+
+env_etc.include_registry.append(
+  env=env,
+  paths=env_etc.xos_cpp_common_includes)
+
+env_xos_cpp = env.Copy(
+  LIBS = env_etc.libm + ["rt","pthread","c"],
+)
+
+arch_dependent_flags={"irix_CC":["-DIRIX","-DPTHREADS","-MP:dsm=off"],
+                      "unix_gcc":["-DLINUX","-fexceptions","-pthread"], 
+                      "tru64_cxx":["-DDEC_UNIX","-pthread"]}
+
+env_xos_cpp.Append(
+CXXFLAGS=["-c","-D_REENTRANT"] +
+  arch_dependent_flags[env_etc.compiler])
+
+env_xos_cpp.Append(LIBPATH=["#lib",])
+
+lib_xos_cpp_sources = [
+  "src/XosException.cxx",
+  "src/XosSocket.cxx",
+  "src/XosSocketAddress.cxx",
+  "src/XosServerSocket.cxx",
+  "src/XosStringUtil.cxx",
+  "src/XosUrl.cxx",
+  "src/XosWildcard.cxx",
+  "src/XosFileNameWildcard.cxx",
+  "src/XosFileUtil.cxx",
+  "src/XosThread.cxx",
+  "src/XosTimeCheck.cxx",
+  "src/XosConfig.cxx",
+  "src/XosMutex.cxx",
+]
+
+builder = env_xos_cpp.StaticLibrary
+builder(
+    target="#lib/xos_cpp",
+    source=lib_xos_cpp_sources,
+)

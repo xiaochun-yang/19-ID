@@ -1,0 +1,5008 @@
+self
+3
+localhost 2
+
+galil1
+3
+localhost 2
+
+galil2
+3
+localhost 2
+
+galil3
+3
+localhost 2
+
+galil4
+3
+localhost 2
+
+galil5
+3
+localhost 2
+
+galil6
+3
+localhost 2
+
+galil7
+3
+localhost 2
+
+galil8
+3
+localhost 2
+
+galil9
+3
+localhost 2
+
+galil10
+3
+localhost 2
+
+camera
+3
+localhost 2
+
+inline_camera
+3
+localhost 2
+
+detector
+3
+pilatus6m-101 2
+
+DSA2000
+3
+bl122pc.slac.stanford.edu 2
+
+daqhost
+3
+bl122pc.slac.stanford.edu 2
+
+barcodeReader
+3
+bl122pc.slac.stanford.edu 2
+
+robot
+3
+bl122bot.slac.stanford.edu 2
+
+imperson
+3
+localhost 2
+
+epics_gateway
+3
+localhost 2
+
+temperatureDhs
+3
+localhost 2
+
+sr570
+3
+localhost 2
+
+cryojetDhs
+3
+localhost 2
+
+temperature
+2
+cryojetDhs temperature
+0 1 1 1 1
+0 1 1 1 1
+0
+100.000000 120.000000 80.000000 0 0 0 0 K
+0
+
+temp_setpoint
+2
+cryojetDhs temp_setpoint
+0 1 1 1 1
+0 1 1 1 1
+0
+100.000000 120.000000 100.000000 1 0 0 0 K
+0
+
+shield_flow
+2
+cryojetDhs shield_flow
+0 1 1 1 1
+0 1 1 1 1
+0
+4.090000 10.000000 0.000000 1 1 0 0 L/min
+0
+
+sample_flow
+2
+cryojetDhs sample_flow
+0 1 1 1 1
+0 1 1 1 1
+0
+8.010000 10.000000 0.000000 1 1 0 0 L/min
+0
+
+cryojet_mode
+6
+cryojetDhs 1 cryojet_mode
+0 1 1 1 1
+0 1 1 1 1
+
+cryojet_control
+6
+cryojetDhs 1 cryojet_control
+0 1 1 1 1
+0 1 1 1 1
+
+cryo_set_temp_setpoint
+11
+cryojetDhs cryo_set_temp_setpoint
+0 1 1 1 1
+0 1 1 1 1
+
+cryo_get_temp_setpoint
+11
+cryojetDhs cryo_get_temp_setpoint
+1 1 1 1 1
+1 1 1 1 1
+
+cryo_get_current_temp
+11
+cryojetDhs cryo_get_current_temp
+1 1 1 1 1
+1 1 1 1 1
+
+cryo_set_sample_flow
+11
+cryojetDhs cryo_set_sample_flow
+0 1 1 1 1
+0 1 1 1 1
+
+cryo_get_sample_flow
+11
+cryojetDhs cryo_get_sample_flow
+1 1 1 1 1
+1 1 1 1 1
+
+cryo_set_shield_flow
+11
+cryojetDhs cryo_set_shield_flow
+0 1 1 1 1
+0 1 1 1 1
+
+cryo_get_shield_flow
+11
+cryojetDhs cryo_get_shield_flow
+0 1 1 1 1
+0 1 1 1 1
+
+cryo_set_timeout_default
+11
+cryojetDhs cryo_set_timeout_default
+0 1 1 1 1
+0 1 1 1 1
+
+cryo_get_voltage
+11
+cryojetDhs cryo_get_voltage
+1 1 1 1 1
+1 1 1 1 1
+
+cryo_set_voltage
+11
+cryojetDhs cryo_set_voltage
+0 1 1 1 1
+0 1 1 1 1
+
+cryo_get_mode
+11
+cryojetDhs cryo_get_mode
+1 1 1 1 1
+1 1 1 1 1
+
+cryo_get_controller
+11
+cryojetDhs cryo_get_controller
+1 1 1 1 1
+1 1 1 1 1
+
+cryojet_anneal
+11
+self cryojet
+1 1 1 1 1
+0 0 1 1 1
+
+anneal_config
+13
+self standardString
+1 1 1 1 1
+0 0 0 0 0
+8 0 5 10
+
+d_spacing
+2
+self standardVirtualMotor
+1 1 1 1 1
+0 0 0 0 0
+0
+3.135500 90.000000 -10.000000 0 0 1 0 mm
+0
+
+get_robotstate
+11
+robot get_robotstate
+1 1 1 1 1
+1 1 1 1 1
+
+mount_crystal
+11
+robot mount_crystal
+0 0 0 1 1
+0 0 0 0 0
+
+prepare_mount_crystal
+11
+robot prepare_mount_crystal
+0 0 0 1 1
+0 0 0 0 0
+
+dismount_crystal
+11
+robot dismount_crystal
+0 0 0 1 1
+0 0 0 0 0
+
+prepare_dismount_crystal
+11
+robot prepare_dismount_crystal
+0 0 0 1 1
+0 0 0 0 0
+
+mount_next_crystal
+11
+robot mount_next_crystal
+0 0 0 1 1
+0 0 0 0 0
+
+prepare_mount_next_crystal
+11
+robot prepare_mount_next_crystal
+0 0 0 1 1
+0 0 0 0 0
+
+move_crystal
+11
+robot move_crystal
+0 0 0 1 1
+0 0 0 0 0
+
+prepare_move_crystal
+11
+robot prepare_move_crystal
+0 0 0 1 1
+0 0 0 0 0
+
+robot_config
+11
+robot robot_config
+0 0 1 1 1
+0 0 0 0 0
+
+robotConfigSoftOnly
+11
+self robotConfigSoftOnly
+1 1 1 1 1
+0 0 0 0 0
+
+robot_calibrate
+11
+robot robot_calibrate
+1 1 1 1 1
+0 0 0 0 0
+
+robot_standby
+11
+robot robot_standby
+1 1 1 1 1
+0 0 0 0 0
+
+robot_status
+13
+robot robot_status
+0 1 1 1 1
+0 1 1 1 1
+status: 529 need_reset: 0 need_cal: 1 state: {idle} warning: {Safeguard latched} cal_msg: {cassette cal: Done} cal_step: {100 of 100} mounted: {} pin_lost: {0} pin_mounted: {27550} manual_mode: 0 need_mag_cal: 0 need_cas_cal: 0 need_clear: 1 tool_mode: 0 extra: 0 barcode_setup: 0 barcode_read: 0
+
+robot_state
+13
+robot robot_state
+0 1 1 1 1
+0 1 1 1 1
+{no} {in cradle} P0 yes {invalid} 45184 9 0 0 33 0 {invalid} {invalid} {invalid} 2608 2065 546 0 
+
+robot_cassette
+13
+robot robot_cassette
+0 1 1 1 1
+0 1 1 1 1
+u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u
+
+robot_probe
+13
+robot robot_probe
+0 1 1 1 1
+0 1 1 1 1
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+robot_input
+13
+robot robot_input
+0 1 1 1 1
+0 1 1 1 1
+1 1 0 0 0 0 0 0 1 0 0 1 0 0 0 0
+
+robot_output
+13
+robot robot_output
+0 1 1 1 1
+0 1 1 1 1
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+robot_sample
+13
+robot robot_sample
+0 1 1 1 1
+0 1 1 1 1
+
+
+robot_attribute
+13
+robot robot_attribute
+0 1 1 1 1
+0 1 1 1 1
+1 1 1 1 1 0 0 1 0 1 0 -1 0 1
+
+robot_cal_config
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+0 1 1 1 0 0 1 1 1 0
+
+crystalStatus
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+{} c_mA1 robot 0 {} yes 0 {}
+
+screening_msg
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+
+
+ISampleMountingDevice
+11
+self ISAM4BL122
+0 0 0 1 1
+0 0 0 1 1
+
+RobotTest
+11
+self RobotTest
+0 0 0 1 1
+0 0 0 0 0
+
+lastImageCollected
+13
+detector lastImageCollected
+0 1 1 1 1
+0 1 1 1 1
+/data/TTT/Nov26_2012/torture-final_1_03600.cbf
+
+detector_collect_image
+11
+detector detector_collect_image
+0 1 1 1 1
+0 1 1 1 1
+
+detector_transfer_image
+11
+detector detector_transfer_image
+0 1 1 1 1
+0 1 1 1 1
+
+detector_oscillation_ready
+11
+detector detector_oscillation_ready
+0 1 1 1 1
+0 1 1 1 1
+
+detector_stop
+11
+detector detector_stop
+0 1 1 1 1
+0 1 1 1 1
+
+detector_reset_run
+11
+detector detector_reset_run
+0 1 1 1 1
+0 1 1 1 1
+
+collectStillImage
+11
+self collectStillImage
+0 1 1 1 1
+0 1 1 1 1
+
+collectFrame
+11
+self collectFrame
+0 1 1 1 1
+0 1 1 1 1
+
+collectRun
+11
+self collectShutterless
+0 0 1 1 1
+0 0 1 1 1
+
+collectRuns
+11
+self collectRuns
+0 0 1 1 1
+0 0 1 1 1
+
+pauseDataCollection
+11
+self pauseDataCollection
+0 1 1 1 1
+0 1 1 1 1
+
+detector_horz
+1
+galil1 detector_horz
+0 0 1 1 1
+0 0 0 1 1
+0
+0.250288 3.200000 -430.000000 19.977000 400 300 32 1 1 0 1 0 0 mm
+
+detector_vert
+1
+galil1 detector_vert
+0 0 1 1 1
+0 0 0 1 1
+0
+0.000000 350.000000 -3.000000 3130.000000 4000 400 2817 1 1 0 1 1 0 mm
+
+detector_z
+1
+galil1 detector_z
+0 0 0 1 1
+0 0 0 0 0
+0
+800.171300 904.000000 188.000000 200.060000 2000 400 -280 1 1 0 1 0 0 mm
+
+detector_horz_offset
+2
+self standardVirtualMotor
+1 1 1 1 1
+0 0 0 0 0
+0
+0.000000 10.000000 -170.000000 1 1 0 0 mm
+0
+
+detector_vert_offset
+2
+self standardVirtualMotor
+1 1 1 1 1
+0 0 0 0 0
+0
+0.000000 150.000000 -10.000000 1 1 0 0 mm
+0
+
+detector_center_horz_offset
+2
+self standardVirtualMotor
+0 0 1 1 1
+0 0 0 1 1
+0
+0.000000 0.000000 -100.000000 0 0 0 0 mm
+0
+
+detector_center_vert_offset
+2
+self standardVirtualMotor
+0 0 1 1 1
+0 0 0 1 1
+0
+0.000000 100.000000 0.000000 0 0 0 0 mm
+0
+
+detector_z_offset
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 0 0 0 0
+0
+29.768500 100.000000 -100.000000 0 0 0 0 mm
+0
+
+detector_horz_encoder
+12
+galil1 detector_horz_encoder
+0 1 1 1 1
+0 1 1 1 1
+
+detector_vert_encoder
+12
+galil1 detector_vert_encoder
+0 1 1 1 1
+0 1 1 1 1
+
+detector_z_encoder
+12
+galil1 detector_z_encoder
+0 1 1 1 1
+0 1 1 1 1
+
+detector_z_corr
+2
+self detector_z_corr_BL12-2
+0 0 1 1 1
+0 0 0 1 1
+1
+800.171300 900.000000 188.010000 0 0 0 0 mm
+detector_z
+
+table_vert_1
+1
+galil2 table_vert_1
+0 1 1 1 1
+0 0 0 0 0
+0
+32.394945 37.000000 27.000000 1580.370000 1500 30 1600 1 1 0 1 0 0 mm
+
+table_vert_2
+1
+galil2 table_vert_2
+0 1 1 1 1
+0 0 0 0 0
+0
+34.487333 39.000000 27.000000 1590.700000 1500 30 1600 1 1 0 1 1 0 mm
+
+table_vert
+2
+self table_vert
+0 1 1 1 1
+0 0 0 0 0
+1
+32.841723 36.800000 28.600000 0 0 0 0 mm
+table_vert_1 table_vert_2
+
+table_pitch
+2
+self table_pitch
+0 1 1 1 1
+0 0 0 0 0
+1
+0.238987 100.000000 -100.000000 1 1 0 0 deg
+table_vert_1 table_vert_2
+
+table_horz
+1
+galil2 table_horz
+0 1 1 1 1
+0 0 0 0 0
+0
+12.504344 40.138000 -1.000000 1585.369000 1500 300 -7930 1 1 0 1 0 0 mm
+
+table_v1_z
+2
+self table_v1_z
+1 1 1 1 1
+0 0 0 0 0
+0
+-507.365000 600.000000 -600.000000 0 0 1 0 mm
+0
+
+table_v2_z
+2
+self table_v2_z
+1 1 1 1 1
+0 0 0 0 0
+0
+-5.715000 100.000000 -100.000000 0 0 1 0 mm
+0
+
+table_pivot_z
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 0 0 0 0
+0
+-400.250000 100.000000 -100.000000 0 0 1 0 mm
+0
+
+table_h2_z
+2
+self table_h2_z
+0 1 1 1 1
+0 0 0 0 0
+0
+0.000000 100.000000 -100.000000 0 0 1 0 mm
+0
+
+table_vert_offset
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 0 0 0 0
+0
+0.216279 100.000000 -100.000000 0 0 0 0 mm
+0
+
+table_vert_1_encoder
+12
+galil2 table_vert_1_encoder
+0 1 1 1 1
+0 1 1 1 1
+
+table_vert_2_encoder
+12
+galil2 table_vert_2_encoder
+0 1 1 1 1
+0 1 1 1 1
+
+table_horz_encoder
+12
+galil2 table_horz_encoder
+0 1 1 1 1
+0 1 1 1 1
+
+collimator_vert_encoder
+12
+galil2 collimator_vert_encoder
+0 1 1 1 1
+0 1 1 1 1
+
+collimator_horz_encoder
+12
+galil2 collimator_horz_encoder
+0 1 1 1 1
+0 1 1 1 1
+
+beam_size_x
+2
+self beam_size_x_bl122
+0 1 1 1 1
+0 0 0 0 0
+1
+0.360000 0.200000 0.000000 0 0 0 0 mm
+slit_2_horiz_gap
+
+beam_size_y
+2
+self beam_size_y_bl122
+0 1 1 1 1
+0 0 0 0 0
+1
+0.190000 0.200000 0.000000 0 0 0 0 mm
+slit_2_vert_gap
+
+slit_1_vert
+1
+galil2 slit_1_vert
+0 1 1 1 1
+0 0 0 0 0
+0
+2.940599 25.000000 0.000000 6666.670000 1000 100 667 0 1 0 1 0 0 mm
+
+slit_1_vert_gap
+1
+galil2 slit_1_vert_gap
+0 1 1 1 1
+0 0 0 0 0
+0
+3.000000 6.000000 -0.200000 2500.000000 1000 100 -125 0 0 0 1 0 0 mm
+
+slit_1_horiz
+1
+galil2 slit_1_horiz
+0 1 1 1 1
+0 0 0 0 0
+0
+1.858350 5.000000 -5.000000 6666.667000 1000 100 667 0 0 0 1 0 0 mm
+
+slit_1_horiz_gap
+1
+galil2 slit_1_horiz_gap
+0 1 1 1 1
+0 0 0 0 0
+0
+0.010000 5.000000 -0.100000 2500.000000 1000 100 -125 0 0 0 1 0 0 mm
+
+slit_2_vert
+1
+galil3 slit_2_vert
+0 1 1 1 1
+0 0 0 0 0
+0
+-0.386850 5.000000 -5.000000 6666.667000 1000 100 333 1 1 0 1 1 0 mm
+
+slit_2_vert_gap
+1
+galil3 slit_2_vert_gap
+0 1 1 1 1
+0 0 0 0 0
+0
+0.190000 6.000000 -0.200000 2500.000000 1000 100 -125 0 0 0 1 0 0 mm
+
+slit_2_horiz
+1
+galil3 slit_2_horiz
+0 1 1 1 1
+0 0 0 0 0
+0
+0.687450 5.000000 -5.000000 6666.667000 1000 100 667 0 0 0 1 0 0 mm
+
+slit_2_horiz_gap
+1
+galil3 slit_2_horiz_gap
+0 1 1 1 1
+0 0 0 0 0
+0
+0.360000 6.000000 -0.200000 2500.000000 1000 100 -125 1 0 0 1 0 0 mm
+
+focusing_mirror_1_bend_1
+1
+galil3 focusing_mirror_1_bend_1
+0 1 1 1 1
+0 0 0 0 0
+0
+7.999746 9.000000 2.000000 1574.800000 1000 10 315 1 1 0 1 1 0 mm
+
+focusing_mirror_1_bend_2
+1
+galil3 focusing_mirror_1_bend_2
+0 1 1 1 1
+0 0 0 0 0
+0
+19.100203 22.000000 2.000000 1574.800000 1000 10 315 1 1 0 1 1 0 mm
+
+focusing_mirror_2_bend_1
+1
+galil3 focusing_mirror_2_bend_1
+0 1 1 1 1
+0 0 0 0 0
+0
+7.528575 9.000000 2.000000 1574.800000 1000 10 787 1 1 0 1 1 0 mm
+
+focusing_mirror_2_bend_2
+1
+galil3 focusing_mirror_2_bend_2
+0 1 1 1 1
+0 0 0 0 0
+0
+7.727965 9.000000 2.000000 1574.800000 1000 10 787 1 1 0 1 1 0 mm
+
+focusing_mirror_1_horz
+1
+galil4 focusing_mirror_1_horz
+0 1 1 1 1
+0 0 0 0 0
+0
+-4.099900 4.050000 -4.550000 3231.581000 1000 125 300 1 1 1 1 0 0 mm
+
+focusing_mirror_1_yaw
+1
+galil4 focusing_mirror_1_yaw
+0 1 1 1 1
+0 0 0 0 0
+0
+5.483800 5.454000 0.910000 1674.033000 800 125 146 1 1 1 1 0 0 mrad
+
+focusing_mirror_2_vert_1
+1
+galil4 focusing_mirror_2_vert_1
+0 1 1 1 1
+0 0 0 0 0
+0
+0.967200 2.600000 -0.500000 3035.572000 1000 125 1516 0 1 1 1 1 0 mm
+
+focusing_mirror_2_vert_2
+1
+galil4 focusing_mirror_2_vert_2
+0 1 1 1 1
+0 0 0 0 0
+0
+3.316300 5.500000 0.000000 3035.572000 1000 125 1516 0 1 1 1 1 0 mm
+
+focusing_mirror_2_vert
+2
+self focusing_mirror_2_vert
+0 1 1 1 1
+0 0 0 0 0
+1
+2.041084 4.800000 -3.000000 0 0 0 0 mm
+focusing_mirror_2_vert_1 focusing_mirror_2_vert_2
+
+focusing_mirror_2_pitch
+2
+self focusing_mirror_2_pitch
+0 1 1 1 1
+0 0 0 0 0
+1
+0.182552 0.292208 -0.068755 0 0 0 0 deg
+focusing_mirror_2_vert_1 focusing_mirror_2_vert_2
+
+focusing_mirror_2_pivot_z
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 0 0 0 0
+0
+0.000000 100.000000 -100.000000 0 0 1 0 mm
+0
+
+focusing_mirror_2_v1_z
+2
+self standardVirtualMotor
+1 1 1 1 1
+0 0 0 0 0
+0
+-337.058000 -450.000000 -100.000000 0 0 1 0 mm
+0
+
+focusing_mirror_2_v2_z
+2
+self standardVirtualMotor
+1 1 1 1 1
+0 0 0 0 0
+0
+400.250000 1000.000000 -100.000000 0 0 1 0 mm
+0
+
+beamstop_ver
+1
+galil4 beamstop_ver
+0 1 1 1 1
+0 0 0 0 0
+0
+4.286543 5.000000 2.000000 862.000000 500 100 100 1 0 0 1 0 0 mm
+
+beamstop_hor
+1
+galil4 beamstop_hor
+0 1 1 1 1
+0 0 0 0 0
+0
+1.455000 2.100000 -5.000000 800.000000 1000 100 400 1 0 0 1 1 0 mm
+
+beamstop_z
+1
+galil4 beamstopz
+0 1 1 1 1
+0 0 0 0 0
+0
+63.203051 69.800000 16.000000 31.470000 1000 100 30 1 0 0 1 1 0 mm
+
+mirror_slit_ssrl
+1
+galil5 mirror_slit_ssrl
+0 1 1 1 1
+0 0 0 0 0
+0
+-0.698501 3.300000 -3.500000 157.480000 700 125 -39 1 1 0 1 0 0 mm
+
+mirror_slit_spear
+1
+galil5 mirror_slit_spear
+0 1 1 1 1
+0 0 0 0 0
+0
+-2.362205 2.250000 -3.400000 157.480000 700 125 16 1 1 0 1 0 0 mm
+
+mirror_horz
+1
+galil5 mirror_horz
+0 1 1 1 1
+0 0 0 0 0
+0
+1.206530 4.350000 -3.000000 3231.581000 1000 125 300 1 1 0 1 1 0 mm
+
+mirror_yaw
+1
+galil5 mirror_yaw
+0 1 1 1 1
+0 0 0 0 0
+0
+0.204604 0.286479 0.177617 29217.391000 800 125 100 1 1 0 1 1 0 deg
+
+mono_slit_spear
+1
+galil5 mono_slit_spear
+0 1 1 1 1
+0 0 0 0 0
+0
+-1.174603 2.000000 -9.200000 157.500000 700 20 39 1 1 0 1 0 0 mm
+
+mono_slit_ssrl
+1
+galil5 mono_slit_ssrl
+0 1 1 1 1
+0 0 0 0 0
+0
+0.628571 10.000000 -2.000000 157.500000 700 20 -39 1 1 0 1 0 0 mm
+
+mono_slit_upper
+1
+galil5 mono_slit_upper
+0 1 1 1 1
+0 0 0 0 0
+0
+1.892063 3.100000 -2.100000 157.500000 700 20 -39 1 1 0 1 0 0 mm
+
+mono_slit_lower
+1
+galil5 mono_slit_lower
+0 1 1 1 1
+0 0 0 0 0
+0
+0.692063 2.100000 -3.000000 157.500000 700 20 39 1 1 0 1 1 0 mm
+
+mono_theta_corr
+2
+self mono_theta_corr_bl92
+0 1 1 1 1
+0 0 0 0 0
+1
+8.986308 90.000000 -10.000000 0 0 0 0 deg
+mono_theta
+
+mono_theta
+1
+galil6 mono_theta
+0 1 1 1 1
+0 0 0 0 0
+0
+8.986308 17.259000 6.677000 20011.000000 10000 225 -800 1 1 0 1 0 0 deg
+
+mono_theta_encoder
+12
+galil6 mono_theta_encoder
+0 1 1 1 1
+0 1 1 1 1
+
+energy
+2
+self energy_bl122
+0 0 1 1 1
+0 0 0 1 1
+1
+12658.025339 17000.000000 6690.000000 0 0 0 0 eV
+mono_theta_corr
+
+optimized_energy
+2
+self optimized_energy_bl122
+0 0 1 1 1
+0 0 0 1 1
+1
+12658.025339 16000.000000 7000.000000 0 0 0 0 eV
+energy
+
+optimizedEnergyParameters
+13
+self standardString
+1 1 1 1 1
+0 1 1 1 1
+0 {{Optimized table}} 0 0 0 0 0 0 0 12657.9743702 1147463307 100.00 3600.00 12.00 15.0000 0.100 105.000 -105.000 i2 0.095 0.095 0.100 20 0.050 0.10 0 60 0 60 0 900.0 9999.00 0 200.000
+
+mono_trans
+1
+galil6 mono_trans
+0 1 1 1 1
+0 0 0 0 0
+0
+10002.000000 10000.000000 -101.000000 1.000000 500 500 -10 0 0 1 0 0 0 mm
+
+mono_diagnostic_vert
+1
+galil6 mono_diagnostic_vert
+0 1 1 1 1
+0 0 0 0 0
+0
+-1.660549 -1.500000 -50.500000 629.912000 1000 100 -100 1 1 0 1 0 0 mm
+
+mono_a_pitch
+1
+galil6 mono_a_pitch
+0 1 1 1 1
+0 0 0 0 0
+0
+7414.000000 100000.000000 -1000000.000000 1.000000 500 100 -10 0 0 1 0 0 0 mm
+
+mono_a_roll
+1
+galil6 mono_a_roll
+0 1 1 1 1
+0 0 0 0 0
+0
+10119.000000 100000.000000 -100000.000000 1.000000 500 100 -10 0 0 1 0 0 0 mm
+
+mono_b_pitch
+1
+galil6 mono_b_pitch
+0 1 1 1 1
+0 0 0 0 0
+0
+0.000000 99990.000000 -1000000.000000 1.000000 500 100 -10 0 0 1 0 0 0 mm
+
+mono_b_roll
+1
+galil6 mono_b_roll
+0 1 1 1 1
+0 0 0 0 0
+0
+0.000000 999990.000000 -10000000.000000 1.000000 500 100 -10 0 0 1 0 0 0 mm
+
+asymmetric_cut
+2
+self standardVirtualMotor
+1 1 1 1 1
+1 1 1 1 1
+0
+0.000000 90.000000 -10.000000 0 0 0 0 deg
+0
+
+gonio_kappa
+1
+galil7 gonio_kappa
+0 1 1 1 1
+0 0 0 1 1
+0
+0.000000 20.000000 0.000000 200.000000 400 100 0 0 0 1 0 1 0 deg
+
+gonio_phi
+1
+galil10 gonio_phi
+0 1 1 1 1
+0 0 0 1 1
+0
+290.227186 1000.000000 -1000.000000 9998.195000 900000 300 0 0 0 0 0 0 1 deg
+
+huber_gonio_phi
+1
+galil7 huber_gonio_phi
+0 1 1 1 1
+0 1 1 1 1
+0
+185.977600 1000.000000 -1000.000000 2500.000000 500 50 625 0 0 1 0 1 1 deg
+
+gonio_omega
+1
+galil7 gonio_omega
+0 1 1 1 1
+0 0 0 1 1
+0
+0.000000 1.000000 -1.000000 62500.000000 400 500 0 0 0 1 0 1 0 deg
+
+huber_sample_x
+1
+galil9 huber_sample_x
+0 1 1 1 1
+0 1 1 1 1
+0
+-0.311600 2.600000 -2.600000 17500.000000 10000 10 0 1 1 1 0 0 0 mm
+
+huber_sample_y
+1
+galil9 huber_sample_y
+0 1 1 1 1
+0 1 1 1 1
+0
+-0.249657 2.600000 -2.600000 17500.000000 10000 10 1750 1 1 0 0 0 0 mm
+
+collimator_vert
+1
+galil9 collimator_vert
+0 1 1 1 1
+0 1 1 1 1
+0
+0.862039 1.150000 -1.600000 15200.000000 5000 200 -1000 1 1 0 0 0 0 mm
+
+collimator_horz
+1
+galil9 collimator_horz
+0 1 1 1 1
+0 1 1 1 1
+0
+46.276645 67.000000 12.000000 15200.000000 225000 1 0 1 1 0 0 1 0 mm
+
+huber_sample_z
+1
+galil9 huber_sample_z
+0 1 1 1 1
+0 1 1 1 1
+0
+-1.553430 20.000000 -8.000000 17500.000000 10000 100 875 1 1 1 0 0 0 mm
+
+sample_x
+1
+galil1 sample_x
+0 1 1 1 1
+0 1 1 1 1
+0
+0.000000 1.700000 -1.780000 16512.000000 4000 1000 660 0 0 0 1 1 0 mm
+
+sample_y
+1
+galil1 sample_y
+0 1 1 1 1
+0 1 1 1 1
+0
+0.000000 1.750000 -2.000000 16512.000000 4000 1000 660 0 0 0 1 0 0 mm
+
+sample_z
+1
+galil1 sample_z
+0 1 1 1 1
+0 1 1 1 1
+0
+0.000000 2.420000 -28.000000 11105.000000 2500 500 -1111 0 0 0 1 0 0 mm
+
+sample_z_encoder
+12
+galil1 sample_z_encoder
+0 1 1 1 1
+0 1 1 1 1
+
+sample_z_offset
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 0 0 0 0
+0
+52.708500 100.000000 -100.000000 0 0 0 0 mm
+0
+
+sample_z_corr
+2
+self sample_z_corr
+0 1 1 1 1
+0 1 1 1 1
+1
+0.000000 2.150000 -36.000000 1 0 0 0 mm
+sample_z
+
+gonio_vert
+1
+galil1 gonio_vert
+0 1 1 1 1
+0 0 0 0 0
+0
+3.505100 5.000000 0.000000 20000.000000 1000 1000 1000 1 1 1 1 0 0 mm
+
+gonio_vert_encoder
+12
+galil1 gonio_vert_encoder
+1 1 1 1 1
+0 1 1 1 1
+
+gonio_vert_offset
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 0 0 0 0
+0
+-3.568500 100.000000 -100.000000 0 0 0 0 mm
+0
+
+inline_camera_zoom
+1
+galil7 inline_camera_zoom
+0 1 1 1 1
+0 1 1 1 1
+0
+0.450000 1.025000 -0.025000 25000.000000 3500 500 512 0 1 0 0 0 0 mm
+
+inline_camera_focus
+1
+galil7 inline_camera_focus
+0 1 1 1 1
+0 1 1 1 1
+0
+-0.693000 1.000000 -0.900000 4000.000000 1000 500 100 1 1 0 1 0 0 mm
+
+inline_camera_vert
+1
+galil7 inline_camera_vert
+0 1 1 1 1
+0 1 1 1 1
+0
+-0.660500 0.800000 -0.850000 2000.000000 1000 500 100 1 1 1 1 1 0 mm
+
+inline_camera_horz
+1
+galil7 inline_camera_horz
+0 1 1 1 1
+0 1 1 1 1
+0
+16.015300 17.700000 12.000000 4000.000000 1000 500 100 1 1 1 1 0 0 mm
+
+inline_camera_polarizer
+1
+galil8 inline_camera_polarizer
+0 0 0 0 1
+0 0 0 0 1
+0
+5.007440 5.025000 4.000000 25000.000000 1000 500 0 0 0 1 0 0 1 deg
+
+inlineLightControl
+11
+self inlineLightControl
+0 1 1 1 1
+0 1 1 1 1
+
+inlineCenterLoop
+11
+self inlineCenterLoop
+0 1 1 1 1
+0 1 1 1 1
+
+camera_zoom
+1
+galil9 camera_zoom
+0 1 1 1 1
+0 1 1 1 1
+0
+0.000000 1.100000 -0.010000 34000.000000 7000 50 0 1 1 0 0 1 0 mm
+
+guard_shield_vert
+1
+galil9 guard_shield_vert
+0 1 1 1 1
+0 0 0 0 0
+0
+-0.762200 0.330000 -0.440000 5181.000000 800 190 -518 0 0 1 0 1 0 mm
+
+guard_shield_horiz
+1
+galil9 guard_shield_horiz
+0 1 1 1 1
+0 0 0 0 0
+0
+-0.070000 0.900000 -0.550000 17500.000000 1000 10 -1036 0 1 1 1 1 0 mm
+
+fluorescence_z
+1
+galil4 fluorescence_z
+0 1 1 1 1
+0 0 0 0 0
+0
+50.000000 80.000000 25.000000 192.000000 2000 100 0 1 1 0 1 1 0 mm
+
+daqIon
+11
+self daqIon
+1 1 1 1 1
+0 1 1 1 1
+
+daqIon1
+11
+self daqIon1
+1 1 1 1 1
+0 1 1 1 1
+
+daqIon2
+11
+self daqIon2
+1 1 1 1 1
+0 1 1 1 1
+
+daqEncoder
+11
+self daqEncoder
+1 1 1 1 1
+0 1 1 1 1
+
+daqEncoder1
+11
+self daqEncoder1
+1 1 1 1 1
+0 1 1 1 1
+
+daqEncoder2
+11
+self daqEncoder2
+1 1 1 1 1
+0 1 1 1 1
+
+i0
+4
+self daqIon2 6 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+i_house_air_pressure_psi
+4
+self daqIon 9 1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+i_house_air_pressure_volt
+4
+self daqIon 9 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+i2
+4
+self daqIon2 7 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+i_flux
+4
+self daqIon2 7 2 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+i_beamstop
+4
+self daqIon 11 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+i_sample
+4
+self daqIon 12 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+e_lvdt_m1_ubend
+4
+self daqEncoder1 0 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+e_lvdt_m1_dbend
+4
+self daqEncoder1 1 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+e_lvdt_m2_ubend
+4
+self daqEncoder1 2 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+e_lvdt_m2_dbend
+4
+self daqEncoder1 3 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+e_lvdt_m1_horz
+4
+self daqEncoder1 4 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+e_lvdt_m1_yaw
+4
+self daqEncoder1 5 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+e_lvdt_m2_vert1
+4
+self daqEncoder1 6 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+e_lvdt_m2_vert2
+4
+self daqEncoder1 7 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+e_lvdt_m0_ssrl
+4
+self daqEncoder1 8 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+e_lvdt_m0_spear
+4
+self daqEncoder1 9 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+e_lvdt_m0_horz
+4
+self daqEncoder1 10 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+e_lvdt_m0_yaw
+4
+self daqEncoder1 11 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+e_lvdt_mono_spear
+4
+self daqEncoder1 12 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+e_lvdt_mono_ssrl
+4
+self daqEncoder1 13 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+e_lvdt_mono_top
+4
+self daqEncoder1 14 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+e_lvdt_mono_bottom
+4
+self daqEncoder1 15 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+e_lvdt_mono_pitch
+4
+self daqEncoder 0 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+e_lvdt_mono_roll
+4
+self daqEncoder 1 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+Se
+6
+galil2 0 Se
+0 1 1 1 1
+0 1 1 1 1
+
+Al_64
+6
+galil2 0 Al_64
+0 1 1 1 1
+0 1 1 1 1
+
+Al_1
+6
+galil2 0 Al_1
+0 1 1 1 1
+0 1 1 1 1
+
+Al_2
+6
+galil2 0 Al_2
+0 1 1 1 1
+0 1 1 1 1
+
+Al_4
+6
+galil2 0 Al_4
+0 1 1 1 1
+0 1 1 1 1
+
+Al_8
+6
+galil2 0 Al_8
+0 1 1 1 1
+0 1 1 1 1
+
+Al_16
+6
+galil2 0 Al_16
+0 1 1 1 1
+0 1 1 1 1
+
+Al_32
+6
+galil2 0 Al_32
+0 1 1 1 1
+0 1 1 1 1
+
+cb1
+6
+galil3 0 cb1
+0 1 1 1 1
+0 0 0 0 0
+
+Al_128
+6
+galil3 0 Al_128
+0 1 1 1 1
+0 0 0 0 0
+
+cb3
+6
+galil3 0 cb3
+0 1 1 1 1
+0 0 0 0 0
+
+Al_0.5
+6
+galil3 0 Al_0.5
+0 1 1 1 1
+0 1 1 1 1
+
+shutter
+6
+galil10 1 shutter
+0 1 1 1 1
+0 1 1 1 1
+
+huber_shutter
+6
+galil7 1 huber_shutter
+0 1 1 1 1
+0 1 1 1 1
+
+inline_light_in
+6
+galil4 0 inline_light_in
+0 1 1 1 1
+0 1 1 1 1
+
+inline_light_out
+6
+galil4 1 inline_light_out
+0 1 1 1 1
+0 1 1 1 1
+
+inlineLightStatus
+13
+galil4 inlineLightStatus
+0 1 1 1 1
+0 1 1 1 1
+ INSERTED no REMOVED yes
+
+microdiffractometerStatus
+13
+galil10 microdiffractometerStatus
+0 1 1 1 1
+0 1 1 1 1
+ COVER installed AIR_PRESSURE good MOTOR_STOP_SIGNAL off
+
+beamstop_z_auto
+2
+self beamstop_z_auto
+0 1 1 1 1
+0 0 1 1 1
+1
+63.203051 63.200000 17.000000 0 0 0 0 mm
+beamstop_z
+
+collect_msg
+13
+self collectStatus
+0 1 1 1 1
+0 1 1 1 1
+0 {DCSS was reset.} 0 {} {} {} {}
+
+runs
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+1 1 0
+
+run0
+13
+self runDefinition
+0 1 1 1 1
+0 1 1 1 1
+inactive 0 0 test /data/TTT/Nov26_2012 2 Phi 290.205182 291.205182 1 180.0 0.5 800.171300 63.203051 0.000000 1 12658.025339 {} {} {} {} 0 0
+
+run1
+13
+self runDefinition
+0 1 1 1 1
+0 1 1 1 1
+complete 3600 1 torture-final /data/TTT/Nov26_2012 1 Phi 290.205182 650.205182 0.10 180.0 0.20 800.171300 63.203051 0.000000 1 12658.025339 {} {} {} {} 0 0
+
+run2
+13
+self runDefinition
+0 1 1 1 1
+0 1 1 1 1
+inactive 0 2 torture /data/TTT/Nov26_2012 1 Phi 290.205182 650.205182 0.10 180.0 0.20 800.171300 63.203051 0.000000 1 12658.025339 {} {} {} {} 0 0
+
+run3
+13
+self runDefinition
+0 1 1 1 1
+0 1 1 1 1
+inactive 0 3 test /data/TTT/Nov26_2012 1 Phi 89.999245 289.999245 1.00 180.0 0.5 800.171300 63.203051 0.000000 1 12658.025339 {} {} {} {} 0 0
+
+run4
+13
+self runDefinition
+0 1 1 1 1
+0 1 1 1 1
+inactive 0 4 test /data/TTT/Nov26_2012 1 Phi 89.999245 289.999245 1.00 180.0 0.5 800.171300 63.203051 0.000000 1 12658.025339 {} {} {} {} 0 0
+
+run5
+13
+self runDefinition
+0 1 1 1 1
+0 1 1 1 1
+inactive 0 5 test /data/TTT/Nov26_2012 1 Phi 89.999245 289.999245 1.00 180.0 0.5 800.171300 63.203051 0.000000 1 12658.025339 {} {} {} {} 0 0
+
+run6
+13
+self runDefinition
+0 1 1 1 1
+0 1 1 1 1
+inactive 0 6 test /data/TTT/Nov26_2012 1 Phi 89.999245 289.999245 1.00 180.0 0.5 800.171300 63.203051 0.000000 1 12658.025339 {} {} {} {} 0 0
+
+run7
+13
+self runDefinition
+0 1 1 1 1
+0 1 1 1 1
+inactive 0 7 test /data/TTT/Nov26_2012 1 Phi 89.999245 289.999245 1.00 180.0 0.5 800.171300 63.203051 0.000000 1 12658.025339 {} {} {} {} 0 0
+
+run8
+13
+self runDefinition
+0 1 1 1 1
+0 1 1 1 1
+inactive 0 8 test /data/TTT/Nov26_2012 1 Phi 89.999245 289.999245 1.00 180.0 0.5 800.171300 63.203051 0.000000 1 12658.025339 {} {} {} {} 0 0
+
+run9
+13
+self runDefinition
+0 1 1 1 1
+0 1 1 1 1
+inactive 0 9 test /data/TTT/Nov26_2012 1 Phi 89.999245 289.999245 1.00 180.0 0.5 800.171300 63.203051 0.000000 1 12658.025339 {} {} {} {} 0 0
+
+run10
+13
+self runDefinition
+0 1 1 1 1
+0 1 1 1 1
+inactive 0 10 test /data/TTT/Nov26_2012 1 Phi 89.999245 289.999245 1.00 180.0 0.5 800.171300 63.203051 0.000000 1 12658.025339 {} {} {} {} 0 0
+
+run11
+13
+self runDefinition
+0 1 1 1 1
+0 1 1 1 1
+inactive 0 11 test /data/TTT/Nov26_2012 1 Phi 89.999245 289.999245 1.00 180.0 0.5 800.171300 63.203051 0.000000 1 12658.025339 {} {} {} {} 0 0
+
+run12
+13
+self runDefinition
+0 1 1 1 1
+0 1 1 1 1
+inactive 0 12 test /data/TTT/Nov26_2012 1 Phi 89.999245 289.999245 1.00 180.0 0.5 800.171300 63.203051 0.000000 1 12658.025339 {} {} {} {} 0 0
+
+run13
+13
+self runDefinition
+0 1 1 1 1
+0 1 1 1 1
+inactive 0 13 test /data/TTT/Nov26_2012 1 Phi 89.999245 289.999245 1.00 180.0 0.5 800.171300 63.203051 0.000000 1 12658.025339 {} {} {} {} 0 0
+
+run14
+13
+self runDefinition
+0 1 1 1 1
+0 1 1 1 1
+inactive 0 14 test /data/TTT/Nov26_2012 1 Phi 89.999245 289.999245 1.00 180.0 0.5 800.171300 63.203051 0.000000 1 12658.025339 {} {} {} {} 0 0
+
+run15
+13
+self runDefinition
+0 1 1 1 1
+0 1 1 1 1
+inactive 0 15 test /data/TTT/Nov26_2012 1 Phi 89.999245 289.999245 1.00 180.0 0.5 800.171300 63.203051 0.000000 1 12658.025339 {} {} {} {} 0 0
+
+run16
+13
+self runDefinition
+0 1 1 1 1
+0 1 1 1 1
+inactive 0 16 test /data/TTT/Nov26_2012 1 Phi 89.999245 289.999245 1.00 180.0 0.5 800.171300 63.203051 0.000000 1 12658.025339 {} {} {} {} 0 0
+
+moveSample
+11
+self moveSample
+0 1 1 1 1
+0 1 1 1 1
+
+calibrateSampleCamera
+11
+self calibrateSampleCamera
+0 1 1 1 1
+0 0 0 0 0
+
+calibration
+11
+self calibration
+0 1 1 1 1
+0 1 1 1 1
+
+centerLoop
+11
+self centerLoop
+0 1 1 1 1
+0 1 1 1 1
+
+initializeCamera
+11
+camera initializeCamera
+0 1 1 1 1
+0 1 1 1 1
+
+getLoopTip
+11
+camera getLoopTip
+0 1 1 1 1
+0 1 1 1 1
+
+getPinDiameters
+11
+camera getPinDiameters
+0 1 1 1 1
+0 1 1 1 1
+
+addImageToList
+11
+camera addImageToList
+0 1 1 1 1
+0 1 1 1 1
+
+findBoundingBox
+11
+camera findBoundingBox
+0 1 1 1 1
+0 1 1 1 1
+
+normalize
+11
+self normalize
+0 1 1 1 1
+0 1 1 1 1
+
+expose
+11
+self expose
+0 1 1 1 1
+0 1 1 1 1
+
+requestExposureTime
+11
+self requestExposureTime
+0 1 1 1 1
+0 1 1 1 1
+
+requestCollectedImage
+11
+self requestCollectedImage
+1 1 1 1 1
+1 1 1 1 1
+
+prepareForScan
+11
+self prepareForScan
+0 1 1 1 1
+0 1 1 1 1
+
+recoverFromScan
+11
+self recoverFromScan
+0 1 1 1 1
+0 1 1 1 1
+
+maxOscTime
+2
+self standardVirtualMotor
+1 1 1 1 1
+0 1 1 1 1
+0
+60000.000000 1000.000000 -1.000000 0 0 0 0 s
+0
+
+optimizeTable
+11
+self optimizeTable
+0 1 1 1 1
+0 1 1 1 1
+
+attenuation
+2
+self attenuation_bl122
+0 1 1 1 1
+0 1 1 1 1
+0
+0.000000 99.900000 0.000000 1 0 0 0 %
+0
+
+acquireSpectrum
+11
+DSA2000 acquireSpectrum
+0 1 1 1 1
+0 1 1 1 1
+
+madScan
+11
+self madScan
+0 1 1 1 1
+0 1 1 1 1
+
+optimalExcitation
+11
+self optimalExcitation
+0 1 1 1 1
+0 1 1 1 1
+
+stopFluorescenceScan
+11
+self stopFluorescenceScan
+0 1 1 1 1
+0 1 1 1 1
+
+scanMotor
+11
+self scanMotor
+0 1 1 1 1
+0 0 0 0 0
+
+scan2Motors
+11
+self scan2Motors
+0 1 1 1 1
+0 0 0 0 0
+
+scan_n_motors
+11
+self scan_n_motors
+0 1 1 1 1
+0 0 0 0 0
+
+excitationScan
+11
+self excitationScan
+0 1 1 1 1
+0 1 1 1 1
+
+sequenceDeviceState
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+rees 2 { undefined undefined undefined undefined }
+
+sequence
+11
+self sequence
+0 1 1 1 1
+0 1 1 1 1
+
+sequenceGetConfig
+11
+self sequenceGetConfig
+1 1 1 1 1
+1 1 1 1 1
+
+sequenceSetConfig
+11
+self sequenceSetConfig
+0 1 1 1 1
+0 1 1 1 1
+
+beamlineID
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+BL12-2
+
+hutchDoorStatus
+13
+galil1 standardString
+0 1 1 1 1
+0 1 1 1 1
+closed 1354037152 0
+
+crystalSelectionList
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+-1 0 {1 1 1 1 1 0 0 0 1 1 1 0 0 0 0 0 0 1 1 1 1 0 0 0 1 1 1 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1}
+
+screeningActionList
+13
+self screeningActionList
+0 1 1 1 1
+0 1 1 1 1
+0 -1 0 {1 1 0 1 1 1 1 1 0 0 0 0 0 0 0 0}
+
+screeningParameters
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+{{MountNextCrystal {}} {LoopAlignment {}} {Pause {}} {VideoSnapshot {1.000 0deg}} {CollectImage {1.000 0.500 1 {}}} {Rotate 90.000} {VideoSnapshot {1.000 90deg}} {CollectImage {1.000 0.500 1 {}}} {Pause {}} {Rotate -45.000} {VideoSnapshot {1.000 45deg}} {CollectImage {1.000 0.500 1 {}}} {ExcitationScan {10.000 test}} {ReOrient {}} {RunQueueTask {}} {Pause {}}} 0 /data/username 500.000 63.200000 30
+
+detectorType
+13
+detector detectorType
+0 1 1 1 1
+0 1 1 1 1
+PILATUS6
+
+detectorStatus
+13
+detector detectorStatus
+0 1 1 1 1
+0 1 1 1 1
+TEMP0 31.2 TEMP1 27.5 TEMP2 29.3 HUMID0 27.9 HUMID1 35.2 HUMID2 0.0 GAPFILL -1 EXPOSUREMODE SHUTTERLESS DISK_SIZE_KB 12582912 DISK_USED_KB 7396 DISK_USE_PERCENT 1 FREE_IMAGE_SPACE 1934 SUM_IMAGES false SUM_IMAGES_DELTA_DEG 0.1 N_FRAME_IMG 1 THRESHOLD 6000 GAIN lowg THRESHOLD_SET true SETTING_THRESHOLD false
+
+robotResetStep
+13
+self robotResetStep
+0 1 1 1 1
+0 1 1 1 1
+0
+
+continueResetProcedure
+11
+self continueResetProcedure
+0 0 0 1 0
+0 0 0 0 0
+
+table_property
+13
+self standardString
+1 1 1 1 1
+0 0 0 0 0
+501.65 3.28 658.76
+
+table_setup
+13
+self standardString
+1 1 1 1 1
+0 0 0 0 0
+1045 0 22.16 275 0.0 0 0
+
+table_gonio_scale
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+1.000000 0.995120 1.000000 1.000000
+
+table_position
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+12.355483 31.953277 34.139058
+
+table_adjust
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+{}
+
+dsensor_to_motor_offset
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+-1.190779 0.245065 1.167509 -0.3174 -0.331449 1.556 0.632027 0.526146
+
+dsensor_to_robot_config
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+dsensor_z_scale
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+1 1
+
+motor_to_robot_config
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+0.998263 0.000000 -0.002529 -0.003438 0.998263 0.000000 1.000000 0.000000 1.000000
+
+motor_z_scale
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+1.002961
+
+ISampleMountingDeviceSoftOnly
+11
+self ISampleMountingDeviceSoftOnly
+1 1 1 1 1
+0 0 0 0 0
+
+table_calibration0
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+0 00/00/00-00:00:00 0 0 0 0 0 0 0 0 0 0 0 0
+
+table_calibration1
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+0 00/00/00-00:00:00 0 0 0 0 0 0 0 0 0 0 0 0
+
+table_calibration2
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+1 04/01/04-12:32:00 1.749900 1.000000 24.612000 0.134300 0 0 0 0 -382.0349 -357.2227 -188.8932 -98.92924
+
+table_calibration3
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+1 04/01/04-12:55:00 25.749900 25.000000 24.612000 0.134300 0 0 0 0 -382.0956 -357.3052 -164.9349 -98.93364
+
+table_calibration4
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+1 04/01/04-13:09:00 25.749900 12.000000 24.612000 0.134300 0 0 0 0 -386.4308 -357.3517 -170.4492 -98.93474
+
+runAutochooch
+11
+imperson runAutochooch
+1 1 1 1 1
+1 1 1 1 1
+
+writeExcitationScanFile
+11
+imperson writeExcitationScanFile
+0 1 1 1 1
+0 1 1 1 1
+
+getNextImageIndex
+11
+imperson getNextImageIndex
+0 1 1 1 1
+0 0 0 0 0
+
+snap
+11
+imperson snap
+0 1 1 1 1
+0 1 1 1 1
+
+sharedSession
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+{}
+
+fluorScanStatus
+13
+self fluorScanStatus
+0 1 1 1 1
+0 1 1 1 1
+0 {DCSS was reset} iimathew /data/username Rb Rb-K 15200.000 13395.3 1.000 {15204.379883 -9.692719 3.080547 15210.379883 -7.294646 5.700469 15900.000000 -2.200000 3.500000 NULL/Rbscan Rbsmooth_exp.bip Rbsmooth_norm.bip Rbfp_fpp.bip} /data/blctl/currentExcitationScan/BL12-2.bip
+
+MoveTableBySensor
+11
+self MoveTableBySensor
+0 1 1 1 1
+0 0 0 0 0
+
+dsensor_to_motor_config
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+-10.337428 10.487653 -9.731546 9.907111 6.679294
+
+table_sensor_position
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+0 0 0 0 0 0 0 0
+
+MoveTable
+11
+self MoveTable
+0 1 1 1 1
+0 1 1 1 1
+
+system_idle
+13
+self startEmpty
+1 1 1 1 1
+0 0 0 0 0
+
+
+lock_operation
+13
+self standardString
+1 1 1 1 1
+0 1 1 1 1
+optimized_energy energy attenuation beam_size_x beam_size_y beamstop_z detector_z detector_vert detector_horz gonio_omega gonio_kappa gonio_phi camera_zoom centerLoop moveSample moveMotors centerLoopC3D sequenceManual ISampleMountingDevice cryojet_anneal cryoBlock collectRun collectRuns normalize centerCrystal collectShutterless sequence moveCrystal madScan optimalExcitation fluorescence_z robot_config auto_sample_cal centerSlits megaScreening alignFrontEnd alignTable calibrateDetector calibrateSampleCamera calibrateInlineCamera q315_collect_background centerFluor scanMotor scan2Motors scan_n_motors fillRun collectWeb motorStopButton madCollect collimator_horz collimator_vert userAlignBeam scan3DSetup manualRastering alignTungsten alignCollimator matchup userCollimator collectRasters collectRaster rasterRunsConfig videoVisexSnapshot visexMoveSample visexRotatePhi 
+
+xraySearchParams
+13
+self xraySearchParams
+0 1 1 1 1
+0 1 1 1 1
+0 {Dcss was reset} jsong XXXX /data/ana/SCREEN-MAY09/CENTER b2 0.070 0.020 0.21 0.2 5.00 1.00 3 10
+
+xraySampleSearch
+11
+self xray2
+0 1 1 1 1
+0 0 0 0 0
+
+scan_motor_status
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+/home/cohen/BL12-2_3049.scan {7056 of 7056}
+
+genericFScan
+11
+self genericFScan
+0 1 1 1 1
+0 1 1 1 1
+
+fd_fluor
+4
+self genericFScan 0 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+sumSpectrum
+11
+self sumSpectrum
+0 1 1 1 1
+0 1 1 1 1
+
+fd_band_width
+4
+self genericFScan 0 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+bandwidth
+11
+self bandwidth
+0 1 1 1 1
+0 1 1 1 1
+
+moveMotors
+11
+self moveMotors
+0 1 1 1 1
+0 1 1 1 1
+
+scn_crystal_msg
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+warning: c_mD8 empty port
+
+scn_action_msg
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+action selection OK
+
+getEPICSPV
+11
+epics_gateway getPV
+1 1 1 1 1
+0 0 0 0 0
+
+putEPICSPV
+11
+epics_gateway putPV
+1 1 1 1 1
+0 0 0 0 0
+
+forceReadString
+11
+epics_gateway forceReadString
+1 1 1 1 1
+0 0 0 0 0
+
+sequenceManual
+11
+self sequenceManual
+0 0 1 1 1
+0 0 0 0 1
+
+beamlineOpenState
+13
+epics_gateway BL12:OpenState
+0 1 1 1 1
+0 1 1 1 1
+Closed
+
+auto_sample_cal
+11
+self auto_sample_cal
+0 1 1 1 1
+0 1 1 1 1
+
+auto_sample_const
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+max_cycle: 10 num_point_cal: 128 num_point_check: 32 num_point_self: 256 sample_time: 0.2 num_sample: 1 threshold_std: 4 threshold_x: 0.2 threshold_y: 0.2 threshold_z: 0.2 max_x: 2 max_y: 2 max_z: 10 max_phi_offset: 10 system_on: 1 save_data: 0 noisy_flag_only: 1
+
+auto_sample_data
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+02/25/09-09:51:27 desired_average: 0.374047511719 scale_x: -45.4827089828 scale_y: 34.3410799085 scale_z: -11.8220870112 phi_offset_x: 0.213105582936 phi_offset_y: 0.771113903592
+
+log_mail_map
+13
+self standardString
+1 1 1 1 1
+0 0 0 0 0
+{.* severe acohen@slac.stanford.edu} {.* software_severe jsong@slac.stanford.edu}
+
+wash_crystal
+11
+robot wash_crystal
+0 0 0 1 1
+0 0 0 0 0
+
+prepare_wash_crystal
+11
+robot prepare_wash_crystal
+0 0 0 1 1
+0 0 0 0 0
+
+waitingWatch
+11
+self waitingWatch
+1 1 1 1 1
+1 1 1 1 1
+
+sil_config
+13
+self standardString
+1 1 1 1 1
+0 0 0 0 0
+1 1 1 1
+
+sil_id
+13
+imperson sil_id
+0 1 1 1 1
+0 1 1 1 1
+0
+
+sil_event_id
+13
+imperson sil_event_id
+0 1 1 1 1
+0 1 1 1 1
+24091 1021
+
+robot_force_left
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+   0.0 uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu
+
+robot_force_middle
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+   0.0 uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu
+
+robot_force_right
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+   0.0 uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu
+
+ts_robot_cal
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+{2012/11/26 17:09:11} {2012/11/26 17:26:07} {2012/11/26 17:40:05} {2012/11/26 17:54:11} {2012/07/25 15:22:32} {2012/07/25 15:04:02}
+
+image_convert
+11
+imperson image_convert
+1 1 1 1 1
+1 1 1 1 1
+
+cassette_list
+13
+imperson cassette_list
+0 1 1 1 1
+0 1 1 1 1
+{ undefined undefined undefined undefined }
+
+check_sample_on
+11
+self check_sample_on
+0 1 1 1 1
+0 1 1 1 1
+
+check_sample_const
+13
+self standardString
+1 1 1 1 1
+0 0 0 0 0
+num_point_check: 1 num_point_self: 4 sample_time: 0.2 threshold: 0.15 system_on: 1 save_data: 0 extra_points: {0.5 1.0}
+
+check_sample_data
+13
+self standardString
+1 1 1 1 1
+0 0 0 0 0
+07/25/12-14:53:20 desired_average: {3.23613325 3.17578375 3.13054125}
+
+centerCrystal
+11
+self centerCrystal
+1 1 1 1 1
+1 1 1 1 1
+
+save_loop_size
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+normal 0.30467347964 0.306106748365 0.0715085905662 0.058563 0.019380 -0.980459 169.126127 1
+
+center_crystal_const
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+0 20 20 3 9 5 9 .05 .05 .025 .025 1.0 .02 5 0.001 40 10 10 50 1 1 1 1 0 20 0 0 10 5 5 5 5 0.005 0.2 0.005 0.2
+
+collimator_center_crystal_const
+13
+self standardString
+1 1 1 1 1
+0 1 1 1 1
+0 {} {} 7 10 7 10 .015 .1 .005 .1 1 20 4 0.001 40 5 10 100 0 1 0 0 20 20 0 1 1 3 9 3 9 0.01 0.01 0.005 0.005
+
+center_crystal_data
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+/data/jsong/0.log 0.0 0.0 CRYSTAL VERTICAL FACE_COLLIMATOR 0 23 0 24 0.238782554431 0.148994993594 0.0675605648897 0.097367 0.238782554431 0 cbf 0.329357354263 0.202681694669 0.0952599003289 -0.0 0.0 1.0 -0.956329482254 0.292290816433 -0.0 3 1 0.0496649978647 0.0329759900058 {0_clmtr_face_1_1 0_clmtr_face_2_1 0_clmtr_face_3_1} 0.508064516129 0.0 0 1 0 0 1.0 1.96825396825 0.148994993594 0.0989279700174 0.0741212748271 63 0 0 {enough data} {enough data} 0 0 jsong
+
+center_crystal_constant_name_list
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+system_on loop_width_extra loop_height_extra min_column max_column min_row max_row min_step_x max_step_x min_step_y max_step_y delta init_expose_time increment_expose_time min_expose_time max_expose_time background_sub min_num_spot target_num_spot min_loop max_loop finish_horizontal finish_vertical beam_width_extra beam_height_extra keep_orig_beam_size collimator_scan collimator_scale_factor collimator_min_column collimator_max_column collimator_min_row collimator_max_row collimator_min_step_x collimator_max_step_x collimator_min_step_y collimator_max_step_y
+
+center_crystal_data_name_list
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+log_file_name angle_phi_axis phi_offset scan_purpose scan_mode scan_phase sil_id column_images event_id sil_row_offset exposure_time old_beam_x old_beam_y old_i2 old_exposure_time det_mode image_ext loop_width face_height edge_height scale_Hx scale_Hy scale_Hz scale_Vx scale_Vy scale_Vz num_row num_column step_x step_y image_list center_row center_column boundary_start_row boundary_end_row boundary_start_column boundary_end_column crystal_width_column crystal_height_row crystal_width_mm crystal_height_mm crystal_edge_height_mm max_weight horizontal_done vertical_done h_done_reason v_done_reason h_done_first v_done_first user scan_only raw_weight_list
+
+ccrystal_constant_snapshot
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+0 20 20 3 9 5 9 .05 .05 .025 .025 1.0 .02 5 0.001 40 10 10 50 1 1 1 1 0 20 0 0 10 5 5 5 5 0.005 0.2 0.005 0.2
+
+collect_default
+13
+self collect_default
+1 1 1 1 1
+0 0 0 0 0
+1 0.5 30 0.2 60 0 99.8
+
+robot_default
+13
+self standardString
+1 1 1 1 1
+0 0 0 0 0
+1 1 1 1 1 0 0 1 0 1 0 -1 0 1 1 1
+
+userLog
+11
+self userLog
+0 1 1 1 1
+0 1 1 1 1
+
+current_user_log
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+/data/blctl/userLog/BL12-2/userLog20120811_171848.ulg
+
+lc_error_threshold
+13
+self standardString
+1 1 1 1 1
+0 0 0 0 0
+3 0
+
+readDaq
+11
+daqhost GET_AI
+1 1 1 1 1
+1 1 1 1 1
+
+setAnalogOut
+11
+daqhost SET_AO
+1 1 1 1 1
+1 1 1 1 1
+
+setDigOut
+11
+daqhost SET_DO
+1 1 1 1 1
+1 1 1 1 1
+
+getDig
+11
+daqhost GET_DI
+1 1 1 1 1
+1 1 1 1 1
+
+getNumOfAnalogInputs
+11
+daqhost GET_NUM_AI
+1 1 1 1 1
+1 1 1 1 1
+
+getNumOfAnalogOutputs
+11
+daqhost GET_NUM_AO
+1 1 1 1 1
+1 1 1 1 1
+
+getNumOfDigitalInputs
+11
+daqhost GET_NUM_DI
+1 1 1 1 1
+1 1 1 1 1
+
+getNumOfDigitalOutputs
+11
+daqhost GET_NUM_DO
+1 1 1 1 1
+1 1 1 1 1
+
+aoDaq00
+2
+daqhost MFIRST0
+0 1 1 1 1
+0 1 1 1 1
+0
+4.950000 5.000000 0.000000 1 1 0 0 volts
+0
+
+aoDaq01
+2
+daqhost MSECOND0
+0 1 1 1 1
+0 1 1 1 1
+0
+0.000000 5.000000 0.000000 1 1 0 0 volts
+0
+
+aoDaq10
+2
+daqhost MFIRST1
+1 1 1 1 1
+0 1 1 1 1
+0
+0.000000 5.000000 0.000000 1 1 0 0 volts
+0
+
+aoDaq11
+2
+daqhost MSECOND1
+1 1 1 1 1
+0 1 1 1 1
+0
+0.000000 4.800000 0.000000 1 0 0 0 volts
+0
+
+aoDaq20
+2
+daqhost MFIRST2
+0 1 1 1 1
+0 1 1 1 1
+0
+4.830000 5.000000 0.000000 1 1 0 0 volts
+0
+
+aoDaq21
+2
+daqhost MSECOND2
+0 1 1 1 1
+0 1 1 1 1
+0
+0.000000 5.000000 0.000000 1 1 0 0 volts
+0
+
+cryo_block_constant
+13
+self standardString
+1 1 1 1 1
+0 0 0 0 0
+-8 -100 -100 -8
+
+cryoBlock
+11
+self cryoBlock
+0 1 1 1 1
+0 1 1 1 1
+
+pulseDigOut
+11
+daqhost PULSE_DO
+0 1 1 1 1
+0 1 1 1 1
+
+pulseDigOutBit
+11
+daqhost PULSE_DO_BIT
+0 1 1 1 1
+0 1 1 1 1
+
+setDigOutBit
+11
+daqhost SET_DO_BIT
+0 1 1 1 1
+0 1 1 1 1
+
+waitDigInBit
+11
+daqhost WAIT_DI_BIT
+1 1 1 1 1
+1 1 1 1 1
+
+analogOutStatus0
+13
+daqhost AOSTATUS0
+0 1 1 1 1
+0 1 1 1 1
+   4.950    0.000 
+
+digitalOutStatus0
+13
+daqhost DOSTATUS0
+0 1 1 1 1
+0 1 1 1 1
+1 0 0 0 0 0 0 0 0 0 0 0 
+
+analogInStatus0
+13
+daqhost AISTATUS0
+0 1 1 1 1
+0 1 1 1 1
+6.434577 4.313573 3.544213 3.430381 3.242695 3.449607 2.817883 5.528191 1.356985 3.213398 2.025025 -0.001984 -0.016022 0.005646 -0.003815 0.028840
+
+digitalInStatus0
+13
+daqhost DISTATUS0
+0 1 1 1 1
+0 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 
+
+screening_user
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+paule
+
+burnPaper
+11
+self burnPaper
+0 1 1 1 1
+0 0 0 0 0
+
+burn_paper_constant_name_list
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+exposure_time step_ratio cut_cryo_time
+
+burn_paper_constant
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+20.0 4 10.0
+
+detector_status
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+Detector Ready
+
+scan_msg
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+error: energy_beam_size_sample_y_error
+
+auto_sample_msg
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+
+
+center_crystal_msg
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+
+
+runsConfig
+11
+self runsConfig
+0 1 1 1 1
+0 1 1 1 1
+
+gapOwnerRequest
+13
+epics_gateway BL12-2:GapOwnerRequest
+1 1 1 1 1
+0 1 1 1 1
+2253332272
+
+gapRequest
+13
+epics_gateway BL12-2:GapRequest
+0 1 1 1 1
+0 1 1 1 1
+7.3829808
+
+gapRequestDrvH
+13
+epics_gateway BL12-2:GapRequest.DRVH
+1 1 1 1 1
+0 0 0 0 0
+30
+
+gapRequestDrvL
+13
+epics_gateway BL12-2:GapRequest.DRVL
+1 1 1 1 1
+0 1 1 1 1
+5.95
+
+gapAbort
+13
+epics_gateway BL12-2:GapAbort
+1 1 1 1 1
+1 1 1 1 1
+0
+
+gapOwner
+13
+epics_gateway BL12-2:GapOwner
+1 1 1 1 1
+0 0 0 0 0
+0
+
+gapStatus
+13
+epics_gateway BL12-2:GapStatus
+1 1 1 1 1
+0 0 0 0 0
+Not owner
+
+gap
+13
+epics_gateway BL12-2:Gap
+1 1 1 1 1
+0 0 0 0 0
+22.00027361
+
+gapReady
+13
+epics_gateway BL12-2:GapReady
+1 1 1 1 1
+0 0 0 0 0
+0
+
+gapStatusNum
+13
+epics_gateway BL12-2:GapStatus
+1 1 1 1 1
+0 0 0 0 0
+0
+
+undulator_gap
+2
+self undulator_gap
+0 1 1 1 1
+0 0 0 0 0
+0
+22.000274 30.000000 5.950000 1 1 0 0 mm
+0
+
+checkGapOwnership
+11
+self checkGapOwnership
+1 1 1 1 1
+0 1 1 1 1
+
+collect_config
+13
+self standardString
+1 1 1 1 1
+0 1 1 1 1
+0 0 0 0 0 0 0 1 0 0 0
+
+fillRun
+11
+self fillRun
+0 1 1 1 1
+0 1 1 1 1
+
+fill_run_msg
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+
+
+runExtra0
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+{} {} {} {} {} {} {} {}
+
+runExtra1
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+{} {} {} {} {} {} {} {}
+
+runExtra2
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+{} {} {} {} {} {} {} {}
+
+runExtra3
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+{} {} {} {} {} {} {} {}
+
+runExtra4
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+{} {} {} {} {} {} {} {}
+
+runExtra5
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+{} {} {} {} {} {} {} {}
+
+runExtra6
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+{} {} {} {} {} {} {} {}
+
+runExtra7
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+{} {} {} {} {} {} {} {}
+
+runExtra8
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+{} {} {} {} {} {} {} {}
+
+runExtra9
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+{} {} {} {} {} {} {} {}
+
+runExtra10
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+{} {} {} {} {} {} {} {}
+
+runExtra11
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+{} {} {} {} {} {} {} {}
+
+runExtra12
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+{} {} {} {} {} {} {} {}
+
+runExtra13
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+{} {} {} {} {} {} {} {}
+
+runExtra14
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+{} {} {} {} {} {} {} {}
+
+runExtra15
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+{} {} {} {} {} {} {} {}
+
+runExtra16
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+{} {} {} {} {} {} {} {}
+
+cassette_owner
+13
+self standardString
+1 1 1 1 1
+0 0 0 0 0
+blctl blctl blctl blctl
+
+focusing_mirror_2_mfd_vert
+1
+galil8 focusing_mirror_2_mfd_vert
+0 1 1 1 1
+0 0 0 0 0
+0
+-5.605982 3.000000 -7.900000 769.000000 1000 100 600 1 1 0 1 0 0 mm
+
+mirror_mfd_horz
+1
+galil8 mirror_mfd_horz
+0 1 1 1 1
+0 0 0 0 0
+0
+1.444733 6.000000 -6.000000 769.000000 1000 100 500 1 1 0 1 1 0 mm
+
+mirror_slit_horiz
+2
+self mirror_slit_horiz
+0 1 1 1 1
+0 0 0 0 0
+1
+-1.530353 8.000000 -2.000000 0 1 0 0 mm
+mirror_slit_ssrl mirror_slit_spear
+
+mirror_slit_horiz_gap
+2
+self mirror_slit_horiz_gap
+0 1 1 1 1
+0 0 0 0 0
+1
+1.663704 20.000000 -0.500000 0 1 0 0 mm
+mirror_slit_ssrl mirror_slit_spear
+
+mono_slit_horiz
+2
+self mono_slit_horiz
+0 1 1 1 1
+0 0 0 0 0
+0
+-0.273016 3.000000 -3.000000 1 1 0 0 mm
+0
+
+mono_slit_horiz_gap
+2
+self mono_slit_horiz_gap
+0 1 1 1 1
+0 0 0 0 0
+0
+1.803174 26.000000 0.000000 0 1 0 0 mm
+0
+
+mono_slit_vert
+2
+self mono_slit_vert
+0 1 1 1 1
+0 0 0 0 0
+0
+1.292063 1.800000 -1.800000 0 0 0 0 mm
+0
+
+mono_slit_vert_gap
+2
+self mono_slit_vert_gap
+0 1 1 1 1
+0 0 0 0 0
+0
+1.200000 4.800000 0.000000 0 0 0 0 mm
+0
+
+analogOutStatus1
+13
+daqhost AOSTATUS1
+0 1 1 1 1
+0 1 1 1 1
+   0.000    0.000 
+
+digitalOutStatus1
+13
+daqhost DOSTATUS1
+0 1 1 1 1
+0 1 1 1 1
+0 0 0 0 0 0 0 0 0 0 0 0 
+
+analogInStatus1
+13
+daqhost AISTATUS1
+0 1 1 1 1
+0 1 1 1 1
+-4.003815 -8.357519 -3.505455 -3.803311 -4.628214 1.696956 -0.662089 -1.977417 0.742657 1.199512 -5.280995 0.163424 0.618753 -0.895552 -2.241703 0.728008
+
+digitalInStatus1
+13
+daqhost DISTATUS1
+0 1 1 1 1
+0 1 1 1 1
+1 1 1 1 1 1 1 1 1 1 1 1 
+
+analogOutStatus2
+13
+daqhost AOSTATUS2
+0 1 1 1 1
+0 1 1 1 1
+   4.830    0.000 
+
+digitalOutStatus2
+13
+daqhost DOSTATUS2
+0 1 1 1 1
+0 1 1 1 1
+0 1 0 0 0 0 0 0 0 0 0 0 
+
+analogInStatus2
+13
+daqhost AISTATUS2
+0 1 1 1 1
+0 1 1 1 1
+-0.004730 0.004120 0.002289 0.000153 3.998627 3.998627 -0.002289 -0.000458
+
+digitalInStatus2
+13
+daqhost DISTATUS2
+0 1 1 1 1
+0 1 1 1 1
+0 1 1 1 1 1 1 1 1 1 1 1 
+
+spearIon
+11
+self spearIon
+1 1 1 1 1
+0 1 1 1 1
+
+i_spear_current
+4
+self spearIon 0 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+spear_current
+13
+epics_gateway SPEAR:BeamCurrAvg1S
+0 1 1 1 1
+0 1 1 1 1
+0.0009794049335
+
+dose_const
+13
+self standardString
+1 1 1 1 1
+0 1 1 1 1
+1328577967 i0 0.1 0.1 5
+
+dose_data
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+{1343008844 12657.4679525 0.360000 0.190000 98.4776726143} 0.661633 {1344840326 10499.986318 0.360000 0.190000 0.0} 1.02819
+
+robot_move
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+
+
+robotMoveStatus
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+0 0 0 {List cleared}
+
+moveCrystal
+11
+self moveCrystal
+0 1 1 1 1
+0 1 1 1 1
+
+temperatureOp
+11
+self temperatureOp
+1 1 1 1 1
+0 1 1 1 1
+
+t_hutch_table_top
+4
+self temperatureOp 0 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+t_hutch_goniometer
+4
+self temperatureOp 1 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+t_hutch_ceiling
+4
+self temperatureOp 2 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+t_focusing_mirror_1_vert
+4
+self temperatureOp 3 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+t_focusing_mirror_2_hor
+4
+self temperatureOp 4 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+t_building_130_ambient
+4
+self temperatureOp 5 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+t_12-0_hutch
+4
+self temperatureOp 6 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+t_control
+4
+self temperatureOp 7 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+t_mirror_enclosure
+4
+self temperatureOp 8 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+t_mirror_alcove_ceiling
+4
+self temperatureOp 9 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+t_mirror_alcove_ambient
+4
+self temperatureOp 10 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+temperatures
+13
+temperatureDhs temperatures
+0 1 1 1 1
+0 1 1 1 1
+20.78 23.11 23.61 29.11 28.83 22.67 25.17 26.56 30.94 26.11 27.33 27.67 26.61 27.61 27.06 26.94
+
+gap_energy_sync
+13
+self standardString
+1 1 1 1 1
+0 1 1 1 1
+0
+
+optimizedEnergy_default
+13
+self standardString
+1 1 1 1 1
+0 1 1 1 1
+0 {{Optimized table}} 1 0 1 0 0 0 0 12657.9743702 1147463307 100.00 3600.00 12.00 15.0000 0.100 105.000 -105.000 i2 0.095 0.095 0.100 20 0.050 0.10 1 60 1 60 1 900.0 9999.00 1 200.000
+
+optimizeMotor
+11
+self optimizeMotor
+0 0 1 1 1
+0 0 0 0 0
+
+alignTable
+11
+self alignTable
+0 0 1 1 1
+0 0 0 0 0
+
+i_mirror_feedback_spear
+4
+self daqIon2 0 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+i_mirror_feedback_ssrl
+4
+self daqIon2 1 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+i_mirror_feedback_upper
+4
+self daqIon2 2 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+i_mirror_feedback_lower
+4
+self daqIon2 3 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+v_piezo_control_average_horz
+4
+self daqIon2 4 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+v_piezo_control_average_vert
+4
+self daqIon2 5 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+i_mirror_slit_spear
+4
+self daqIon 12 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+i_mono_slit_lower
+4
+self daqIon 13 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+i_mono_crystal
+4
+self daqIon 14 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+i_mono_diagnostic
+4
+self daqIon 15 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+megaScreening
+11
+self megaScreening
+0 1 1 1 1
+0 1 1 1 1
+
+megaCassetteList
+13
+self standardString
+1 1 1 1 1
+0 1 1 1 1
+
+
+raiseRobot
+11
+self raiseRobot
+0 0 0 1 0
+0 0 0 0 0
+
+bw_nickel
+11
+self bw_nickel
+0 1 1 1 1
+0 1 1 1 1
+
+bw_tungsten
+11
+self bw_tungsten
+0 1 1 1 1
+0 1 1 1 1
+
+fd_nickel
+4
+self genericFScan 0 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+fd_tungsten
+4
+self genericFScan 0 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+fd_deadtime
+4
+self genericFScan 0 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+alignFrontEnd_constant_name_list
+13
+self standardString
+1 1 1 1 1
+0 0 0 0 0
+optimize_slit_gap_size_vert optimize_slit_gap_size_horz optimize_slit_step_size_vert optimize_slit_step_size_horz optimize_slit_num_step_vert optimize_slit_num_step_horz optimize_slit_wmin_vert optimize_slit_wmin_horz optimize_slit_wmax_vert optimize_slit_wmax_horz optimize_slit_glc_vert optimize_slit_glc_horz optimize_slit_grc_vert optimize_slit_grc_horz align_front_gap_size_vert align_front_gap_size_horz align_front_ion_chamber align_front_attenuation align_front_detector_distance align_front_energy align_front_step_size_vert align_front_step_size_horz align_front_num_step_vert align_front_num_step_horz align_front_scan_time_vert align_front_scan_time_horz align_front_wmin_vert align_front_wmin_horz align_front_wmax_vert align_front_wmax_horz align_front_glc_vert align_front_glc_horz align_front_grc_vert align_front_grc_horz
+
+alignFrontEnd_constant
+13
+self standardString
+1 1 1 1 1
+0 0 0 0 0
+0.20 0.05 0.1 0.2 0.01 -0.02 21 21 0.01 0.01 0.1 0.2 100 100 -100 -100 0.05 0.02 0.05 0.02 fd_tungsten 97 450 12658 0.003 0.01 41 31 1 1 0.003 0.01 0.1 0.1 150 150 -150 -150
+
+dumpDevice
+11
+epics_gateway dumpDevice
+1 1 1 1 1
+0 0 0 0 0
+
+energy_config
+13
+self standardString
+1 1 1 1 1
+0 0 0 0 0
+1 0 1 1 0 0 1 1 0 1 1
+
+energy_offset_namelist
+13
+self standardString
+1 1 1 1 1
+0 0 0 0 0
+undulator_gap table_vert_1 table_vert_2 focusing_mirror_2_vert_1 focusing_mirror_2_vert_2 detector_energy_vert_offset table_horz mfd_vert mfd_horz
+
+energy_offset
+13
+self standardString
+1 1 1 1 1
+0 0 0 0 0
+{-0.00995081131 9.99999999962e-05 -0.008 0.61 2.99 0 -0.0368 68.287 -0.0694} {-0.00971902808 0.0029 -0.0106 0.617863421648 2.99929342165 0 -0.0368 68.2842 -0.0674} {-0.01544611459 0.0308 -0.0028 0.925170223042 3.30659922304 1.0 -0.0368 68.2688823818 -0.0624} {-0.01270739345 -0.0053 -0.0075 0.481440652205 2.8628706522 0 -0.0368 68.2854683771 -0.07}
+
+currentHarmonic
+13
+self standardString
+1 1 1 1 1
+0 0 0 0 0
+2
+
+currentHarmonicName
+13
+self standardString
+1 1 1 1 1
+0 0 0 0 0
+7th
+
+detector_energy_vert_offset
+2
+self standardVirtualMotor
+1 1 1 1 1
+0 0 0 0 0
+0
+0.019388 100.000000 -100.000000 0 0 0 0 mm
+0
+
+amp_i0
+13
+sr570 amp_i0
+0 1 1 1 1
+0 1 1 1 1
+SENS 500pA/V SUCM cal IOON off IOLV 1pA IOUC cal BSON off FLTT 6dB_lowpass LFRQ 30Hz HFRQ 1Hz GNMD low_noise INVT non-inverted BLNK no_blank SUCV 85 BSLV -0.100 IOUV 0.0 IOSN pos
+
+amp_i1
+13
+sr570 amp_i1
+0 1 1 1 1
+0 1 1 1 1
+SENS 5nA/V SUCM - IOON - IOLV - IOUC - BSON on FLTT 6dB_lowpass LFRQ 30Hz HFRQ - GNMD low_noise INVT inverted BLNK - SUCV 1 BSLV -5.0 IOUV -100.0 IOSN neg
+
+amp_i2
+13
+sr570 amp_i2
+0 1 1 1 1
+0 1 1 1 1
+SENS 5nA/V SUCM cal IOON on IOLV 2pA IOUC cal BSON off FLTT 6dB_lowpass LFRQ 30Hz HFRQ 0.03Hz GNMD low_noise INVT inverted BLNK no_blank SUCV 50 BSLV -0.100 IOUV 100.0 IOSN pos
+
+amp_i_beamstop
+13
+sr570 amp_i_beamstop
+0 1 1 1 1
+0 1 1 1 1
+SENS 10uA/V SUCM cal IOON on IOLV 1pA IOUC cal BSON on FLTT 6dB_lowpass LFRQ 30Hz HFRQ 30Hz GNMD low_noise INVT inverted BLNK no_blank SUCV 100 BSLV 0.000 IOUV 99.0 IOSN pos
+
+amp_i_mirror_feedback_upper
+13
+sr570 amp_i_mirror_feedback_upper
+0 1 1 1 1
+0 1 1 1 1
+SENS 20nA/V SUCM cal IOON off IOLV 10uA IOUC cal BSON off FLTT 12dB_lowpass LFRQ 3Hz HFRQ 300Hz GNMD low_noise INVT inverted BLNK no_blank SUCV 10 BSLV 0.000 IOUV 100.0 IOSN pos
+
+amp_i_mirror_feedback_lower
+13
+sr570 amp_i_mirror_feedback_lower
+0 1 1 1 1
+0 1 1 1 1
+SENS 20nA/V SUCM cal IOON off IOLV 20uA IOUC cal BSON off FLTT 12dB_lowpass LFRQ 3Hz HFRQ 3Hz GNMD low_noise INVT inverted BLNK no_blank SUCV 10 BSLV 0.000 IOUV 30.0 IOSN pos
+
+amp_i_mirror_feedback_ssrl
+13
+sr570 amp_i_mirror_feedback_ssrl
+0 1 1 1 1
+0 1 1 1 1
+SENS 20nA/V SUCM cal IOON off IOLV 5pA IOUC cal BSON off FLTT 12dB_lowpass LFRQ 3Hz HFRQ 3Hz GNMD low_noise INVT inverted BLNK no_blank SUCV 60 BSLV -0.100 IOUV 0.0 IOSN pos
+
+amp_i_mirror_feedback_spear
+13
+sr570 amp_i_mirror_feedback_spear
+0 1 1 1 1
+0 1 1 1 1
+SENS 20nA/V SUCM cal IOON off IOLV 10uA IOUC cal BSON off FLTT 12dB_lowpass LFRQ 3Hz HFRQ 3Hz GNMD low_noise INVT inverted BLNK no_blank SUCV 60 BSLV 0.000 IOUV 0.0 IOSN pos
+
+loadPreAmpLUT
+11
+self loadPreAmpLUT
+1 1 1 1 1
+0 0 0 0 0
+
+adjustPreAmp
+11
+self adjustPreAmp
+1 1 1 1 1
+0 0 0 0 0
+
+setPreAmp
+11
+self setPreAmp
+1 1 1 1 1
+0 0 0 0 0
+
+peakEnergy
+11
+self peakEnergy
+0 1 1 1 1
+0 0 0 0 0
+
+eHarmonic0
+11
+self eHarmonic0
+0 0 0 0 0
+0 0 0 0 0
+
+eHarmonic1
+11
+self eHarmonic1
+0 0 0 0 0
+0 0 0 0 0
+
+eHarmonic2
+11
+self eHarmonic2
+0 0 0 0 0
+0 0 0 0 0
+
+i_eMaxHarmonic9th
+4
+self eHarmonic0 0 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+i_maxI2H9th
+4
+self eHarmonic0 1 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+i_maxJumpH9th
+4
+self eHarmonic0 2 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+i_eMaxHarmonic7th
+4
+self eHarmonic1 0 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+i_maxI2H7th
+4
+self eHarmonic1 1 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+i_maxJumpH7th
+4
+self eHarmonic1 2 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+i_eMaxHarmonic5th
+4
+self eHarmonic2 0 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+i_maxI2H5th
+4
+self eHarmonic2 1 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+i_maxJumpH5th
+4
+self eHarmonic2 2 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+getGapTaper
+11
+self getGapTaper
+1 1 1 1 1
+0 0 0 0 0
+
+i_gapTaper
+4
+self getGapTaper 0 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+gapTaper
+13
+epics_gateway BL12-2:Taper
+0 1 1 1 1
+0 1 1 1 1
+-0.67505
+
+bw_generic_const
+13
+self standardString
+1 1 1 1 1
+0 0 0 0 0
+6690 6703
+
+bw_generic
+11
+self bw_generic
+0 1 1 1 1
+0 1 1 1 1
+
+fd_bw_generic
+4
+self genericFScan 0 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+peakGap
+11
+self peakGap
+0 1 1 1 1
+0 0 0 0 0
+
+gapHarmonic
+11
+self gapHarmonic
+0 0 0 0 0
+0 0 0 0 0
+
+i_gapMaxHarmonic
+4
+self gapHarmonic 0 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+i_maxI0ForGap
+4
+self gapHarmonic 1 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+i_maxJumpForGap
+4
+self gapHarmonic 2 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+sample_camera_constant
+13
+self standardString
+1 1 1 1 1
+0 0 0 0 0
+4.3882354694 1.3 0.450729120258 0.5 0.5 0.5 0.5 704 480 1.120000
+
+centerLoopC3D
+11
+self centerLoopC3D
+0 1 1 1 1
+0 1 1 1 1
+
+photodiode
+11
+self photodiode
+0 0 1 1 1
+0 0 0 0 0
+
+impTest
+11
+self impTest
+1 1 1 1 1
+0 0 0 0 0
+
+energyTracking
+11
+self energyTracking
+1 1 1 1 1
+0 0 0 0 0
+
+system_status
+13
+self systemStatus
+1 1 1 1 1
+0 0 0 0 0
+{warning: undulator gap not sync with energy} red #d0d000
+
+calibrateDetector
+11
+self calibrateDetector
+0 1 1 1 1
+0 0 0 0 0
+
+calibrateEnergy
+11
+self calibrateEnergy
+0 1 1 1 1
+0 0 0 0 0
+
+strategy_file
+13
+imperson strategy_file
+0 1 1 1 1
+0 1 1 1 1
+disMnted {}
+
+strategy_status
+13
+imperson strategy_status
+0 1 1 1 1
+0 1 1 1 1
+ready disMnted {}
+
+collectWeb
+11
+self collectWeb
+0 1 1 1 1
+0 1 1 1 1
+
+abortCollectWeb
+11
+self abortCollectWeb
+1 1 1 1 1
+1 1 1 1 1
+
+autoDose
+11
+self autoDose
+0 1 1 1 1
+0 1 1 1 1
+
+e_laser_sample_xyz
+4
+self daqEncoder 7 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+e_laser_sample_on
+4
+self daqEncoder 6 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+beam_size_sample_x
+2
+self beam_size_sample_x_bl122
+0 1 1 1 1
+0 1 1 1 1
+1
+0.050000 0.200000 0.050000 0 0 0 0 mm
+focusing_mirror_1_bend_1 focusing_mirror_1_bend_2
+
+beam_size_sample_y
+2
+self beam_size_sample_y_bl122
+0 1 1 1 1
+0 1 1 1 1
+1
+0.015000 0.200000 0.015000 1 1 0 0 mm
+focusing_mirror_2_bend_1 focusing_mirror_2_bend_2
+
+mirror_hold_device
+13
+self startEmpty
+1 1 1 1 1
+0 0 0 0 0
+
+
+daqDigitalIon
+11
+self daqDigitalIon
+1 1 1 1 1
+0 1 1 1 1
+
+i_home_sample_x
+4
+self daqDigitalIon 1 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+i_home_sample_y
+4
+self daqDigitalIon 2 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+testSampleXY
+11
+self testSampleXY
+0 1 1 1 1
+0 1 1 1 1
+
+checkSampleXYZ
+11
+self checkSampleXYZ
+0 1 1 1 1
+0 1 1 1 1
+
+reposition_origin
+13
+self standardString
+1 1 1 1 1
+0 0 0 0 0
+-0.120761 -0.017987 -0.565511 220.002510 0.000000
+
+reposition_phi
+2
+self reposition_phi
+0 1 1 1 1
+0 0 0 0 0
+1
+70.224676 0.000000 0.000000 0 0 0 1 deg
+gonio_phi gonio_omega
+
+reposition_x
+2
+self reposition_x
+0 1 1 1 1
+0 0 0 0 0
+1
+-0.104067 5.000000 -5.000000 0 0 0 0 mm
+sample_x sample_y
+
+reposition_y
+2
+self reposition_y
+0 1 1 1 1
+0 0 0 0 0
+1
+0.063849 5.000000 -5.000000 0 0 0 0 mm
+sample_x sample_y
+
+reposition_z
+2
+self reposition_z
+0 1 1 1 1
+0 0 0 0 0
+1
+0.565511 10.000000 -16.000000 0 0 0 0 mm
+sample_z
+
+reposition
+11
+self reposition
+0 1 1 1 1
+0 0 0 0 0
+
+changeOver
+11
+self changeOver
+0 1 1 1 1
+0 0 0 0 0
+
+monitorIntensity
+11
+self monitorIntensity
+0 1 1 1 1
+0 0 0 0 0
+
+user_notify_setup
+13
+self standardString
+1 1 1 1 1
+0 0 0 0 0
+
+
+user_notify_list
+13
+self emailList
+1 1 1 1 1
+0 0 0 0 0
+
+
+userNotify
+11
+self userNotify
+1 1 1 1 1
+0 0 0 0 0
+
+current_user_chat
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+/data/blctl/userChat/BL12-2/userChat20120811_171848.uct
+
+userChat
+11
+self userChat
+0 1 1 1 1
+0 1 1 1 1
+
+stringMonitor
+11
+self stringMonitor
+0 1 1 1 1
+0 0 0 0 0
+
+detectorMode
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+0
+
+resolution
+2
+self resolution
+0 1 1 1 1
+0 1 1 1 1
+1
+3.800909 100.000000 0.100000 0 0 0 0 A
+detector_z
+
+centerFluor
+11
+self centerFluor
+0 1 1 1 1
+0 0 0 0 0
+
+sil_and_event_list
+13
+imperson sil_and_event_list
+0 0 0 0 0
+0 0 0 0 0
+-1 -1 -1 -1 -1 -1 -1 -1
+
+inline_sample_camera_constant
+13
+self standardString
+1 1 1 1 1
+0 0 0 0 0
+1.8324 0.37642 0.186 0.6 0.5 0.5 0.5 704.0 480.0 1.1
+
+inlineMoveSample
+11
+self inlineMoveSample
+0 1 1 1 1
+0 1 1 1 1
+
+calibrateInlineCamera
+11
+self calibrateInlineCamera
+0 1 1 1 1
+0 0 0 0 0
+
+initializeInlineCamera
+11
+inline_camera initializeCamera
+0 1 1 1 1
+0 1 1 1 1
+
+getInlineLoopTip
+11
+inline_camera getLoopTip
+1 1 1 1 1
+0 1 1 1 1
+
+getInlinePinDiameters
+11
+inline_camera getPinDiameters
+0 1 1 1 1
+0 1 1 1 1
+
+addInlineImageToList
+11
+inline_camera addImageToList
+0 1 1 1 1
+0 1 1 1 1
+
+findInlineBoundingBox
+11
+inline_camera findBoundingBox
+0 1 1 1 1
+0 1 1 1 1
+
+collimator_preset
+13
+self standardString
+1 1 1 1 1
+0 0 0 0 0
+{{Guard Shield} 46.277760 0.861053 0.001 0.001 1 0 2.0 2.0 -1 -1 -86.543600 46.980200 0 flux_gshield} {{Microbeam 10 x 10 um   } 48.047171 0.873158 0.001 0.0005 1 1 0.01 0.01 0.05 0.015 -84.774200 46.992400 1 flux_10x10} {Out 13.999868 0.860789 1.0 1.0 0 0 2.0 2.0 -1 -1 -118.821200 46.980200 1 flux_gshield} {{Small Guard Shield} 64.67171 -0.565263 0.001 0.0005 0 0 2.0 2.0 -1 -1 -67.8144 45.5642 0 flux_gshield} {Microbeam_a 64.705657 0.94625 0.001 0.0005 0 0 0.008 0.005 -1 -1 -67.7806 47.0758 0 flux_7x7} {Microbeam_d 63.479211 0.595393 0.001 0.0005 0 0 2.0 2.0 -1 -1 -69.0066 46.7264 0 flux_gshield} {Microbeam_c 65.691053 0.249342 0.001 0.0005 0 0 0.015 0.01 -1 -1 -66.7952 46.3776 0 flux_10x10} {{Microbeam 20 x 15 um } 66.591184 -0.988158 0.001 0.0005 1 1 0.02 0.015 .05 .015 -66.230000 45.131200 0 flux_20x15} {{Guard Shield_2} 46.277763 0.866316 0.1 0.1 0 0 1 1 -1 -1 -86.207600 46.993800 0 flux_gshield} {Microbeam_2e 47.147698 0.535 0.1 0.1 0 0 0.015 0.015 -1 -1 -85.3388 46.6634 0 flux_20x20} {Microbeam_2d 45.181842 0.097303 0.1 0.1 0 0 0.01 0.01 -1 -1 -87.301000 46.224800 0 flux_10x10} {{Microbeam 10 x 10 um} 47.832895 0.875855 0.1 0.1 0 0 .01 .01 0.05 0.015 -84.650200 47.003200 0 flux_10x10} {{MIcrobeam  5 x  5 um} 46.397698 -0.237566 0.1 0.1 0 0 0.005 0.005 .05 .015 -86.087 45.8898 1 flux_5x5} {Microbeam_2a 44.488158 1.284013 0.1 0.1 0 0 0.01 0.007 -1 -1 -87.9982 47.4124 0 flux_10x10} {15_x_5 62.932763 -0.904474 0.1 0.1 0 0 0.1 0.1 -1 -1 -69.551600 45.222600 0 flux_15x5}
+
+collimator_status
+13
+self standardString
+1 1 1 1 1
+0 0 0 0 0
+0 0 2.0 2.0
+
+user_collimator_status
+13
+self standardString
+1 1 1 1 1
+0 0 0 0 0
+0 0 2.0 2.0
+
+collimatorMove
+11
+self collimatorMove
+0 1 1 1 1
+0 1 1 1 1
+
+userCollimator
+11
+self userCollimator
+0 1 1 1 1
+0 1 1 1 1
+
+motorInfo
+11
+self motorInfo
+1 1 1 1 1
+0 0 0 0 0
+
+reorient_data
+13
+self standardString
+1 1 1 1 1
+0 0 0 0 0
+0 0 0
+
+flux
+2
+self flux_collimator
+1 1 1 1 1
+0 0 0 0 0
+0
+0.000000 1000.000000 0.000050 0 0 0 0 e11p/s
+0
+
+injectState
+13
+epics_gateway SPEAR:InjectState
+0 1 1 1 1
+0 1 1 1 1
+No Injection
+
+spearState
+13
+epics_gateway SPEAR:State
+0 1 1 1 1
+0 1 1 1 1
+AccPhy
+
+peakTableVert
+11
+self peakTableVert
+0 1 1 1 1
+0 0 0 0 0
+
+suitablePreAmp
+11
+self suitablePreAmp
+0 1 1 1 1
+0 0 0 0 0
+
+i_TVPeak
+4
+self peakTableVert 0 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+i_maxI0ForTV
+4
+self peakTableVert 1 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+i_mirrorV1ForTV
+4
+self peakTableVert 3 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+i_mirrorV2ForTV
+4
+self peakTableVert 4 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+i_suitablePreAmpSettingV
+4
+self suitablePreAmp 0 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+i_suitablePreAmpSettingH
+4
+self suitablePreAmp 1 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+i_suitablePreAmpReadingV
+4
+self suitablePreAmp 2 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+i_suitablePreAmpReadingH
+4
+self suitablePreAmp 3 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+peakGeneric
+11
+self peakGeneric
+0 1 1 1 1
+0 0 0 0 0
+
+i_peakGeneric
+4
+self peakGeneric 0 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+i_maxI0ForPeak
+4
+self peakGeneric 1 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+i_FWHMForPeak
+4
+self peakGeneric 2 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+peak_scan_config
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+motor: sample_z start: -1.39 end: -1.23 points: 21 BACKGROUND_CUT_OFF_PERCENT: 5 signal: fd_tungsten timeWait:0
+
+zoomSwitch
+2
+self standardVirtualMotor
+1 1 1 1 1
+0 1 1 1 1
+0
+0.000000 100.000000 -100.000000 0 0 0 0 mm
+0
+
+focusing_mirror_1_bend
+2
+self STD_MOVE_TOGETHER
+0 1 1 1 1
+0 0 0 0 0
+1
+13.549974 100.000000 -100.000000 0 0 0 0 mm
+focusing_mirror_1_bend_1 focusing_mirror_1_bend_2
+
+focusing_mirror_2_bend
+2
+self STD_MOVE_TOGETHER
+0 1 1 1 1
+0 0 0 0 0
+1
+7.628270 7.750000 6.500000 0 0 0 0 mm
+focusing_mirror_2_bend_1 focusing_mirror_2_bend_2
+
+q315_collect_background
+11
+self q315_collect_background
+0 1 1 1 1
+0 0 0 0 0
+
+washCrystal
+11
+self washCrystal
+0 0 0 1 1
+0 0 0 1 1
+
+detectorCollectShutterless
+11
+detector detectorCollectShutterless
+0 1 1 1 1
+0 1 1 1 1
+
+detectorSetThreshold
+11
+detector detectorSetThreshold
+0 1 1 1 1
+0 0 0 0 0
+
+mirror_release_delay
+13
+self standardString
+1 1 1 1 1
+0 0 0 0 0
+1 0000 20000 0
+
+detector_z_horz_offset
+2
+self standardVirtualMotor
+0 0 1 1 1
+0 0 0 1 1
+0
+-3.238215 0.000000 -100.000000 0 0 0 0 mm
+0
+
+collimator_horz_offset
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 0 0 0 0
+0
+132.484800 100.000000 -100.000000 0 0 0 0 mm
+0
+
+collimator_vert_offset
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 0 0 0 0
+0
+-46.130000 100.000000 -100.000000 0 0 0 0 mm
+0
+
+alignCollimator_constant
+13
+self standardString
+1 1 1 1 1
+0 0 0 0 0
+-9999 -9999 12654 85 35 fd_tungsten 25 150 0.08 15 0.25 0.0 0.04 17 0.25 0.0 9999 9999 0.01 0.02
+
+alignCollimator
+11
+self alignCollimator
+0 1 1 1 1
+0 1 1 1 1
+
+inlineSnapshot
+11
+self inlineSnapshot
+1 1 1 1 1
+1 1 1 1 1
+
+videoSnapshot
+11
+self videoSnapshot
+1 1 1 1 1
+1 1 1 1 1
+
+matchup
+11
+self matchup
+1 1 1 1 1
+0 0 0 0 0
+
+alignTungsten
+11
+self alignTungsten
+0 1 1 1 1
+0 1 1 1 1
+
+alignTungsten_constant
+13
+self standardString
+1 1 1 1 1
+0 0 0 0 0
+0.05 0.015 10500 97.0 35 fd_tungsten 100 200 -0.16 15 0.2 0.0 0.12 15 0.2 0.0 -53.7842 0.030 0.025 0.03
+
+baseScan
+11
+self baseScan
+0 1 1 1 1
+0 0 0 0 0
+
+user_align_beam_status
+13
+self userAlignBeamStatus
+1 1 1 1 1
+0 0 0 0 0
+0 1 7500 7500 1344847108 1344847108 1 {}
+
+userAlignBeam
+11
+self userAlignBeam
+0 1 1 1 1
+0 1 1 1 1
+
+ceilingTemperature
+2
+self ceilingTemperature
+0 1 1 1 1
+0 1 1 1 1
+0
+23.610000 26.000000 23.000000 0 1 0 0 C
+0
+
+tableTemperature
+2
+self tableTemperature
+0 1 1 1 1
+0 1 1 1 1
+0
+20.780000 22.000000 19.000000 0 0 0 0 C
+0
+
+gonioTemperature
+2
+self gonioTemperature
+0 1 1 1 1
+0 1 1 1 1
+0
+23.110000 22.500000 21.000000 0 0 1 0 C
+0
+
+inlineMatch
+11
+self inlineMatch
+0 1 1 1 1
+0 1 1 1 1
+
+s_inlineMatch_vert
+4
+self inlineMatch 0 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+s_inlineMatch_horz
+4
+self inlineMatch 1 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+focusing_mirror_2_mfd_vert_encoder
+12
+galil2 focusing_mirror_2_mfd_vert_encoder
+0 1 1 1 1
+0 1 1 1 1
+
+mirror_mfd_horz_encoder
+12
+galil2 mirror_mfd_horz_encoder
+0 1 1 1 1
+0 1 1 1 1
+
+mfd_vert_offset
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 0 0 0 0
+0
+-68.276800 100.000000 -100.000000 0 0 0 0 mm
+0
+
+mfd_horz_offset
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 0 0 0 0
+0
+0.000000 100.000000 -100.000000 0 0 0 0 mm
+0
+
+timeOfMovement
+11
+self timeOfMovement
+1 1 1 1 1
+1 1 1 1 1
+
+timeMoveEnergy
+11
+self timeMoveEnergy
+1 1 1 1 1
+1 1 1 1 1
+
+runTimer
+11
+self runTimer
+1 1 1 1 1
+1 1 1 1 1
+
+readBarCode
+11
+barcodeReader READ_BARCODE
+0 1 1 1 1
+0 1 1 1 1
+
+barcodeRaw
+11
+barcodeReader RAW
+0 1 1 1 1
+0 1 1 1 1
+
+flash_barcode
+11
+robot flash_barcode
+0 0 0 1 1
+0 0 0 0 0
+
+cassette_barcode
+13
+self standardString
+1 1 1 1 1
+0 0 0 0 0
+unknown unknown unknown unknown
+
+mfdBeamHappy
+11
+self mfdBeamHappy
+0 1 1 1 1
+0 1 1 1 1
+
+repeatMount
+11
+self repeatMount
+0 1 1 1 1
+0 0 0 0 0
+
+scanId_config
+13
+self standardString
+0 1 1 1 1
+1 1 1 1 1
+0 0 0
+
+run_time_estimates
+13
+self standardString
+1 1 1 1 1
+0 1 1 1 1
+5 00:00:00 00:12:01 00:01:42 00:01:42 00:01:42 00:01:42 00:01:42 00:01:42 00:01:42 00:01:42 00:01:42 00:01:42 00:01:42 00:01:42 00:01:42 00:01:42
+
+beam_size_sample_offset
+13
+self standardString
+1 1 1 1 1
+0 0 0 0 0
+-5.703729 5.396728 -0.140171387 0.059218613 -0.0136 0.0264
+
+inline_camera_position_preset
+13
+self standardString
+1 1 1 1 1
+0 0 0 0 0
+{Inline 16.100000 -0.376000 0.002 0.002} {Home 13.639000 -0.738000 0.002 0.002}
+
+inline_camera_position_status
+13
+self standardString
+1 1 1 1 1
+0 0 0 0 0
+0 -1
+
+inlineCameraMove
+11
+self inlineCameraMove
+0 1 1 1 1
+0 1 1 1 1
+
+energy_moving_msg
+13
+self standardString
+1 1 1 1 1
+0 0 0 0 0
+
+
+scan3DSetup_info
+13
+self standardString
+1 1 1 1 1
+0 0 0 0 0
+0 {-999 -999 -999 -999 0 0} {{} {-999 -999 -999 -999 0 0}} {{} {-999 -999 -999 -999 0 0}} 0 150.0 150.0 150.0 3 3 3 0 0 0 0 0 0 0 0 0 0 0 0
+
+scan3DSetup
+11
+self scan3DSetup
+0 1 1 1 1
+0 1 1 1 1
+
+getInlineContrast
+11
+inline_camera getInlineContrast
+1 1 1 1 1
+0 0 0 0 0
+
+rasteringUpdate
+11
+self rasteringUpdate
+1 1 1 1 1
+0 0 0 0 0
+
+contrast_ion
+11
+self contrast_ion
+1 1 1 1 1
+0 0 0 0 0
+
+contrast_auto
+11
+self contrast_auto
+1 1 1 1 1
+0 0 0 0 0
+
+contrast_inline
+4
+self contrast_ion 0 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+contrast_inline_range
+4
+self contrast_ion 1 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+contrast_inline_dmax
+4
+self contrast_ion 2 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+contrast_roi
+13
+self standardString
+1 1 1 1 1
+0 0 0 0 0
+0.5 0.5 .1 .8
+
+autofocus_constants
+13
+self standardString
+1 1 1 1 1
+0 0 0 0 0
+0.5 0.5 0.1 0.8 0.2 17 50
+
+contrast4autofocus
+4
+self contrast_auto 0 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+inlineCameraAutofocus
+11
+self inlineCameraAutofocus
+0 1 1 1 1
+0 0 0 0 0
+
+centerTip
+11
+self centerTip
+0 1 1 1 1
+0 1 1 1 1
+
+rastering_normal_constant
+13
+self standardString
+1 1 1 1 1
+0 0 0 0 0
+.05 .025 3 25 8 0.05 3 25 4 0.05 0.05 0.025 0.0001 200.0 0.005 5 1.0 1 30.0 1 400.0 10 20 0 3 {10 30 50 } 50 0.025
+
+rastering_micro_constant
+13
+self standardString
+1 1 1 1 1
+0 0 0 0 0
+1 1 25 25 0.01 1 25 1 0.01 0.001 200 0.05 5 1.0 1 30.0 1 400.0 10 20 0 3 {10 30 50} 50 0.005
+
+manualRastering
+11
+self manualRastering
+0 1 1 1 1
+0 1 1 1 1
+
+lightsControl
+11
+self lightsControl
+1 1 1 1 1
+0 1 1 1 1
+
+scan3DStatus
+13
+self standardString
+1 1 1 1 1
+0 0 0 0 0
+/data/blctl/current3DScanSetup/BL12-2_VCSZXFACARCSA.txt
+
+scan3DFlip
+11
+self scan3DFlip
+0 1 1 1 1
+0 1 1 1 1
+
+raster_user_setup_normal
+13
+self standardString
+1 1 1 1 1
+0 1 1 1 1
+400.0 30.0 1.0 0.005 {} {} 1
+
+raster_user_setup_micro
+13
+self standardString
+1 1 1 1 1
+0 1 1 1 1
+400.0 30.0 1.0 0.05 {} {} 1
+
+scan3DUserSetup
+11
+self scan3DUserSetup
+1 1 1 1 1
+0 1 1 1 1
+
+rasterState
+13
+self startEmpty
+1 1 1 1 1
+0 0 0 0 0
+
+
+barcode_port
+13
+self standardString
+1 1 1 1 1
+0 0 0 0 0
+{} {} {}
+
+barcodeData
+11
+self barcodeData
+1 1 1 1 1
+0 0 0 0 0
+
+scan3DHistory
+13
+self standardString
+1 1 1 1 1
+0 0 0 0 0
+
+
+mirror_horz_combo_offset
+13
+self standardString
+1 1 1 1 1
+0 0 0 0 0
+-3.250354 -1.453301
+
+mirror_horz_combo
+2
+self mirror_horz_combo
+0 1 1 1 1
+0 0 0 0 0
+1
+1.206530 4.300000 -1.250000 0 0 0 0 mm
+mirror_horz
+
+getVerticalCut
+11
+camera getVerticalCut
+1 1 1 1 1
+0 1 1 1 1
+
+raster_runs
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+0 0
+
+raster_run0
+13
+self rasterDefinition
+0 1 1 1 1
+0 1 1 1 1
+inactive 0 not_exists
+
+raster_run1
+13
+self rasterDefinition
+0 1 1 1 1
+0 1 1 1 1
+inactive 1 not_exists
+
+raster_run2
+13
+self rasterDefinition
+0 1 1 1 1
+0 1 1 1 1
+inactive 2 not_exists
+
+raster_run3
+13
+self rasterDefinition
+0 1 1 1 1
+0 1 1 1 1
+inactive 3 not_exists
+
+raster_run4
+13
+self rasterDefinition
+0 1 1 1 1
+0 1 1 1 1
+inactive 4 not_exists
+
+raster_run5
+13
+self rasterDefinition
+0 1 1 1 1
+0 1 1 1 1
+inactive 5 not_exists
+
+raster_run6
+13
+self rasterDefinition
+0 1 1 1 1
+0 1 1 1 1
+inactive 6 not_exists
+
+raster_run7
+13
+self rasterDefinition
+0 1 1 1 1
+0 1 1 1 1
+inactive 7 not_exists
+
+raster_run8
+13
+self rasterDefinition
+0 1 1 1 1
+0 1 1 1 1
+inactive 8 not_exists
+
+raster_run9
+13
+self rasterDefinition
+0 1 1 1 1
+0 1 1 1 1
+inactive 9 not_exists
+
+raster_run10
+13
+self rasterDefinition
+0 1 1 1 1
+0 1 1 1 1
+inactive 10 not_exists
+
+raster_run11
+13
+self rasterDefinition
+0 1 1 1 1
+0 1 1 1 1
+inactive 11 not_exists
+
+raster_run12
+13
+self rasterDefinition
+0 1 1 1 1
+0 1 1 1 1
+inactive 12 not_exists
+
+raster_run13
+13
+self rasterDefinition
+0 1 1 1 1
+0 1 1 1 1
+inactive 13 not_exists
+
+raster_run14
+13
+self rasterDefinition
+0 1 1 1 1
+0 1 1 1 1
+inactive 14 not_exists
+
+raster_run15
+13
+self rasterDefinition
+0 1 1 1 1
+0 1 1 1 1
+inactive 15 not_exists
+
+raster_run16
+13
+self rasterDefinition
+0 1 1 1 1
+0 1 1 1 1
+inactive 16 not_exists
+
+rasterRunsConfig
+11
+self rasterRunsConfig
+0 1 1 1 1
+0 1 1 1 1
+
+collectRaster
+11
+self collectRaster
+0 1 1 1 1
+0 1 1 1 1
+
+rasterRunsFlip
+11
+self rasterRunsFlip
+0 1 1 1 1
+0 1 1 1 1
+
+raster_msg
+13
+self standardString
+1 1 1 1 1
+0 0 0 0 0
+0 {Wait For Stable Beam on Mirror Feedback Detector} 3 BL12-2 tdoukov raster1 0
+
+collectRasters
+11
+self collectRasters
+0 1 1 1 1
+0 1 1 1 1
+
+madScanStatus
+13
+self fluorScanStatus
+0 1 1 1 1
+0 1 1 1 1
+0 {DCSS was reset} blstaff /data/username test Se-K {12658.000 eV} {11222.4 eV} {0.500 s} {7117.841797 -8.044147 2.032405 7189.032227 -4.194993 4.128183 9000.000000 -0.400000 2.700000 NULL/CMF40_7111d7_MADScan2scan CMF40_7111d7_MADScan2smooth_exp.bip CMF40_7111d7_MADScan2smooth_norm.bip CMF40_7111d7_MADScan2fp_fpp.bip} /data/blctl/currentExcitationScan/BL7-1.bip
+
+excitationScanStatus
+13
+self fluorScanStatus
+0 1 1 1 1
+0 1 1 1 1
+0 {DCSS was reset} tdoukov /data/username E3redoxExcite Se-K {13158.000 eV} N/A {10.000 s} {12656.389648 -7.875937 2.192405 12704.049805 -4.233325 4.405492 9000.000000 -1.000000 0.900000 NULL/Se_7-1scan Se_7-1smooth_exp.bip Se_7-1smooth_norm.bip Se_7-1fp_fpp.bip} /data/blctl/currentExcitationScan/BL12-2.bip
+
+stopBarCode
+11
+barcodeReader STOP
+1 1 1 1 1
+0 1 1 1 1
+
+energySuggestOffsets
+11
+self energySuggestOffsets
+1 1 1 1 1
+0 0 0 0 0
+
+latest_raster_user_setup_micro
+13
+self standardString
+1 1 1 1 1
+0 1 1 1 1
+400.0 30.0 1.0 0.05 {} {} 1 0 0 {} 0
+
+latest_raster_user_setup_normal
+13
+self standardString
+1 1 1 1 1
+0 1 1 1 1
+400.0 30.0 1.0 0.005 {} {} 1 0 0 {} 0
+
+moveEncoders
+11
+self moveEncoders
+0 1 1 1 1
+0 1 1 1 1
+
+centerRaster
+11
+self centerRaster
+0 1 1 1 1
+0 0 0 0 0
+
+detector_z_encoder_motor
+2
+self ENCODER_MOTOR
+0 1 1 1 1
+0 0 0 0 0
+1
+770.388400 1000.000000 -10.000000 0 0 0 0 mm
+detector_z
+
+spear_currentMotor
+2
+self STRING_DISPLAY_MOTOR
+1 1 1 1 1
+0 0 0 0 0
+0
+0.000979 6000.000000 150.000000 0 0 0 0 mA
+0
+
+collimator_vert_encoder_motor
+2
+self ENCODER_MOTOR
+0 1 1 1 1
+0 0 0 0 0
+1
+46.980200 1000.000000 -10.000000 0 0 0 0 mm
+collimator_vert
+
+collimator_horz_encoder_motor
+2
+self ENCODER_MOTOR
+0 1 1 1 1
+0 0 0 0 0
+1
+-86.543600 1000.000000 -10.000000 0 0 0 0 mm
+collimator_horz
+
+bw_cobalt
+11
+self bw_cobalt
+0 1 1 1 1
+0 1 1 1 1
+
+fd_cobalt
+4
+self genericFScan 0 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+stringUpdate
+11
+self stringUpdate
+1 1 1 1 1
+0 0 0 0 0
+
+collimator_diode
+11
+self collimator_diode
+0 1 1 1 1
+0 1 1 1 1
+
+gridGroup0
+13
+self standardString
+0 1 1 1 1
+0 0 0 0 0
+inactive 1 BL12-2_VCCSZATQYVQVC.yaml
+
+gridGroup_sum
+13
+self standardString
+0 1 1 1 1
+0 0 0 0 0
+1 0
+
+gridGroupConfig
+11
+self gridGroupConfig
+0 1 1 1 1
+0 1 1 1 1
+
+sampleVideoOrig
+13
+self standardString
+1 1 1 1 1
+0 0 0 0 0
+0.000000 0.000000 0.000000 200.227186 2.35911538835 3.08931777046 1 1 0.5 0.5 sample
+
+inlineVideoOrig
+13
+self standardString
+1 1 1 1 1
+0 0 0 0 0
+0.000000 0.000000 0.000000 290.227186 0.345601726301 -0.460802301735 1 1 0.5 0.5 inline
+
+latest_raster_user_setup
+13
+self standardString
+1 1 1 1 1
+0 1 1 1 1
+shape polygon delta 1.00 distance 300.000 attenuation 0.000 processing 1 directory /data/username beam_height 15.0 collimator {1 7 0.02 0.015} cell_width 10.0 time 1.00 cell_height 10.0 beam_stop 11.0 beam_width 50.0 prefix rasterGRID_LABEL
+
+default_raster_user_setup
+13
+self standardString
+1 1 1 1 1
+0 1 1 1 1
+shape rectangle delta 1.00 distance 300.000 attenuation 90.000 directory /data/username beam_height 10.0 collimator {1 3 0.01 0.008} cell_width 10.0 time 1.00 cell_height 10.0 beam_stop 11.0 beam_width 10.0 prefix rasterGRID_LABEL
+
+grid_msg
+13
+self standardString
+1 1 1 1 1
+0 0 0 0 0
+0 {restoring motor positions} 3 SIM12-2 jsong grid1 0
+
+collectGrid
+11
+self collectGrid
+0 1 1 1 1
+0 1 1 1 1
+
+gridGroupFlip
+11
+self gridGroupFlip
+0 1 1 1 1
+0 1 1 1 1
+
+collectGridGroup
+11
+self collectGridGroup
+0 1 1 1 1
+0 1 1 1 1
+
+focusing_mirror_2_mfd_vert_offset
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 0 0 0 0
+0
+-68.263300 100.000000 -100.000000 0 0 0 0 mm
+0
+
+mirror_mfd_horz_offset
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 0 0 0 0
+0
+63.072900 100.000000 -100.000000 0 0 0 0 mm
+0
+
+mfd_horz_energy_offset
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 0 0 0 0
+0
+-61.614400 100.000000 -100.000000 0 0 0 0 mm
+0
+
+mfd_vert_energy_offset
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 0 0 0 0
+0
+62.538200 100.000000 -100.000000 0 0 0 0 mm
+0
+
+END

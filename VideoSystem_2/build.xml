@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+    <!-- Set CATALINA_HOME environment variable before building! -->
+
+
+<project basedir="." default="build" name="VideoSystem_2">
+    <property environment="env"/>
+    <!-- Local system paths -->
+    <property name="TOMCAT_BASE" value="${env.CATALINA_HOME}" />
+    <property name="TOMCAT_LIB" value="${TOMCAT_BASE}/common/lib" />
+    <property name="TOMCAT_WEBAPPS" value="${TOMCAT_BASE}/webapps" />
+    <property name="TOMCAT_WEBAPPS_BAK" value="${TOMCAT_BASE}/webapps_bak" />
+    <property name="APP_NAME" value="VideoSystem" />
+	
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="1.5"/>
+    <property name="source" value="1.5"/>
+    <path id="J2EE 1.4 Libraries.libraryclasspath">
+        <pathelement location="${TOMCAT_LIB}/servlet-api.jar"/>
+    </path>
+    <path id="VideoSystem_2.classpath">
+        <pathelement location="WebRoot/WEB-INF/classes"/>
+        <path refid="J2EE 1.4 Libraries.libraryclasspath"/>
+        <pathelement location="WebRoot/WEB-INF/lib/spring.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/junit-3.8.1.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/commons-logging.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/commons-attributes-api.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/commons-attributes-compiler.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/commons-beanutils.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/commons-codec.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/commons-collections.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/commons-dbcp.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/commons-digester.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/commons-discovery.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/commons-fileupload.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/commons-httpclient.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/commons-lang.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/commons-pool.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/commons-validator.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/log4j-1.2.9.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/velocity-1.4.jar"/>
+            <pathelement location="WebRoot/WEB-INF/lib/imageFilter.jar"/>
+    </path>
+    <target name="init">
+        <mkdir dir="WebRoot/WEB-INF/classes"/>
+        <copy includeemptydirs="false" todir="WebRoot/WEB-INF/classes">
+            <fileset dir="src" excludes="**/*.launch, **/*.java"/>
+        </copy>
+        <copy includeemptydirs="false" todir="WebRoot/WEB-INF/classes">
+            <fileset dir="test" excludes="**/*.launch, **/*.java"/>
+        </copy>
+    </target>
+    <target name="clean">
+        <delete dir="WebRoot/WEB-INF/classes"/>
+    </target>
+    <target depends="clean" name="cleanall"/>
+    <target depends="build-subprojects,build-project" name="build"/>
+    <target name="build-subprojects"/>
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="WebRoot/WEB-INF/classes" source="${source}" target="${target}">
+            <src path="src"/>
+            <classpath refid="VideoSystem_2.classpath"/>
+        </javac>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="WebRoot/WEB-INF/classes" source="${source}" target="${target}">
+            <src path="test"/>
+            <classpath refid="VideoSystem_2.classpath"/>
+        </javac>
+    </target>
+	<!--
+    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
+    <target description="copy Eclipse compiler jars to ant lib directory" name="init-eclipse-compiler">
+        <copy todir="${ant.library.dir}">
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </copy>
+        <unzip dest="${ant.library.dir}">
+            <patternset includes="jdtCompilerAdapter.jar"/>
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </unzip>
+    </target>
+    <target description="compile project with Eclipse compiler" name="build-eclipse-compiler">
+        <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
+        <antcall target="build"/>
+    </target>
+    -->
+
+	 <target name="undeploy" depends="build">
+  	  <move todir="${TOMCAT_WEBAPPS_BAK}/${APP_NAME}">
+ 		    <fileset dir="${TOMCAT_WEBAPPS}/${APP_NAME}"/>
+		  </move>
+	 </target>
+		
+	 <target name="deploy-live" depends="build,undeploy">
+	 	
+	 	<copy todir="${TOMCAT_WEBAPPS}/${APP_NAME}">
+		    <fileset dir="WebRoot"/>
+		  </copy>
+	 </target>
+
+	 <target name="deploy" depends="deploy-live" />
+	
+	
+</project>

@@ -1,0 +1,207 @@
+createSession
+=============
+
+Server always returns a session id even if user id and password are invalid. 
+
+
+Server
+------
+
+/gateway/servlet/APPLOGIN
+
+Request Parameters
+------------------
+
+Name			Value
+userid			Unix login id
+passwd			base64 encoded string of userid:password
+AppName			SMBTest or a valid app name allowed by the server
+dbAuth			True or False. If True, authenticate against the beamline DB in MySQL 
+
+
+Example request URL
+-------------------
+
+/gateway/servlet/APPLOGIN?userid=penjitk&passwd=XXXXXXXXXX&AppName=SMBTest&dbAuth=True
+
+
+OK Response (User id, session id and AppName are valid)
+-----------
+
+
+HTTP/1.1 200 OK
+Beamlines: ALL
+SessionAccessed: 1052763031115
+SessionCreation: 1052763031115
+SessionValid: TRUE
+Set-Cookie: JSESSIONID=6DB4BDC739526117DA38DEE227078E08;Path=/gateway
+UserID: penjitk
+UserName: Penjit Kanjanarat
+UserPriv: 0
+UserStaff: TRUE
+UserType: UNIX;WEB
+
+SMBSessionID=6DB4BDC739526117DA38DEE227078E08
+SessionValid=TRUE
+SessionCreation=1052763031115
+SessionAccessed=1052763031115
+UserID=penjitk
+UserName=Penjit Kanjanarat
+UserType=UNIX;WEB
+UserPriv=0
+UserStaff=TRUE
+Beamlines=ALL
+
+
+
+Error Response (Invalid user id or password)
+--------------
+
+HTTP/1.1 401 Unauthorized
+Set-Cookie: JSESSIONID=722A7F4AA6C7AE1EA7BB5149B7D389FA;Path=/gateway
+
+<html><head><title>Apache Tomcat/4.0.6 - Error report</title><STYLE><!--H1{font-family : sans-serif,Arial,Tahoma;color : white;background-color : #0086b2;} BODY{font-family : sans-serif,Arial,Tahoma;color : black;background-color : white;} B{color : white;background-color : #0086b2;} HR{color : #0086b2;} --></STYLE> </head><body><h1>Apache Tomcat/4.0.6 - HTTP Status 401 - Unauthorized</h1><HR size="1" noshade><p><b>type</b> Status report</p><p><b>message</b> <u>Unauthorized</u></p><p><b>description</b> <u>This request requires HTTP authentication (Unauthorized).</u></p><HR size="1" noshade></body></html>
+
+
+Error Response (Invalid AppName)
+-------------- 
+HTTP/1.1 403 Forbidden
+
+<html><head><title>Apache Tomcat/4.0.6 - Error report</title><STYLE><!--H1{font-family : sans-serif,Arial,Tahoma;color : white;background-color : #0086b2;} BODY{font-family : sans-serif,Arial,Tahoma;color : black;background-color : white;} B{color : white;background-color : #0086b2;} HR{color : #0086b2;} --></STYLE> </head><body><h1>Apache Tomcat/4.0.6 - HTTP Status 403 - Forbidden</h1><HR size="1" noshade><p><b>type</b> Status report</p><p><b>message</b> <u>Forbidden</u></p><p><b>description</b> <u>Access to the specified resource (Forbidden) has been forbidden.</u></p><HR size="1" noshade></body></html>
+
+
+
+endSession
+==========
+
+Server
+------
+
+/gateway/servlet/EndSession;jsessionid=XXXXXXXXXXXXXXXX
+
+
+
+Request Parameters
+------------------
+
+Name				Value
+AppName				SMBTest or a valid app name allowed by the server
+
+Example Request URL
+-------------------
+
+/gateway/servlet/EndSession;jsessionid=XXXXXXXXXXXXXXXXX?AppName=XXXXXXXXXXXX
+
+
+OK Response (session id is valid)
+-----------
+
+HTTP/1.1 200 OK
+
+Requested session 7999784F0A19D37CC701610D54B19DC4 is now invalid.
+
+
+Error Response (Invalid session id)
+--------------
+
+
+HTTP/1.1 200 OK
+
+Requested session 7999784F0A19D37CC701610D54B19DC44 is already invalid
+
+
+Error Response (Invalud AppName)
+--------------
+
+HTTP/1.1 403 Forbidden
+
+<html><head><title>Apache Tomcat/4.0.6 - Error report</title><STYLE><!--H1{font-family : sans-serif,Arial,Tahoma;color : white;background-color : #0086b2;} BODY{font-family : sans-serif,Arial,Tahoma;color : black;background-color : white;} B{color : white;background-color : #0086b2;} HR{color : #0086b2;} --></STYLE> </head><body><h1>Apache Tomcat/4.0.6 - HTTP Status 403 - Forbidden</h1><HR size="1" noshade><p><b>type</b> Status report</p><p><b>message</b> <u>Forbidden</u></p><p><b>description</b> <u>Access to the specified resource (Forbidden) has been forbidden.</u></p><HR size="1" noshade></body></html>
+
+
+validateSession
+===============
+
+Server
+------
+
+/gateway/servlet/SessionStatus;jsessionid=XXXXXXXXX
+
+Request Parameters
+------------------
+
+Name					Value
+AppName					SMBTest or a valid app name the server allows
+ValidBeamlines				True or False. Revalidate against the beam line DB????
+
+
+Example Request URL
+-------------------
+
+/gateway/servlet/SessionStatus;jsessionid=1655AFDCAE3B1E16AD4C348A31DA3FD2?AppName=SMBTest&ValidBeamlines=True
+
+
+OK Response (Invalid session id)
+-----------
+
+HTTP/1.1 200 OK
+Beamlines: NA
+BL: NA
+DBAuth: False
+SessionAccessed: NA
+SessionCreation: NA
+SessionValid: FALSE
+UserID: NA
+UserName: NA
+UserPriv: 0
+UserStaff: FALSE
+UserType: NA
+
+SessionValid=FALSE
+SessionCreation=NA
+SessionAccessed=NA
+UserID=NA
+UserName=NA
+UserType=NA
+UserPriv=0
+UserStaff=FALSE
+Beamlines=NA
+DBAuth=false
+
+
+OK Response (Valid session id)
+-----------
+
+HTTP/1.1 200 OK
+Beamlines: ALL
+BL: TTTTTT
+DBAuth: False
+SessionAccessed: 1052766676313
+SessionCreation: 1052766669047
+SessionValid: TRUE
+UserID: penjitk
+UserName: Penjit Kanjanarat
+UserPriv: 0
+UserStaff: TRUE
+UserType: UNIX
+
+SessionValid=TRUE
+SessionCreation=1052766669047
+SessionAccessed=1052766676313
+UserID=penjitk
+UserName=Penjit Kanjanarat
+UserType=UNIX
+UserPriv=0
+UserStaff=TRUE
+Beamlines=ALL
+DBAuth=false
+
+
+
+Error Response (Invalid AppName)
+--------------
+
+HTTP/1.1 403 Forbidden
+
+<html><head><title>Apache Tomcat/4.0.6 - Error report</title><STYLE><!--H1{font-family : sans-serif,Arial,Tahoma;color : white;background-color : #0086b2;} BODY{font-family : sans-serif,Arial,Tahoma;color : black;background-color : white;} B{color : white;background-color : #0086b2;} HR{color : #0086b2;} --></STYLE> </head><body><h1>Apache Tomcat/4.0.6 - HTTP Status 403 - Forbidden</h1><HR size="1" noshade><p><b>type</b> Status report</p><p><b>message</b> <u>Forbidden</u></p><p><b>description</b> <u>Access to the specified resource (Forbidden) has been forbidden.</u></p><HR size="1" noshade></body></html>
+
+

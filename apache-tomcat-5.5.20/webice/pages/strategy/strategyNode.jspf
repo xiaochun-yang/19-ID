@@ -1,0 +1,78 @@
+<%
+	Object strategyNodes[] = labelitNode.getChildren();
+
+	if (strategyNodes != null) {
+
+		for (int si = 0; si < strategyNodes.length; ++si) {
+
+			IntegrateNode strategyNode = (IntegrateNode)strategyNodes[si];
+
+			imageName = "images/strategy/folder.png";
+			// display open folder for the selected node
+			if (viewer.isSelectedNode(strategyNode)) {
+				imageName = "images/strategy/folder_sel.png";
+			}
+
+			if (strategyNode.getChildrenCount() == 0) {
+				handle = "images/strategy/line";
+			} else {
+				handle = "images/strategy/handle";
+				if (strategyNode.isExpanded()) {
+					handle += "down";
+				} else {
+					handle += "right";
+				}
+			}
+
+			if (si < strategyNodes.length-1) {
+				handle += "middle.png";
+			} else {
+				handle += "last.png";
+			}
+
+			out.write("<tr><td></td>\n");
+
+			if ((labelitNodes.length == 1) || (li == (labelitNodes.length-1))) {
+				out.write("<td></td>\n");
+			} else {
+				out.write("<td width='1%' align='center'><img src='images/strategy/linevertical.png' /></td>\n");
+			}
+
+
+			// handle image
+			out.write("<td width='1%' align='center'><a href='Strategy_ExpandNode.do?nodePath="
+						+ strategyNode.getPath()
+						+ "' target='_parent'><img src='"
+						+ handle
+						+ "' alt='' border='0'></a></td>\n");
+			// folder image
+			out.write("<td align='center' width='1%'><img src='"
+						+ imageName + "' width='16' height='16' border='0'></td>");
+			// node name
+			out.write("<td  align='left' colspan='4'><a href='Strategy_SelectNode.do?nodePath="
+						+ strategyNode.getPath()
+						+ "' target='_parent'>");
+
+			if (viewer.isSelectedNode(strategyNode))
+				out.write("<b>");
+
+			out.write("<nobr>autoindexing " + strategyNode.getName() + "</nobr>");
+
+			if (viewer.isSelectedNode(strategyNode))
+				out.write("</b>");
+
+			out.write("</a></td>\n");
+			// end of row
+			out.write("</tr>\n");
+
+			if (strategyNode.isExpanded()) {
+
+%>
+				<%@ include file="/pages/strategy/spacegroupNode.jspf" %>
+
+<%			}
+		}
+
+	}
+
+%>

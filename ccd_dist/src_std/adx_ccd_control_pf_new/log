@@ -1,0 +1,122 @@
+#
+#	CCD software system.
+#
+#	Some MAR names remain since we are using portions of
+#	that software for control and display.
+#
+setenv	CCDHOME			.
+setenv	MARHOME			.
+#----------------------------------------------------
+# For CCD-specific Denzo (v 1.5.5) and needed aliases
+#----------------------------------------------------
+#
+setenv	CCD_COMMUNICATION 	"tcp-ip"
+#
+#	Program elements, their hosts and port numbers.
+#
+setenv	CCD_DCSERVER		ccd_dc_api
+setenv	CCD_DCHOSTNAME		j2
+setenv	CCD_DCPORT		8040
+#
+setenv	CCD_DTSERVER		ccd_dc_api
+setenv	CCD_DTHOSTNAME		jsn410
+setenv	CCD_DTPORT		8041
+#
+setenv	CCD_DTDSERVER		ccd_dc_api
+setenv	CCD_DTDHOSTNAME		jsn410
+setenv	CCD_DTDPORT		8042
+#
+setenv	CCD_BLSERVER		ccd_bl_kappa
+setenv	CCD_BLHOSTNAME		j2
+setenv	CCD_BLPORT		8043
+#
+setenv	CCD_DASERVER		ccd_daemon
+setenv	CCD_DAHOSTNAME		j2
+setenv	CCD_DAPORT		8044
+#
+setenv	CCD_STSERVER		ccd_status
+setenv	CCD_STHOSTNAME		j2
+setenv	CCD_STPORT		8045
+#
+setenv	CCD_XFSERVER		ccd_xform_new_api
+setenv	CCD_XFHOSTNAME		j2
+setenv	CCD_XFPORT		8046
+#
+#	control and view have no host or port.
+#
+setenv	CCD_CONSERVER		adx_ccd_control
+setenv	CCD_CONHOSTNAME		j2
+setenv	CCD_VIEWSERVER		adxv
+#
+#  Details for the 2x2:
+#
+setenv	CCD_N_CTRL		4
+setenv	CCD_U_CTRL		"1 1 1 1"
+setenv	CCD_M_ROTATE		"180 270 90 0"
+#
+#	Status file
+#
+setenv	CCD_STATUS_FILE		ccd_status
+setenv	MARSTATUSFILE		ccd_status
+#
+#	Log file for ccd_dc (as opposed to the standard output)
+#
+setenv	CCD_DC_LOCAL_LOG	ccd_dc_local_log
+#
+#	Log file for ccd_dc (as opposed to the standard output)
+#
+setenv	CCD_BL_LOCAL_LOG	ccd_bl_local_log
+#
+#	Where the Raw ccd files are placed (from ccd_det's point of view).
+#
+setenv	CCDSCANDIR		"e:\tmp\"
+#
+#	Where the Raw ccd files are placed (from ccd_xform's point of view).
+#
+setenv	CCDSCANDIR_EXPORT	/CCD1/e/tmp
+#
+#	The ccd config file (currently the same as mardc).
+#
+setenv	CCD_DC_CONFIG		tables_api_410/config_ccd
+#
+#	The mardc config file.  Used when the base is part of data collection.
+#
+setenv	MARCONFIGFILE		tables_api_410/config
+#
+setenv	MARCOLLECTFILE		tmp/marcollect
+#
+setenv	XFORMSTATUSFILE		tmp/xf_status
+#
+setenv	LOG_DC_FILE		ccd_dc.log
+setenv	LOG_BL_FILE		ccd_bl.log
+setenv	LOG_XF_FILE		ccd_xform.log
+setenv	LOG_ST_FILE		ccd_status.log
+setenv	LOG_CON_FILE		adx_control.log
+#
+# Generic Background file for the transform process
+#
+setenv	CCD_GENERICBGND		corr_tables/bgnd.gen
+#
+# For use of the multiwire system hardware.
+#
+setenv XTAL_GONIOFILE	tables/goniostat.
+setenv XTAL_GONIOPARAM	tables/gonioparam
+setenv XTAL_CAMACDEV	/dev/multiwire
+setenv XTAL_MOTORDEV	/dev/ttyts2
+setenv XTAL_MOTFILE	tables/motors.
+setenv MARBEAMLINEFILE	tables/marbeamlinefile
+setenv CCD_KAPPA_POSITIONS      tables_api_410/kappa_positions
+setenv CCD_KAPPA_TTY            /dev/cua1
+#
+#  Transform code.
+#
+setenv CCD_NONUNF	tables_api_410/NONUNF
+setenv CCD_CALFIL	tables_api_410/CALFIL
+setenv CCD_POSTNUF      tables_api_410/POSTNUF
+setenv CCD_X_INT        tables_api_410/COMBINED.x_int
+setenv CCD_Y_INT        tables_api_410/COMBINED.y_int
+setenv CCD_CALPAR       tables_api_410/COMBINED.calpar
+setenv GUI_EDITOR		vi
+#
+setenv CCD_RAW_SATURATION	50000
+exit

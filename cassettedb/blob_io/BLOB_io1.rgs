@@ -1,0 +1,26 @@
+HKCR
+{
+	BLOB_io.BLOB_io1.1 = s 'BLOB_io1 Class'
+	{
+		CLSID = s '{2F4BEFE0-6C41-491D-B62A-20AA484FC246}'
+	}
+	BLOB_io.BLOB_io1 = s 'BLOB_io1 Class'
+	{
+		CLSID = s '{2F4BEFE0-6C41-491D-B62A-20AA484FC246}'
+		CurVer = s 'BLOB_io.BLOB_io1.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {2F4BEFE0-6C41-491D-B62A-20AA484FC246} = s 'BLOB_io1 Class'
+		{
+			ProgID = s 'BLOB_io.BLOB_io1.1'
+			VersionIndependentProgID = s 'BLOB_io.BLOB_io1'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{0AF39136-80FB-46F7-AF9D-AC923A4F4978}'
+		}
+	}
+}

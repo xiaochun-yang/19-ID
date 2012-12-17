@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE struts-config PUBLIC
+   "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN"
+   "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+
+<!--
+     This is the Struts configuration file for the example application,
+     using the proposed new syntax.
+-->
+
+
+<struts-config>
+
+
+  <!-- ========== Form Bean Definitions =================================== -->
+  <form-beans>
+  </form-beans>
+
+
+  <!-- ========== Global Forward Definitions ============================== -->
+  <global-forwards>
+    <forward  name="top" 		   path="/ShowCassettes.do"/>
+  </global-forwards>
+
+
+  <!-- ========== Action Mapping Definitions ============================== -->
+  <action-mappings>
+
+        <action path="/ShowLoginForm"
+        	type="org.apache.struts.actions.ForwardAction"
+        	parameter="/logingForm.jsp" />
+
+        <action
+            path="/Login"
+            type="sil.actions.LoginAction"
+            scope="request"
+            validate="true">
+            <forward name="success" path="/CassetteInfo.jsp" />
+             <forward name="exception" path="/loginFailed.jsp" />
+	</action>
+
+        <action path="/ShowCassettes"
+        	type="org.apache.struts.actions.ForwardAction"
+        	parameter="/CassetteInfo.jsp" />
+
+        <action path="/getCrystalData"
+            type="org.apache.struts.actions.ForwardAction"
+            scope="request"
+        	parameter="/servlet/getCrystalData" />
+
+        <action path="/setCrystal"
+            type="org.apache.struts.actions.ForwardAction"
+            scope="request"
+        	parameter="/servlet/setCrystal" />
+
+        <action path="/setCrystalImage"
+            type="org.apache.struts.actions.ForwardAction"
+            scope="request"
+        	parameter="/servlet/setCrystalImage" />
+
+        <action
+            path="/addCrystalImage"
+            type="org.apache.struts.actions.ForwardAction"
+            scope="request"
+        	parameter="/servlet/addCrystalImage" />
+
+        <action
+            path="/clearCrystalImages"
+            type="org.apache.struts.actions.ForwardAction"
+            scope="request"
+        	parameter="/servlet/clearCrystalImages" />
+
+        <action
+            path="/clearCrystal"
+            type="org.apache.struts.actions.ForwardAction"
+            scope="request"
+        	parameter="/servlet/clearCrystal" />
+
+        <action
+            path="/clearAllCrystals"
+            type="org.apache.struts.actions.ForwardAction"
+            scope="request"
+        	parameter="/servlet/clearAllCrystals" />
+
+        <action
+            path="/isEventCompleted"
+            type="org.apache.struts.actions.ForwardAction"
+            scope="request"
+        	parameter="/servlet/isEventCompleted" />
+
+        <action
+            path="/getLatestEventId"
+            type="org.apache.struts.actions.ForwardAction"
+            scope="request"
+        	parameter="/servlet/getLatestEventId" />
+
+        <action
+            path="/getCrystal"
+            type="org.apache.struts.actions.ForwardAction"
+            scope="request"
+        	parameter="/servlet/getCrystal" />
+
+        <action
+            path="/startTransaction"
+            type="org.apache.struts.actions.ForwardAction"
+            scope="request"
+        	parameter="/servlet/startTransaction" />
+
+        <action
+            path="/endTransaction"
+            type="org.apache.struts.actions.ForwardAction"
+            scope="request"
+        	parameter="/servlet/endTransaction" />
+
+        <action
+            path="/getChangesSince"
+            type="org.apache.struts.actions.ForwardAction"
+            scope="request"
+        	parameter="/servlet/getChangesSince" />
+
+        <action
+            path="/assignSilToBeamline"
+            type="org.apache.struts.actions.ForwardAction"
+            scope="request"
+        	parameter="/servlet/assignSilToBeamline" />
+
+        <action
+            path="/createDefaultSil"
+            type="org.apache.struts.actions.ForwardAction"
+            scope="request"
+        	parameter="/servlet/createDefaultSil" />
+
+        <action
+            path="/uploadSil"
+            type="org.apache.struts.actions.ForwardAction"
+            scope="request"
+        	parameter="/servlet/uploadSil" />
+
+        <action
+            path="/addDefaultCassette"
+            type="org.apache.struts.actions.ForwardAction"
+            scope="request"
+        	parameter="/jsp/addDefaultCassette.jsp" />
+
+        <action
+            path="/readJpegFile"
+            type="org.apache.struts.actions.ForwardAction"
+            scope="request"
+        	parameter="/servlet/readJpegFile" />
+
+        <action
+            path="/setSilLock"
+            type="org.apache.struts.actions.ForwardAction"
+            scope="request"
+        	parameter="/servlet/setSilLock" />
+
+        <action
+            path="/downloadSil"
+            type="org.apache.struts.actions.ForwardAction"
+            scope="request"
+        	parameter="/servlet/downloadSil" />
+
+        <action
+            path="/getCassetteData"
+            type="org.apache.struts.actions.ForwardAction"
+            scope="request"
+        	parameter="/servlet/getCassetteData" />
+
+        <action
+            path="/unassignSil"
+            type="org.apache.struts.actions.ForwardAction"
+            scope="request"
+        	parameter="/servlet/unassignSil" />
+
+        <action
+            path="/setCrystalAttribute"
+            type="org.apache.struts.actions.ForwardAction"
+            scope="request"
+        	parameter="/servlet/setCrystalAttribute" />
+
+        <action
+            path="/getRow"
+            type="org.apache.struts.actions.ForwardAction"
+            scope="request"
+        	parameter="/jsp/getRow.jsp" />
+
+        <action
+            path="/getSil"
+            type="org.apache.struts.actions.ForwardAction"
+            scope="request"
+        	parameter="/servlet/getSil" />
+
+        <action
+            path="/getSilList"
+            type="org.apache.struts.actions.ForwardAction"
+            scope="request"
+        	parameter="/servlet/getSilList" />
+
+        <action
+            path="/addCrystal"
+            type="org.apache.struts.actions.ForwardAction"
+            scope="request"
+        	parameter="/servlet/addCrystal" />
+
+        <action
+            path="/deleteSil"
+            type="org.apache.struts.actions.ForwardAction"
+            scope="request"
+        	parameter="/servlet/deleteSil" />
+
+        <action
+            path="/moveCrystal"
+            type="org.apache.struts.actions.ForwardAction"
+            scope="request"
+            parameter="/servlet/moveCrystal" />
+
+        <action
+            path="/getSilIdAndEventId"
+            type="org.apache.struts.actions.ForwardAction"
+            scope="request"
+            parameter="/servlet/getSilIdAndEventId" />
+
+        <action
+            path="/cassette_template"
+            type="org.apache.struts.actions.ForwardAction"
+            scope="request"
+        	parameter="/servlet/downloadSil" />
+
+        <action
+            path="/puck_template"
+            type="org.apache.struts.actions.ForwardAction"
+            scope="request"
+        	parameter="/servlet/downloadSil" />
+
+  </action-mappings>
+
+
+  <!-- ========== Controller Configuration ================================ -->
+
+  <controller>
+    <!-- The "input" parameter on "action" elements is the name of a
+         local or global "forward" rather than a module-relative path -->
+    <set-property property="inputForward" value="true"/>
+  </controller>
+
+
+</struts-config>

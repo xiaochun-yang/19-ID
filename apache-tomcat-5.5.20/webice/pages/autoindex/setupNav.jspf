@@ -1,0 +1,42 @@
+<%
+
+	int status = controller.getStatus();	
+	int setupStep = controller.getSetupStep();
+	String tt = controller.getSetupData().isCollectImages() ? "Choose Dir and Image Name" : "Choose Dir and Images";
+				
+%>
+
+<div style="background-color:#FFFF99">
+<%   if (setupData.isCollectImages()) { %>
+<%   if (setupStep == RunController.SETUP_CHOOSE_SAMPLE) { %>
+<span class="setupNavSelected">Choose Sample</span><span class="arrow">&gt;&gt;</span>
+<% } else { %>
+<span class="setupNav">Choose Sample</span><span class="arrow">&gt;&gt;</span>
+<% } }
+   if (setupStep == RunController.SETUP_CHOOSE_DIR) { %>
+<span class="setupNavSelected"><%= tt %></span><span class="arrow">&gt;&gt;</span>
+<% } else { %>
+<span class="setupNav"><%= tt %></span><span class="arrow">&gt;&gt;</span>
+<% } 
+   if (setupStep == RunController.SETUP_CHOOSE_STRATEGY_OPTION) { %>
+<span class="setupNavSelected">Choose Strategy Options</span><span class="arrow">&gt;&gt;</span>
+<% } else { %>
+<span class="setupNav">Choose Strategy Options</span><span class="arrow">&gt;&gt;</span>
+<% } 
+   if (setupStep == RunController.SETUP_CHOOSE_EXP) { %>
+<span class="setupNavSelected">Choose Experiment</span><span class="arrow">&gt;&gt;</span>
+<% } else { %>
+<span class="setupNav">Choose Experiment</span><span class="arrow">&gt;&gt;</span>
+<% } 
+   if (setupStep == RunController.SETUP_CHOOSE_OPTIONS) { %>
+<span class="setupNavSelected">Choose Other Options</span><span class="arrow">&gt;&gt;</span>
+<% } else { %>
+<span class="setupNav">Choose Other Options</span><span class="arrow">&gt;&gt;</span>
+<% } 
+   if (setupStep == RunController.SETUP_FINISH) { %>
+<span class="setupNavSelected">Finish</span>
+<% } else { %>
+<span class="setupNav">Finish</span>
+<% } %>
+</div>
+

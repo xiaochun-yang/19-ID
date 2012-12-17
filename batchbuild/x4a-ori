@@ -1,0 +1,81 @@
+#!/bin/bash
+#
+#if [[ $DISPLAY != ":1.0" ]]; then
+ #   echo "must run from vncserver 1"
+  #  exit
+#fi
+
+DCS_ROOT=/home/yangx/release-5_1/
+
+case $HOSTNAME in 
+			dkong) BEAMLINE="X4A";;
+   * ) echo "run this script on a blctl machine only"
+      exit
+      ;;
+esac
+echo $BEAMLINE
+
+if [ -z $DISPLAY ]
+    then
+    echo "must start from xwindow system"
+    exit
+fi
+
+#dump database file
+cd ${DCS_ROOT}/dcss/linux
+DUMP_FILE="${BEAMLINE}_restart_dump`date +%F-%T`"
+./dcss $BEAMLINE -d $DUMP_FILE
+#./dcss -r /home/yangx/release-5_1/dcsconfig/data/X4A.dat
+
+#echo -e `date` x4 called on $BEAMLINE \\ndumpfile: $DUMP_FILE |mail -s "$BEAMLINE restart_dcs start" yangx@anl.gov 
+
+case $BEAMLINE in
+   X4A | X4_simple1)
+
+   #START DCSS
+   echo "Starting \"dcss\" process"
+   cd ${DCS_ROOT}/dcss/linux
+   xterm -e ./dcss $BEAMLINE -s & 	
+
+#   echo "Starting \"detector simulation\" process"
+#   cd ${DCS_ROOT}/simdetector/linux
+#   xterm -e ./simdetector $BEAMLINE &
+
+   #no need for this. using robot scripting simulation
+   #echo "Starting \"robot simulation\" process"
+   #cd ${DCS_ROOT}/dcsmsg/linux
+   #xterm -e ./test &
+
+  
+   #echo "starting \"impdhs\" process"
+   #cd ${DCS_ROOT}/impdhs/linux
+   #xterm -e ./impdhs $BEAMLINE &
+
+   echo "Starting \"dhs simulation\" process"
+   cd ${DCS_ROOT}/simdhs/scripts
+   xterm -e ./simdhs.tcl $BEAMLINE ${DCS_ROOT}/dcsconfig/data/X4A.config&
+
+   echo "starting \"epics gateway\" process"
+   cd ${DCS_ROOT}/epicsgw/linux
+   xterm -e ./epicsgw $BEAMLINE &
+
+   echo "Starting \"dhs camera \" process"
+   cd ${DCS_ROOT}/dhs/linux
+   xterm -e ./dhs $BEAMLINE camera &
+
+   echo "Starting \"dhs galil1 \" process"
+   cd ${DCS_ROOT}/dhs/linux
+   xterm -e ./dhs $BEAMLINE galil1 &
+
+
+   echo "Starting \"dhs detector\" process"
+   cd ${DCS_ROOT}/dhs/linux
+   xterm -e "source ${DCS_ROOT}/ccd_dist/LOGIN_files/log_x4a_api_418; ./dhs $BEAMLINE detector" &
+
+
+   echo "Starting \"image server\" Process"
+   cd ${DCS_ROOT}/imgsrv/linux
+   xterm -e ./imgsrv ${DCS_ROOT}/dcsconfig/data/default.config
+   ;;
+   *) ;;
+esac

@@ -1,0 +1,14 @@
+OFILES = main-c.o creation-c.o callbacks-c.o bxutil-c.o load_blank_file.o \
+	 marcommand.o param_file.o utils.o init.o sg_equiv.o adx_ccd_network.o \
+	 ccd_dc_seq.o stubbs.o
+CFILES = main-c.c creation-c.c callbacks-c.c bxutil-c.c load_blank_file.c \
+	 marcommand.c param_file.c utils.c init.c sg_equiv.c adx_ccd_network.c \
+	 ccd_dc_seq.c stubbs.c
+
+all: adx_ccd_control_normal
+
+adx_ccd_control_normal: $(OFILES)
+	$(CC) $(CFLAGS) $(OFILES) $(LIBS) -o $(DD)/adx_ccd_control_normal
+
+adx_ccd_control_normal.static: $(OFILES)
+	$(CC) $(CFLAGS) -static $(OFILES) $(SLIBS) -s -o $(DD)/adx_ccd_control_normal.static

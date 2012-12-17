@@ -1,0 +1,61 @@
+Release Notes
+=============
+
+Version 4.5
+-----------
+New Features:
+- New daemon, imgsrv.d, supporting getImage and getImage header commands.
+- test script, test.csh, for testing imperson.d and imgsrv.d.
+Currently installed on:
+- smbdev1
+- blcpu5
+- blctl<NN>
+- sdc02 - sdc06
+- smb
+
+
+Version 2.1
+-----------
+
+New Features:
+- Supports file and directory paths that start with ~.
+- writeFile command takes additional optional 
+  parameters: impWriteBinary and impAppend. 
+- New command getVersion that returns the impersonation
+  server version number.
+
+
+Version 2.0
+-----------
+
+New Features:
+- Completely rewritten. The new cvs project is imperson_cpp.
+- Supports new commands including:
+	- getFileStatus
+	- isFileReadable 
+	- createDirectory
+	- deleteDirectory
+	- renameFile
+	- getPermissions
+	- renameFile
+	- copyFile
+- Includes User's Guide, API Reference manual and Installation manual.
+- Returns well defined error codes in HTTP response or 200 OK.
+	
+Bug Fixes:
+
+	
+	
+Version 1.0
+-----------
+
+New Features:
+- Uses the authentication server to authenticate the user 
+  and session id.
+- Uses the HTTP protocol to communicate with client applications.
+- Supports the following commands:
+	- runExecutable
+	- runScript 
+	- listDirectory 
+	- readFile 
+	- writeFile 

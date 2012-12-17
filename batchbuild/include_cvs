@@ -1,0 +1,269 @@
+########################################################
+# List of targets for checking out cvs projects
+########################################################
+
+co_xos:
+	@cd .. && $(CVSCOMMAND) co $(CVSTAG) xos
+	
+co_logging:
+	@cd .. && $(CVSCOMMAND) co $(CVSTAG) logging
+	
+co_xos_cpp:
+	@cd .. && $(CVSCOMMAND) co $(CVSTAG) xos_cpp
+	
+co_http_cpp:
+	@cd .. && $(CVSCOMMAND) co $(CVSTAG) http_cpp
+	
+# Still used in dhs: Mar165, Quantum315, Quantum4, dhsMar345 and safeFile
+co_auth:
+	@cd .. && $(CVSCOMMAND) co $(CVSTAG) auth
+
+co_auth_client:
+	@cd .. && $(CVSCOMMAND) co $(CVSTAG) auth_client
+	
+co_MyAuthServer:
+	@cd .. && $(CVSCOMMAND) co $(CVSTAG) MyAuthServer
+	
+co_jpegsoc:
+	@cd .. && $(CVSCOMMAND) co $(CVSTAG) jpegsoc
+	
+co_cbf:
+	@cd .. && $(CVSCOMMAND) co $(CVSTAG) cbf
+
+co_diffimage:
+	@cd .. && $(CVSCOMMAND) co $(CVSTAG) diffimage
+	
+co_newmat10:
+	@cd .. && $(CVSCOMMAND) co $(CVSTAG) newmat10
+
+co_xform:
+	@cd .. && $(CVSCOMMAND) co $(CVSTAG) xform
+
+co_tcl_clibs:
+	@cd .. && $(CVSCOMMAND) co $(CVSTAG) tcl_clibs
+	
+co_dcsconfig:
+	@cd .. && $(CVSCOMMAND) co $(CVSTAG) dcsconfig
+	
+co_dcsmsg:
+	@cd .. && $(CVSCOMMAND) co $(CVSTAG) dcsmsg
+
+co_DcsWidgets:
+	@cd .. && $(CVSCOMMAND) co $(CVSTAG) DcsWidgets 
+
+co_BluIceWidgets:
+	@cd .. && $(CVSCOMMAND) co $(CVSTAG) BluIceWidgets 
+
+# Used by camera dhs on linux only
+co_dali:
+	@cd .. && $(CVSCOMMAND) co $(CVSTAG) dali
+	
+co_dcs_tcl_packages:
+	@cd .. && $(CVSCOMMAND) co $(CVSTAG) dcs_tcl_packages
+
+co_java_dcss_sim:
+	@cd .. && $(CVSCOMMAND) co $(CVSTAG) java_dcss_sim
+	
+co_imperson_cpp:
+	@cd .. && $(CVSCOMMAND) co $(CVSTAG) imperson_cpp
+	
+co_dcss:
+	@cd .. && $(CVSCOMMAND) co $(CVSTAG) dcss
+	
+co_dhs:
+	@cd .. && $(CVSCOMMAND) co $(CVSTAG) dhs
+	
+co_epicsgw:
+	@cd .. && $(CVSCOMMAND) co $(CVSTAG) epicsgw
+	
+co_simdhs:
+	@cd .. && $(CVSCOMMAND) co $(CVSTAG) simdhs
+	
+co_imgsrv:
+	@cd .. && $(CVSCOMMAND) co $(CVSTAG) imgsrv
+	
+co_autochooch:
+	@cd .. && $(CVSCOMMAND) co $(CVSTAG) autochooch
+	
+co_impdhs:
+	@cd .. && $(CVSCOMMAND) co $(CVSTAG) impdhs
+	
+co_blu-ice:
+	@cd .. && $(CVSCOMMAND) co $(CVSTAG) blu-ice
+	
+co_simdetector:
+	@cd .. && $(CVSCOMMAND) co $(CVSTAG) simdetector
+
+co_spotfinder:
+	@cd .. && $(CVSCOMMAND) co $(CVSTAG) spotfinder
+
+co_autoindex_test_images:
+	@cd .. && $(CVSCOMMAND) co $(CVSTAG) autoindex_test_images
+
+
+
+########################################################
+# clean lib targets
+########################################################
+
+clean_xos:
+	@cd ../xos && ${MAKE} clean
+	
+clean_logging:
+	@cd ../logging  && ${MAKE} clean
+	
+clean_xos_cpp:
+	@cd ../xos_cpp && ${MAKE} clean
+
+clean_http_cpp:
+	@cd ../http_cpp && ${MAKE} clean
+
+clean_auth:
+	@cd ../auth && ${MAKE} clean
+
+clean_auth_client:
+	@cd ../auth_client && ${MAKE} clean
+
+clean_jpegsoc:
+	@cd ../jpegsoc && ${MAKE} clean
+
+clean_dali:
+	@cd ../dali/unix && ${MAKE} clean
+
+clean_cbf:
+	@cd ../cbf && ${MAKE} clean
+
+clean_diffimage:
+	@cd ../diffimage && ${MAKE} clean
+
+clean_autochooch:
+	@cd ../autochooch && ${MAKE} clean
+
+clean_newmat10:
+	@cd ../newmat10 && ${MAKE} clean
+
+clean_tcl_clibs:
+	@cd ../tcl_clibs && ${MAKE} clean
+
+clean_dcsconfig:
+	@cd ../dcsconfig && ${MAKE} clean
+
+clean_MyAuthServer:
+	@cd ../MyAuthServer && ${MAKE} clean
+
+clean_dcsmsg:
+	@cd ../dcsmsg && ${MAKE} clean
+
+clean_simdetector:
+	@cd ../simdetector && ${MAKE} clean
+
+
+# clean exe targets
+
+clean_imperson_cpp:
+	@cd ../imperson_cpp && ${MAKE} clean
+
+clean_imgsrv:
+	@cd ../imgsrv && ${MAKE} clean
+
+clean_dcss:
+	@cd ../dcss && ${MAKE} clean
+
+clean_dhs:
+	@cd ../dhs && ${MAKE} clean
+
+clean_epicsgw:
+	@cd ../epicsgw && ${MAKE} clean
+
+clean_impdhs:
+	@cd ../impdhs && ${MAKE} clean
+
+clean_spotfinder:
+	@cd ../spotfinder && ${MAKE} clean
+
+
+########################################################
+# Compiling each cvs prject
+########################################################
+build_xos:
+	@cd ../xos && ${MAKE}
+	
+build_logging:
+	@cd ../logging  && ${MAKE}
+	
+build_xos_cpp:
+	@cd ../xos_cpp && ${MAKE}
+
+build_http_cpp:
+	@cd ../http_cpp && ${MAKE}
+
+build_auth:
+	@cd ../auth && ${MAKE}
+
+build_auth_client:
+	@cd ../auth_client && ${MAKE}
+
+build_jpegsoc:
+	@cd ../jpegsoc && ${MAKE}
+
+build_dali:
+ifeq ($(MACHINE),linux)
+	@echo "Building dali for linux"
+	@cd ../dali/unix && ${MAKE}
+	@cd ../dali/unix && ${MAKE} install
+else
+	@echo "Machine is not linux"
+endif
+
+build_cbf:
+	@cd ../cbf && ${MAKE} all
+
+build_diffimage:
+	@cd ../diffimage && ${MAKE}
+
+build_newmat10:
+	@cd ../newmat10 && ${MAKE}
+
+build_tcl_clibs:
+	@cd ../tcl_clibs && ${MAKE}
+
+build_dcsconfig:
+	@cd ../dcsconfig && ${MAKE}
+
+build_dcsmsg:
+	@cd ../dcsmsg && ${MAKE}
+
+
+# exe targets
+
+build_MyAuthServer:
+	@cd ../MyAuthServer && ${MAKE}
+
+build_imperson_cpp:
+	@cd ../imperson_cpp && ${MAKE}
+
+build_imgsrv:
+	@cd ../imgsrv && ${MAKE}
+
+build_dcss:
+	@cd ../dcss && ${MAKE}
+
+build_dhs:
+	@cd ../dhs && ${MAKE}
+
+build_epicsgw:
+	@cd ../epicsgw && ${MAKE}
+
+build_impdhs:
+	@cd ../impdhs && ${MAKE}
+
+build_autochooch:
+	@cd ../autochooch && ${MAKE}
+
+build_SimDetector:
+	@cd ../simdetector && ${MAKE}
+
+build_spotfinder:
+	@cd ../spotfinder && ${MAKE}
+
+

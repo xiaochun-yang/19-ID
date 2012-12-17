@@ -1,0 +1,78 @@
+# sample_y.tcl:
+# This is for x4a crystal logic goniometer y combo motion.
+
+proc sample_y_initialize {} {
+
+	# specify children devices
+	set_children tripot_1 tripot_2 
+	# set_siblings sample_y sample_z
+}
+
+
+proc sample_y_move { new_sample_y } {
+	#global 
+	#global gDevice
+
+	# global variables
+	variable sample_y
+    variable tripot_1
+    variable tripot_2
+
+	# calculate new positions of the two motors
+	set new_tripot_1 [tripot_1_calculate $new_sample_y $sample_y $tripot_1]
+	set new_tripot_2 [tripot_2_calculate $new_sample_y $sample_y $tripot_2]
+
+	#check to see if the move can be completed by the real motors
+	assertMotorLimit tripot_1 $new_tripot_1
+	assertMotorLimit tripot_2 $new_tripot_2
+
+	# move motors in order that avoids collisions
+	move tripot_1 to $new_tripot_1
+	move tripot_2 to $new_tripot_2
+
+	# wait for the moves to complete
+	wait_for_devices tripot_1 tripot_2 
+}
+
+
+proc sample_y_set { new_sample_y } {
+
+	# global variables
+	variable tripot_1
+	variable tripot_2
+    variable sample_y
+
+	# set three motors
+	set tripot_1 [tripot_1_calculate $new_sample_y $sample_y $tripot_1]
+	set tripot_2 [tripot_2_calculate $new_sample_y $sample_y $tripot_2]
+}
+
+
+proc sample_y_update {} {
+
+	# global variables
+   	variable tripot_1
+	variable tripot_2
+
+	# calculate from real motor positions and motor parameters
+	return [sample_y_calculate $tripot_1 $tripot_2]
+}
+
+
+proc sample_y_calculate { t1 t2 } {
+	
+	return [expr ( 97 * ($t1-$t2)/(2*19.225) )]
+}
+
+
+proc tripot_1_calculate { ny cy t1} {
+
+	return [expr ($t1 + 19.225 * ($ny-$cy) / 97.0) ]
+}
+
+
+proc tripot_2_calculate { ny cy t2} {
+
+	return [expr ($t2 - 19.225 * ($ny-$cy) / 97.0) ]
+}
+

@@ -1,0 +1,14 @@
+<form name="changeUserForm">
+
+View cassettes of: <select name="user" onchange="changeUser()">
+#foreach ($user in $userList)
+	#set ($loginName = $user.loginName)
+	#if ($loginName == $appSession.silOwner)
+		<option value="$loginName" selected>$loginName</option>
+	#else
+		<option value="$loginName">$loginName</option>
+	#end
+#end
+</select>
+</form>
+

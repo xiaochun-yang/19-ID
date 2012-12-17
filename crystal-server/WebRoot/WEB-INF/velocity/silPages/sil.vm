@@ -1,0 +1,196 @@
+#parse("/silPages/topbanner.html")
+
+<script language="javascript">
+
+function setDisplayType()
+{
+	selectedIndex = document.silForm.displayType.selectedIndex;
+	displayType = document.silForm.displayType[selectedIndex].value;
+	this.location.replace( "showSil.html?method=setDisplayType&displayType=" + displayType);
+}
+
+function setImageDisplayType()
+{
+	selectedIndex = document.silForm.imageDisplayType.selectedIndex;
+	imageDisplayType = document.silForm.imageDisplayType[selectedIndex].value;
+	this.location.replace( "showSil.html?method=setImageDisplayType&imageDisplayType=" + imageDisplayType);
+}
+
+function selectCrystal(uniqueId)
+{
+	this.location.replace("showSil.html?method=selectCrystal&uniqueId=" + uniqueId);
+}
+
+function sort(sortBy) 
+{
+	direction = "Ascending";
+	if (document.silForm.sortDirection.value == "Ascending") {
+		direction = "Descending";
+	}
+    this.location.replace("showSil.html?method=sort&sortBy=" + sortBy + "&sortDirection=" + direction);
+}
+
+
+function editCrystal() 
+{
+	for (var i=0; i < document.silForm.uniqueId.length; i++) {
+		if (document.silForm.uniqueId[i].checked) {
+			var uniqueId = document.silForm.uniqueId[i].value;
+			this.location.replace("crystalForm.html?uniqueId=" + uniqueId);
+			return;
+		}
+	}	
+}
+
+function editRunDefinition() 
+{
+	for (var i=0; i < document.silForm.uniqueId.length; i++) {
+		if (document.silForm.uniqueId[i].checked) {
+			var uniqueId = document.silForm.uniqueId[i].value;
+			this.location.replace("runDefinitionForm.html?uniqueId=" + uniqueId + "&runIndex=0");
+			return;
+		}
+	}	
+}
+
+function showDiffImage(file) {
+	url = "showDiffImage.html?filePath=" + file;
+    window.open(url, "diffimage",
+    		"height=450,width=420,status=no,toolbar=no,menubar=no,location=no,titlebar=no,dependent=yes,alwaysRaised=yes")
+}
+
+function showJpeg(file) {
+	url = "showJpeg.html?filePath=" + file;
+    window.open(url, "xtal",
+    		"height=350,width=420,status=no,toolbar=no,menubar=no,location=no,titlebar=no,dependent=yes,alwaysRaised=yes")
+}
+
+
+</script>
+
+#set ($displayTypes = ["results", "original", "all", "mini"])
+#set ($displayTypeTexts = ["Display Results", "Display Original", "Display All", "Display Mini"])
+#set ($imageDisplayTypes = ["hide", "show", "links"])
+#set ($imageDisplayTypeTexts = ["Hide Images", "Show Selected Images", "Show All Crystal Links"])
+
+<body>
+<span style="float:right; font-size:100%; padding-right:10px">
+You are $appSession.authSession.userName<br/><a class="link" href="Logout.html">Logout</a>
+</span>
+<h1><a href="http://ssrl.slac.stanford.edu"><img src="images/ssrl2.gif" border="0"  height="50" width="50"/></a>Sample Database</h1>
+<b><a href="cassetteList.html">Cassette List</a>----->Show Sil $sil.id</b><br/><br/>
+
+  <form name="silForm">
+  <table id="silTable" class="sil" border="1">
+ <input type="hidden" name="sortBy" value="$sortBy"/>
+ <input type="hidden" name="sortDirection" value="$sortDirection"/>
+   <tr>
+   #set ($numColumns = $columnNames.size() + 1)
+   <td style="height: 10px;background:#c6c6f2;padding:5px" colspan="$numColumns">
+     Display Type:
+   <select name="displayType" onchange="setDisplayType()">
+   		#set ($i = 0)
+   		#foreach ($type in $displayTypes)
+    			#if ($displayType == $type)
+   				<option value="$type" selected="true" />$displayTypeTexts.get($i)</option>
+   			#else
+   				<option value="$type">$displayTypeTexts.get($i)</option>
+    		#end
+ 			#set ($i = $i + 1)
+    	#end
+    </select>
+   Image Display Type:
+   <select name="imageDisplayType" onchange="setImageDisplayType()">
+   		#set ($i = 0)
+   		#foreach ($type in $imageDisplayTypes)
+   			#if ($imageDisplayType == $type)
+   				<option value="$type" selected="true">$imageDisplayTypeTexts.get($i)</option>
+   			#else
+  				<option value="$type">$imageDisplayTypeTexts.get($i)</option>
+   			#end
+   			#set ($i = $i + 1)
+   		#end
+    </select>
+    <input type="button" value="Edit Crystal" onclick="editCrystal()"/>
+#if ($staff)
+    <input type="button" value="Edit Run Definition" onclick="editRunDefinition()"/>
+#end
+    </td>
+   </tr>
+ 	<tr>
+ 	<th></th>
+	#foreach ($columnData in $columnNames)
+		<th><span onclick="sort('$columnData.name')">$columnData.name</span></th>
+	#end
+	</tr>
+	#foreach ($crystalWrapper in $crystals)
+		#set ($crystalBean = $crystalWrapper.getCrystal())
+		<tr>
+			#if ($crystalBean.getUniqueId() == $uniqueId)
+				#set ($isSelected = "checked")
+			#else
+				#set ($isSelected = "")
+			#end
+			<td><input type="radio" name="uniqueId" value="$crystalBean.getUniqueId()" onclick="selectCrystal($crystalBean.getUniqueId())" $!isSelected/></td>
+			#foreach ($col in $columnNames)
+				#if ($col.name == "Images")
+					#set ($image1 = $crystalUtil.getEmptyImage())
+					#set ($image2 = $crystalUtil.getEmptyImage())
+					#set ($image3 = $crystalUtil.getEmptyImage())
+					#set ($image1 = $crystalUtil.getLastImageInGroup($crystalBean, "1"))
+					#set ($image2 = $crystalUtil.getLastImageInGroup($crystalBean, "2"))
+					#set ($image3 = $crystalUtil.getLastImageInGroup($crystalBean, "3"))
+					#if (($imageDisplayType == "show") && ($uniqueId == $crystalBean.getUniqueId()))
+						<td><table border="1" bgcolor="white" cellborder="1">
+							<tr><td><b>group</b></td><td>$!image1.group</td><td>$!image2.group</td><td>$!image3.group</td></tr>
+							<tr><td><b>file</b></td><td>$!image1.name</td><td>$!image2.name</td><td>$!image3.name</td></tr>
+							<tr><td><b>Image</b></td><td><img src="downloadDiffImage.do?filePath=$!{image1.dir}/$!{image1.name}"/></td>
+																	  <td><img src="downloadDiffImage.do?filePath=$!{image2.dir}/$!{image2.name}"/></td>
+																	  <td><img src="downloadDiffImage.do?filePath=$!{image3.dir}/$!{image3.name}"/></td>
+							</tr>
+							<tr><td><b>Crystal Jpeg</b></td><td><img src="downloadJpeg.do?filePath=$!{image1.dir}/$!{image1.data.small}"/></td>
+																			    <td><img src="downloadJpeg.do?filePath=$!{image2.dir}/$!{image2.data.small}"/></td>
+																			    <td><img src="downloadJpeg.do?filePath=$!{image3.dir}/$!{image3.data.small}"/></td>
+						    </tr>
+							<tr><td><b>spotShape</b></td><td>$!image1.result.spotfinderResult.spotShape</td><td>$!image2.result.spotfinderResult.spotShape</td><td>$!image3.result.spotfinderResult.spotShape</td></tr>
+							<tr><td><b>DISTL Resolution</b></td><td>$!image1.result.spotfinderResult.resolution</td><td>$!image2.result.spotfinderResult.resolution</td><td>$!image3.result.spotfinderResult.resolution</td></tr>
+							<tr><td><b>Ice Rings</b></td><td>$!image1.result.spotfinderResult.numIceRings</td><td>$!image2.result.spotfinderResult.numIceRings</td><td>$!image3.result.spotfinderResult.numIceRings</td></tr>
+							<tr><td><b>Diffraction Strength</b></td><td>$!image1.result.spotfinderResult.diffractionStrength</td><td>$!image2.result.spotfinderResult.diffractionStrength</td><td>$!image3.result.spotfinderResult.diffractionStrength</td></tr>
+							<tr><td><b>score</b></td><td>$!image1.result.spotfinderResult.score</td><td>$!image2.result.spotfinderResult.score</td><td>$!image3.result.spotfinderResult.score</td></tr>
+						</table></td>
+					#elseif ($imageDisplayType == "links")
+						<td><table border="1" bgcolor="white" cellborder="1">
+							<tr><td><b>group</b></td><td>$!image1.group</td><td>$!image2.group</td><td>$!image3.group</td></tr>
+							<tr><td><b>Image</b></td><td><span style="color:blue" onclick="showDiffImage(&quot;$!{image1.dir}/$!{image1.name}&quot;)">$!{image1.name}</span></td>
+																	  <td><span style="color:blue" onclick="showDiffImage(&quot;$!{image2.dir}/$!{image2.name}&quot;)">$!{image2.name}</span></td>
+																	  <td><span style="color:blue" onclick="showDiffImage(&quot;$!{image3.dir}/$!{image3.name}&quot;)">$!{image3.name}</span></td>
+						    </tr>
+							<tr><td><b>Crystal Jpeg</b></td><td><span style="color:blue" onclick="showJpeg(&quot;$!{image1.dir}/$!{image1.data.small}&quot;)">$!{image1.data.small}</span></td>
+																			    <td><span style="color:blue" onclick="showJpeg(&quot;$!{image2.dir}/$!{image2.data.small}&quot;)">$!{image2.data.small}</span></td>
+																			    <td><span style="color:blue" onclick="showJpeg(&quot;$!{image3.dir}/$!{image3.data.small}&quot);">$!{image3.data.small}</span></td>
+							</tr>
+							<tr><td><b>spotShape</b></td><td>$!image1.result.spotfinderResult.spotShape</td><td>$!image2.result.spotfinderResult.spotShape</td><td>$!image3.result.spotfinderResult.spotShape</td></tr>
+							<tr><td><b>DISTL Resolution</b></td><td>$!image1.result.spotfinderResult.resolution</td><td>$!image2.result.spotfinderResult.resolution</td><td>$!image3.result.spotfinderResult.resolution</td></tr>
+							<tr><td><b>Ice Rings</b></td><td>$!image1.result.spotfinderResult.numIceRings</td><td>$!image2.result.spotfinderResult.numIceRings</td><td>$!image3.result.spotfinderResult.numIceRings</td></tr>
+							<tr><td><b>Diffraction Strength</b></td><td>$!image1.result.spotfinderResult.diffractionStrength</td><td>$!image2.result.spotfinderResult.diffractionStrength</td><td>$!image3.result.spotfinderResult.diffractionStrength</td></tr>
+							<tr><td><b>score</b></td><td>$!image1.result.spotfinderResult.score</td><td>$!image2.result.spotfinderResult.score</td><td>$!image3.result.spotfinderResult.score</td></tr>
+						</table></td>
+					#else
+						<td align="center">$!image1.name $!image2.name $!image3.name</td>
+					#end
+				#else
+					#set ($val = "")
+					#set ($val = $crystalWrapper.getPropertyValue($col.name))
+					#set ($valStr = $formatter.format($col.format,  $val))
+					<td align="center">$valStr</td>
+				#end
+			#end
+ 		</tr>
+   	#end
+	
+ </table>  
+ </form>
+
+</body>
+
+</html>

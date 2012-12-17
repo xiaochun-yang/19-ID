@@ -1,0 +1,22 @@
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+"http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+
+	<bean id ="dbScriptDir" class="java.lang.String">
+		<constructor-arg type="java.lang.String"><value>/home/penjitk/workspace/crystal-server/schema/mysql</value></constructor-arg>
+	</bean>
+
+    <bean id="dataSource" class="ssrl.datasource.spring.DataSourceExternalPassword"
+    	destroy-method="close"  >
+        <property name="driverClassName"><value>org.gjt.mm.mysql.Driver</value></property>
+        <property name="username"><value>sil</value></property>
+        <property name="url"><value>jdbc:mysql://localhost/test</value></property>
+        <property name="passwordFile"><value>/data/penjitk/sw/password_files/mysql_password.txt</value></property>
+ 	</bean>
+ 	
+ 	<bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean" >
+		<property name="dataSource"><ref bean="dataSource"/></property>		
+ 		<property name="configLocation"><value>/WEB-INF/ibatis/MySqlMapConfig.xml</value></property>	
+ 	</bean>
+	
+</beans>

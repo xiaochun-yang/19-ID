@@ -1,0 +1,1003 @@
+<html>
+<header>
+
+</header>
+<body>
+<h1>Crystals Server Programmers' Manual</h1>
+<h3>Table of Contents</h3>
+<ol>
+<li><a href="#Introduction">Introduction</a></li>
+<li><a href="#Commands">Commands</a></li>
+<ul>
+<li><a href="#addCrystalImage">addCrystalImage</a></li>
+<li><a href="#assignSilToBeamline">assignSilToBeamline</a></li>
+<li><a href="#clearAllCrystals">clearAllCrystals</a></li>
+<li><a href="#clearCrystal">clearCrystal</a></li>
+<li><a href="#clearCrystalImages">clearCrystalImages</a></li>
+<li><a href="#createDefaultSil">createDefaultSil</a></li>
+<li><a href="#downloadSil">downloadSil</a></li>
+<li><a href="#getCassetteData">getCassetteData</a></li>
+<li><a href="#getChangesSince">getChangesSince</a></li>
+<li><a href="#getCrystal">getCrystal</a></li>
+<li><a href="#getCrystalData">getCrystalData</a></li>
+<li><a href="#getLatestEventId">getLatestEventId</a></li>
+<li><a href="#getSil">getSil</a></li>
+<li><a href="#isEventCompleted">isEventCompleted</a></li>
+<li><a href="#addCrystal">addCrystal</a></li>
+<li><a href="#setCrystal">setCrystal</a></li>
+<li><a href="#setCrystalAttribute">setCrystalAttribute</a></li>
+<li><a href="#setCrystalImage">setCrystalImage</a></li>
+<li><a href="#setSilLock">setSilLock</a></li>
+<li><a href="#unassignSil">unassignSil</a></li>
+<li><a href="#uploadSil">uploadSil</a></li>
+<li><a href="#deleteSil">deleteSil</a></li>
+<li><a href="#moveCrystal">moveCrystal</a></li>
+</ul>
+<li><a href="#Examples">Examples</a></li>
+<ul>
+<li><a href="#screeningCrystals">Screening Crystals</a></li>
+<li><a href="#movingCrystals">Moving Crystals</a></li>
+</ul>
+</ol>
+
+
+<h2><a name="Introduction"></a>1. Introduction</h2>
+<p>
+Crystals server is a web application written in Java and JSP. It is 
+used to store sample information for PX experiments. Users can login
+to the Crystals server web page through a browser to upload sample
+information prior to the experiment. The information may be modified 
+by the user through the webice interface or by a beamline control 
+or an analysis software through an HTTP API.
+</p>
+
+<p>
+Though the web interface the user will be able to upload sample
+information as an excel spreadsheet. The original excel spreadsheet will
+be saved and also converted into an XML file. When the user edit
+the sample information using the webice interface, the XML file
+will be updated. The user can download the original excel spreadsheet
+or the edited sample information as excel spreadsheet.
+</p>
+
+<p>
+During the crystal screening, the beamline control system will 
+automatically perform crystal analysis. Results of the analysis 
+(such as resolution, mosaicity, number of braggs spots) will be 
+saved to the repository via the Crystals server. The 
+analysis engine sends an HTTP request to the Crystals server
+to store the analysis results. 
+</p>
+
+<p>
+This document describes the HTTP API. 
+
+The URL path is in the following format:
+<a href="">http://smb.slac.stanford.edu/crystals/xxx.do?params</a>
+or <a href="">https://smb.slac.stanford.edu/crystals/xxx.do?params</a> for 
+an encripted message, where xxx and params are a command 
+and its parameters.
+</p>
+
+<p>
+The following terms are used throughout this document:
+</p>
+<table border="1">
+<tr><td>sil</td><td>Sample information list. This term refers to a set of crystal data
+managed by the crystal server under a unique id number (silId). It is mapped directly to
+a spreadsheet uploaded to the crystal server. Because
+each spreadsheet contains crystal data of a single cassette, a sil is
+equivalent to a cassette and silId is the same as cassetteId. When using super puck, 
+a sil can contain data of 4 pucks.</td></tr>
+<tr><td>silId</td><td>This is a unique number generated 
+when a spreadsheet is uploaded to the crystals server. silId is used in a query
+to identify a sil. Currently because each spreadsheet contains a single cassette,
+silId is equivalent to a cassetteId.</td></tr>
+<tr><td>containerId</td><td>This term refers to a unique id of a physical
+container (cassette or puck). The id is usually written on the container,
+for example, an id of an SSRL cassette is scratched on top of the cassette
+as something like SSRL00134. This term will eventually replace the term cassetteId.</td></tr>
+<tr><td>eventId</td><td>The editing of a sil is performed ascrynchronousely.
+When a client application submits a HTTP request to edit a sil, the server
+submits the job to an event queue and immediately returns an
+eventId in the HTTP response body. The eventId can be used to identify the
+job that has been submitted to the queue. For example, isEventCompleted
+command returns either "completed" or "not completed", or getLatestEventId
+returns the eventId for the latest job that has been completed.
+</td></tr>
+</table>
+
+<h2><a name="Commands"></a>2. Commands</h2>
+
+<h3><a name="addCrystalImage"></a>addCrystalImage</h3>
+This command adds a new image and its attribute to the crystal. An image must, at least,
+have a valid group name and file name. The command only submits the job
+to the event queue if the given queue and returns immediately.
+An error occurs if the image already exist for this crystal.
+<h4>Command:</h4>
+addCrystalImage.do
+<h4>Parameters:</h4>
+<table border="1">
+<tr><td>SMBSessionID or AccessID</td><td>SMB session id to be validated by the authentication server.</td></tr>
+<tr><td>userName</td><td>User's login name to be validated by the authentication server.</td></tr>
+<tr><td>silId</td><td>Unique id assigned by the crystals database for the sample data.</td></tr>
+<tr><td>row</td><td>Optional. Row number for the crystal to be edited (starting from 0). Must be supplied if CrystalID is not present. </td></tr>
+<tr><td>CrystalID</td><td>Optional. But must be supplied if row parameter is not present.</td></tr>
+tr><td><i>Field Name</i></td><td>Image field name and value pair. For example,
+jpeg=xxxxx. There can be more than one field name and value pairs per request.
+The required fields are group and name. 
+Valid image field names are dir, name, jpeg, small, medium, large,
+quality, spotShape, resolution, iceRings, diffractionStrength, score, numSpots,
+numOverloadSpots, integratedIntensity, and spotfinderDir. Unrecognized fields are ignored.
+<ul>
+<li>dir: image directory</li>
+<li>name: image filename</li>
+<li>small: small-sized crystal jpeg filepath (captured by video camera)</li>
+<li>medium: medium-sized crystal jpeg filepath (captured by video camera)</li>
+<li>large: large-sized crystal jpeg filepath (captured by video camera)</li>
+<li>quality</li>
+<li>spotShape</li>
+<li>resolution: Estimate of the high resolution limit based on the number of spots in the resolution shell</li>
+<li>iceRings: Number of ice rings determined by spotfinder program</li>
+<li>diffractionStrength: Diffraction strength (average pixel value of the strongest spots excluding ice rings) </li>
+<li>score: Score for the diffraction image</li>
+<li>numSpots: Total number of spots</li>
+<li>numOverloadSpots: Total number of overloaded spots</li>
+<li>integratedIntensity: Integrated intensity of all spots.</li>
+<li>spotfinderDir: Directory containing spotfinder output files</li>
+</ul>
+</td></tr></table>
+<h4>Response:</h4>
+Because the command is executed asynchronousely, the response only
+indicates whether the request is successfully submitted to the queue or not.
+A successful submission of the request to the queue, the body will
+contain "OK eventID", where eventID is a unique number identifying
+the request for this sil. The number is incremented every time a request is made to
+modify the sil. Application get find out if the action has completed
+by calling isEventCompleted.
+If the submission failed, the response body contains "ERROR error_message",
+where error_message is a short message describing the error.
+<h4>Example:</h4>
+<pre>
+addCrystalImage.do?SMBSessionID=6557E7B2D4005686FE064C390554BCF7&userName=penjitk&silId=408&row=0&group=1&fileName=infl_1_001.img
+</pre>
+
+<h3><a name="assignSilToBeamline"></a>assignSilToBeamline</h3>
+This command assigns an existing sil to a beamline position. This command is usually called when a 
+cassette is loaded into a dewar at a beamline. The user must have beam time to execute this command.
+After the sil has been assigned to the beamline, getCassetteData and getCrystalData can be used to 
+retrieved sil data without using silId and by using beamLine and cassettePosition parameters instead.
+If the sil is currently assigned on another beamline, it will be unassigned first and then 
+reassign to the new beamline.
+<h4>Command:</h4>
+assignSilToBeamline.do
+<h4>Parameters:</h4>
+<table border="1">
+<tr><td>SMBSessionID or AccessID</td><td>SMB session id to be validated by the authentication server.</td></tr>
+<tr><td>userName</td><td>User's login name to be validated by the authentication server.</td></tr>
+<tr><td>silId</td><td>Unique id assigned by the crystals database for the sample data.</td></tr>
+<tr><td>beamLine or forBeamLine</td><td>Beamline name</td></tr>
+<tr><td>cassettePosition or forCassetteIndex</td><td>Cassette position in the dewar (0=no casseette, 1=left, 2=middle, 3=right).</td></tr>
+</table>
+<h4>Response:</h4>
+The response body contains "OK".
+In case or errors, the response body contains "ERROR error_message",
+where error_message is a short message describing the error.
+<h4>Example:</h4>
+<pre>
+assignSilToBeamline.do?SMBSessionID=6557E7B2D4005686FE064C390554BCF7&userName=penjitk&silId=408&beamLine=BL9-2
+</pre>
+
+
+<h3><a name="clearAllCrystals"></a>clearAllCrystals</h3>
+This command removes images and/or spotfinder results and/or autoindex results of the all crystals in the sil. 
+Spotfinder results include the following fields for each image: spotShape, resolution, iceRings, diffractionStrength,
+score, numSpots, numOverloadSpots, integratedIntensity, spotfinderDir.
+Autoindex results include the following fields: AutoindexImages, Score, Mosaicity, Rmsr, BracaisLattice,
+Resolution, ISigma, AutoindexDir, SystemWarning.
+This command is the same as clearCrystal with parameter row=-1.
+The actual image and result files remain on disk. 
+The command only submits the job
+to the event queue if the given queue and returns immediately.
+<h4>Command:</h4>
+clearAllCrystals.do
+<h4>Parameters:</h4>
+<table border="1">
+<tr><td>SMBSessionID or AccessID</td><td>SMB session id to be validated by the authentication server.</td></tr>
+<tr><td>userName</td><td>User's login name to be validated by the authentication server.</td></tr>
+<tr><td>silId</td><td>Unique id assigned by the crystals database for the sample data.</td></tr>
+<tr><td>key</td><td>Optional. Key that was generated by setSilLock. The command will be fail if the correct key is not supplied and the sil is locked. </td></tr>
+<tr><td>clearImages</td><td>Optional: true or false. Whether or not to clear images of all groups.</td></tr>
+<tr><td>cleaSpot</td><td>Optional: true or false. Whether or not to clear spotfinder results.</td></tr>
+<tr><td>clearAutoindex</td><td>Optional: true or false. Whether or not to clear autoindex results.</td></tr>
+</table>
+<h4>Response:</h4>
+Because the command is executed asynchronousely, the response only
+indicates whether the request is successfully submitted to the queue or not.
+A successful submission of the request to the queue, the body will
+contain "OK eventID", where eventID is a unique number identifying
+the request for this sil. The number is incremented every time a request is made to
+modify the sil. Application get find out if the action has completed
+by calling isEventCompleted.
+If the submission failed, the response body contains "ERROR error_message",
+where error_message is a short message describing the error.
+<h4>Example:</h4>
+<pre>
+clearAllCrystals.do?SMBSessionID=6557E7B2D4005686FE064C390554BCF7&userName=penjitk&silId=408&clearImages=true&clearSpot=true&clearAutoindex=true
+</pre>
+
+<h3><a name="clearCrystal"></a>clearCrystal</h3>
+This command removes images and/or spotfinder results and/or autoindex results of the crystal. 
+Spotfinder results include the following fields for each image: spotShape, resolution, iceRings, diffractionStrength,
+score, numSpots, numOverloadSpots, integratedIntensity, spotfinderDir.
+Autoindex results include the following fields: AutoindexImages, Score, Mosaicity, Rmsr, BracaisLattice,
+Resolution, ISigma, AutoindexDir, SystemWarning.
+If parameter row is less than 0, results from all rows are removed.
+The actual image and result files remain on disk. 
+The command only submits the job
+to the event queue if the given queue and returns immediately.
+<h4>Command:</h4>
+clearCrystal.do
+<h4>Parameters:</h4>
+<table border="1">
+<tr><td>SMBSessionID or AccessID</td><td>SMB session id to be validated by the authentication server.</td></tr>
+<tr><td>userName</td><td>User's login name to be validated by the authentication server.</td></tr>
+<tr><td>silId</td><td>Unique id assigned by the crystals database for the sample data.</td></tr>
+<tr><td>key</td><td>Optional. Key that was generated by setSilLock. The command will be fail if the correct key is not supplied and the sil is locked. </td></tr>
+<tr><td>row</td><td>Optional. Row number for the crystal to be edited (starting from 0). Must be supplied if CrystalID is not present. </td></tr>
+<tr><td>CrystalID</td><td>Optional. But must be supplied if row parameter is not present.</td></tr>
+<tr><td>clearImages</td><td>Optional: true or false. Whether or not to clear images of all groups.</td></tr>
+<tr><td>cleaSpot</td><td>Optional: true or false. Whether or not to clear spotfinder results.</td></tr>
+<tr><td>clearAutoindex</td><td>Optional: true or false. Whether or not to clear autoindex results.</td></tr>
+</table>
+<h4>Response:</h4>
+Because the command is executed asynchronousely, the response only
+indicates whether the request is successfully submitted to the queue or not.
+A successful submission of the request to the queue, the body will
+contain "OK eventID", where eventID is a unique number identifying
+the request for this sil. The number is incremented every time a request is made to
+modify the sil. Application get find out if the action has completed
+by calling isEventCompleted.
+If the submission failed, the response body contains "ERROR error_message",
+where error_message is a short message describing the error.
+<h4>Example:</h4>
+<pre>
+clearCrystal.do?SMBSessionID=6557E7B2D4005686FE064C390554BCF7&userName=penjitk&silId=408&row=0&clearImages=true&clearSpot=true&clearAutoindex=true
+</pre>
+
+
+<h3><a name="clearCrystalImages"></a>clearCrystalImages</h3>
+This command removes images of the crystal. The actual image files remain on disk.
+If the group parameter is given, only images
+of the requested group will be cleared. If group parameter is not given, all
+images will be cleared.
+The command only submits the job
+to the event queue if the given queue and returns immediately.
+<h4>Command:</h4>
+clearCrystalImages.do
+<h4>Parameters:</h4>
+<table border="1">
+<tr><td>SMBSessionID or AccessID</td><td>SMB session id to be validated by the authentication server.</td></tr>
+<tr><td>userName</td><td>User's login name to be validated by the authentication server.</td></tr>
+<tr><td>silId</td><td>Unique id assigned by the crystals database for the sample data.</td></tr>
+<tr><td>key</td><td>Optional. Key that was generated by setSilLock. The command will be fail if the correct key is not supplied and the sil is locked. </td></tr>
+<tr><td>row</td><td>Optional. Row number for the crystal to be edited (starting from 0). Must be supplied if CrystalID is not present. </td></tr>
+<tr><td>CrystalID</td><td>Optional. But must be supplied if row parameter is not present.</td></tr>
+<tr><td>group</td><td>Optionl. Image group number, ranging from 1-3. If group parameter is absent, 
+images of all groups are cleared.</td></tr>
+</table>
+<h4>Response:</h4>
+Because the command is executed asynchronousely, the response only
+indicates whether the request is successfully submitted to the queue or not.
+A successful submission of the request to the queue, the body will
+contain "OK eventID", where eventID is a unique number identifying
+the request for this sil. The number is incremented every time a request is made to
+modify the sil. Application get find out if the action has completed
+by calling isEventCompleted.
+If the submission failed, the response body contains "ERROR error_message",
+where error_message is a short message describing the error.
+<h4>Example:</h4>
+<pre>
+clearCrystalImages.do?SMBSessionID=6557E7B2D4005686FE064C390554BCF7&userName=penjitk&silId=408&row=0&group=1
+</pre>
+
+<h3><a name="createDefaultSil"></a>createDefaultSil</h3>
+This commands creates a new sil in the database, assigns the sil to a beamline position
+and update the crystal data at the beamline. The excel spreadsheet file is copied from
+the template directory. If the parameter forBeamLine or forCassetteIndex
+is not specified, a new sil will be created but not assigned to a beamline.
+<h4>Command:</h4>
+createDefaultSil.do
+<h4>Parameters:</h4>
+<table border="1">
+<tr><td>SMBSessionID or AccessID</td><td>SMB session id to be validated by the authentication server.</td></tr>
+<tr><td>userName or forUser</td><td>User's login name to be validated by the authentication server. Note that forUser is still supported for backward compatibility.</td></tr>
+<tr><td>cassettePin</td><td>Cassette ID. Unique identification of the actual cassette containing crystals, usually scratched on the cassette. 
+This parameter can be any string. 
+It is used for display only.</td></tr>
+<tr><td>forFileName</td><td>Optional. Name of excel spreadsheet file used to create sil. Default is cassette_template.xls.
+This string is displayed on the crystals web site so that the user can identify which original spreadsheet corresponds to the sil.</td></tr>
+<tr><td>template</td><td>Optional. Template name. &lt;template&gt;.xls and &lt;template&gt;.xml files must exist in $CRYSTALS/data/templates directory.</td></tr>
+<tr><td>beamLine or forBeamLine</td><td>Optional. Beamline name. If both beamLine and cassettePosition parameter are present, 
+the newly created sil will be assigned to the given beamline position.</td></tr>
+<tr><td>cassettePosition or forCassetteIndex</td><td>Optional Cassette position in the dewar (0=no casseette, 1=left, 2=middle, 3=right).
+If both beamLine and cassettePosition parameter are present, 
+the newly created sil will be assigned to the given beamline position.</td></tr>
+</table>
+<h4>Response:</h4>
+If the command runs successfully, the response body contains "OK new_sil_id"
+Otherwise the response body contains "ERROR error_message", where error_message
+is a short message describing the error.
+<h4>Example:</h4>
+<pre>
+createDefaultSil.do?SMBSessionID=C3A6CDF80DFE02DC9923F1B37B42D221&forBeamLine=BL-sim&userName=penjitk&forCassetteIndex=1&forFileName=myoglobin.xls
+</pre>
+
+
+<h3><a name="downloadSil"></a>downloadSil</h3>
+This commands returns the sil as an excel spreadsheet file (xls) in the response body. The response
+content-type header is set to application/vnd.ms-excel which is the official excel MIME type.
+<h4>Command:</h4>
+downloadSil.do
+<h4>Parameters:</h4>
+<table border="1">
+<tr><td>SMBSessionID or AccessID</td><td>SMB session id to be validated by the authentication server.</td></tr>
+<tr><td>userName or forUser</td><td>User's login name to be validated by the authentication server. Note that forUser is still supported for backward compatibility.</td></tr>
+<tr><td>silId</td><td>Sil id.</td></tr>
+</table>
+<h4>Response:</h4>
+If the command runs successfully, it returns the sil as an excel spreadsheet file (xls) in
+the response body. The response
+content-type header is set to application/vnd.ms-excel which is the official excel MIME type.
+Otherwise the response body contains "ERROR error_message", where error_message
+is a short message describing the error.
+<h4>Example:</h4>
+<pre>
+downloadSil.do?SMBSessionID=C3A6CDF80DFE02DC9923F1B37B42D221&userName=penjitk&silId=2051
+</pre>
+
+<h3><a name="getCassetteData"></a>getCassetteData</h3>
+This command returns a list of cassettes assigned to the beamline.
+The HTTP response body contains the crystal data as a TCL list.
+<h4>Command:</h4>
+getCassetteData.do
+<h4>Parameters:</h4>
+<table border="1">
+<tr><td>SMBSessionID or AccessID</td><td>SMB session id to be validated by the authentication server.</td></tr>
+<tr><td>userName or forUser</td><td>User's login name to be validated by the authentication server. Note that forUser is still supported for backward compatibility.</td></tr>
+<tr><td>beamLine or forBeamLine</td><td>Name of the beamline where the sil resides,
+for example, BL1-5, BL9-1, BL9-2, BL11-1, BL11-3, BL_SIMPLE1  and BL-sim</td></tr>
+</table>
+<h4>Response:</h4>
+If the command runs successfully, the response body contains the a list of cassettes
+as a TCL list.
+Otherwise the response body contains "ERROR error_message", where error_message
+is a short message describing the error.
+<h4>Example:</h4>
+<pre>
+getCassetteData.do?SMBSessionID=C3A6CDF80DFE02DC9923F1B37B42D221&beamLine=BL-sim&userName=penjitk
+</pre>
+
+<h3><a name="getChangesSince"></a>getChangesSince</h3>
+This command returns a list of crystal data of the crystals which have been modified since
+a specific eventId. Every time a request is made to modify a crystal in the sil, an eventId
+assigned to the request is returned in the HTTP response body.
+<h4>Command:</h4>
+getChangesSince.do
+<h4>Parameters:</h4>
+<table border="1">
+<tr><td>SMBSessionID or AccessID</td><td>SMB session id to be validated by the authentication server.</td></tr>
+<tr><td>userName</td><td>User's login name to be validated by the authentication server.</td></tr>
+<tr><td>silId</td><td>Unique id assigned by the crystals database for the sample data.</td></tr>
+<tr><td>eventId</td><td>Unique id identifying a particular point in time when the sil is modified.</td></tr>
+<tr><td>format</td><td>Optional. If provided, the value must be 'xml' or 'tcl'. This is the format of the returned data.</td></tr>
+</table>
+<h4>Response:</h4>
+The response body for this
+request contains a the modified crystal data in a TCL list. The crystals server keeps only
+a limited number of past events in cache. If the request eventId is older than the oldest eventId
+in the cache, the whole sil is returned in the response body. Also if sorting took place,
+the whole sil is returned.
+In case of errors, the response body contains "ERROR error_message", where error_message
+is a short message describing the error.
+<h4>Example:</h4>
+<pre>
+getChangesSince.do?SMBSessionID=4869656B9A83B37B1A49DA8920274031&userName=penjitk&&silId=503&eventId=0
+</pre>
+
+<h3><a name="getCrystal"></a>getCrystal</h3>
+This command returns crystal data of a given row. The parameter format specifies output format.
+The HTTP response body contains the crystal data as a TCL list or xml.
+<h4>Command:</h4>
+getCrystal.do
+<h4>Parameters:</h4>
+<table border="1">
+<tr><td>SMBSessionID or AccessID</td><td>SMB session id to be validated by the authentication server.</td></tr>
+<tr><td>userName or forUser</td><td>User's login name to be validated by the authentication server. 
+Note that forUser is still supported for backward compatibility.</td></tr>
+<tr><td>silId</td><td>Unique id assigned by the crystals database for the sample data.</td></tr>
+<tr><td>row</td><td>Optional. Row number for the crystal (starting from 0). Must be supplied if CrystalID is not present. </td></tr>
+<tr><td>CrystalID</td><td>Optional. But must be supplied if row parameter is not present.</td></tr>
+<tr><td>format</td><td>Optional. Output format: xml or tcl, default is tcl.</td></tr>
+</table>
+<h4>Response:</h4>
+If the command runs successfully, the response body contains the requested crystal data
+as a TCL list or xml.
+Otherwise the response body contains "ERROR error_message", where error_message
+is a short message describing the error.
+<h4>Example:</h4>
+<pre>
+getCrystal.do?SMBSessionID=C3A6CDF80DFE02DC9923F1B37B42D221&userName=penjitk&silId=1845&row=1&format=xml
+</pre>
+
+<h3><a name="getCrystalData"></a>getCrystalData</h3>
+This command retrieves crystal data from a specific position in the dewar at the beamline.
+It is usually called by Blu-ice after a user has assigned a cassette to a dewar position
+(left, center, right) at the beamline, after updateCrystalData is called and before screening
+starts. The HTTP response body contains the crystal data as a TCL list.
+<h4>Command:</h4>
+getCrystalData.do
+<h4>Parameters:</h4>
+<table border="1">
+<tr><td>SMBSessionID or AccessID</td><td>SMB session id to be validated by the authentication server.</td></tr>
+<tr><td>userName or forUser</td><td>User's login name to be validated by the authentication server. Note that forUser is still supported for backward compatibility.</td></tr>
+<tr><td>beamLine or forBeamLine</td><td>Name of the beamline where the sil resides,
+for example, BL1-5, BL9-1, BL9-2, BL11-1, BL11-3, BL_SIMPLE1  and BL-sim</td></tr>
+<tr><td>forCassetteIndex or cassettePosition</td><td>Position of the cassette in the dewar:
+0=no_cassette(manual mounting), 1=left, 2=center, 3=right.</td></tr>
+</table>
+<h4>Response:</h4>
+If the command runs successfully, the response body contains the requested crystal data
+as a TCL list.
+Otherwise the response body contains "ERROR error_message", where error_message
+is a short message describing the error.
+<h4>Example:</h4>
+<pre>
+getCrystalData.do?SMBSessionID=C3A6CDF80DFE02DC9923F1B37B42D221&beamLine=BL-sim&userName=penjitk&position=1
+</pre>
+
+<h3><a name="getLatestEventId"></a>getLatestEventId</h3>
+This command returns the latest event id that has been processed by the server. Note that this command does not require SMBSessionID or userName.
+<h4>Command:</h4>
+getLatestEventId.do
+<h4>Parameters:</h4>
+<table border="1">
+<tr><td>silId</td><td>Unique id assigned by the crystals database for the sample data.</td></tr>
+</table>
+<h4>Response:</h4>
+The response body contains "eventId".
+In case or errors, the response body contains "ERROR error_message",
+where error_message is a short message describing the error.
+<h4>Example:</h4>
+<pre>
+getLatestEventId.do?SMBSessionID=6557E7B2D4005686FE064C390554BCF7&userName=penjitk&silId=408
+</pre>
+
+
+<h3><a name="getSil"></a>getSil</h3>
+This command returns sil data as xml.
+<h4>Command:</h4>
+getSil.do
+<h4>Parameters:</h4>
+<table border="1">
+<tr><td>SMBSessionID or AccessID</td><td>SMB session id to be validated by the authentication server.</td></tr>
+<tr><td>userName</td><td>User's login name to be validated by the authentication server.</td></tr>
+<tr><td>silId</td><td>Optional. Unique id assigned by the crystals database for the sample data.</td></tr>
+</table>
+<h4>Response:</h4>
+Conten-type header of the response is 'text/plain'. The response body contains xml string.
+<h4>Example:</h4>
+<pre>
+getSil.do?SMBSessionID=6557E7B2D4005686FE064C390554BCF7&userName=penjitk&silId=408
+</pre>
+
+
+<h3><a name="isEventCompleted"></a>isEventCompleted</h3>
+This command returns "completed" if the event is completed, or "completed"
+if the event is not completed.
+<h4>Command:</h4>
+isEventCompleted.do
+<h4>Parameters:</h4>
+<table border="1">
+<tr><td>SMBSessionID or AccessID</td><td>SMB session id to be validated by the authentication server.</td></tr>
+<tr><td>userName</td><td>User's login name to be validated by the authentication server.</td></tr>
+<tr><td>silId</td><td>Unique id assigned by the crystals database for the sample data.</td></tr>
+<tr><td>eventId</td><td>Event id.</td></tr>
+</table>
+<h4>Response:</h4>
+The response body contains "completed" if the event is completed or "not completed" if not.
+In case or errors, the response body contains "ERROR error_message",
+where error_message is a short message describing the error.
+<h4>Example:</h4>
+<pre>
+isEventCompleted.do?SMBSessionID=6557E7B2D4005686FE064C390554BCF7&userName=penjitk&silId=408&eventId=30
+</pre>
+
+<h3><a name="addCrystal"></a>addCrystal</h3>
+This command adds a new row of crystal to the sil. CrystalID and Port are the required fields. An error will be returned
+if CrystalID or Port is not unique within the sil.
+Unrecognized or invalid field name in the parameter list will be ignored. The command only submits the job
+to an event queue and returns immediately with an eventId in the response body.
+<h4>Command:</h4>
+addCrystal.do
+<h4>Parameters:</h4>
+<table border="1">
+<tr><td>SMBSessionID or AccessID</td><td>SMB session id to be validated by the authentication server.</td></tr>
+<tr><td>userName</td><td>User's login name to be validated by the authentication server.</td></tr>
+<tr><td>silId</td><td>Unique id assigned by the crystals database for the sample data.</td></tr>
+<tr><td>CrystalID</td><td>Crystal ID.</td></tr>
+<tr><td>Port</td><td>Port ID.</td></tr>
+<tr><td>key</td><td>Optional. Key that was generated by setSilLock. The command will be fail if the correct key is not supplied and the sil is locked. </td></tr>
+<tr><td><i>Field Name</i></td><td>Any field name and value pair, besides CrystalID and Port. For example,
+Comment=xxxxx. There can be more than one field name and value pairs per request. Valid field names
+are Protein,
+Comment, FreezingCond, CrystalCond,
+Metal, Priority, Person, CrystalURL, ProteinURL,
+Directory, SystemWarning, Images, AutoindexImages,
+Score, UnitCell, Mosaicity, Rmsr and BravaisLattice.</td></tr>
+</table>
+<h4>Response:</h4>
+Because the command is executed asynchronousely, the response only
+indicates whether the request is successfully submitted to the queue or not.
+A successful submission of the request to the queue, the body will
+contain "OK eventID", where eventID is a unique number identifying
+the request for this sil. The number is incremented every time a request is made to
+modify the sil. Application get find out if the action has completed
+by calling isEventCompleted.
+If the submission failed, the response body contains "ERROR error_message",
+where error_message is a short message describing the error.
+<h4>Example:</h4>
+<pre>
+addCrystal.do?SMBSessionID=6557E7B2D4005686FE064C390554BCF7&userName=penjitk&silId=408&CrystalID=Lyso009&Port=A3&Comment=This%20crystal%20is%20good.
+</pre>
+
+
+<h3><a name="setCrystal"></a>setCrystal</h3>
+This command sets one or more fields of a crystal. Unrecognized or invalid field name in
+the parameter list will be ignored. The command only submits the job
+to an event queue and returns immediately with an eventId in the response body.
+<h4>Command:</h4>
+setCrystal.do
+<h4>Parameters:</h4>
+<table border="1">
+<tr><td>SMBSessionID or AccessID</td><td>SMB session id to be validated by the authentication server.</td></tr>
+<tr><td>userName</td><td>User's login name to be validated by the authentication server.</td></tr>
+<tr><td>silId</td><td>Unique id assigned by the crystals database for the sample data.</td></tr>
+<tr><td>key</td><td>Optional. Key that was generated by setSilLock. The command will be fail if the correct key is not supplied and the sil is locked. </td></tr>
+<tr><td>row</td><td>Optional. Row number for the crystal to be edited (starting from 0). Must be supplied if CrystalID is not present. </td></tr>
+<tr><td>CrystalID</td><td>Optional. But must be supplied if row parameter is not present.</td></tr>
+<tr><td><i>Field Name</i></td><td>Any field name and value pair. For example,
+Comment=xxxxx. There can be more than one field name and value pairs per request. Valid field names
+are CrystalID, Protein,
+Comment, FreezingCond, CrystalCond,
+Metal, Priority, Person, CrystalURL, ProteinURL,
+Directory, SystemWarning, Images, AutoindexImages,
+Score, UnitCell, Mosaicity, Rmsr and BravaisLattice.</td></tr>
+</table>
+<h4>Response:</h4>
+Because the command is executed asynchronousely, the response only
+indicates whether the request is successfully submitted to the queue or not.
+A successful submission of the request to the queue, the body will
+contain "OK eventID", where eventID is a unique number identifying
+the request for this sil. The number is incremented every time a request is made to
+modify the sil. Application get find out if the action has completed
+by calling isEventCompleted.
+If the submission failed, the response body contains "ERROR error_message",
+where error_message is a short message describing the error.
+<h4>Example:</h4>
+<pre>
+setCrystal.do?SMBSessionID=6557E7B2D4005686FE064C390554BCF7&userName=penjitk&silId=408&row=0&Comment=This%20crystal%20is%20good.&Score=9.8
+</pre>
+
+<h3><a name="setCrystalAttribute"></a>setCrystalAttribute</h3>
+This command sets an attribute for all crystals in the sil. Currently only attribute named 'select'
+can be set. The command was created to support a feature in BluIce where multiple crystals can be selected or 
+unselected in one click. This attribute is used to memorized which crystals have been selected so that the user
+can see the same selection after BluIce is closed and reopened or in multiple instances of BluIce 
+opened at the same time.
+<h4>Command:</h4>
+setCrystalAttribute.do
+<h4>Parameters:</h4>
+<table border="1">
+<tr><td>SMBSessionID or AccessID</td><td>SMB session id to be validated by the authentication server.</td></tr>
+<tr><td>userName</td><td>User's login name to be validated by the authentication server.</td></tr>
+<tr><td>silId</td><td>Optional. Unique id assigned by the crystals database for the sample data.</td></tr>
+<tr><td>key</td><td>Optional. Key that was generated by setSilLock. The command will be fail if the correct key is not supplied and the sil is locked. </td></tr>
+<tr><td>attrName</td><td>Attribute name. Currently only support attrName=select.</td></tr>
+<tr><td>attrValues</td><td>Attribute values for all crystals. For example, for attribute named 'select', 
+the value can be 0 or 1. attrValues parameter is a series of number 0 and 1, each number for each crystal
+sequentially.</td></tr>
+</table>
+<h4>Response:</h4>
+The response body contains "OK".
+In case or errors, the response body contains "ERROR error_message",
+where error_message is a short message describing the error.
+<h4>Example:</h4>
+<pre>
+setCrystalAttribute.do?SMBSessionID=6557E7B2D4005686FE064C390554BCF7&userName=penjitk&silId=408&attrName=select&attrValues=11101010000000110001010000000
+</pre>
+
+
+<h3><a name="setCrystalImage"></a>setCrystalImage</h3>
+This command set attributes of an existing image of a crystal.
+The command only submits the job
+to the event queue if the given queue and returns immediately.
+An error occurs if the image does not exist for this crystal.
+<h4>Command:</h4>
+setCrystal.do
+<h4>Parameters:</h4>
+<table border="1">
+<tr><td>SMBSessionID or AccessID</td><td>SMB session id to be validated by the authentication server.</td></tr>
+<tr><td>userName</td><td>User's login name to be validated by the authentication server.</td></tr>
+<tr><td>silId</td><td>Unique id assigned by the crystals database for the sample data.</td></tr>
+<tr><td>key</td><td>Optional. Key that was generated by setSilLock. The command will be fail if the correct key is not supplied and the sil is locked. </td></tr>
+<tr><td>row</td><td>Optional. Row number for the crystal to be edited (starting from 0). Must be supplied if CrystalID is not present. </td></tr>
+<tr><td>CrystalID</td><td>Optional. But must be supplied if row parameter is not present.</td></tr>
+<tr><td><i>Field Name</i></td><td>Image field name and value pair. For example,
+jpeg=xxxxx. There can be more than one field name and value pairs per request.
+The required fields are group and name. 
+Valid image field names are dir, name, jpeg, small, medium, large,
+quality, spotShape, resolution, iceRings, diffractionStrength, score, numSpots,
+numOverloadSpots, integratedIntensity, and spotfinderDir. Unrecognized fields are ignored.
+<ul>
+<li>dir: image directory</li>
+<li>name: image filename</li>
+<li>small: small-sized crystal jpeg filepath (captured by video camera)</li>
+<li>medium: medium-sized crystal jpeg filepath (captured by video camera)</li>
+<li>large: large-sized crystal jpeg filepath (captured by video camera)</li>
+<li>quality</li>
+<li>spotShape</li>
+<li>resolution: Estimate of the high resolution limit based on the number of spots in the resolution shell</li>
+<li>iceRings: Number of ice rings determined by spotfinder program</li>
+<li>diffractionStrength: Diffraction strength (average pixel value of the strongest spots excluding ice rings) </li>
+<li>score: Score for the diffraction image</li>
+<li>numSpots: Total number of spots</li>
+<li>numOverloadSpots: Total number of overloaded spots</li>
+<li>integratedIntensity: Integrated intensity of all spots.</li>
+<li>spotfinderDir: Directory containing spotfinder output files</li>
+</ul>
+</td></tr>
+</table>
+<h4>Response:</h4>
+Because the command is executed asynchronousely, the response only
+indicates whether the request is successfully submitted to the queue or not.
+A successful submission of the request to the queue, the body will
+contain "OK eventID", where eventID is a unique number identifying
+the request for this sil. The number is incremented every time a request is made to
+modify the sil. Application get find out if the action has completed
+by calling isEventCompleted.
+If the submission failed, the response body contains "ERROR error_message",
+where error_message is a short message describing the error.
+<h4>Example:</h4>
+<pre>
+setCrystalImage.do?SMBSessionID=6557E7B2D4005686FE064C390554BCF7&userName=penjitk&silId=408&row=0&group=1&fileName=inf_1_001.img&quality=good
+</pre>
+
+
+<h3><a name="setSilLock"></a>setSilLock</h3>
+<p>This commands locks or unlock sil(s). If silId or silList parameter is present, the sil will be locked/unlocked.
+Otherwise, beamline name parameter is expected. If cassette position parameter is present,
+it will lock/unlock the sil at this position. If cassette position is not present, all sils at
+the beamline will be locked/unlocked. Once locked, the sil
+can not be deleted, assigned to or unassigned from a beamline. The control system (DCSS) locks the sil
+when the screening starts and unlocks it when the screening finishes. If the DCSS is restarted after a crash
+it sends a command to unlock the sils assigned to the beamline.
+</p>
+<p>
+If the lockType parameter is present and the value is set to 'full', the sil(s) will be locked with a key.
+In order to modify the sil(s) via commands like setCrystal or moveCrystal, the key must be supplied
+in the URL. The sil(s) must also be unlocked with the key. A key is a 10-HEX-character string.
+</p>
+<h4>Command:</h4>
+setSilLock.do
+<h4>Parameters:</h4>
+<table border="1">
+<tr><td>SMBSessionID or AccessID</td><td>SMB session id to be validated by the authentication server.</td></tr>
+<tr><td>userName or forUser</td><td>User's login name to be validated by the authentication server. Note that forUser is still supported for backward compatibility.</td></tr>
+<tr><td>silId</td><td>Optional. Sil id.</td></tr>
+<tr><td>silList</td><td>Optional. A list of sils to lock (comma separated). Should not present with silId parameter. </td></tr>
+<tr><td>lockType</td><td>Optional. If value is set to 'full' the generated key will be returned in the http response.</td></tr>
+<tr><td>forced</td><td>Optional. Value is true or false. Only used to lock=false. If forced=true, the sil will be forced to unlock 
+(key parameter is ignored in this case).</td></tr>
+<tr><td>beamLine or forBeamLine</td><td>Must be present if silId is not present. Name of the beamline where the sil resides,
+for example, BL1-5, BL9-1, BL9-2, BL11-1, BL11-3, BL_SIMPLE1 and BL-sim</td></tr>
+<tr><td>forCassetteIndex or cassettePosition</td><td>Optional. Position of the cassette in the dewar:
+0=no_cassette(manual mounting), 1=left, 2=center, 3=right.
+Used only if beamline name is valid. If not supplied all cassettes assigned to the given beamline will be affected.</td></tr>
+</table>
+<h4>Response:</h4>
+If the command runs successfully, the response body contains "OK". If the sils are locked with lockType=full,
+the response body will contain "OK <returned key>", for example, "OK 0BAE654FEA".
+Otherwise the response body contains "ERROR error_message", where error_message
+is a short message describing the error. 
+<h4>Example:</h4>
+
+<p>
+To lock a sil without a key:
+<pre>
+setSilLock.do?SMBSessionID=C3A6CDF80DFE02DC9923F1B37B42D221&userName=penjitk&silId=2061&lock=true
+</pre>
+</p>
+
+<p>
+To lock a sil with a key:
+<pre>
+setSilLock.do?SMBSessionID=C3A6CDF80DFE02DC9923F1B37B42D221&userName=penjitk&silId=2061&lock=true&lockType=full
+</pre>
+</p>
+
+<p>
+To lock sils at the beamline:
+<pre>
+setSilLock.do?SMBSessionID=C3A6CDF80DFE02DC9923F1B37B42D221&userName=penjitk&forBeamLine=BL-sim&forCassetteIndex=1&lock=true
+setSilLock.do?SMBSessionID=C3A6CDF80DFE02DC9923F1B37B42D221&userName=penjitk&forBeamLine=BL-sim&lock=true
+</pre>
+</p>
+
+<p>
+To lock a list of sils with a key:
+<pre>
+setSilLock.do?SMBSessionID=C3A6CDF80DFE02DC9923F1B37B42D221&userName=penjitk&silList=2061,3275&lock=true&lockType=full
+</pre>
+</p>
+
+<p>
+To unlock sil that has been locked with lockType=full:<br/>
+<pre>
+setSilLock.do?SMBSessionID=C3A6CDF80DFE02DC9923F1B37B42D221&userName=penjitk&silList=2061,3275&lock=false&key=0BAE654FEA
+</pre>
+</p>
+
+
+<h3><a name="unassignSil"></a>unassignSil</h3>
+This command unassigns sil from a beamline position. If cassettePosition parameter
+is not present, all sils at the given beamline will be unassigned.
+<h4>Command:</h4>
+unassignSil.do
+<h4>Parameters:</h4>
+<table border="1">
+<tr><td>SMBSessionID or AccessID</td><td>SMB session id to be validated by the authentication server.</td></tr>
+<tr><td>userName</td><td>User's login name to be validated by the authentication server.</td></tr>
+<tr><td>beamLine or forBeamLine</td><td>Beamline name</td></tr>
+<tr><td>cassettePosition or forCassetteIndex</td><td>Cassette position in the dewar (0=no casseette, 1=left, 2=middle, 3=right).</td></tr>
+</table>
+<h4>Response:</h4>
+The response body contains "OK".
+In case or errors, the response body contains "ERROR error_message",
+where error_message is a short message describing the error.
+<h4>Example:</h4>
+<pre>
+unassignSil.do?SMBSessionID=6557E7B2D4005686FE064C390554BCF7&userName=penjitk&beamLine=BL9-2&cassettePosition=1
+</pre>
+
+
+<h3><a name="uploadSil"></a>uploadSil</h3>
+Multipart HTTP request to upload an excel spreadsheet to the crystals server.
+This commands uploads an excel spreadsheet, creates a new sil in the database,
+assigns the sil to a beamline position
+and update the crystal data at the beamline. If the parameter forBeamLine or forCassetteIndex
+is not specified, a new sil will be created but not assigned to a beamline.
+<h4>Command:</h4>
+uploadSil.do
+<h4>Parameters:</h4>
+<table border="1">
+<tr><td>SMBSessionID or AccessID</td><td>SMB session id to be validated by the authentication server.</td></tr>
+<tr><td>userName</td><td>User's login name to be validated by the authentication server.</td></tr>
+<tr><td>forSheetName</td><td>Sheet name from excel spreadsheet, for example, Sheet1.</td></tr>
+<tr><td>PIN_Number</td><td>Cassette ID. Unique identification of the actual cassette containing crystals, usually scratched on the cassette. 
+This parameter can be any string. It is used for display only.</td></tr>
+<tr><td>beamLine or forBeamLine</td><td>Optional. Beamline name. If both beamLine and cassettePosition parameter are present, 
+the newly created sil will be assigned to the given beamline position.</td></tr>
+<tr><td>cassettePosition or forCassetteIndex</td><td>Optional Cassette position in the dewar (0=no casseette, 1=left, 2=middle, 3=right).
+If both beamLine and cassettePosition parameter are present, 
+the newly created sil will be assigned to the given beamline position.</td></tr>
+<tr><td>xslt</td><td>Optional. Name of xml transformation file used to transform uploaded crystal data into sil-format xml file.</td></tr>
+<tr><td>format</td><td>Output format: html or text. Default is text.</td></tr>
+</table>
+<h4>Response:</h4>
+If format parameter is text, the response body contains "OK silId", where silId is the newly 
+created sil id, for example "OK 87" for sil id = 87.
+In case or errors, the response body contains "ERROR error_message",
+where error_message is a short message describing the error.
+If format parameter is html, the response is web page containing a list of uploaded sils for the given user.
+<h4>Example:</h4>
+<pre>
+uploadSil.do?SMBSessionID=6557E7B2D4005686FE064C390554BCF7&userName=penjitk&forFileName=/data/penjitk/test/myoglobin.xls&forSheetName=Sheet1
+</pre>
+
+<h3><a name="deleteSil"></a>deleteSil</h3>
+This command deletes a sil from the repository. An error code is returned if the sil has been loaded into 
+cache and the queue is busy, or if the sil is locked.
+<h4>Command:</h4>
+deleteSil.do
+<h4>Parameters:</h4>
+<table border="1">
+<tr><td>SMBSessionID or AccessID</td><td>SMB session id to be validated by the authentication server.</td></tr>
+<tr><td>userName</td><td>User's login name to be validated by the authentication server.</td></tr>
+<tr><td>silId</td><td>Sil ID</td></tr>
+<tr><td>forced</td><td>Optional (true or false). If forced is true, the sill will be deleted even if the above conditions
+are not met.</td></tr>
+</table>
+<h4>Response:</h4>
+If the command is successful, the body will contain "OK" string. On error, an error code and error message will be returned.
+<h4>Example:</h4>
+<pre>
+deleteSil.do?SMBSessionID=6557E7B2D4005686FE064C390554BCF7&userName=penjitk&silId=6358&forced=true
+</pre>
+
+<h3><a name="moveCrystal"></a>moveCrystal</h3>
+<p>
+This command moves crystal data from a source sil to a destination sil. An error will be returned if the source and destination sils have not been locked
+with the key (given as an input parameter in the URL). Move history will be recorded in the 'Move' column of the given
+rows in the source and destination sils. Data in the source row remains unchanged (except for the Move column) whereas the data
+in the destination row will be replaced by data from the source row. Crystal ID of the moved crystal must be unique in the
+destination sil after the move. Otherwise a number will be appended to the original crystal id to make it unique.
+</p>
+<p>
+If the destination port and sil are specified (no source row), after the move, the destination row will contain no data except for the Port and Move columns.
+</p>
+
+<h4>Command:</h4>
+moveCrystal.do
+<h4>Parameters:</h4>
+<table border="1">
+<tr><td>SMBSessionID or AccessID</td><td>SMB session id to be validated by the authentication server.</td></tr>
+<tr><td>userName</td><td>User's login name to be validated by the authentication server.</td></tr>
+<tr><td>srcSil</td><td>Optional. Source sil ID.</td></tr>
+<tr><td>srcPort</td><td>Optional. Source Port ID. </td></tr>
+<tr><td>destSil</td><td>Optional. Destination sil ID.</td></tr>
+<tr><td>destPort</td><td>Optional. Destination Port ID. </td></tr>
+<tr><td>key</td><td>Key for the source and destination sils. An error will be returned if the sils have not been locked (and have not been locked with this key).</td></tr>
+</table>
+<h4>Response:</h4>
+If the command is successful, the body will contain "OK srcSil=6622,srcPort=A4,destSil=6626,destPort=A4,destCrystalID=T3592" string. On error, an error code and error message will be returned.
+<h4>Example:</h4>
+<pre>
+moveCrystal.do?SMBSessionID=6557E7B2D4005686FE064C390554BCF7&userName=penjitk&srcSil=6358&srcPort=A1&srcPort=A1&destSil=6522&destPort=C4&key=0BAE654FEA
+moveCrystal.do?SMBSessionID=6557E7B2D4005686FE064C390554BCF7&userName=penjitk&srcSil=6358&srcPort=A1&key=0BAE654FEA
+moveCrystal.do?SMBSessionID=6557E7B2D4005686FE064C390554BCF7&userName=penjitk&destSil=6522&destPort=C4&key=0BAE654FEA
+</pre>
+
+<h2><a name="Examples"></a>3. Examples</h2>
+
+<h3><a name="screeningCrystals"></a>Screening Crystals</h3>
+
+This example show how to support the use of crystal data in screening. The user either uploads a spreadsheet pre-filled with ports and crystal IDs, or the control 
+system can create a sil from a default spreadsheet template or create an empty sil (containing no port). The control system also needs to monitor the sil
+through out the screening. When new data (crystal analysis results) is saved
+in the sil, the control system notifies the GUI applications, which, in turns, loads the modified data. A separate crystal-analysis server
+or software is required to analyze each individual image and to autoindex 2 images (90 deg apart). This software component is responsible for
+depositing the analysis results in the sil. The control system needs to pass the sil id, row number, crystal id and etc to this software component. During scrrening 
+the sil is locked so that the user and other software cannot delete the sil.
+
+<ol>
+
+<li>
+Upload sil to the crystals server.
+<pre>
+uploadSil.do?SMBSessionID=6557E7B2D4005686FE064C390554BCF7&userName=penjitk&forFileName=/data/penjitk/test/myoglobin.xls&forSheetName=Sheet1
+</pre>
+Or create a new sil with default data for SSRL cassette:
+<pre>
+createDefaultSil.do?SMBSessionID=C3A6CDF80DFE02DC9923F1B37B42D221&userName=penjitk&template=cassette_template
+</pre>
+Or create a new sil with default data for ALS puck adapter:
+<pre>
+createDefaultSil.do?SMBSessionID=C3A6CDF80DFE02DC9923F1B37B42D221&userName=penjitk&template=puck_template
+</pre>
+Or create a new empty sil (with no port). 
+<pre>
+createDefaultSil.do?SMBSessionID=C3A6CDF80DFE02DC9923F1B37B42D221&userName=penjitk&template=empty_template
+</pre>
+A unique sil id will be generated and returned. The control system saves this ID and notifies the GUI of this sil ID.
+</li>
+
+<li>
+The GUI loads crystal data from this sil in xml format, parses the data and displays it.
+<pre>
+getSil.do?SMBSessionID=C3A6CDF80DFE02DC9923F1B37B42D221&userName=penjitk&silId=1000
+</pre>
+</li>
+
+<li>
+The control system sets up a thread to monitor the sil. It needs to check if the crystal data in the sil has been updated.
+First, get the latest event id for this sil. Every time crystal data has been modified for this sil,
+a event with a unique id (id number is incremented) is generated. You can save this event id
+and keep polling until the latest event id is greater than the one your have saved. This means
+the sil has been modified and it is time for the GUI to load the modified data (not the whole sil) and update the display.
+The command <a href="#getChangesSince">getChangesSince</a> returns the modified crystal data in xml.
+<pre>
+evID = 0
+loop 
+   newEvID = getLatestEventId.do?SMBSessionID=6557E7B2D4005686FE064C390554BCF7&userName=penjitk&silId=1000
+   if newEvID > evID
+   	notify GUI to call getChangesSince.do?SMBSessionID=4869656B9A83B37B1A49DA8920274031&userName=penjitk&&silId=1000&eventId=[newEvID]
+	evID = newEvID + 1
+   end if
+end loop
+</pre>
+</li>
+
+<li>
+When the screening starts, send setSilLock command to lock the sil. Do not use lockType=full so that the only operations prohibited on this sil are deleteSil, 
+assignSilToBeamline and unassignSil. The commands that modify the crystal data in the sil remain accessible by any application without a key. 
+<pre>
+setSilLock.do?SMBSessionID=6557E7B2D4005686FE064C390554BCF7&userName=penjitk&silList=1000&lock=true
+</pre>
+</li>
+
+<li>
+Send a command to the crystal-analysis server to run spotfinder and autoindex the crystal. See crystal-analysis manual for more details.
+The crystal-analysis server automatically saves the results in the sil when the analysis job is done. 
+If you are not using the crystal-analysis server and want to run your own script to generate autoindexing results, you can also
+record the results in the sil by using setCrystal command.
+
+<pre>
+setCrystal.do?SMBSessionID=6557E7B2D4005686FE064C390554BCF7&userName=penjitk&silId=1000&row=0&Score=9.8&Mosaicity=0.2&Bravaislattice=P3
+</pre>
+</li>
+
+<li>
+Unlock the sil when the screening is finished.
+<pre>
+setSilLock.do?SMBSessionID=6557E7B2D4005686FE064C390554BCF7&userName=penjitk&silList=1000&lock=false
+</pre>
+</li>
+
+</ol>
+
+
+<h3<a name="movingCrystals"></a>Moving Crystals</h3>
+
+After crystal screening, the user may want to sort the crystals, for example, by moving good crystals to another cassette. This example shows how the application
+that facilitates the crystal moving can move the crystal data accordingly. The destination sil to which the crystal data has been moved will contain the screening 
+results.
+
+<ol>
+<li>
+Send the following command to lock the sils contains source and destination locations for the crystal to be moved. The command will return a key which can
+subsequently be used to unlock these sils and move the crystals between these sils. Locking will also prevent the sils from being deleted while the move
+is taking place. Other applications that do not have the key will not be able to set crystal data in these sils (for example, the crystal-analysis or webice).
+
+<pre>
+setSilLock.do?SMBSessionID=6557E7B2D4005686FE064C390554BCF7&userName=penjitk&silList=1000,2000&lock=true&lockType=full
+</pre>
+
+The command returns, for example, "OK 0BAE654FEA" in the http response body. The string 0BAE654FEA is the key.
+</li>
+
+<li>
+Move A1 from sil 1000 to C2 in sil 2000. Use the key returned in step 1. Notice that "Move" column in source and destination sil now contains 
+a string indicating where the crystal has been moved to/from. For example, sil 1000 "Move" column contains "to sil=2000,Port=C2,CrystalID=myoglobin"
+and sil 200 contains "from sil=1000,Port=A1,CrystalID=myoglobin". If sil 2000 already contains crystal id myoglobin in another row, the crystal id of the moved
+crystal will be renamed to myoglobin_1 and therefore the "Move" column of sil 1000 will be "to sil=2000,Port=C2,CrystalID=myoglobin_1".
+
+<pre>
+moveCrystal.do?SMBSessionID=6557E7B2D4005686FE064C390554BCF7&userName=penjitk&srcSil=1000&srcPort=A1&destSil=2000&destPort=C2&key=0BAE654FEA
+</pre>
+</li>
+<li>
+Another example, try moving A2 to trash (or unspecified sil). The "Move" column in the sil 1000 will contain string "to sil=,Port=,CrystalID=".
+
+<pre>
+moveCrystal.do?SMBSessionID=6557E7B2D4005686FE064C390554BCF7&userName=penjitk&srcSil=1000&srcPort=A2&key=0BAE654FEA
+</pre>
+</li>
+<li>
+Another example, try moving a crystal from an unspecified sil to port D1 of sil 2000. The "Move" column in sil 2000 
+will contain string "from sil=",Port=,CrystalID=".
+
+<pre>
+moveCrystal.do?SMBSessionID=6557E7B2D4005686FE064C390554BCF7&userName=penjitk&destSil=2000&destPort=D1&key=0BAE654FEA
+</pre>
+</li>
+<li>
+Unlock the sils after finishing the moves. Notice the the key needs to be supplied to unlock the sils.
+
+<pre>
+setSilLock.do?SMBSessionID=6557E7B2D4005686FE064C390554BCF7&userName=penjitk&silList=1000,2000&lock=false&key=0BAE654FEA
+</pre>
+</li>
+</ol>
+</body>
+</html>

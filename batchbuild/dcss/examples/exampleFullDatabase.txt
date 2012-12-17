@@ -1,0 +1,764 @@
+-- MySQL dump 8.22
+--
+-- Host: localhost    Database: beamline_configuration
+---------------------------------------------------------
+-- Server version	3.23.53-log
+
+--
+-- Table structure for table 'ADAC5500'
+--
+
+CREATE TABLE ADAC5500 (
+  id int(11) NOT NULL default '0',
+  ControllerID int(11) NOT NULL default '0',
+  PRIMARY KEY  (id),
+  UNIQUE KEY id (id)
+) TYPE=MyISAM;
+
+--
+-- Dumping data for table 'ADAC5500'
+--
+
+
+INSERT INTO ADAC5500 VALUES (0,37);
+INSERT INTO ADAC5500 VALUES (1,39);
+
+--
+-- Table structure for table 'ASYNC2100'
+--
+
+CREATE TABLE ASYNC2100 (
+  id int(11) NOT NULL auto_increment,
+  hostID int(11) default NULL,
+  controllerID int(11) default NULL,
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+--
+-- Dumping data for table 'ASYNC2100'
+--
+
+
+INSERT INTO ASYNC2100 VALUES (1,1,3);
+
+--
+-- Table structure for table 'Beamlines'
+--
+
+CREATE TABLE Beamlines (
+  id int(11) NOT NULL auto_increment,
+  Name varchar(100) default NULL,
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+--
+-- Dumping data for table 'Beamlines'
+--
+
+
+INSERT INTO Beamlines VALUES (1,'bl11-1');
+INSERT INTO Beamlines VALUES (2,'blcpusim1');
+INSERT INTO Beamlines VALUES (4,'bl9-2');
+INSERT INTO Beamlines VALUES (3,'bl7-1');
+INSERT INTO Beamlines VALUES (5,'blcpusim2');
+INSERT INTO Beamlines VALUES (6,'bl9-1');
+INSERT INTO Beamlines VALUES (7,'smblx6sim');
+INSERT INTO Beamlines VALUES (8,'simblx4sim');
+INSERT INTO Beamlines VALUES (9,'smblx5sim');
+INSERT INTO Beamlines VALUES (10,'smbdcsdev');
+INSERT INTO Beamlines VALUES (11,'bl1-5');
+INSERT INTO Beamlines VALUES (12,'bl-xx');
+
+--
+-- Table structure for table 'CCD'
+--
+
+CREATE TABLE CCD (
+  id int(11) NOT NULL auto_increment,
+  serialNumber varchar(30) NOT NULL default '0',
+  HostName varchar(30) default NULL,
+  CommandPort int(11) default NULL,
+  DataPort int(11) default NULL,
+  Chips int(11) default NULL,
+  DarkImageDirectory varchar(100) default NULL,
+  DarkRefreshTime int(11) default NULL,
+  CalibrationDirectory varchar(100) default NULL,
+  ControllerID int(11) default NULL,
+  BeamCenterX double(16,4) default NULL,
+  BeamCenterY double(16,4) default NULL,
+  NonUniformitySlowFile varchar(30) default NULL,
+  NonUniformityFastFile varchar(30) NOT NULL default '',
+  NonUniformitySlowBinFile varchar(30) NOT NULL default '',
+  NonUniformityFastBinFile varchar(30) NOT NULL default '',
+  DistortionSlowFile varchar(30) default NULL,
+  DistortionFastFile varchar(30) NOT NULL default '',
+  DistortionSlowBinFile varchar(30) NOT NULL default '',
+  DistortionFastBinFile varchar(30) NOT NULL default '',
+  PostNonUniformitySlowFile varchar(30) default NULL,
+  PostNonUniformityFastFile varchar(30) NOT NULL default '',
+  PostNonUniformitySlowBinFile varchar(30) NOT NULL default '',
+  PostNonUniformityFastBinFile varchar(30) NOT NULL default '',
+  darkExposureTolerance float(10,2) NOT NULL default '0.10',
+  writeRawImages char(1) default NULL,
+  j5_trigger char(1) default NULL,
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+--
+-- Dumping data for table 'CCD'
+--
+
+
+INSERT INTO CCD VALUES (1,'0','blcpu1.slac.stanford.edu',8041,8042,1,'./darkimages/',7200,'/usr/local/dcs/dhs/',7,94.0000,94.0000,'NONUNF','NONUNF','NONUNF','NONUNF','DISTOR.calfil','DISTOR.calfil','DISTOR.calfil','DISTOR.calfil','POSTNUF','POSTNUF','POSTNUF','POSTNUF',0.10,'N','N');
+INSERT INTO CCD VALUES (3,'411','134.79.43.153',8041,8042,4,'/usr/local/dhs/darkimages/',7200,'/usr/local/dcs/dhs/ccd_411',26,94.0000,94.0000,'NONUNF_slow','NONUNF_fast','NONUNF_2x2','NONUNF_2x2','CALFIL','CALFIL','CALFIL_2x2','CALFIL_2x2','POSTNUF_slow','POSTNUF_fast','POSTNUF_2x2','POSTNUF_2x2',0.10,'N','Y');
+INSERT INTO CCD VALUES (5,'0','blcpu1.slac.stanford.edu',8051,8052,1,'./darkimages',7200,'/usr/local/dcs/dhs/',16,94.0000,94.0000,'NONUNF','NONUNF','NONUNF','NONUNF','DISTOR.calfil','DISTOR.calfil','DISTOR.calfil','DISTOR.calfil','POSTNUF','POSTNUF','POSTNUF','POSTNUF',0.10,'Y','N');
+INSERT INTO CCD VALUES (6,'411','134.79.43.30',8041,8042,4,'./darkimages',7200,'../ccd_411',15,94.0000,94.0000,'NONUNF_slow','NONUNF_fast','NONUNF_2x2','NONUNF_2x2','CALFIL','CALFIL','CALFIL_2x2','CALFIL_2x2','POSTNUF_slow','POSTNUF_fast','POSTNUF_2x2','POSTNUF_2x2',0.10,'N','Y');
+INSERT INTO CCD VALUES (7,'0','blcpu2.slac.stanford.edu',8041,8042,1,'./darkimages/',7200,'./',11,94.0000,94.0000,'NONUNF','NONUNF','NONUNF','NONUNF','CALFIL','CALFIL','CALFIL','CALFIL','POSTNUF','POSTNUF','POSTNUF','POSTNUF',0.10,'N','N');
+INSERT INTO CCD VALUES (8,'403','134.79.43.50',8041,8042,4,'./darkimages',7200,'/usr/local/dcs/ccd_403',20,94.0000,94.0000,'NONUNF_slow','NONUNF_fast','NONUNF_2x2','NONUNF_2x2','CALFIL','CALFIL','CALFIL_2x2','CALFIL_2x2','POSTNUF_slow','POSTNUF_fast','POSTNUF_2x2','POSTNUF_2x2',0.10,'N','Y');
+
+--
+-- Table structure for table 'Camera'
+--
+
+CREATE TABLE Camera (
+  ControllerID int(11) NOT NULL default '0',
+  name varchar(30) NOT NULL default '',
+  hostname varchar(30) default NULL,
+  port int(11) default NULL,
+  username varchar(30) default NULL,
+  password varchar(30) default NULL,
+  url_path varchar(255) default NULL,
+  PRIMARY KEY  (ControllerID)
+) TYPE=MyISAM;
+
+--
+-- Dumping data for table 'Camera'
+--
+
+
+INSERT INTO Camera VALUES (18,'sample_camera','134.79.43.40',8000,'root','mcatdeer',NULL);
+INSERT INTO Camera VALUES (19,'sample_camera92','134.79.43.40',8000,'root','mcatdeer','/axis-cgi/jpg/image.cgi?camera=2&clock=0&date=0&text=0  HTTP/1.0\\r\\n');
+INSERT INTO Camera VALUES (24,'sample_camera','134.79.43.60',8000,'root','mcatdeer','/axis-cgi/jpg/image.cgi?camera=2&clock=0&date=0&text=0 HTTP/1.0\\r\\n');
+INSERT INTO Camera VALUES (30,'sample_camera','134.79.43.161',8000,'root','mcatdeer','/axis-cgi/jpg/image.cgi?camera=2&clock=0&date=0&text=0 HTTP/1.0\\r\\n');
+INSERT INTO Camera VALUES (25,'sample_camera','134.79.43.20',8000,'root','mcatdeer','/axis-cgi/jpg/image.cgi?camera=2&clock=0&date=0&text=0 HTTP/1.0\\r\\n');
+
+--
+-- Table structure for table 'Controllers'
+--
+
+CREATE TABLE Controllers (
+  id int(11) NOT NULL auto_increment,
+  DHS_ID int(11) default NULL,
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+--
+-- Dumping data for table 'Controllers'
+--
+
+
+INSERT INTO Controllers VALUES (1,1);
+INSERT INTO Controllers VALUES (2,2);
+INSERT INTO Controllers VALUES (3,3);
+INSERT INTO Controllers VALUES (4,4);
+INSERT INTO Controllers VALUES (5,19);
+INSERT INTO Controllers VALUES (7,5);
+INSERT INTO Controllers VALUES (6,20);
+INSERT INTO Controllers VALUES (8,6);
+INSERT INTO Controllers VALUES (23,17);
+INSERT INTO Controllers VALUES (22,16);
+INSERT INTO Controllers VALUES (11,7);
+INSERT INTO Controllers VALUES (12,8);
+INSERT INTO Controllers VALUES (13,18);
+INSERT INTO Controllers VALUES (24,21);
+INSERT INTO Controllers VALUES (15,9);
+INSERT INTO Controllers VALUES (16,10);
+INSERT INTO Controllers VALUES (17,11);
+INSERT INTO Controllers VALUES (18,12);
+INSERT INTO Controllers VALUES (19,13);
+INSERT INTO Controllers VALUES (20,14);
+INSERT INTO Controllers VALUES (21,15);
+INSERT INTO Controllers VALUES (25,22);
+INSERT INTO Controllers VALUES (26,23);
+INSERT INTO Controllers VALUES (27,24);
+INSERT INTO Controllers VALUES (28,25);
+INSERT INTO Controllers VALUES (29,26);
+INSERT INTO Controllers VALUES (30,27);
+INSERT INTO Controllers VALUES (31,28);
+INSERT INTO Controllers VALUES (32,29);
+INSERT INTO Controllers VALUES (33,30);
+INSERT INTO Controllers VALUES (34,31);
+INSERT INTO Controllers VALUES (35,32);
+INSERT INTO Controllers VALUES (36,33);
+INSERT INTO Controllers VALUES (37,34);
+INSERT INTO Controllers VALUES (38,35);
+INSERT INTO Controllers VALUES (39,36);
+
+--
+-- Table structure for table 'DCSS'
+--
+
+CREATE TABLE DCSS (
+  id int(11) NOT NULL auto_increment,
+  HostName varchar(100) default NULL,
+  ListeningPort int(11) default NULL,
+  MemoryMapFile varchar(50) default NULL,
+  BeamlineID int(11) default NULL,
+  beamline varchar(30) NOT NULL default '',
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+--
+-- Dumping data for table 'DCSS'
+--
+
+
+INSERT INTO DCSS VALUES (1,'blctl111.slac.stanford.edu',14242,'database.dat',1,'bl11-1');
+INSERT INTO DCSS VALUES (2,'blcpu1.slac.stanford.edu',15246,'database.dat',2,'blcpusim1');
+INSERT INTO DCSS VALUES (3,'bl711.slac.stanford.edu',14242,'database.dat',3,'bl7-1');
+INSERT INTO DCSS VALUES (4,'blctl92.slac.stanford.edu',14242,'database.dat',4,'bl9-2');
+INSERT INTO DCSS VALUES (5,'blcpu2.slac.stanford.edu',15242,'database.dat',5,'blcpusim2');
+INSERT INTO DCSS VALUES (6,'blctl91.slac.stanford.edu',14242,'database.dat',6,'bl9-1');
+INSERT INTO DCSS VALUES (8,'smblx4.slac.stanford.edu',14242,'database.dat',8,'smblx4sim');
+INSERT INTO DCSS VALUES (9,'smblx5.slac.stanford.edu',15246,'database.dat',9,'smblx5sim');
+INSERT INTO DCSS VALUES (10,'smblx6.slac.stanford.edu',14242,'database.dat',10,'smblx6sim');
+INSERT INTO DCSS VALUES (11,'blctl15.slac.stanford.edu',14242,'database.dat',11,'bl1-5');
+INSERT INTO DCSS VALUES (12,'blctlxx.slac.stanford.edu',14242,'database.dat',12,'bl-xx');
+
+--
+-- Table structure for table 'DHS'
+--
+
+CREATE TABLE DHS (
+  id int(11) NOT NULL auto_increment,
+  HostName varchar(100) default NULL,
+  privateNode varchar(100) default NULL,
+  BeamlineID int(11) default NULL,
+  LocalDatabaseFileName varchar(100) default NULL,
+  AutoFlushPeriod mediumint(9) default NULL,
+  DevicePollPeriod mediumint(9) default NULL,
+  WatchdogKickPeriod mediumint(9) default NULL,
+  InstanceName varchar(30) default NULL,
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+--
+-- Dumping data for table 'DHS'
+--
+
+
+INSERT INTO DHS VALUES (1,'bl111.slac.stanford.edu','',1,'bl111_Mar345Database.dat',5000,200,500,'disabled');
+INSERT INTO DHS VALUES (3,'bl921.slac.stanford.edu','',4,'bl921_encoderDatabase.dat',5000,250,500,'encoder');
+INSERT INTO DHS VALUES (2,'bl711.slac.stanford.edu','',3,'bl711_dhsDatabase.dat',5000,200,500,'detector');
+INSERT INTO DHS VALUES (4,'blctl111.slac.stanford.edu','blctl111p.slac.stanford.edu',1,'bl111_galil1.dat',500,200,1000,'galil1');
+INSERT INTO DHS VALUES (5,'blcpu1.slac.stanford.edu','',2,'blcpu1_detector2.dat',5000,200,500,'detector');
+INSERT INTO DHS VALUES (6,'blctl92.slac.stanford.edu','blctl92p.slac.stanford.edu',4,'bl921_galil1.dat',5000,200,1000,'galil1');
+INSERT INTO DHS VALUES (7,'smblx6.slac.stanford.edu','',10,'smblx6_detector.dat',5000,200,500,'detector');
+INSERT INTO DHS VALUES (8,'blctl91.slac.stanford.edu','blctl91p.slac.stanford.edu',6,'bl91galil1.dat',5000,200,1000,'galil1');
+INSERT INTO DHS VALUES (9,'blctl92.slac.stanford.edu','',4,'./bl92_detector.dat',5000,5000,5000,'detector');
+INSERT INTO DHS VALUES (10,'smblx5.slac.stanford.edu','',9,'smblx5_detector.dat',500,200,5000,'detector');
+INSERT INTO DHS VALUES (11,'smbfs.slac.stanford.edu','',1,'quantum315.dat',5000,5000,5000,'detector111');
+INSERT INTO DHS VALUES (12,'biotest.slac.stanford.edu','',2,'cameraDatabase.dat',500,5000,60000,'camera');
+INSERT INTO DHS VALUES (13,'blctl92.slac.stanford.edu','',4,'cameraDatabase92.dat',500,5000,60000,'camera');
+INSERT INTO DHS VALUES (14,'blctl91.slac.stanford.edu','',6,'detector.dat',5000,5000,5000,'detector');
+INSERT INTO DHS VALUES (29,'bl111pc','',1,'DSA2000.dat',5000,5000,50000,'DSA2000');
+INSERT INTO DHS VALUES (21,'blctl91.slac.stanford.edu','',6,'bl91camera.dat',5000,5000,60000,'camera');
+INSERT INTO DHS VALUES (15,'blctl92.slac.stanford.edu','blctl92p.slac.stanford.edu',4,'bl921_galil3.dat',500,200,500,'galil3');
+INSERT INTO DHS VALUES (16,'blctl92.slac.stanford.edu','blctl92p.slac.stanford.edu',4,'bl921_galil2.dat',500,200,500,'galil2');
+INSERT INTO DHS VALUES (17,'blctl91.slac.stanford.edu','blctl91p.slac.stanford.edu',6,'bl91galil3.dat',500,200,500,'galil3');
+INSERT INTO DHS VALUES (18,'blctl91.slac.stanford.edu','blctl91p.slac.stanford.edu',6,'bl91galil2.dat',500,200,500,'galil2');
+INSERT INTO DHS VALUES (19,'blctl111.slac.stanford.edu','blctl111p.slac.stanford.edu',1,'bl111_galil2.dat',500,200,500,'galil2');
+INSERT INTO DHS VALUES (20,'blctl111.slac.stanford.edu','blctl111p.slac.stanford.edu',1,'bl111_galil3.dat',500,200,500,'galil3');
+INSERT INTO DHS VALUES (22,'blctl111.slac.stanford.edu','',1,'bl111_camera.dat',500,500,60000,'camera');
+INSERT INTO DHS VALUES (23,'blctl15.slac.stanford.edu','blctl15p.slac.stanford.edu',11,'blctl15_detector.dat',5000,200,60000,'detector');
+INSERT INTO DHS VALUES (24,'blctl15.slac.stanford.edu','blctl15p.slac.stanford.edu',11,'blctl15galil1.dat',500,200,500,'galil1');
+INSERT INTO DHS VALUES (25,'blctl15.slac.stanford.edu','blctl15p.slac.stanford.edu',11,'blctl15galil2.dat',500,200,500,'galil2');
+INSERT INTO DHS VALUES (26,'blctl15.slac.stanford.edu','blctl15p.slac.stanford.edu',11,'blctl15galil3.dat',500,200,500,'galil3');
+INSERT INTO DHS VALUES (27,'blctl15.slac.stanford.edu','blctl15p.slac.stanford.edu',11,'blctl15camera.dat',500,200,500,'camera');
+INSERT INTO DHS VALUES (28,'bl15pc','',11,'camberra.dat',5000,5000,50000,'DSA2000');
+INSERT INTO DHS VALUES (30,'bl92pc','',4,'DSA2000.dat',5000,5000,50000,'DSA2000');
+INSERT INTO DHS VALUES (31,'bl91pc','',6,'DSA2000.dat',5000,5000,50000,'DSA2000');
+INSERT INTO DHS VALUES (32,'blctlxx.slac.stanford.edu','',12,'blxxDetector.dat',5000,5000,500,'detector');
+INSERT INTO DHS VALUES (33,'smbfs.slac.stanford.edu','',4,'quantum315_92.dat',5000,5000,5000,'detector92');
+INSERT INTO DHS VALUES (34,'bl92pc','',4,'ADAC5500.dat',5000,5000,50000,'ADAC5500');
+INSERT INTO DHS VALUES (35,'blctl15.slac.stanford.edu','blctl15p.slac.stanford.edu',11,'blctl15galil4.dat',500,200,500,'galil4');
+INSERT INTO DHS VALUES (36,'bl111pc','',1,'ADAC5500.dat',5000,5000,50000,'ADAC5500');
+
+--
+-- Table structure for table 'DSA2000'
+--
+
+CREATE TABLE DSA2000 (
+  id int(11) NOT NULL default '0',
+  ControllerID int(11) NOT NULL default '0',
+  PRIMARY KEY  (id),
+  UNIQUE KEY id (id)
+) TYPE=MyISAM;
+
+--
+-- Dumping data for table 'DSA2000'
+--
+
+
+INSERT INTO DSA2000 VALUES (0,31);
+INSERT INTO DSA2000 VALUES (1,32);
+INSERT INTO DSA2000 VALUES (2,33);
+INSERT INTO DSA2000 VALUES (3,34);
+
+--
+-- Table structure for table 'Encoders'
+--
+
+CREATE TABLE Encoders (
+  id int(11) NOT NULL auto_increment,
+  name2 varchar(30) default NULL,
+  scale_factor double(16,4) default NULL,
+  controllerID int(11) default NULL,
+  channel2 int(11) NOT NULL default '0',
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+--
+-- Dumping data for table 'Encoders'
+--
+
+
+INSERT INTO Encoders VALUES (1,'mono_theta_encoder',160000.0000,21,3);
+INSERT INTO Encoders VALUES (2,'gonio_z_encoder',1.0000,8,4);
+INSERT INTO Encoders VALUES (3,'detector_horz_encoder',1.0000,22,4);
+INSERT INTO Encoders VALUES (4,'detector_vert_encoder',1000.0000,22,5);
+INSERT INTO Encoders VALUES (5,'detector_z_encoder',1000.0000,22,6);
+INSERT INTO Encoders VALUES (6,'detector_horz_encoder',1000.0000,13,4);
+INSERT INTO Encoders VALUES (7,'detector_vert_encoder',1000.0000,13,5);
+INSERT INTO Encoders VALUES (8,'detector_z_encoder',1000.0000,13,6);
+INSERT INTO Encoders VALUES (9,'detector_horz_encoder',1000.0000,5,4);
+INSERT INTO Encoders VALUES (10,'detector_vert_encoder',1000.0000,5,5);
+INSERT INTO Encoders VALUES (11,'detector_z_encoder',-1000.0000,5,6);
+INSERT INTO Encoders VALUES (12,'gonio_z_encoder',1.0000,27,4);
+INSERT INTO Encoders VALUES (13,'detector_horz_encoder',1.0000,28,4);
+INSERT INTO Encoders VALUES (14,'detector_vert_encoder',1000.0000,28,5);
+INSERT INTO Encoders VALUES (15,'detector_z_encoder',-1000.0000,28,6);
+
+--
+-- Table structure for table 'MAR345'
+--
+
+CREATE TABLE MAR345 (
+  id int(11) NOT NULL auto_increment,
+  CommandDirectory varchar(100) default NULL,
+  detector_offset_x float(10,2) default NULL,
+  detector_offset_y float(10,2) default NULL,
+  controllerID int(11) default NULL,
+  hasBase char(1) NOT NULL default 'F',
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+--
+-- Dumping data for table 'MAR345'
+--
+
+
+INSERT INTO MAR345 VALUES (1,'/logs/root',0.00,0.00,99920,'N');
+INSERT INTO MAR345 VALUES (2,'/logs/blctl',0.00,0.00,2,'Y');
+INSERT INTO MAR345 VALUES (3,'/logs/root',0.00,0.00,99915,'N');
+
+--
+-- Table structure for table 'Motors'
+--
+
+CREATE TABLE Motors (
+  id int(11) NOT NULL auto_increment,
+  name varchar(30) default NULL,
+  controller_axis char(1) default NULL,
+  type varchar(30) default NULL,
+  units varchar(30) default NULL,
+  position double(16,4) default NULL,
+  scale_factor double(16,4) default NULL,
+  speed double(16,4) default NULL,
+  acceleration double(16,4) default NULL,
+  backlash double(16,4) default NULL,
+  lower_limit double(16,4) default NULL,
+  upper_limit double(16,4) default NULL,
+  lower_limit_enabled char(1) default NULL,
+  upper_limit_enabled char(1) default NULL,
+  backlash_enabled char(1) default NULL,
+  reverse_enabled char(1) default NULL,
+  lock_enabled char(1) default NULL,
+  PID_derivative double(16,4) default NULL,
+  PID_proportional double(16,4) default NULL,
+  PID_integrator double(16,4) default NULL,
+  PID_independent_time double(16,4) default NULL,
+  controllerID int(11) default NULL,
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+--
+-- Dumping data for table 'Motors'
+--
+
+
+INSERT INTO Motors VALUES (1,'sample_x','x','dc','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,1000.0000,1000.0000,'Y','Y','N','N','N',3291.0000,221.0000,32.0000,NULL,4);
+INSERT INTO Motors VALUES (2,'sample_z','z','dc','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,1000.0000,1000.0000,'Y','Y','N','N','N',3291.0000,221.0000,32.0000,NULL,4);
+INSERT INTO Motors VALUES (3,'sample_y','y','dc','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,1000.0000,1000.0000,'Y','Y','N','N','N',3291.0000,221.0000,32.0000,NULL,4);
+INSERT INTO Motors VALUES (4,'gonio_kappa','e','stepper','deg',0.0000,200.0000,400.0000,100.0000,0.0000,-21.0000,6.0000,'Y','Y','N','N','N',NULL,NULL,NULL,NULL,4);
+INSERT INTO Motors VALUES (5,'gonio_phi','f','stepper','deg',0.0000,2500.0000,3500.0000,150.0000,625.0000,-21.0000,6.0000,'Y','Y','N','Y','N',NULL,NULL,NULL,NULL,4);
+INSERT INTO Motors VALUES (6,'gonio_omega','g','stepper','deg',0.0000,2500.0000,3500.0000,150.0000,625.0000,-21.0000,6.0000,'Y','Y','N','Y','N',NULL,NULL,NULL,NULL,4);
+INSERT INTO Motors VALUES (7,'gonio_z','h','stepper','deg',0.0000,2500.0000,3500.0000,150.0000,625.0000,-21.0000,6.0000,'Y','Y','N','Y','N',NULL,NULL,NULL,NULL,4);
+INSERT INTO Motors VALUES (8,'detector_horz','e','stepper','mm',0.0000,1574.0000,4000.0000,1000.0000,1334.0000,-21.0000,6.0000,'N','N','Y','Y','N',NULL,NULL,NULL,NULL,5);
+INSERT INTO Motors VALUES (9,'detector_vert','f','stepper','mm',0.0000,1574.0000,4000.0000,1000.0000,1334.0000,-21.0000,6.0000,'N','N','Y','Y','N',NULL,NULL,NULL,NULL,5);
+INSERT INTO Motors VALUES (10,'detector_z','g','stepper','mm',0.0000,1574.0000,4000.0000,1000.0000,1334.0000,-21.0000,6.0000,'N','N','Y','Y','N',NULL,NULL,NULL,NULL,5);
+INSERT INTO Motors VALUES (11,'detector_pitch','h','stepper','mm',0.0000,1574.0000,4000.0000,1000.0000,1334.0000,-21.0000,6.0000,'N','N','Y','Y','N',0.0000,0.0000,0.0000,0.0000,5);
+INSERT INTO Motors VALUES (12,'slit_1_ssrl','D','stepper','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,1000.0000,1000.0000,'Y','Y','N','N','N',0.0000,0.0000,0.0000,0.0000,6);
+INSERT INTO Motors VALUES (13,'slit_1_spear','C','stepper','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,1000.0000,1000.0000,'Y','Y','N','N','N',0.0000,0.0000,0.0000,0.0000,6);
+INSERT INTO Motors VALUES (14,'slit_1_upper','A','stepper','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,1000.0000,1000.0000,'Y','Y','N','N','N',NULL,NULL,NULL,NULL,6);
+INSERT INTO Motors VALUES (15,'slit_1_lower','B','stepper','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,1000.0000,1000.0000,'Y','Y','N','N','N',NULL,NULL,NULL,NULL,6);
+INSERT INTO Motors VALUES (16,'slit_2_ssrl','H','stepper','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,1000.0000,1000.0000,'Y','Y','N','N','N',0.0000,0.0000,0.0000,0.0000,6);
+INSERT INTO Motors VALUES (17,'slit_2_spear','G','stepper','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,1000.0000,1000.0000,'Y','Y','N','N','N',0.0000,0.0000,0.0000,0.0000,6);
+INSERT INTO Motors VALUES (18,'slit_2_upper','E','stepper','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,1000.0000,1000.0000,'Y','Y','N','N','N',NULL,NULL,NULL,NULL,6);
+INSERT INTO Motors VALUES (19,'slit_2_lower','F','stepper','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,1000.0000,1000.0000,'Y','Y','N','N','N',NULL,NULL,NULL,NULL,6);
+INSERT INTO Motors VALUES (20,'guard_shield_vert','x','dc','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,1000.0000,1000.0000,'Y','Y','N','N','N',3291.0000,221.0000,32.0000,1000.0000,5);
+INSERT INTO Motors VALUES (21,'guard_shield_horiz','y','dc','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,1000.0000,1000.0000,'Y','Y','N','N','N',3291.0000,221.0000,32.0000,1000.0000,5);
+INSERT INTO Motors VALUES (22,'gonio_phi','A','stepper','deg',0.0000,1.0000,1.0000,1.0000,0.0000,0.0000,0.0000,'N','N','N','N','N',0.0000,0.0000,0.0000,0.0000,2);
+INSERT INTO Motors VALUES (23,'detector_distance','B','stepper','mm',600.0000,1.0000,1.0000,1.0000,1.0000,1.0000,1.0000,'N','N','N','N','N',1.0000,1.0000,1.0000,1.0000,2);
+INSERT INTO Motors VALUES (24,'sample_x','x','dc','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,1000.0000,1000.0000,'Y','Y','N','N','N',3291.0000,221.0000,32.0000,0.0000,8);
+INSERT INTO Motors VALUES (25,'sample_z','z','dc','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,1000.0000,1000.0000,'Y','Y','N','N','N',3291.0000,221.0000,32.0000,NULL,8);
+INSERT INTO Motors VALUES (26,'sample_y','y','dc','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,1000.0000,1000.0000,'Y','Y','N','N','N',3291.0000,221.0000,32.0000,NULL,8);
+INSERT INTO Motors VALUES (27,'gonio_kappa','e','stepper','deg',0.0000,200.0000,400.0000,100.0000,0.0000,-21.0000,6.0000,'Y','Y','N','N','N',NULL,NULL,NULL,NULL,8);
+INSERT INTO Motors VALUES (28,'gonio_phi','f','stepper','deg',0.0000,2500.0000,3500.0000,150.0000,625.0000,-21.0000,6.0000,'Y','Y','N','Y','N',NULL,NULL,NULL,NULL,8);
+INSERT INTO Motors VALUES (29,'gonio_omega','g','stepper','deg',0.0000,2500.0000,3500.0000,150.0000,625.0000,-21.0000,6.0000,'Y','Y','N','Y','N',1.0000,1.0000,1.0000,1.0000,8);
+INSERT INTO Motors VALUES (30,'gonio_z','h','stepper','deg',0.0000,2500.0000,3500.0000,150.0000,625.0000,-21.0000,6.0000,'Y','Y','N','Y','N',1.0000,1.0000,1.0000,1.0000,8);
+INSERT INTO Motors VALUES (31,'detector_horz','e','stepper','mm',0.0000,1574.0000,4000.0000,1000.0000,1334.0000,-21.0000,6.0000,'N','N','Y','Y','N',0.0000,0.0000,0.0000,0.0000,22);
+INSERT INTO Motors VALUES (32,'detector_vert','f','stepper','mm',0.0000,1574.0000,4000.0000,1000.0000,1334.0000,-21.0000,6.0000,'N','N','Y','Y','N',0.0000,0.0000,0.0000,0.0000,22);
+INSERT INTO Motors VALUES (33,'detector_z','g','stepper','mm',0.0000,1574.0000,4000.0000,1000.0000,1334.0000,-21.0000,6.0000,'N','N','Y','Y','N',0.0000,0.0000,0.0000,0.0000,22);
+INSERT INTO Motors VALUES (34,'detector_r','h','stepper','mm',0.0000,1574.0000,4000.0000,1000.0000,1334.0000,-21.0000,6.0000,'N','N','Y','Y','N',0.0000,0.0000,0.0000,0.0000,999);
+INSERT INTO Motors VALUES (35,'slit_1_ssrl','D','stepper','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,1000.0000,1000.0000,'Y','Y','N','N','N',0.0000,0.0000,0.0000,0.0000,21);
+INSERT INTO Motors VALUES (36,'slit_1_spear','C','stepper','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,1000.0000,1000.0000,'Y','Y','N','N','N',0.0000,0.0000,0.0000,0.0000,21);
+INSERT INTO Motors VALUES (37,'slit_1_upper','A','stepper','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,1000.0000,1000.0000,'Y','Y','N','N','N',0.0000,0.0000,0.0000,0.0000,21);
+INSERT INTO Motors VALUES (38,'slit_1_lower','B','stepper','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,1000.0000,1000.0000,'Y','Y','N','N','N',0.0000,0.0000,0.0000,0.0000,21);
+INSERT INTO Motors VALUES (39,'slit_2_ssrl','H','stepper','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,1000.0000,1000.0000,'Y','Y','N','N','N',0.0000,0.0000,0.0000,0.0000,21);
+INSERT INTO Motors VALUES (40,'slit_2_spear','G','stepper','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,1000.0000,1000.0000,'Y','Y','N','N','N',0.0000,0.0000,0.0000,0.0000,21);
+INSERT INTO Motors VALUES (41,'slit_2_upper','E','stepper','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,1000.0000,1000.0000,'Y','Y','N','N','N',0.0000,0.0000,0.0000,0.0000,21);
+INSERT INTO Motors VALUES (42,'slit_2_lower','F','stepper','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,1000.0000,1000.0000,'Y','Y','N','N','N',0.0000,0.0000,0.0000,0.0000,21);
+INSERT INTO Motors VALUES (43,'camera_zoom','w','dc','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,0.0000,0.0000,'N','N','N','N','N',3291.0000,221.0000,32.0000,0.0000,8);
+INSERT INTO Motors VALUES (44,'guard_shield_vert','x','dc','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,1000.0000,1000.0000,'Y','Y','N','N','N',3291.0000,221.0000,32.0000,1000.0000,22);
+INSERT INTO Motors VALUES (45,'guard_shield_horiz','y','dc','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,1000.0000,1000.0000,'Y','Y','N','N','N',3291.0000,221.0000,32.0000,1000.0000,22);
+INSERT INTO Motors VALUES (46,'sample_x','x','dc','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,1000.0000,1000.0000,'Y','Y','N','N','N',3291.0000,221.0000,32.0000,NULL,12);
+INSERT INTO Motors VALUES (47,'sample_z','z','dc','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,1000.0000,1000.0000,'Y','Y','N','N','N',3291.0000,221.0000,32.0000,NULL,12);
+INSERT INTO Motors VALUES (48,'sample_y','y','dc','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,1000.0000,1000.0000,'Y','Y','N','N','N',3291.0000,221.0000,32.0000,NULL,12);
+INSERT INTO Motors VALUES (49,'gonio_kappa','e','stepper','deg',0.0000,200.0000,400.0000,100.0000,0.0000,-21.0000,6.0000,'Y','Y','N','N','N',NULL,NULL,NULL,NULL,12);
+INSERT INTO Motors VALUES (50,'gonio_phi','f','stepper','deg',0.0000,2500.0000,3500.0000,150.0000,625.0000,-21.0000,6.0000,'Y','Y','N','Y','N',NULL,NULL,NULL,NULL,12);
+INSERT INTO Motors VALUES (51,'gonio_omega','g','stepper','deg',0.0000,2500.0000,3500.0000,150.0000,625.0000,-21.0000,6.0000,'Y','Y','N','Y','N',NULL,NULL,NULL,NULL,12);
+INSERT INTO Motors VALUES (52,'gonio_z','h','stepper','deg',0.0000,2500.0000,3500.0000,150.0000,625.0000,-21.0000,6.0000,'Y','Y','N','Y','N',NULL,NULL,NULL,NULL,12);
+INSERT INTO Motors VALUES (53,'detector_horz','e','stepper','mm',0.0000,1574.0000,4000.0000,1000.0000,1334.0000,-21.0000,6.0000,'N','N','Y','Y','N',NULL,NULL,NULL,NULL,13);
+INSERT INTO Motors VALUES (54,'detector_vert','f','stepper','mm',0.0000,1574.0000,4000.0000,1000.0000,1334.0000,-21.0000,6.0000,'N','N','Y','Y','N',NULL,NULL,NULL,NULL,13);
+INSERT INTO Motors VALUES (55,'detector_z','g','stepper','mm',0.0000,1574.0000,4000.0000,1000.0000,1334.0000,-21.0000,6.0000,'N','N','Y','Y','N',NULL,NULL,NULL,NULL,13);
+INSERT INTO Motors VALUES (56,'energy','h','stepper','mm',0.0000,1574.0000,4000.0000,1000.0000,1334.0000,-21.0000,6.0000,'N','N','Y','Y','N',NULL,NULL,NULL,NULL,13);
+INSERT INTO Motors VALUES (57,'slit_1_ssrl','D','stepper','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,1000.0000,1000.0000,'Y','Y','N','N','N',0.0000,0.0000,0.0000,0.0000,23);
+INSERT INTO Motors VALUES (58,'slit_1_spear','C','stepper','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,1000.0000,1000.0000,'Y','Y','N','N','N',0.0000,0.0000,0.0000,0.0000,23);
+INSERT INTO Motors VALUES (59,'slit_1_upper','A','stepper','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,1000.0000,1000.0000,'Y','Y','N','N','N',0.0000,0.0000,0.0000,0.0000,23);
+INSERT INTO Motors VALUES (60,'slit_1_lower','B','stepper','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,1000.0000,1000.0000,'Y','Y','N','N','N',0.0000,0.0000,0.0000,0.0000,23);
+INSERT INTO Motors VALUES (61,'slit_2_ssrl','H','stepper','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,1000.0000,1000.0000,'Y','Y','N','N','N',0.0000,0.0000,0.0000,0.0000,23);
+INSERT INTO Motors VALUES (62,'slit_2_spear','G','stepper','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,1000.0000,1000.0000,'Y','Y','N','N','N',0.0000,0.0000,0.0000,0.0000,23);
+INSERT INTO Motors VALUES (63,'slit_2_upper','E','stepper','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,1000.0000,1000.0000,'Y','Y','N','N','N',0.0000,0.0000,0.0000,0.0000,23);
+INSERT INTO Motors VALUES (64,'slit_2_lower','F','stepper','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,1000.0000,1000.0000,'Y','Y','N','N','N',0.0000,0.0000,0.0000,0.0000,23);
+INSERT INTO Motors VALUES (65,'guard_shield_vert','x','dc','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,1000.0000,1000.0000,'Y','Y','N','N','N',3291.0000,221.0000,32.0000,1000.0000,13);
+INSERT INTO Motors VALUES (66,'guard_shield_horiz','y','dc','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,1000.0000,1000.0000,'Y','Y','N','N','N',3291.0000,221.0000,32.0000,1000.0000,13);
+INSERT INTO Motors VALUES (67,'camera_zoom','w','dc','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,0.0000,0.0000,'N','N','N','N','N',3291.0000,221.0000,32.0000,0.0000,4);
+INSERT INTO Motors VALUES (68,'camera_zoom','w','dc','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,0.0000,0.0000,'N','N','N','N','N',3291.0000,221.0000,32.0000,0.0000,12);
+INSERT INTO Motors VALUES (69,'sample_x','x','dc','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,1000.0000,1000.0000,'Y','Y','N','N','N',3291.0000,221.0000,32.0000,NULL,27);
+INSERT INTO Motors VALUES (70,'sample_y','y','dc','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,1000.0000,1000.0000,'Y','Y','N','N','N',3291.0000,221.0000,32.0000,NULL,27);
+INSERT INTO Motors VALUES (71,'sample_z','z','dc','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,1000.0000,1000.0000,'Y','Y','N','N','N',3291.0000,221.0000,32.0000,NULL,27);
+INSERT INTO Motors VALUES (72,'gonio_kappa','e','stepper','deg',0.0000,200.0000,400.0000,100.0000,0.0000,-21.0000,6.0000,'Y','Y','N','N','N',NULL,NULL,NULL,NULL,27);
+INSERT INTO Motors VALUES (73,'gonio_phi','f','stepper','deg',0.0000,2500.0000,3500.0000,150.0000,625.0000,-21.0000,6.0000,'Y','Y','N','Y','N',NULL,NULL,NULL,NULL,27);
+INSERT INTO Motors VALUES (74,'gonio_omega','g','stepper','deg',0.0000,2500.0000,3500.0000,150.0000,625.0000,-21.0000,6.0000,'Y','Y','N','Y','N',NULL,NULL,NULL,NULL,27);
+INSERT INTO Motors VALUES (75,'gonio_z','h','stepper','deg',0.0000,2500.0000,3500.0000,150.0000,625.0000,-21.0000,6.0000,'Y','Y','N','Y','N',NULL,NULL,NULL,NULL,27);
+INSERT INTO Motors VALUES (76,'guard_shield_vert','x','dc','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,1000.0000,1000.0000,'Y','Y','N','N','N',3291.0000,221.0000,32.0000,1000.0000,28);
+INSERT INTO Motors VALUES (77,'guard_shield_horiz','y','dc','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,1000.0000,1000.0000,'Y','Y','N','N','N',3291.0000,221.0000,32.0000,1000.0000,28);
+INSERT INTO Motors VALUES (78,'detector_horz','e','stepper','mm',0.0000,1574.0000,4000.0000,1000.0000,1334.0000,-21.0000,6.0000,'N','N','Y','Y','N',NULL,NULL,NULL,NULL,28);
+INSERT INTO Motors VALUES (79,'detector_vert','f','stepper','mm',0.0000,1574.0000,4000.0000,1000.0000,1334.0000,-21.0000,6.0000,'N','N','Y','Y','N',NULL,NULL,NULL,NULL,28);
+INSERT INTO Motors VALUES (80,'detector_z','g','stepper','mm',0.0000,1574.0000,4000.0000,1000.0000,1334.0000,-21.0000,6.0000,'N','N','Y','Y','N',NULL,NULL,NULL,NULL,28);
+INSERT INTO Motors VALUES (81,'detector_pitch','h','stepper','mm',0.0000,1574.0000,4000.0000,1000.0000,1334.0000,-21.0000,6.0000,'N','N','Y','Y','N',NULL,NULL,NULL,NULL,28);
+INSERT INTO Motors VALUES (82,'slit_1_upper','A','stepper','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,1000.0000,1000.0000,'Y','Y','N','N','N',0.0000,0.0000,0.0000,0.0000,29);
+INSERT INTO Motors VALUES (83,'slit_1_lower','B','stepper','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,1000.0000,1000.0000,'Y','Y','N','N','N',0.0000,0.0000,0.0000,0.0000,29);
+INSERT INTO Motors VALUES (84,'slit_1_spear','C','stepper','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,1000.0000,1000.0000,'Y','Y','N','N','N',0.0000,0.0000,0.0000,0.0000,29);
+INSERT INTO Motors VALUES (85,'slit_1_ssrl','D','stepper','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,1000.0000,1000.0000,'Y','Y','N','N','N',0.0000,0.0000,0.0000,0.0000,29);
+INSERT INTO Motors VALUES (86,'slit_2_upper','E','stepper','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,1000.0000,1000.0000,'Y','Y','N','N','N',0.0000,0.0000,0.0000,0.0000,29);
+INSERT INTO Motors VALUES (87,'slit_2_lower','F','stepper','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,1000.0000,1000.0000,'Y','Y','N','N','N',0.0000,0.0000,0.0000,0.0000,29);
+INSERT INTO Motors VALUES (88,'slit_2_spear','G','stepper','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,1000.0000,1000.0000,'Y','Y','N','N','N',0.0000,0.0000,0.0000,0.0000,29);
+INSERT INTO Motors VALUES (89,'slit_2_ssrl','H','stepper','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,1000.0000,1000.0000,'Y','Y','N','N','N',0.0000,0.0000,0.0000,0.0000,29);
+INSERT INTO Motors VALUES (90,'camera_zoom','w','dc','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,0.0000,0.0000,'N','N','N','N','N',3291.0000,221.0000,32.0000,0.0000,27);
+INSERT INTO Motors VALUES (91,'mono_pitch_coarse','w','dc','mm',0.0000,1.0000,10000.0000,10000.0000,0.0000,1000.0000,1000.0000,'Y','Y','N','N','N',3291.0000,221.0000,32.0000,1000.0000,28);
+INSERT INTO Motors VALUES (92,'toroid_vert_1','A','stepper','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,1000.0000,1000.0000,'Y','Y','N','N','N',0.0000,0.0000,0.0000,0.0000,38);
+INSERT INTO Motors VALUES (93,'toroid_vert_2','B','stepper','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,1000.0000,1000.0000,'Y','Y','N','N','N',0.0000,0.0000,0.0000,0.0000,38);
+INSERT INTO Motors VALUES (94,'toroid_horz_1','C','stepper','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,1000.0000,1000.0000,'Y','Y','N','N','N',0.0000,0.0000,0.0000,0.0000,38);
+INSERT INTO Motors VALUES (95,'toroid_horz_2','D','stepper','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,1000.0000,1000.0000,'Y','Y','N','N','N',0.0000,0.0000,0.0000,0.0000,38);
+INSERT INTO Motors VALUES (96,'toroid_bend','E','stepper','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,1000.0000,1000.0000,'Y','Y','N','N','N',0.0000,0.0000,0.0000,0.0000,38);
+INSERT INTO Motors VALUES (97,'mono_theta','H','stepper','mm',0.0000,17500.0000,1756.0000,100.0000,0.0000,1000.0000,1000.0000,'Y','Y','N','N','N',0.0000,0.0000,0.0000,0.0000,38);
+
+--
+-- Table structure for table 'NetworkHost'
+--
+
+CREATE TABLE NetworkHost (
+  id int(11) NOT NULL auto_increment,
+  hostName varchar(30) default NULL,
+  IP varchar(30) default NULL,
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+--
+-- Dumping data for table 'NetworkHost'
+--
+
+
+INSERT INTO NetworkHost VALUES (1,'ASYNC92','134.79.31.17');
+
+--
+-- Table structure for table 'Quantum315'
+--
+
+CREATE TABLE Quantum315 (
+  id int(11) NOT NULL auto_increment,
+  ControllerID int(11) default NULL,
+  serialNumber varchar(30) default NULL,
+  commandHost varchar(30) default NULL,
+  commandPort int(11) default NULL,
+  dataHost0 varchar(30) default NULL,
+  dataHost1 varchar(30) default NULL,
+  dataHost2 varchar(30) default NULL,
+  dataHost3 varchar(30) default NULL,
+  dataHost4 varchar(30) default NULL,
+  dataHost5 varchar(30) default NULL,
+  dataHost6 varchar(30) default NULL,
+  dataHost7 varchar(30) default NULL,
+  dataHost8 varchar(30) default NULL,
+  dataPort0 int(11) default NULL,
+  dataPort1 int(11) default NULL,
+  dataPort2 int(11) default NULL,
+  dataPort3 int(11) default NULL,
+  dataPort4 int(11) default NULL,
+  dataPort5 int(11) default NULL,
+  dataPort6 int(11) default NULL,
+  dataPort7 int(11) default NULL,
+  dataPort8 int(11) default NULL,
+  BeamCenterX double(16,4) default NULL,
+  BeamCenterY double(16,4) default NULL,
+  darkRefreshTime int(11) default NULL,
+  darkExposureTolerance float(10,2) default NULL,
+  writeRawImages char(1) default NULL,
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+--
+-- Dumping data for table 'Quantum315'
+--
+
+
+INSERT INTO Quantum315 VALUES (1,17,'902','blctl111',8041,'q315-902-01','q315-902-02','q315-902-03','q315-902-04','q315-902-05','q315-902-06','q315-902-07','q315-902-08','q315-902-09',9042,9042,9042,9042,9042,9042,9042,9042,9042,157.5000,157.5000,7200,0.10,'N');
+INSERT INTO Quantum315 VALUES (2,36,'901','blctl92',8041,'q315-901-01','q315-901-02','q315-901-03','q315-901-04','q315-901-05','q315-901-06','q315-901-07','q315-901-08','q315-901-09',9042,9042,9042,9042,9042,9042,9042,9042,9042,157.5000,157.5000,7200,0.10,'N');
+
+--
+-- Table structure for table 'SerialDevice'
+--
+
+CREATE TABLE SerialDevice (
+  id int(11) NOT NULL auto_increment,
+  name varchar(30) default NULL,
+  port int(11) default NULL,
+  baudRate int(11) default NULL,
+  parity char(1) default NULL,
+  Bits int(11) default NULL,
+  stopBits int(11) default NULL,
+  handShake varchar(10) default NULL,
+  controllerID int(11) default NULL,
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+--
+-- Dumping data for table 'SerialDevice'
+--
+
+
+INSERT INTO SerialDevice VALUES (1,'mono_encoder',1,9600,'E',7,2,'none',3);
+
+--
+-- Table structure for table 'Shutters'
+--
+
+CREATE TABLE Shutters (
+  id int(11) NOT NULL auto_increment,
+  name varchar(30) default NULL,
+  channel int(11) default NULL,
+  low_voltage_is varchar(10) default NULL,
+  shutdown_state varchar(10) default NULL,
+  ControllerID int(11) default NULL,
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+--
+-- Dumping data for table 'Shutters'
+--
+
+
+INSERT INTO Shutters VALUES (1,'shutter',1,'closed','closed',4);
+INSERT INTO Shutters VALUES (2,'Al_8',4,'closed','open',6);
+INSERT INTO Shutters VALUES (3,'Al_16',5,'closed','open',6);
+INSERT INTO Shutters VALUES (4,'Al_32',6,'closed','open',6);
+INSERT INTO Shutters VALUES (5,'spareFilter1',8,'closed','closed',6);
+INSERT INTO Shutters VALUES (6,'Al_2',2,'closed','open',6);
+INSERT INTO Shutters VALUES (7,'Se',7,'closed','open',6);
+INSERT INTO Shutters VALUES (8,'Al_4',3,'closed','open',6);
+INSERT INTO Shutters VALUES (9,'Al_1',1,'closed','open',6);
+INSERT INTO Shutters VALUES (10,'shutter',1,'closed','closed',8);
+INSERT INTO Shutters VALUES (11,'shutter',1,'closed','closed',12);
+INSERT INTO Shutters VALUES (12,'Al_8',4,'closed','open',22);
+INSERT INTO Shutters VALUES (13,'Al_16',5,'closed','open',22);
+INSERT INTO Shutters VALUES (14,'Al_32',6,'closed','open',22);
+INSERT INTO Shutters VALUES (15,'Al_0.5',8,'closed','open',22);
+INSERT INTO Shutters VALUES (16,'Se',7,'closed','open',22);
+INSERT INTO Shutters VALUES (17,'Al_1',1,'closed','open',22);
+INSERT INTO Shutters VALUES (18,'Al_2',2,'closed','open',22);
+INSERT INTO Shutters VALUES (19,'Al_4',3,'closed','open',22);
+INSERT INTO Shutters VALUES (20,'Al_2',2,'closed','open',13);
+INSERT INTO Shutters VALUES (21,'Al_4',3,'closed','open',13);
+INSERT INTO Shutters VALUES (22,'Al_8',4,'closed','open',13);
+INSERT INTO Shutters VALUES (23,'Al_16',5,'closed','open',13);
+INSERT INTO Shutters VALUES (24,'Al_32',6,'closed','open',13);
+INSERT INTO Shutters VALUES (25,'spareFilter1',8,'closed','open',13);
+INSERT INTO Shutters VALUES (26,'Se',7,'closed','open',13);
+INSERT INTO Shutters VALUES (27,'Al_1',1,'closed','open',13);
+INSERT INTO Shutters VALUES (28,'shutter',1,'closed','closed',27);
+INSERT INTO Shutters VALUES (29,'Al_0.5',8,'closed','open',28);
+INSERT INTO Shutters VALUES (30,'Al_1',1,'closed','open',28);
+INSERT INTO Shutters VALUES (31,'Al_2',2,'closed','open',28);
+INSERT INTO Shutters VALUES (32,'Al_4',3,'closed','open',28);
+INSERT INTO Shutters VALUES (33,'Al_8',4,'closed','open',28);
+INSERT INTO Shutters VALUES (34,'Al_16',5,'closed','open',28);
+INSERT INTO Shutters VALUES (35,'Al_32',6,'closed','open',28);
+INSERT INTO Shutters VALUES (36,'Se',7,'closed','open',28);
+
+--
+-- Table structure for table 'Users'
+--
+
+CREATE TABLE Users (
+  id int(11) NOT NULL auto_increment,
+  unix_name varchar(30) default NULL,
+  priv mediumint(9) default NULL,
+  real_name varchar(30) default NULL,
+  office_phone varchar(30) default NULL,
+  job_title varchar(30) default NULL,
+  beamline varchar(30) NOT NULL default '',
+  staff char(1) NOT NULL default 'Y',
+  remoteAccess char(1) NOT NULL default 'N',
+  enabled char(1) NOT NULL default 'Y',
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+--
+-- Dumping data for table 'Users'
+--
+
+
+INSERT INTO Users VALUES (35,'ana',4,'Ana Gonzalez','8682','User Support','ALL','y','y','Y');
+INSERT INTO Users VALUES (44,'dharring',4,'Daniel Harrington','650-714-9407','User Support','ALL','Y','Y','Y');
+INSERT INTO Users VALUES (2,'tim',4,'Tim McPhillips','9-704-2837','Software Development','ALL','Y','Y','Y');
+INSERT INTO Users VALUES (55,'gwolf',4,'Guenter Wolf','','','ALL','Y','Y','Y');
+INSERT INTO Users VALUES (42,'jcsg',3,'JCSG Group','','User','ALL','N','N','Y');
+INSERT INTO Users VALUES (7,'ash',4,'Ashley Deacon','9-704-2838','Staff','ALL','Y','Y','Y');
+INSERT INTO Users VALUES (58,'jeanette',4,'jeanette','','Staff','ALL','Y','N','Y');
+INSERT INTO Users VALUES (9,'vinetsky',4,'Vladimir_Vinetsky','','User Support','ALL','Y','N','Y');
+INSERT INTO Users VALUES (11,'hollenbk',4,'Mike Hollenbeck','','User Support','ALL','Y','N','Y');
+INSERT INTO Users VALUES (62,'eriksson',3,'Thomas Eriksson','4530 or 714-6004','System Administration','ALL','Y','N','Y');
+INSERT INTO Users VALUES (54,'blctl',4,'Beam Line Control','','','ALL','N','Y','Y');
+INSERT INTO Users VALUES (46,'iimathew',4,'Irimpan Mathews','5105','User Support','ALL','Y','Y','Y');
+INSERT INTO Users VALUES (52,'mmiller',4,'Mitch Miller','x5036 / 714-9413','Staff','ALL','Y','Y','Y');
+INSERT INTO Users VALUES (56,'vdbedem',4,'Henry van den Bedem','','','ALL','Y','Y','Y');
+INSERT INTO Users VALUES (64,'lanyi',3,'Lanyi group','5291','User','bl9-1','N','N','Y');
+INSERT INTO Users VALUES (25,'soltis',4,'Mike Soltis','9-704-2834','User Support','ALL','Y','Y','Y');
+INSERT INTO Users VALUES (26,'ellis',4,'Paul Ellis','9-704-2836','User Support','ALL','Y','Y','Y');
+INSERT INTO Users VALUES (27,'cohen',4,'Aina Cohen','9-704-2835','User Support','ALL','Y','Y','Y');
+INSERT INTO Users VALUES (63,'brinen',4,'Linda Brinen','8674','Staff','ALL','Y','N','Y');
+INSERT INTO Users VALUES (61,'hodgson',0,'Keith Hodgson','','Director','ALL','Y','N','Y');
+INSERT INTO Users VALUES (59,'garcia',3,'Garcia group','5292','user','bl9-2','n','N','Y');
+INSERT INTO Users VALUES (57,'ksharp',4,'Kenneth Sharp','','','ALL','Y','N','Y');
+INSERT INTO Users VALUES (75,'mooers',3,'Mooers group','5215','user','bl1-5','N','N','Y');
+INSERT INTO Users VALUES (1,'scottm',4,'Scott McPhillips','9-714-9411','S/W Developer','ALL','y','Y','Y');
+INSERT INTO Users VALUES (76,'gchang',3,'Chang group','5215','user','bl11-1','N','N','Y');
+INSERT INTO Users VALUES (71,'amprado',1,'Amanda Prado','9263291','','ALL','Y','N','Y');
+INSERT INTO Users VALUES (77,'tsyba',4,'Irina Tsyba','2199','User Support','ALL','Y','Y','Y');
+INSERT INTO Users VALUES (78,'penjitk',4,'Penjit Kanjanarat',NULL,'Software Developer','ALL','Y','Y','Y');
+
+--
+-- Table structure for table 'dmc21x0'
+--
+
+CREATE TABLE dmc21x0 (
+  id int(11) NOT NULL auto_increment,
+  hostname varchar(30) default NULL,
+  scriptID int(11) default NULL,
+  ControllerID int(11) default NULL,
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+--
+-- Dumping data for table 'dmc21x0'
+--
+
+
+INSERT INTO dmc21x0 VALUES (1,'BL11GA2',5,4);
+INSERT INTO dmc21x0 VALUES (2,'BL11GA1',4,5);
+INSERT INTO dmc21x0 VALUES (3,'BL11GA3',4,6);
+INSERT INTO dmc21x0 VALUES (4,'134.79.43.34',5,8);
+INSERT INTO dmc21x0 VALUES (5,'134.79.43.35',4,22);
+INSERT INTO dmc21x0 VALUES (6,'134.79.43.36',4,21);
+INSERT INTO dmc21x0 VALUES (7,'134.79.43.54',5,12);
+INSERT INTO dmc21x0 VALUES (8,'134.79.43.55',4,13);
+INSERT INTO dmc21x0 VALUES (9,'134.79.43.56',4,23);
+INSERT INTO dmc21x0 VALUES (10,'bl15ga1',5,27);
+INSERT INTO dmc21x0 VALUES (11,'bl15ga2',4,28);
+INSERT INTO dmc21x0 VALUES (12,'bl15ga3',4,29);
+INSERT INTO dmc21x0 VALUES (13,'bl15ga4',4,38);
+
+--
+-- Table structure for table 'galil_scripts'
+--
+
+CREATE TABLE galil_scripts (
+  id int(11) NOT NULL auto_increment,
+  script blob,
+  comment varchar(255) default NULL,
+  modification_date timestamp(12) NOT NULL,
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+--
+-- Dumping data for table 'galil_scripts'
+--
+
+
+INSERT INTO galil_scripts VALUES (1,'//\n//Galil Script for DMC2180\n//\n// WATCHDOG ROUTINE \n#W_Dog\nKick=0\nLastKic=0\n#WDog_ok\n//MG{EF} \"WATCHDOG ok\"\nAT 0\nAT 5000\nJP #WDogBad,Kick=LastKic\nLastKic=Kick\nTimeOut=0\nJP #WDog_ok\n#WDogBad\nST ABCDEFGH\nST S\nTimeOut=1\n//DON\'T Send an unsolicited message to DHS\n//MG{EF} \"dtoh_watchdog_timeout\"\nJP #WDog_ok\n//\n//\n//This routine closes all sockets after waiting for 1 second.\n//The 1 second wait is useful to allow the client to disconnect cleanly.	\n//	 \n#ShutAll\nAT 0\nAT 1000\nIHA=>-2\nIHB=>-2\nIHC=>-2\nIHD=>-2\nIHE=>-2\nIHF=>-2\nEN\n//end of the routine\n//\n//\n//\n//OSCILLATION CODE\n#ShutREV\nJP #NoShutr,Shutter=0\n#Loop2A\nJP #LoopEnd,StopOsc>0\nJS #RP_axis//Get position			  \nJP #Loop2A,Pos>OscStart-1\nJS #OpenSh\n#Loop3A\nJP #LoopEnd,StopOsc>0\nJS #RP_axis//Get position\nJP #Loop3A,Pos>OscEnd\nJP #Finish\n//			\n//Shutter handling for non-reversed motor\n#ShutFWD\nJP #NoShutr,Shutter=0\n#Loop2B\nJP #LoopEnd,StopOsc>0\nJS #RP_axis// Get position\nJP #Loop2B,Pos<OscStart+1\nJS #OpenSh\n#Loop3B\nJP #LoopEnd,StopOsc>0\nJS #RP_axis//Get position\nJP #Loop3B,Pos<OscEnd\n//			\n#Finish\nJS #CloseSh\nEN\n//			\n#LoopEnd\nAT 0\nAT 1000\nJP #Finish\n//			\n#OpenSh\nSB FrontFil\nMG{EF} \"dtoh_shutter_open\",FrontFil\nEN\n//			\n#CloseSh\nCB FrontFil\nMG{EF} \"dtoh_shutter_closed\",FrontFil\n#NoShutr\nEN\n//\n#RP_axis\nJP #POS_X,Axis=0\nJP #POS_Y,Axis=1\nJP #POS_Z,Axis=2\nJP #POS_W,Axis=3\nJP #POS_E,Axis=4\nJP #POS_F,Axis=5\nJP #POS_G,Axis=6\nJP #POS_H,Axis=7\nMG{EF} \"dtoh_axis_not_in_range\" // Tell calling program that Axis not in range [0..7]*/\nEN\n//\n#POS_X\nPos=_RPX\nEN\n#POS_Y\nPos=_RPY\nEN\n#POS_Z\nPos=_RPZ\nEN\n#POS_W\nPos=_RPW\nEN\n#POS_E\nPos=_RPE\nEN\n#POS_F\nPos=_RPF\nEN\n#POS_G\nPos=_RPG\nEN\n#POS_H\nPos=_RPH\nEN\n#LVDT\nA0=0\nA1=0\nA2=0\nA3=0\nA5=0\nA6=0\nA7=0\nCNT=5\n#anaLoop\nAT 0\nAT 500\nA0=A0+@AN[0]\nA1=A1+@AN[1]\nA2=A2+@AN[2]\nA3=A3+@AN[3]\nA4=A4+@AN[4]\nA5=A5+@AN[5]\nA6=A6+@AN[6]\nA7=A7+@AN[7]\nCNT=CNT-1\nJP #anaLoop,CNT>0\nA0=A0/5\nA1=A1/5\nA2=A2/5\nA3=A3/5\nA4=A4/5\nA5=A5/5\nA6=A6/5\nA7=A7/5\nMG{EF} \"dtoh_analog_values\",A0,A1,A2,A3,A4,A5,A6,A7\nJP #LVDT','first script','000000000000');
+INSERT INTO galil_scripts VALUES (2,'////Galil Script for DMC2180//// WATCHDOG ROUTINE #W_DogKick=0LastKic=0#WDog_ok//MG{EF} \"WATCHDOG ok\"AT 0AT 5000JP #WDogBad,Kick=LastKicLastKic=KickTimeOut=0JP #WDog_ok#WDogBadST ABCDEFGHST STimeOut=1//DON\'T Send an unsolicited message to DHS//MG{EF} \"dtoh_watchdog_timeout\"JP #WDog_ok//////This routine closes all sockets after waiting for 1 second.//The 1 second wait is useful to allow the client to disconnect cleanly.	//#ShutAllAT 0AT 1000IHA=>-2IHB=>-2IHC=>-2IHD=>-2IHE=>-2IHF=>-2EN//end of the routine////////OSCILLATION CODE#ShutREVJP #NoShutr,Shutter=0VS_adj=V_ion/V_stan#Loop2AJP #LoopEnd,StopOsc>0JS #RP_axis//Get positionJP #Loop2A,Pos>OscStart-1JS #OpenSh#Loop3AJP #LoopEnd,StopOsc>0JS #VS_ADJ//Adjust velocityJS #RP_axis//Get positionJP #Loop3A,Pos>OscEndJP #Finish////Shutter handling for non-reversed motor#ShutFWDVS_adj=V_ion/V_stanJP #NoShutr,Shutter=0#Loop2BJP #LoopEnd,StopOsc>0JS #RP_axis// Get positionJP #Loop2B,Pos<OscStart+1JS #OpenSh#Loop3BJP #LoopEnd,StopOsc>0JS #VS_ADJ//Adjust velocityJS #RP_axis//Get positionJP #Loop3B,Pos<OscEnd//			#FinishJS #CloseShEN//			#LoopEndAT 0AT 1000JP #Finish//			#OpenShSB FrontFilMG{EF} \"dtoh_shutter_open\",FrontFilEN//			#CloseShCB FrontFilMG{EF} \"dtoh_shutter_closed\",FrontFil#NoShutrEN//#RP_axisJP #POS_X,Axis=0JP #POS_Y,Axis=1JP #POS_Z,Axis=2JP #POS_W,Axis=3JP #POS_E,Axis=4JP #POS_F,Axis=5JP #POS_G,Axis=6JP #POS_H,Axis=7MG{EF} \"dtoh_axis_not_in_range\" // Tell calling program that Axis not in range [0..7]*/EN//#POS_XPos=_RPXEN#POS_YPos=_RPYEN#POS_ZPos=_RPZEN#POS_WPos=_RPWEN#POS_EPos=_RPEEN#POS_FPos=_RPFEN#POS_GPos=_RPGEN#POS_HPos=_RPHEN////*********************************//READ ION CHAMBER and pass through//1hz Butterworth filter//RUNS IN INDEPENDENT THREAD//*********************************#IONV_ion=@AN[4]DM XV[3]//define dimension arrayDM YV[3]GAIN=2.55535XV[1]=0XV[2]=0Vstan=3.0//#filterAT 0AT 100XV[0]=XV[1]XV[1]=XV[2]input=@AN[4]*1000XV[2]=input/GAINYV[0]=YV[1]YV[1]=YV[2]YV[2]=XV[0]+XV[2]YV[2]=YV[2]+(2*XV[1])YV[2]=YV[2]-(.195815*YV[0])YV[2]=YV[2]-(.369527*YV[1])V_ion=YV[2]MG{EF} \"dtoh_ion_chamber\",V_ion,inputJP #filter//////****************************//DOSE MODE//ADJUST OSCILLATION VECTOR SPEED//****************************#VS_ADJVS_adj=V_ion/V_stanVS VS_req*V_adj//Set the new oscillation vector speedEN','DIGITAL FILTER TEST','000000000000');
+INSERT INTO galil_scripts VALUES (3,'//\n//Galil Script for DMC2180 without watchdog for testing purposes\n//\n// WATCHDOG ROUTINE \n#W_Dog\n#WDog_ok\nAT 0\nAT 5000\nJP #WDog_ok\n//\n//\n//This routine closes all sockets after waiting for 1 second.\n//The 1 second wait is useful to allow the client to disconnect cleanly.	\n//	 \n#ShutAll\nAT 0\nAT 1000\nIHA=>-2\nIHB=>-2\nIHC=>-2\nIHD=>-2\nIHE=>-2\nIHF=>-2\nEN\n//end of the routine\n//\n//\n//\n//OSCILLATION CODE\n#ShutREV\nJP #NoShutr,Shutter=0\n#Loop2A\nJP #LoopEnd,StopOsc>0\nJS #RP_axis//Get position			  \nJP #Loop2A,Pos>OscStart-1\nJS #OpenSh\n#Loop3A\nJP #LoopEnd,StopOsc>0\nJS #RP_axis//Get position\nJP #Loop3A,Pos>OscEnd\nJP #Finish\n//			\n//Shutter handling for non-reversed motor\n#ShutFWD\nJP #NoShutr,Shutter=0\n#Loop2B\nJP #LoopEnd,StopOsc>0\nJS #RP_axis// Get position\nJP #Loop2B,Pos<OscStart+1\nJS #OpenSh\n#Loop3B\nJP #LoopEnd,StopOsc>0\nJS #RP_axis//Get position\nJP #Loop3B,Pos<OscEnd\n//			\n#Finish\nJS #CloseSh\nEN\n//			\n#LoopEnd\nAT 0\nAT 1000\nJP #Finish\n//			\n#OpenSh\nSB FrontFil\nMG{EF} \"dtoh_shutter_open\",FrontFil\nEN\n//			\n#CloseSh\nCB FrontFil\nMG{EF} \"dtoh_shutter_closed\",FrontFil\n#NoShutr\nEN\n//\n#RP_axis\nJP #POS_X,Axis=0\nJP #POS_Y,Axis=1\nJP #POS_Z,Axis=2\nJP #POS_W,Axis=3\nJP #POS_E,Axis=4\nJP #POS_F,Axis=5\nJP #POS_G,Axis=6\nJP #POS_H,Axis=7\nMG{EF} \"dtoh_axis_not_in_range\" // Tell calling program that Axis not in range [0..7]*/\nEN\n//\n#POS_X\nPos=_RPX\nEN\n#POS_Y\nPos=_RPY\nEN\n#POS_Z\nPos=_RPZ\nEN\n#POS_W\nPos=_RPW\nEN\n#POS_E\nPos=_RPE\nEN\n#POS_F\nPos=_RPF\nEN\n#POS_G\nPos=_RPG\nEN\n#POS_H\nPos=_RPH\nEN\n#LVDT\nA0=0\nA1=0\nA2=0\nA3=0\nA5=0\nA6=0\nA7=0\nCNT=5\n#anaLoop\nAT 0\nAT 500\nA0=A0+@AN[0]\nA1=A1+@AN[1]\nA2=A2+@AN[2]\nA3=A3+@AN[3]\nA4=A4+@AN[4]\nA5=A5+@AN[5]\nA6=A6+@AN[6]\nA7=A7+@AN[7]\nCNT=CNT-1\nJP #anaLoop,CNT>0\nA0=A0/5\nA1=A1/5\nA2=A2/5\nA3=A3/5\nA4=A4/5\nA5=A5/5\nA6=A6/5\nA7=A7/5\nMG{EF} \"dtoh_analog_values\",A0,A1,A2,A3,A4,A5,A6,A7\nJP #LVDT','NO WATCHDOG!','000000000000');
+INSERT INTO galil_scripts VALUES (4,'//\n//Galil Script for DMC2180\n//\n// WATCHDOG ROUTINE\n#W_Dog\nCW ,1\nKick=0\nLastKic=0\n#WDog_ok\n//MG{EF} \"WATCHDOG ok\"\nAT 0\nAT 5000\nJP #WDogBad,Kick=LastKic\nLastKic=Kick\nTimeOut=0\nJP #WDog_ok\n#WDogBad\nST ABCDEFGH\nST S\nTimeOut=1\n//DON\'T Send an unsolicited message to DHS\n//MG{EF} \"dtoh_watchdog_timeout\"\nJP #WDog_ok\n//\n//\n//This routine closes all sockets after waiting for 1 second.\n//The 1 second wait is useful to allow the client to disconnect cleanly.	\n//	 \n#ShutAll\nAT 0\nAT 1000\nIHA=>-2\nIHB=>-2\nIHC=>-2\nIHD=>-2\nIHE=>-2\nIHF=>-2\nEN\n//end of the routine\n//\n//\n//\n//OSCILLATION CODE\n#ShutREV\nJP #NoShutr,Shutter=0\n#Loop2A\nJP #LoopEnd,StopOsc>0\nJS #RP_axis//Get position			  \nJP #Loop2A,Pos>OscStart-1\nJS #OpenSh\n#Loop3A\nJP #LoopEnd,StopOsc>0\nJS #RP_axis//Get position\nJP #Loop3A,Pos>OscEnd\nJP #Finish\n//			\n//Shutter handling for non-reversed motor\n#ShutFWD\nJP #NoShutr,Shutter=0\n#Loop2B\nJP #LoopEnd,StopOsc>0\nJS #RP_axis// Get position\nJP #Loop2B,Pos<OscStart+1\nJS #OpenSh\n#Loop3B\nJP #LoopEnd,StopOsc>0\nJS #RP_axis//Get position\nJP #Loop3B,Pos<OscEnd\n//			\n#Finish\nJS #CloseSh\nEN\n//			\n#LoopEnd\nAT 0\nAT 1000\nJP #Finish\n//			\n#OpenSh\nSB FrontFil\nMG{EF} \"dtoh_shutter_open\",FrontFil\nEN\n//			\n#CloseSh\nCB FrontFil\nMG{EF} \"dtoh_shutter_closed\",FrontFil\n#NoShutr\nEN\n//\n#RP_axis\nJP #POS_X,Axis=0\nJP #POS_Y,Axis=1\nJP #POS_Z,Axis=2\nJP #POS_W,Axis=3\nJP #POS_E,Axis=4\nJP #POS_F,Axis=5\nJP #POS_G,Axis=6\nJP #POS_H,Axis=7\nMG{EF} \"dtoh_axis_not_in_range\" // Tell calling program that Axis not in range [0..7]*/\nEN\n//\n#POS_X\nPos=_RPX\nEN\n#POS_Y\nPos=_RPY\nEN\n#POS_Z\nPos=_RPZ\nEN\n#POS_W\nPos=_RPW\nEN\n#POS_E\nPos=_RPE\nEN\n#POS_F\nPos=_RPF\nEN\n#POS_G\nPos=_RPG\nEN\n#POS_H\nPos=_RPH\nEN\n#LVDT\nA0=0\nA1=0\nA2=0\nA3=0\nA5=0\nA6=0\nA7=0\nCNT=5\n#anaLoop\nAT 0\nAT 500\nA0=A0+@AN[0]\nA1=A1+@AN[1]\nA2=A2+@AN[2]\nA3=A3+@AN[3]\nA4=A4+@AN[4]\nA5=A5+@AN[5]\nA6=A6+@AN[6]\nA7=A7+@AN[7]\nCNT=CNT-1\nJP #anaLoop,CNT>0\nA0=A0/5\nA1=A1/5\nA2=A2/5\nA3=A3/5\nA4=A4/5\nA5=A5/5\nA6=A6/5\nA7=A7/5\nMG{EF} \"dtoh_analog_values\",A0,A1,A2,A3,A4,A5,A6,A7\nJP #LVDT','uses CW,1 commmand','001103132420');
+INSERT INTO galil_scripts VALUES (5,'//\n//Galil Script for DMC2180\n//\n// WATCHDOG ROUTINE\n#W_Dog\nCW ,1\nKick=0\nLastKic=0\n#WDog_ok\n//MG{EF} \"WATCHDOG ok\"\nAT 0\nAT 5000\nJP #WDogBad,Kick=LastKic\nLastKic=Kick\nTimeOut=0\nJP #WDog_ok\n#WDogBad\nST ABCDEFGH\nST S\n#close shutter\nCB 1\nTimeOut=1\n//DON\'T Send an unsolicited message to DHS\n//MG{EF} \"dtoh_watchdog_timeout\"\nJP #WDog_ok\n//\n//\n//This routine closes all sockets after waiting for 1 second.\n//The 1 second wait is useful to allow the client to disconnect cleanly.	\n//	 \n#ShutAll\nAT 0\nAT 1000\nIHA=>-2\nIHB=>-2\nIHC=>-2\nIHD=>-2\nIHE=>-2\nIHF=>-2\nEN\n//end of the routine\n//\n//\n//\n//OSCILLATION CODE\n#ShutREV\nJP #NoShutr,Shutter=0\n#Loop2A\nJP #LoopEnd,StopOsc>0\nJS #RP_axis//Get position			  \nJP #Loop2A,Pos>OscStart-1\nJS #OpenSh\n#Loop3A\nJP #LoopEnd,StopOsc>0\nJS #RP_axis//Get position\nJP #Loop3A,Pos>OscEnd\nJP #Finish\n//			\n//Shutter handling for non-reversed motor\n#ShutFWD\nJP #NoShutr,Shutter=0\n#Loop2B\nJP #LoopEnd,StopOsc>0\nJS #RP_axis// Get position\nJP #Loop2B,Pos<OscStart+1\nJS #OpenSh\n#Loop3B\nJP #LoopEnd,StopOsc>0\nJS #RP_axis//Get position\nJP #Loop3B,Pos<OscEnd\n//			\n#Finish\nJS #CloseSh\nEN\n//			\n#LoopEnd\nAT 0\nAT 1000\nJP #Finish\n//			\n#OpenSh\nSB FrontFil\nMG{EF} \"dtoh_shutter_open\",FrontFil\nEN\n//			\n#CloseSh\nCB FrontFil\nMG{EF} \"dtoh_shutter_closed\",FrontFil\n#NoShutr\nEN\n//\n#RP_axis\nJP #POS_X,Axis=0\nJP #POS_Y,Axis=1\nJP #POS_Z,Axis=2\nJP #POS_W,Axis=3\nJP #POS_E,Axis=4\nJP #POS_F,Axis=5\nJP #POS_G,Axis=6\nJP #POS_H,Axis=7\nMG{EF} \"dtoh_axis_not_in_range\" // Tell calling program that Axis not in range [0..7]*/\nEN\n//\n#POS_X\nPos=_RPX\nEN\n#POS_Y\nPos=_RPY\nEN\n#POS_Z\nPos=_RPZ\nEN\n#POS_W\nPos=_RPW\nEN\n#POS_E\nPos=_RPE\nEN\n#POS_F\nPos=_RPF\nEN\n#POS_G\nPos=_RPG\nEN\n#POS_H\nPos=_RPH\nEN\n#LVDT\nA0=0\nA1=0\nA2=0\nA3=0\nA5=0\nA6=0\nA7=0\nCNT=5\n#anaLoop\nAT 0\nAT 500\nA0=A0+@AN[0]\nA1=A1+@AN[1]\nA2=A2+@AN[2]\nA3=A3+@AN[3]\nA4=A4+@AN[4]\nA5=A5+@AN[5]\nA6=A6+@AN[6]\nA7=A7+@AN[7]\nCNT=CNT-1\nJP #anaLoop,CNT>0\nA0=A0/5\nA1=A1/5\nA2=A2/5\nA3=A3/5\nA4=A4/5\nA5=A5/5\nA6=A6/5\nA7=A7/5\nMG{EF} \"dtoh_analog_values\",A0,A1,A2,A3,A4,A5,A6,A7\nJP #LVDT','close shutter on bad watchdog & cw,1','000000000000');
+
+--
+-- Table structure for table 'hutchDoorBit'
+--
+
+CREATE TABLE hutchDoorBit (
+  controllerID int(11) NOT NULL default '0',
+  channel int(11) NOT NULL default '0',
+  PRIMARY KEY  (controllerID)
+) TYPE=MyISAM;
+
+--
+-- Dumping data for table 'hutchDoorBit'
+--
+
+
+INSERT INTO hutchDoorBit VALUES (4,3);
+INSERT INTO hutchDoorBit VALUES (8,3);
+INSERT INTO hutchDoorBit VALUES (12,3);
+

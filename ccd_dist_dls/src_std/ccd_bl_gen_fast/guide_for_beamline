@@ -1,0 +1,505 @@
+
+
+	Further notes on "beam line" implimentation for the
+	===================================================
+
+			ADSC detector.
+			==============
+
+Preliminaries:
+==============
+
+
+	For the record, the "prototype" files are in
+
+	~ccd/ccd_dist/src/ccd_bl_gen
+
+for "generic" beam line control.  To make a new version of the
+code, make a different directory, copy all the files from ccd_bl_gen,
+modify the "Makefile.sgi" to reflect the new name of the binary (which
+may be a name of your choice), and prepare to modify the code.
+
+	The file to modify is called:
+
+		ccd_bl_gen.c
+
+This file may well want to be renamed to something like:
+
+		ccd_bl_id14b2.c
+
+with a corresponding change in the Makefile.sgi.  Let us assume we
+make the name change(s), and that the binary will be called:
+
+		ccd_bl_id14b2
+
+rather than "ccd_bl_gen".
+
+
+Communication Protocol:
+=======================
+
+	The beamline process communicates with the sequencing server,
+ccd_dc_api, via tcp-ip sockets.  There are two sockets connecting these
+two processes:
+
+		command socket
+		status  socket
+
+The command socket is bi-directional and is used by ccd_dc_api to tell
+ccd_bl_gen what operations to perform.  In return, when an OK or FATAL
+status is returned from ccd_bl_gen to ccd_dc_api, it is via the command
+socket.  The presence of this reply is how ccd_dc_api knows the operation
+it requested is done.  Done can result in an operation complete or an error.
+
+	Secondly, the status socket is unidirectional, from ccd_bl_id14bl
+to ccd_dc_api.  A sequence of lines are transmitted periodically from the
+beamline process to ccd_dc_api in order for that program to distribute the
+status to those who need to know it.  Because the command socket is used for
+important hand-shaking functions, the status is sent over a separate socket
+so that ccd_dc_api does not have to distinguish between the two kinds of messages
+which might be sent.
+
+	Both of these sockets are described below.
+
+Command Input:
+==============
+
+	Commands to be executed are of the form:
+
+cmd
+distance_move      54.00
+end_of_bl
+
+which asks for a move of phi to 54 degrees to take place.
+
+
+		===  OR  ===
+
+cmd
+collect
+time      20.00
+distance      54.00
+osc_width       1.00
+phi_start      49.00
+wavelength 1.5418
+directory /d8/ccd/sn007_exercise/
+image_prefix _null_6
+image_suffix dkc(0)
+image_number 145
+axis 0
+mode darkcurrent_dc
+adc 0
+bin 1
+
+end_of_bl
+
+which asks for an image to be taken, in this case, a dark current
+image.
+
+	In any event, the format of the commands are:
+
+		cmd
+		which_command
+		modifiers_if_any
+		   ...
+		modifiers_if_any
+		end_of_bl
+
+	The program handles parsing and handshaking via the command 
+socket automatically for you.
+
+
+
+Looking at the code:
+====================
+
+	Edit the file ccd_bl_gen.c.  Begin at line 125.  The function
+ccd_bl_generic_cmd(next) will be called everytime a command (like the
+ones for moving phi or collecting an image) is issued to the ccd_bl_gen
+process.
+
+	The index "next" is an index into an array of "command" structures
+called "mdc_queue".  The structure definition is in ccd_bl_defs.h.  Not
+all structure members will be used for all commands.  In particular, for
+simple, non-collect, commands, only the structure member:
+
+		mdc_queue[next].cmd_value
+
+will be used by the code.  In this case this is the "argument" to one of
+the following commands:
+
+                        eoc
+                        exit
+                        config
+                        startup
+                        erase
+                        initialize
+                        stop
+                        abort
+                        distance_move
+                        phi_move
+                        phi_move_rel
+                        distance_set
+                        phi_set
+                        lift_move
+                        lift_set
+                        shutter
+                        scan
+                        omega_move
+                        omega_move_rel
+                        omega_set
+                        kappa_move
+                        kappa_set
+
+"eoc", "exit", "config", "startup", "erase", "initialize" are
+all sort of left over from the MAR scanner days and are not
+issued by ccd_dc_api.  "stop" and "abort" may be sent by ccd_dc_api
+and are implimented in this simulation.  The rest of the commands
+are issued by ccd_dc_api, depending on which hardware one has
+configured with the "config_ccd" file, usually found in
+
+		ccd_dist/tables_api_xxx
+
+where xxx is the serial number of the detector.
+
+
+	Each of the commands (we'll deal with collect, later) has
+a "case" statement entry.  This is where customized code gets put
+which actually does the operation.
+
+	In each, non-collect, case, you put in code which actually
+does the function implied by the particular case, like set or move
+a motor, and so forth.
+
+	If any command is either not reasonable or has a value out
+of range, or generates an error during operation, you should do
+the following:
+
+	From anywhere in the code, sprintf into a character buffer
+mdc_alert, any message you want posted to the main GUI.  On the
+next status send, this will be posted to the user.  The message
+so posted will NOT be reposted until the message changes to something
+else non-blank, so you don't need to get clever about blanking
+it out after it's been posted.  Then, from inside the case statement
+in ccd_bl_gen.c, you set 
+
+		returned_status = 2; 
+before the 
+		break;
+
+This will cause ccd_dc_api to realize an error has occurred.  The
+user gets the cause through the ALERT you sent.  Now everyone
+knows.
+
+	If a command takes a long time to execute, say, more
+than 5-10 seconds, you may want to have a subroutine similar
+to the data collection subroutines included called
+ccd_bl_generic_dark() or ccd_bl_generic_expos().  Say this
+routine is ccd_bl_motors():
+
+/*
+ *	Arguments have been verified by the caller.
+ */
+
+ccd_bl_motors(motor,value)
+  {
+        int     i;
+	int	estimated_time;
+
+	
+/*
+ *	Here, estimated time is set to some value which
+ *	is YOUR estimate of how long the motion should take
+ *	in seconds.  Really short ones can be set to zero.
+ *	No need to be particularly accurate, here.
+ *
+ *	estimated_time = ...........
+ */
+
+ /*
+  *	For really SHORT motions, just wait for the EPICS
+  *	event to finish.
+  *
+  *	PS:  The following "code"
+  *	     is not really "C", but a shorthand description
+  *	     of what should be done/tested/etc.
+  */
+	if(estimated_time < 2)
+	  {
+		wait_for_epics_motion_to_finish();
+		if(error)
+		  {
+			copy error to mdc_alert;
+			return 2;
+		  }
+		return 0;
+	  }
+	nupdate = estimated_time / 2;
+	
+        while(1)
+          {
+            sleep(2);
+            /*
+             *  Check for USER abort.
+             */
+            if(probe_port_raw(fdcom))
+              {
+                read_abort_command();
+		abort_motor_motion();	/* YOUR ROUTINE */
+                goto finish_up_motion;
+              }
+
+            nupdate++;
+	    get_your_motor_vaule_from_epics();
+            send_status();
+            if(nupdate >= nexpos)
+                break;
+          }
+
+        /*
+         *      End of exposure processing.
+         */
+finish_up_motion:
+
+        stat_scanner_op[0] = '\0';
+        stat_scanner_msg[0] = '\0';
+        strcpy(stat_scanner_control,"idle");
+        waiting_state = 0;
+        strcpy(stat_scanner_op,"idle");
+
+	if(error)
+	  {
+		copy error to mdc_alert;
+		return 2;
+	  }
+	return 0;
+  }
+
+Data Collection Sequencing
+==========================
+
+	For data collection, all the variables for the
+mdc_command structure beginning with cmd_col_* are set.
+Not all of them will be useful to you, but the ones which
+are important are:
+
+	cmd_col_osc_width
+	cmd_col_time
+	cmd_col_mode
+	cmd_col_axis
+
+since these determine the motor to be used, the amount of
+motion/image, and the time/dose.  Look in ccd_bl_defs.h
+for definitions for these entries.
+
+	The routines ccd_bl_generic_dark() or ccd_bl_generic_expos()
+can be used as a starting point.  In both these cases, an estimate
+of the time is made, the status updating interval is chosen, and
+a check made when the last interval is done.  NOTE THAT TO USE THIS
+FOR A REAL EXPOSING DEVICE YOU NEED TO CHANGE:
+
+        while(1)
+          {
+            sleep(2);
+            /*
+             *  Check for abort.
+             */
+            if(probe_port_raw(fdcom))
+              {
+                read_abort_command();
+                goto finish_up_exposure;
+              }
+
+            nupdate++;
+            i = 100 * (nupdate / ((double)(nexpos)));
+            sprintf(stat_scanner_msg,"exposure %d%% complete",i);
+            if(stat_axis == 1)
+                stat_phi += motion_increment;
+              else
+                stat_omega += motion_increment;
+            send_status();
+            if(nupdate >= nexpos)
+                break;
+          }
+
+inside of ccd_bl_generic_expos to
+
+        while(1)
+          {
+            sleep(2);
+            /*
+             *  Check for abort.
+             */
+            if(probe_port_raw(fdcom))
+              {
+                read_abort_command();
+		execute_epics_data_collection_abort();
+                goto finish_up_exposure;
+              }
+
+            nupdate++;
+            i = 100 * (nupdate / ((double)(nexpos)));
+            sprintf(stat_scanner_msg,"exposure %d%% complete",i);
+            if(stat_axis == 1)
+                stat_phi += motion_increment;
+              else
+                stat_omega += motion_increment;
+            send_status();
+            if(nupdate >= nexpos-1)	/* WAIT TILL ALMOST THE END */
+                break;
+          }
+
+	epis_wait_for_end_of_exposure();
+
+	etc.....
+
+In this way you wait till almost the end, then do the final wait when
+the time is close.
+
+
+
+ABORT PROCESSING
+================
+
+	If the user issues an ABORT via the GUI, both the detector
+and this version of ccd_bl_gen are set up to handle this.
+
+	NOTE:
+
+	"ABORT" is issued by the user, which means they typed
+"stop immediately", answerd the "Do you really want this" yes, and
+then the signal got sent to the sequencer, which sent it to the
+beam-line first, then the detector process.  This involves a bit
+of time, so it ONLY makes sense to support this for things like
+motor motions when they are LONG.  If the operation takes less than
+a few seconds, the user cannot abort it fast enough.  Note where
+the abort handling takes place in both the dark current, exposure
+AND long motion routines (my prototype I put in above).
+
+
+TESTING THE CODE:
+=================
+
+	From time to time you may wish to test the code with
+or without various other parts of the system active.  The
+controlling logicals files, which set environment variables
+which determine which program does what on which tcp-ip port and
+so forth, are all located in:
+
+	~ccd/ccd_dist/LOGIN_files
+
+Currently there are:
+
+	log_biocars_api_007
+
+		This is set up for the eventual, completely working
+		system AND IS SOURCED ON LOGIN AUTOMATICALLY FOR THE
+		ccd ACCOUNT.  It assumes the "beamline" program name
+		will be ccd_bl_id14b2.
+
+		Note where the name ccd_bl_id14b2 is found in this
+		file, and where quantum1.cars.aps.anl.gov is found.
+
+	log_emulator
+
+		This is set up for EVERYTHING running on id14b2 O2
+		machine.  It assumes an emulator for both the detector
+		and beamline processes.
+
+	log_emulator_plus_beamline
+
+		This is set up for the detector emulator + a beamline
+		process called ccd_bl_id14b2.
+
+Please source the one you want to test with.  ESPECIALLY TRUE FOR
+
+	log_emulator 
+  and
+	log_emulator_plus_beamline
+
+SINCE THESE ARE NOT THE LOGIN DEFAULT.
+
+
+	You may also source these files on any number of windows in order
+to execute the processes below in any number of windows (so you can, say,
+differentiate the output better, and so forth).  Maybe you want to run
+your new beamline code in a separate windows to make your diagonstics
+easier to see.
+
+	To run the programs by hand:
+
+ALL GENERIC + EMULATED:
+
+	source log_emulator	(in ccd_dist/LOGIN_files)
+
+	ccd_dc_api &
+	ccd_status &
+	ccd_bl_gen &
+	det_emulator &
+	ccd_xform_new_api &
+	adx_ccd_control &
+
+When you want to shut them down, kill them in REVERSE
+order:
+
+	kill %6
+	kill %5
+	kill %4
+	kill %3
+	kill %2
+	kill %1
+
+It looks tempting to do a shell script for this, but then
+killing them is a pain (trust me).
+
+EMULATED DETECTOR AND YOUR PROTOTYPE BEAMLINE:
+
+	source log_emulator_plus_beamline	(in ccd_dist/LOGIN_files)
+
+	ccd_dc_api &
+	ccd_status &
+	ccd_bl_id14b2 &
+	det_emulator &
+	ccd_xform_new_api &
+	adx_ccd_control &
+
+EMULATED BEAMLINE AND REAL DETECTOR:
+
+	Start up "Quantum" on the PC.
+
+	No need to source anything, just:
+
+	ccd_dc_api &
+	ccd_status &
+	ccd_bl_gen &
+	ccd_xform_new_api &
+	adx_ccd_control &
+
+WHOLE THING REAL:
+
+        Start up "Quantum" on the PC.
+
+        No need to source anything, just:
+
+        ccd_dc_api &
+        ccd_status &
+        ccd_bl_id14b2 &
+        ccd_xform_new_api &
+        adx_ccd_control &
+
+Once you have these things working pretty well, there's
+no need to do all of these startups by hand:
+
+WHOLE THING REAL:
+
+        Start up "Quantum" on the PC.
+
+        No need to source anything, just:
+
+	ccdsys startup
+
+and when you want to shut down:
+
+	ccdsys shutdown
+
+No need to restart the PC unless it gets really confused.

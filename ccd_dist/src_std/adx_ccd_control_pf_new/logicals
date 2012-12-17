@@ -1,0 +1,119 @@
+#
+#	CCD software system.
+#
+#	Some MAR names remain since we are using portions of
+#	that software for control and display.
+#
+setenv	CCDHOME			.
+setenv	MARHOME			.
+#----------------------------------------------------
+# For CCD-specific Denzo (v 1.5.5) and needed aliases
+#----------------------------------------------------
+#
+setenv	CCD_COMMUNICATION 	"tcp-ip"
+unsetenv	CCD_COMMUNICATION
+#
+#	Program elements, their hosts and port numbers.
+#
+setenv	CCD_DCSERVER		ccd_dc_api
+setenv	CCD_DCHOSTNAME		jberlex
+setenv	CCD_DCPORT		8040
+#
+setenv	CCD_DTSERVER		det_api
+setenv	CCD_DTHOSTNAME		jberlexpc
+setenv	CCD_DTPORT		8041
+#
+setenv	CCD_DTDSERVER		det_api
+setenv	CCD_DTDHOSTNAME		jberlexpc
+setenv	CCD_DTDPORT		8042
+#
+setenv	CCD_BLSERVER		ccd_bl_kappa
+setenv	CCD_BLHOSTNAME		jberlex
+setenv	CCD_BLPORT		8043
+#
+setenv	CCD_DASERVER		ccd_daemon
+setenv	CCD_DAHOSTNAME		jberlex
+setenv	CCD_DAPORT		8044
+#
+setenv	CCD_STSERVER		ccd_status
+setenv	CCD_STHOSTNAME		jberlex
+setenv	CCD_STPORT		8045
+#
+setenv	CCD_XFSERVER		ccd_xform_api
+setenv	CCD_XFHOSTNAME		jberlex
+setenv	CCD_XFPORT		8046
+#
+#	control and view have no host or port.
+#
+setenv	CCD_CONSERVER		adx_ccd_control
+setenv	CCD_VIEWSERVER		adxv
+#
+#  Details for the 2x2:
+#
+setenv	CCD_N_CTRL		4
+setenv	CCD_U_CTRL		"1 1 1 1"
+setenv	CCD_M_ROTATE		"180 270 90 0"
+#
+#	Status file
+#
+setenv	CCD_STATUS_FILE		./ccd_status
+setenv	MARSTATUSFILE		./ccd_status
+#
+#	Log file for ccd_dc (as opposed to the standard output)
+#
+setenv	CCD_DC_LOCAL_LOG	./ccd_dc_local_log
+#
+#	Log file for ccd_dc (as opposed to the standard output)
+#
+setenv	CCD_BL_LOCAL_LOG	./ccd_bl_local_log
+#
+#	Where the Raw ccd files are placed (from ccd_det's point of view).
+#
+setenv	CCDSCANDIR		"e:\tmp\"
+#
+#	Where the Raw ccd files are placed (from ccd_xform's point of view).
+#
+setenv	CCDSCANDIR_EXPORT	/CCD1/e/tmp
+#
+#	The ccd config file (currently the same as mardc).
+#
+setenv	CCD_DC_CONFIG		$CCDHOME/tables/config
+setenv	CCD_DC_CONFIGURABLE		$CCDHOME/tables/configurable
+#
+#	The mardc config file.  Used when the base is part of data collection.
+#
+setenv	MARCONFIGFILE		$CCDHOME/tables/config
+#
+setenv	MARCOLLECTFILE		$CCDHOME/tmp/marcollect
+#
+setenv	XFORMSTATUSFILE		$CCDHOME/tmp/xf_status
+#
+setenv	LOG_DC_FILE		ccd_dc.log
+setenv	LOG_BL_FILE		ccd_bl.log
+setenv	LOG_XF_FILE		ccd_xform.log
+setenv	LOG_ST_FILE		ccd_status.log
+setenv	LOG_CON_FILE		adx_control.log
+#
+# Generic Background file for the transform process
+#
+setenv	CCD_GENERICBGND		$CCDHOME/corr_tables/bgnd.gen
+#
+# For use of the multiwire system hardware.
+#
+setenv XTAL_GONIOFILE	$CCDHOME/tables/goniostat.
+setenv XTAL_GONIOPARAM	$CCDHOME/tables/gonioparam
+setenv XTAL_CAMACDEV	/dev/multiwire
+setenv XTAL_MOTORDEV	/dev/ttyd2
+setenv XTAL_MOTFILE	$CCDHOME/tables/motors.
+setenv MARBEAMLINEFILE	$CCDHOME/tables/marbeamlinefile
+setenv CCD_KAPPA_POSITIONS      $CCDHOME/tables_api_404/kappa_positions
+setenv CCD_KAPPA_TTY            /dev/ttyd2
+#
+#  Transform code.
+#
+setenv CCD_NONUNF	$CCDHOME/tables_api_404/NONUNF
+setenv CCD_CALFIL	$CCDHOME/tables_api_404/DISTOR.calfil
+setenv CCD_POSTNUF	$CCDHOME/tables_api_404/POSTNUF
+setenv GUI_EDITOR		vi
+
+setenv MARCOMMANDFILE tables/command

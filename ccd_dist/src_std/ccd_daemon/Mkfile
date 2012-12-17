@@ -1,0 +1,21 @@
+CC = cc
+CFLAGS = $(CFLAGS_OS) -D$(OSTYPE)
+IOFLAGS = 
+OEXTS = ccd_daemon.o 
+OBS  =
+OBJS = $(OEXTS) $(OBS) ../../lib/$(OSTYPE)/auxlib.a
+DD = ../../bin/$(OSTYPE)
+
+PRCMD = pr
+
+$(DD)/ccd_daemon : $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) $(IOFLAGS) -o $(DD)/ccd_daemon
+
+$(OEXTS) :
+
+clean :	$(OEXTS) $(OBS)
+	rm $?
+
+print :	*.c *.h Makefile
+	$(PRCMD) $?
+	touch print

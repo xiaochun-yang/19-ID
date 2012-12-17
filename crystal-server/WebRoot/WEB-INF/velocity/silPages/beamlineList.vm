@@ -1,0 +1,82 @@
+#parse("/silPages/topbanner.html")
+
+<script language="javascript">
+
+function unassignSil(silId) {
+    var submit_url = "staffUnassignSil.html?silId=" + silId;
+    location.replace(submit_url);
+}
+
+</script>
+
+<body>
+#set ($authSession = $appSession.authSession)
+
+<span style="float:right; font-size:100%; padding-right:10px">
+You are ${authSession.userName}<br/><a class="link" href="Logout.html">Logout</a>
+</span>
+
+<h1><a href="http://ssrl.slac.stanford.edu"><img src="images/ssrl2.gif" border="0"  height="50" width="50"/></a>Sample Database</h1>
+
+#if ($authSession.staff)
+#parse("/silPages/staff.vm")
+#else
+#parse("/silPages/user.vm")
+#end
+
+<form name="beamlineList" action="/staffUnassignSil.html">
+ <table class="cassetteList">
+   <tr>
+   <td style="height: 10px;background:#c6c6f2;padding:5px" colspan="9"><a href="addBeamlineForm.html">Add beamline</a></td>
+   </tr>
+ 	<tr >
+		<th rowspan="2">Beamline</th>
+		<th rowspan="2">Position</th>
+		<th rowspan="1" colspan="4">SIL</th>
+		<th rowspan="2">Command</th>
+	</tr>
+	<tr>
+		<th rowspan="1">Sil ID</th>
+		<th rowspan="1">Sil Owner</th>
+		<th rowspan="1">Upload File Name</th>
+		<th rowspan="1">Upload Time</th>
+	</tr>
+	#foreach ($beamline in $beamlineList)
+		#if ($beamline.name != "None")
+		<tr>
+			<td align="center">$!{beamline.name}</td>
+			<td align="center">$!{beamline.position}</td>
+			#if (${beamline.cassetteId} == 0)
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			#else
+			#if ($nullTool.isNull($beamline.silInfo) || $beamline.silInfo.id == 0)
+			<td></td>
+			#else
+			<td align="center">$!{beamline.silInfo.id}</td>
+			#end
+			<td align="center">$!{beamline.silInfo.owner}</td>
+			<td align="center">$!{beamline.silInfo.uploadFileName}</td>
+			<td align="center">$!{beamline.silInfo.uploadTime}</td>
+			#if ($beamline.silInfo.id > 0)
+				#if ($beamline.silInfo.locked)
+					<td align="center"><a class="link" href="unlockSil.html?silId=${beamline.silInfo.id}&targetUrl=beamlineList.html">Unlock</a></td>
+				#else
+					<td align="center"><input type="button" name="silId" value="Unassign" onclick="unassignSil(&quot;$!{beamline.silInfo.id}&quot;)" /></td>
+				#end
+			#else
+			<td align="center"></td>
+			#end
+ 			#end
+		</tr>
+		#end
+  	#end
+	
+</table>
+</form>
+</body>
+
+</html>

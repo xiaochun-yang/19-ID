@@ -1,0 +1,24 @@
+"","//this is a test script file
+//lets see if the script loads ok
+//even with this header
+#OMsgSoc //set the asynchronous message handler here
+//IHA=134,79,43,12
+EN
+// get rid of this comment
+#W_Dog //start the watchdog timer here
+Kick=0
+LastKic=0
+#WDog_ok
+MG \"WATCHDOG ok\"
+AT 0
+AT 5000
+JP #WDogBad,Kick=LastKic
+LastKic=Kick
+TimeOut=0
+JP #WDog_ok
+#WDogBad
+ST XYZW
+ST S
+TimeOut=1
+//MG_A \"WATCHDOG TIMEOUT\"
+JP #WDog_ok","first script",""

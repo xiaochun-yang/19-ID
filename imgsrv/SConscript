@@ -1,0 +1,71 @@
+#Main Sconscript for the ---imgsrv--- module
+# This is an experimental build system used at ALS (Nick Sauter) to build
+# the SSRL package.  Based on Scons & cctbx, it is independent of gmake.
+
+import libtbx.load_env
+import os
+Import("env_base", "env_etc")
+Import("env_diffimage_special_filenames")
+
+base_include = env_etc.norm_join(libtbx.env.build_path,"base","include")
+
+env_etc.imgsrv_dist = libtbx.env.dist_path("imgsrv")
+
+arch_dependent_includes={"irix_CC":[
+                env_etc.norm_join(env_etc.diffimage_dist,"..","jpeg-6b")],
+                      "unix_gcc":[], 
+                      "darwin_c++":[], 
+                      "tru64_cxx":[]}
+
+env_etc.imgsrv_common_includes = [base_include,
+  ] + arch_dependent_includes[env_etc.compiler] + [
+  env_etc.scitbx_include,
+  env_etc.norm_join(env_etc.imgsrv_dist,"src"),
+  env_etc.logging_include,
+  env_etc.xos_cpp_include,
+  env_etc.http_cpp_include,
+  env_etc.dcsconfig_include,
+  "../auth_client/src/",
+]
+
+env_etc.include_registry.append(
+  env=env_diffimage_special_filenames,
+  paths=env_etc.imgsrv_common_includes)
+
+lib_imgsrv_sources = [
+  "src/imgsrv_client.cxx",
+  "src/imgsrv_cache.cxx",
+  "src/ImgSrvCacheEntry.cxx",
+  "src/ImgServerHandler.cxx",
+  "src/imgsrv_validation.cxx",
+  "src/SessionCache.cxx",
+]
+
+builder = env_diffimage_special_filenames.StaticLibrary
+builder(
+    target="#lib/imgsrv",
+    source=lib_imgsrv_sources)
+
+env_standalone = env_diffimage_special_filenames.Copy()
+
+env_standalone.Prepend(LIBS=[
+  "imgsrv","diffimage","jpegsoc","http_cpp","dcsconfig",
+  "logging","xos_cpp","xos","cbf"])
+env_standalone.Append(LIBS=[])
+
+for source in ["src/filebrowser.c",
+  "src/test.cxx",
+  "src/gui_test.cxx",
+  "src/http_test.cxx",
+  "src/imgsrv_main.c",
+  "src/test1.cxx",]:
+  subdir = os.path.dirname(source)
+  base   = os.path.basename(source)
+  root,suffix = os.path.splitext(base)
+  target = "imgsrv."+root
+  exe = env_standalone.Program(
+    target="#exe/"+env_diffimage_special_filenames["PROGPREFIX"]+target+env_diffimage_special_filenames["PROGSUFFIX"],
+    source=source)
+  libtbx.env.write_dispatcher_in_bin(
+    source_file=exe[0].get_abspath(),
+    target_file=target)

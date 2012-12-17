@@ -1,0 +1,850 @@
+self
+3
+localhost 2
+
+detector
+3
+localhost 2
+
+galil1
+3
+localhost 2
+
+camera
+3
+localhost 2
+
+epics_gateway
+3
+localhost 2
+
+detector_collect_image
+11
+detector detector_collect_image
+0 1 1 1 1
+0 1 1 1 1
+
+detector_transfer_image
+11
+detector detector_transfer_image
+0 1 1 1 1
+0 1 1 1 1
+
+detector_oscillation_ready
+11
+detector detector_oscillation_ready
+0 1 1 1 1
+0 1 1 1 1
+
+detector_stop
+11
+detector detector_stop
+0 1 1 1 1
+0 1 1 1 1
+
+detector_reset_run
+11
+detector detector_reset_run
+0 1 1 1 1
+0 1 1 1 1
+
+collectStillImage
+11
+self collectStillImage
+0 1 1 1 1
+0 1 1 1 1
+
+collectRun
+11
+self collectRun
+0 1 1 1 1
+0 1 1 1 1
+
+collectRuns
+11
+self collectRuns
+0 1 1 1 1
+0 1 1 1 1
+
+collectFrame
+11
+self collectFrame
+0 1 1 1 1
+0 1 1 1 1
+
+pauseDataCollection
+11
+self pauseDataCollection
+0 1 1 1 1
+0 1 1 1 1
+
+shutter
+6
+galil1 1 shutter
+0 1 1 1 1
+0 1 1 1 1
+
+gonio_omega
+1
+galil1 gonio_omega
+0 1 1 1 1
+0 1 1 1 1
+0
+180.000000 260.000000 141.000000 12500.000000 40000 500 -12500 1 1 0 0 1 0 deg
+
+gonio_kappa
+1
+galil1 gonio_kappa
+0 1 1 1 1
+0 1 1 1 1
+0
+0.000000 40.000000 -60.000000 200.000000 400 100 0 1 1 0 0 1 0 deg
+
+gonio_phi
+1
+galil1 gonio_phi
+0 1 1 1 1
+0 1 1 1 1
+0
+268.000000 1000.000000 -1000.000000 2500.000000 20000 50 0 0 0 0 0 0 1 deg
+
+detector_z
+1
+galil1 detector_z
+0 1 1 1 1
+0 1 1 1 1
+0
+688.975000 746.596000 195.000000 157.480000 1000 50 -79 1 1 0 1 1 0 mm
+
+beam_size_x
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 1 1 1 1
+0
+0.001000 0.250000 0.100000 0 0 0 0 mm
+0
+
+beam_size_y
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 1 1 1 1
+0
+0.001000 0.250000 0.050000 0 0 0 0 mm
+0
+
+energy
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 1 1 1 1
+0
+13000.000000 16000.000000 6000.000000 1 1 0 0 eV
+0
+
+sample_x
+1
+galil1 sample_x
+0 1 1 1 1
+0 1 1 1 1
+0
+-0.129600 4.500000 -4.500000 17500.000000 10000 100 875 1 1 0 0 0 0 mm
+
+sample_y
+1
+galil1 sample_y
+0 1 1 1 1
+0 1 1 1 1
+0
+1.276686 4.500000 -4.500000 17500.000000 10000 100 875 1 1 0 0 0 0 mm
+
+sample_z
+1
+galil1 sample_z
+0 1 1 1 1
+0 1 1 1 1
+0
+8.591600 9.800000 -9.800000 17500.000000 10000 100 875 1 1 0 0 0 0 mm
+
+camera_zoom
+1
+galil1 camera_zoom
+0 1 1 1 1
+0 1 1 1 1
+0
+0.000000 1.110000 -0.020000 34000.000000 12000 50 1700 1 1 0 0 1 0 mm
+
+beamstop_z
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 1 1 1 1
+0
+20.000000 25.000000 0.000000 0 0 0 0 mm
+0
+
+detector_horz
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 1 1 1 1
+0
+0.000000 3.000000 -105.000000 1 1 0 0 mm
+0
+
+detector_vert
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 1 1 1 1
+0
+0.000000 125.000000 -5.000000 1 1 0 0 mm
+0
+
+centerLoop
+11
+self centerLoop
+0 1 1 1 1
+0 1 1 1 1
+
+initializeCamera
+11
+camera initializeCamera
+0 1 1 1 1
+0 1 1 1 1
+
+getLoopTip
+11
+camera getLoopTip
+0 1 1 1 1
+0 1 1 1 1
+
+getPinDiameters
+11
+camera getPinDiameters
+0 1 1 1 1
+0 1 1 1 1
+
+addImageToList
+11
+camera addImageToList
+0 1 1 1 1
+0 1 1 1 1
+
+findBoundingBox
+11
+camera findBoundingBox
+0 1 1 1 1
+0 1 1 1 1
+
+runs
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+1 1 1
+
+run0
+13
+self runDefinition
+1 1 1 1 1
+0 1 1 1 1
+inactive 1 0 myo-Se_edge_c1 /data/bluser/BL1-5/Dec2007 5 Phi 34.000000 69.5 0.50 150.5 30.00 688.975000 20.000000 0.000 1 13000.000000 {} {} {} {} 0 0
+
+run1
+13
+self runDefinition
+1 1 1 1 1
+0 1 1 1 1
+inactive 0 1 myo-Se_edge_c1 /data/bluser/BL1-5/Dec2007 1 Phi 34.000000 219.0 0.50 14.0 40.00 688.975000 20.000000 0.000 1 13000.000000 {} {} {} {} 2 1
+
+run2
+13
+self runDefinition
+1 1 1 1 1
+0 1 1 1 1
+inactive 0 2 mI3-II-Se_edge /data/blstaff/BL1-5/MYO-2007startup 1 Phi 9.00 69.0 0.50 150.5 30.00 200.002540 40.031746 0.000000 1 12658.254 0.0 0.0 0.0 0.0 2 0
+
+run3
+13
+self runDefinition
+1 1 1 1 1
+0 1 1 1 1
+inactive 0 3 Si-170mm-short /data/jcsg/BL1-5/MM002plus 6 Phi 1.00 101.0 1.00 175.0 1.00 170.000 41.968254 0.000000 1 8041.564991 {} {} {} {} 0 0
+
+run4
+13
+self runDefinition
+1 1 1 1 1
+0 1 1 1 1
+inactive 0 4 Air-200mm-short /data/jcsg/BL1-5/MM002plus 1 Phi 305.50 405.5 1.00 175.0 1.00 200.002540 41.968254 0.000000 1 8041.564991 {} {} {} {} 0 0
+
+run5
+13
+self runDefinition
+1 1 1 1 1
+0 1 1 1 1
+inactive 0 5 150 /data/haxelrod/Rosanne/TMA/SingleXtal_BL15 1 Phi 90.00 270.0 5.00 120.0 5.00 79.995937 40.000000 40.000 1 12639.839282 {} {} {} {} 0 0
+
+run6
+13
+self runDefinition
+1 1 1 1 1
+0 1 1 1 1
+inactive 0 6 160 /data/haxelrod/Rosanne/TMA/SingleXtal_BL15 1 Phi 90.00 270.0 5.00 120.0 5.00 79.995937 40.000000 40.000 1 12639.839282 {} {} {} {} 0 0
+
+run7
+13
+self runDefinition
+1 1 1 1 1
+0 1 1 1 1
+inactive 0 7 170 /data/haxelrod/Rosanne/TMA/SingleXtal_BL15 1 Phi 90.00 270.0 5.00 120.0 5.00 79.995937 40.000000 40.000 1 12639.839282 {} {} {} {} 0 0
+
+run8
+13
+self runDefinition
+1 1 1 1 1
+0 1 1 1 1
+inactive 0 8 180 /data/haxelrod/Rosanne/TMA/SingleXtal_BL15 1 Phi 90.00 270.0 5.00 120.0 5.00 79.995937 40.000000 40.000 1 12639.839282 {} {} {} {} 0 0
+
+run9
+13
+self runDefinition
+1 1 1 1 1
+0 1 1 1 1
+inactive 0 9 190 /data/haxelrod/Rosanne/TMA/SingleXtal_BL15 1 Phi 90.00 270.0 5.00 120.0 5.00 79.995937 40.000000 40.000 1 12639.839282 {} {} {} {} 0 0
+
+run10
+13
+self runDefinition
+1 1 1 1 1
+0 1 1 1 1
+inactive 0 10 110_anneal /data/haxelrod/Rosanne/TMA/SingleXtal_BL15 1 Phi 90.00 270.0 5.00 120.0 5.00 79.995937 40.000000 40.000 1 12639.839282 {} {} {} {} 0 0
+
+run11
+13
+self runDefinition
+1 1 1 1 1
+0 1 1 1 1
+inactive 0 11 150_anneal /data/haxelrod/Rosanne/TMA/SingleXtal_BL15 1 Phi 90.00 270.0 5.00 120.0 5.00 79.995937 40.000000 40.000 1 12639.839282 {} {} {} {} 0 0
+
+run12
+13
+self runDefinition
+1 1 1 1 1
+0 1 1 1 1
+inactive 0 17 test /data/blctl 1 Phi 90.000000 91.0 1.0 180.0 30 180.003555 40.000000 0.0 1 12639.8392817 0.0 0.0 0.0 0.0 0 0
+
+run13
+13
+self runDefinition
+1 1 1 1 1
+0 1 1 1 1
+inactive 0 14 test /data/blctl 1 Phi 90.000000 91.0 1.0 180.0 30 180.003555 40.000000 0.0 1 12639.8392817 0.0 0.0 0.0 0.0 2 0
+
+run14
+13
+self runDefinition
+1 1 1 1 1
+0 1 1 1 1
+inactive 0 14 test /data/blctl 1 Phi 90.000000 91.0 1.0 180.0 30 180.003555 40.000000 0.0 1 12639.8392817 0.0 0.0 0.0 0.0 2 0
+
+run15
+13
+self runDefinition
+1 1 1 1 1
+0 1 1 1 1
+inactive 0 28 test /data/blctl 1 Phi 90.000000 91.0 1.0 180.0 30 180.003555 40.000000 0.0 1 12639.8392817 0.0 0.0 0.0 0.0 2 0
+
+run16
+13
+self runDefinition
+1 1 1 1 1
+0 1 1 1 1
+inactive 0 28 test /data/blctl 1 Phi 90.000000 91.0 1.0 180.0 30 180.003555 40.000000 0.0 1 12639.8392817 0.0 0.0 0.0 0.0 2 0
+
+runExtra0
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+-1 dummy {} {} {} {} {}
+
+runExtra1
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+-1 dummy {} {} {} {} {}
+
+runExtra2
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+-1 disMnted {} mI3 {} {} {}
+
+runExtra3
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+{} {} {} {} {} {} {}
+
+runExtra4
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+-1 disMnted {} {} {} {} {}
+
+runExtra5
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+-1 /home/webserverroot/servlets/webice/data/strategy/BL1-5/6756_FG7303A_20070730_213236.tcl FG7303A mA6 {} {} {}
+
+runExtra6
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+-1 /home/webserverroot/servlets/webice/data/strategy/BL1-5/6756_FG7303A_20070730_213236.tcl FG7303A mA6 {} {} {}
+
+runExtra7
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+-1 /home/webserverroot/servlets/webice/data/strategy/BL1-5/6756_FG7303A_20070730_213236.tcl FG7303A mA6 {} {} {}
+
+runExtra8
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+-1 /home/webserverroot/servlets/webice/data/strategy/BL1-5/6756_FG7303A_20070730_213236.tcl FG7303A mA6 {} {} {}
+
+runExtra9
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+-1 /home/webserverroot/servlets/webice/data/strategy/BL1-5/6756_FG7303A_20070730_213236.tcl FG7303A mA6 {} {} {}
+
+runExtra10
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+-1 /home/webserverroot/servlets/webice/data/strategy/BL1-5/6756_FG7303A_20070730_213236.tcl FG7303A mA6 {} {} {}
+
+runExtra11
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+-1 /home/webserverroot/servlets/webice/data/strategy/BL1-5/6756_FG7303A_20070730_213236.tcl FG7303A mA6 {} {} {}
+
+runExtra12
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+{} {} {} lE5 {} {} {}
+
+runExtra13
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+{} {} {} lB7 1 P422 {} Monochromatic /data/schuller/webice/autoindex/b14 { {} {} {} 0.0 0.0 0.0 } { {} 0.0 0.0 0.0}
+
+runExtra14
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+{} {} {} lB7 1 P422 {} Monochromatic /data/schuller/webice/autoindex/b14 { {} {} {} 0.0 0.0 0.0 } { {} 0.0 0.0 0.0}
+
+runExtra15
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+{} {} {} {} {} {} {}
+
+runExtra16
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+{} {} {} {} {} {} {}
+
+moveSample
+11
+self moveSample
+0 1 1 1 1
+0 1 1 1 1
+
+calibrateSampleCamera
+11
+self calibrateSampleCamera
+0 1 1 1 1
+0 1 1 1 1
+
+normalize
+11
+self normalize
+0 1 1 1 1
+0 1 1 1 1
+
+expose
+11
+self expose
+0 1 1 1 1
+0 1 1 1 1
+
+requestExposureTime
+11
+self requestExposureTime
+0 1 1 1 1
+0 1 1 1 1
+
+requestCollectedImage
+11
+self requestCollectedImage
+1 1 1 1 1
+1 1 1 1 1
+
+prepareForScan
+11
+self prepareForScan
+0 1 1 1 1
+0 1 1 1 1
+
+recoverFromScan
+11
+self recoverFromScan
+0 1 1 1 1
+0 1 1 1 1
+
+excitationScan
+11
+self excitationScan
+0 1 1 1 1
+0 1 1 1 1
+
+doseStoredCounts
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 1 1 1 1
+0
+3939.673625 100.000000 -100.000000 1 1 0 0 counts
+0
+
+doseLastCounts
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 1 1 1 1
+0
+3325.602784 100.000000 -100.000000 1 1 0 0 counts
+0
+
+doseStabilityRatio
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 1 1 1 1
+0
+0.050000 1000.000000 -1.000000 0 0 0 0 %
+0
+
+doseThreshold
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 1 1 1 1
+0
+500.000000 1000.000000 -1.000000 0 0 0 0 %
+0
+
+doseIntegrationPeriod
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 1 1 1 1
+0
+0.100000 1000.000000 -1.000000 0 0 0 0 s
+0
+
+maxOscTime
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 1 1 1 1
+0
+60.000000 1000.000000 -1.000000 0 0 0 0 s
+0
+
+beamlineID
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+BL9-3
+
+hutchDoorStatus
+13
+galil1 hutchDoorStatus
+0 1 1 1 1
+0 1 1 1 1
+closed 1196986542
+
+lastImageCollected
+13
+detector lastImageCollected
+0 1 1 1 1
+0 1 1 1 1
+/data/latimer/test16_25_24.mar1600
+
+collect_msg
+13
+self collectStatus
+0 1 1 1 1
+0 1 1 1 1
+0 {DCSS was reset.} 0 {} {} {} {}
+
+synchrotron
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+SSRL
+
+detectorType
+13
+detector detectorType
+0 1 1 1 1
+0 1 1 1 1
+{MAR345}
+
+system_idle
+13
+self startEmpty
+0 1 1 1 1
+0 1 1 1 1
+
+
+lock_operation
+13
+self standardString
+1 1 1 1 1
+0 0 0 0 0
+centerLoop collectRun collectRuns ISampleMountingDevice madScan moveSample normalize optimalExcitation scan sequence scanMotor
+
+sampleImageWidth
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 1 1 1 1
+0
+352.000000 100.000000 -100.000000 1 1 0 0 mm
+0
+
+sampleImageHeight
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 1 1 1 1
+0
+240.000000 100.000000 -100.000000 1 0 0 0 mm
+0
+
+sampleAspectRatio
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 1 1 1 1
+0
+1.120000 100.000000 -100.000000 1 1 0 0 mm
+0
+
+zoomMinScale
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 1 1 1 1
+0
+18.867900 100.000000 -100.000000 1 1 0 0 mm
+0
+
+zoomMedScale
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 1 1 1 1
+0
+3.809500 100.000000 -100.000000 1 1 0 0 mm
+0
+
+zoomMaxScale
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 1 1 1 1
+0
+2.409600 100.000000 -100.000000 1 1 0 0 mm
+0
+
+zoomMinYAxis
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 1 1 1 1
+0
+0.500000 100.000000 -100.000000 1 1 0 0 mm
+0
+
+zoomMedYAxis
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 1 1 1 1
+0
+0.500000 100.000000 -100.000000 1 1 0 0 mm
+0
+
+zoomMaxYAxis
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 1 1 1 1
+0
+0.395000 100.000000 -100.000000 1 1 0 0 mm
+0
+
+zoomMaxXAxis
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 1 1 1 1
+0
+0.450000 100.000000 -100.000000 1 1 0 0 mm
+0
+
+getEPICSPV
+11
+epics_gateway getPV
+1 1 1 1 1
+0 0 0 0 0
+
+putEPICSPV
+11
+epics_gateway putPV
+1 1 1 1 1
+0 0 0 0 0
+
+forceReadString
+11
+epics_gateway forceReadString
+1 1 1 1 1
+0 0 0 0 0
+
+sequenceManual
+11
+self sequenceManual
+0 0 1 1 1
+0 0 0 0 1
+
+beamlineOpenState
+13
+epics_gateway BL09:OpenState
+0 1 1 1 1
+0 1 1 1 1
+Open
+
+spearIon
+11
+self spearIon
+1 1 1 1 1
+0 1 1 1 1
+
+i_spear_current
+4
+self spearIon 0 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+spear_current
+13
+epics_gateway SPEAR:BeamCurrAvg1S
+0 1 1 1 1
+0 1 1 1 1
+95.12351443 
+
+current_user_log
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+/data/blctl/BL9-3/userLog20070724_174950.ulg
+
+attenuation
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 1 1 1 1
+0
+0.000000 100.000000 0.000000 0 0 0 0 %
+0
+
+system_status
+13
+self systemStatus
+1 1 1 1 1
+0 0 0 0 0
+{Hutch Door open - Detector Ready} black #d0d000
+
+
+collect_config
+13
+self standardString
+1 1 1 1 1
+0 0 0 0 0
+0 1 1 1 0 0 0 0 0 0 0
+
+
+runsConfig
+11
+self runsConfig
+0 1 1 1 1
+0 1 1 1 1
+
+
+scanMotor
+11
+self scanMotor
+0 1 1 1 1
+0 0 0 0 0
+
+scan_motor_status
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+/home/tdoukov/BL11-1_126.scan {51 of 51}
+
+
+detector_status
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+Detector Ready
+
+END

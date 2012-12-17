@@ -1,0 +1,1760 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+   <meta name="author" content="Penjit Kanjanarat">
+   <meta name="GENERATOR" content="Mozilla/4.79 [en] (Windows NT 5.0; U) [Netscape]">
+   <title>Admin Guide</title>
+</head>
+<body>
+
+<h1>
+<a NAME="mozTocId268463" class="mozTocH1"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+WebIce Adminstrator Guide</h1>
+<span style="font-weight: bold;"><font size=+2>Table of Contents</font></span>
+<ul id="mozToc"><!--mozToc h2 1 h4 2-->
+<li>
+<a href="#WebIce">WebIce</a></li>
+
+<ul>
+<li>
+<a href="#Installation">Installation</a></li>
+
+<li>
+<a href="#Autoindex_Scripts_and_Spotfinder">Autoindex scripts and spotfinder</a></li>
+
+<li>
+<a href="#Webice_Log_File">Webice Log File</a></li>
+
+<li>
+<a href="#Image_Server">Image Server</a></li>
+
+<li>
+<a href="#mozTocId5465">Directory Structure</a></li>
+
+<li>
+<a href="#mozTocId667585">Server Side Configuration</a></li>
+
+<li>
+<a href="#mozTocId538062">Setting up a Beamline Connection</a></li>
+
+<li>
+<a href="#mozTocId914883">Setting up a Simulated Beamline and Data Collection</a></li>
+
+<li>
+<a href="#mozTocId302883">Restarting WebIce</a></li>
+
+<li>
+<a href="#mozTocId510198">Restarting Tomcat</a></li>
+
+<li>
+<a href="#Webice_Software_Architecture">Webice Software Architecture</a></li>
+</ul>
+
+<li>
+<a href="#Crystals_Server">Crystals Server</a></li>
+
+<ul>
+<li>
+<a href="#Configuring_DB_Connection">Configuring DB Connection</a></li>
+<li>
+<a href="#Restarting_Crystals_Server">Restarting Crystals Server</a></li>
+
+<li>
+<a href="#Restarting_Tomcat_For_Crystals_Server">Restarting Tomcat</a></li>
+
+<li>
+<a href="#Viewing_Crystal_Server_Log">Viewing Crystals Server Log</a></li>
+</ul>
+
+<li>
+<a href="#Crystal-Analysis_Server">Crystal Analysis Server</a></li>
+
+<ul>
+<li>
+Configuration File</li>
+</ul>
+
+<ul>
+<li>
+<a href="#Restarting_Crystal-Analysis_Server">Restarting Crystal-Analysis
+Server</a></li>
+
+<li>
+<a href="#Restarting_Tomcat_For_Crystal_Analysis">Restarting Tomcat</a></li>
+
+<li>
+<a href="#Viewing_Crystal-Analysis_Log">Viewing Crystal-Analysis Server
+Log</a></li>
+</ul>
+
+<li>
+Automated Screening</li>
+
+<ul>
+<li>
+<a href="#Automated_Screening_Architecture">Automated Screening Architecture</a></li>
+
+<li>
+Setting up a Simulated Beamline</li>
+</ul>
+
+<li>
+<a href="#mozTocId876613">Trouble Shooting</a></li>
+
+<ul>
+<li>
+<a href="#mozTocId295765">Webice stops responding</a></li>
+
+<li>
+<a href="#How_can_I_change_the_host_where_webice">How can I change the
+host where webice scripts and spotfinder run</a></li>
+
+<li>
+<a href="#I_cant_connect_to_a_beamline">I can't connect to a beamline</a></li>
+
+<li>
+<a href="#I_can_view_an_image_in_bluice_but_not_in_">I can view an image
+in bluice but not in webice</a></li>
+
+<li>
+<a href="#How_to_change_labelit_and_mosflm">How to change mosflm and labelit
+versions for Webice and Crystal-Analysis</a></li>
+
+<li>
+<a href="#Which_host_is_my_autoindex_and">Which host is my autoindex and
+spotfinder running on?</a></li>
+
+<li>
+<a href="#How_can_I_change_input_parameters_for">How can I change input
+parameters for spotfinder?</a></li>
+</ul>
+</ul>
+
+<h1>
+<a NAME="WebIce"></a>WebIce</h1>
+WebIce is a web application written in Java using the Struts framework.
+It runs
+<br>in a Tomcat web server. The application consists of Java beans, Struts
+action classes,
+<br>applets and JSP pages. The code is stored as a cvs project named webice.
+<p>The current production version is 4.4 running in Tomcat 5.5 web server
+on smbdev1.
+<br>&nbsp;
+<h2>
+<a NAME="Installation"></a>Installation</h2>
+There are two instances of webice installations. One is a production webice
+based on cvs version 4.4 and other other is a development version from
+cvs head.
+<p>The production webice code is located in /home/webserverroot/servlets/tomcat5-prod/webice
+whereas the development
+<br>version of webice is in /home/webserverroot/servlets/tomcat5-dev/webice-t5dev.
+<p>Because smbdev1 is not accessible from outside SLAC domain, the user
+needs to access it via smb using the following url:&nbsp; http://smb.slac.stanford.edu/webice.
+<br>The requests are automatically forwarded to tomcat webserver on smbdev1.
+<br>&nbsp;
+<table BORDER CELLSPACING=2 CELLPADDING=2 style="text-align: left; width: 80%;" >
+<caption><tbody>
+<br></tbody></caption>
+
+<tr>
+<th style="vertical-align: top;">Tomcat Directory on smbdev1</th>
+
+<th style="vertical-align: top;">CVS Tag</th>
+
+<th style="vertical-align: top;">WebIce Code Directory</th>
+
+<th style="vertical-align: top;">WebIce URL</th>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">/usr/local/tomcat/t5-webice</td>
+
+<td style="vertical-align: top;">release-4_4</td>
+
+<td style="vertical-align: top;">/home/webserverroot/servlets/tomcat5-prod/webice</td>
+
+<td style="vertical-align: top;">http://smb.slac.stanford.edu/webice
+<br>or
+<br>http://smbdev1.slac.stanford.edu:81/webice
+<br>(from within SLAC domain)</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">/usr/local/tomcat/jakarta-tomcat-5.5.9</td>
+
+<td style="vertical-align: top;">head</td>
+
+<td style="vertical-align: top;">/home/webserverroot/serlets/tomcat5-dev/webice-t5dev</td>
+
+<td style="vertical-align: top;">http://smbdev1.slac.stanford.edu/webice-t5dev</td>
+</tr>
+</table>
+
+<p>The purpose of webice-t5dev is to allow staff and a restricted number
+of users to try out new features
+<br>of WebIce before next release.
+<br>&nbsp;
+<h2>
+<a NAME="Autoindex_Scripts_and_Spotfinder"></a>Autoindex Scripts and Spotfinder</h2>
+In the image tap, the user can click "Analyze Image" buttton to analyze
+the image using spotfinder program. Webice uses the impersonation server
+to run spotfinder on behalf of the user. The computer on which spotfinder
+runs is configurable in the server configuration file. The config spotfinder.impersonHost
+and spotfinder.impersonHost specify specify the host name and port number
+of the impersonation server that will be used to run spotfinder. Config
+webice.binDir specifies where spotfinder executable is located. Currently
+webice is setup to run spotfinder on blcpu5 via the impersonation server
+listening on port 61001. Spotfinder executable can be found in /usr/local/dcs/webice/install/webice-t5prod/bin
+directory on blcpu5.
+<p>When the user runs autoindexing in the Autoindex tab, webice starts
+the autoindex scripts via the impersonation server.&nbsp; The config for
+the impersonation server are the same as the ones for spotfinder (spotfinder.impersonHost
+and spotfinder.impersonPort). The autoindex scripts are located in /usr/local/dcs/webice/install/webice-t5prod/scripts
+directory on blcpu5.&nbsp; It is configuration by webice.scriptDir config.
+<br>&nbsp;
+<table BORDER CELLSPACING=2 CELLPADDING=2 style="width: 100%; text-align: left;" >
+<caption><tbody>
+<br></tbody></caption>
+
+<tr>
+<td style="vertical-align: top;"></td>
+
+<td style="vertical-align: top;">spotfinder</td>
+
+<td style="vertical-align: top;">autoindex</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">Host</td>
+
+<td style="vertical-align: top;">blcpu5</td>
+
+<td style="vertical-align: top;">blcpu5</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">Scripts and Executables</td>
+
+<td style="vertical-align: top;">/usr/local/dcs/webice/install/webice-t5prod/bin</td>
+
+<td style="vertical-align: top;">/usr/local/dcs/webice/install/webice-t5prod/bin</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">webice config</td>
+
+<td style="vertical-align: top;">spotfinder.impersonHost, spotfinder.impersonPort,
+webice.binDir</td>
+
+<td style="vertical-align: top;">spotfinder.impersonHost, spotfinder.impersonPort,
+webice.scriptDir</td>
+</tr>
+</table>
+
+<h2>
+<a NAME="Webice_Log_File"></a>Webice Log File</h2>
+The log file is /usr/local/tomcat/t5-webice/logs/catalina.out on smbdev1.
+This file has extra debugging information for webice. The file is usually
+quite large. Use tail to view the last NNN lines of the file.
+<p>> ssh smbdev1
+<br>> cd /usr/local/tomcat/t5-webice/logs
+<br>> tail -n 500 catalina.out
+<br>&nbsp;
+<h2>
+<a NAME="Image_Server"></a>Image Server</h2>
+Webice uses the image server for load images displayed in the Image tab.
+It also uses it to load the image header during autoindexing. The production
+webice is currently setup to connect to the image server running on blctlxx.
+<br>Config imgsrv.host and imgsrv.port can be reconfigured to change the
+host and port of the image server to which webice will connect.
+<br>&nbsp;
+<br>&nbsp;
+<h2>
+<a NAME="mozTocId5465" class="mozTocH2"></a>Directory Structure</h2>
+Files and directories for WebIce are organized according to Tomcat Servlet
+convention. Files and
+<br>directories under images, and WEB-INF/classes must be readable and
+executable by
+<br>everyone (chmod
+<br>&nbsp;
+<ul>
+<li>
+root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Root directory for WebIce.</li>
+
+<ul>
+<li>
+data&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Contains data files such as DCS device status dump files.</li>
+
+<li>
+images&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Contains png, jpeg files</li>
+
+<ul>
+<li>
+help&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Contains image files diplayed in online help.</li>
+
+<li>
+image&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Contains images files displayed in Image Viewer</li>
+
+<li style="color: rgb(255, 0, 0);">
+strategy&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+DEPLICATED. Contains image files displayed in Autoindexing</li>
+
+<li>
+autoindex&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Contains image files displayed in Autoindexing</li>
+</ul>
+
+<li>
+pages&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Contains JSP pages</li>
+
+<ul>
+<li>
+help&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Contains JSP pages for online help,</li>
+
+<li>
+image&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Contains JSP pages for Image Viewer</li>
+
+<li style="color: rgb(255, 0, 0);">
+strategy&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+DEPLICATED. Contains JSP pages for Autoindexing.</li>
+
+<li>
+autoindex&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Contains JSP pages for Autoindexing.</li>
+</ul>
+
+<li>
+WEB-INF&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Contains&nbsp; Java src files, java classes and config files.</li>
+
+<ul>
+<li>
+web.xml&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Servlet config file</li>
+
+<li>
+struts-*.xml&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Struts config files</li>
+
+<li>
+*.tld&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+JSP tag libraries</li>
+
+<li>
+build.xl&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Ant makefile</li>
+
+<li>
+*.properties&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Server side configuration file</li>
+
+<li>
+classes&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Contains java classes built by Ant</li>
+
+<li>
+lib&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Contains third-party jar files</li>
+
+<li>
+common_lib&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Contains third-party jar files used during ant build</li>
+
+<li>
+scripts&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Contains Shell scripts</li>
+
+<li>
+src&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Contains Java source files</li>
+
+<ul>
+<li>
+actions&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Contains Struts action classes</li>
+
+<ul>
+<li>
+common&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Contains utility classes</li>
+
+<li>
+image&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Contains action clases for Image Viewer</li>
+
+<li style="color: rgb(255, 0, 0);">
+strategy&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+DEPLICATED. Contains action classes for Autoindexing</li>
+
+<li>
+autoindex&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Contains action classes for Autoindexing</li>
+</ul>
+
+<li>
+applets&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Contains applet classes</li>
+
+<li>
+beans&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Contains bean classes</li>
+
+<ul>
+<li>
+common&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Contains utility classes</li>
+
+<li>
+image&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Contains classes for Image Viewer</li>
+
+<li style="color: rgb(255, 0, 0);">
+strategy&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+DEPLICATED. Contains classes for Autoindexing</li>
+
+<li>
+autoindex&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Contains classes for autoindexing</li>
+</ul>
+
+<li>
+servlets&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Contains servlets classed (not used within Struts framework).</li>
+</ul>
+</ul>
+</ul>
+</ul>
+
+<br>&nbsp;
+<h2>
+<a NAME="mozTocId667585" class="mozTocH2"></a>Server Side Configuration</h2>
+Configuration data are stored in &lt;root>/WEB-INF/&lt;installation name>.properties,
+for example,
+<br>/home/webserverroot/servlets/webice-dev/WEB-INF/webice-dev.properties
+The file is
+<br>in a text format. Comment lines begin with # character.
+<p>WebIce server must be restarted after this file has been modified for
+the it to take effect (See section <a href="mozTocId302883">Restarting
+WebIce</a>
+<br>for more details).
+<br>&nbsp;
+<table BORDER CELLSPACING=2 CELLPADDING=2 style="text-align: left; width: 80%;" >
+<caption><tbody>
+<br></tbody></caption>
+
+<tr>
+<td style="vertical-align: top; font-weight: bold;">Name</td>
+
+<td style="vertical-align: top; font-weight: bold;">Values</td>
+
+<td style="vertical-align: top; font-weight: bold;">Description</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;"><span style="font-weight: bold;">webice</span></td>
+
+<td style="vertical-align: top;"></td>
+
+<td style="vertical-align: top;">webice configuration group</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">webice.accessMode</td>
+
+<td style="vertical-align: top;">One of the following modes: all, some,
+staff, none</td>
+
+<td style="vertical-align: top;">This config determines who has access
+to WebIce website. Users do not need a beam time to access some features
+of WebIce but they need a unix account at SSRL.
+<br>all: Everybody is allowed to access except those in the excludeUsers
+list.
+<br>some: Includes those in includeUsers list and excludes those in excludeUsers
+list.
+<br>staff: All staff and those in inCludeUsers list, excluding those in
+excludeUsers list.
+<br>none: Nobody exception those in includeUsers list.</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">webice.userRootDir</td>
+
+<td style="vertical-align: top;">Should be set to /data/&lt;user> for webice
+installation at SSRL.</td>
+
+<td style="vertical-align: top;">Template for user's root directory. The
+string &lt;user> is replaced by the users login name.&nbsp;</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">webice.maxInactiveInterval</td>
+
+<td style="vertical-align: top;">Number of seconds, e.g. 1800 which is
+30 seconds.</td>
+
+<td style="vertical-align: top;">Maximum idle time before the user is automaticaly
+logged out of webice.</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">webice.includeUsers</td>
+
+<td style="vertical-align: top;">A list of users login ids separated by
+comma, e.g. ana,bluser</td>
+
+<td style="vertical-align: top;">See webice.accessMode description.</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">webice.excludeUsers</td>
+
+<td style="vertical-align: top;">A list of users login ids separated by
+comma, e.g. ana,bluser</td>
+
+<td style="vertical-align: top;">See webice.accessMode description.</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">webice.rootDir</td>
+
+<td style="vertical-align: top;">directory</td>
+
+<td style="vertical-align: top;">Directory where webice code is installed.&nbsp;</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">webice.binDir</td>
+
+<td style="vertical-align: top;">Directory path,&nbsp; e.g. /usr/local/dcs/webice/install/weboce-dev/bin</td>
+
+<td style="vertical-align: top;">Directory path for executable files run
+by WebIce via the impersonation server.</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">webice.scriptDir</td>
+
+<td style="vertical-align: top;">Directory path, e.g. /usr/local/dcs/webice/install/webice-dev/scripts</td>
+
+<td style="vertical-align: top;">Directory path for shell scripts run by
+WebIce via the impersonation server.</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">webice.beamlines</td>
+
+<td style="vertical-align: top;">List of beamlines separated by comma,
+e.g. BL9-1,BL9-2</td>
+
+<td style="vertical-align: top;">List of all available beamlines accessible
+by the user. This config is read only. The list of beamlines available
+to this user comes from the authentication server when the user is authenticated.
+This list appears in the beamline selection in the drop down menu in the
+tool bar.</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">webice.simulatedBeamlines</td>
+
+<td style="vertical-align: top;">A list of beamlines separated by comma,
+e.g. BL-sim</td>
+
+<td style="vertical-align: top;">List of simulated beamlines the user may
+wish to connect to. This list appears in the beamline selection in the
+drop down menu in the tool bar.</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;"><span style="font-weight: bold;">auth</span></td>
+
+<td style="vertical-align: top;"></td>
+
+<td style="vertical-align: top;">Authentication server configuration group</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">auth.host</td>
+
+<td style="vertical-align: top;">Host name, e.g. localhost</td>
+
+<td style="vertical-align: top;">Host name of the authentication server
+for authenticating users login.</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">auth.port</td>
+
+<td style="vertical-align: top;">Port number, e.g. 80</td>
+
+<td style="vertical-align: top;">Port number of the authentication port
+used for authenticating users login.</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">auth.gatewayUrl</td>
+
+<td style="vertical-align: top;">Url</td>
+
+<td style="vertical-align: top;">Root url to the authentication server
+for validating the session id.</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">auth.loginUrl</td>
+
+<td style="vertical-align: top;">Url</td>
+
+<td style="vertical-align: top;">Url for the login page.&nbsp;</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;"><span style="font-weight: bold;">imperson</span></td>
+
+<td style="vertical-align: top;"></td>
+
+<td style="vertical-align: top;">Impersonation server configuration group</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">imperson.host</td>
+
+<td style="vertical-align: top;">Host name, e.g. blcpu4.slac.stanford.edu</td>
+
+<td style="vertical-align: top;">Host name of the impersonation server
+for accessing files on smbfs on behalf of the user.</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">imperson.port</td>
+
+<td style="vertical-align: top;">Port number, e.g. 61001</td>
+
+<td style="vertical-align: top;">Port number of the impersonation server
+for accessing files on smbfs on behalf of the user</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;"><span style="font-weight: bold;">imgsrv</span></td>
+
+<td style="vertical-align: top;"></td>
+
+<td style="vertical-align: top;">Image server configuration group</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">imgsrv.host</td>
+
+<td style="vertical-align: top;">Host name, e.g. smbfs.slac.stanford.edu</td>
+
+<td style="vertical-align: top;">Host name of the image server for loading
+diffraction images in the image viewer.</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">imgsrv.port</td>
+
+<td style="vertical-align: top;">Port number, e.g. 14007</td>
+
+<td style="vertical-align: top;">Port number of the image server for loading
+diffraction images in the image viewer.</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;"><span style="font-weight: bold;">spotfinder</span></td>
+
+<td style="vertical-align: top;"></td>
+
+<td style="vertical-align: top;">Script configuration group</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">spotfinder.impersonHost</td>
+
+<td style="vertical-align: top;">Host name, e.g. blcpu4.slac.stanford.edu</td>
+
+<td style="vertical-align: top;">Host name of the impersonation server
+for running scripts on behalf od the user. Should perhaps be renamed to
+script.impersonHost.</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">spotfinder.impersonPort</td>
+
+<td style="vertical-align: top;">Porto numver, e.g. 61001</td>
+
+<td style="vertical-align: top;">Host name of the impersonation server
+for running scripts on behalf od the user.
+<br>Should perhaps be renamed to script.impersonPort.</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top; font-weight: bold;">dcs</td>
+
+<td style="vertical-align: top;"></td>
+
+<td style="vertical-align: top;">DCS configuration group</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">dcs.dumpDir</td>
+
+<td style="vertical-align: top;">Directory path, e.g. /home/webserverroot/servlets/webice/data/dcs</td>
+
+<td style="vertical-align: top;">Directory path where the DCS device status
+dump files are located. A dump file is generated by the dcss and is read
+by webice periodically to get the latest status of the beamline.&nbsp;</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">dcs.updateRate</td>
+
+<td style="vertical-align: top;">Number of seconds, e.g. 10</td>
+
+<td style="vertical-align: top;">Time interval, in seconds ,between each
+time WebIce reads the DCS device status dump file.&nbsp;</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;"><span style="font-weight: bold;">sil</span></td>
+
+<td style="vertical-align: top;"></td>
+
+<td style="vertical-align: top;"></td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">sil.dtd</td>
+
+<td style="vertical-align: top;">Filename</td>
+
+<td style="vertical-align: top;">dtd file that describes the xml format
+of the sample information data retrieved from the crystal server.</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">sil.getSilUrl</td>
+
+<td style="vertical-align: top;">url</td>
+
+<td style="vertical-align: top;">Url for retrieving cassette information
+from the crystal server.</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">sil.getSilListUrl</td>
+
+<td style="vertical-align: top;">url</td>
+
+<td style="vertical-align: top;">Url for retrieving list of cassette for
+a given user from the crystal server.</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">sil.setCrystalUrl</td>
+
+<td style="vertical-align: top;">url</td>
+
+<td style="vertical-align: top;">Url for setting data of a crystal.</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">sil.isEventCompletedUrl</td>
+
+<td style="vertical-align: top;">url</td>
+
+<td style="vertical-align: top;">Url for querying whether the submitted
+job (to the crystal server) , such as&nbsp; setting crystal data, is completed.&nbsp;</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">sil.dtdUrl</td>
+
+<td style="vertical-align: top;">url</td>
+
+<td style="vertical-align: top;">Url for the sample information dtd file
+that descrbes the xml format.</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">sil.analyzeImageUrl</td>
+
+<td style="vertical-align: top;">url</td>
+
+<td style="vertical-align: top;">Url of the crystal-analysis server for
+running spotfinder .</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">sil.autoindexUrl</td>
+
+<td style="vertical-align: top;">url</td>
+
+<td style="vertical-align: top;">Url of the crystal-analysis server for
+autoindexing .</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">sil.downloadSilUrl</td>
+
+<td style="vertical-align: top;">url</td>
+
+<td style="vertical-align: top;">Url for download screening analysis results.&nbsp;</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">sil.getCrystalUrl</td>
+
+<td style="vertical-align: top;">url</td>
+
+<td style="vertical-align: top;">Url for retrieving data of crystal in
+xml.</td>
+</tr>
+</table>
+
+<br>&nbsp;
+<h2>
+<a NAME="mozTocId538062" class="mozTocH2"></a>Setting up a Beamline Connection</h2>
+The user can connect to a beamline by selecting the beamline from the drop
+down menu and
+<br>clicking the&nbsp;<span style="font-weight: bold;">Connect&nbsp;</span>button
+in the tool bar. The list of available beamlines for the given user
+<br>comes from the authentication server. The user can enter names of simulated
+beamlines in
+<br>the&nbsp;<span style="font-weight: bold;">Preference tab</span>. These
+simulated beamlines also appears in the beamline selection menu.
+<p>Once connected to a beamline, the user will be able to get the latest
+information about beamline
+<br>devices and data collection. This information comes from the dcss dump
+file generated periodically by
+<br>the dcss. The name of the file is specified in the beamline configuration
+file in
+<br>/usr/local/dcs/dcsconfig/data/&lt;beamline name>.config.
+<br>The location and dump rate of the file are set in the following config
+in the config file:
+<p>dcss.dbDumpFlag=true
+<br>dcss.dbDumpFile=/home/webserverroot/servlets/webice/data/dcs/BL-sim.dump
+<br>dcss.dbDumpRate=10000
+<p>dbDumpFlag determines whether the dcss will dump the file. dbDumpFile
+is the file path of
+<br>the dump file. dbDumpRate is the dump rate in milliseconds.
+<p>While dcss config (dcss.dbDumpRate) controls the rate at which the dump
+file is generated, webice config ( dcs.updaterate)
+<br>control the rate at which&nbsp; webice reloads the file. The WebIce
+adminstrator needs to configure dcs.dumpDir and dcs.dumpRate in
+<br>server.properties (see <a href="mozTocId667585">Server Side Configurations</a>
+section for details) in order to change the reload rate.
+<br>dcs.dumpDir is the directory where dump files of all beamlines can
+be found. This directory must correspond
+<br>to the directory set by dcss.dbDumpFile of the dcss described in the
+above paragraph. dcs.dumpRate
+<br>is the rate at which the dump file is read by WebIce in seconds.&nbsp;
+For example,
+<br>&lt;root>/webice/WEB-INF/webice.properties can be setup as follows:
+<p>dcs.dumpDir=/home/webserverroot/servlets/webice/data/dcs
+<br>dcs.updaterate=10
+<br>&nbsp;
+<br>&nbsp;
+<h2>
+<a NAME="mozTocId914883" class="mozTocH2"></a>Running a Simulated Beamline</h2>
+Choose one of the following predefined simulated beamlines: BL-sim, SIM1-5,
+SIM9-1,
+<br>SIM9-2, SIM11-1, SIM11-3 on blctlxx. It's a good idea to run it in
+vncviewer. For example,
+<br>to start SIM9-2 simulated beamline:
+<p>> vncviewer -Shared blctlxx
+<br>> cd /usr/local/dcs/dcss
+<br>> start_dcs SIM9-2
+<p>Optionally, you can start bluice:
+<br>> cd /usr/local/dcs/BluiceWidgets
+<br>> ./bluice.tcl SIM9-2
+<p>If you want to simulate the automated screening with old cassette data
+(where images have been collected at one of the SSRL beamline using the
+automated screening), You need to add the cassette data directory to the
+simdetector input cassette paths. To do this, edit /usr/local/dcs/simdetector/linux/cassette_dirs.txt
+file and add your cassette directory on a new line in the file.&nbsp; For
+example, if your cassette data directory is /data/joeuser/cassette130,
+add the following line
+<p>/data/joeuser/cassette130
+<p>to cassette_dirs.txt file. Note that the directory must be readable
+by anyone (or least by the user who will run the simulated screening).
+Subdirectories under cassette130 must correspond to the values in the "Directory"
+column in the spreadsheet. For example, if the spreadsheet for this dataset
+contains TM1100/myo_E1 in the Directory column for&nbsp; row 1, there must
+be a directory /data/joeuser/cassette130/TM1100/myo_E1 that contains images,
+for the simulated screening to run correctly.&nbsp; In bluice, the root
+directory path entered in the screening tab must end with cassette130,
+for example, /data/ana/screening_test/try1/cassette130.
+<p>After modifying the cassette_dir.txt file, you need to kill the current
+simdetector and start a new one. To start the simdetector:
+<p>>&nbsp; cd /usr/local/dcs/simdetector/linux
+<br>>&nbsp; ./simdetector SIM9-2
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<h2>
+<a NAME="mozTocId302883" class="mozTocH2"></a>Restarting WebIce</h2>
+Sometimes WebIce needs to be restarted, for example, webice.properties
+file has been modified.
+<p>Tomcat manager web page can be used to start/stop WebIce servlet application.
+You need to open a
+<br>web browser from smbdev1 and then&nbsp; go to the url http://localhost:81/manager/html.
+Boom, Ken and Scott
+<br>know the user name and password.
+<p>> ssh smbdev1
+<br>> mozilla
+<p>Type http://localhost:81/manager/html in the url box. Click "Stop" and
+then "Start" links to restart webice.
+<p>Existing WebIce sessions will become invalid and the users will be asked
+to relogin to WebIce.
+<br>&nbsp;
+<h2>
+<a NAME="mozTocId510198" class="mozTocH2"></a>Restarting Tomcat</h2>
+WebIce may cause Tomcat to run out of virtual memory after it has been
+running for a long time. When this happens
+<br>WebIce will stop responding to requests. &lt;tomcat root dir>/logs/catalina.out
+will report OutOfMemeoryError
+<br>error message (or something similar), where &lt;tomcat root dir> is
+/usr/local/tomcat/t5-webice for production or /usr/local/tomcat/jarkarta-tomcat-5.5.9
+for
+<br>development.&nbsp; In most cases, ask Ken or Thomas to restart Tomcat.
+To do it yourself, you need to be able to run the
+<br>sudo command and follow the instruction below (example for tomcat/t5-webice):
+<br><span style="font-style: italic;">
+<br>> ssh smbdev1
+<br></span><span style="font-style: italic;">> sudo /etc/init.d/Tomcat5
+stop t5-webice
+<br></span><span style="font-style: italic;">> sudo /etc/init.d/Tomcat5
+start t5-webice
+<br></span>
+<p>Tomcat will restart and it will take a few minutes before web applications
+on this Tomcat are ready to respond to requests.
+<p>In the worst case senario when tomcat process can not be stopped using
+the above command, you can kill
+<br>the tomcat process manually. To do this you will need to login as tomcat
+or use the sudo command to kill the
+<br>process using "kill -9 NNN" command where NNN is the tomcat process.
+Then start tomcat using the above command.
+<p>> ssh sdmbdev1
+<br>> sudo - tomcat
+<br>> ps -ef | grep crystals
+<p>webice
+<br>root&nbsp;&nbsp;&nbsp;&nbsp; 32186&nbsp;&nbsp;&nbsp;&nbsp; 1&nbsp;
+0 Jan03 ?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 00:00:00 jsvc.exec
+-user tomcat -home /opt/jdk1.5.0_04 -Dcatalina.home=/usr/local/tomcat/t5-webice
+-Dcatalina.base=/usr/local/tomcat/t5-webice -Dauthgateway.host=http://smbdev1.slac.stanford.edu
+-Djava.io.tmpdir=/var/tmp -wait 10 -pidfile /var/run/t5-webice.pid -outfile
+/usr/local
+<br>tomcat&nbsp;&nbsp; 32187 32186&nbsp; 0 Jan03 ?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+00:41:35 jsvc.exec -user tomcat -home /opt/jdk1.5.0_04 -Dcatalina.home=/usr/local/tomcat/t5-webice
+-Dcatalina.base=/usr/local/tomcat/t5-webice -Dauthgateway.host=http://smbdev1.slac.stanford.edu
+-Djava.io.tmpdir=/var/tmp -wait 10 -pidfile /var/run/t5-webice.pid -outfile
+/usr/local
+<br>&nbsp;
+<p>> kill -9 11335
+<br>> ps -ef | grep webice
+<br>> sudo /etc/init.d/Tomcat5 start t5-webice
+<br>&nbsp;
+<h2>
+<a NAME="Webice_Software_Architecture"></a>Webice Software Architecture</h2>
+<img SRC="webiceArch.gif" ALT="webice architecture diagram" style="width: 768px; height: 852px;" >
+<br>&nbsp;
+<h1>
+<a NAME="Crystals_Server"></a>Crystals Server</h1>
+The crystals server facilitates excel spreadsheet upload for the automated
+screening. It is currently installed as a web application
+<br>on Tomcat 5.5 on smbdev1. This is the same tomcat instance for running
+teh crystal-analysis server, listening on port 82.
+<br>The users access the web page http://smb.slac.stanford.edu/crystals.
+The requests are automatically
+<br>forwarded from smb to smbdev1.
+<p>The code is located in /home/webserverroot/servlets/tomcat5-prod/crystals
+directory. The server configuration file is
+<br>/home/webserverroot/servlets/tomcat5-prod/crystals/config.prop.
+<br>&nbsp;
+<h2><a NAME="Configuring_DB_Connection"></a>Configuring DB Connection</h2>
+<p>The property file, crystals/config.prop, contains dbFile config which 
+is the location of an other property file contain DB connection config
+(dbDsn, dbUserName and dbPassword for DSN, user name and password, respectively).
+By default dbFile is set to db.txt (in the same dir as config.prop) which 
+is not checked into cvs.
+If the database moves to a new host or the user name or password has changed,
+db.txt must be updated accordingly. </p>
+<h2>
+<a NAME="Restarting_Crystals_Server"></a>Restarting Crystals Server</h2>
+The server can be started via tomcat manager web page. You will need to
+log on to smbdev1 and open mozilla from the terminal
+<br>since the manager application only accepts request coming from localhost
+only.
+<p>> ssh smbdev1
+<br>> mozilla&amp;
+<p>In mozilla, type the following URL
+<br>http://localhost:82/manager/html
+<p>You will see a list of web applications. Click the&nbsp; stop and then
+start links for the crystal server.
+<br>&nbsp;
+<h2>
+<a NAME="Restarting_Tomcat_For_Crystals_Server"></a>Restarting Tomcat</h2>
+If the crystals server fails to restart by using tomcat manager as described
+in the previous section or if Tomcat has run out
+<br>of memory, you may need to restart tomcat. Note that crystals and crystal-analysis
+run on the same tomcat instance.
+<br>Therefore, restarting this instance of tomcat will cause both application
+to restart. Keep in mind
+<br>analysis jobs in the queues which have not been processed by the crystal-analysis
+will be lost.
+<p>> ssh smbdev1
+<br>> sudo /etc/init.d/Tomcat5 stop t5-crystals
+<br>> sudo /etc/init.d/Tomcat5 start t5-crystals
+<p>Notice that it is the same command for restarting the tomcat instance
+that runs webice, except that in this case the last
+<br>argument is t5-crystals instead of t5-webice.
+<p>In the worst case senario when tomcat process can not be stopped using
+the above command, you can kill
+<br>the tomcat process manually. To do this you will need to login as tomcat
+or use the sudo command to kill the
+<br>process using "kill -9 NNN" command where NNN is the tomcat process.
+Then start tomcat using the above command.
+<p>> ssh sdmbdev1
+<br>> sudo - tomcat
+<br>> ps -ef | grep crystals
+<p>root&nbsp;&nbsp;&nbsp;&nbsp; 11334&nbsp;&nbsp;&nbsp;&nbsp; 1&nbsp; 0
+Jan12 ?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 00:00:00 jsvc.exec -user
+tomcat -home /opt/jdk1.5.0_04 -Dcatalina.home=/usr/local/tomcat/t5-crystals
+-Dcatalina.base=/usr/local/tomcat/t5-crystals -Dauthgateway.host=http://smbdev1.slac.stanford.edu
+-Djava.io.tmpdir=/var/tmp -wait 10 -pidfile /var/run/t5-crystals.pid -outfile
+/usr
+<br>tomcat&nbsp;&nbsp; 11335 11334&nbsp; 1 Jan12 ?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+00:19:32 jsvc.exec -user tomcat -home /opt/jdk1.5.0_04 -Dcatalina.home=/usr/local/tomcat/t5-crystals
+-Dcatalina.base=/usr/local/tomcat/t5-crystals -Dauthgateway.host=http://smbdev1.slac.stanford.edu
+-Djava.io.tmpdir=/var/tmp -wait 10 -pidfile /var/run/t5-crystals.pid -outfile
+/usr
+<p>> kill -9 11335
+<br>> sudo /etc/init.d/Tomcat5 start t5-crystals
+<br>&nbsp;
+<h2>
+<a NAME="Viewing_Crystal_Server_Log"></a>Viewing Crystal Server Log</h2>
+The debug messages from the Crystals server are stored in /usr/local/tomcat/t5-crystals/logs/catalina.out
+on smbdev1. To view the
+<br>last 500 lines of the log:
+<p>> ssh smbdev1
+<br>> cd /usr/local/tomcat/t5-crystals/logs
+<br>> tail -n 500 catalina.out
+<p>Note that the Crystal-Analysis server outputs its log messages to the
+same file.
+<h1>
+<a NAME="Crystal-Analysis_Server"></a>Crystal-Analysis Server</h1>
+Crystal-Analysis server runs autoindex and spotfinder for a given request.
+The jobs are first put in
+<br>a queue (per beamline) and are processed sequentially. The jobs are
+typically run on a remote computer via the impersonation server.
+<br>The results are recorded to the Crystals Server so that the user can
+browse the results in WebIce and BluIce
+<br>&nbsp;
+<h2>
+<a NAME="Configuration_File_For_Crystal-Analysis"></a>Configuration File</h2>
+The configuration file allows the administrator to change the remote host
+on which the scripts will be run, the script path, spotfinder path,
+<br>image server host (for retrieving image header), and etc. The table
+below describes each config in details.
+<br>&nbsp;
+<table BORDER CELLSPACING=2 CELLPADDING=2 style="width: 100%; text-align: left;" >
+<caption><tbody>
+<br></tbody></caption>
+
+<tr>
+<td style="vertical-align: top;">Config</td>
+
+<td style="vertical-align: top;">Values</td>
+
+<td style="vertical-align: top;">Description</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">reloadConfig</td>
+
+<td style="vertical-align: top;">true or false</td>
+
+<td style="vertical-align: top;">If the value is true, the config will
+be reloaded every 30 seconds. This is useful if you want to make changes
+to the host name where the script will be run without having to restart
+the server, particularly if there are many jobs waiting in the queues.&nbsp;
+If the value is initially set to false and you want to subsequently change
+it to true, you will need to restart the server before the change takes&nbsp;
+effect.</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">scriptDir</td>
+
+<td style="vertical-align: top;">Directory path</td>
+
+<td style="vertical-align: top;">Default directory location of the autoindex
+scripts</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">strategyScriptDir</td>
+
+<td style="vertical-align: top;">Directory path</td>
+
+<td style="vertical-align: top;">Default directory location of the strategy
+scripts. The strategy scripts will, in the future release, be consolidated
+with the autoindex scripts. In the current version, however, the Crystals-Server
+uses the strategy scripts from webice.&nbsp;</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">binDir</td>
+
+<td style="vertical-align: top;">Directory path&nbsp;</td>
+
+<td style="vertical-align: top;">Default directory location of spotfinder
+executable and input files.</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">auth.host</td>
+
+<td style="vertical-align: top;">Host name</td>
+
+<td style="vertical-align: top;">Authentication server host for validating
+a session id.</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">auth.port</td>
+
+<td style="vertical-align: top;">Port number</td>
+
+<td style="vertical-align: top;">Port number of the authentication server
+for validating a session id.</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">auth.gatewayUrl</td>
+
+<td style="vertical-align: top;">URL&nbsp;</td>
+
+<td style="vertical-align: top;">Authentication server URL for validating
+a session id.</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">sil.getCrystalURL</td>
+
+<td style="vertical-align: top;">URL</td>
+
+<td style="vertical-align: top;">URL of the Crystals Server for saving
+autoindex and spotfinder results in the SIL. Note that it should really
+be called sil.setCrystalURL; it's a typo in the current config name.</td>
+</tr>
+
+<tr>
+<td>imgsrv.host</td>
+
+<td>Host name</td>
+
+<td>Image server host. The autoindex job gets the image header from the
+image server. Currently it uses the image server running on blctlxx, which
+is from the image server used by bluice (which is running on smbfs).</td>
+</tr>
+
+<tr>
+<td>imgsrv.port</td>
+
+<td>Port number</td>
+
+<td>Image server port.</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">sil.getCrystalImageURL</td>
+
+<td style="vertical-align: top;"></td>
+
+<td style="vertical-align: top;">URL of the Crystals Server for saving
+autoindex and spotfinder results in the SIL. Note that it should really
+be called sil.setCrystalURL; it's a typo in the current config name.</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">spotfinderHost</td>
+
+<td style="vertical-align: top;">Host name</td>
+
+<td style="vertical-align: top;">default host name of the impersonation
+server that will be used to run spotfinder.</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">spotfinderPort</td>
+
+<td style="vertical-align: top;">Port number</td>
+
+<td style="vertical-align: top;">default port number of the impersonation
+server that will be used to run spotfinder.</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">autoindexHost</td>
+
+<td style="vertical-align: top;">Host name</td>
+
+<td style="vertical-align: top;">Default host name of the impersonation
+server that will be used to run autoindex.</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">autoindexPort</td>
+
+<td style="vertical-align: top;">Port number</td>
+
+<td style="vertical-align: top;">Default port number of the impersonation
+server that will be used to run autoindex.</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">&lt;beamline>.spotfinderHost
+<br>or&nbsp;
+<br>webice.spotfinderHost</td>
+
+<td style="vertical-align: top;">Host name</td>
+
+<td style="vertical-align: top;">Host name of the impersonations erver
+that will be used to run spotfinder for the given beamline or for webice.
+If the requested beamline name can not be found in this config file, the
+default value from spotfinderHost will be used.</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">&lt;beamline>.spotfinderPort
+<br>or
+<br>webice.spotfinderPort</td>
+
+<td style="vertical-align: top;">Port number</td>
+
+<td style="vertical-align: top;">Port number of the impersonations erver
+that will be used to run spotfinder for the given beamline or for webice.
+If the requested beamline name can not be found in this config file, the
+default value from spotfinderPort will be used.</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">&lt;beamline>.spotfinderQSize
+<br>or
+<br>webice.spotfinderQSize</td>
+
+<td style="vertical-align: top;">Integer number</td>
+
+<td style="vertical-align: top;">Size of the queue for running spotfinder
+for the given beamline or for webice. This config specifies how many spotfinder
+can be run concurrently on the host.</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">&lt;beamline>.binDir
+<br>or
+<br>webice.binDir</td>
+
+<td style="vertical-align: top;">Directory path&nbsp;</td>
+
+<td style="vertical-align: top;">Directory location of the spotfinder executable
+and input files for the given beamline or for webice.</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">&lt;beamline>.autoindexHost
+<br>or
+<br>webice.autoindexHost</td>
+
+<td style="vertical-align: top;">Host name</td>
+
+<td style="vertical-align: top;">Host name of the impersonation server
+that will be used to run autoindex for the given beamline or for webice.
+If the requested beamline name can not be found in this config, the default
+value from autoindexHost will be used.</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">&lt;beamline>.autoindexPort
+<br>or
+<br>webice.autoindexPort</td>
+
+<td style="vertical-align: top;">Port number</td>
+
+<td style="vertical-align: top;">Port number of the impersonation server
+that will be used to run autoindex for the given beamline or for webice.
+If the requested beamline name can not be found in this config, the default
+balue from autoindexPort will be used.</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">&lt;beamline>.autoindexQSize
+<br>or
+<br>webice.autoindexQSize</td>
+
+<td style="vertical-align: top;">Integer number</td>
+
+<td style="vertical-align: top;">Size of the queue for running autoindex
+for the given beamline or for webice. This config specifies how many autoindex
+can be run concurrently on the host.</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">&lt;beamline>.scriptDir
+<br>or
+<br>webice.scriptDir</td>
+
+<td style="vertical-align: top;">Directory path</td>
+
+<td style="vertical-align: top;">Directory location of the autoindex scripts
+for the given beamline or for webice. If the requested beamline name can
+not be found in this config, the default value from scriptDir will be used.</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">&lt;beamline>.strategyHost
+<br>or
+<br>webice.strategyHost</td>
+
+<td style="vertical-align: top;">Host name</td>
+
+<td style="vertical-align: top;">Host name of the impersonation server
+that will be used to run strategy scripts for the given beamline or for
+webice. If the requested beamline name can not be found in this config,
+the default value from strategyHost will be used.</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">&lt;beamline>.strategyPort
+<br>or
+<br>webice.strategyPort</td>
+
+<td style="vertical-align: top;">Port number</td>
+
+<td style="vertical-align: top;">Port number of the impersonation server
+that will be used to run strategy scripts for the given beamline or for
+webice. If the requested beamline name can not be found in this config,
+the default value from strategyPort will be used.</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">&lt;beamline>.strategyQSize
+<br>webice.strategyQSize</td>
+
+<td style="vertical-align: top;">Integer Number</td>
+
+<td style="vertical-align: top;">Size of the queue for running autoindex
+for the given beamline or for webice. This config specifies how many autoindex
+can be run concurrently on the host.&nbsp;</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">&lt;beamline>.strategyScriptDir
+<br>or
+<br>webice.strategyScriptDir</td>
+
+<td style="vertical-align: top;">Directory path&nbsp;</td>
+
+<td style="vertical-align: top;">Directory location of the strategy scripts
+for the given beamline or for webice. If the requested beamline name can
+not be found in this config, the default value from strategyScriptDir will
+be used.</td>
+</tr>
+</table>
+
+<br>&nbsp;
+<h2>
+<a NAME="Restarting_Crystal-Analysis_Server"></a>Restarting Crystal-Analysis
+Server</h2>
+The server can be started via tomcat manager web page. You will need to
+log on to smbdev1 and open mozilla from the terminal
+<br>since the manager application only accepts request coming from localhost
+only.
+<p>> ssh smbdev1
+<br>> mozilla&amp;
+<p>In mozilla, type the following URL
+<br>http://localhost:82/manager/html
+<p>You will see a list of web applications. Click the&nbsp; stop and then
+start links for the crystal-analysis server.
+<br>&nbsp;
+<h2>
+<a NAME="Restarting_Tomcat_For_Crystal_Analysis"></a>Restarting Tomcat</h2>
+Crystal-analysis server runs in the same tomcat instance as the crystals
+server. Therefore, restarting tomcat will start both the Crystals
+<br>and Crystal-Analysis servers. This is the same instruction as the one
+for restarting tomcat for the crystals server.
+<p>Keep in mind analysis jobs in the queues which have not been processed
+by the crystal-analysis will be lost.
+<p>> ssh smbdev1
+<br>> sudo /etc/init.d/Tomcat5 stop t5-crystals
+<br>> sudo /etc/init.d/Tomcat5 start t5-crystals
+<p>Notice that it is the same command for restarting the tomcat instance
+that runs webice, except that in this case the last
+<br>argument is t5-crystals instead of t5-webice.
+<p>In the worst case senario when tomcat process can not be stopped using
+the above command, you can kill
+<br>the tomcat process manually. To do this you will need to login as tomcat
+or use the sudo command to kill the
+<br>process using "kill -9 NNN" command where NNN is the tomcat process.
+Then start tomcat using the above command.
+<p>> ssh sdmbdev1
+<br>> sudo - tomcat
+<br>> ps -ef | grep crystals
+<p>root&nbsp;&nbsp;&nbsp;&nbsp; 11334&nbsp;&nbsp;&nbsp;&nbsp; 1&nbsp; 0
+Jan12 ?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 00:00:00 jsvc.exec -user
+tomcat -home /opt/jdk1.5.0_04 -Dcatalina.home=/usr/local/tomcat/t5-crystals
+-Dcatalina.base=/usr/local/tomcat/t5-crystals -Dauthgateway.host=http://smbdev1.slac.stanford.edu
+-Djava.io.tmpdir=/var/tmp -wait 10 -pidfile /var/run/t5-crystals.pid -outfile
+/usr
+<br>tomcat&nbsp;&nbsp; 11335 11334&nbsp; 1 Jan12 ?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+00:19:32 jsvc.exec -user tomcat -home /opt/jdk1.5.0_04 -Dcatalina.home=/usr/local/tomcat/t5-crystals
+-Dcatalina.base=/usr/local/tomcat/t5-crystals -Dauthgateway.host=http://smbdev1.slac.stanford.edu
+-Djava.io.tmpdir=/var/tmp -wait 10 -pidfile /var/run/t5-crystals.pid -outfile
+/usr
+<p>> kill -9 11335
+<br>> sudo /etc/init.d/Tomcat5 start t5-crystals
+<br>&nbsp;
+<h2>
+<a NAME="Viewing_Crystal-Analysis_Log"></a>Viewing Crystal-Analysis Log</h2>
+The debug messages from the Crystals server are stored in /usr/local/tomcat/t5-crystals/logs/catalina.out
+on smbdev1. To view the
+<br>last 500 lines of the log:
+<p>> ssh smbdev1
+<br>> cd /usr/local/tomcat/t5-crystals/logs
+<br>> tail -n 500 catalina.out
+<p>Note that the Crystals server outputs its log messages to the same file.
+<h2>
+<a NAME="Automated_Screening_Architecture"></a>Automated Screening Architecture</h2>
+<img SRC="screening.gif" ALT="Automated Screening Architecture Diagram" style="width: 693px; height: 851px;" >art
+and iwrite
+<br>&nbsp;
+<br>&nbsp;
+<h2>
+<a NAME="Trouble_Shooting"></a>Trouble Shooting</h2>
+
+<h4>
+<a NAME="mozTocId295765" class="mozTocH4"></a>Webice stops responding</h4>
+If you notice that WebIce stops responding to HTTP requests (the page hangs),
+it's very likely that
+<br>Tomcat server has run out of memory. Sometimes you will see OutOfMemoryError
+error message
+<br>displayed in the response page.&nbsp; To make sure that this is the
+case, check Tomcat log file on smb:
+<br>/usr/local/tomcat/t5-webice/logs/catalina.out for production and /usr/local/tomcat/jarkarta-tomcat-5.5.9/logs/catalina.out
+<br>for development.
+<p>To fix this problem, you need to restart Tomcat server. Follow the instruction
+in section <a href="mozTocId510198">Restarting Tomcat</a>.
+<br>&nbsp;
+<h4>
+<a NAME="How_can_I_change_the_host_where_webice"></a>How can I change the
+host where webice scripts and spotfinder run</h4>
+You need to change the spotfinder.impersonHost, spotfinder.impersonPort,
+webice.binDir and webice.scriptDir config in /home/webserverroot/servlets/tomcat-t5prod/webice/WEB-INF/webice.properties
+file. For example, to move spotfinder
+<br>from blcpu5 to sdc05:
+<p>Change the following lines:
+<p>spotfinder.impersonHost=blcpu5.slac.stanford.edu
+<br>spotfinder.impersonPort=61001
+<br>webice.binDir=/usr/local/dcs/webice/install/webice-t5prod/bin
+<br>webice.scriptDir=/usr/local/dcs/webice/install/webice-t5prod/scripts
+<p>to
+<p>spotfinder.impersonHost=sdc05.slac.stanford.edu
+<br>spotfinder.impersonPort=61001
+<br>webice.binDir=/home/sw/rhel3/webice/install/webice-t5prod/bin
+<br>webice.scriptDir=/home/webserverroot/servlets/tomcat-t5prod/webice/WEB-INF/scripts
+<p>Then restart webice.
+<br>&nbsp;
+<h4>
+<a NAME="I_cant_connect_to_a_beamline"></a>I can't connect to a beamline</h4>
+Find out of the beamline dump file is in the expected location. First look
+in webice/WEB-INF/webice.properties file
+<br>and find out what the value of dcs.dumpDir is. By default it should
+be set to /home/webserverroot/servlets/webice/data/dcs.
+<br>If the beamline in question is, for example, BL9-1, find out if BL9-1.dump
+is located in the above directory.
+<p>> ls -l /home/webserverroot/servlets/webice/data/dcs
+<p>If the file is not in the directory, check if /home/webserverroot/servlets/webice/data/dcs
+directory has a
+<br>write permission so that the dcss can write the dump file into it.
+<p>If there is nothing wrong there, check the dcss config file. To do this
+you need to log on to the beamline computer,
+<br>for example blctl91 for BL9-1. For simulated beamlines, log on to blctlxx.
+Look in, for example,&nbsp; /usr/local/dcs/dcsconfig/data/BL9-1.config.
+Make sure dcss.dbDumpFlag config is set to true and find out the
+<br>value of dcss.dbDumpFile config. In this case, it should be set to
+/home/webserverroot/servlets/webice/data/dcs/SIM9-1.dump.
+<br>&nbsp;
+<h4>
+<a NAME="I_can_view_an_image_in_bluice_but_not_in_"></a><span 
+ style="font-weight: bold;"><a NAME="I_can_view_an_image_in_bluice_but_not_in"></a>I
+can view an image in bluice but not in webice</span></h4>
+Webice is configured to connect to the image server running on blctlxx
+port 14007. If you can see the same image on bluice and not on webice,
+it's likely that the image server on blctlxx hangs or is not running. Vice
+versa, if you can see the image on webice but not on bluice, the image
+server on smbfs (used by bluice on all beamlines) probably hangs.
+<p>To restart image server on blctlxx:
+<p>> ssh blctl@blctlxx
+<br>> ps -ef | grep imgsrv
+<br>root&nbsp;&nbsp;&nbsp; 3103119&nbsp;&nbsp;&nbsp; 3099654&nbsp; 0 18:43:34
+pts/3&nbsp;&nbsp; 0:06 /usr/local/dcs/imgsrv/irix/imgsrv /usr/local/dcs/dcsconfig/data/default.config/
+<br>> sudo kill -9 3103119
+<br>> cd /usr/local/dcs/imgsrv
+<br>> sudo ./imgsrv.sh
+<br>&nbsp;
+<h4>
+<a NAME="How_to_change_labelit_and_mosflm"></a>How to change labelit and
+mosflm versions for Webice and Crystal-Analysis</h4>
+There are 3 ways to run the strategy scripts:
+<br>- Via the Crystal-Analysis during screening when the "stop" check box
+the action list is ticked.
+<br>- Via the Crystal-Analysis when the user clicks "Analyze Crystal" in
+the Screening tab in WebIce
+<br>&nbsp;&nbsp; if the user is connected to the beamline and the crystal
+is still mounted.
+<br>- From the Autoindex tab in WebIce where two images are selected from
+the file system.
+<p>All three use the same strategy scripts located in the WebIce project
+(/home/webserverroot/servlets/tomcat5-prod/webice/WEB-INF/scripts).
+<br>To change labelit and mosflm versio, you need to edit setup_env.csh
+file.
+<p>For blcpu, look for is_blcpu variable in the file. Change the lines
+containing "module load labelit/XXX" and "module load ipmosflm/XXX" where
+XXX are the version numbers for labelit and mosflm.
+<p>For linux (sdc02 - sdc06), the module command is not available. You
+will need to&nbsp; source the appropriate setup scripts from mosflm and
+labelit, for example:
+<p>source /home/sw/rhel3/ccp4-5.0.2/include/ccp4.setup
+<br>source /home/sw/rhel3/labelit_0.987b/labelit_build/setpaths.csh
+<br>set path=(/home/sw/rhel3/mosflm/v6.25 $path)
+<br>&nbsp;
+<p>The autoindex script can be run in 3 ways:
+<br>- Via the Crystal-Analysis during screening when the "stop" check box
+the action list is NOT ticked.
+<br>- Via the Crystal-Analysis when the user clicks "Analyze Crystal" in
+the Screening tab in WebIce
+<br>&nbsp;&nbsp; if the user is NOT connected to the beamline or the crystal
+is not currently mounted.
+<p>The autoindex scripts are located in the crystal-analysis project (/home/webserverroot/servlets/tomcat5-prod/crystal-analysis/WEB-INF/scripts).
+<br>In future release, the autoindex scripts and strategy scripts will
+be consolidated.
+<p>For now, to change labelit and moslfm versions, you need to edit setup_env.csh.&nbsp;
+Modify the file the same way as above.
+<br>Note that it is in /home/webserverroot/servlets/tomcat5-prod/crystal-analysis/WEB-INF/scripts
+which is different from the directory location of the strategy scripts.
+<br>&nbsp;
+<br>&nbsp;
+<h4>
+<a NAME="Which_host_is_my_autoindex_and"></a>Which host is my autoindex
+and spotfinder running on?</h4>
+You can find out where the autoindex, strategy and spotfinder are running
+by looking at the <a href="#Configuration_File_For_Crystal-Analysis">config
+file of the Crystal-Analysis server</a>. But to summarize, each beamline
+is setup to run the scripts on an sdc linux computer.&nbsp; Notice&nbsp;
+the difference&nbsp; between spotfinder directory path for sdc and blcpu.
+The same scripts for autoindex and strategy are used on both platforms.
+<br>&nbsp;
+<table BORDER CELLSPACING=2 CELLPADDING=2 style="width: 100%; text-align: left;" >
+<caption><tbody>
+<br></tbody></caption>
+
+<tr>
+<td style="vertical-align: top;"><span style="font-weight: bold;">Beamline</span></td>
+
+<td style="vertical-align: top;"><span style="font-weight: bold;">Host
+Name</span></td>
+
+<td style="vertical-align: top;"><span style="font-weight: bold;">spotfinder
+executable</span></td>
+
+<td style="vertical-align: top;"><span style="font-weight: bold;">autoindex
+scritps</span></td>
+
+<td style="vertical-align: top;"><span style="font-weight: bold;">strategy
+scripts</span></td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">BL1-5</td>
+
+<td style="vertical-align: top;">sdc02</td>
+
+<td style="vertical-align: top;">/home/sw/rhel3/crystal-analysis/bin</td>
+
+<td style="vertical-align: top;">/home/webserverroot/servlets/tomcat5-prod/crystal-analysis/WEB-INF/scripts</td>
+
+<td style="vertical-align: top;">/home/webserverroot/servlets/tomcat5-prod/webice/WEB-INF/scripts</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">BL9-1</td>
+
+<td style="vertical-align: top;">sdc03</td>
+
+<td style="vertical-align: top;">/home/sw/rhel3/crystal-analysis/bin</td>
+
+<td style="vertical-align: top;">/home/webserverroot/servlets/tomcat5-prod/crystal-analysis/WEB-INF/scripts</td>
+
+<td style="vertical-align: top;">/home/webserverroot/servlets/tomcat5-prod/webice/WEB-INF/scripts</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">BL9-2</td>
+
+<td style="vertical-align: top;">sdc04</td>
+
+<td style="vertical-align: top;">/home/sw/rhel3/crystal-analysis/bin</td>
+
+<td style="vertical-align: top;">/home/webserverroot/servlets/tomcat5-prod/crystal-analysis/WEB-INF/scripts</td>
+
+<td style="vertical-align: top;">/home/webserverroot/servlets/tomcat5-prod/webice/WEB-INF/scripts</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">BL11-1</td>
+
+<td style="vertical-align: top;">sdc05</td>
+
+<td style="vertical-align: top;">/home/sw/rhel3/crystal-analysis/bin</td>
+
+<td style="vertical-align: top;">/home/webserverroot/servlets/tomcat5-prod/crystal-analysis/WEB-INF/scripts</td>
+
+<td style="vertical-align: top;">/home/webserverroot/servlets/tomcat5-prod/webice/WEB-INF/scripts</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">BL11-3</td>
+
+<td style="vertical-align: top;">sdc06</td>
+
+<td style="vertical-align: top;">/home/sw/rhel3/crystal-analysis/bin</td>
+
+<td style="vertical-align: top;">/home/webserverroot/servlets/tomcat5-prod/crystal-analysis/WEB-INF/scripts</td>
+
+<td style="vertical-align: top;">/home/webserverroot/servlets/tomcat5-prod/webice/WEB-INF/scripts</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">SIM1-5</td>
+
+<td style="vertical-align: top;">sdc02</td>
+
+<td style="vertical-align: top;">/home/sw/rhel3/crystal-analysis/bin</td>
+
+<td style="vertical-align: top;">/home/webserverroot/servlets/tomcat5-prod/crystal-analysis/WEB-INF/scripts</td>
+
+<td style="vertical-align: top;">/home/webserverroot/servlets/tomcat5-prod/webice/WEB-INF/scripts</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">SIM9-1</td>
+
+<td style="vertical-align: top;">sdc03</td>
+
+<td style="vertical-align: top;">/home/sw/rhel3/crystal-analysis/bin</td>
+
+<td style="vertical-align: top;">/home/webserverroot/servlets/tomcat5-prod/crystal-analysis/WEB-INF/scripts</td>
+
+<td style="vertical-align: top;">/home/webserverroot/servlets/tomcat5-prod/webice/WEB-INF/scripts</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">SIM9-2</td>
+
+<td style="vertical-align: top;">sdc04</td>
+
+<td style="vertical-align: top;">/home/sw/rhel3/crystal-analysis/bin</td>
+
+<td style="vertical-align: top;">/home/webserverroot/servlets/tomcat5-prod/crystal-analysis/WEB-INF/scripts</td>
+
+<td style="vertical-align: top;">/home/webserverroot/servlets/tomcat5-prod/webice/WEB-INF/scripts</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">SIM11-1</td>
+
+<td style="vertical-align: top;">sdc05</td>
+
+<td style="vertical-align: top;">/home/sw/rhel3/crystal-analysis/bin</td>
+
+<td style="vertical-align: top;">/home/webserverroot/servlets/tomcat5-prod/crystal-analysis/WEB-INF/scripts</td>
+
+<td style="vertical-align: top;">/home/webserverroot/servlets/tomcat5-prod/webice/WEB-INF/scripts</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">SIM11-3</td>
+
+<td style="vertical-align: top;">sdc06</td>
+
+<td style="vertical-align: top;">/home/sw/rhel3/crystal-analysis/bin</td>
+
+<td style="vertical-align: top;">/home/webserverroot/servlets/tomcat5-prod/crystal-analysis/WEB-INF/scripts</td>
+
+<td style="vertical-align: top;">/home/webserverroot/servlets/tomcat5-prod/webice/WEB-INF/scripts</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">webice</td>
+
+<td style="vertical-align: top;">blcpu5</td>
+
+<td style="vertical-align: top;">/usr/local/dcs/crystal-analysis/bin (on
+blcpu5)</td>
+
+<td style="vertical-align: top;">/home/webserverroot/servlets/tomcat5-prod/crystal-analysis/WEB-INF/scripts</td>
+
+<td style="vertical-align: top;">/home/webserverroot/servlets/tomcat5-prod/webice/WEB-INF/scripts</td>
+</tr>
+
+<tr>
+<td style="vertical-align: top;">default</td>
+
+<td style="vertical-align: top;">blcpu5</td>
+
+<td style="vertical-align: top;">/usr/local/dcs/crystal-analysis/bin (on
+blcpu5)pwd</td>
+
+<td style="vertical-align: top;">/home/webserverroot/servlets/tomcat5-prod/crystal-analysis/WEB-INF/scripts</td>
+
+<td style="vertical-align: top;">/home/webserverroot/servlets/tomcat5-prod/webice/WEB-INF/scripts</td>
+</tr>
+</table>
+
+<br>&nbsp;
+<h4>
+<a NAME="How_can_I_change_input_parameters_for"></a>How can I change input
+parameters for spotfinder?</h4>
+For spotfinder run from the Image tab in webice by clicking the "Analyze
+Image" button,&nbsp; you can located spotfinder and its input files in
+webice.properties config file (see webice.binDir config).&nbsp; Currently,
+the executable and input files are located in /usr/local/dcs/webice/install/webice-t5prod/bin
+on blcpu5 (because spotfinder.impersonHost is set to blcpu5). Modify spotfinder.par
+in this directory to change spotfinder input parameters.
+<p>For spotfinder run during screening via the crystal-analysis server,
+you will need to look at the &lt;beamline>.binDir config in crystal-analysis
+config file (server.config) to find out where spotinder executable and
+input files are located. The default value is /home/sw/rhel3/crystal-analysis/bin
+for all beamlines. You will need to modify spotfinder.par in this directory
+to change spotfinder input parameters.
+<p>If spotfinder is run for crystal centering, you will need to modify
+center.par file in /home/sw/rhel3/crystal-analysis/bin
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+</body>
+</html>

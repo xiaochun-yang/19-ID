@@ -1,0 +1,484 @@
+Directory structure:
+spotfinder/
+   src/  makefile  README  distlsum
+   src/
+     spotfinder.cc  libdistl.h  libdistl.cc  spotfinder.par 
+
+Library 'libdistl' consists of two files: libdistl.h and libdistl.cc.
+Program 'spotfinder' illustrates the use of library 'libdistl', and in its own right
+is a useful utility.
+distlsum is a utility script for summarizing processing statistics of a bunch of images.
+
+
+Compiling:
+  The makefile assumes library directories 
+      cbf/ diffimage/  jpegsoc/  xos/
+  are present, parallel to the spotfinder/ directory, and are properly compiled.
+  Suppose you want spotfinder in /temp/, the compilation goes as follows:
+
+  cd /temp
+  cvs checkout cbf
+  cvs checkout diffimage
+  cvs checkout jpegsoc
+  cvs checkout xos
+  cvs checkout spotfinder
+  cd cbf
+  gmake all
+  cd ../diffimage
+  gmake
+  cd ../jpegsoc
+  gmake
+  cd ../xos
+  gmake
+  cd ../spotfinder
+  gmake
+
+  A subdirectory appropriate for the platform will appear under spotfinder/.
+  In the newly created subdirectory there will be executable spotfinder, spotfinder.o, libdistl.o,
+  and a copy of the example parameter file spotfinder.par.
+
+  
+Run 'spotfinder' with no arguments for help message.
+Run 'distlsum' with no arguments for help message.
+
+
+
+=============
+Revision history 
+=============
+26 Jul 2006 (NKS) Introduce the function iround() to round off double
+  values to the nearest integer in cases where static_cast's truncation
+  mechanism is not appropriate.
+
+29 May 2006 (NKS) Numerous changes to libdistl.cc:
+
+1) In diffimage::search_border_spot() the algorithm for determining spot
+body and border pixels is modified. As orginally implemented (ZZ), arrival at
+a given pixel triggered the examination of all 8 neighboring pixels. In a 
+later implementation (QXU?) this was reduced to just the 4 neighboring pixels
+resulting from x,y translations. While this saves time, it appears to miss
+some pixels that should belong to the spot body, which turns out to be 
+deleterious for LABELIT. Also the spot border becomes too jagged.  
+Therefore, the original 8-pixel search is restored. 
+
+2) As a result of #1) spot borders are now larger, and more pairs of adjacent
+spots are flagged as close neighbors.  This is especially true for pairings
+of a large and a small spot.  To compensate for this, the constant factor 
+spotdistminfactor has been changed from 1.2 to 0.9, so that spotfinder.cc 
+produces approximately the same results as before. [The spotfinder.cc algorithm
+for determining near neighbors relies on properties of the spot border; in 
+other words on pixels that are not part of the spot itself.  NKS therefore 
+feels that the algorithm is flawed and will need to be replaced in the future.
+LABELIT already has separate comprehensive code to determine close neighbors.]
+
+3) Flow-control for diffimage::search_border_spot() is changed from a 
+recursive function-call mechanism to a stack-mediated while loop. This is a bug
+fix to correctly deal with overexposed images having extremely large or
+saturated spots (>>10000 pixels).  In the original algorithm, recursive
+function calls for each new pixel would eventually cause a stack limit 
+overflow (the unix process imposes a specific runtime stack limit).  The
+new version utilizes a C++ "stack" structure which is allocated on the heap and 
+therefore not limited by the process stack memory.  The new implementation
+turns out to be faster, so it is still efficient to search all 8 neighboring
+pixels (#1 above).  In the future, the search_border_overload function will
+also be re-implemented using this design.
+
+4) The parameters bgupperint[1] and bgupperint[2] have been changed from 
+(2.0,2.5) to (1.5,1.5).  These values, as explained in the DISTL paper
+(J Appl Cryst, 39:112, 2006) define the sigma cutoff (std deviations of 
+pixel value above box mean) for flagging pixels as potential Bragg scattering
+signal.  As originally implemented (ZZ) this cutoff increases in sucessive
+cycles.  However, it doesn't really make sense to add pixels back to the
+background after they have been flagged as possibly belonging to a Bragg peak.
+(Why should a pixel at 2.4 sigma above the mean be considered background?)
+Therefore, the cutoff has been redefined as 1.5 sigma throughout all iterations.  
+
+5) In diffimage::pxlclassify_scanbox() the code for summing px, px^2, and N
+has been moved to a separate helper struct, "backplane".  Reasons: a) this 
+code, which was repeated twice within the pxlclassify_scanbox body, is now
+consolidated in one place; b) other behaviors such as the Rossmann plane
+correction (#6 below) can now be encapsulated within the backplane struct
+instead of introducing more complicated code to pxlclassify_scanbox.
+
+6) The background level within the window is now modelled as a tilted plane
+instead of a constant value.  This is necessary in order to properly treat 
+images that have especially steep radial background profiles (low resolution
+scattering can be highly overexposed when attempting to image the ~1.0 Angstrom
+regime). Some images cannot be analyzed at all unless the plane correction is
+applied. The plane correction is implemented as originally outlined by
+Michael Rossmann (J Appl Cryst, 12:225, 1979), in struct "corrected_backplane"
+derived from backplane.
+
+7) To implement corrected_backplane it is necessary to support 3x3 matrix 
+inversion within spotfinder.  Matrix code is adopted from LBNL's Computational
+Crystallography Toolbox (cctbx) hosted at sourceforge.net.  While the full 
+cctbx has dependency on Boost and Scons and is therefore not compatible with 
+the gmake build system, the three adopted files (scitbx/error.h, 
+scitbx/mat3.h, scitbx/array_family/tiny_plain.h) have been simplified for 
+the present purpose and can be compiled independently.
+
+8) The decision to model the background as a plane or a constant is controlled
+by the boolean value "use_plane_correction".  This is useful for demonstrating 
+the difference between the two models, although it is expected that in 
+practice the plane correction will always be used.  The boolean is currently
+defined in compile time, but the program could easily be rewritten to permit
+run-time selection.  The underlying selection of backplane vs. 
+corrected_backplane uses C++ run-time polymorphism to accommodate both 
+algorithms.
+
+9) Run-time performance of pxlclassify_scanbox() is now controlled by the 
+compile-time constant "speedup".  A similar mechanism was in place before, but
+the new speedup variable makes the iteration increment over x and y 
+explicit (speedup=2 samples every 4th pixel; speedup=3 samples every 9th, etc).
+Performance of the Rossmann plane correction is an issue, but it is found
+that with speedup=3, good spotfinder.cc results can be achieved while adding
+only about 0.3 seconds of run time vs. the constant-background model. LABELIT 
+requires a more precise background plane, so it uses speedup=2.
+
+10) A hard limit is placed on the size of the scanbox; an increase beyond
+1000 x 1000 pixels throws an exception.  As explained in the DISTL paper, 
+the scanbox is increased if there are insufficient background pixels 
+(normally 2/3) within the initial box.  One reviewer pointed out that for 
+large-unit cell experiments, it may be impossible to ever achieve the 
+requisite 2/3 ratio.  This type of program failure has not been observed, 
+but it is still conceivable in some instances that the scanbox might increase
+without limit.  If this exception is encountered in the future, it will be 
+necessary to re-analyze the problem and decide how to deal with specific cases.
+
+11) A boolean value "report_overloads" is added to the diffimage class to 
+define a new behavior (report_overloads = true) that treats overloaded pixels
+as valid body pixels within candidate Bragg spots.  This is necessary for 
+LABELIT, which per SSRL request now tabulates the number of Bragg spots having
+overloads.  For spotfinder.cc, this new behavior is turned off by default.
+
+25 May 2006 (NKS)
+
+Some revisions from recent days have been rolled back as they have caused
+trouble with labelit.  
+
+get_underload(): in the safety fallback, there is now a separate procedure
+for circular images wherein the pixel analysis is confined to the inscribed
+circle.
+
+pxlclassify(): the box size and untouched margin width parameters are no
+longer dynamically calculated.  However, adjacent boxes are still forced to
+be non-overlapping.
+
+24 May 2006 (NKS)
+
+Automatically detect whether the image geometry is circular (by analyzing a
+little square region in the corner for constant pixel value).  If so, do 
+not attempt to classify the pixels in the image's inactive peripheral region.
+
+19 May 2006 (NKS)
+
+Modification to pxlclassify().  This rewrite accomplishes the following:
+1) boxes for background-calculation no longer overlap, not even at the
+   edge.  Therefore pixelintensity calculations in successive boxes (within
+   the same iteration) no longer interfere with each other.
+2) The call to pxlclassify_scanbox() is now encoded exactly once. This will make
+   it much simpler to specialize the code for a) circular detectors;
+   b) background plane calculation.
+In order to fill the image with equal-size boxes, calculation sometimes
+bleeds over into the imgmargin pixels of the border.  This is not expected to  
+have adverse effect.  Also, the calculation of box size will not work 
+mathematically for all inputs, but will surely work for the expected range
+of image sizes (thousands of pixels), box sizes (50-100) and imgmargin (~20).
+
+18 May 2006 (NKS)
+
+Modification of get_underload() function (pixels lower than this cutoff are 
+considered to be in shadow or on inactive detector areas).
+
+This function has gone through 3 main revisions: Zepu (zz), Qingping (qx),
+and Nick (nks, today).  There are three procedural steps: pixel selection, 
+histogram analysis, and safety fallback.
+
+Pixel selection: A subset of pixels is examined for underloads.  zz chooses
+large square blocks in all four corners, plus a cross that bisects the image
+horizontally and vertically.  qx chooses two small squares in the upper corners;
+the intention was apparently to pick squares in all four corners.  Interestingly
+it takes much longer (~0.2 sec) to read the bottom two corners, but this 
+is unavoidable for a complete analysis.  Also, to properly analyze shadows on
+circular detectors, it is best to include the bisecting cross. The nks version
+therefore uses the zz pixel selection.  However, nks uses the qx implementation
+of std::copy instead of ptr dereferencing to create the pixel selection array. 
+It doesn't save much time (~0.01 sec) but it's cool.
+
+Histogram analysis: The two algorithms zz & qx are completely different.  
+While zz is 5-10x slower (~0.1 sec) it seems to lead to better results.  For 
+square detectors, qx often chooses a cutoff level that discards >10% of all 
+pixels.  For circular detectors, qx often chooses the value 1, so there is no
+allowance for shadows.  Therefore the nks version utilizes zz's version.
+
+Safety fallback: There is still the possibility that the cutoff level will 
+discard an unusually large % of pixels.  Therefore, nks adds a final safety 
+check. The idea is straightforward: the data are copied to a new 
+container and the nth_element algorithm is used to find the 10th percentile.
+This is the only way to insure that wanted background pixels are not masked 
+out as underloads. There are two concerns: 1) nth_element might be 
+time-consuming, so only use every 4th pixel--this uses only ~0.1 sec. 
+2) want the algorithm to work equally well on circular & 
+square plates, so filter out everything but the inscribed circle.    
+
+17 May 2006 (NKS)
+
+Spot class now divided into base class and main class for purpose of code
+compatibility with LBNL.  Spot class reorganized to provide methods;
+computations specific to individual spots are performed within the
+spot's methods instead of in the diffimage class.  Performance checked -- code 
+reorganization shouldn't affect speed.  Program output is identical.
+
+16 May 2006 (NKS)
+
+4) For compatibility with LBNL array_family code, change point list's push_front
+   occurrences to push_back. Change point_list_t from list<> to vector<>
+   spotfinder.cc: tiny differences (~10 pixels) in image file outputs.  All
+     logfile output (spot positions) are identical.  The miniscule binary 
+     differences are not worth tracking down.
+   libdistl.cc: small differences in the number of Bragg spots(0.1% on average).
+     The common spots have identical properties, but are listed in slightly
+     different order in the output list.  Differences not judged significant.
+3) Anticipating future changes, encapsulate the type of the point list.
+   It is now point_list_t instead of std::list<point>
+2) Uncommented print statements removed from library code
+1) Useful macros for code development
+
+--------
+06/03/04
+
+Modified the makefile to make it compilable on multiple platforms.
+
+
+--------
+04/23/04
+
+Speeded up the libdistl.cc code by tuning some functions.
+Now the data matrix is original image file is not copied, but is just pointed to and used.
+
+Changed directory structure of the project. 
+Now under spotfinder, there're 
+   makefile, src/, README, distlsum
+Under src there are
+   spotfinder.cc, libdistl.h, libdistl.cc, spotfinder.par
+
+No default parameter file is to be read.
+If no '-i' option is set on command line, internal default values are used.
+
+The new makefile is supposed to handle multiple platforms.
+
+
+
+--------
+04/09/04
+
+Changed the way the spotfinder handles command line parameters.
+  * Introduced default parameter file and user parameter file.
+  * As a result, number of command line parameters is greatly reduced,
+    and number of parameters in the parameter file can be easily increased.
+  * Added a command line parameter to specify location of output files.
+  * Several more individual-image-specific parameters are left on the command line.
+
+Fixed several bugs in libdistl.cc.
+
+--------
+02/27/04
+
+Added Python script distlsum for spreadsheet filling.
+
+--------
+01/27/04
+
+Spot shape measure is in place. 
+It uses the coefficient of variation (std/mean) of distances
+between spot center and all border pixels.
+Spot center of center of gravity weighted by pixel value.
+
+Added two 'badness of curve' for both image resolution estimates.
+They measure the violation to the monotonic trend in the curve.
+
+There're several things to look at in the log file for evaluating image quality:
+1) number of spots
+2) number of spots vs number of overloaded, multi-max, with-close-neighbor spots.
+3) number of icering and, if existent, strength of icering.
+4) spot shape median, usually (0, 1), the bigger the better (more roundish).
+5) badness of the curve in image resolution estimate Method 1, [0, 1], the smaller the better.
+6) badness of the curve in image resolution estimate Method 2, [0, 1], the smaller the better.
+7) closeness of the two image resolution estimates, from Method 1 and 2, respectively.
+   If both are high (small value), good; both are low (large value), bad; very different, fishy.
+
+
+12/17/03
+
+Modified spot shape measure.
+
+
+--------
+12/16/03
+
+Modified ice-ring strength measure.
+
+
+-------
+11/21/03
+
+Modified the spotfinder output format.
+Now numbers are shifted to the left, text explanation is shifted to the right.
+This output format is easier to read and parse.
+
+Added a safeguard for false multimaxima spots:
+if all maxima are close together, it is viewed as a single-maxima spot.
+
+
+Modified the output image markup for maxima:
+  it used to walk through the maxima list and mark the pixels;
+  now it walks through the spot list and descend into the spot's maxima list.
+This is intended to work around this problem:
+  if multiple maxima on a spot are merged in the above step, they are still in the global maxima list.
+There seems to be a bug:
+  some spots have two neighboring maxima, which should have been merged but were not;
+  however, the spot is not labeled as a multi-maxima spot, 
+  because otherwise the spot would have white border in 'img' image.
+
+
+-------
+10/03/03
+
+Modified the help message.
+
+
+-------
+8/26/03
+
+1.
+Improved the color scheme for output images.
+
+2.
+Fixed a bug in libdistl::resol_to_r2().
+
+
+-------
+8/25/03
+
+Added JPEG output.
+SMV *.img output is discouraged.
+
+
+-------
+8/22/03
+
+Added the option to output image of localized signal height.
+
+
+-------
+8/21/03
+
+libdistl is mofified to reflect the philosophy that
+the library keeps its finderings as much as possible, 
+the user decides what to take and what to discard.
+
+1.
+Point class has two new members:
+  int value;
+  double intensity;
+for holding pixel value and pixel signal height, respectively.
+
+2.
+Spot class has a new member
+  list<point> maximas;
+nmaxima is removed. Use maximas.size() instead.
+
+3.
+Spot 'center' and related quantities are removed.
+Just use 'peak' and corresponding quantities.
+Remember 'peak' is a 'point' object.
+
+4.
+Spot filter of size upper bound and peak intensity upper bound is removed.
+This filter can be applied, if one chooses to, while writing out border image file
+or spot list file in program 'spotfinder'.
+
+5.
+Spots with a overloaded peak are kept.
+Compare 'spot.peak.value' with 'overloadvalue' to filter out overloaded spots wherever needed.
+
+6.
+Spot has a new member
+  int ncloseneighbors;
+Use 'spot.ncloseneighbors < 1' to ignore certain spots if needed.
+
+7.
+Restriction on min distance from spot to beam center (2 * theta < 2.9)
+is removed. Impose this manually whenever needed.
+
+8.
+In summary, after spot searching, the following spots are discarded:
+  a) size below threshold
+  b) touch on ice-ring
+Every spot that passes the above filters is kept but may be ignored
+for a particular purpose later on.
+Mainly there're three places to further filter spots:
+
+At image resolution estimation, ignore spots that
+  a) 2 * theta < 2.9, or
+  b) peak.value >= overloadvalue, or
+  c) maximas.size() > 1, or
+  d) ncloseneighbors > 0
+
+While writing border image file in spotfinder.cc,
+all spots are shown, except one later decides to put in some filtering.
+
+While writing spot list in spotfinder.cc,
+only a fractoin of the spots are choosen so that MOSFML can handle it.
+
+9.
+Other minor changes.
+
+10.
+Overall image assessment and some summary output in spotfinder.cc are tedious to update.
+Don't take them too serious for now.
+
+
+
+-------
+8/14/03
+
+1. 
+Changed library name from 'diffspot' to 'distl'. 
+Changed file names, libdiffspot.* -> libdistl.*.
+Made necessary changes inside files accordingly.
+
+2. 
+Moved subroutine 'summarize' from the library to demonstration program 'spotfinder'.
+Because there're many possible ways to summarize the findings; it's not the library's job.
+
+3.
+Modified command-line options to 'spotfinder'.
+Removed several options.
+Added options for specifying beam center location.
+
+4.
+Added option to output one single spot list file for multiple images.
+This is trigered by specifying a name for the file at command line.
+
+5.
+In 'screen_spots', added
+a) remove spots if 2 * theta < 2.9 degrees
+b) if two spots are close together, both are discarded.
+
+6.
+Added 'method 2' for image resolution estimation.
+A plot similar to that for 'method 1' is output in the log file.
+
+7.
+Added various class member data to help control some old and new features.
+Most class members remain public.
+
+8.
+Removed 'directional anomaly'.
+
+9.
+Modified ice-ring detecting to ensure it works on large images.
+Extra large image will still cause problem; in that case, further work is needed.
+
+

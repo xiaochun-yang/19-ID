@@ -1,0 +1,77 @@
+
+            WASEL: Wavelength Selection v. 1.2 for IRIX64
+
+
+1.Description
+2.Input files
+3.Automated execution
+4.Output
+5.Installation
+
+	1.Description
+
+This program extracts the wavelengths which maximize |f"| and |f'|
+from the output .efs file from Chooch. The program then calculates a
+remote wavelength for the MAD experiment by optimizing the phasing
+power derived from the f' and f" values at all the wavelengths.
+
+The program can be run either from a command line or called from the
+program autochooch
+
+Usage: wasel <element_symbol.dat> <chooch.efs> [<bl.par>]
+(For example: wasel Se.dat scan_001.efs)
+
+
+     2. Input files
+
+
+The .dat file contains the theoretical values of f' and f" for a range
+of energies (format: energy, f', f"). A set of dat files is included
+with the program. You can also use your own dat files.
+
+The .efs file is written by the program Chooch.
+
+The beamline parameter file is a formatted file looking like this:
+
+    MIN_ENERGY 7000
+    MAX_ENERGY 15000
+    AREA_INC 0.05
+
+MIN_ENERGY and MAX_ENERGY are the minimum and maximum energy values at
+the beamline in eV. AREA_INC is a sensitivity parameter used to select
+the remote energy. 0.05 has been found to work well at typical MAD
+beamlines. A smaller value will select a remote at higher energy. This
+can be advantageous if the intensity of the beamline does not decrease
+noticeably with the wavelength.  If this file is not given, the
+program uses the above default values.
+
+
+   3. Automated execution from dcss
+
+To run the file from autochooch follow these steps
+
+--check out all the .dat files to the autochooch data directory 
+
+--edit the script chooch_remote.csh and make sure that a line starting with
+  "wasel" is present in the file. For new beamlines, make sure that
+  the BLxx.par file exists in the data directory and is configured correctly.
+
+--wasel_auto is an obsolete auxiliary script. 
+
+     4. Output
+
+
+The program outputs the "peak", "inflection" and "remote" wavelengths
+and the corresponding f" and f' values. If the remote wavelength has a
+higher f" than the peak of the scan, the program will only output the
+remote and inflection wavelengths.
+
+
+      5. Installation
+
+
+All the files in the tar archive have to be copied to the autochooch directory
+(/usr/local/bin/autochooch). Otherwise, the correct path has to  be
+specified in the chooch_remote.csh script
+
+

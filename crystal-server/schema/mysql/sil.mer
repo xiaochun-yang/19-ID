@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ERDiagram version="1.1">
+  <Connection session="mysql" database="sil" />
+  <Drawing gridVisible="false" snapOn="false" fastRouting="false" labelsVisible="true" />
+  <Tables>
+    <Table name="BEAMLINE_INFO">
+      <Drawing expanded="true" location="0,0" dimensions="257,111" />
+      <Columns>
+        <Column name="BEAMLINE_ID" primary_key="true" foreign_key="false" required="true" unique="true">
+          <Data type="int" size="10" />
+        </Column>
+        <Column name="BEAMLINE_NAME" primary_key="false" foreign_key="false" required="false" unique="true">
+          <Data type="varchar" size="20" />
+        </Column>
+        <Column name="BEAMLINE_POSITION" primary_key="false" foreign_key="false" required="false" unique="true">
+          <Data type="varchar" size="20" />
+        </Column>
+        <Column name="SIL_ID" primary_key="false" foreign_key="true" required="false" unique="true">
+          <Data type="int" size="10" />
+        </Column>
+      </Columns>
+    </Table>
+    <Table name="SIL_INFO">
+      <Drawing expanded="true" location="1,211" dimensions="254,111" />
+      <Columns>
+        <Column name="SIL_ID" primary_key="true" foreign_key="false" required="true" unique="true">
+          <Data type="int" size="10" />
+        </Column>
+        <Column name="USER_ID" primary_key="false" foreign_key="true" required="true" unique="false">
+          <Data type="int" size="10" />
+        </Column>
+        <Column name="UPLOAD_FILENAME" primary_key="false" foreign_key="false" required="false" unique="false">
+          <Data type="varchar" size="500" />
+        </Column>
+        <Column name="UPLOAD_TIME" primary_key="false" foreign_key="false" required="true" unique="false">
+          <Data type="timestamp" />
+        </Column>
+      </Columns>
+    </Table>
+    <Table name="USER_INFO">
+      <Drawing expanded="true" location="3,422" dimensions="250,111" />
+      <Columns>
+        <Column name="USER_ID" primary_key="true" foreign_key="false" required="true" unique="true">
+          <Data type="int" size="10" />
+        </Column>
+        <Column name="LOGIN_NAME" primary_key="false" foreign_key="false" required="false" unique="true">
+          <Data type="varchar" size="50" />
+        </Column>
+        <Column name="REAL_NAME" primary_key="false" foreign_key="false" required="false" unique="false">
+          <Data type="varchar" size="50" />
+        </Column>
+        <Column name="UPLOAD_TEMPLATE" primary_key="false" foreign_key="false" required="false" unique="false">
+          <Data type="varchar" size="50" />
+        </Column>
+      </Columns>
+    </Table>
+  </Tables>
+  <Relationships>
+    <Relationship name="BEAMLINE_INFO_ibfk_1">
+      <Details primary_table="SIL_INFO" foreign_table="BEAMLINE_INFO">
+        <PrimaryKeys>
+          <ColumnName name="SIL_ID" />
+        </PrimaryKeys>
+        <ForeignKeys>
+          <ColumnName name="SIL_ID" />
+        </ForeignKeys>
+      </Details>
+      <Drawing routingType="0" />
+    </Relationship>
+    <Relationship name="SIL_INFO_ibfk_1">
+      <Details primary_table="USER_INFO" foreign_table="SIL_INFO">
+        <PrimaryKeys>
+          <ColumnName name="USER_ID" />
+        </PrimaryKeys>
+        <ForeignKeys>
+          <ColumnName name="USER_ID" />
+        </ForeignKeys>
+      </Details>
+      <Drawing routingType="0" />
+    </Relationship>
+  </Relationships>
+</ERDiagram>
+

@@ -1,0 +1,9 @@
+function beamline_onchange() {
+    eval("i = document.beamlineForm.beamline.selectedIndex");
+    eval("x= document.beamlineForm.beamline.options[i].value");
+    if (x == "")
+    	parent.location.replace("Disconnect.do");
+    else
+    	parent.location.replace("Connect.do?beamline=" + x);
+
+}

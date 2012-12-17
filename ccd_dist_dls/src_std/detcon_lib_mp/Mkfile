@@ -1,0 +1,23 @@
+CC = cc
+CFLAGS = -g $(CFLAGS_OS} -D$(OSTYPE)
+OEXTS = detcon_misc.o detcon_heartbeat.o detcon_hw.o detcon_server.o detcon_det.o detcon_sio.o \
+	detcon_entry.o detcon_par.o detcon_glob.o detcon_exec.o dummy.o
+
+OBJS = $(OEXTS)
+DD = ../../lib/$(OSTYPE)
+
+PRCMD = pr
+
+$(DD)/libdetcon_mp.a : $(OBJS)
+	/bin/rm -f $(DD)/libdetcon_mp.a
+	ar rv $(DD)/libdetcon_mp.a $(OBJS)
+	ar ts $(DD)/libdetcon_mp.a
+
+$(OEXTS) : ../incl/ccdconv.h detcon_ext.h detcon_defs.h
+
+clean :	$(OEXTS)
+	rm $?
+
+print :	*.c *.h Makefile
+	$(PRCMD) $?
+	touch print

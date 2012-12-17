@@ -1,0 +1,757 @@
+How to WEBICE on a standalone computer
+======================================
+
+Log on to smblx99, a standalone computer. Create a Web-Ice root directory.
+In the example below this is /home/penjitk/code, symbolized as $ROOT_DIR.  
+By the end of the installation, the following files and directories will be created under
+the root directory.
+
+- apache-ant-1.6.1
+- apache-tomcat-5.5.15
+  - conf
+    - gatewayConfig.jar
+    - AuthGatewayApps.xml
+    - AuthGatewayMethods.xml
+    - AuthGatewaySystems.xml
+    - SimpleUserDB.xml
+    - tomcat-users.xml
+    - server.xml
+  - webapps
+    - gateway.war
+    - webice
+- auth_client
+- Authentication_Public
+- cbf
+- dcsconfig
+- diffimage
+- http_cpp
+- images
+- imgsrv
+- imperson_cpp
+- jdk1.5.0_06
+- jpegsoc
+- logging
+- setup_env.csh
+- spotfinder
+- xos
+- xos_cpp
+
+
+1. Install jdk 1.5 and jdk 1.4 (for building applets because many browsers do not support jdk 1.5)
+
+   - Download (e.g. jdk-1_5_0_06-linux-i586.bin)
+   - Extract it to ${ROOT_DIR}/jdk1.5.0_06
+
+2. Install ant 1.6
+
+   - Download apache-ant-1.6.1-bin.tar.gz
+   - Unzip and unpack it to ${ROOT_DIR}/apache-ant-1.6.1
+
+3. Install tomcat 5.5.*
+
+   - Download apache-tomcat-5.5.15.tar.gz
+   - Unzip and unpack it to ${ROOT_DIR}/apache-tomcat-5.5.15
+   
+4. Create env setup script in the root directory (/home/penjitk/code).
+ 
+ #!/bin/csh -f
+
+setenv ROOT_DIR /home/penjitk/code
+setenv JAVA_HOME ${ROOT_DIR}/jdk1.5.0_06
+setenv ANT_HOME ${ROOT_DIR}/apache-ant-1.6.1
+setenv CATALINA_HOME ${ROOT_DIR}/apache-tomcat-5.5.15
+setenv WEBICE_HOME ${CATALINA_HOME}/webapps/webice
+setenv PATH ${WEBICE_HOME}/WEB-INF/src:${JAVA_HOME}/bin:${ANT_HOME}/bin:$PATH
+
+
+5. Configure tomcat
+
+   - Edit apache-tomcat-5.5.15/conf/tomcat-users.xml and add the following user:
+   
+  <user username="admin" password="admin" roles="manager,tomcat"/>
+  
+     This will be the user name and password for tomcat manager page for 
+     starting/stopping web applications including webice.
+     
+   - Enable SSRL. Uncomment out the following lines in conf/server.xml file.
+   
+     <Connector port="8443" maxHttpHeaderSize="8192"
+               maxThreads="150" minSpareThreads="25" maxSpareThreads="75"
+               enableLookups="false" disableUploadTimeout="true"
+               acceptCount="100" scheme="https" secure="true"
+               clientAuth="false" sslProtocol="TLS" />
+
+   - Generate /home/penjitk/.keystore by running the following command
+   
+   > cd ${ROOT_DIR}
+   > source setup_env.csh
+   > ${JAVA_HOME}/bin/keytool -genkey -alias tomcat -keyalg RSA    
+     Use password "changeit" to generate key.
+   
+   - Start Tomcat web server.
+
+   > cd ${ROOT_DIR}
+   > source setup_env.csh      (if not already done)
+   > cd ${CATALINA_HOME}/bin
+   > ./startup.sh
+   
+   To stop Tomcat web server:
+   
+   > cd ${ROOT_DIR}
+   > source setup_env.csh
+   > cd ${CATALINA_HOME}/bin
+   > ./shutdown.sh
+   
+   - Test tomcat. Open mozilla and go to the following urls:
+   
+     http://smblx99:8080
+     https://smblx99:8443
+ 
+   
+   - Run tomcat manager. Open mozilla and go to the following urls
+   
+     http://smblx99:8080/manager/html
+  
+   Login as admin with password admin. webice application should be listed on the manager page.
+   To start/stop the application, click on the start or stop link.
+   
+   - Firewall Configuration:  To permit Web connections from another host, the
+     TCP ports 8080 and 8443 must be opened.  From the Red Hat gnome desktop,
+     use System Settings -> Security Level.  Choose Security level: Enable 
+     firewall and Other ports: 8080:tcp, 8443:tcp.  No other open ports 
+     should be required.
+
+6. Install authentication server.
+
+   - Checkout Authentication_Public
+
+   > cd ${ROOT_DIR}
+   > cvs -d :pserver:penjitk@smb.slac.stanford.edu:/home/code/repository login
+   > password:
+   
+   > cvs -d :pserver:penjitk@smb.slac.stanford.edu:/home/code/repository checkout Authentication_Public
+   
+   - Copy UserAuthenticationGateway.jar to ${CATALINA_HOME}/conf directory. 
+     Extract the files
+   
+   > cd ${CATALINA_HOME}/conf
+   > cp $ROOT_DIR/Authentication_Public/UserAuthenticationGateway.jar .
+   > jar xvf UserAuthenticationGateway.jar
+   > jar xvf gatewayConfig.jar
+   
+   - Edit conf/AuthGatewaySystems.xml and add smblx99 host to the list. The authentication
+     servlets can be accessed only from host on this list.
+   
+    <AuthGatewaySystems>
+       <AuthGatewaySystem id="127.0.0.1">
+          <ip>127.0.0.1</ip>
+          <sysname>smblx99.slac.stanford.edu</sysname>
+       </AuthGatewaySystem>
+    </AuthGatewaySystems>
+   
+   - Edit conf/AuthGatewayMethods.xml and change the value of <domain>
+     to the domain name of this computer, which reflects the domain for 
+     which cookies will be valid. In this example, the host name is smblx99.slac.stanford.edu
+     The following domain setting will allow session sharing among
+     requests sent to url whose domain ends with .slac.stanford.edu.
+     
+     <domain>.slac.stanford.edu</domain>
+     
+   - Add The following lines to ${CATALINA_HOME}/conf/AuthGatewayApps.xml. These are 
+     the list of applications that are allowed to access auth server. An application
+     can identify itself, as one of these names, in an HTTP request parameter called 
+     AppName. For example, bluice may send a request like this: 
+     http://<host>:<port>/<auth path>/updateSession?<other params>&AppName=SMBTest
+
+   <AuthApplication id="SMBTest">
+       <appName>SMBTest</appName>
+   </AuthApplication>
+   <AuthApplication id="Crystals">
+       <appName>Crystals</appName>
+   </AuthApplication>
+   <AuthApplication id="WebIce">
+       <appName>WebIce</appName>
+   </AuthApplication>
+
+   - Edit conf/SimpleUserDB.xml and modify user info, for example:
+   
+   <UserInfo id="penjitk">
+      <password>xxx</password>
+      <UserPriv>4</UserPriv>
+      <UserName>Penjit Moorhead</UserName>
+      <OfficePhone>1-650-555-5555</OfficePhone>
+      <JobTitle>Software Developer</JobTitle>
+      <Beamlines>ALL</Beamlines>
+      <UserStaff>Y</UserStaff>
+      <RemoteAccess>Y</RemoteAccess>
+      <Enabled>Y</Enabled>
+   </UserInfo>
+   
+     Note that you can set the password to be any arbitary string. It does not
+     have to match the acutal linux account password.
+     
+     Add a list of beamlines to <AllBeamlines>, for example:
+     
+     <AllBeamlines id="BL1-5;BL9-1;BL9-2;BL11-1;BL11-3;SIM1-5;SIM9-1;SIM9-2;SIM11-1;SIM11-3">
+   
+   - Copy gateway.war to ${CATALINA_HOME}/webapps directory.
+     
+     > cd ${CATALINA_HOME}/webapps
+     > cp ${ROOT_DIR}/Authentication_Public/gateway.war .
+     
+   - Restart Tomcat.
+   
+     > cd ${ROOT_DIR}
+     > source setup_env.csh
+     > cd ${CATALINA_HOME}/bin
+     > ./shutdown.sh
+     > ./startup.csh
+     
+   - Note that the authentication listens on port 8080 for http connection
+     and on 8443 for https.
+     
+   - Test the auth server
+   
+     > cd ${ROOT_DIR}
+     > source setup_env.csh       (if not already done)
+     > cd ${CATALINA_HOME}/conf
+     > cd Authentication_Public
+     > java -cp authUtility.jar:gatewayTest.jar AuthGatewayTest
+     
+     In GatewayTest window, enter http://smblx99.slac.stanford.edu:8080 in the Host entry box.
+     Enter Userid and Passwd found in conf/SimpleUserDB.xml. Click the login button.
+     The window will display info similar to the following.
+     
+Session created with AuthGatewayBean.
+Session ID: 25D7B9CCBEBFE1E5BFCFA87467CBD3B0
+Session Valid: true
+Created: Fri Feb 24 13:10:17 PST 2006
+Accessed: Fri Feb 24 13:10:17 PST 2006
+Login: penjitk
+AuthGatewayBean properties: 
+Auth.UserName: Penjit Moorhead
+Auth.JobTitle: Beamline Scientist
+Auth.OfficePhone: 1-650-555-1212
+Auth.Beamlines: ALL
+Auth.Enabled: Y
+Auth.UserStaff: Y
+Auth.UserType: 
+Auth.AllBeamlines: BL1-5;BL9-1;BL9-2;BL11-1;BL11-3;SIM1-5;SIM9-1;SIM9-2;SIM11-1;SIM11-3
+Auth.RemoteAccess: Y
+Auth.UserPriv: 4
+
+     Note that the session id from the second line can be used to test 
+     the impersonation server and image server (in section 5 and 6).
+     
+     - Make note of the session id displayed in GatewayTest window. We will use 
+       this session id to test the following steps.
+	
+7. Install Impersonation server as a daemon.
+
+   - Checkout impserver from cvs
+
+   > cd ${ROOT_DIR}
+   > cvs -d :pserver:penjitk@smb.slac.stanford.edu:/home/code/repository login
+   > password:
+   
+   > cvs -d :pserver:penjitk@smb.slac.stanford.edu:/home/code/repository checkout xos
+   > cvs -d :pserver:penjitk@smb.slac.stanford.edu:/home/code/repository checkout logging
+   > cvs -d :pserver:penjitk@smb.slac.stanford.edu:/home/code/repository checkout xos_cpp
+   > cvs -d :pserver:penjitk@smb.slac.stanford.edu:/home/code/repository checkout http_cpp
+   > cvs -d :pserver:penjitk@smb.slac.stanford.edu:/home/code/repository checkout auth_client
+   > cvs -d :pserver:penjitk@smb.slac.stanford.edu:/home/code/repository checkout imperson_cpp
+   
+    - Build Impersonation server
+   
+   > cd xos
+   > gmake
+   > cd ../logging
+   > gmake
+   > cd ../xos_cpp
+   > gmake
+   > cd ../http_cpp
+   > gmake
+   > cd ../auth_client
+   > gmake
+   > cd ../imperson_cpp
+   > gmake
+   
+   - Login as root and create file /etc/xinetd.d/imperson with the following content:
+   
+service imperson
+{
+        type            = UNLISTED
+        socket_type     = stream
+        protocol        = tcp
+        wait            = no
+        user            = root
+        server          = /usr/local/sbin/imperson.d
+        server_args     = smblx99.slac.stanford.edu 8080
+        port            = 61001
+        disable         = no
+}
+
+     Change values of server_args to your authentication host and port.
+     
+   - Copy ${ROOT_DIR}/imperson_cpp/linux/imperson.d to /usr/local/sbin/imperson.d
+   
+   - Search for pid of xinetd process and restart it with the following command:
+   
+   > ps -ef | grep inetd
+   > kill -HUP <pid>
+   
+   
+   - Test impserver by opening mozilla and go to the following url. Note that the session id
+     should be the one displayed in the GatewayTest tool described in step 6.
+   
+http://smblx99:61001/listDirectory?impUser=penjitk&impSessionID=3282119982E7C317C64D9574BE00001&impDirectory=/home/penjitk
+
+     Check if the directory is listed correctly in the browser.
+
+
+8. Install image server
+
+   - Checkout imgsrv from cvs
+
+   > cd ${ROOT_DIR}
+   > cvs -d :pserver:penjitk@smb.slac.stanford.edu:/home/code/repository login
+   > password:
+   
+   > cvs -d :pserver:penjitk@smb.slac.stanford.edu:/home/code/repository checkout xos
+   > cvs -d :pserver:penjitk@smb.slac.stanford.edu:/home/code/repository checkout logging
+   > cvs -d :pserver:penjitk@smb.slac.stanford.edu:/home/code/repository checkout jpegsoc
+   > cvs -d :pserver:penjitk@smb.slac.stanford.edu:/home/code/repository checkout cbf
+   > cvs -d :pserver:penjitk@smb.slac.stanford.edu:/home/code/repository checkout diffimage
+   > cvs -d :pserver:penjitk@smb.slac.stanford.edu:/home/code/repository checkout xos_cpp
+   > cvs -d :pserver:penjitk@smb.slac.stanford.edu:/home/code/repository checkout http_cpp
+   > cvs -d :pserver:penjitk@smb.slac.stanford.edu:/home/code/repository checkout dcsconfig
+   > cvs -d :pserver:penjitk@smb.slac.stanford.edu:/home/code/repository checkout auth_client
+   > cvs -d :pserver:penjitk@smb.slac.stanford.edu:/home/code/repository checkout imgsrv
+
+   - Build imgsrv
+   
+   > cd xos
+   > gmake
+   > cd ../logging
+   > gmake
+   > cd ../jpegsoc
+   > gmake
+   > cd ../cbf
+   > gmake all
+   > cd ../diffimage
+   > gmake
+   > cd ../xos_cpp
+   > gmake
+   > cd ../http_cpp
+   > gmake
+   > cd ../dcsconfig
+   > gmake
+   > cd ../auth_client
+   > gmake
+   > cd ../imgsrv
+   > gmake
+   
+   - Configure imgsrv. Modify ${ROOT_DIR}/dcsconfig/data/default.config by changing the 
+     value of auth.host, imgsrv.host and imperson.host to smblx99.slac.stanford.edu. 
+     Set auth.port to 8080 for http and set auth.securePort to 8443. 
+
+# authentication server
+auth.host=smblx99.slac.stanford.edu
+auth.port=8080
+auth.secureHost=smblx99.slac.stanford.edu
+auth.securePort=8443
+
+# image server
+imgsrv.host=smblx99.slac.stanford.edu
+imgsrv.guiPort=14005
+imgsrv.webPort=14006
+imgsrv.httpPort=14007
+imgsrv.tmpDir=/home/webstaff/jpegscratch
+imgsrv.maxIdleTime=60
+imgsrv.logStdout=true
+imgsrv.logUdpHost=
+imgsrv.logUdpPort=
+imgsrv.logFilePattern=./imgsrv_log_%d.log
+imgsrv.logFileSize=31457280
+imgsrv.logFileMax=1
+imgsrv.logLevel=ALL
+imgsrv.logLibs=
+
+# impersonation server
+imperson.host=smblx99.slac.stanford.edu
+imperson.port=61001
+imperson.readonlyHost=smblx99
+imperson.readonlyPort=61002
+
+
+   - Start imgsrv.  This must be done as root.
+   
+   > cd ${ROOT_DIR}/imgsrv/linux
+   > ./imgsrv ../../dcsconfig/data/default.config
+   
+   Output similar to the following lines will be displayed when the program starts up:
+   
+02/23/06 14:09:56 3076421504     INFO    gui port = 14005 {src/imgsrv_main.c 89  }
+02/23/06 14:09:56 3076421504     INFO    web port = 14006 {src/imgsrv_main.c 90  }
+02/23/06 14:09:56 3076421504     INFO    http port = 14007 {src/imgsrv_main.c 91  }
+02/23/06 14:09:56 3076421504     INFO    temp dir = /home/webstaff/jpegscratch {src/imgsrv_main.c 92  }
+02/23/06 14:09:56 3076421504     INFO    imperson host = smblx99 {src/imgsrv_main.c 93  }
+02/23/06 14:09:56 3076421504     INFO    imperson port = 61001 {src/imgsrv_main.c 94  }
+02/23/06 14:09:56 3076421504     INFO    max idle time = 60 seconds {src/imgsrv_main.c 95  }
+02/23/06 14:09:56 3076421504     INFO    STARTING IMAGE SERVER. {src/imgsrv_main.c 101  }
+
+   - Setup test images. Copy some test diffraction images to /home/penjitk/code/images, For example:
+   
+   > mkdir /home/penjitk/images
+   > cp infl_1_001.img /home/penjitk/images
+   
+   
+   - Test imgsrv by opening mozilla and go to the following url.Note that the session id
+     should be the one displayed in the GatewayTest tool described in step 6.
+     
+    If you have test images, check out autoindex_test_images from cvs.
+   
+http://smblx99:14007/getImage?fileName=/home/penjitk/images/infl_1_001.img&sizeX=500&sizeY=500&gray=400&zoom=1.0&percentX=0.5&percentY=0.5&userName=penjitk&sessionId=3282119982E7C317C64D9574BE00001
+
+      The image should be displayed in the browser.
+   
+9. Install spotfinder
+   
+   - Checkout spotfinder from cvs
+
+   > cd ${ROOT_DIR}
+   > cvs -d :pserver:penjitk@smb.slac.stanford.edu:/home/code/repository login
+   > password:
+   
+   > cvs -d :pserver:penjitk@smb.slac.stanford.edu:/home/code/repository checkout xos
+   > cvs -d :pserver:penjitk@smb.slac.stanford.edu:/home/code/repository checkout jpegsoc
+   > cvs -d :pserver:penjitk@smb.slac.stanford.edu:/home/code/repository checkout cbf
+   > cvs -d :pserver:penjitk@smb.slac.stanford.edu:/home/code/repository checkout diffimage
+   > cvs -d :pserver:penjitk@smb.slac.stanford.edu:/home/code/repository checkout spotfinder
+   
+   - Build spotfinder
+
+   > cd xos
+   > gmake
+   > cd ../jpegsoc
+   > gmake
+   > cd ../cbf
+   > gmake all
+   > cd ../diffimage
+   > gmake
+   > cd ../spotfinder
+   > gmake
+   
+   Note thate src/spotfinder.par is copied to linux directory 
+   during the make. 
+   
+   - Edit spotfinder/linux/spotfinder.par. Set #writeimg to 1.
+   
+   - Test spotfinder by running it on a commandline. If you have test images, 
+     check out autoindex_test_images from cvs.
+   
+   > cd spotfinder/linux
+   > ./spotfinder -i ./spotfinder.par -d . /home/penjitk/images/infl_1_001.img 
+
+   The following output will be displayed:
+   
+Processing image file /home/penjitk/code/images/infl_1_001.img ......
+enter search neighbor_spots
+- Summarizing
+- Output log message in file .//infl_1_001.log
+- Output processed image in SMV format as file .//infl_1_001.spt.img
+
+   infl_1_001.log and infl_1_001.spt.img output files will be generated in the current dir.
+   
+   
+
+10. Install webice as a tomcat application
+   
+   - Checkout webice from cvs into webapps dir of tomcat
+   
+   > cd ${CATALINA_HOME}/webapps
+   > cvs -d :pserver:penjitk@smb.slac.stanford.edu:/home/code/repository login
+   > password:
+   
+   > cvs -d :pserver:penjitk@smb.slac.stanford.edu:/home/code/repository checkout webice
+   
+
+   - Source setup_env.csh
+
+   > cd ${ROOT_DIR}
+   > source setup_env.csh
+   
+   - Modify ${WEBICE_HOME}/WEB-INF/src/build.xml. Change the following line
+
+    <property name="tomcat_base" value="/usr/local/tomcat/t5-webice" />
+    
+    to 
+    <property name="tomcat_base" value="/home/penjitk/code/apache-tomcat-5.5.15" />
+    
+   - Build webice.Make sure that you are running ant script located in 
+     ${WEBICE_HOME}/WEB-INF/src directory.
+
+   > cd ${WEBICE_HOME}/WEB-INF/src
+   > which ant
+   /home/penjitk/code/apache-tomcat-5.5.15/webapps/weice/WEB-INF/src/ant
+   > ant
+   
+   or run
+   > ./ant
+      
+   - Check if class files are generated:
+   
+   > ls ${WEBICE_HOME}/WEB-INF/lib
+   
+   - Build applets with jdk1.4. This is because most browsers still run jdk1.4.
+   
+   > setenv JAVA_HOME [jdk 1.4 path]
+   > cd ${WEBICE_HOME}/WEB-INF/src
+   > javac -d ../../applets webice/applets/*.java
+   
+   Applet classes will be generated in ${WEBICE_HOME}/applets/webice/applets directory.
+
+
+   - Modify ${WEBICE_HOME}/WEB-INF/webice.properties file. 
+   
+     If the directories are setup shown at the top of this document, you can generate
+     webice.properties file by using a utility script, configure_standalone.csh in webice directory.
+     
+     > cd ${WEBICE_HOME}
+     > ./configure_standalone.csh
+     
+     The script assumes that all servers are running on a the current host and the directory 
+     structure of the codes is setup as shown in this document. Note that CATALINA_HOME
+     env variable must be set before running the script.
+   
+   
+     If the code directories are setup differently, you will need to make changes to
+     webice.properties file manually. Make sure that host and port for each server 
+     match the values set in dcsconfig/data/default.config. See default config in 
+     WEB-INF/example.config.
+
+
+   - Add <beamline>.dump to ${WEBICE_HOME}/data/dcs directory. You can copy example
+     from BL-example.dump. The list of beamline files in this directory should
+     correspond to the list of beamline in webice.beamlines config.
+     
+   - Setup webice log to be written into${WEBICE_HOME}/logs/webice.log.  Copy
+     ${WEBICE_HOME}/WEB-INF/log4j.properties to ${CATALINA_HOME}/common/classes directory.
+     Also copy ${WEBICE_HOME}/WEB-INF/lib/log4j-1.2.13.jar and commons-logging.jar
+     to ${WEBICE_HOME}/common/lib directory. This config file sets up logging 
+     for webice, crystals and crystal-analysis apps, using log4j API .
+     
+     > cp ${WEBICE_HOME}/WEB-INF/log4j.properties ${CATALINA_HOME}/common/classes
+     > cp ${WEBICE_HOME}/WEB-INF/lib/log4j-1.2.13.jar ${CATALINA_HOME}/common/lib
+     > cp ${WEBICE_HOME}/WEB-INF/lib/commons-logging.jar ${CATALINA_HOME}/common/lib
+   
+
+   - Stop and restart Tomcat web server as described in step 5.
+   
+11. Open another mozilla and go to webice url, http://smblx99:8080/webice. Log on using username 
+    and password defined in conf/SimpleUserDB.xml described in step 6.
+
+    - Go to "Image" tab. Select an image using the file browser at the bottom of the page.
+      Check if the image is loaded and displayed. If not, perhaps the image server is not
+      running or not setup correctly. Or webice.properties file contains incorrect values for
+      imgsrv.host and imgsrv.port. The "Header" tab on the right panel should display
+      the image header.
+      
+    - Click "Analyze Image" button next to the image to run spotfinder on this image.
+      In less than a minute, you should see the image displayed with yellow overlay spots.
+      The "Analyze Image" tab on the right panel should display spot statistics.
+      
+12. Set up LABELIT.
+
+   - Obtain a download password by agreeing to the LBNL license at 
+     http://cci.lbl.gov/labelit  -> Download -> Request download instructions
+     
+   - Download the latest binary build for Linux (Red Hat 9; bundled with Python 2.4):
+   
+   wget --http-user=download --http-passwd=XXXX
+   http://adder.lbl.gov/labelit/labelit_build/binaries/labelit_redhat90_py24_1.tar.gz
+   
+     Note to system managers: Installing the LABELIT package with its own self-contained
+     pre-built Python 2.4 interpreter will not affect your shell environment in any 
+     way.  Specifically, it will not affect the ability to run the system's pre-existing 
+     Python version for other applications.
+   
+   - Untar the bundle in any directory ( ${ROOT_DIR} is OK ).  For convenience
+     create a symbolic link pointing to the current-version LABELIT, 
+     
+     ln -s ${ROOT_DIR}/labelit_0.989b ${ROOT_DIR}/labelit
+     
+   - Now change to this directory and install the package,
+   
+     cd ${ROOT_DIR}/labelit ; ./labelit_install_script.csh
+     
+   - Test LABELIT within csh:
+     
+     source $ROOT_DIR/labelit/labelit_build/setpaths.csh
+     labelit.python $ROOT_DIR/labelit/labelit_sources/labelit/run_tests.py
+     # should print out some script names with "OK" messages
+
+13. Set up CCP4 and MOSFLM.
+
+   - This section describes how to install MOSFLM 6.2.4 / CCP4 5.0.2.  Although
+     CCP4 6.0.0 is more recent, it has not been tested in association with
+     LABELIT & Web-Ice.  Furthermore, the MOSFLM 6.2.5 included with CCP4 6.0.0
+     is still not the optimal MOSFLM version for Web-Ice.  Read section 14 for 
+     more information before going further.  
+     
+   - In ${ROOT_DIR}, download the CCP4 source code package & TCL support:
+     wget ftp://ftp.ccp4.ac.uk/ccp4/5.0.2/packed/ccp4-5.0.2.tar.gz
+     wget ftp://ftp.ccp4.ac.uk/tcltk/TclTk-8.3/Linux_shared_tcltkblt.tar.gz
+     
+   - The following csh script unpacks the source, edits the ccp4 setup file,
+     modifies the MOSFLM 6.2.4 source to handle unbinned Q315 and large unit 
+     cells, and then compiles everything.
+
+#!/bin/csh -f
+set master=$PWD
+echo Setting up CCP4 in directory $master
+echo Remember to execute the following command in each new csh:
+echo   source $master/ccp4/include/ccp4.setup
+
+gunzip -c ./ccp4-5.0.2.tar.gz | tar -xf - 
+
+cat <<eof > $master/ccp4-5.0.2/x-windows/Mosflm/big_cell.csh
+#!/bin/csh
+cd mosflm
+foreach I ( control.f mosflm_all_ip_inc.for unoptimizable.f )
+if (-e \$I) then
+echo Redimensioning NREFLS \$I
+sed s/"PARAMETER (NREFLS=100000)"/"PARAMETER (NREFLS=1000000)"/ \$I > tmp1
+mv tmp1 \$I
+endif
+end
+/bin/rm -f tmp1
+eof
+chmod u+x $master/ccp4-5.0.2/x-windows/Mosflm/big_cell.csh
+
+cd $master/ccp4-5.0.2/x-windows/Mosflm
+./Q315.csh
+./big_cell.csh
+
+cd $master
+ln -s ccp4-5.0.2 ccp4
+
+cat $master/ccp4/include/ccp4.setup-dist |\
+  sed -e "s?setenv CCP4_MASTER[ \t]*/xtal?setenv CCP4_MASTER        ${master}?" |\
+  sed -e 's?setenv CCP4I_TCLTK /usr/local/bin?setenv CCP4I_TCLTK $CCP4/tcltkblt/bin?' |\
+  sed -e 's?set ccp4_first_in_path = 0?set ccp4_first_in_path = 1?' \
+  > $master/ccp4/include/ccp4.setup
+
+source $master/ccp4/include/ccp4.setup
+
+cd $CCP4
+mkdir tcltkblt; cd tcltkblt
+gzip -dc $master/Linux_shared_tcltkblt.tar.gz | tar xf -
+
+cd $CCP4
+./configure linux --with-shared-libs --with-x
+echo compiling...
+make >& make.log
+echo installing...
+make install >>& make.log
+echo Done installing CCP4.
+echo Remember to execute the following command in each new csh:
+echo   source $master/ccp4/include/ccp4.setup
+cd $master
+
+14.  Installing MOSFLM 6.2.6.
+   
+   - Version 6.2.6, currently in development, contains important bugfixes for 
+     automated Web-Ice operation, but is not widely distributed.  LBNL obtained
+     a pre-built RedHat 9 executable directly from the developer, Andrew Leslie.  
+     This executable was integrated into the CCP4 bin directory:
+     
+     mv $CCP4/bin/ipmosflm $CCP4/bin/ipmosflm624
+     ln -s ipmosflm08122005bugfixrh9 $CCP4/bin/ipmosflm
+
+    
+15. Setup autoindex scripts.
+
+   - Create the file $CATALINA_HOME/webapps/webice/WEB-INF/scripts/${HOST}.csh 
+     For example, if the HOST environment variable is smblx99.slac.stanford.edu,
+     then the created file is smblx99.slac.stanford.edu.csh. This file is
+     sourced by script $CATALINA_HOME/webapps/webice/WEB-INF/src/setup_env.csh
+     during autoindexing. The ${HOST}.csh file should setup the neccessary
+     environment variables for labelit, mosflm, etc:
+     
+     source ${ROOT_DIR}/ccp4/include/ccp4.setup
+     source ${ROOT_DIR}/labelit/labelit_build/setpaths.csh
+     set best_path=${ROOT_DIR}/best/best_v2.0
+     setenv besthome "$best_path"
+     set raddose_path=${ROOT_DIR}/raddose
+     set path=($raddose_path $best_path $path)
+     
+     In the above command lines, the token ${ROOT_DIR} MUST be explicitly 
+     written out as a full directory path name.
+     
+   - Test autoindex on the command line. If you don't have 2 test images (phi > 5 degrees apart),
+     check out autoindex_test_images from cvs. 
+   
+     > source $CATALINA_HOME/webapps/webice/WEB-INF/scripts/${HOST}.csh
+     > labelit.screen /home/penjitk/code/images/infl_1_001.img /home/penjitk/code/images/infl_1_045.img
+     
+   - Test autoindex in webice. Click "Autoindex" tab to test autoindex. Click "New Run", 
+     select 2 images to autoindex and start the run.
+
+16.  Restarting after reboot.
+
+> source /home/penjitk/code/setup_env.csh
+> $CATALINA_HOME/bin/startup.sh
+> su root
+> $ROOT_DIR/imgsrv/linux/imgsrv $ROOT_DIR/dcsconfig/data/default.config
+
+17.  Changing the hostname of the server (useful mostly for development).
+
+   - In this example, the computer was previously connected to the local area
+     network where it had the system name "pda-linuxlap.dhcp.lbl.gov" 
+     (ip address 131.243.195.41).  We disconnect the network cable and
+     reconfigure it to be tested in place, with system name "pda-linuxlap" and
+     loopback address 127.0.0.1.
+
+   - If needed, the command /sbin/ifconfig is used to discover the ip address.
+
+source setup_env.csh
+set oldname=pda-linuxlap.dhcp.lbl.gov
+set newname=pda-linuxlap
+set oldip=131.243.195.41
+set newip=127.0.0.1
+
+   - Generic procedure for reconfiguration:
+
+set oldhost=`echo $oldname | awk -F . '{print $1}'`
+set olddomain=`echo $oldname | awk -F ${oldhost} '{print $2}'`
+set newhost=`echo $newname | awk -F . '{print $1}'`
+set newdomain=`echo $newname | awk -F ${newhost} '{print $2}'`
+
+cat $CATALINA_HOME/conf/AuthGatewaySystems.xml | sed -e "s/${oldip}/${newip}/g" -e "s/${oldname}/${newname}/g" > temp1
+mv temp1 $CATALINA_HOME/conf/AuthGatewaySystems.xml
+
+cat $CATALINA_HOME/conf/AuthGatewayMethods.xml | sed -e "s/<domain>${olddomain}/<domain>${newdomain}/g" > temp1
+mv temp1 $CATALINA_HOME/conf/AuthGatewayMethods.xml
+
+cat $ROOT_DIR/dcsconfig/data/default.config | sed -e "s/${oldname}/${newname}/g" > temp1
+mv temp1 $ROOT_DIR/dcsconfig/data/default.config
+
+cd $WEBICE_HOME
+./configure_standalone.csh # create a new version of webice.properties
+
+   - The intended result is not always achieved (configure_standalone uses the environment variable
+     $HOST which does not always give the full ip name desired.  Therefore manually check the file:
+   
+vi $WEBICE_HOME/WEB-INF/webice.properties
+
+   - As root, convert the impersonation server:
+
+su -s /bin/tcsh
+set oldname=pda-linuxlap.dhcp.lbl.gov
+set newname=pda-linuxlap
+cat /etc/xinetd.d/imperson | sed -e "s/${oldname}/${newname}/g" > temp1
+mv temp1 /etc/xinetd.d/imperson
+ps -ef | grep inetd
+kill -HUP <pid>
+

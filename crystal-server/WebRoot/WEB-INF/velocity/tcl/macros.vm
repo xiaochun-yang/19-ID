@@ -1,0 +1,103 @@
+#############################
+## Macro for displaying each crystal
+##############################
+#macro(outputCrystal $crystal)
+#if ($crystal.selected)
+    {1}
+#else
+	{0}
+#end
+	{$!crystal.uniqueId}
+    {$!crystal.port}
+    {$!crystal.containerId}
+    {$!crystal.crystalId}
+    {$!crystal.data.protein}
+    {$!crystal.data.comment}
+    {$!crystal.result.autoindexResult.warning}
+    {$!crystal.data.directory}
+    {$!crystal.data.freezingCond}
+    {$!crystal.data.crystalCond}
+    {$!crystal.data.metal}
+    {$!crystal.data.priority}
+    {$!crystal.data.person}
+    {$!crystal.data.crystalUrl}
+    {$!crystal.data.proteinUrl}
+    {$!crystal.result.autoindexResult.images}
+    {$!crystal.result.autoindexResult.score}
+    {$!crystal.result.autoindexResult.unitCell.a $!crystal.result.autoindexResult.unitCell.b $!crystal.result.autoindexResult.unitCell.c $!crystal.result.autoindexResult.unitCell.alpha $!crystal.result.autoindexResult.unitCell.beta $!crystal.result.autoindexResult.unitCell.gamma}
+    {$!crystal.result.autoindexResult.mosaicity}
+    {$!crystal.result.autoindexResult.rmsd}
+    {$!crystal.result.autoindexResult.bravaisLattice}
+    {$!crystal.result.autoindexResult.resolution}
+    {$!crystal.result.autoindexResult.isigma}
+    {
+#outputImage($crystal.images "1")
+#outputImage($crystal.images "2")
+#outputImage($crystal.images "3")
+    }
+    {$!crystal.result.autoindexResult.dir}
+    {$!crystal.result.reorientable}
+    {$!crystal.result.reorientInfo}
+    {$!crystal.result.reorientPhi}
+	{#foreach ($run in $crystal.result.runs)$!run.runLabel #end}
+	{#foreach ($run in $crystal.result.runs)$!run.runStatus #end}
+#end
+######################################
+## Macro for displaying each group of images
+######################################
+#macro(outputImage $images $groupName)
+     {
+#foreach ($image in $images)
+#if ($image.group == $groupName) 
+#set ($data = $image.data)
+#set ($result = $image.result.spotfinderResult)
+      { {$!image.dir} {$!image.name} {$!data.jpeg} {$!data.small} {$!data.medium} {$!data.large} {$!result.quality} {$!result.spotShape} {$!result.resolution} {$!result.numIceRings} {$!result.diffractionStrength} {$!result.score} {$!result.numSpots} {$!result.numOverloadSpots} {$!result.integratedIntensity} {$!result.dir} }
+#end
+#end
+     }
+#end
+##
+####################################
+## Output for sil.beans.RunDefinition labels
+####################################
+#macro(outputRunDefinitionLabels $labels)
+{#foreach ($label in $labels)$label #end}
+#end
+##
+####################################
+## Output for sil.beans.RunDefinition status
+####################################
+#macro(outputRunDefinitionStatus $statusList)
+{#foreach ($st in $statusList)$st #end}
+#end
+##
+###############################
+## Output for sil.beans.RepositionData
+###############################
+#macro(outputRepositionDataSimple $silId $row $uniqueId $repos)
+#if ($repos)
+{$silId $row $uniqueId $repos.repositionId {$!repos.label} {$!repos.autoindexable} {$!repos.jpeg1} {$!repos.jpeg2} {$!repos.jpegBox1} {$!repos.jpegBox2} {$!repos.image1} {$!repos.image2} ##
+{$!repos.beamSizeX} {$!repos.beamSizeY} {$!repos.offsetX} {$!repos.offsetY} {$!repos.offsetZ} ##
+{$!repos.energy} {$!repos.distance} {$!repos.beamStop} {$!repos.delta} {$!repos.attenuation} {$!repos.exposureTime} {$!repos.flux} {$!repos.i2} ##
+{$!repos.cameraZoom} {$!repos.scalingFactor} {$!repos.detectorMode} {$!repos.beamline} {$!repos.reorientInfo} ##
+{$!repos.autoindexResult.images} {$!repos.autoindexResult.score} {$!repos.autoindexResult.unitCell} {$!repos.autoindexResult.mosaicity} {$!repos.autoindexResult.rmsd} {$!repos.autoindexResult.bravaisLattice} ##
+{$!repos.autoindexResult.resolution} {$!repos.autoindexResult.isigma} {$!repos.autoindexResult.dir} {$!repos.autoindexResult.bestSolution} {$!repos.autoindexResult.warning}}
+#else
+{}
+#end
+#end
+###############################
+## Output for sil.beans.RepositionData
+###############################
+#macro(outputRepositionData $silId $row $uniqueId $repos $reposList)
+#if ($reposList)
+{#foreach ($item in $reposList)$item.label #end}
+{#foreach ($item in $reposList)$item.autoindexable #end}
+{#foreach ($item in $reposList){{$!item.autoindexResult.score} {$!item.autoindexResult.unitCell} {$!item.autoindexResult.mosaicity} {$!item.autoindexResult.rmsd} {$!item.autoindexResult.bravaisLattice} {$!item.autoindexResult.resolution} {$!item.autoindexResult.isigma}} #end}
+#else
+{}
+{}
+{}
+#end
+#outputRepositionDataSimple($silId $row $uniqueId $repos)
+#end

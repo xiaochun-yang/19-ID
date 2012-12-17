@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+	 version="2.4" >
+
+	<display-name>Crystals Server</display-name>
+
+  <!-- Request filter -->
+  <filter>
+    <filter-name>LoginFilter</filter-name>
+    <filter-class>sil.beans.LoginFilter</filter-class>
+  </filter>
+
+
+<!--  <filter-mapping>
+    <filter-name>LoginFilter</filter-name>
+    <url-pattern>*.do</url-pattern>
+  </filter-mapping>
+-->
+
+  <!-- ServletContextListener -->
+  <listener>
+    <listener-class>sil.beans.SilContextListener</listener-class>
+  </listener>
+<!--  
+  <listener>
+    <listener-class>sil.beans.SilRequestListener</listener-class>
+  </listener>
+-->
+  <!-- Servlet Definitions -->
+  <servlet>
+    <servlet-name>action</servlet-name>
+    <servlet-class>org.apache.struts.action.ActionServlet</servlet-class>
+    <init-param>
+      <param-name>config</param-name>
+      <param-value>/WEB-INF/struts-config.xml</param-value>
+    </init-param>
+    <load-on-startup>0</load-on-startup>
+  </servlet>
+
+  <servlet>
+    <servlet-name>ExcelFileLoader</servlet-name>
+    <servlet-class>sil.servlets.ExcelFileLoader</servlet-class>
+    <load-on-startup>0</load-on-startup>
+  </servlet>
+
+  <servlet>
+    <servlet-name>ExcelFileLoader1</servlet-name>
+    <servlet-class>sil.servlets.ExcelFileLoader</servlet-class>
+    <load-on-startup>0</load-on-startup>
+  </servlet>
+
+
+  <servlet>
+    <servlet-name>SetCrystal</servlet-name>
+    <servlet-class>sil.servlets.SetCrystal</servlet-class>
+    <load-on-startup>0</load-on-startup>
+  </servlet>
+
+  <servlet>
+    <servlet-name>SetCrystalImage</servlet-name>
+    <servlet-class>sil.servlets.SetCrystalImage</servlet-class>
+    <load-on-startup>0</load-on-startup>
+  </servlet>
+
+  <servlet>
+    <servlet-name>AddCrystal</servlet-name>
+    <servlet-class>sil.servlets.AddCrystal</servlet-class>
+    <load-on-startup>0</load-on-startup>
+  </servlet>
+
+  <servlet>
+    <servlet-name>AddCrystalImage</servlet-name>
+    <servlet-class>sil.servlets.AddCrystalImage</servlet-class>
+    <load-on-startup>0</load-on-startup>
+  </servlet>
+
+  <servlet>
+    <servlet-name>ClearCrystalImages</servlet-name>
+    <servlet-class>sil.servlets.ClearCrystalImages</servlet-class>
+    <load-on-startup>0</load-on-startup>
+  </servlet>
+
+  <servlet>
+    <servlet-name>ClearCrystal</servlet-name>
+    <servlet-class>sil.servlets.ClearCrystal</servlet-class>
+    <load-on-startup>0</load-on-startup>
+  </servlet>
+
+  <servlet>
+    <servlet-name>ClearAllCrystals</servlet-name>
+    <servlet-class>sil.servlets.ClearAllCrystals</servlet-class>
+    <load-on-startup>0</load-on-startup>
+  </servlet>
+
+  <servlet>
+    <servlet-name>GetCrystalData</servlet-name>
+    <servlet-class>sil.servlets.GetCrystalData</servlet-class>
+    <load-on-startup>0</load-on-startup>
+  </servlet>
+
+  <servlet>
+    <servlet-name>IsEventCompleted</servlet-name>
+    <servlet-class>sil.servlets.IsEventCompleted</servlet-class>
+    <load-on-startup>0</load-on-startup>
+  </servlet>
+
+  <servlet>
+    <servlet-name>GetLatestEventId</servlet-name>
+    <servlet-class>sil.servlets.GetLatestEventId</servlet-class>
+    <load-on-startup>0</load-on-startup>
+  </servlet>
+
+  <servlet>
+    <servlet-name>GetChangesSince</servlet-name>
+    <servlet-class>sil.servlets.GetChangesSince</servlet-class>
+    <load-on-startup>0</load-on-startup>
+  </servlet>
+
+  <servlet>
+    <servlet-name>AssignSilToBeamline</servlet-name>
+    <servlet-class>sil.servlets.AssignSilToBeamline</servlet-class>
+    <load-on-startup>0</load-on-startup>
+  </servlet>
+
+  <servlet>
+    <servlet-name>CreateDefaultSil</servlet-name>
+    <servlet-class>sil.servlets.CreateDefaultSil</servlet-class>
+    <load-on-startup>0</load-on-startup>
+  </servlet>
+
+  <servlet>
+    <servlet-name>UploadSil</servlet-name>
+    <servlet-class>sil.servlets.UploadSil</servlet-class>
+    <load-on-startup>0</load-on-startup>
+  </servlet>
+
+  <servlet>
+    <servlet-name>ReadJpegFile</servlet-name>
+    <servlet-class>sil.servlets.ContentLoader</servlet-class>
+    <load-on-startup>0</load-on-startup>
+  </servlet>
+
+  <servlet>
+    <servlet-name>GetExcelFile</servlet-name>
+    <servlet-class>sil.servlets.ContentLoader</servlet-class>
+    <load-on-startup>0</load-on-startup>
+  </servlet>
+
+  <servlet>
+    <servlet-name>DownloadExcel</servlet-name>
+    <servlet-class>sil.servlets.DownloadExcel</servlet-class>
+    <load-on-startup>0</load-on-startup>
+  </servlet>
+  
+  <servlet>
+    <servlet-name>SetSilLock</servlet-name>
+    <servlet-class>sil.servlets.SetSilLock</servlet-class>
+    <load-on-startup>0</load-on-startup>
+  </servlet>
+
+  <servlet>
+    <servlet-name>GetCassetteData</servlet-name>
+    <servlet-class>sil.servlets.GetCassetteData</servlet-class>
+    <load-on-startup>0</load-on-startup>
+  </servlet>
+
+  <servlet>
+    <servlet-name>UnassignSil</servlet-name>
+    <servlet-class>sil.servlets.UnassignSil</servlet-class>
+    <load-on-startup>0</load-on-startup>
+  </servlet>
+
+  <servlet>
+    <servlet-name>SetCrystalAttribute</servlet-name>
+    <servlet-class>sil.servlets.SetCrystalAttribute</servlet-class>
+    <load-on-startup>0</load-on-startup>
+  </servlet>
+
+  <servlet>
+    <servlet-name>GetSil</servlet-name>
+    <servlet-class>sil.servlets.GetSil</servlet-class>
+    <load-on-startup>0</load-on-startup>
+  </servlet>
+
+  <servlet>
+    <servlet-name>GetSilList</servlet-name>
+    <servlet-class>sil.servlets.GetSilList</servlet-class>
+    <load-on-startup>0</load-on-startup>
+  </servlet>
+
+  <servlet>
+    <servlet-name>GetCrystal</servlet-name>
+    <servlet-class>sil.servlets.GetCrystal</servlet-class>
+    <load-on-startup>0</load-on-startup>
+  </servlet>
+
+
+  <servlet>
+    <servlet-name>DeleteSil</servlet-name>
+    <servlet-class>sil.servlets.DeleteSil</servlet-class>
+    <load-on-startup>0</load-on-startup>
+  </servlet>
+
+  <servlet>
+    <servlet-name>MoveCrystal</servlet-name>
+    <servlet-class>sil.servlets.MoveCrystal</servlet-class>
+    <load-on-startup>0</load-on-startup>
+  </servlet>
+
+  <servlet>
+    <servlet-name>GetSilIdAndEventId</servlet-name>
+    <servlet-class>sil.servlets.GetSilIdAndEventId</servlet-class>
+    <load-on-startup>0</load-on-startup>
+  </servlet>
+
+
+  <!-- Servlet Mappings -->
+  <servlet-mapping>
+    <servlet-name>action</servlet-name>
+    <url-pattern>*.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>ExcelFileLoader</servlet-name>
+    <url-pattern>/servlet/downloadSil</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>ExcelFileLoader1</servlet-name>
+    <url-pattern>/servlet/sil/*</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet-mapping>
+    <servlet-name>SetCrystal</servlet-name>
+    <url-pattern>/servlet/setCrystal</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>SetCrystalImage</servlet-name>
+    <url-pattern>/servlet/setCrystalImage</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>AddCrystal</servlet-name>
+    <url-pattern>/servlet/addCrystal</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>AddCrystalImage</servlet-name>
+    <url-pattern>/servlet/addCrystalImage</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>ClearCrystalImages</servlet-name>
+    <url-pattern>/servlet/clearCrystalImages</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>ClearCrystal</servlet-name>
+    <url-pattern>/servlet/clearCrystal</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ClearAllCrystals</servlet-name>
+    <url-pattern>/servlet/clearAllCrystals</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>GetCrystalData</servlet-name>
+    <url-pattern>/servlet/getCrystalData</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>IsEventCompleted</servlet-name>
+    <url-pattern>/servlet/isEventCompleted</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>GetLatestEventId</servlet-name>
+    <url-pattern>/servlet/getLatestEventId</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>GetChangesSince</servlet-name>
+    <url-pattern>/servlet/getChangesSince</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>AssignSilToBeamline</servlet-name>
+    <url-pattern>/servlet/assignSilToBeamline</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>CreateDefaultSil</servlet-name>
+    <url-pattern>/servlet/createDefaultSil</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>UploadSil</servlet-name>
+    <url-pattern>/servlet/uploadSil</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>ReadJpegFile</servlet-name>
+    <url-pattern>/servlet/readJpegFile</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>GetExcelFile</servlet-name>
+    <url-pattern>/servlet/getExcelFile</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>DownloadExcel</servlet-name>
+    <url-pattern>/servlet/excel/*</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>SetSilLock</servlet-name>
+    <url-pattern>/servlet/setSilLock</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>GetCassetteData</servlet-name>
+    <url-pattern>/servlet/getCassetteData</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>UnassignSil</servlet-name>
+    <url-pattern>/servlet/unassignSil</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>SetCrystalAttribute</servlet-name>
+    <url-pattern>/servlet/setCrystalAttribute</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>GetSil</servlet-name>
+    <url-pattern>/servlet/getSil</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>GetSilList</servlet-name>
+    <url-pattern>/servlet/getSilList</url-pattern>
+  </servlet-mapping>
+ 
+  <servlet-mapping>
+    <servlet-name>GetCrystal</servlet-name>
+    <url-pattern>/servlet/getCrystal</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>DeleteSil</servlet-name>
+    <url-pattern>/servlet/deleteSil</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>MoveCrystal</servlet-name>
+    <url-pattern>/servlet/moveCrystal</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>GetSilIdAndEventId</servlet-name>
+    <url-pattern>/servlet/getSilIdAndEventId</url-pattern>
+  </servlet-mapping>
+
+  <!-- The Welcome File List -->
+  <welcome-file-list>
+    <welcome-file>CassetteInfo.jsp</welcome-file>
+  </welcome-file-list>
+</web-app>

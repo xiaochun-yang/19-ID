@@ -1,0 +1,26 @@
+
+Map the current list of CHID_xxx enums in GwASGalilMotor.cc to AS Epics Galil PVs.
+
+CHID			does what?		ASEpicsGalilPV	field type	monitor?	recoding needed	comment
+====			==========		==============	==========	========	===============	=======
+
+CHID_ST_CMD		stop command		_MTRSTOP_CMD	DBR_ENUM	no monitor			set to 1, need to set to 0 to enable further moves.
+CHID_BUSY		is moving		_MOVN_STATUS	DBR_ENUM	monitor				1 when moving (busy), else 0.
+CHID_SP			set position		""		DBR_DOUBLE	no monitor	recode	done	starts motor move when set
+CHID_MON		current position	.RBV		DBR_DOUBLE	monitor				current readback value
+--------
+CHID_MV_CMD		does actual move	N/A				N/A		recode	done	Don't need it.
+CHID_HIGH_LIMIT_STS	+limit			_FL_STATUS	DBR_ENUM	monitor		recode		Needs to be interpreted w/r/t move direction
+CHID_LOW_LIMIT_STS	-limit			_RL_STATUS	DBR_ENUM	monitor		recode		Needs to be interpreted w/r/t move direction
+CHID_ERROR_STS		an error		_PROB_STATUS	DBR_ENUM	monitor				Any error, it seems.
+CHID_DRVH		hi limit val		.DHLM		DBR_DOUBLE	monitor
+CHID_DRVL		lo limit val		.DLLM		DBR_DOUBLE	monitor
+CHID_SVOST_STS		status bits		_MSTA_MONITOR	DBR_LONG	monitor		recode	done	Only a few error bits of use.
+CHID_STAT_STS		status bits		N/A		DBR_LONG	monitor		recode	done	We won't use this one
+CHID_STALL_STS		stall status	        _ESTALL_MONITOR DBR_ENUM	monitor
+---------
+CHID_MRES		motor res		.MRES		DBR_DOUBLE	monitor
+CHID_RAW_VL_SP		velocity		.VELO		DBR_DOUBLE	monitor
+CHID_ACC_TIME_SP	time to speed		N/A				don't have	recode	done
+CHID_RAW_BACKLASH_SP	backlash something	N/A				don't have	recode	done
+CHID_RAW_DIRECTION	raw directionstatus	_DIR_STATUS	DBR_LONG	monitor		recode		not raw direction, but + or -.

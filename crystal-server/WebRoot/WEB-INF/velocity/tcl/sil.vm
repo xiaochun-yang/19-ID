@@ -1,0 +1,47 @@
+#parse("/tcl/macros.vm")
+###################################
+## Output sil as tcl
+###################################
+{
+  {$!sil.id} {$!sil.info.eventId} {load}
+  {
+    {Selected 4 {hide editable}}
+    {UniqueID 4 {hide readonly}}
+    {Port 4 {show readonly}}
+    {ContainerID 8 {show readonly}}
+    {CrystalID 10 {show readonly}}
+    {Protein 8 {show editable}}
+    {Comment 35 {show editable}}
+    {SystemWarning 15 {show readonly}}
+    {Directory 22 {show readonly}}
+    {FreezingCond 12 {show editable}}
+    {CrystalCond 12 {show editable}}
+    {Metal 5 {show editable}}
+    {Priority 8 {show editable}}
+    {Person 8 {show editable}}
+    {CrystalURL 25 {show readonly}}
+    {ProteinURL 25 {show readonly}}
+    {AutoindexImages 20 {show readonly}}
+    {Score 10 {show readonly}}
+    {UnitCell 20 {show readonly}}
+    {Mosaicity 8 {show readonly}}
+    {Rmsr 8 {show readonly}}
+    {BravaisLattice 10 {show readonly}}
+    {Resolution 10 {show readonly}}
+    {ISigma 10 {hide readonly}}
+    {Images 10 {show readonly}}
+    {AutoindexDir 10 {hide readonly}}
+    {ReOrientable 4 {hide readonly}}
+    {ReOrientInfo 25 {hide readonly}}
+    {ReOrientPhi 25 {hide readonly}}
+    {RunLabels 25 {hide readonly}}
+    {RunStatusList 25 {hide readonly}}
+  }
+#set ($crystals = $sil.crystals)
+#foreach ($key in $crystals.keySet())
+#set ($crystal = $crystals.get($key))
+  {
+#outputCrystal($crystal)
+  }
+#end
+}

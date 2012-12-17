@@ -1,0 +1,230 @@
+//
+//Galil Script for DMC2180
+//
+// WATCHDOG ROUTINE
+#W_Dog
+ER 10000
+OE 1
+CW ,1
+Kick=0
+LastKic=0
+#WDog_ok
+//MG{EF} "WATCHDOG ok"
+AT 0
+AT 5000
+JP #WDogBad,Kick=LastKic
+LastKic=Kick
+TimeOut=0
+JP #WDog_ok
+#WDogBad
+ST AB
+ST S
+#close shutter
+CB 1
+TimeOut=1
+//DON'T Send an unsolicited message to DHS
+//MG{EF} "dtoh_watchdog_timeout"
+JP #WDog_ok
+//
+//
+//This routine closes all sockets after waiting for 1 second.
+//The 1 second wait is useful to allow the client to disconnect cleanly.
+//
+#ShutAll
+AT 0
+AT 1000
+IHA=>-2
+IHB=>-2
+IHC=>-2
+IHD=>-2
+IHE=>-2
+IHF=>-2
+EN
+//end of the routine
+//
+//
+//
+//OSCILLATION CODE
+#ShutREV
+JP #NoShutr,Shutter=0
+#Loop2A
+JP #LoopEnd,StopOsc>0
+//Get position
+JS #RP_axis
+JP #Loop2A,Pos>OscStart-1
+JS #OpenSh
+#Loop3A
+JP #LoopEnd,StopOsc>0
+//Get position
+JS #RP_axis
+JP #Loop3A,Pos>OscEnd
+JP #Finish
+//
+//Shutter handling for non-reversed motor
+#ShutFWD
+JP #NoShutr,Shutter=0
+#Loop2B
+JP #LoopEnd,StopOsc>0
+//Get position
+JS #RP_axis
+JP #Loop2B,Pos<OscStart+1
+JS #OpenSh
+#Loop3B
+JP #LoopEnd,StopOsc>0
+//Get position
+JS #RP_axis
+JP #Loop3B,Pos<OscEnd
+//
+#Finish
+JS #CloseSh
+EN
+//
+#LoopEnd
+AT 0
+AT 1000
+JP #Finish
+//
+#OpenSh
+SB FrontFil
+MG{EF} "dtoh_shutter_open",FrontFil
+EN
+//
+#CloseSh
+CB FrontFil
+MG{EF} "dtoh_shutter_closed",FrontFil
+#NoShutr
+EN
+//
+#RP_axis
+JP #POS_X,Axis=0
+JP #POS_Y,Axis=1
+JP #POS_Z,Axis=2
+JP #POS_W,Axis=3
+JP #POS_E,Axis=4
+JP #POS_F,Axis=5
+JP #POS_G,Axis=6
+JP #POS_H,Axis=7
+// Tell calling program that Axis not in range [0..7]*/
+MG{EF} "dtoh_axis_not_in_range"
+EN
+//
+#POS_X
+Pos=_RPX
+EN
+#POS_Y
+Pos=_RPY
+EN
+#POS_Z
+Pos=_RPZ
+EN
+#POS_W
+Pos=_RPW
+EN
+#POS_E
+Pos=_RPE
+EN
+#POS_F
+Pos=_RPF
+EN
+#POS_G
+Pos=_RPG
+EN
+#POS_H
+Pos=_RPH
+EN
+//Function: ExpServo (Exposure using Phi Servo Motor)
+//This script expects the following hardware configuration:
+// 1) Phi motor to be on the A axis.
+// 2) Direct Output compare shutter control h/w is on I/O channel 1
+// 3) Direct shutter control is on I/O channel 2
+//Before running, set the following variables:
+// ExpStart...Exposure Start: phi location where shutter should open
+// ExpEnd...Exposure End: phi location where shutter should close
+// ExpVel...Exposure Velocity: speed of the motor during the exposure
+// ReadyPos..position from which the phi can ramp up to speed before hitting the ExpStart position.
+// OverPos..position to move phi to overshoot the ExpEnd position.
+// OcDir..Output compare direction
+#Expose
+//Move to ready position
+AC~a=100000
+DC~a=100000
+CB 2
+CB 1
+//Disable the output compare while we get into position
+OC~a=0
+MG{EF} "log_info Expose start"
+PA~a=ReadyPos
+BG~a
+AM~a
+//enable the shutter pulse trigger
+SB 1
+MG{EF} "log_info Motor in position"
+//Enable the output compare to trigger
+OC~a=ExpStart,OcDir
+SP~a=ExpVel
+PA~a=OverPos
+MG{EF} "log_info PP~a=", OverPos
+BG~a
+XQ #SafeMv,4
+//keep waiting until the Output Compare is triggered, opening the shutter
+#WAIT1
+JP #WAIT1,_OC=0
+//reset the output compare (the motor is still moving)
+OC~a=ExpEnd,OcDir
+//tell the dhs that the shutter is open
+MG{EF} "dtoh_shutter_open 2"
+//keep waiting until the Output Compare is triggered, closing the shutter
+#WAIT2
+JP #WAIT2,_OC=0
+//tell the dhs that the shutter is closed
+MG{EF} "dtoh_shutter_closed 2"
+//stop the motor
+#StopExp
+MG{EF} "log_info STA"
+CB 1
+CB 2
+AM~a
+EN
+#AbrtExp
+ST~a
+MG{EF} "dtoh_shutter_closed 2"
+CB 1
+CB 2
+AM~a
+EN
+//
+//
+//
+//use this to get the same motor timing without opening the shutter.
+#NoExps
+//Close shutter and move to ready position
+CB 2
+CB 1
+//Disable the output compare, because we don't want the shutter to open
+OC~a=0
+MG{EF} "log_info Expose start"
+//SHA
+PA~a=ReadyPos
+BG~a
+AM~a
+SP~a=ExpVel
+PA~a=OverPos
+BG~a
+AM~a
+EN
+//subroutine to close shutter if move fails to complete in expected time.
+#SafeMv
+MG{EF} "log_info safemove started"
+TW 125
+MC~a
+EN
+#MCTIME
+ST AB
+ST S
+MG{EF} "log_info TIMEOUT on exposure"
+JS #StopExp
+RE 0
+#HALT
+JP #AbrtExp
+#stop the SafeMv
+HX5

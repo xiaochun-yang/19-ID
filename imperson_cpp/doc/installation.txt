@@ -1,0 +1,167 @@
+Building the daemon
+===================
+
+> mkdir <your root dir>
+> cd <your root dir>
+> cvs co batchbuild
+> cd batchbuild
+> gmake coimperson
+> gmake buildimperson
+
+
+Testing the daemon
+==================
+> cd imperson_cpp
+> ./test.csh
+
+Make sure all tests pass successfully.
+
+
+Installing the Daemon
+=====================
+
+Below are the instructions about how to configure the impersonation 
+server on a new system. 
+
+
+On Irix or Tru64 systems
+========================
+
+1. Add the following line to /etc/services:
+
+   imperson       61001/tcp
+
+2. Add the following line to /etc/inetd.conf:
+
+   imperson stream tcp nowait root /usr/local/sbin/imperson.d imperson.d smb.slac.stanford.edu 8180
+
+   Noe that smb.slac.stanford.edu and 8180 are the host name and port number of the authentication server
+   that the impersonation daemon uses to validate the session id in the request parameter.
+
+3. Copy the imperson.d binary to /usr/local/sbin.
+
+4. Force the inetd daemon to reload its configuration files by 
+   sending it a HUP signal.  For example if the process ID of 
+   inetd is 906 then execute the following line at the command 
+   prompt:
+
+   kill -HUP 906
+
+
+
+On Linux systems
+================
+
+1. Add a file named "imperson" to the directory /etc/xinetd.d.  
+   The file should contain the following:
+
+service imperson
+{
+        type            = UNLISTED
+        socket_type     = stream
+        protocol        = tcp
+        wait            = no
+        user            = root
+        server          = /usr/local/sbin/imperson.d
+        server_args		= host=smbws1.slac.stanford.edu port=8084 securePort=8447 appName=SMBTest caFile=/usr/local/dcs/dcsconfig/data/server.crt
+        port            = 61001
+        disable         = no
+}
+
+
+   Note that server_args specifies the commandline arguments for the imp daemon. 'host', 'port' and 'securePort' 
+   are the authentication host name, port and SSL port. 'appName' is the application name to sent to the auth 
+   server in the URL. 'caFile' is an SSL certificate file path. This file must contain a certificate that correspond
+   to the SSL private key used by tomcat for the auth server. 'caFile' attribute is optional.
+
+2. Copy the imperson.d binary to /usr/local/sbin.
+
+3. Force the inetd daemon to reload its configuration files by 
+   sending it a HUP signal.  For example if the process ID of 
+   inetd is 906 then execute the following line at the command 
+   prompt:
+
+   kill -HUP 906
+
+4. You can change the xinetd options in /etc/xinetd.conf file. See xinetd.conf for more info.
+   In the example below, the attribute 'instances' is set to 60 which means that at any time
+   there can be only up to 60 instances of xinetd daemons runnning. The 'cps' attribute restricts
+   the number of connections received by xinetd to 25 connections per second. If the number
+   of connections exceeds 25, it will take 30 seconds to reset itself (no connection is accepted
+   during the reset). 
+
+ # Simple configuration file for xinetd
+ # Some defaults, and include /etc/xinetd.d/
+
+ defaults
+ {
+        instances               = 60
+        log_type                = SYSLOG authpriv
+        log_on_success          = HOST PID
+        log_on_failure          = HOST
+        cps                     = 25 30
+ }
+
+ includedir /etc/xinetd.d
+
+
+Restarting inetd
+================
+
+If you need to modify the inetd file, for example, to change the 
+port number or command line arguments for the imperson server, you
+will need to kill the current inetd and restart it. 
+
+
+1. Find the inetd or xinetd process id.
+
+	ps -ef | grep inetd
+
+2. Kill the process and start a new process
+
+	kill -HUP <pid>
+	
+3. Check if the process has restarted
+	ps -ef | grep inetd
+	
+
+Changing Authentication host and port
+=====================================
+
+The Impersonation server uses the Authentication server to validate
+the user and session id. Host and and port number of the Authentication
+server is passed to the imp server by command line arguments.
+
+If you need to change the host and port, you need to edit the inetd file
+and restart the inetd as described above.
+
+
+Running the server in readonly mode
+===================================
+
+The server can be run in a readonly mode where it only response to 
+readFile, listDirectory, getFilePermissions and getFileStatus. An error
+response will be returned for other commands such as writeFile, copyFile
+and etc.
+
+To make the server run as readonly, you need to add "readonly" string 
+as the third command line arguments of the imperson server in the 
+inetd file.
+
+
+Logging
+=======
+Log messages are sent to syslog facility LOG_LOCAL1. You will need to configure
+syslogd daemon to catch these messages. If LOG_LOCAL1 facility is being used 
+by another application and you don't want the messages to get mixed up, you can
+change SYSLOG_LOCAL1 to SYSLOG_LOCAL0 - SYSLOG_LOCAL7 (defined in the logging libraray). 
+
+To configure syslog to send SYSLOG_LOCAL1 messages to a file, edit /etc/syslog.conf
+and add the following line:
+
+ # logging from impersonation daemon
+ local1.*		/var/log/imperson.log
+
+To limit the number of message sent to syslog, modify the call to logger_set_level().
+By default only message level above LOG_INFO will be logged.
+

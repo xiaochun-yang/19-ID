@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+"http://ibatis.apache.org/dtd/sql-map-2.dtd" > 
+<sqlMap>
+
+	<resultMap id="UserInfo" class="sil.beans.UserInfo" >
+		<result property="id" column="USER_ID"/>
+		<result property="loginName" column="LOGIN_NAME" />
+		<result property="realName" column="REAL_NAME"/>
+		<result property="uploadTemplate" column="UPLOAD_TEMPLATE" />
+	</resultMap>	
+	
+	<resultMap id="SilInfo" class="sil.beans.SilInfo" >
+		<result property="id" column="SIL_INFO.SIL_ID"/>
+		<result property="owner" column="USER_INFO.LOGIN_NAME" />
+		<result property="fileName" column="FILENAME"/>
+		<result property="uploadFileName" column="SIL_INFO.UPLOAD_FILENAME"/>
+		<result property="uploadTime" column="SIL_INFO.UPLOAD_TIME"/>
+		<result property="beamlineId" column="BEAMLINE_INFO.BEAMLINE_ID" nullValue="-1"/>
+		<result property="beamlineName" column="BEAMLINE_INFO.BEAMLINE_NAME"/>
+		<result property="beamlinePosition" column="BEAMLINE_INFO.BEAMLINE_POSITION" />
+		<result property="locked" column="SIL_INFO.SIL_LOCKED" nullValue="false" />
+		<result property="key" column="SIL_INFO.SIL_KEY" />
+		<result property="eventId" column="SIL_INFO.EVENT_ID"  nullValue="-1"/>
+	</resultMap>		
+
+	<resultMap id="BeamlineInfo" class="sil.beans.BeamlineInfo" >
+		<result property="id" column="BEAMLINE_ID"/>
+		<result property="name" column="BEAMLINE_NAME" />
+		<result property="position" column="BEAMLINE_POSITION"/>
+		<result property="silInfo.id" column="BEAMLINE_INFO.SIL_ID" nullValue="0"/>
+		<result property="silInfo.owner" column="USER_INFO.LOGIN_NAME" />
+		<result property="silInfo.fileName" column="FILENAME" />
+		<result property="silInfo.uploadFileName" column="SIL_INFO.UPLOAD_FILENAME" />
+		<result property="silInfo.uploadTime" column="SIL_INFO.UPLOAD_TIME" />
+		<result property="silInfo.locked" column="SIL_INFO.SIL_LOCKED" nullValue="false"/>
+		<result property="silInfo.key" column="SIL_INFO.SIL_KEY" />
+		<result property="silInfo.eventId" column="SIL_INFO.EVENT_ID" nullValue="-1"/>
+	</resultMap>
+	
+	<!--  insert statements. Do not require resultMap. -->
+	<insert id="insertUser" parameterClass="sil.beans.UserInfo">
+		<selectKey type="pre" keyProperty="id" resultClass="int">
+ 			select NEXTVAL('USER_INFO_SEQUENCE') as value
+		</selectKey>
+		insert into 
+			USER_INFO(USER_ID, LOGIN_NAME, REAL_NAME, UPLOAD_TEMPLATE) values (#id#,  #loginName#, #realName#, #uploadTemplate#)
+	</insert>
+		
+	<insert id="insertBeamline" parameterClass="sil.beans.BeamlineInfo">
+		<selectKey type="pre" keyProperty="id" resultClass="int">
+ 			select NEXTVAL('BEAMLINE_INFO_SEQUENCE') as value
+		</selectKey>
+		insert into
+			BEAMLINE_INFO(BEAMLINE_ID, BEAMLINE_NAME, BEAMLINE_POSITION) values (#id#, #name#, #position#);
+	</insert>
+	
+	<insert id="insertSil" parameterClass="sil.beans.SilInfo">
+		<selectKey type="pre" keyProperty="id" resultClass="int">
+ 			select NEXTVAL('SIL_INFO_SEQUENCE') as value
+		</selectKey>
+		insert into 
+			SIL_INFO(SIL_ID, USER_ID, UPLOAD_FILENAME, UPLOAD_TIME)
+		select 
+			#id#, USER_INFO.USER_ID, #uploadFileName#, current_timestamp() from USER_INFO where USER_INFO.LOGIN_NAME = #owner#
+	</insert>
+	
+	<insert id="importSil" parameterClass="sil.beans.SilInfo">
+		<selectKey type="pre" keyProperty="id" resultClass="int">
+ 			select NEXTVAL('SIL_INFO_SEQUENCE') as value
+		</selectKey>
+		insert into 
+			SIL_INFO(SIL_ID, USER_ID, UPLOAD_FILENAME, UPLOAD_TIME)
+		select 
+			#id#, USER_INFO.USER_ID, #uploadFileName#, #uploadTime# from USER_INFO where USER_INFO.LOGIN_NAME = #owner#
+	</insert>
+	
+	<insert id="insertLastUniqueId" parameterClass="long">
+		insert into CRYSTAL_INFO(LAST_UNIQUE_ID) values (#value#)
+	</insert>
+	
+	<!-- Deleting all data from all tables -->
+	<delete id="deleteAllUsers">
+		delete from USER_INFO
+	</delete>
+	
+	<delete id="deleteAllSils">
+		delete from SIL_INFO
+	</delete>
+	
+	<delete id="deleteAllBeamlines">
+		delete from BEAMLINE_INFO
+	</delete>
+	
+	<delete id="deleteAllCrystalInfo">
+		delete from CRYSTAL_INFO
+	</delete>
+	
+	<delete id="deleteSil" parameterClass="int">
+		delete 
+		from 
+			SIL_INFO
+		where
+			SIL_ID = #value#
+	</delete>
+
+	<delete id="deleteBeamline" parameterClass="string">
+		delete 
+		from 
+			BEAMLINE_INFO
+		where
+			BEAMLINE_NAME = #value#
+	</delete>
+
+	<delete id="deleteUser" parameterClass="string">
+		delete 
+		from 
+			USER_INFO
+		where
+			LOGIN_NAME = #value#
+	</delete>
+	
+	<!-- Query statements. Requre resultMap to map columns in ResultSet to java bean properties. -->
+	
+	<!-- Return all users in the USER_INFO table. -->
+	<select id="getUserList" resultMap="UserInfo">
+		select
+			USER_ID, LOGIN_NAME, REAL_NAME, UPLOAD_TEMPLATE 
+		from 
+			USER_INFO
+	</select>
+	
+	<!-- Return a user for a given login name. There should be only one. -->
+	<select id="getUserByLoginName" parameterClass="string" resultMap="UserInfo">
+		select
+			USER_ID, LOGIN_NAME, REAL_NAME, UPLOAD_TEMPLATE 
+		from 
+			USER_INFO
+		where LOGIN_NAME = #value#
+	</select>
+		
+	<sql id="selectBeamlineInfo">
+		select
+			BEAMLINE_ID, BEAMLINE_NAME, BEAMLINE_POSITION, BEAMLINE_INFO.SIL_ID, concat('excelData', SIL_INFO.SIL_ID) as FILENAME, 
+			SIL_INFO.UPLOAD_FILENAME, SIL_INFO.UPLOAD_TIME, 
+			USER_INFO.LOGIN_NAME, SIL_INFO.SIL_LOCKED, SIL_INFO.SIL_KEY, SIL_INFO.EVENT_ID
+		from 
+			BEAMLINE_INFO
+		left join SIL_INFO on
+			BEAMLINE_INFO.SIL_ID = SIL_INFO.SIL_ID
+		left join USER_INFO on
+			SIL_INFO.USER_ID = USER_INFO.USER_ID
+	</sql>
+		
+	<!-- Return a list of beamlines in the BEAMLINE table. Each entry is a cassette position at a beamline, e.g. BL9-1 left or BL9-1 right.  -->
+	<select id="getBeamlineList" resultMap="BeamlineInfo">
+		<include refid="selectBeamlineInfo"/>
+		order by
+			BEAMLINE_ID asc
+	</select>
+	
+	<select id="getBeamlineInfo" resultMap="BeamlineInfo">
+		<include refid="selectBeamlineInfo"/>
+		where
+			BEAMLINE_NAME = #name# and
+			BEAMLINE_POSITION = #position#
+	</select>
+	
+	<select id="getBeamlineInfoById" resultMap="BeamlineInfo">
+		<include refid="selectBeamlineInfo"/>
+		where
+			BEAMLINE_ID = #id#
+	</select>
+
+	<sql id="selectSilInfo">
+		select
+			SIL_INFO.SIL_ID, USER_INFO.LOGIN_NAME, concat('excelData', SIL_INFO.SIL_ID) 
+			as FILENAME, SIL_INFO.UPLOAD_FILENAME, 
+			SIL_INFO.UPLOAD_TIME, SIL_INFO.SIL_LOCKED, SIL_INFO.SIL_KEY, SIL_INFO.EVENT_ID,
+			BEAMLINE_INFO.BEAMLINE_ID, BEAMLINE_INFO.BEAMLINE_NAME, BEAMLINE_INFO.BEAMLINE_POSITION
+		from 
+			SIL_INFO
+		left join USER_INFO on
+			SIL_INFO.USER_ID = USER_INFO.USER_ID
+		left join BEAMLINE_INFO on
+			SIL_INFO.SIL_ID = BEAMLINE_INFO.SIL_ID
+	</sql>
+	
+	<!-- Return a list of sils that belong a given user. -->
+	<select id="getSilListByUserName" parameterClass="string" resultMap="SilInfo">
+		<include refid="selectSilInfo"/>
+		where
+			USER_INFO.LOGIN_NAME = #value#
+		order by
+			SIL_INFO.SIL_ID
+	</select>	
+
+	<!-- Return sil info for a given sil id. -->
+	<select id="getSilInfo" parameterClass="int" resultMap="SilInfo">
+		<include refid="selectSilInfo"/>
+		where
+			SIL_INFO.SIL_ID = #value#
+	</select>	
+		
+	<select id="getUserInfo" parameterClass="string" resultMap="UserInfo">
+		select
+			USER_ID, LOGIN_NAME, REAL_NAME, UPLOAD_TEMPLATE 
+		from 
+			USER_INFO
+		where
+			LOGIN_NAME = #value#
+	</select>	
+
+	<!-- Return DB version info -->
+	<select id="getDBVersionName" resultClass="java.lang.String">
+		select VERSION_NAME as value from VERSION_INFO
+	</select>
+
+	<!-- Return the last uniqueId for the crystal -->
+	<select id="getCrystalUniqueId" resultClass="java.lang.Long">
+		select LAST_UNIQUE_ID as value from CRYSTAL_INFO
+	</select>
+		
+	<!-- Set the last uniqueId for the crystal -->
+	<update id="updateCrystalUniqueId" parameterClass="java.lang.Long">
+		update CRYSTAL_INFO set LAST_UNIQUE_ID = #value#
+	</update>
+	
+	<!-- Update sil info -->
+	<update id="updateSilInfo" parameterClass="sil.beans.SilInfo">
+		update 
+			SIL_INFO 
+		set 
+			SIL_LOCKED = #locked#,
+			SIL_KEY = #key#,
+			EVENT_ID = #eventId#
+		where
+			SIL_ID = #id#
+	</update>
+		
+	<update id="setEventId" parameterClass="sil.beans.SilInfo">
+		update
+			SIL_INFO
+		set
+			EVENT_ID = #eventId#
+		where
+			SIL_ID = #id#
+	</update>
+	
+	<!-- Change sil assignment -->
+	<update id="assignSil" parameterClass="sil.beans.BeamlineInfo">
+		update 
+			BEAMLINE_INFO
+		set
+			SIL_ID = #silInfo.id#
+		where
+			BEAMLINE_NAME = #name# and 
+			BEAMLINE_POSITION = #position#
+	</update>	
+	
+	<update id="assignSilForBeamlineId" parameterClass="sil.beans.BeamlineInfo">
+		update 
+			BEAMLINE_INFO
+		set
+			SIL_ID = #silInfo.id#
+		where
+			BEAMLINE_ID = #id#
+	</update>	
+
+	<!-- unassign sils (whose ids maybe unknown) for all positions at this beamline -->
+	<update id="unassignSilForBeamline" parameterClass="sil.beans.BeamlineInfo">
+		update 
+			BEAMLINE_INFO
+		set
+			SIL_ID = DEFAULT
+		where
+			BEAMLINE_NAME = #name#
+	</update>	
+
+	<!-- unassign sil (whose id maybe unknown) for the given position at this beamline -->
+	<update id="unassignSilForBeamlinePosition" parameterClass="sil.beans.BeamlineInfo">
+		update 
+			BEAMLINE_INFO
+		set
+			SIL_ID = DEFAULT
+		where
+			BEAMLINE_NAME = #name# and 
+			BEAMLINE_POSITION = #position#
+	</update>	
+	
+	<!-- unassign known sil id from a beamline position -->
+	<update id="unassignSilForSilId" parameterClass="sil.beans.BeamlineInfo">
+		update 
+			BEAMLINE_INFO
+		set
+			SIL_ID = DEFAULT
+		where
+			SIL_ID = #silInfo.id#
+	</update>	
+	
+	<update id="setSilLocked" parameterClass="sil.beans.SilInfo">
+		update 
+			SIL_INFO
+		set
+			SIL_LOCKED = #locked#,
+			SIL_KEY = #key#
+		where
+			SIL_ID = #id#
+	</update>	
+	
+</sqlMap>
+

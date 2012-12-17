@@ -1,0 +1,15 @@
+myNumber= $myNumber
+format1 = $decimalFormatter.format($myNumber)
+format2 = $numberTool.format($myNumber)
+format2' = $numberTool.format("00.00", $myNumber)
+format2'' = $numberTool.format("00.0", $myNumber)
+# The following need velocity engine 1.6 or above
+# to support method that uses vararg.
+format3 = $genericFormatter.format("%.3f", $myNumber)
+format4 = $aString.format("%.3f", $myNumber)
+format5 = $aString.format("%.2f", $myNumber)
+
+
+
+
+

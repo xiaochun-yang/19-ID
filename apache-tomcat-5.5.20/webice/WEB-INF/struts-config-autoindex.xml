@@ -1,0 +1,583 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE struts-config PUBLIC
+   "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN"
+   "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+
+<!-- Struts config for autoindex viewer tab in webice -->
+
+<struts-config>
+
+
+  <!-- ========== Form Bean Definitions =================================== -->
+
+  <form-beans>
+  </form-beans>
+
+
+  <!-- ========== Action Mapping Definitions ============================== -->
+  <action-mappings>
+
+        <action
+            path="/showAutoindex"
+            type="webice.actions.autoindex.ShowAutoindexAction"
+            scope="request"
+            validate="false">
+            <forward name="allRuns" path="/Autoindex_ShowRuns.do" />
+            <forward name="oneRun" path="/pages/autoindex/run.jsp" />
+            <forward name="load" path="/Autoindex_LoadRuns.do" />
+            <forward name="createRun" path="/pages/autoindex/newRunForm.jsp" />
+	</action>
+
+        <action
+            path="/Autoindex_LoadRuns"
+            type="webice.actions.autoindex.LoadRunsAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/showAutoindex.do" />
+            <forward name="error" path="/pages/autoindex/loadRunsFailed.jsp" />
+		</action>
+
+        <action
+            path="/Autoindex_ShowCreateRunForm"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="/pages/autoindex/newRunForm.jsp"/>
+
+        <action
+            path="/Autoindex_CreateRun"
+            type="webice.actions.autoindex.CreateRunAction"
+            name="runNodeForm"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/showAutoindex.do" />
+            <forward name="error" path="/pages/autoindex/createRunFailed.jsp" />
+		</action>
+
+        <action
+            path="/Autoindex_SelectRun_old"
+            type="webice.actions.autoindex.SelectRunAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/showAutoindex.do" />
+           <forward name="error" path="/pages/autoindex/cannotShowRun.jsp" />
+	</action>
+
+        <action
+            path="/Autoindex_SelectRun"
+            type="webice.actions.autoindex.SelectRunAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/top.do" />
+           <forward name="error" path="/pages/autoindex/cannotShowRun.jsp" />
+	</action>
+
+        <action
+            path="/Autoindex_SetDisplayMode_old"
+            type="webice.actions.autoindex.SetDisplayModeAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/showAutoindex.do" />
+	</action>
+
+        <action
+            path="/Autoindex_SetDisplayMode"
+            type="webice.actions.autoindex.SetDisplayModeAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/top.do" />
+	</action>
+
+        <action
+            path="/Autoindex_ShowNewRun"
+            type="webice.actions.autoindex.ShowNewRunAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/top.do" />
+	</action>
+
+        <action
+            path="/Autoindex_SelectRunTab"
+            type="webice.actions.autoindex.SelectRunTabAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/showAutoindex.do" />
+	</action>
+
+        <action
+            path="/Autoindex_DeleteRun"
+            type="webice.actions.autoindex.DeleteRunAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/showAutoindex.do" />
+            <forward name="error" path="/pages/autoindex/deleteRunFailed.jsp" />
+		</action>
+
+        <action
+            path="/Autoindex_ShowRunNav"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="/pages/autoindex/runNav.jsp"/>
+
+
+         <action
+            path="/Autoindex_ShowMountedCrystal"
+            type="webice.actions.autoindex.ShowMountedCrystalAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/top.do" />
+            <forward name="failed" path="/pages/autoindex/ShowMountedCrystalFailed.jsp" />
+	</action>
+	
+	<action
+            path="/Autoindex_ShowRunDefStrategy"
+            type="webice.actions.autoindex.ShowRunDefStrategyAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/top.do" />
+            <forward name="failed" path="/pages/autoindex/ShowMountedCrystalFailed.jsp" />
+	</action>
+
+       <action
+            path="/Autoindex_ShowRuns"
+            type="webice.actions.autoindex.ShowRunsAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/pages/autoindex/runs.jsp" />
+		</action>
+
+       <action
+            path="/Autoindex_ShowRuns1"
+            type="webice.actions.autoindex.ShowRunsAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/servlet/xmlLoader" />
+		</action>
+
+       <action
+            path="/Autoindex_SetRunListType"
+            type="webice.actions.autoindex.SetRunListTypeAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/pages/autoindex/runs.jsp" />
+	</action>
+
+       <action
+            path="/Autoindex_SortRunsBy"
+            type="webice.actions.autoindex.SortRunsByAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/pages/autoindex/runs.jsp" />
+	</action>
+
+       <action
+            path="/Autoindex_SelectRunListPage"
+            type="webice.actions.autoindex.SelectRunListPageAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/pages/autoindex/runs.jsp" />
+	</action>
+
+        <action
+            path="/Autoindex_ShowEditRunDefinitionForm"
+            type="webice.actions.autoindex.ShowEditRunDefinitionFormAction"
+            scope="request"
+            validate="false">
+             <forward name="success" path="/servlet/xmlLoader" />
+             <forward name="error" path="/pages/autoindex/showEditRunDefinitionFormFailed.jsp" />
+	</action>
+
+         <action
+            path="/Autoindex_ShowRunSetup"
+            type="webice.actions.autoindex.ShowRunSetupAction"
+            scope="request"
+            validate="false">
+            <forward name="chooseRunType" path="/pages/autoindex/chooseRunType.jsp" />
+            <forward name="chooseSample" path="/pages/autoindex/chooseSample.jsp" />
+            <forward name="chooseDirAndImageName" path="/pages/autoindex/chooseDirAndImageName.jsp" />
+            <forward name="chooseDirAndImages" path="/pages/autoindex/chooseDirAndImages.jsp" />
+            <forward name="chooseStrategyOption" path="/pages/autoindex/chooseStrategyOption.jsp" />
+            <forward name="chooseExperiment" path="/pages/autoindex/chooseExperiment.jsp" />
+            <forward name="chooseOptions" path="/pages/autoindex/chooseOptions.jsp" />
+            <forward name="finish" path="/pages/autoindex/setupFinish.jsp" />
+	</action>
+	
+       <action
+            path="/Autoindex_ShowRun"
+            type="webice.actions.autoindex.ShowRunAction"
+            scope="request"
+            validate="false">
+            <forward name="setup" path="/Autoindex_ShowRunSetup.do" />
+            <forward name="scan" path="/pages/autoindex/scan.jsp" />
+            <forward name="autoindex" path="/servlet/xmlLoader" />
+            <forward name="solutions" path="/servlet/xmlLoader" />
+            <forward name="strategy" path="/servlet/xmlLoader" />
+            <forward name="no_strategy" path="/pages/autoindex/noStrategy.jsp" />
+            <forward name="predictions_old" path="/pages/autoindex/runPredictions.jsp" />
+            <forward name="predictions" path="/pages/image/image.jsp" />
+            <forward name="details" path="/Autoindex_ShowRunDetails.do" />
+            <forward name="log" path="/Autoindex_showLog.do" />
+            <forward name="notViewable" path="/pages/autoindex/runTabNotViewable.jsp" />
+            <forward name="error" path="/pages/autoindex/cannotShowRun.jsp" />
+		</action>
+
+        <action
+            path="/Autoindex_ReloadRun"
+            type="webice.actions.autoindex.ReloadRunAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/showAutoindex.do" />
+	</action>
+
+        <action
+            path="/Autoindex_SelectSolAndSp"
+            type="webice.actions.autoindex.SelectSolAndSpAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/Autoindex_ShowRun.do" />
+		</action>
+
+        <action
+            path="/Autoindex_ExportRunDefinition"
+            type="webice.actions.autoindex.ExportRunDefinitionAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/pages/autoindex/exportRunDefinitionOk.jsp" />
+           <forward name="failure" path="/pages/autoindex/exportRunDefinitionFailed.jsp" />
+           <forward name="form" path="/Autoindex_ShowEditRunDefinitionForm.do" />
+           <forward name="monitor" path="/Autoindex_ShowRun.do" />
+	</action>
+
+        <action
+            path="/Autoindex_SetShowStrategyDetails"
+            type="webice.actions.autoindex.SetShowStrategyDetailsAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/Autoindex_ShowRun.do" />
+		</action>
+
+        <action
+            path="/Autoindex_ShowRunDetails"
+            type="webice.actions.autoindex.ShowRunDetailsAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/pages/autoindex/runDetails.jsp" />
+            <forward name="noRun" path="/pages/autoindex/noRun.jsp" />
+		</action>
+
+        <action
+            path="/Autoindex_ChangeDirectory"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="/Autoindex_ShowRunDetails.do"/>
+
+        <action
+            path="/Autoindex_ReloadDirectory"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="/Autoindex_ShowRunDetails.do"/>
+
+        <action
+            path="/Autoindex_ShowNewRunForm"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="/pages/autoindex/newRunForm.jsp"/>
+
+        <action
+            path="/Autoindex_NewRun"
+            type="webice.actions.autoindex.NewRunAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/top.do" />
+            <forward name="newRunForm" path="/top.do" />
+            <forward name="error" path="/top.do" />
+	</action>
+
+        <action
+            path="/Autoindex_NewRun_old"
+            type="webice.actions.autoindex.NewRunAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/showAutoindex.do" />
+            <forward name="newRunForm" path="/Autoindex_ShowNewRunForm.do" />
+            <forward name="error" path="/Autoindex_ShowNewRunForm.do" />
+	</action>
+
+        <action
+            path="/Autoindex_SetImageDir"
+            type="webice.actions.autoindex.SetImageDirAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/Autoindex_ShowRun.do" />
+		</action>
+
+        <action
+            path="/Autoindex_BrowseImageDir"
+            type="webice.actions.autoindex.BrowseImageDirAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/Autoindex_ShowRun.do" />
+		</action>
+
+        <action
+            path="/Autoindex_SelectImages"
+            type="webice.actions.autoindex.SelectImagesAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/Autoindex_ShowRun.do" />
+		</action>
+
+        <action
+            path="/Autoindex_FinishSetup"
+            type="webice.actions.autoindex.FinishSetupAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/showAutoindex.do" />
+		</action>
+
+        <action
+            path="/Autoindex_FinishSetup1"
+            type="webice.actions.autoindex.FinishSetupAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/Autoindex_ShowRun.do" />
+		</action>
+
+        <action
+            path="/Autoindex_EditSetup"
+            type="webice.actions.autoindex.EditSetupAction"
+            scope="request"
+            validate="false">
+            <forward name="warning" path="/pages/autoindex/editSetupWarning.jsp" />
+            <forward name="error" path="/pages/autoindex/editSetupError.jsp" />
+            <forward name="success" path="/Autoindex_ShowRun.do" />
+	</action>
+
+        <action
+            path="/Autoindex_StartRun"
+            type="webice.actions.autoindex.StartRunAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/Autoindex_ShowRun.do" />
+		</action>
+
+        <action
+            path="/Autoindex_AbortRun"
+            type="webice.actions.autoindex.AbortRunAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/Autoindex_ShowRun.do" />
+            <forward name="error" path="/pages/autoindex/abortRunError.jsp" />
+	</action>
+
+        <action
+            path="/Autoindex_IntegrateAdditionalSolutions"
+            type="webice.actions.autoindex.IntegrateAdditionalSolutionsAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/Autoindex_ShowRun.do" />
+		</action>
+
+        <action
+            path="/Autoindex_LoadMountedCrystal"
+            type="webice.actions.autoindex.LoadMountedCrystalAction"
+            scope="request"
+            validate="false">
+            <forward name="error" path="/pages/autoindex/showMountedCrystal.do" />
+            <forward name="success" path="/Autoindex_ShowRun.do" />
+	</action>
+
+         <action
+            path="/Autoindex_ShowInteractiveViewer"
+            type="webice.actions.autoindex.ShowInteractiveViewerAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/Autoindex_ShowRun.do" />
+	</action>
+
+         <action
+            path="/Autoindex_SelectPredictionImage"
+            type="webice.actions.autoindex.SelectPredictionImageAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/Autoindex_ShowRun.do" />
+	</action>
+
+         <action
+            path="/Autoindex_ChooseSample"
+            type="webice.actions.autoindex.ChooseSampleAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/Autoindex_ShowRun.do" />
+	</action>
+
+         <action
+            path="/Autoindex_ChooseDirAndImageName"
+            type="webice.actions.autoindex.ChooseDirAndImageNameAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/Autoindex_ShowRun.do" />
+	</action>
+
+         <action
+            path="/Autoindex_ChooseStrategyOption"
+            type="webice.actions.autoindex.ChooseStrategyOptionAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/Autoindex_ShowRun.do" />
+	</action>
+
+         <action
+            path="/Autoindex_ChooseExperiment"
+            type="webice.actions.autoindex.ChooseExperimentAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/Autoindex_ShowRun.do" />
+	</action>
+
+         <action
+            path="/Autoindex_ChooseElement"
+            type="webice.actions.autoindex.ChooseElementAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/Autoindex_ShowRun.do" />
+	</action>
+
+         <action
+            path="/Autoindex_ChooseOptions"
+            type="webice.actions.autoindex.ChooseOptionsAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/showAutoindex.do" />
+	    <forward name="finish" path="/Autoindex_FinishSetup.do"/>
+	</action>
+
+         <action
+            path="/Autoindex_ChooseOptions1"
+            type="webice.actions.autoindex.ChooseOptionsAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/Autoindex_ShowRun.do" />
+	    <forward name="finish" path="/Autoindex_FinishSetup.do"/>
+	</action>
+
+         <action
+            path="/Autoindex_ModifySetup"
+            type="webice.actions.autoindex.ModifySetupAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/Autoindex_ShowRun.do" />
+            <forward name="warning" path="/Autoindex_EditSetup.do" />
+	</action>
+	
+         <action
+            path="/Autoindex_ChooseCassette"
+            type="webice.actions.autoindex.ChooseCassetteAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/Autoindex_ShowRun.do" />
+	</action>
+
+         <action
+            path="/Autoindex_ChooseDirAndImages"
+            type="webice.actions.autoindex.ChooseDirAndImagesAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/Autoindex_ShowRun.do" />
+            <forward name="error" path="/Autoindex_ShowRun.do" />
+	</action>
+
+         <action
+            path="/Autoindex_ChooseRunType"
+            type="webice.actions.autoindex.ChooseRunTypeAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/Autoindex_ShowRun.do" />
+	</action>
+
+         <action
+            path="/Autoindex_sortCrystal"
+            type="webice.actions.autoindex.SortCrystalAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/Autoindex_ShowRun.do" />
+	</action>
+
+        <action
+            path="/Autoindex_NewBeamlineLog"
+            type="webice.actions.autoindex.NewBeamlineLogAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/Autoindex_ShowRun.do" />
+	</action>
+
+        <action
+            path="/Autoindex_ChangeScanDir"
+            type="webice.actions.autoindex.ChangeScanDirAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/Autoindex_ShowRun.do" />
+	</action>
+
+        <action
+            path="/Autoindex_ChangeScanPlot"
+            type="webice.actions.autoindex.ChangeScanPlotAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/Autoindex_ShowRun.do" />
+	</action>
+
+        <action
+            path="/autoindex_loadRelativeImage"
+            type="webice.actions.autoindex.LoadRelativeImageAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/showImageViewer.do" />
+	</action>
+
+        <action
+            path="/autoindex_adjustImage"
+            type="webice.actions.image.AdjustImageAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/showImageViewer.do" />
+            <forward name="resize" path="/showImageViewer.do" />
+	</action>
+
+        <action
+            path="/autoindex_setSetupType"
+            type="webice.actions.autoindex.SetSetupTypeAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/Autoindex_ShowRunSetup.do" />
+	</action>
+
+        <action
+            path="/Autoindex_showLog"
+            type="webice.actions.autoindex.ShowLogAction"
+            scope="request"
+            validate="false">
+            <forward name="autoindex" path="/pages/autoindex/autoindexLog.jsp" />
+            <forward name="dcss" path="/pages/autoindex/dcssLog.jsp" />
+            <forward name="success" path="/pages/autoindex/runLog.jsp" />
+	</action>
+		
+        <action path="/Autoindex_showStatus"
+        	type="org.apache.struts.actions.ForwardAction"
+        	parameter="/pages/autoindex/autoindexStatus.jsp" />
+ 
+        <action path="/Autoindex_showAutoindexLog"
+        	type="org.apache.struts.actions.ForwardAction"
+        	parameter="/pages/autoindex/autoindexLog.jsp" />
+		
+        <action path="/Autoindex_showDcssLog"
+        	type="org.apache.struts.actions.ForwardAction"
+        	parameter="/pages/autoindex/dcssLog.jsp" />
+		
+ </action-mappings>
+
+
+  <!-- ========== Controller Configuration ================================ -->
+
+  <controller>
+    <!-- The "input" parameter on "action" elements is the name of a
+         local or global "forward" rather than a module-relative path -->
+    <set-property property="inputForward" value="true"/>
+  </controller>
+
+</struts-config>

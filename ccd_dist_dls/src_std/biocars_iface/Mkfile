@@ -1,0 +1,21 @@
+CC = cc
+CFLAGS = $(CFLAGS_OS) -D$(OSTYPE)
+IOFLAGS = 
+OEXTS = biocars_iface.o
+OBS  = 
+OBJS = $(OEXTS) $(OBS) ../../lib/$(OSTYPE)/libdetcon_mp.a ../../lib/$(OSTYPE)/auxlib.a 
+DD = ../../bin/$(OSTYPE)
+
+PRCMD = pr
+
+$(DD)/biocars_iface : $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) $(IOFLAGS) -o $(DD)/biocars_iface
+
+$(OEXTS) : ../incl/ccdconv.h 
+
+clean :	$(OEXTS) $(OBS)
+	rm $?
+
+print :	*.c *.h Makefile
+	$(PRCMD) $?
+	touch print

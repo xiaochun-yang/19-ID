@@ -1,0 +1,18 @@
+#parse("/silPages/topbanner.html")
+<body>
+#set ($authSession = $appSession.authSession)
+
+<span style="float:right; font-size:100%; padding-right:10px">
+You are ${authSession.userName}<br/><a class="link" href="Logout.html">Logout</a>
+</span>
+
+<h1><a href="http://ssrl.slac.stanford.edu"><img src="images/ssrl2.gif" border="0"  height="50" width="50"/></a>Sample Database</h1>
+
+<p><b><span style="color:red">Upload failed. $!{error}</span></b></p>
+<p>Please follow this link for <a href="http://smb.slac.stanford.edu/users_guide/manual/Using_SSRL_Automated_Mounti.html#SECTION00054100000000000000">documentation and video tutorial</a> on how to upload sample information to the crystal-server.. If the problem still persists, contact User Support for assistance.</p>
+<form action="cassetteList.html">
+<input type="submit" value="Cassette List"/>
+</form>
+</body>
+
+</html>

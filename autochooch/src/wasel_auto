@@ -1,0 +1,28 @@
+#!/bin/sh -f
+
+
+
+#This script runs wasel automatically 
+#It has to be in the same directory as autochooch
+
+
+beamline=`uname -n` 
+
+
+parfile=${CHOOCHDAT}/beamline.par
+
+if [ "${beamline}" = "" ]; then
+	echo "Unknown platform $beamline: use default beamline info"
+elif [ \( "${beamline}" = "bl92a" \) -a  \( "${beamline}" = "bl92b" \) ]; then
+	parfile=${CHOOCHDAT}/BL9-2.par
+elif [ \( "${beamline}" = "bl91a" \) -a \( "${beamline}" = "bl91b" \) ]; then 
+	parfile=${CHOOCHDAT}BL9-1.par
+elif [ \( "${beamline}" = "bl15a" \) -a  \( "${beamline}" = "bl15b" \) ]; then
+	parfile=${CHOOCHDAT}BL1-5.par 
+elif [ \( "${beamline}" = "bl11a" \) -a  \( "${beamline}" = "bl11b" \) ]; then
+	parfile=${CHOOCHDAT}BL11-1.par
+fi
+
+
+${CHOOCHBIN}/wasel $1 $2 $parfile
+

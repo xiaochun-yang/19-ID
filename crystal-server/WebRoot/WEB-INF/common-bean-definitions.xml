@@ -1,0 +1,803 @@
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+"http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+
+	<bean id="silViewsMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">		
+		<property name="alwaysUseFullPath"><value>true</value></property>
+		<property name="interceptors">
+			<list>
+				<ref local="loggingInterceptor"/>
+				<ref local="httpsInterceptor"/>
+				<ref local="loginInterceptor"/>
+				<ref local="addGlobalViewObjects"/>	
+			</list>
+		</property>	
+		<property name="mappings" >
+			<props>
+				<prop key="/cassetteList.html">cassetteListController</prop>
+				<prop key="/userDeleteSil.html">userDeleteSilController</prop>
+				<prop key="/userAssignSil.html">userAssignSilController</prop>
+				<prop key="/showSil.html">showSilController</prop>
+				<prop key="/crystalForm.html">crystalFormController</prop>
+				<prop key="/uploadFile.html">fileUploadController</prop>
+				<prop key="/showDiffImage.html">imageDownloadController</prop>
+				<prop key="/showJpeg.html">imageDownloadController</prop>
+				<prop key="/firstPage.html">filterSilListController</prop>
+				<prop key="/prevPage.html">filterSilListController</prop>
+				<prop key="/nextPage.html">filterSilListController</prop>
+				<prop key="/lastPage.html">filterSilListController</prop>
+				<prop key="/filterSilList.html">filterSilListController</prop>
+				<prop key="/testException.html">cassetteListController</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!-- No need for addGlobalViewObjects for download -->
+	<bean id="downloadMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">		
+		<property name="alwaysUseFullPath"><value>true</value></property>
+		<property name="interceptors">
+			<list>
+				<ref local="httpsInterceptor"/>
+				<ref local="loginInterceptor"/>
+			</list>
+		</property>	
+		<property name="mappings" >
+			<props>
+				<prop key="/template/*.*">downloadController</prop>
+				<prop key="/result/*.*">downloadController</prop>
+				<prop key="/original/*.*">downloadController</prop>
+				<prop key="/downloadDiffImage.do">imageDownloadController</prop>
+				<prop key="/downloadJpeg.do">imageDownloadController</prop>			
+			</props>
+		</property>
+	</bean>
+	
+	<bean id="staffOnlyViewsMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">		
+		<property name="alwaysUseFullPath"><value>true</value></property>
+		<property name="interceptors">
+			<list>
+				<ref local="httpsInterceptor"/>
+				<ref local="loginInterceptor"/>
+				<ref local="staffOnlyInterceptor"/>
+				<ref local="addGlobalViewObjects"/>	
+			</list>
+		</property>
+		<property name="mappings" >
+			<props>
+				<prop key="/changeUser.html">changeUserController</prop>
+				<prop key="/beamlineList.html">beamlineListController</prop>
+				<prop key="/unlockSil.html">unlockSilController</prop>
+				<prop key="/unlockSilConfirm.html">unlockSilController</prop>
+				<prop key="/staffDeleteSil.html">staffDeleteSilController</prop>
+				<prop key="/staffAssignSil.html">staffAssignSilController</prop>
+				<prop key="/staffUnassignSil.html">staffUnassignSilController</prop>
+				<prop key="/addBlankRunDefinition.html">runDefinitionController</prop>
+				<prop key="/runDefinitionForm.html">runDefinitionFormController</prop>
+				<prop key="/repositionDataForm.html">repositionDataFormController</prop>
+				<prop key="/addBlankRepositionDataForm.html">runDefinitionController</prop>
+				<prop key="/chooseRunDefinition.html">runDefinitionController</prop>
+				<prop key="/chooseRepositionData.html">runDefinitionController</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!-- Only certain staff can add a new beamline -->
+	<bean id="adminOnlyViewMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">		
+		<property name="alwaysUseFullPath"><value>true</value></property>
+		<property name="interceptors">
+			<list>
+				<ref local="httpsInterceptor"/>
+				<ref local="loginInterceptor"/>
+				<ref local="adminOnlyFilter"/>	
+				<ref local="addGlobalViewObjects"/>	
+			</list>
+		</property>
+		<property name="mappings" >
+			<props>
+				<prop key="/addBeamlineForm.html">addBeamlineFormController</prop>
+			</props>
+		</property>
+	</bean>	
+		
+	<!--  User must be owner of sil and request must contain a correct key to unlock sil if sil is locked. -->
+	<bean id="silSetterCommandMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">		
+		<property name="alwaysUseFullPath"><value>true</value></property>
+		<property name="interceptors">
+			<list>
+				<ref local="loggingInterceptor"/>
+				<ref local="userAuthenticationInterceptor"/>
+				<ref local="silOwnerOrBeamlineUserOnlyInterceptor"/>
+				<ref local="silLockInterceptor"/>
+			</list>
+		</property>
+		<property name="mappings" >
+			<props>
+				<prop key="/addCrystalImage.do">commandController</prop>
+				<prop key="/addCrystal.do">commandController</prop>
+				<prop key="/clearCrystalImages.do">commandController</prop>
+				<prop key="/clearCrystal.do">commandController</prop>
+				<prop key="/setCrystalAttribute.do">commandController</prop>
+				<prop key="/setCrystalImage.do">commandController</prop>
+				<prop key="/setCrystal.do">commandController</prop>
+				<prop key="/deleteSil.do">commandController</prop>
+				<prop key="/setCrystalPropertyValues.do">commandController</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!-- User must be owner of sil only to perform these operations. -->
+	<bean id="silCommandForOwnerOnlyMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">		
+		<property name="alwaysUseFullPath"><value>true</value></property>
+		<property name="interceptors">
+			<list>
+				<ref local="loggingInterceptor"/>
+				<ref local="userAuthenticationInterceptor"/>
+				<ref local="silOwnerOnlyInterceptor"/>
+			</list>
+		</property>
+		<property name="mappings" >
+			<props>
+				<prop key="/downloadSil.do">commandController</prop>
+				<prop key="/excelFileLoader.do">commandController</prop>
+				<prop key="/command/result/*.xls">commandController</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!-- No userName/SMBSessionID required -->
+	<bean id="silCommandForEveryoneMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">		
+		<property name="alwaysUseFullPath"><value>true</value></property>
+		<property name="interceptors">
+			<list>
+				<!-- <ref local="loggingInterceptor"/> -->
+			</list>
+		</property>
+		<property name="mappings" >
+			<props>
+				<prop key="/getCassetteData.do">commandController</prop>
+				<prop key="/getLatestEventId.do">commandController</prop>
+				<prop key="/getSilIdAndEventId.do">commandController</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!-- The command does all the chacking by itself -->
+	<bean id="silCommandUseInternalCheckingMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">		
+		<property name="alwaysUseFullPath"><value>true</value></property>
+		<property name="interceptors">
+			<list>
+				<ref local="loggingInterceptor"/>
+				<ref local="userAuthenticationInterceptor"/>
+			</list>
+		</property>
+		<property name="mappings" >
+			<props>
+				<prop key="/addUser.do">commandController</prop>
+				<prop key="/moveCrystal.do">commandController</prop>
+				<prop key="/assignSilToBeamline.do">commandController</prop>
+				<prop key="/unassignSil.do">commandController</prop>
+				<prop key="/setSilLock.do">commandController</prop>
+				<prop key="/getSilList.do">commandController</prop>
+				<prop key="/createDefaultSil.do">commandController</prop>
+				<prop key="/uploadSil.do">commandController</prop>
+			</props>
+		</property>
+	</bean>
+	
+		<!-- User must be either sil owner or, if sil is assigned to a beamline, must have access to the beamline. -->
+	<bean id="silCommandForOwnerOrBeamlineFrequentlyUsedUserMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">		
+		<property name="alwaysUseFullPath"><value>true</value></property>
+		<property name="interceptors">
+			<list>
+				<!-- <ref local="loggingInterceptor"/> -->
+				<ref local="userAuthenticationInterceptor"/>
+				<ref local="silOwnerOrBeamlineUserOnlyInterceptor"/>
+			</list>
+		</property>
+		<property name="mappings" >
+			<props>
+				<prop key="/getChangesSince.do">commandController</prop>
+				<prop key="/getCrystalBean.do">commandController</prop>
+				<prop key="/getCrystalData.do">commandController</prop>
+				<prop key="/getCrystal.do">commandController</prop>
+				<prop key="/getSil.do">commandController</prop>
+				<prop key="/isEventCompleted.do">commandController</prop>
+				<prop key="/getCrystalPropertyValues.do">commandController</prop>
+				
+			</props>
+		</property>
+	</bean>
+	
+	<bean id="runDefinitionCommandMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">		
+		<property name="alwaysUseFullPath"><value>true</value></property>
+		<property name="interceptors">
+			<list>
+				<!-- <ref local="loggingInterceptor"/> -->
+				<ref local="userAuthenticationInterceptor"/>
+				<ref local="silOwnerOrBeamlineUserOnlyInterceptor"/>
+			</list>
+		</property>
+		<property name="mappings" >
+			<props>
+				<prop key="/addRunDefinition.do">runDefinitionController</prop>
+				<prop key="/copyRunDefinition.do">runDefinitionController</prop>
+				<prop key="/addBlankRepositionData.do">runDefinitionController</prop>
+				<prop key="/deleteRunDefinition.do">runDefinitionController</prop>
+				<prop key="/getNumRunDefinitions.do">runDefinitionController</prop>
+				<prop key="/getRunDefinition.do">runDefinitionController</prop>
+				<prop key="/getRepositionData.do">runDefinitionController</prop>
+				<prop key="/getAllRepositionData.do">runDefinitionController</prop>
+				<prop key="/moveRunDefinition.do">runDefinitionController</prop>
+				<prop key="/setRunDefinitionPropertyValue.do">runDefinitionController</prop>				
+				<prop key="/setRunDefinitionProperties.do">runDefinitionController</prop>				
+				<prop key="/addDefaultRepositionData.do">runDefinitionController</prop>				
+				<prop key="/addRepositionData.do">runDefinitionController</prop>				
+				<prop key="/setRepositionData.do">runDefinitionController</prop>				
+			</props>
+		</property>
+	</bean>
+
+	<bean id="silLoginMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="interceptors">
+			<list>
+				<ref local="httpsInterceptor"/>
+				<ref local="loginErrorInterceptor"/>		
+ 				<ref local="addGlobalViewObjects"/>
+			</list>
+		</property>
+		<property name="mappings" >
+			<props>
+				<prop key="/Login.html">LoginController</prop>
+				<prop key="/Logout.html">LogoutController</prop>
+			</props>
+		</property>
+		
+	</bean>
+	
+	<bean id="silDao" class="sil.dao.IbatisDao">
+		<property name="sqlMapClient"><ref bean="sqlMapClient"/></property>
+		<property name="transactionTemplate"><ref local="transactionTemplate"/></property>
+	</bean>
+ 	
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource"><ref bean="dataSource"/></property>
+	</bean>
+	 	
+	<bean id="transactionTemplate" class="org.springframework.transaction.support.TransactionTemplate">
+		<constructor-arg type="org.springframework.transaction.PlatformTransactionManager"><ref local="transactionManager"/></constructor-arg>
+	</bean>
+ 	
+	<!-- Controller method resolvers -->
+	<bean id="exceptionHandler" class="sil.interceptors.ExceptionHandler"> 
+  		<property name="emailSender"><ref bean="emailMessageSender"></ref></property>
+   		<property name="exceptionMappings">
+   			<map>
+  				<entry key="sil.exceptions.SilLockedException"><value>/errorViews/silIsLocked</value></entry>
+ 				<entry key="org.springframework.web.multipart.MaxUploadSizeExceededException"><value>/errorViews/fileTooBig</value></entry>
+ 				<entry key="sil.exceptions.UploadFailedException"><value>/errorViews/uploadFailed</value></entry>
+   			</map>
+   		</property>
+   		<property name="defaultErrorView"><value>/errorViews/unhandledError</value></property>	
+   	</bean>
+   	
+   	<bean id ="internalPathMethodNameResolver" class="org.springframework.web.servlet.mvc.multiaction.InternalPathMethodNameResolver">
+	</bean>
+
+	<bean id ="propertiesMethodNameResolver" class="org.springframework.web.servlet.mvc.multiaction.PropertiesMethodNameResolver">
+		<property name="mappings">
+			<props>
+				<prop key="/template/*.*">downloadTemplate</prop>
+				<prop key="/result/*.*">downloadResultSil</prop>
+				<prop key="/original/*.*">downloadOriginalExcel</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id ="parameterMethodNameResolver" class="org.springframework.web.servlet.mvc.multiaction.ParameterMethodNameResolver">
+		<property name="paramName"><value>method</value></property>
+		<property name="defaultMethodName"><value>view</value></property>
+	</bean>
+	
+	<!-- Multipart resolver for file upload -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize"><value>2000000</value></property>
+	</bean>
+
+	<!-- View resolvers -->
+<!--
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.ResourceBundleViewResolver">
+		<property name="order"><value>1</value></property>
+		<property name="basename"><value>views</value></property>
+ 	</bean>
+-->
+	<bean id="velocityConfigurer" class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
+   		<property name="resourceLoaderPath"><value>/WEB-INF/velocity</value></property>
+   		<property name="configLocation"><value>/WEB-INF/velocity.properties</value></property>
+	</bean>
+
+	<bean id="velocityViewResolver" class="org.springframework.web.servlet.view.velocity.VelocityViewResolver">
+  		<property name="cache"><value>true</value></property>
+  		<property name="prefix"><value></value></property>
+	  	<property name="suffix"><value>.vm</value></property>
+	  	<property name="exposeSpringMacroHelpers">
+      		<value>true</value>
+    	</property>
+    	<property name="exposeRequestAttributes">
+      		<value>false</value>
+    	</property>
+    	<property name="exposeSessionAttributes">
+      		<value>false</value>
+   		</property>
+    	<property name="dateToolAttribute">
+      		<value>date</value>
+   		</property>		
+    	<property name="numberToolAttribute">
+      		<value>numberTool</value>
+   		</property>
+	</bean>
+	
+	<!-- Used to parse tcl template -->
+ 	<bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+   		<property name="resourceLoaderPath"><value>/WEB-INF/velocity</value></property>
+	</bean>
+		
+ 	<!-- Interceptors -->
+	<bean id="httpsInterceptor" class="ssrl.interceptor.HttpsFilter">
+		<property name="baseUrl"><ref bean="baseUrl"/></property>
+	</bean>
+	
+	<bean id="userAuthenticationInterceptor" class="sil.interceptors.UserAuthenticationInterceptor">
+		<property name="appSessionManager"><ref bean="appSessionManager"/></property>
+	</bean>
+	
+	<bean id="silOwnerOnlyInterceptor" class="sil.interceptors.SilOwnerOnlyInterceptor">
+		<property name="appSessionManager"><ref bean="appSessionManager"/></property>
+		<property name="storageManager"><ref local="storageManager"/></property>
+	</bean>
+	
+	<bean id="silOwnerOrBeamlineUserOnlyInterceptor" class="sil.interceptors.SilOwnerOrBeamlineUserOnlyInterceptor">
+		<property name="appSessionManager"><ref bean="appSessionManager"/></property>
+		<property name="storageManager"><ref local="storageManager"/></property>
+		<property name="superUsers">
+			<set>
+				<value>blctl</value>
+			</set>
+		</property>
+	</bean>
+	
+	<bean id="silLockInterceptor" class="sil.interceptors.SilLockInterceptor">
+		<property name="storageManager"><ref local="storageManager"/></property>
+	</bean>
+	
+	<bean id="staffOnlyInterceptor" class="ssrl.interceptor.StaffFilter">
+		<property name="staffOnlyUri"><value>/Login.html?error=staffOnly</value></property>
+		<property name="baseUrl"><ref bean="baseUrl"/></property>
+		<property name="appSessionManager"><ref bean="appSessionManager"/></property>
+	</bean>
+
+	<bean id="adminOnlyFilter" class="ssrl.interceptor.UsernameFilter">
+		<property name="allowedUsernames"><ref bean="adminList"/></property>
+		<property name="adminOnlyView"><value>Login.html?error=adminOnly</value></property>
+		<property name="appSessionManager"><ref bean="appSessionManager"/></property>
+	</bean>
+
+	<bean id="loginInterceptor" class="sil.interceptors.LoginFilter">
+		<property name="appSessionManager"><ref bean="appSessionManager"/></property>
+		<property name="baseUrl"><ref bean="baseUrl"/></property>
+		<property name="loggedOutUri"><value>/Login.html?error=sessionExpired</value></property>
+		<property name="storageManager"><ref local="storageManager"/></property>
+	</bean>
+
+	<bean id="loginErrorInterceptor" class="ssrl.interceptor.LoginErrorFilter">
+	</bean>	
+	
+	<bean id="loggingInterceptor" class="sil.interceptors.LoggingInterceptor">
+	</bean>	
+	
+	<bean id="addGlobalViewObjects" class="ssrl.interceptor.ViewObjectsPostProcessor">
+		<property name="globalViewObjects">
+			<map>
+				<entry key="baseUrl"><ref bean="baseUrl"/></entry>
+			</map>
+		</property>
+		<property name="addAppSession"><value>true</value></property>
+		<property name="appSessionManager"><ref bean="appSessionManager"/></property>
+	</bean>
+	
+	<bean id="appSessionFactory" class="sil.app.SilAppSessionFactory" />
+	
+	<bean id="storageManager" class="sil.managers.SilStorageManager">
+		<property name="dataDir"><ref bean="dataDir"/></property>
+    	<property name="silDao"><ref local="silDao"/></property>	
+    	<property name="silLoader"><ref local="silBeanLoader"/></property>	
+    	<property name="excelWriter"><ref local="silExcelWriter"/></property>	
+    	<property name="tclWriter"><ref local="silTclWriter"/></property>	
+    	<property name="xmlWriter"><ref local="silBeanWriter"/></property>	
+	</bean>
+	
+	<bean id="eventManager" class="sil.managers.EventManager" singleton="false">
+		<property name="maxEventLogSize"><value>50</value></property>
+		<property name="maxIdleTime"><value>1800000</value></property>
+	</bean>
+	
+	<bean id="silFactory" class="sil.factory.ApplicationContextSilFactory">
+		<property name="templateDir"><value>/WEB-INF/templates</value></property>
+	</bean>
+	
+	<bean id="silCacheManager" class="sil.managers.SilCacheManager">
+		<property name="silFactory"><ref local="silFactory"/></property>
+	</bean>
+	
+	<bean id="crystalSortTool" class="sil.beans.util.CrystalSortTool" singleton="false">
+		<property name="beanPropertyMapper"><ref local="crystalPropertyMapper"/></property>
+	</bean>
+	
+	<bean id="ssrlColumnValidator" class="sil.upload.ColumnValidator" singleton="false">
+		<property name="requiredColumns">
+			<list>
+				<value>Port</value>
+				<value>CrystalID</value>
+<!--			<value>ContainerID</value> 
+				<value>containerType</value>-->
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="jcsgColumnValidator" class="sil.upload.ColumnValidator" singleton="false">
+		<property name="requiredColumns">
+			<list>
+				<value>CurrentPosition</value>
+				<value>XtalID</value>
+				<value>CurrentCasette</value>
+<!--			<value>containerType</value>-->
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="ssrlCrystalValidator" class="sil.beans.util.SimpleCrystalValidator">
+		<property name="portPrefix"><value>ABCDEFGHIJKL</value></property>
+		<property name="portMin"><value>1</value></property>
+		<property name="portMax"><value>8</value></property>
+		<property name="crystalIdValidChars"><value>1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdfeghijklmnopqrstuvwxyz_-</value></property>
+	</bean>
+
+	<bean id="puckCrystalValidator" class="sil.beans.util.SimpleCrystalValidator">
+		<property name="portPrefix"><value>ABCD</value></property>
+		<property name="portMin"><value>1</value></property>
+		<property name="portMax"><value>16</value></property>
+		<property name="crystalIdValidChars"><value>1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdfeghijklmnopqrstuvwxyz_-</value></property>
+	</bean>
+
+	<bean id="silManager" class="sil.managers.SilManager" singleton="false">
+		<property name="storageManager"><ref local="storageManager"/></property>
+		<property name="silFactory"><ref local="silFactory"/></property>
+		<property name="crystalSortTool"><ref local="crystalSortTool"/></property>
+   	</bean>
+	
+	<bean id="crystalWrapper" class="sil.beans.util.CrystalWrapper" singleton="false">
+		<property name="beanPropertyMapper"><ref local="crystalPropertyMapper"/></property>
+	</bean>
+	
+	<bean id="imageWrapper" class="sil.beans.util.ImageWrapper" singleton="false">
+		<property name="beanPropertyMapper"><ref local="imagePropertyMapper"/></property>
+	</bean>
+
+	<bean id="crystalPropertyMapper" class="sil.beans.util.SsrlBeanPropertyMapper">
+		<property name="silFactory"><ref local="silFactory"/></property>
+		<property name="mappingFile"><value>ssrl.properties</value></property>
+	</bean>
+	
+	<bean id="imagePropertyMapper" class="sil.beans.util.SimpleBeanPropertyMapper">
+		<property name="lookup">
+			<props>
+				<prop key="name">name</prop>
+				<prop key="dir">dir</prop>
+				<prop key="group">group</prop>
+				<prop key="jpeg">data.jpeg</prop>
+				<prop key="small">data.small</prop>
+				<prop key="medium">data.medium</prop>
+				<prop key="large">data.large</prop>
+				<prop key="integratedIntensity">result.spotfinderResult.integratedIntensity</prop>
+				<prop key="numOverloadSpots">result.spotfinderResult.numOverloadSpots</prop>
+				<prop key="score">result.spotfinderResult.score</prop>
+				<prop key="resolution">result.spotfinderResult.resolution</prop>
+				<prop key="iceRings">result.spotfinderResult.numIceRings</prop>
+				<prop key="numSpots">result.spotfinderResult.numSpots</prop>
+				<prop key="spotShape">result.spotfinderResult.spotShape</prop>
+				<prop key="quality">result.spotfinderResult.quality</prop>
+				<prop key="diffractionStrength">result.spotfinderResult.diffractionStrength</prop>
+				<prop key="spotfinderDir">result.spotfinderResult.dir</prop>
+				<prop key="numBraggSpots">result.spotfinderResult.numBraggSpots</prop>
+				<prop key="cellEdge">result.spotfinderResult.cellEdge</prop>
+				<prop key="warning">result.spotfinderResult.warning</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<bean id="repositionDataWrapper" class="sil.beans.util.RepositionDataWrapper" singleton="false">
+		<property name="beanPropertyMapper"><ref local="repositionDataPropertyMapper"/></property>
+	</bean>
+		
+	<bean id="repositionDataPropertyMapper" class="sil.beans.util.SsrlBeanPropertyMapper">
+		<property name="silFactory"><ref local="silFactory"/></property>
+		<property name="mappingFile"><value>reposition_data.properties</value></property>
+	</bean>
+
+	<bean id="runDefinitionWrapper" class="sil.beans.util.MappableBeanWrapper" singleton="false">
+		<property name="beanPropertyMapper"><ref local="runDefinitionPropertyMapper"/></property>
+	</bean>
+		
+	<bean id="runDefinitionPropertyMapper" class="sil.beans.util.SsrlBeanPropertyMapper">
+		<property name="silFactory"><ref local="silFactory"/></property>
+		<property name="mappingFile"><value>run_definition.properties</value></property>
+	</bean>
+
+	<bean id="silXmlLoader" class="sil.io.SsrlXmlLoader">
+		<property name="silFactory"><ref local="silFactory"/></property>
+	</bean>
+	<bean id="silXmlWriter" class="sil.io.SilVelocityWriter">
+		<property name="velocityEngineFactory"><ref local="velocityConfigurer"/></property>
+		<property name="silTemplateFile"><value>/xml/sil.vm</value></property>
+		<property name="crystalsTemplateFile"><value>/xml/crystals.vm</value></property>
+	</bean>
+
+	<bean id="silBeanLoader" class="sil.io.SilBeanXmlLoader">
+	</bean>
+	<bean id="silBeanWriter" class="sil.io.SilBeanXmlWriter">
+	</bean>
+
+	<bean id="silExcelLoader" class="sil.io.SilExcelLoader">
+		<property name="silFactory"><ref local="silFactory"/></property>
+		<property name="columnFile"><value>excel.txt</value></property>
+	</bean>
+	<bean id="silExcelWriter" class="sil.io.SilExcelWriter">
+		<property name="silFactory"><ref local="silFactory"/></property>
+		<property name="crystalSortTool"><ref local="crystalSortTool"/></property>
+		<property name="columnFile"><value>excel.txt</value></property>
+	</bean>
+	
+	<bean id="silXlsxWriter" class="sil.io.SilXlsxWriter">
+		<property name="silFactory"><ref local="silFactory"/></property>
+		<property name="crystalSortTool"><ref local="crystalSortTool"/></property>
+		<property name="columnFile"><value>excel.txt</value></property>
+	</bean>
+	
+	<bean id="silTclWriter" class="sil.io.SilVelocityWriter">
+		<property name="velocityEngineFactory"><ref local="velocityConfigurer"/></property>
+		<property name="silTemplateFile"><value>/tcl/sil.vm</value></property>
+		<property name="crystalsTemplateFile"><value>/tcl/crystals.vm</value></property>
+	</bean>
+	
+	<bean id="simpleVelocityWriter" class="sil.io.SimpleVelocityWriter">
+		<property name="velocityEngineFactory"><ref local="velocityConfigurer"/></property>
+	</bean>
+				   	
+   	<!-- Data upload beans -->
+   	<bean id="excel2003Parser" class="sil.upload.Excel2003Parser"></bean>
+   	<bean id="poiParser" class="sil.upload.PoiParser"></bean>
+   	<bean id="odfParser" class="sil.upload.OdfParser"></bean>
+   	<bean id="csvParser" class="sil.upload.CsvParser"></bean>
+   	<bean id="unsupportedFormatParser" class="sil.upload.UnsupportedFormatParser"></bean>
+   	
+   	<bean id="propertiesMapper" class="sil.upload.FilePropertiesMapper">
+   		<property name="silFactory"><ref local="silFactory"/></property>
+   		<property name="mappingFiles">
+   			<map>
+   				<entry key="cassette"><value>ssrl.properties</value></entry>
+   				<entry key="ssrl"><value>ssrl.properties</value></entry>
+   				<entry key="puck"><value>ssrl.properties</value></entry>
+   				<entry key="empty"><value>ssrl.properties</value></entry>
+   			</map>
+   		</property>
+   	</bean>
+   	<bean id="jcsgMapper" class="sil.upload.JcsgMapper"></bean>
+   	
+   	<bean id="backwardCompatibleManager" class="sil.upload.BackwardCompatibleManager">
+   	  	<property name="addContainerId"><value>true</value></property>
+  		<property name="addContainerType"><value>true</value></property>
+   	
+   	</bean>
+   	
+	<bean id="uploadManager" class="sil.upload.SilUploadManager">
+    	<property name="maxTmpFiles"><value>10</value></property>
+    	<property name="tmpDir"><ref bean="tmpDir"/></property>
+    	<property name="badDir"><ref bean="badDir"/></property>
+    	<property name="emailSender"><ref bean="emailMessageSender"/></property>
+   		<property name="storageManager"><ref local="storageManager"/></property>
+   		<property name="silCacheManager"><ref local="silCacheManager"/></property>
+   		<property name="silFactory"><ref local="silFactory"/></property>
+   		<property name="rawDataConverter"><ref local="rawDataConverter"/></property>
+    		<property name="parsers">
+			<list>
+<!-- 			<ref local="excel2003Parser"/>-->
+				<ref local="poiParser"/>
+				<ref local="unsupportedFormatParser"/>
+			</list>
+   		</property>
+   		<property name="columnMappers">
+			<list>
+				<ref local="propertiesMapper"/>
+				<ref local="jcsgMapper"/>
+			</list>
+		</property>
+   		<property name="templateFiles">
+   			<map>
+   				<entry key="cassette"><value>cassette_template.xls</value></entry>
+   				<entry key="ssrl"><value>cassette_template.xls</value></entry>
+  				<entry key="puck"><value>puck_template.xls</value></entry>
+  				<entry key="empty"><value>empty_template.xls</value></entry>
+   			</map>
+   		</property>
+   		<property name="columnValidators">
+   			<map>
+   				<entry key="ssrl"><ref local="ssrlColumnValidator"/></entry>
+   				<entry key="puck"><ref local="ssrlColumnValidator"/></entry>
+  				<entry key="jcsg"><ref local="jcsgColumnValidator"/></entry>
+   			</map>
+   		</property>
+   		<property name="crystalValidators">
+   			<map>
+  				<entry key="cassette"><ref local="ssrlCrystalValidator"/></entry>
+  				<entry key="puck"><ref local="puckCrystalValidator"/></entry>
+   			</map>
+   		</property>
+  		<property name="backwardCompatibleManager"><ref local="backwardCompatibleManager"/></property>
+   	</bean>
+	
+	<bean id="rawDataConverter" class="sil.upload.RawDataConverter">
+		<property name="silFactory"><ref local="silFactory"/></property>	
+   	</bean>
+
+    <!-- Controllers -->
+
+	<bean id="fileUploadController" class="sil.controllers.FileUploadController">
+   		<property name="uploadManager"><ref local="uploadManager"/></property>
+		<property name="appSessionManager"><ref bean="appSessionManager"/></property>
+		<property name="templateNames">
+			<list>
+				<value>jcsg</value>
+				<value>ssrl</value>
+			</list>
+		</property>
+		<property name="containerTypes">
+			<list>
+				<value>cassette</value>
+				<value>puck</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="LoginController" class="ssrl.controllers.LoginForm" >
+   		<property name="formView"><value>/silPages/login</value></property>
+   		<property name="successView"><value>redirect:/cassetteList.html</value></property>
+		<property name="appSessionManager"><ref bean="appSessionManager"/></property>
+	</bean>
+
+	<bean id="LogoutController" class="ssrl.controllers.LogoutController" >
+   		<property name="loggedOutView"><value>redirect:/Login.html?error=loggedOut</value></property>
+		<property name="appSessionManager"><ref bean="appSessionManager"/></property>
+	</bean>
+ 
+	<bean id="cassetteListController" class="sil.controllers.CassetteListController">
+ 		<property name="methodNameResolver"><ref local="parameterMethodNameResolver"/></property>
+    	<property name="storageManager"><ref local="storageManager"/></property>	
+		<property name="appSessionManager"><ref bean="appSessionManager"/></property>
+		<property name="uploadManager"><ref local="uploadManager"/></property>
+		<property name="silFactory"><ref local="silFactory"/></property>
+		<property name="helpUrl"><ref bean="helpUrl"/></property>
+   	</bean>
+
+	<bean id="userDeleteSilController" class="sil.controllers.DeleteSilController">
+ 		<property name="methodNameResolver"><ref local="parameterMethodNameResolver"/></property>
+    	<property name="storageManager"><ref local="storageManager"/></property>	
+		<property name="errorView"><value>/errorViews/silIsLocked</value></property>
+   	</bean>
+	<bean id="staffDeleteSilController" class="sil.controllers.DeleteSilController">
+ 		<property name="methodNameResolver"><ref local="parameterMethodNameResolver"/></property>
+    	<property name="storageManager"><ref local="storageManager"/></property>	
+		<property name="errorView"><value>/silPages/unlockSilConfirm</value></property>
+   	</bean>
+
+	<bean id="userAssignSilController" class="sil.controllers.AssignSilController">
+ 		<property name="methodNameResolver"><ref local="parameterMethodNameResolver"/></property>
+    	<property name="storageManager"><ref local="storageManager"/></property>	
+		<property name="errorView"><value>/errorViews/silIsLocked</value></property>
+   	</bean>
+	<bean id="staffAssignSilController" class="sil.controllers.AssignSilController">
+ 		<property name="methodNameResolver"><ref local="parameterMethodNameResolver"/></property>
+    	<property name="storageManager"><ref local="storageManager"/></property>	
+		<property name="errorView"><value>/silPages/unlockSilConfirm</value></property>
+   	</bean>
+ 	<bean id="staffUnassignSilController" class="sil.controllers.UnassignSilController">
+ 		<property name="methodNameResolver"><ref local="parameterMethodNameResolver"/></property>
+    	<property name="storageManager"><ref local="storageManager"/></property>	
+		<property name="errorView"><value>/silPages/unlockSilConfirm</value></property>
+   	</bean>
+   	   	
+	<bean id="beamlineListController" class="sil.controllers.BeamlineListController">
+ 		<property name="methodNameResolver"><ref local="parameterMethodNameResolver"/></property>
+    	<property name="storageManager"><ref local="storageManager"/></property>	
+		<property name="appSessionManager"><ref bean="appSessionManager"/></property>
+   	</bean>
+
+	<bean id="changeUserController" class="sil.controllers.ChangeUserController">
+		<property name="appSessionManager"><ref bean="appSessionManager"/></property>
+   	</bean>
+   	<bean id="filterSilListController" class="sil.controllers.FilterSilListController">
+		<property name="appSessionManager"><ref bean="appSessionManager"/></property>
+   	</bean>
+	<bean id="unlockSilController" class="sil.controllers.UnlockSilController">
+		<property name="silCacheManager"><ref local="silCacheManager"/></property>
+   	</bean>
+   	
+	<bean id="showSilController" class="sil.controllers.ShowSilController">
+ 		<property name="methodNameResolver"><ref local="parameterMethodNameResolver"/></property>
+ 		<property name="silCacheManager"><ref local="silCacheManager"/></property>
+		<property name="appSessionManager"><ref bean="appSessionManager"/></property>
+   	</bean>
+   	
+	<bean id="crystalFormController" class="sil.controllers.CrystalFormController">
+ 		<property name="silCacheManager"><ref local="silCacheManager"/></property>
+		<property name="appSessionManager"><ref bean="appSessionManager"/></property>
+   	</bean>
+   	
+   	<bean id="runDefinitionFormController" class="sil.controllers.RunDefinitionFormController">
+ 		<property name="silCacheManager"><ref local="silCacheManager"/></property>
+		<property name="appSessionManager"><ref bean="appSessionManager"/></property>
+   	</bean>
+   	
+   	<bean id="repositionDataFormController" class="sil.controllers.RepositionDataFormController">
+ 		<property name="silCacheManager"><ref local="silCacheManager"/></property>
+		<property name="appSessionManager"><ref bean="appSessionManager"/></property>
+   	</bean>
+   	
+	<bean id="addBeamlineFormController" class="sil.controllers.AddBeamlineFormController">
+ 		<property name="storageManager"><ref local="storageManager"/></property>
+   	</bean>
+
+	<bean id="excelController" class="sil.controllers.ExcelController">
+ 		<property name="methodNameResolver"><ref local="propertiesMethodNameResolver"/></property>
+   		<property name="storageManager"><ref local="storageManager"/></property>
+   	</bean>
+   	
+	<bean id="commandController" class="sil.controllers.CommandController">
+ 		<property name="silCacheManager"><ref local="silCacheManager"/></property>
+		<property name="silFactory"><ref local="silFactory"/></property>
+		<property name="appSessionManager"><ref bean="appSessionManager"/></property>
+		<property name="storageManager"><ref local="storageManager"/></property>
+		<property name="uploadManager"><ref local="uploadManager"/></property>
+		<property name="silTclWriter"><ref local="silTclWriter"/></property>
+		<property name="silXmlWriter"><ref local="silXmlWriter"/></property>
+		<property name="silBeanWriter"><ref local="silBeanWriter"/></property>
+		<property name="velocityWriter"><ref local="simpleVelocityWriter"/></property>
+   	</bean>
+   	
+   	<bean id="runDefinitionController" class="sil.controllers.RunDefinitionController">
+ 		<property name="silCacheManager"><ref local="silCacheManager"/></property>
+		<property name="silFactory"><ref local="silFactory"/></property>
+		<property name="appSessionManager"><ref bean="appSessionManager"/></property>
+		<property name="storageManager"><ref local="storageManager"/></property>
+		<property name="velocityWriter"><ref local="simpleVelocityWriter"/></property>
+   	</bean>
+   	
+	<bean id="downloadController" class="sil.controllers.DownloadController">
+ 		<property name="methodNameResolver"><ref local="propertiesMethodNameResolver"/></property>
+ 		<property name="silFactory"><ref local="silFactory"/></property>
+ 		<property name="silExcelWriter"><ref local="silExcelWriter"/></property>
+ 		<property name="silCacheManager"><ref local="silCacheManager"/></property>
+ 		<property name="storageManager"><ref local="storageManager"/></property>
+   	</bean>
+   	
+   	<bean id="imageDownloadController" class="sil.controllers.ImageDownloadController">
+ 		<property name="imageServerBaseUrl"><value>http://smbfs.slac.stanford.edu:14007</value></property>
+ 		<property name="impServerBaseUrl"><value>http://localhost:61001</value></property>
+ 		<property name="appSessionManager"><ref bean="appSessionManager"/></property>
+   	</bean>       
+   	 	
+	<!-- Message Source -->
+	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basename"><value>/WEB-INF/messages</value></property>
+		<property name="cacheSeconds"><value>2</value></property>
+	</bean>
+
+</beans>

@@ -1,0 +1,56 @@
+###################################################
+#
+# Revision 2.0
+# by Boom
+#
+# - Based on Benny Benny-3.01, Chooch 4.0.1 and wasel 1.2
+# - Added a new makefile to build all decunix, irix and linux.
+# - Added chooch_remote.sh borne shell script to
+#   be used in place of autochooch by an impersonation 
+#   server.
+#
+###################################################
+
+autochooch consists of Benny_auto (FORTRAN), Chooch_auto (FORTRAN) 
+and wasel (C) programs. These programs can be run as a 
+batch by a shell script. autochooch shell script, written
+in c-shell, runs Chooch_auto.sh and wasel_auto c-shell scripts.
+Blu-ice used to run autochooch from the Fluorescence scan tab.
+
+The new version of Blue-ice no longer runs the autochooch shell script.
+Instead, it delegates the task to the scripting engine and the impersonation
+dhs via an operation. The impersonation dhs, in turn, sends an HTTP message 
+to the impersonation server to run runs chooch_remote.sh script
+on behalf of the user who issued the operation from blu-ice. 
+chooch_remote.sh is a borne shell script that does a 
+similar job as autochooch. The only differences are the formats 
+of some input and output.
+
+See README.Install for installation instructions.
+
+
+###################################################
+#
+# Revision 1.0
+# by Ashley Deacon
+#
+# - Based on Benny Benny-3.01, Chooch 4.0.1 and wasel 1.2
+# - Added Benny_auto.f and Chooch_auto.f in order to 
+#   suppress PGPLOT features and generates cif files
+#   as output for a display in Blu-ice.
+# - Added autochooch c-shell script to run Benny_auto
+#   Chooch_auto and wasel by blu-ice.
+#
+###################################################
+
+
+
+Note: for autochooch you do not need PGPLOT library 
+
+###################################################
+
+To get Chooch-4.0 up and running you should:
+
+1. read README.PGPLOT and install the PGPLOT library
+
+2. read README.Install and run the install script

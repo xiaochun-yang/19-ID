@@ -1,0 +1,15 @@
+#parse("/tcl/macros.vm")
+###################################
+## Output sil as tcl
+###################################
+{
+  {$!sil.id} {$!sil.info.eventId} {update}
+#foreach ($crystal in $crystals)
+  {
+    {$!crystal.row}
+    {
+		#outputCrystal($crystal)
+	}
+  }
+#end
+}

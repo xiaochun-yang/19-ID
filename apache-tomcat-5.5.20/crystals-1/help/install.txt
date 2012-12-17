@@ -1,0 +1,319 @@
+Installation Guide for Crystals Web Application
+===============================================
+
+The crystals server is used to upload a spreadsheet from the user's
+computer on to a repository. The uploaded spreadsheet is called "sil"
+which means "Sample Information List". A sil contains information
+about the crystals in a cassette. At SSRL a cassette can contains
+up to 96 crystals. Each row in a sil represents a crystal. 
+
+At SSRL, the user selects a sil into BluIce, corresponding to the 
+actually cassette being loaded into the robot for screening. 
+The control system automatically updates the sil (via the crystals server)
+as images are collected.
+It uses the port id on the cassette to identify which crystal is
+being screen. Each collected image filepath is added appropriate row
+to the sil. The control system also instructs the crystal-analysis
+server to analyze each image and autoindex a pair of images 
+for the given crystal. The analysis results are also recorded in the sil.
+
+
+Assuming that tomcat root directory (CATALINA_HOME) is /usr/local/tomcat
+on host named smblx99. The authentication server is installed on the same
+host. excel2xml APS is installed on boompc.
+
+Pre-requisites
+==============
+1. Install tomat
+2. Install authentication server
+3. Install impersonation daemon
+
+
+Configure Authentication Server
+===============================
+
+Assuming that Authentication server is installed during webice installation
+(see webice/pages/help/install_standalone.txt). Here we only need to make sure
+the configuration files are setup correctly for the crystals server.
+
+1. Make sure the domain name is correct in ${CATALINA_HOME}/conf/AuthGatewayMethod.xml
+
+<domain>.slac.stanford.edu</domain>
+
+2. Add The following lines to ${CATALINA_HOME}/conf/AuthGatewayApps.xml
+
+   <AuthApplication id="Crystals">
+      <appName>Crystals</appName>
+   </AuthApplication>
+
+
+3. Add The following lines to ${CATALINA_HOME}/conf/AuthGatewaySystems.xml
+   where 134.79.28.203 is the ip address of smblx99.slac.stanford.edu
+
+   <AuthGatewaySystem id="127.0.0.1">
+      <ip>127.0.0.1</ip>
+      <sysname>smblx99.slac.stanford.edu</sysname>
+   </AuthGatewaySystem>
+   <AuthGatewaySystem id="134.79.28.203">
+      <ip>134.79.28.203</ip>
+      <sysname>smblx99.slac.stanford.edu</sysname>
+   </AuthGatewaySystem>
+ 
+
+
+Install excel2xml
+=================
+
+This is an ASP web application that converts MS excel spreadsheet into an xml file. It is used
+during a spreadsheet upload. You need Microsoft Web server Internet Information 
+Server IIS 5.0 or later.
+
+You can skip this step if you are not planning to upload a spreadsheet.
+A sil can be created from a default spreadsheet without uploading any file (See an example
+in step 13 in the "Install Crystals in Tomcat" section below).
+
+- You need a PC. We have tested on Windows XP sp2.
+
+- Download Microsoft Microsoft Data Access Components (MDAC) 2.8 SP1 from 
+  http://www.microsoft.com/data/download.htm. Click "MDAC Center" -> "MDAC Downloads" menu.
+  Then follow "MDAC 2.8 SP1" link to download MDAC_TYP.EXE.
+  
+  Note that MDAC 2.8 is already included in Microsoft XP sp2. You can the version of
+  MDAC on your computer by running a tool called ComponentChecker which you can download
+  from Microsoft.
+  
+- Download Microsoft XML Core Services (MSXML) 6.0 from 
+  http://msdn.microsoft.com/xml. Click "XML Downloads" menu and follow
+  "Microsoft Core XML Services (MSXML) 6.0" link to download msxml6.msi.
+  
+  Double click on msxml6.msi to run the installation.
+  
+- Download Microsoft dsofile for reading or modifying the Document Summary Properties 
+  for an OLE Structured Storage file such as Word, Excel, and PowerPoint.
+  Use url http://support.microsoft.com/default.aspx?scid=kb;EN-US;q253338
+  or go to microsoft.com and search for dsofile.exe and then 
+  follow link "INFO: Office Developer Samples and Tools Available for Download"
+  on the list of search results. Then click "Dsofile.exe" link to download.
+  
+  Double click on Dsofile.exe to run the installation. You will 
+  get c:\DsoFile directory.
+  
+- Copy /usr/local/dcs/cassettedb/WebIIS/excel2xml dir to C:\Inetpub\wwwroot directory.
+  Make sure that the IIS service has read access to the files in the directory excel2xml.
+  The ISS needs also write permissions to this directory so that the ASP excel2xml.asp 
+  can create temporary files.
+
+- Configuration of CTS Components for Microsoft IIS.
+  The IIS can be configured with the "Internet Service Manager"
+  (Start | Settings | Control Panel | Administrative Tools | Internet Information Services).
+  
+  - In "Internet Service Manager" navigate to the directory excel2xml, 
+    right click and select "Properties". The following IIS properties must be set 
+    for the directory excel2xml:
+  
+  Directory Tab:
+  * Access: Read and Write 
+  * Execute Permissions: "Scripts only" or "Scripts and Executable"
+  
+  - The following Registry entry must be changed:
+  
+  HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Jet\4.0\Engines\Excel\TypeGuessRows=0
+
+  After changing the Registry restart the IIS.
+
+
+- Restart IIS.
+
+  You should NOT use the "Internet Service Manager" from
+  (Start | Settings | Control Panel | Administrative Tools | Internet Information Services)
+  to restart the IIS. The "Internet Service Manager" does not really reload the IIS service.
+
+  Instead, use instead (Start | Settings | Control Panel | Administrative Tools | Services) 
+  to stop the service "IIS Admin". This will automatically also stop the Web and the FTP services. 
+  To restart the Web server start the "World Wide Web Publishing Service". This will 
+  automatically also start the service "IIS Admin".
+  
+
+- Test: open http://smbconv/excel2xml/excel2xml.asp in a browser, where, for example, 
+  smbconv is your PC name.
+  
+- See cassettedb/doc/cts_config.doc for more details.
+
+
+
+Install Crystals in Tomcat
+==========================
+
+1. Create setup_env.csh in /usr/local/dcs dir.
+
+#!/bin/csh -f
+
+setenv ROOT_DIR /usr/local/dcs
+setenv JAVA_HOME ${ROOT_DIR}/jdk1.5.0_06
+setenv ANT_HOME ${ROOT_DIR}/apache-ant-1.6.5
+setenv CATALINA_HOME ${ROOT_DIR}/apache-tomcat-5.5.15
+setenv WEBICE_HOME ${CATALINA_HOME}/webapps/webice
+setenv CRYSTALS_HOME ${CATALINA_HOME}/webapps/crystals
+setenv PATH ${WEBICE_HOME}/WEB-INF/src:${JAVA_HOME}/bin:${ANT_HOME}/bin:$PATH
+
+2. Checkout cassettedb from cvs.
+
+   > cd /usr/local/dcs
+   > cvs -d :pserver:blctl@smb.slac.stanford.edu:/home/code/repository login
+   > password:
+   
+   > cvs -d :pserver:blctl@smb.slac.stanford.edu:/home/code/repository checkout cassettedb
+   
+   The only dir we need is cassettedb/WebApacheTomcat/crystals.
+
+
+3. Copy crystals dir to tomcat webapps.
+
+   > cd $CATALINA_HOME/webapps
+   > cp -r ${ROOT_DIR}/cassettedb/WebApacheTomcat/crystals .
+   > chmod -R oug+rx crystals
+   
+4. Build crystals server.
+
+   - Edit crystals/WEB-INF/src/build.xml. Change from
+   
+<property name="tomcat_base" value="/usr/local/tomcat/t5-crystals" />
+     
+     to 
+
+<property name="tomcat_base" value="/usr/local/dcs/apache-tomcat-5.5.15" />
+
+   - Build cts.jar and the rest of the classes.
+
+   > source /usr/local/dcs/setup_env.csh   (if not already done)
+   > cd ${CRYSTALS_HOME}/WEB-INF/src
+   > ant build_cts
+   > ant jar_cts
+   > ant
+   
+   
+5. Edit ${CRYSTALS_HOME}/config.prop. Pay attention to the port number of 
+   getCassetteURL, cassetteInfoURL, authenticateURL, and auth.loginUrl 
+   since the protocol is "https". Noe that you can use "http" instead
+   for getCassetteURL and cassetteInfoURL but make sure to enter the correct port.
+   Port number for http is typically 8080 and for https is 8443 (see these settings
+   in the tomcat installation step in webice installation guide).
+   
+   Run configure_standalone.csh script to configure crystals server.
+
+   > cd ${CRYSTALS_HOME}/WEB-INF/scripts
+   > ./configure_standalone.csh
+
+
+7. Create an empty file db.txt in ${CRYSTALS_HOME} directory. This file contains db 
+   password and connection string used by dbType is "oracle". If you use, dbType "xml"
+   leave this file empty.
+
+8. Modify setup_env.csh in ${CRYSTALS_HOME}/WEB-INF/scripts dir to:
+
+#!/bin/csh -f
+
+setenv JAVA_HOME ${ROOT_DIR}/jdk1.5.0_06
+setenv ANT_HOME ${ROOT_DIR}/apache-ant-1.6.5
+setenv CATALINA_HOME ${ROOT_DIR}/apache-tomcat-5.5.15
+setenv CRYSTALS_HOME ${CATALINA_HOME}/webapps/crystals
+setenv LIB_DIR ${CRYSTALS_HOME}/WEB-INF/lib
+setenv CLASSPATH ${LIB_DIR}/cts.jar:${LIB_DIR}/xml-apis.jar:${LIB_DIR}/xercesImpl.jar:${LIB_DIR}/class12.jar
+
+
+9. Setup database files if dbType config is set to "xml" in config.prop (see the above step).
+   
+   > source /usr/local/dcs/setup_env.csh   (if not already done)
+   > cd ${CRYSTALS_HOME}/WEB-INF/scripts
+   > ./install.csh
+   
+   You will see the following output on the screen.
+   
+rootDir = /usr/local/dcs/apache-tomcat-5.5.15/webapps/crystals
+Created /usr/local/dcs/apache-tomcat-5.5.15/webapps/crystals/data/beamlines/beamlines.xml
+Created /usr/local/dcs/apache-tomcat-5.5.15/webapps/crystals/data/cassettes/users.xml
+Created /usr/local/dcs/apache-tomcat-5.5.15/webapps/crystals/data/params.xml
+Created /usr/local/dcs/apache-tomcat-5.5.15/webapps/crystals/data/cassette_lookup.prop
+
+   install.csh script will create the following directories under ${CRYSTALS_HOME}.
+   Note that old directories and files will be removed.
+   - ${CRYSTALS_HOME}
+     - data
+       - params.xml
+       - cassette_lookup.prop
+       - cassettes
+         - users.xml
+       - beamlines
+         - beamlines.xml
+   
+10. Add beamlines and users to the database. Note that there is no need 
+    to create a new user here. This is to show that you can do it from 
+    the script without going through the web pages. 
+    The user name will be added automatically to the db when the 
+    user visits the crystals page the first time. Beamline, on the other hand, 
+    needs to be created manually.
+
+   > cd crystals/WEB-INF/scripts
+   > ./addBeamline.csh BL9-1
+   > ./addUser.csh tigerw "Tiger Woods"
+   
+   Beamline name can be an arbitrary string. The beamlines added to the db
+   will be displayed when the user assigns a sil to a beamline. Each 
+   beamline has 3 cassette positions, left, middle and right. 
+
+11. Restart tomcat.
+
+   > cd ${CATALINA_HOME}/bin
+   > ./shutdown.sh
+   > ./startup.sh
+
+12. In a web browser, go to http://localhost:8080/crystals. Log in to enter the site.
+
+13. Test: Create a default sil. Click "Use Default Spreadsheet" button after logging in.
+    You should see a new row in the table, as shown here:
+
+    1 cassette_template.xls 2006-03-16 11:15:18 [unknown_pin] [View/Edit] [Download Results] [Download Original Excel] [Delete]
+
+    "1" is sil id which is a unique id of this spreadsheet generated by the DB.
+    Click "View/Edit" to see the sil. 
+    
+    On this sil view/edit page, the table at the top shows the owner of this sil, 
+    the unique sil id (generate by the DB). "Display Type" filters columns to be displayed.
+    "Image Display Type" gives options for image display. The table at the bottom 
+    shows a list of crystals in the spreadsheet.
+    
+14. Test: Edit column values. Only some columns are editable.
+    
+    First, select one of the rows by clicking the radio button in the Port column.
+    Then click "Edit Crystal" button. Enter some text to the editable columns and
+    click "Save Changes".
+
+13. Test: Add image to the first row. Row number runs from 0 - 95. Each row can have up to 3 groups of images.
+    Each group can have more than one images. Let's add an image from /usr/local/dcs/autoindex_test_images
+    to group 1 of row 0 (first row). silId is 1 (or the value seen on the table in step 13.
+    
+    Open a new web browser and go to to the following url. Note that the session id can be generated
+    using a utlity tool described in step 5 of the "Installing Authentication Server" section
+    in webice installation note.
+    
+
+    http://smblx99.slac.stanford.edu:8080/crystals/addCrystalImage.do?SMBSessionID=06508FCCC945D538680CA9B867468CA6&userName=blctl&&silId=1&row=0&group=1&name=myo3_4_E1_001.img&dir=/usr/local/dcs/autoindex_test_images
+
+    The result page should display "OK 1" where 1 is the event id for this sil. Each time the sil is being edited 
+    the event id is incremented by 1.
+    
+    Click the browser's reload button to reload the sil view/edit page.
+    You should see "myo3_4_E1_001.img" in the "Images" column in the first.
+    
+    Now add the second image from autoindex_test_images to row 0, group 2.
+    
+   
+    http://smblx99.slac.stanford.edu:8080/crystals/addCrystalImage.do?SMBSessionID=06508FCCC945D538680CA9B867468CA6&userName=blctl&&silId=1&row=0&group=2&name=myo3_4_E1_040.img&dir=/usr/local/dcs/autoindex_test_images
+
+    The result page shpuld display "OK 2"
+    
+    We will use the images from this row in this sil to test the crystal-analysis. So make note 
+    of the sil id, row number and image filenames. Click the reload button to reload sil view/edit page.
+    You should now see "myo3_4_E1_001.img myo3_4_E1_040.img" in the "Images" column in the first row.
+
+ 

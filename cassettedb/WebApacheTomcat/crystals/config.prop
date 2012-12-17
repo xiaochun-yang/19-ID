@@ -1,0 +1,75 @@
+# The following config customizes the web pages
+# Page containing logo and title
+pageheader=ssrlheader.jsp
+# Header, footer and stylesheet for the login form
+loginForm.header=smb_menu.html
+loginForm.footer=smbFooter.jspf
+loginForm.stylesheet=/smb_mainstyle.css
+loginForm.bodyStyle=/smb_mainstyle.css
+ 
+# Web server. Can be different from
+# tomcat.host if we use mod_jk 
+# to redirect requests from apache
+# to tomcat.
+host=smb.slac.stanford.edu
+port=80
+securedPort=443
+
+# Tomcat host and port for this app.
+tomcat.host=smbws1.slac.stanford.edu
+tomcat.port=8082
+tomcat.securePort=8445
+ 
+# Crystals server root dir
+rootDir=/home/webserverroot/servlets/tomcat-smbws1/crystals
+ 
+# Template dir
+templateDir=/home/webserverroot/servlets/tomcat-smbws1/crystals/data/templates/
+ 
+# Cassette dir
+cassetteDir=/home/webserverroot/servlets/crystals/data/cassettes/
+ 
+# Beamline dir
+beamlineDir=/home/webserverroot/servlets/crystals/data/beamlines/
+ 
+# URL path for crystals server
+crystalsURL=/crystals
+ 
+# Default URL for loading cassette files
+getCassetteURL=/crystals/data/cassettes/
+ 
+# Default page for crystals server
+cassetteInfoURL=/crystals/CassetteInfo.jsp
+
+# Directory to save spreadsheets that fail to get uploaded or converted 
+# to xml.
+badXlsDir=/home/webserverroot/servlets/crystals/data/badSpreadsheets
+ 
+# File containing admin email address. One address per line.
+# Must be readable by tomcat. Admins will recieve an email
+# whene a spreadsheet upload fails.
+
+adminEmails=/home/webserverroot/servlets/tomcat-smbws1/crystals/WEB-INF/adminEmails.txt
+
+# Conversion methods: jexcel or asp
+excel2xmlMethod=jexcel
+
+# URL for excel to xml converter using asp method
+
+# Database type: oracle or xml
+dbType=oracle
+dbFile=db.txt
+ 
+# Authentication
+auth.host=smbws1.slac.stanford.edu
+auth.port=8084
+auth.securePort=8447
+auth.method=smb_config_database
+auth.loginUrl=/crystals/login.jsp
+
+# Valid fields
+#crystal.fields=ContainerID,Port,CrystalID,Protein,Comment,FreezingCond,CrystalCond,Metal,Priority,Person,CrystalURL,ProteinURL,Directory,SystemWarning,AutoindexImages,Score,UnitCell,Mosaicity,Rmsr,BravaisLattice,Resolution,ISigma,Images,AutoindexDir,Move,Solution
+
+# Move
+moveCrystal.clearSrcCrystal=false
+

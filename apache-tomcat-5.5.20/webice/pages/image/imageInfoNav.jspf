@@ -1,0 +1,24 @@
+<% String tab = viewer.getInfoTab(); %>
+
+<% if (tab.equals(ImageViewer.TAB_HEADER)) { %>
+    <span class="tab_white selected"><a class="a_selected"
+	href="ImageInfoChangeTab.do?tab=<%= ImageViewer.TAB_HEADER %>">Header</a></span>
+<% } else { %>
+	<span class="tab_white unselected"><a class="a_unselected"
+	href="ImageInfoChangeTab.do?tab=<%= ImageViewer.TAB_HEADER %>">Header</a></span>
+<% } %>
+
+<% if (tab.equals(ImageViewer.TAB_ANALYSE)) { %>
+   <span class="tab_white selected"><a class="a_selected"
+    href="ImageInfoChangeTab.do?tab=<%= ImageViewer.TAB_ANALYSE %>" target="_parent">Spot Statistics</a></span>
+<% } else { %>
+    <span class="tab_white unselected"><a class="a_unselected"
+    href="ImageInfoChangeTab.do?tab=<%= ImageViewer.TAB_ANALYSE %>" target="_parent">Spot Statistics</a></span>
+<% } %>
+
+<% if (tab.equals(ImageViewer.TAB_CRYSTAL)) { %>
+    <span class="tab_right selected"><a class="a_selected" href="ImageInfoChangeTab.do?tab=<%= ImageViewer.TAB_CRYSTAL %>">Crystal Image</a></span>
+<% } else { %>
+    <span class="tab_right unselected"><a class="a_unselected" href="ImageInfoChangeTab.do?tab=<%= ImageViewer.TAB_CRYSTAL %>">Crystal Image</a></span>
+<% } %>
+<hr>

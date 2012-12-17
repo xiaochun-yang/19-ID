@@ -1,0 +1,290 @@
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+"http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+
+<bean id="noVideoJpeg" class="videoSystem.JpegBeanFactory">
+	<property name="filename" value="/WEB-INF/novideo.jpg"/>
+</bean>
+
+<bean id="passwordFactory" class="videoSystem.PasswordFileReader" singleton="true">
+	<property name="passwordFile" value="/usr/local/dcs/passwords/axis.txt,/usr/local/tomcat/access/axis.txt"/>
+	</bean>
+
+<bean id="videoStandard" abstract="true">
+ <property name="smallSize" value="resolution=176x112"/>
+ <property name="mediumSize" value="resolution=352x240"/>
+ <property name="largeSize" value="resolution=704x480"/>
+
+ <property name="low" value="compression=100"/>
+ <property name="medium" value="compression=50"/>
+ <property name="high" value="compression=0"/>
+ <property name="timeout" value="6000"/>
+ <property name="streamKeepAliveTimeMs" value="5000"/>
+ <property name="nullImage"><ref local="noVideoJpeg"/></property>
+</bean>
+
+<bean id="axis2110" parent="videoStandard" abstract="true">
+ <property name="smallSize" value="resolution=320x240"/>
+ <property name="mediumSize" value="resolution=320x240"/>
+ <property name="largeSize" value="resolution=640x480"/>
+
+ <property name="imageServletName" value="/cgi-bin/mjpg/video.cgi"/>
+ <property name="sleepTimeBetweenImagesMs" value="1"/>
+ <property name="videoClientFactory" ref="httpVideoImageFactoryAxisServer"></property>
+</bean>
+
+<bean id="axis2120" parent="videoStandard" abstract="true">
+ <property name="smallSize" value="resolution=352x240"/>
+ <property name="mediumSize" value="resolution=352x240"/>
+ <property name="largeSize" value="resolution=704x480"/>
+
+ <property name="imageServletName" value="/cgi-bin/mjpg/video.cgi"/>
+ <property name="sleepTimeBetweenImagesMs" value="1"/>
+ <property name="videoClientFactory" ref="httpVideoImageFactoryAxisServer"></property>
+
+</bean>
+
+
+<bean id="axis2400" parent="videoStandard"  abstract="true">
+ <property name="smallSize" value="resolution=176x112"/>
+ <property name="mediumSize" value="resolution=352x240"/>
+ <property name="largeSize" value="resolution=704x480"/>
+
+ <property name="imageServletName" value="/axis-cgi/mjpg/video.cgi"/>
+ <property name="sleepTimeBetweenImagesMs" value="2"/>
+ <property name="videoClientFactory" ref="httpVideoImageFactoryAxisServer"></property>
+</bean>
+
+<bean id="axis241Q" parent="videoStandard"  abstract="true">
+ <property name="smallSize" value="resolution=176x120"/>
+ <property name="mediumSize" value="resolution=352x240"/>
+ <property name="largeSize" value="resolution=704x480"/>
+
+ <property name="imageServletName" value="/axis-cgi/mjpg/video.cgi"/>
+ <property name="sleepTimeBetweenImagesMs" value="2"/>
+ <property name="videoClientFactory" ref="httpVideoImageFactoryAxisServer"></property>
+</bean>
+
+<bean id="axis210" parent="videoStandard" abstract="true">
+ <property name="imageServletName" value="/axis-cgi/mjpg/video.cgi"/>
+ <property name="sleepTimeBetweenImagesMs" value="1"/>
+ <property name="videoClientFactory" ref="httpVideoImageFactoryAxisServer"></property>
+</bean>
+
+
+<bean id="httpVideoImageFactory" class="videoSystem.VideoAccessObjectFactory">
+ <property name="className" value="videoSystem.VideoAccessObjectSimpleHttp"/>
+</bean>
+
+<bean id="httpVideoImageFactoryAxisServer" class="videoSystem.VideoAccessObjectFactory">
+ <property name="className" value="videoSystem.VideoAccessObjectAxisServer"/>
+</bean>
+
+<bean id="axisServerVideoImageFactory" class="videoSystem.VideoAccessObjectFactory">
+ <property name="className" value="videoSystem.VideoImageAxisClient"/>
+</bean>
+
+<bean id="standardAxis2400Config" class="videoSystem.HostConfigBean"  abstract="true">
+ <property name="port" value="8000"/>
+ <property name="passwordFactory"><ref local="passwordFactory"/></property>
+</bean>
+
+<bean id="standardAxis2100Config" class="videoSystem.HostConfigBean"  abstract="true">
+ <property name="port" value="8080"/>
+ <property name="passwordFactory"><ref local="passwordFactory"/></property>
+</bean>
+<bean id="standardAxis210Config" class="videoSystem.HostConfigBean"  abstract="true">
+ <property name="port" value="8080"/>
+ <property name="passwordFactory"><ref local="passwordFactory"/></property>
+</bean>
+
+
+ 
+<!--  ####################################### START BEAMLINE DEFINITIONS ########################### -->
+
+<bean id="axis" class="videoSystem.HostConfigBean" parent="standardAxis2400Config">
+ <property name="host" value="axis"/>
+</bean>
+
+
+<bean id="bl00_sample" class="videoSystem.VideoStreamDefinition" parent="axis241Q">
+ <property name="hostConfig" ref="axis"/>
+ <property name="cameraChannel" value="1"/>
+ <property name="textParam"><value>&amp;date=0&amp;clock=0&amp;text=0</value></property>
+</bean>
+
+<bean id="BL0-0_SAMPLE" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl00_sample"/>
+ <property name="groups" value="BL0-0,SAMPLE"/>
+</bean>
+
+
+<bean id="bl00_hutch" class="videoSystem.VideoStreamDefinition" parent="axis241Q">
+ <property name="hostConfig" ref="axis"/>
+ <property name="cameraChannel" value="2"/>
+</bean>
+
+<bean id="BL0-0_HUTCH" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl00_hutch"/>
+ <property name="groups" value="BL0-0,HUTCH"/>
+</bean>
+
+
+<bean id="bl00_robot" class="videoSystem.VideoStreamDefinition" parent="axis241Q">
+ <property name="hostConfig" ref="axis"/>
+ <property name="cameraChannel" value="3"/>
+</bean>
+
+
+<bean id="BL0-0_ROBOT" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl00_robot"/>
+ <property name="groups" value="BL0-0,ROBOT"/>
+</bean>
+
+<bean id="bl00_panel" class="videoSystem.VideoStreamDefinition" parent="axis241Q">
+ <property name="hostConfig" ref="axis"/>
+ <property name="cameraChannel" value="4"/>
+</bean>
+
+<bean id="BL0-0_PANEL" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="bl00_panel"/>
+ <property name="groups" value="BL0-0,PANEL"/>
+</bean>
+
+
+<bean id="httpVideoImageFactoryHttpPng" class="videoSystem.VideoAccessObjectFactory">
+ <property name="className" value="videoSystem.VideoAccessObjectSimpleHttpPngToJpeg"/>
+</bean>
+
+
+<bean id="ssrl" class="videoSystem.HostConfigBean">
+ <property name="host" value="ssrl"/>
+ <property name="port" value="80"/>
+</bean>
+
+<bean id="spear_ptz" class="videoSystem.PtzControlAxis2400">
+ <property name="hostConfig" ref="axis"/>
+</bean>
+
+
+<bean id="spear" class="videoSystem.VideoStreamDefinition">
+ <property name="hostConfig" ref="ssrl"/>
+ <property name="timeout" value="6000"/>
+ <property name="streamKeepAliveTimeMs" value="5000"/>
+ <property name="nullImage"><ref local="noVideoJpeg"/></property>
+ <property name="videoClientFactory" ref="httpVideoImageFactoryHttpPng"></property>
+ <property name="sleepTimeBetweenImagesMs" value="5000"/>
+ <property name="imageServletName" value="/cgi-bin/SPEAR_DCCTPLOT.PNG"/>
+</bean>
+
+<bean id="SPEAR" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="spear"/>
+ <property name="ptzControl" ref="spear_ptz"/>
+ <property name="groups" value="BL0-0"/>
+</bean>
+
+<bean id="developmentVideoServer" class="videoSystem.HostConfigBean">
+ <property name="host" value="smbdev1.slac.stanford.edu"/>
+ <property name="port" value="8080"/>
+</bean>
+
+<!--#image definitions for another web application like this one-->
+<bean id="webservice" abstract="true">
+ <property name="imageServletName" value="/VideoSystem/video.html"/>
+ <property name="smallSize" value="size=small"/>
+ <property name="mediumSize" value="size=medium"/>
+ <property name="largeSize" value="size=large"/>
+ <property name="low" value="resolution=low"/>
+ <property name="medium" value="resolution=medium"/>
+ <property name="high" value="resolution=high"/>
+ <property name="timeout" value="6000"/>
+ <property name="sleepTimeBetweenImagesMs" value="500"/>
+ <property name="videoClientFactory" ref="httpVideoImageFactory"></property>
+</bean>
+
+
+<bean id="developmentVideoServerSampleBL9-2" class="videoSystem.VideoStreamDefinition" parent="webservice">
+ <property name="hostConfig" ref="developmentVideoServer"/>
+ <property name="cameraChannel" value="BL9-2_SAMPLE"/>
+
+</bean>
+
+<bean id="VIDEOSERVER-BL9-2_SAMPLE" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="developmentVideoServerSampleBL9-2"/>
+ <property name="groups" value="DEVELOPMENT,BL-sim"/>
+ <property name="ptzControl" ref="spear_ptz"/>
+</bean>
+
+
+
+<bean id="developmentVideoServerSampleBL9-1" class="videoSystem.VideoStreamDefinition" parent="webservice">
+ <property name="hostConfig" ref="developmentVideoServer"/>
+ <property name="cameraChannel" value="BL9-1_SAMPLE"/>
+
+</bean>
+
+<bean id="VIDEOSERVER-BL9-1_SAMPLE" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="developmentVideoServerSampleBL9-1"/>
+ <property name="groups" value="DEVELOPMENT,BL-sim"/>
+ <property name="ptzControl" ref="spear_ptz"/>
+</bean>
+
+
+<bean id="developmentVideoServerSampleBL7-1" class="videoSystem.VideoStreamDefinition" parent="webservice">
+ <property name="hostConfig" ref="developmentVideoServer"/>
+ <property name="cameraChannel" value="BL7-1_SAMPLE"/>
+
+</bean>
+
+<bean id="VIDEOSERVER-BL7-1_SAMPLE" class="videoSystem.StreamDefinitionBean">
+ <property name="videoDefinition" ref="developmentVideoServerSampleBL7-1"/>
+ <property name="groups" value="DEVELOPMENT,BL-sim"/>
+ <property name="ptzControl" ref="spear_ptz"/>
+</bean>
+
+
+
+<bean id="streamMap" class="videoSystem.StreamMap" >
+	<property name="streamMap">
+		<map>
+		<entry key="BL0-0_HUTCH" value-ref="BL0-0_HUTCH"/>
+		<entry key="BL0-0_ROBOT" value-ref="BL0-0_ROBOT"/>
+		<entry key="BL0-0_SAMPLE" value-ref="BL0-0_SAMPLE"/>
+		<entry key="BL0-0_PANEL" value-ref="BL0-0_PANEL"/>
+
+		<entry key="SPEAR" value-ref="SPEAR"/>
+
+		<entry key="VIDEOSERVER-BL9-2_SAMPLE" value-ref="VIDEOSERVER-BL9-2_SAMPLE"/>
+		<entry key="VIDEOSERVER-BL9-1_SAMPLE" value-ref="VIDEOSERVER-BL9-1_SAMPLE"/>
+		<entry key="VIDEOSERVER-BL7-1_SAMPLE" value-ref="VIDEOSERVER-BL7-1_SAMPLE"/>
+
+		</map>
+	</property>
+</bean>
+
+
+	<bean id="BL0-0_sample_decorator" class="videoSystem.VideoStreamDecorator">
+		<property name="videoStreamDefinition" ref="developmentVideoServerSampleBL9-2"/>
+		<property name="compressionStr" value="high"/>
+		<property name="sizeStr" value="small"/>
+	</bean>
+	
+
+	<bean id="vidoDhsMessageParser" class="dhs.VideoDhsParser"/>
+	
+	<bean id="dcss_BL0-0" class="dhs.Dhs">
+		<property name="dcssHwHostname" value="localhost" />
+  		<property name="dcssHwPort" value="14242"/>
+	  	<property name="dhsName" value="video"/>
+	  	<property name="dcsTextMessageParser"><ref bean="vidoDhsMessageParser"/></property>
+	</bean>
+	
+	<bean id="BL0-0_DHS" class="dhs.VideoStreamInfoDhs">
+		<property name="dhs"><ref bean="dcss_BL0-0"/></property>
+		<property name="videoThreadManager"><ref bean="videoThreadManager"/></property>
+		<property name="videoStream"><ref bean="BL0-0_sample_decorator"/></property>
+	</bean>
+
+
+
+</beans>

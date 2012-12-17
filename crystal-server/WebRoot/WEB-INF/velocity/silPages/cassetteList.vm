@@ -1,0 +1,223 @@
+#parse("/silPages/topbanner.html")
+
+<script language="javascript">
+
+
+function assignSil(silId) {
+	var dropdownName = "document.cassetteListForm.beamline_" + silId;
+    var i;
+    eval("i = " + dropdownName + ".selectedIndex");
+    var beamlineId;
+    eval("beamlineId = " + dropdownName + ".options[i].value");
+    var submit_url = "${assignSilUrl}?beamlineId=" + beamlineId + "&silId=" + silId;
+    location.replace(submit_url);
+}
+
+function downloadFile() {
+	var index = document.downloadTemplateForm.downloadTemplate.selectedIndex;
+	var templateFile;
+	eval("templateFile =  document.downloadTemplateForm.downloadTemplate.options[" + index + "].value");
+	var url = "template/" + templateFile;
+	location.replace(url);
+}
+
+function updateHelp() {
+	var filterType = document.getElementById("filterType");
+	var tt = document.getElementById("filterHelp").innerHTML;
+	var i = document.cassetteListForm.filterType.selectedIndex;
+	var filterType = document.cassetteListForm.filterType.options[i].value;
+	var helpStr = "";
+	if (filterType == "silIdRange") {
+		helpStr = "  for example, 100, &gt; 100, >= 100, &lt; 100, <= 100, 100 - 200";
+	} else if (filterType == "dateRange") {
+		helpStr = "  for example, 2009-09-25, &gt; 2009-09-25, >= 2009-09-25, &lt; 2009-09-25, <= 2009-09-25, 2009-09-25 - 2009-09-26";
+	} else if (filterType == "silId") {
+		helpStr = "  for example, 100*, 1*0";
+	} else if (filterType == "uploadFileName") {
+		helpStr = "  for example, mycassette_*.xls, myo*100";
+//	} else if (filterType == "fullList") {
+//		helpStr = "shows full sil list for user $!appSession.authSession.userName";
+	}
+	document.getElementById("filterHelp").innerHTML = helpStr;
+	if (filterType == "fullList")
+		document.getElementById("searchArea").style.display = "none";
+	else
+		document.getElementById("searchArea").style.display = "inline";
+}
+
+function changeUser() {
+	var i = document.changeUserForm.user.selectedIndex;
+	var user = document.changeUserForm.user.options[i].value;
+    this.location.replace("changeUser.html?user=" + user);
+}
+
+</script>
+
+<body onload="updateHelp()" >
+<span name="showUser" style="float:right; font-size:100%; padding-right:10px">
+You are $appSession.authSession.userName<br/><a class="link" href="Logout.html">Logout</a>
+</span>
+<h1><a href="http://ssrl.slac.stanford.edu"><img src="images/ssrl2.gif" border="0"  height="50" width="50"/></a>Sample Database</h1>
+
+ <form name="downloadTemplateForm" action="cassetteList.html">
+<span style="float:right; font-size:100%; padding-right:10px">
+<a href="uploadFile.html">Upload Spreadsheet</a>&nbsp;
+<a href="cassetteList.html?method=useCassetteTemplate">Use SSRL template</a>&nbsp;
+<a href="cassetteList.html?method=usePuckTemplate">Use PUCK template</a>&nbsp;
+Template:
+<select name="downloadTemplate">
+<option value="cassette_template.xls">SSRL Cassette Template</option>
+<option value="puck_template.xls">Puck Template</option>
+</select>
+<input type="button" value="Download" onclick="downloadFile()"/>
+</span>
+</form>
+ #if ($appSession.authSession.staff)
+#parse("/silPages/userList.vm")
+#parse("/silPages/staff.vm")
+#else
+#parse("/silPages/user.vm")
+#end
+
+#set ($lastPage = $numPages - 1)
+#if (!$nullTool.isNull($error) && ($error.length() > 0))
+<span style="color:red">$error</span>
+#end
+
+ <form name="cassetteListForm" action="filterSilList.html">
+ <table id="cassetteListTable" class="cassetteList">
+   <tr>
+   <td style="height: 10px;background:#c6c6f2;padding:5px" colspan="9">
+   <span style="float:right">
+   		Cassettes $!firstIndex - $!lastIndex of $!numSils [ 
+   		#if ($pageNumber != 0)
+   		<a href="firstPage.html">first</a>
+   		#else
+   		first
+   		#end
+   		 | 
+   		#if ($pageNumber > 0)
+   		<a href="prevPage.html">prev</a>
+   		#else
+   		prev
+   		#end
+   		 | 
+   		#if ($pageNumber < $lastPage)
+   		<a href="nextPage.html">next</a>
+   		#else
+   		next
+   		#end
+   		 | 
+   		#if ($pageNumber != $lastPage)
+   		<a href="lastPage.html">last</a>
+   		#else
+   		last
+   		#end
+   		 ]
+   </span>
+   Search Field: 
+   <select name="filterType" onchange="updateHelp()">
+   		#set ($selected1 = "")
+   		#set ($selected2 = "")
+   		#set ($selected3 = "")
+   		#set ($selected4 = "")
+   		#set ($selected5 = "")
+   		#if ($appSession.silListFilter.filterType == "silIdRange")
+   			#set ($selected1 = "selected")
+   		#elseif ($appSession.silListFilter.filterType == "dateRange")
+   			#set ($selected2 = "selected")
+   		#elseif ($appSession.silListFilter.filterType == "silId")
+   			#set ($selected3 = "selected")
+  		#elseif ($appSession.silListFilter.filterType == "uploadFileName")
+  			#set ($selected4 = "selected")
+  		#elseif ($appSession.silListFilter.filterType == "fullList")
+  			#set ($selected5 = "selected")
+  		#end
+  		<option value="fullList" $!selected5>Full List</option>
+  		<option value="silIdRange" $!selected1>SIL ID Range</option>
+ 		<option value="dateRange" $!selected2>Upload Time Range</option>
+  		<option value="silId" $!selected3>SIL ID</option>
+  		<option value="uploadFileName" $!selected4>Uploaded Spreadsheet</option>
+   </select>
+   <span id="searchArea">
+   Filter
+    		<input type="text" name="wildcard" value="$!appSession.silListFilter.wildcard"/>
+   			<input type="submit" name="search" value="Search"/>
+   			<span name="filterHelp" id="filterHelp">shows full sil list for user $!appSession.authSession.userName</span>
+   </span>
+    </td>
+   </tr>
+	<tr>
+		<th>SIL ID</th>
+		<th>Uploaded Spreadsheet</th>
+		<th>Upload Time</th>
+		<th colspan="4">Commands</th>
+		<th>Beamline</th>
+	</tr>
+	#foreach ($cassette in $cassetteList)
+		#if (($cassette.id >= $firstSilId) && ($cassette.id <= $lastSilId))
+		#set ($fname = $fileTool.getName($cassette.uploadFileName))
+		#set ($ext = $fileTool.getExtension($cassette.uploadFileName))
+		<tr>
+			<td align="center">$!cassette.id</td>
+			<td>$!cassette.uploadFileName</td>
+			<td  align="center">$!cassette.uploadTime</td>
+			<td align="center"><a class="link" id="showSil_${cassette.id}" href="showSil.html?method=show&silId=$!{cassette.id}">view/edit</a></td>
+			<td align="center"><a class="link" id="downloadSil_${cassette.id}" href="result/${fname}.xls?silId=$!{cassette.id}">Download Results</a></td>
+			<td align="center"><a class="link" id="downloadOrg_${cassette.id}" href="original/${cassette.uploadFileName}?silId=$!{cassette.id}">Download Original Excel</a></td>
+			#if ($cassette.locked)
+				#if ($appSession.authSession.staff)
+					<td align="center"><a class="link" href="unlockSil.html?silId=${cassette.id}&targetUrl=cassetteList.html">Unlock</a></td>
+				#else
+					<td align="center">Locked</td>
+				#end
+			#else 	## cassette.locked
+				<td align="center"><a class="link" href="${deleteSilUrl}?silId=$!{cassette.id}">Delete</a></td>
+			#end		## cassette.locked
+			<td align="center">
+				## Check that the user has access to the beamline this sil is assign to.
+				#set ($hasAccess = 0)
+				#if ($cassette.beamlineId > 0)
+			    	#foreach ($beamline in $beamlineList)
+			    		#if ($beamline.id == $cassette.beamlineId) 
+			        		#set ($hasAccess = 1)
+			        	#end
+			        #end
+			    #else
+			    	#set ($hasAccess = 1)
+				#end
+				#if ($cassette.locked)
+					#if ($cassette.beamlineId > 0)
+						${cassette.beamlineName}&nbsp;${cassette.beamlinePosition}
+					#else
+						None
+					#end
+				#else
+					#if ($hasAccess == 0)
+						${cassette.beamlineName}&nbsp;${cassette.beamlinePosition}
+					#else
+			    		<select id="beamline_${cassette.id}" onchange="assignSil(&quot;${cassette.id}&quot;)">
+			    			<option value="0">None</option>
+			    			#foreach ($beamline in $beamlineList)
+			    				#if ($beamline.id == $cassette.beamlineId) 
+			        				<option value="${beamline.id}" selected>${beamline.name}&nbsp;${beamline.position}</option>
+			        			#else
+			        				<option value="${beamline.id}">${beamline.name}&nbsp;${beamline.position}</option>
+			        			#end
+			        		#end		## for each in beamlineList
+			    		</select>
+			    	#end		## if hasAccess
+			    #end
+			</td>
+ 		</tr>
+ 		#end
+  	#end
+</table> 
+#if ($filterError)
+<p><span id="filterError" class="error">$filterError</span></p>
+#end 
+</form>
+Click here to view <a target="_blank" href="$!helpUrl">User's Guide</a>.
+</body>
+
+</html>

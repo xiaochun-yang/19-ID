@@ -1,0 +1,122 @@
+#parse("/silPages/topbanner.html")
+<body>
+<span style="float:right; font-size:100%; padding-right:10px">
+You are $appSession.authSession.userName<br/><a class="link" href="Logout.html">Logout</a>
+</span>
+<h1><a href="http://ssrl.slac.stanford.edu"><img src="images/ssrl2.gif" border="0"  height="50" width="50"/></a>Edit Reposition Data Form</h1>
+<font color="red">
+#springBind("repos")
+$status.errorMessage
+</font>
+
+<a href="showSil.html">Show Sil $silId</a>
+&nbsp;|&nbsp;<a href="runDefinitionForm.html">Run Definition Form</a>
+&nbsp;|&nbsp;<a href="addBlankRepositionDataForm.html">Add Reposition Data</a>
+
+<p></p>
+
+#if ($numRepos > 0)
+#set ($index = 0)
+Reposition Data List:&nbsp;
+#foreach ($repos in $reposList)
+#if (($repositionId > -1) && ($index == $repositionId))
+<a href="chooseRepositionData.html?repositionId=${index}"><b>$index</b></a>&nbsp;|&nbsp;
+#else
+<a href="chooseRepositionData.html?repositionId=${index}">$index</a>&nbsp;|&nbsp;
+#end
+#set ($index = $index + 1)
+#end
+#else
+<p>This crystal currently has no reposition data.</p>
+#end
+
+<p></p>
+
+#if (($numRepos > 0) && ($repositionId > -1))
+
+<form name="repositionDataForm" method="post">
+ <table class="sil" border="1">
+ 	#springBind("repos.repositionId")
+	<tr><th>Reposition ID</th><td><input type="text" value="$!status.value" disabled/><span class="error">$status.errorMessage</span></td></tr>
+ 	#springBind("repos.label")
+	<tr><th>Label</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+	#springBind("repos.image1")
+	<tr><th>Diffraction Image1</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+	#springBind("repos.image2")
+	<tr><th>Diffraction Image2</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+	#springBind("repos.jpeg1")
+	<tr><th>Crystal Snapshot1</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+	#springBind("repos.jpeg2")
+	<tr><th>Crystal Snapshot2</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+	#springBind("repos.jpegBox1")
+	<tr><th>Crystal Snapshot1 with Box</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+	#springBind("repos.jpegBox2")
+	<tr><th>Crystal Snapshot2 with Box</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+	#springBind("repos.beamSizeX")
+	<tr><th>Beam Width</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+	#springBind("repos.beamSizeY")
+	<tr><th>Beam Height</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+	#springBind("repos.offsetX")
+	<tr><th>Reposition X</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+	#springBind("repos.offsetY")
+	<tr><th>Reposition Y</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+	#springBind("repos.offsetZ")
+	<tr><th>Reposition Z</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+	#springBind("repos.energy")
+	<tr><th>Energy</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+	#springBind("repos.distance")
+	<tr><th>Distance</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+	#springBind("repos.beamStop")
+	<tr><th>Beam Stop</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+	#springBind("repos.delta")
+	<tr><th>Delta</th><td><input type="text" name="$status.expression" value="$!status.value" /><span class="error">$status.errorMessage</span></td></tr>
+	#springBind("repos.attenuation")
+	<tr><th>Attenuation</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+	#springBind("repos.exposureTime")
+	<tr><th>Exposure Time</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+	#springBind("repos.flux")
+	<tr><th>Flux</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+	#springBind("repos.i2")
+	<tr><th>i2</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+	#springBind("repos.cameraZoom")
+	<tr><th>Camera Zoom</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+	#springBind("repos.detectorMode")
+	<tr><th>Detector Mode</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+	#springBind("repos.beamline")
+	<tr><th>Beamline</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+	#springBind("repos.autoindexable")
+	<tr><th>Autoindexable</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+	#springBind("repos.reorientInfo")
+	<tr><th>ReorientInfo</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+	#springBind("repos.autoindexResult.dir")
+	<tr><th>Autoindex Dir</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+	#springBind("repos.autoindexResult.images")
+	<tr><th>Autoindex Images</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+	#springBind("repos.autoindexResult.score")
+	<tr><th>Score</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+	#springBind("repos.autoindexResult.unitCell")
+	<tr><th>Unit Cell</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+	#springBind("repos.autoindexResult.mosaicity")
+	<tr><th>Mosaicity</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+	#springBind("repos.autoindexResult.rmsd")
+	<tr><th>Rmsd</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+	#springBind("repos.autoindexResult.bravaisLattice")
+	<tr><th>Bravais Lattice</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+	#springBind("repos.autoindexResult.resolution")
+	<tr><th>Resolution</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+	#springBind("repos.autoindexResult.isigma")
+	<tr><th>I/Sigma</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+	#springBind("repos.autoindexResult.bestSolution")
+	<tr><th>Best Solution</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+	#springBind("repos.autoindexResult.warning")
+	<tr><th>System Warning</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+</table> 
+<input type="submit" name="submit" value="Submit"/>
+<input type="submit" name="_cancel" value="Cancel"/>
+</form>
+
+#end
+
+</body>
+
+</html>

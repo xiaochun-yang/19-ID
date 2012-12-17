@@ -1,0 +1,29 @@
+#parse("/silPages/topbanner.html")
+<body>
+<h2>Sample Database</h2>
+
+#set ( $url = "#springUrl('/Login.html?method=login')" )
+
+<FORM method="POST" NAME="authServerlogin" action="$url">
+<table class="LoginTable">
+		#if ($global-error)
+		<tr><td id="globalError" colspan="2">#springMessage($global-error) </td></tr>
+		#end 
+		<tr><th colspan="2">Login </th></tr>
+		<tr><td><b>User Name:</b></td><td><input type="text" name="username"></td></tr>
+		<tr><td><b>Password:</b></td><td><input type="password" name="password"></td></tr>
+		<tr><td></td><td><input type="submit" value="Submit"></td></tr>
+</table>
+</FORM>
+
+<BR>
+
+<hr width="595" size="1" align="left">
+
+Content questions and comments: <a href="mailto:penjitk@smb.slac.stanford.edu">Admin</a>.<BR>
+Technical questions and comments: <a href="mailto:webmaster@smb-mail.slac.stanford.edu">Webmaster</a>.<BR>
+
+</BODY>
+</HTML>
+
+

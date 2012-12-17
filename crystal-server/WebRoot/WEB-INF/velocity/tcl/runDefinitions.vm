@@ -1,0 +1,9 @@
+###############################
+## Output for sil.beans.RunDefinition
+###############################
+{
+#foreach ($it in $targetCollection.iterator())
+#set ($target = $it.next())
+{{$i} {#outputRunDefition($target)}}
+#end
+}

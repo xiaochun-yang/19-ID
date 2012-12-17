@@ -1,0 +1,68 @@
+This document explains the format of files in webice/data/dcs directory.
+
+- beamstop_z
+
+Beam stop distance. Line 4 contains current value, max and min (plus other
+values not used by webice). 
+Used to check (and give warnings) if the calculated distance 
+(for low resolution limit of 40 Anstrom) is within limits.
+ 
+
+For example:
+
+beamstop_z
+1
+gi beamstopz
+40.005080 42.005334 16.494158 62.992000 650 100 30 0 1 0 0 1 0 mm
+0
+0 1 1 1 1
+0 0 1 1 1
+
+The above has current beam stop distance = 40.005080,
+max distance = 42.005334 and min distance = 16.494158.
+
+
+- energy
+
+Same format as beamstop_z. 
+Used to check (and give warnings) if the calculated energy (for predicted resolution) is within limits.
+
+- detector_z_corr
+
+Detector to sample distance. Same format as beamstop_z. 
+Used to check (and give warnings) if the calculated distance (for predicted resolution) is within limits.
+
+- beam_size_x
+
+Same format as beamstop_z. Used by raddose.
+
+- beam_size_y
+Same format as beamstop_z. Used by raddose.
+
+- detectorType
+Detector type on line 4. One of the following values: MAR325, MAR165, MAR345, Q315CCD, Q4CCD, MAR345.
+Used to compared to the detector type found in image header as a way to ensure that the user
+selects the correct beamline for the given image for strategy calculation. 
+Used to determine detector size and calculate maximum detector resolution.
+
+
+- lastImageCollected
+Last image collected by DCS. Used in the Image tab when user clicks "Last Image" button to see
+the last collected image if connected to the beamline (beamline selected from tool bar).
+
+- screeningActionList
+Used to determine which crystal is currently mounted at the beamline. Only used at SSRL.
+
+- robot_cassette
+Used to determine which crystal is currently mounted at the beamline. Only used at SSRL.
+
+- sequenceDeviceState
+Used to determine which crystal is currently mounted at the beamline. Only used at SSRL.
+
+- crystalSelectionList
+Used to determine which crystal is currently mounted at the beamline. Only used at SSRL.
+
+- sil_id
+Used to determine which crystal is currently mounted at the beamline. Only used at SSRL.
+
+

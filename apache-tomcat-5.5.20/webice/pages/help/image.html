@@ -1,0 +1,425 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+</head>
+<body style="background-color: rgb(255, 255, 204);">
+<h2>Image Viewer</h2>
+<h3><a name="Introduction">Introduction</a></h3>
+<p>
+The Image Viewer allows users to view a diffraction image located
+on the file server at SSRL. The image files are subject to the Unix
+security restriction. The user must have a read permission to the
+image file in order to load and view the image.
+</p>
+<p>
+The user may use this viewer without
+having a beam time.
+</p>
+<p>
+The viewer comprises of three main frames: left, right and bottom.
+The left frames consists of a JPEG image and a control panel for
+adjusting the image display, such as zooming and paning.
+The left frames either displays an
+<a href="#imageHeader">image header</a> or an image
+<a href="#analysisResult">analysis result</a>.
+The bottom frames is a
+<a href="#filebrowser">file browser</a>
+that allows the user to select an image file and explore directories.
+</p>
+<p>
+<img src="../../images/help/imageViewer.jpg" title="Image Viewer"></p>
+<h3><a name="selectImage">Selecting an Image File</a></h3>
+<p>
+Image files must be located on the smbfs file server to be viewable by
+the Image Viewer. There are three ways to select an image to be
+displayed.
+One is to type in an image path in the text box in the left frame. The
+file path
+typically begins with /home or /data and followed by the user's login
+name,
+for example, /home/joeuser/images/remo_1_001.img.
+</p>
+<p>
+The second way to select an image is to user the
+<a href="#filebrowser" target="_parent">file browser</a>
+in the bottom frame.
+</p>
+<p>
+The third way is to click on "Prev" or "Next" button
+in the image control panel, which is located on the right side of the
+display image. These buttons only work if an image has already been
+loaded.
+The "Prev" button loads an image whose index in the file name is
+immediately lower than the current image. For example, if the current
+image is remo_3_015.img, clicking the "Prev" button will load
+remo_3_014.img or clicking on the "Next" button will load
+remo_3_015.img. If the current image is the first image in the
+dataset, clicking the "Prev" button yields no effect. Same go with
+the "Next" button if the current image is the last in the dataset.
+</p>
+<p>
+The file path of the image is displayed above the JPEG image.
+</p>
+<p>
+The user must have a read permission to the image file to view the
+image.
+</p>
+<h3><a name="filebrowser">Using File Browser</a></h3>
+<p>
+The file browser displays a list of sub directories and
+image files (file extension .img) of a given
+directory on smbfs. The directory is set to /data/userid
+by default. The user can save the current directory for
+use in a future session by clicking the Save button in
+the <a href="#save">Preference tab</a>.
+</p>
+<p>
+The first line in the file browser displays the current directory.
+The second line is an HTML link [Up] that allows thw user to
+change directory up one level to the parent of the current directory.
+The following lines are sub directories or image files.
+Each line contains file permissions, file/directory name, size in
+bytes,
+and last modification date and time.
+To go down to a sub directory, click the HTML link for desired sub
+directory.
+To select an image for display, click the HTML link for the desired
+image file.
+</p>
+<p>
+Note that the user can only browse files and directories that have
+a read permission for his Unix login id.
+</p>
+<h3><a name="adjustDisplay">Adjusting Image Display</a></h3>
+<p>
+The user can zoom, pan, adjust brightness and set display size of the
+image by using the image control panel located on the right side
+of the displayed image. The control panel consists of (from top to
+bottom)
+a thumbnail image, pan buttons, zoom buttons, brightness buttons,
+image size drop down menu, Analyze Image button, and Prev/Next button.
+</p>
+<img src="../../images/help/imageControlPanel.png"
+ alt="Image Control Panel">
+<h4>Panning</h4>
+<p>
+There are three ways to pan the image. One is by clicking on the image.
+The image will be moved so that the mouse click position will be come
+the center of the display.
+</p>
+<p>
+The second way to pan the image is by using the thumbnail located
+at the top of the image control panel. When the zoom level is greater
+than 1 (the image is zoomed in), the thumbnail displays a red regtangle
+representing the area of the image being displayed. The more the image
+is
+zoomed in, the smaller the rectangle. The user can click anywhere in
+the thumnail to move the rectangle.
+</p>
+<p>
+The third way to pan the image is by clicking one of the pan buttons,
+which are
+located below the thumbnail and above the zoom buttons.
+</p>
+<h4>Zooming</h4>
+<p>
+The user can zoom the image in and out by using the zoom buttons or by
+entering a zoom level in the zoom text box. When the image is zoomed
+out
+to the maximum, the zoom is level is 1.0; it can not go lower than
+this.
+The higher the zoom level the more zoomed in the image. The left arrow
+button is for zooming out and the right is for zooming in.
+</p>
+<h4>Adjusting Brightness</h4>
+<p>
+Brightness of the image is controlled by the Brightness buttons and
+text
+box below the zoom buttons. The left arrow button makes the image
+darker
+and the right button makes it lighter. The brightness range is usually
+between 100 - 2000. The lower the number the darker the image.
+Brightness
+of 200-400 is typically good for most images.
+</p>
+<h4>Changing Size</h4>
+<p>
+By default the image size is 400 by 400 pixels. The user can change the
+image display size by selecting a different size from the drop down
+menu
+located under the brightness buttons.<br>
+<br>
+</p>
+<h3><a name="LastCollectedImage">Loading Last Collected Image</a><br>
+</h3>
+<p>The button "Last Image" loads the last collected image at the
+selected beamline.&nbsp; The button is disabled if this webice session
+is not connected to a beamline. See Connecting to a Beamline section to
+learn how to connect to a beamline in order to get live data.<br>
+</p>
+<br>
+<h3><a name="PrevNextImage"></a>Loading Prev/Next Image</h3>
+<p>Prev and Next button load previous image and next image in the
+dataset, respectively.&nbsp; A dataset is a series of images in a
+directory, whose file names share the same prefix. For example,
+infl_1_001.img and infl_1_020.img are in the same dataset, whereas
+infl_2_001.img is not. If the currently displayed image is
+infl_1_005.img, "Prev" button will load infl_1_004.img and "Next"
+button will load infl_1_006.img.<br>
+</p>
+<p>
+</p>
+<h3><a name="imageInfo">Viewing Image Information</a></h3>
+<p>
+Image information is displayed in the frame on the right side. It has a
+grey background. There are two types of information that can be viewed:
+image header and image analysis result. At the top of the frame,
+there are two tabs, "Image Header" and "Analyze Image", that the user
+can click in order to select the type of information to be displayed.
+The selected tab will have a white background and the unselected tab
+will have a grey background.
+</p>
+<p>
+When an image is loaded, the "Image Header" tab is automatically
+selected and the image header information is displayed. The "Analyze
+Image"
+tab is automatically selected and the image analysise result is
+displayed
+when the user clicks the "Analyze Image" button in the image control
+panel.
+</p>
+<h3><a name="imageHeader">Image Header</a></h3>
+<p>
+Image header information is retrieved via the image server.
+These are headers stored in the actual image file. The following
+describes what they are:
+</p>
+<table border="1" cellspacing="1" cellpadding="1">
+  <tbody>
+    <tr>
+      <th>Header Name</th>
+      <th>Description</th>
+      <th>Example</th>
+    </tr>
+    <tr>
+      <td>OVERLOAD_CUTOFF</td>
+      <td>The highest intensity value for each pixel</td>
+      <td>65535</td>
+    </tr>
+    <tr>
+      <td>HEADER_BYTES</td>
+      <td>???</td>
+      <td>512</td>
+    </tr>
+    <tr>
+      <td>DIM</td>
+      <td>???</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>BYTE_ORDER</td>
+      <td>Machine byte order (little or big endian)</td>
+      <td>little_endian</td>
+    </tr>
+    <tr>
+      <td>TYPE</td>
+      <td>Type of value stored for each pixel</td>
+      <td>unsigned_short</td>
+    </tr>
+    <tr>
+      <td>SIZE1</td>
+      <td>Width of the image in pixel</td>
+      <td>2304</td>
+    </tr>
+    <tr>
+      <td>SIZE2</td>
+      <td>Height of the image in pixel</td>
+      <td>2304</td>
+    </tr>
+    <tr>
+      <td>PIXEL_SIZE</td>
+      <td>Size of the pixel in cm</td>
+      <td>0.0816</td>
+    </tr>
+    <tr>
+      <td>BIN</td>
+      <td>???</td>
+      <td>none</td>
+    </tr>
+    <tr>
+      <td>DETECTOR_SN</td>
+      <td>???</td>
+      <td>403</td>
+    </tr>
+    <tr>
+      <td>TIME</td>
+      <td>Exposure time</td>
+      <td>30.041451</td>
+    </tr>
+    <tr>
+      <td>DISTANCE</td>
+      <td>Detector distance to sample</td>
+      <td>175.000000</td>
+    </tr>
+    <tr>
+      <td>PHI</td>
+      <td>Phi</td>
+      <td>89.000000</td>
+    </tr>
+    <tr>
+      <td>OSC_START</td>
+      <td>Phi</td>
+      <td>89.000000</td>
+    </tr>
+    <tr>
+      <td>OSC_RANGE</td>
+      <td>Oscillation range</td>
+      <td>1.500000</td>
+    </tr>
+    <tr>
+      <td>WAVELENGTH</td>
+      <td>Wavelength in Anstrom</td>
+      <td>0.979413</td>
+    </tr>
+    <tr>
+      <td>BEAM_CENTER_X</td>
+      <td>Beam center X in cm</td>
+      <td>94.000000</td>
+    </tr>
+    <tr>
+      <td>BEAM_CENTER_Y</td>
+      <td>Beam center Y in cm</td>
+      <td>94.000000</td>
+    </tr>
+    <tr>
+      <td>PIXEL SIZE</td>
+      <td>Size of the pixel in cm</td>
+      <td>0.0816</td>
+    </tr>
+    <tr>
+      <td>OSCILLATION RANGE</td>
+      <td>Oscillation range</td>
+      <td>1.5</td>
+    </tr>
+    <tr>
+      <td>EXPOSURE TIME</td>
+      <td>Exposure time in seconds???</td>
+      <td>30.0415</td>
+    </tr>
+    <tr>
+      <td>TWO THETA</td>
+      <td>???</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>DETECTOR</td>
+      <td>Name of detector</td>
+      <td>ADSC QUANTUM4</td>
+    </tr>
+    <tr>
+      <td>BEAM CENTRE</td>
+      <td>Beam center X and Y</td>
+      <td>94 94</td>
+    </tr>
+  </tbody>
+</table>
+<h3><a name="analyzeImage">Analyzing Image</a></h3>
+<p>
+Below the image resize drop down menu in the control panel, the user
+will find a button that can be toggled between "Analyze Image" and
+"Display Image" button text. When an image is loaded, the button text
+shows the "Analyze Image" text.
+</p>
+<p>
+When the user clicks on "Analyze Image", WebIce will run a program
+called
+spotfinder to analyze the image. spotfinder generates an image with
+highlighted
+features and a log files containing the analysis result.
+When the program finishes, WebIce will display the image generated by
+spotfinder. The button text will change to "Display Image". In the
+image info frame on the right side, the "Analyze Image" tab will be
+automatically selected to display the content of the log file under.
+</p>
+<p>
+The user can still manually select the "Header" tab to see the
+image header information.
+</p>
+<p>
+When the user clicks on "Display Image" button, WebIce will
+display the original image. The "Header" tab in the right frame
+will be selected automatically to display the image header.
+Once the image has been analyzed, the user can click
+on the "Analyze Image" tab next to the "Header" tab to
+see the analysis result at any time.
+</p>
+<p>
+Once the image has been analyzed, it will not be analyzed again
+when the user clicks the "Analyze Image" button. WebIce will
+simply load the result image and log file stored in
+/data/userid/webice/image
+directory (unless the time stamp of the original image
+is newer than these files).
+</p>
+<p>
+The log file and image file generate by spotfinder
+are saved in /data/userid/webice/image directory, where userid is
+the user login name. For example, if joeuser, currently viewing
+/data/joeuser/dataset1/inf_1_001.img image, clicks the "Analyze Image"
+button, output files inf_1_001.log and inf_1_001.spt.img will be
+saved in /data/joeuser/webice/image directory. The content of the
+log file is displayed in the image info frame with a grey background,
+located on the right side.
+</p>
+<h3><a name="analysisResult">Image Analysis Result</a></h3>
+<p>
+This is the result generated by spotfinder saved in the log file (see
+picture below).
+</p>
+<p><img src="../../images/help/imageAnalysis.jpg" alt="Image Analysis"
+ title="" style="width: 1095px; height: 755px;"></p>
+<p>In the output IMG image, the following features are indicated:
+</p>
+<ul>
+  <li> overloaded pixel: yellow</li>
+  <li> border of good spots: yellow</li>
+  <li> central line of ice-ring: yellow</li>
+  <li> resolution limit by method 1 (short dashes): yellow</li>
+  <li> resolution limit by method 2 (long dashes): yellow</li>
+  <li> local maxima: white</li>
+  <li> border of bad spots(peak overloaded, have close neighbors, or
+have multiple peaks): white</li>
+</ul>
+<p>
+The program shows a brief summary of each image it has processed.
+Statistics shown include:
+</p>
+<ol>
+  <li>number of spots vs number of overloaded, multiple maxima,
+with-close-neighbor
+spots.</li>
+  <li> spot size median (pixel**2??) shape median (0 - 1, the bigger
+the better -more
+roundish.</li>
+  <li>Estimate of the high resolution limit by two different methods</li>
+  <li>Badness of the curve for the image resolution estimates; the
+smaller the better.</li>
+  <li>Number of ice rings and, if existent, intensity and location of
+ice ring. </li>
+  <li>Size of largest overloaded patch and whether the largest
+overloaded patch lies on an
+ice ring</li>
+</ol>
+<p>The most useful criteria to determine the quality of an image are:</p>
+<ol>
+  <li>Ratio of number of spots to overloaded, split or close to other
+spots. The higher,
+the better</li>
+  <li>Number of ice rings</li>
+  <li>Closeness of the two image resolution estimates, from Method 1
+and 2.
+If they are very different there may be something wrong with the image.</li>
+</ol>
+<h3><a name="spotfinder">Spotfinder</a></h3>
+</body>
+</html>

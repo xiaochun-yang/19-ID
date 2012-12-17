@@ -1,0 +1,504 @@
+\documentclass[a4]{article}
+%
+\usepackage{graphics}
+\pagestyle{myheadings}
+\markright{Copyright @1994-1999 Gwyndaf Evans}
+\topmargin=0.0cm
+\textheight=20cm
+\oddsidemargin=1.0cm
+\evensidemargin=1.0cm
+\textwidth=14cm
+\bibliographystyle{unsrt}
+\setcounter{secnumdepth}{1}
+%\setcounter{section}{1}
+%
+%
+\begin{document}
+\title{{\bf \sc Chooch} \\
+Calculation of Anomalous Scattering Factors \\
+from X-ray fluorescence data}
+\author{Gwyndaf Evans}
+\maketitle
+
+\section{Introduction}
+
+The effects of anomalous scattering are described mathematically by
+two correction terms which are applied to the normal atomic form
+factor or Thompson scattering factor $f_{o}$. The modified scattering
+factor is given by $f = f_{o} + f^{\prime} + if^{\prime\prime}$ where
+$f^{\prime}$ is the real part and $f^{\prime\prime}$ the imaginary
+part of the anomalous scattering correction term.
+
+These anomalous scattering factors vary most rapidly near
+characteristic absorption edges of atoms where the energy of the
+incident X-rays is similar to the binding energy of the absorbing
+electrons. Thought of in classically anomalous scattering is analogous
+to any resonance effect such as an electrical LC circuit. 
+
+The optical theorem~\cite{James} says that the imaginary term
+$f^{\prime\prime}$ is directly related to the atomic absorption
+coefficient for an atom by
+
+\begin{equation}
+f^{\prime\prime} = mc \epsilon_{o}E\mu_{a}/e^{2}\hbar
+\end{equation}
+
+where $\mu_{a}$ is the atomic absorption coefficient, $E$ the X-ray
+energy and all other symbols take there usual meaning. As in other
+resonance phenomena such as dielectric susceptibility, the real part
+of the dispersive term is related to the imaginary part by a
+Kramers-Kronig (K-K) transformation. In the case of X-ray scattering
+the K-K transform takes the following form
+
+\begin{equation}
+f^{\prime}(Eo)= \frac{2}{\pi}\oint_{o}^{\infty}
+                \frac{(E f^{\prime\prime}(E))}{(E_{o}^{2} - E^{2})}dE 
+\label{KK}
+\end{equation}
+
+\section{Purpose.}
+
+Why do we need to know $f^{\prime\prime}$ and $f^{\prime}$?  When
+performing Multiple wavelength Anomalous Diffraction (MAD) experiments
+a crucial prerequisite is knowing at which wavelengths to measure
+diffraction data. This can only be determined at the time of the
+experiment due to two main reasons
+\begin{enumerate}
+\item For a particular heavy atom element the X-ray
+energies to be measured are largely dependent on the environment of
+that element within the protein sample and its orientation with
+respect to the polarization vector of the incident X-ray beam.
+\item The calibration of the incident X-ray energy at different X-ray beam lines
+will rarely be the same and as yet no calibration standards have been
+established which are common to all crystallographic facilities. 
+\end{enumerate}
+In addition the calibration of each beam line may vary over time.  As
+previously stated the $f^{\prime\prime}$ value is directly related to
+the atomic absorption coefficient for an atom. For a discussion of the
+difficulties and solutions associated with X-ray energy calibration
+for MAD see~\cite{Evans96}. 
+
+The absorption is directly proportional to the X-ray fluorescence
+emitted from the atom as a result of absorption of the incident
+X-rays. This provides the experimenter with a means of determining the
+dependence of $f^{\prime\prime}$ on the X-ray energy. $f^{\prime}$ may
+then be determined computationally using the K-K relationship. This
+provides the necessary information with which to make a rational
+choice of which wavelengths to measure for the experiment. Clearly we
+also establish the magnitudes of the anomalous scattering factors as a
+function of X-ray energy. These values are potentially useful as
+starting points for heavy atom refinement during the latter stages of
+data analysis.
+
+\section{Determination of $f^{\prime\prime}$ and $f^{\prime}$}
+\subsection{Obtaining $f^{\prime\prime}$ from fluorescence data}
+
+Fluorescence spectra are generally measured directly from the same
+frozen protein crystal sample from which the diffraction data is to be
+measured.  The spectra are typically recorded using a photo-multiplier
+(e.g. Bicron tube) or an energy resolving photo-diode type detector
+(e.g. Amptek). In both cases the fluorescence signal is recorded on an
+arbitrary scale.  Determination of the corresponding
+$f^{\prime\prime}$ spectra is done via two stages. 
+
+Firstly the raw fluorescence spectrum must be background subtracted
+and corrected to subtract out any additional scattering effects which
+may be energy dependent. This procedure is typically very straight
+forward for data measured using a good energy resolving detector such
+as the Amptek since the measured signal is essentially dominated by
+fluorescent X-ray counts.  However photo-multiplier tubes which have
+poor energy resolution will typically measure the elastic scattering
+components of the X-rays as well as the fluorescence signal and will
+therefore usually require a more careful background correction. 
+
+The procedure involves applying a low order polynomial fit separately
+to the below edge region of the spectrum and the above edge region of
+the spectrum. The fits should be generated away from the absorption
+edge where the XANES effects are smallest. These two polynomials can
+then be applied to the raw spectrum such that it is normalized to be
+zero fare below the absorption edge and unity above the edge. The
+normalized signal $N(E)$ is obtained by
+\begin{equation}
+N(E) = R(E) \left\{ f^{\prime\prime}_{above}(E)-f^{\prime\prime}_{below}(E) \right \} 
+              + f^{\prime\prime}_{below}(E)
+\end{equation}
+ where R(E) is the raw data, $f^{\prime\prime}_{below}$ is the
+polynomial fit in the below edge region and $f^{\prime\prime}_{above}$
+the fit for the above edge region. All are functions of the X- ray
+energy E.  Theoretical values of $f^{\prime\prime}$ have been
+calculated by Cromer \& Libermann~\cite{CromLiberA}. The calculations
+however take no account of the effects of coordination of anomalous
+scattering atoms to other atoms. The effects of coordination are most
+visible in the near edge region which also happens to be the region of
+interest for MAD. Therefore the Cromer \& Libermann tables are not
+applicable in the near edge region. However away from the absorption
+edge above and below in energy the tables provide a good estimate of
+the true $f^{\prime\prime}$ values and therefore provide a means by
+which the normalized fluorescence data can be converted to a
+$f^{\prime\prime}$ spectrum.  The theoretical spectrum is essentially
+multiplied into the experimentally determined spectrum to produce an
+experimentally determined $f^{\prime\prime}$ spectrum.  
+
+\subsection{Obtaining $f^{\prime}$ from $f^{\prime\prime}$}
+
+Given a $f^{\prime\prime}$
+spectrum the K-K transformation may be used to directly obtain a
+$f^{\prime}$ spectrum. An algorithm has been
+described~\cite{HoytFontaine} which allows this to be carried out
+computationally.  Complications arise in the calculation because of
+the singularity in the integrand of Equation~\ref{KK} arising when E is equal to Eo and
+also because of the impractical limits of integration.  The
+singularity is dealt with conveniently by the above algorithm and the
+integration limits are chosen such that the calculation remains
+possible but does not become inaccurate. Integration limits which
+extend only a few keV above and below the absorption edge will usually
+provide an accurate estimate of the X-ray energy corresponding to the
+minimum value of $f^{\prime}$ but the magnitude of the $f^{\prime}$
+curve will in general be incorrect. To obtain highly accurate
+magnitudes integration limits are chosen which extend up to $50
+\times$ absorption edge energy and to very low energies of say 1
+keV. These calculations however are time consuming and not totally
+necessary given the experimental requirements. Therefore modest
+integration limits may be chosen such that the duration of the
+calculation is tolerable as well as the accuracy of the $f^{\prime}$
+curve. In the case of the Se K edge recommended integration limits for
+a full calculation are 1.2 keV and 630 keV. This calculation takes 120
+secs. on a 150 MHz Pentium MMX for a 101 point spectrum. Using
+integration limits of $1.2$ keV and $30$ keV takes 8 secs. on the same
+CPU and introduces only a $+0.3$ e error into the resulting
+$f^{\prime}$ curve.  Such errors are acceptable for the majority of
+cases.
+
+\section{Organization of the program}
+
+Calculating anomalous scattering factors from raw fluorescence data
+with {\sc Chooch} requires the use of two programs, {\sc Benny} and
+{\sc Chooch}. The programs are both called from a shell script, {\tt
+Chooch.sh}, which is excecuted by the user. The input and output files
+used and generated by the programs are described in detail below.
+
+\subsection{\sc Benny}
+
+{\sc Benny} reads in raw fluorescence data from a measurement perfomed
+on a MAD crystal sample and performs a number of manipulative
+tasks. Firstly it performs background correction by fitting a
+polynomial~\cite{Shampine74} of degree 0 to 3 to the below edge and
+above edge regions of the spectrum and normalizing such that the
+fluorescence is zero far below the edge and unity far above the edge.
+The background fitting step is far from being automatic. The reason
+for this is that fluorescence spetra are measured in many different
+ways, using different detectors and over differeing energy ranges. This can
+give the spectra unusual background properties and make the detection of the
+true background level difficult.
+
+The ideal fluorecence spectrum is one where 
+\begin{enumerate}
+\item the background scatter is low and varies slowly and smoothly
+with energy.
+\item the data is measured from well below the absorption edge ( $<
+(E_{edge}-200)$~eV), to allow the background level below the edge to
+be easily established, to well above the edge ( $> E_{edge}+200$~eV),
+to establish the level of signal + background above the edge and allow
+good normalisation to be performed.
+\end{enumerate}
+
+The use of a good energy discriminating detector will often help
+satisfy the first criteria. However only the user and beamline staff
+can satisfy the second suggestion.
+
+If the spectra has been measured well there will be enough data either
+side of the absorption edge to allow a good fit of the backround
+levels to be made. The program requires the user to input values of
+the X-ray energy between which the background fits will be made. This
+is done graphically with the cursor. First click on the low energy
+point and the on the high energy point. The user can also choose the
+type of fit to be generated by choosing the polynomial order. This
+will be either a straight line, a quadratic or a cubic. Choosing the
+[0] option requires that the user select the actual background level
+with zero slope (a completely manual option reserved for poorly
+measured data where it is not possible to determine the background by
+fitting).
+
+After normalisation the program goes away and applies a spline
+fit~\cite{Woltring86} to the normalized data creating a smooth
+curve. It additionally calculates 1st, 2nd and 3rd derivatives of
+smoothed data for input into {\sc Chooch}. This step is fully
+automatic.  Parameters varying the type of fit performed are hard
+coded into the program and have so far served well on all cases that I
+have tested the program on so if it should fail please let me know.
+
+\subsubsection{Files}
+
+\begin{description}
+%\labelsep=0.5cm
+%\itemindent=-0.0cm
+%\listparindent=0.0cm
+%\leftmargin=4.0cm
+\item[{{\it file}.raw}] The raw input fluorescence data to {\sc
+Benny}. The first line should contain the number of data points
+(integer). The second line in usually blank but is interpreted as
+text. It can be used as a comment line for the data.  Each subsequent
+line should contain three values referring to one data point - The
+data point number (integer), the X-ray energy {\bf in electron-Volts (eV) ( NOT keV)} 
+and the fluorescence signal on an arbitrary scale (real).
+
+e.g.
+\begin{verbatim}
+Fluor. spectrum for element Qu  ; Title (a80)
+801                             ; No. data points (free format)
+12300.0  2002                   ; Energy (eV), Flu. Signal (free format)
+12300.5  2030
+12301.0  2035
+12301.5  2450
+.
+.
+.
+12700.0  6700
+\end{verbatim}
+
+\item[splinor] Output by {\sc Benny} and input to {\sc Chooch}
+containing the X-ray energy, smoothed normalized fluorescence data
+1st, 2nd and 3rd derivatives (format(5f13.3)).
+
+e.g.
+
+\begin{verbatim} 
+
+Fluor. spectrum for element Qu  ; Title (a80)
+     101                        ; No. of data points (i8)
+    12654.043        0.013       -0.005        0.052       -0.083
+    12654.438        0.015        0.009        0.019       -0.081
+    12654.831        0.019        0.011       -0.008       -0.051
+    12655.226        0.022        0.006       -0.015        0.018
+.
+.
+.
+    12693.076        1.004        0.007        0.031        0.047
+    12693.471        1.009        0.023        0.050        0.047
+\end{verbatim}
+\end{description}
+
+\subsection{\sc Chooch}
+
+Takes output from Benny and reads input data about the element and
+absorption edge in question from a command file.  It then calculates
+$f^{\prime\prime}$ and $f^{\prime}$ from the smoothed normalized
+fluorescence data and displays the resulting curve. The program
+automatically selects the peak $f^{\prime\prime}$ energy and the
+minimum $f^{\prime}$ energy and outputs them.  An important
+requirement of the program is that the input spectrum be on a strictly
+increasing X-ray energy scale of constant energy increments this
+requirement is satisfied however by the smoothing procedure performed
+by {\sc Benny}.
+
+In order to extrapolate the $f^{\prime\prime}$ spectrum to very low
+and very high energies prior to integration {\sc Chooch} uses the
+subroutine {\tt mucal.f} written by Pathikrit Bandyopadhyay to obtain
+values of total crossection as published by
+McMasters~\cite{McMasters69}. The subroutine may be found at
+http://ixs.csrri.iit.edu/database/programs/mcmaster.html.
+
+\subsubsection{Files}
+
+\begin{description}
+\item[splinor] Output from {\sc Benny} as described above.
+
+\item[atom.lib] This file contains a compilation of required values
+for all atoms and absorption edge of interest to protein
+crystallographers. The contents fro each element is demonstrated here
+by looking at the entry for selenium.
+
+\begin{verbatim}
+SE  -0.215
+K    1265.80  50632.00
+  12618.00   0.5021  12638.00   0.5006  12678.00   3.8315  12698.00   3.8186
+L1    165.30   6612.00
+   1613.00  13.7415   1633.00  13.4776   1673.00  14.8676   1693.00  14.6049
+L2    147.70   5908.00
+   1437.00  37.5640   1457.00  24.5190   1497.00  23.4875   1517.00  18.1565
+L3    143.60   5744.00
+   1396.00   2.4959   1416.00   2.4452   1456.00  25.0133   1476.00  17.2386
+M      23.20    928.00
+    192.00  14.5096    212.00  14.9681    252.00  15.0664    272.00  14.5137
+\end{verbatim}
+
+The first line contains the atomic symbol of the element followed by
+an $f^{\prime}$ correction term $5E_{tot}/3mc^{2}$ as published by
+Cromer \& Liberman~\cite{CromLiberA}. The following five pairs of
+lines contain information pertaining to each of five absoption edges
+(M correcsponds to the $M_{V}$ edge). The first line of each pair
+contains the absorption edge name followed by the lower and upper
+integration limits needed by {\sc CHOOCH}. The second line has four
+pairs of values taken from the CROSSEC program. Two at enegies just
+below the edge and two just above the edge. These values are used by
+{\sc CHOOCH} to perform the renormalisation of the raw spectrum to the
+theoretical values away from the absorption edge. N.B. If for some
+reason an element that you require is missing from this file please
+contact the author.
+
+\item[{\it file}.efs] Output from {\sc Chooch} containing calculated
+anomalous scattering factors. The example below is taken from the
+examples directory in the {\sc Chooch} distribution.
+
+e.g.
+
+\begin{verbatim}
+Se test data from a foil Chooch test data ; Title (a80)
+     101                                  ; No. of data points (i8)
+  12654.04      0.51     -6.47            ; Energy, f'', f' (3f10.2)
+  12654.44      0.51     -6.52
+  12654.83      0.53     -6.58
+.
+.
+.
+  12692.29      3.77     -4.81
+  12692.68      3.76     -4.79
+  12693.08      3.76     -4.72
+  12693.47      3.78     -4.69
+\end{verbatim}
+
+\item[{\it file}.inf] Output from {\sc Chooch} containing summary of
+calculation. 
+
+e.g.
+
+\begin{verbatim}
+Se test data from a foil Chooch test data                                       
+ Total points integrated     :      71890
+ Integration limits low/high :    1653.06  30000.25
+ First/last data points at   :   12654.04  12693.47
+ Energy scale increment      :  0.394
+
+ Inflection point at   12665.48 with  f` of  -9.7
+             Peak at   12667.45 with f`` of   6.6
+\end{verbatim}
+
+\item[{\it file}.ps] Output from {\sc Chooch}. Once the anomalous scattering
+factors have been calculated and displayed you can select the '{\tt p}' option
+and dump a {\sc PostScript} file of the plot. If you do not press '{\tt p}' the file is
+still generated unfortunately but will contain inly a pre-amble.
+
+\end{description}
+
+
+N.B. Out of all the above files only file.raw need be created by the user - all 
+other are produced by either {\sc Benny} or {\sc Chooch}.
+
+\section{Installation}
+
+If you are reading this manual the chances are you have already installed the
+program and have read the installation guide README.Install
+
+\section{Running the program}
+
+The program should be excecuted in the directory containing the raw
+fluorescence data file, {\it file}.{\bf raw} by typing {\tt Chooch.sh}
+$<${\bf element}$>$ $<${\bf edge}$>$ {\it file} at the command line prompt. 
+\begin{itemize}
+\item {\bf element} - two letter atomic symbol (case insensitive)
+\item {\bf edge}  - $K | L1 | L2 | L3 | M$
+\end{itemize}
+
+For example to run the example fluorescence data named SeFoil.raw type
+\begin{verbatim}
+Chooch.sh  SE K SeFoil
+\end{verbatim}
+
+The c-shell script Chooch.sh prepares a number of small files required by Benny and Chooch
+at runtime. If all is properly installed a PGPLOT window will appear displaying
+your fluorescence spectrum. You will then be guided through the procedure.
+A simple run down of the procedure follows:
+
+\begin{enumerate}
+\item Fitting the below edge region - in the PGPLOT window just type
+0,1,2 or 3 depending on the type of fit you would like. More often
+that not you will use either 0 or 1. Fluorescence data from proteins
+is typically measured over a fairly limited range which requires a bit
+of guess work when determining the background level (hence the need for
+option 0). Anyway, after entering a choice the cursor will appear and if
+you chose option 0 click at an appropriate level for the below
+edge background. If you chose any other option select two energies - low
+first, then high - which ideally should be $E_{edge} - 100$ and
+$E_{edge}-25$ or so. If the data doesn't extend that far below then
+use option 0 or be very careful!
+\item Fitting the above edge region - this is the same as for the
+below edge region but you should take care that you ignore any near
+edge effects when selecting the energy range for a fit. You shouldn't
+bias the fit with a large white line peak. Therefore use caution and
+select a low energy which is away from the near edge region where the
+XANES ripples begin to die out ($\sim E_{edge}+30$).
+\item When inspecting the normalisation result you can decide you don't like it
+and by typing '{\tt n}' you can return to the beginning and refit the backgrounds.
+\item If you do like it then just click the mouse to continue and the program will smooth
+the data for you.
+\item Proceed by hitting '{\tt c}' and the PGPLOT window will disappear while {\sc Chooch}
+calculates the anomalous scattering factors. When it's complete another PGPLOT window will
+appear with the results. It also prints estimates of the $f^{\prime\prime}$ peak energy
+and the $f^{\prime}$ minimum energy.
+\end{enumerate}
+
+
+\subsection{Using the zoom facility}
+
+At most stages of the procedure you can zoom in on your spectrum by
+pressing '{\tt z}' and selecting a low then a high X-ray energy with the mouse cursor.
+The zoomed region will then appear in the same window. You can redraw the original 
+data range by pressing '{\tt r}'.
+
+\subsection{Generating a {\sc PostScript} plot of the result}
+
+Once {\sc Chooch} has produced the PGPLOT window containing the
+anomalous scattering curves you can generate a plot of the output by selecting
+the '{\tt p}' option in the PGPLOT window.
+
+
+\begin{thebibliography}{1}
+
+\bibitem{James} R.W. James.  \newblock {\em The {O}ptical {P}rinciples
+of the {D}iffraction of {X}-rays}.  \newblock G. Bell and sons Ltd,
+London, 1969.
+
+\bibitem{Evans96}
+G.~Evans and R.~F. Pettifer.
+\newblock Stabilisation and calibration of x-ray wavelengths for anomalous
+  diffraction experiments using synchrotron radiation.
+\newblock {\em Rev. Sci. Instr.}, 67(10), October 1996.
+
+\bibitem{CromLiberA}
+D.T. Cromer and D.~Liberman.
+\newblock Relativistic calculation of anomalous scattering factors for
+  {X}-rays.
+\newblock {\em J. Chem. Phys.}, 53:1891--1898, 1970.
+
+\bibitem{HoytFontaine}
+J.J. Hoyt, D.~de~Fontaine, and W.K. Warburton.
+\newblock Determination of the anomalous scattering factors for {C}u, {N}i and
+  {T}i using the dispersion relation.
+\newblock {\em J. Appl. Cryst.}, 17:344--351, 1984.
+
+\bibitem{Shampine74}
+L.F. Shampine, S.M. Davenport, and R.E. Huddleston.
+\newblock Fit discrete data in a least squares sense by polynomials in one
+  variable.
+\newblock Fortran Subroutine, 1974.
+
+\bibitem{Woltring86}
+H.J. Woltring.
+\newblock Test programme for generalized cross-validatory spline smoothing with
+  subroutine gcvspl and function splder using the data of c.l. vaughan,
+  smoothing and differentiation of displacement- time data: an application of
+  splines and digital filtering.
+\newblock Fortran Subroutine, 1986.
+
+\bibitem{McMasters69}
+W.H. McMasters, N.~Kerr, Del~Grande, J.H. Mallett, and J.H. Hubbekk.
+\newblock Compilation of {X}-ray cross sections.
+\newblock Technical Report UCRL-50174, Lawrence Radiation Laboratory
+  (Livermore), 1969.
+
+\end{thebibliography}
+
+
+\end{document}
+
+

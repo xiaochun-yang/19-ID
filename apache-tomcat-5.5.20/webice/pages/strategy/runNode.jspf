@@ -1,0 +1,47 @@
+<%
+	Object runs[] = topNode.getChildren();
+	if (runs != null) {
+
+		for (int i = 0; i < runs.length; ++i) {
+
+			RunNode runNode = (RunNode)runs[i];
+			imageName = "images/strategy/folder.png";
+			// display open folder for the selected node
+			if (viewer.isSelectedNode(runNode)) {
+				imageName = "images/strategy/folder_sel.png";
+			}
+			// Display down handle if the node is expanded
+			// and display its children
+			String handle = "images/strategy/handle";
+
+			if (runNode.isExpanded()) {
+				handle += "down";
+			} else {
+				handle += "right";
+			}
+
+			if (i < runs.length-1) {
+				handle += "middle.png";
+			} else {
+				handle += "last.png";
+			}
+
+%>
+
+<tr><td width="24"></td>
+<td align="center" width="1%"><a href="Strategy_ExpandNode.do?nodePath=<%= runNode.getPath() %>" target="_parent"><img src="<%= handle %>" alt="" border="0"></a></td>
+<td align="center" width="1%"><img src="<%= imageName %>" width="16" height="16" border="0">
+<% if (viewer.isSelectedNode(runNode)) { %>
+<td align="left" colspan="5"><a href="Strategy_SelectNode.do?nodePath=<%= runNode.getPath() %>" target="_parent"><b><%= runNode.getName() %></b></a></td></tr>
+<% } else { %>
+<td align="left" colspan="5"><a href="Strategy_SelectNode.do?nodePath=<%= runNode.getPath() %>" target="_parent"><%= runNode.getName() %></a></td></tr>
+<% } %>
+
+<% if (runNode.isExpanded()) { %>
+<%@ include file="/pages/strategy/labelitNode.jspf" %>
+
+<%		}}
+
+	}
+
+%>

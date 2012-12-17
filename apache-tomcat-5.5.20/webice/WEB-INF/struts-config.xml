@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE struts-config PUBLIC
+   "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN"
+   "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+
+<!--
+     This is the Struts configuration file for the example application,
+     using the proposed new syntax.
+-->
+
+
+<struts-config>
+
+
+  <!-- ========== Form Bean Definitions =================================== -->
+  <form-beans>
+
+	<form-bean name="logingForm" type="webice.actions.LoginForm">
+		<form-property name="user" type="java.lang.String"/>
+		<form-property name="sessionId" type="java.lang.String"/>
+	</form-bean>
+
+  </form-beans>
+
+
+  <!-- ========== Global Forward Definitions ============================== -->
+  <global-forwards>
+    <forward  name="top" path="/top.do"/>
+  </global-forwards>
+
+
+  <!-- ========== Action Mapping Definitions ============================== -->
+  <action-mappings>
+
+        <action path="/top"
+        	type="org.apache.struts.actions.ForwardAction"
+        	parameter="/pages/top.jsp" />
+
+        <action path="/NullClient"
+        	type="org.apache.struts.actions.ForwardAction"
+        	parameter="/pages/showNullClientException.jsp" />
+
+        <action path="/Authenticate"
+        	type="org.apache.struts.actions.ForwardAction"
+        	parameter="/pages/authenticate.jsp" />
+
+        <action path="/WatchDog"
+        	type="org.apache.struts.actions.ForwardAction"
+        	parameter="/pages/watchdog.jsp" />
+
+
+        <action
+            path="/nav"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="/pages/nav.jsp"/>
+
+        <action
+            path="/toolbar"
+            type="webice.actions.ShowToolBarAction"
+            scope="request"
+            validate="false">
+            <forward name="welcome" path="/pages/toolbar.jsp" />
+            <forward name="image" path="/pages/image/toolbar.jsp" />
+            <forward name="autoindex" path="/pages/autoindex/toolbar.jsp" />
+            <forward name="screening" path="/pages/screening/toolbar.jsp" />
+            <forward name="video" path="/pages/video/toolbar.jsp" />
+            <forward name="collect" path="/pages/collect/toolbar.jsp" />
+            <forward name="beamline" path="/pages/beamline/toolbar.jsp" />
+            <forward name="preference" path="/pages/preference_toolbar.jsp" />
+            <forward name="default" path="/pages/toolbar.jsp" />
+	</action>
+
+        <action
+            path="/Preference_ChangeView"
+            type="webice.actions.ChangePreferenceViewAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/top.do" />
+	</action>
+
+        <action
+            path="/Preference_ChangeConfig"
+            type="webice.actions.ChangePreferenceViewAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/Preference.do" />
+	</action>
+
+        <action
+            path="/Logout"
+            type="webice.actions.LogoutAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/pages/LoggedoutCompleted.jsp" />
+		</action>
+
+        <action
+            path="/Connect"
+            type="webice.actions.ConnectAction"
+            name="connectForm"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/top.do" />
+            <forward name="error" path="/top.do" />
+		</action>
+
+        <action
+            path="/Disconnect"
+            type="webice.actions.DisconnectAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/top.do" />
+		</action>
+
+        <action
+            path="/SelectDisplay"
+            type="webice.actions.SelectDisplayAction"
+            scope="request"
+            validate="false">
+            <forward name="screening" path="/showScreening.do" />
+            <forward name="image" path="/pages/image/imageAndFileViewer.jsp" />
+            <forward name="strategy" path="/pages/strategy/strategy.jsp" />
+            <forward name="autoindex" path="/showAutoindex.do" />
+            <forward name="process" path="/pages/process/process.jsp" />
+            <forward name="video" path="/showVideo.do" />
+            <forward name="preference" path="/Preference.do" />
+            <forward name="welcome" path="/Welcome.do" />
+            <forward name="beamline" path="/showBeamline.do" />
+            <forward name="default" path="/Preference.do" />
+		</action>
+
+        <action
+            path="/ChangeTab"
+            type="webice.actions.ChangeTabAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/top.do" />
+	</action>
+
+        <action
+            path="/Welcome"
+            type="webice.actions.WelcomeAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/pages/welcome.jsp" />
+	</action>
+
+        <action
+            path="/showBeamline"
+            type="webice.actions.ShowBeamlineAction"
+            scope="request"
+            validate="false">
+            <forward name="selections" path="/pages/beamline/beamline.jsp" />
+            <forward name="video" path="/showVideo.do" />
+            <forward name="status" path="/showBeamlineActivity.do" />
+            <forward name="status1" path="/showBeamlineStatus.do" />
+            <forward name="log" path="/pages/collect/dcssLog.jsp" />
+            <forward name="top" path="/top.do" />
+	</action>
+
+        <action
+            path="/showBeamlineActivity"
+            type="webice.actions.beamline.ShowBeamlineActivityAction"
+            scope="request"
+            validate="false">
+            <forward name="collecting" path="/pages/beamline/collecting.jsp" />
+            <forward name="screening" path="/pages/beamline/screening.jsp" />
+            <forward name="scaning" path="/pages/beamline/scanning.jsp" />
+            <forward name="idle" path="/pages/beamline/idle.jsp" />
+            <forward name="notConnected" path="/pages/beamline/notConnected.jsp" />
+            <forward name="error" path="/pages/beamline/error.jsp" />
+	</action>
+
+        <action
+            path="/showBeamlineStatus"
+            type="webice.actions.beamline.ShowBeamlineStatusAction"
+            scope="request"
+            validate="false">
+            <forward name="msg" path="/pages/beamline/dcssMsg.jsp" />
+            <forward name="scan" path="/pages/beamline/scan.jsp" />
+            <forward name="image" path="/pages/beamline/lastImage.jsp" />
+            <forward name="runDef" path="/pages/beamline/runDef.jsp" />
+            <forward name="collect" path="/pages/beamline/collect.jsp" />
+            <forward name="screening" path="/pages/beamline/screening.jsp" />
+	</action>
+
+        <action
+            path="/ShowRunDefinition"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="/pages/beamline/runDef.jsp"/>
+
+        <action
+            path="/Preference"
+            type="webice.actions.PreferenceAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/pages/preference.jsp" />
+		</action>
+
+        <action
+            path="/ShowLoginForm"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="/pages/loginForm.jsp"/>
+
+        <action
+            path="/Login"
+            type="webice.actions.LoginAction"
+            scope="request"
+            validate="true">
+            <forward name="success" path="/pages/top.jsp" />
+            <forward name="noPermissionException" path="/pages/showNoPermissionException.jsp" />
+            <forward name="exception" path="/pages/showException.jsp" />
+	</action>
+
+        <action
+            path="/SaveConfig"
+            type="webice.actions.SaveConfigAction"
+            scope="request"
+            validate="true">
+            <forward name="success" path="/pages/top.jsp" />
+		</action>
+
+        <action path="/Help_Show"
+        	type="org.apache.struts.actions.ForwardAction"
+        	parameter="/pages/help/help.jsp" />
+
+        <action path="/Help_ShowNav"
+        	type="org.apache.struts.actions.ForwardAction"
+        	parameter="/pages/help/helpNav.jsp" />
+
+        <action path="/Help_ShowTopic"
+        	type="org.apache.struts.actions.ForwardAction"
+        	parameter="/pages/help/helpTopic.jsp" />
+
+        <action
+            path="/Help_SelectTopic"
+            type="webice.actions.help.SelectTopicAction"
+            scope="request"
+            validate="true">
+            <forward name="success" path="/pages/help/help.jsp" />
+	</action>
+
+  </action-mappings>
+
+
+  <!-- ========== Controller Configuration ================================ -->
+
+  <controller>
+    <!-- The "input" parameter on "action" elements is the name of a
+         local or global "forward" rather than a module-relative path -->
+    <set-property property="inputForward" value="true"/>
+  </controller>
+
+
+</struts-config>

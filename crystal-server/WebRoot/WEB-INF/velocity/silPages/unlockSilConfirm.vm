@@ -1,0 +1,23 @@
+#parse("/silPages/topbanner.html")
+
+<body>
+#set ($authSession = $appSession.authSession)
+
+<span style="float:right; font-size:100%; padding-right:10px">
+You are ${authSession.userName}<br/><a class="link" href="Logout.html">Logout</a>
+</span>
+
+<h1><a href="http://ssrl.slac.stanford.edu"><img src="images/ssrl2.gif" border="0"  height="50" width="50"/></a>Unlock SIL Confirmation</h1>
+
+<p>Sil $silId is locked. It maybe in use for crystal screening.</p>
+
+<br/>
+<form action="unlockSilConfirm.html" method="post">
+<input type="hidden" name="silId" value="$silId"/>
+<input type="hidden" name="targetUrl" value="$targetUrl"/>
+<input type="submit" value="Unlock SIL Anyway" />
+</form>
+<a href="cassetteList.html">Go to Cassette List.</a>&nbsp;&nbsp;<a href="beamlineList.html">Go to Beamline List.</a>
+</body>
+
+</html>

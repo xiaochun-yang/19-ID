@@ -1,0 +1,487 @@
+# This is a config file for WebIce admin to edit
+
+# Accessibility
+# accessMode must be either all, some or none.
+# accessMode=all -> Allow all users
+# accessMode=some -> Allow all users except those listed under excludedUser
+# accessMode=staff -> Allow all staff and those listed under includedUser
+# accessMode=none -> Allow none except those listed under includedUser
+# all: all - exclude
+# some: include - exclude
+# staff: staff + include - exclude
+# none: include
+webice.accessMode=all
+webice.includeUsers=
+webice.excludeUsers=
+
+# Installation site: SSRL, ALS, etc.
+webice.installation=SSRL
+
+# Default dir where we can create/find ".webice" dir. The dir contains 
+# default.properties file. String "<user>" will
+# automatically be replaced by user name at run-time.
+webice.userConfigDir=/home/<user>
+
+# Default dir for browsing image files. String "<user>" will
+# automatically be replaced by user name at run-time. 
+webice.userImageRootDir=/data/<user>
+
+# This is where webice output dir is located. String "<user>" will
+# automatically be replaced by user name at run-time.
+webice.userRootDir=/data/<user>
+
+# Host and port used to construct webice URL
+# displayed in the user's browser.
+# If apache mod_jk is used then these config 
+# will be different from webice.tomcatHost,
+# webice.tomcatPort and webice.tomcatSecurePort.
+webice.host=smb.slac.stanford.edu
+webice.port=80
+webice.portSecure=443
+
+# Host and port of tomcat in which webice runs.
+# can be the same as webice.host, webice.port 
+# and webice.securePort config if we are not
+# using apache mod_jk.
+webice.tomcatHost=smbws1.slac.stanford.edu
+webice.tomcatPort=8081
+webice.tomcatSecurePort=8444
+
+# Bin dir for executables
+# This is where the scripts are located
+webice.rootDir=/home/webserverroot/servlets/tomcat-smbws1/webice
+# No longer used since we now use a labelit 
+# script instead of spotfinder
+webice.binDir=${webice.rootDir}/WEB-INF/bin
+webice.scriptDir=${webice.rootDir}/WEB-INF/scripts
+
+# This dir contains strategy tcl files and symbolic links to beamline runs.
+# Should be cleaned up every user change-over.
+webice.dcsStrategyDir=/home/webserverroot/servlets/webice/data/strategy
+
+# Directory containing beamline property files, e.g. BL1-5.properties
+webice.beamlineDir=/home/www/templates/beamline-properties
+
+# List of simulated beamlines
+webice.beamlines=SIM1-5,SIM7-1,SIM9-1,SIM9-2,SIM11-1,SIM11-3,SIM12-2,BL-sim
+
+# Max inactive interval (in seconds) before the user is logged out
+# of webice.
+webice.maxInactiveInterval=1800
+
+# dirList, userList, both
+webice.silListMode=userList
+
+# When to allow user to view strategy of the crystal
+# in screening tab: mountedCrystalOnly, all
+webice.importRunMode=all
+
+# How many levels of image dirs
+# to create a cassette
+webice.screeningDirDepth=1
+
+# Whether webice can collect 2-images at the beamline
+# If this param is absent, default to false.
+webice.canCollect=true
+
+# webice user and session to connect to dcss
+# to monitor beamline status
+webice.user=webice
+webice.passwdFile=${webice.rootDir}/WEB-INF/webice.txt
+
+# Periodic table for scan
+webice.periodicTableFile=${webice.rootDir}/data/beamline-properties/periodic-table.dat
+
+# Authentication server
+auth.host=smbws1.slac.stanford.edu
+auth.port=8084
+auth.securePort=8447
+auth.method=smb_config_database
+auth.appName=WebIce
+# 0: do not use one-time session
+# 1: use one-time session for non-localhost
+# 2: always use one-time session
+auth.oneTimeSessionMode=0
+
+# Impersonation server
+imperson.host=localhost
+imperson.port=61001
+
+# Image server
+# New image server that can load image markup
+imgsrv.host=smbdev2.slac.stanford.edu
+imgsrv.port=14007
+imgsrv.useCommand=true
+imgsrv.command=/usr/local/dcs/diffimage/linux/getImgHeader
+imgsrv.command.impHost=localhost
+imgsrv.command.impPort=61001
+
+# Spotfinder
+# This one tells you where spotfinder runs
+spotfinder.impersonHost=blproc03.slac.stanford.edu
+spotfinder.impersonPort=61001
+# Use new spotfinder from labelit
+spotfinder.version=2.0
+
+# autoindex
+autoindex.host=blproc03.slac.stanford.edu
+autoindex.port=61001
+
+
+# Crystals server (port:8082/8085)
+sil.host=smbws1.slac.stanford.edu
+sil.port=8445
+crystalsUrl=https://${sil.host}:${sil.port}/crystal-server
+sil.url=${crystalsUrl}/cassetteList.html
+sil.getSilUrl=${crystalsUrl}/getSil.do
+sil.getSilListUrl=${crystalsUrl}/getSilList.do
+sil.setCrystalUrl=${crystalsUrl}/setCrystal.do
+sil.isEventCompletedUrl=${crystalsUrl}/isEventCompleted.do
+sil.downloadSilUrl=${crystalsUrl}/result
+sil.getCrystalUrl=${crystalsUrl}/getCrystal.do
+sil.clearCrystalUrl=${crystalsUrl}/clearCrystal.do
+sil.createDefaultSilUrl=${crystalsUrl}/createDefaultSil.do
+sil.deleteCassetteUrl=${crystalsUrl}/deleteSil.do
+sil.addUserUrl=${crystalsUrl}/addUser.do
+sil.addRunDefinitionUrl=${crystalsUrl}/addRunDefinition.do
+sil.setRunDefinitionUrl=${crystalsUrl}/setRunDefinitionProperties.do
+
+# Crystal-analysis (port:8082/8085)
+ca.host=smbws1.slac.stanford.edu
+ca.port=8445
+analysisUrl=https://${ca.host}:${ca.port}/crystal-analysis
+sil.analyzeImageUrl=${analysisUrl}/jsp/analyzeImage.jsp
+sil.autoindexUrl=${analysisUrl}/jsp/autoindex.jsp
+
+
+# DCS
+# updateRate is in seconds
+# updateRate: database dumpfile reloading interval in seconds
+dcs.dumpDir=/home/webserverroot/servlets/webice/data/dcs
+dcs.updateRate=10
+dcs.dcssHost=smbdev2
+dcs.dcssPort=14342
+#dcs.analysisDhs=analysisdhs
+dcs.strategyDir=/home/webserverroot/servlets/webice/data/strategy
+dcs.useSSL=true
+dcs.keystoreFile=/usr/local/tomcat/certs/cacerts
+dcs.keystorePassword=changeit
+
+# video urls
+video.host=smbws1.slac.stanford.edu
+video.port=8080
+
+BL1-5.dcssHost=blctl15
+BL1-5.dcssPort=14243
+BL1-5.video.sample.imageUrl=http://${video.host}:${video.port}/VideoSystem/video.html?stream=BL1-5_SAMPLE&resolution=medium&size=medium
+BL1-5.video.hutch.imageUrl=http://${video.host}:${video.port}/VideoSystem/video.html?stream=BL1-5_HUTCH&resolution=medium&size=medium
+BL1-5.video.robot.imageUrl=http://${video.host}:${video.port}/VideoSystem/video.html?stream=BL1-5_ROBOT&resolution=medium&size=medium
+BL1-5.video.panel.imageUrl=http://${video.host}:${video.port}/VideoSystem/video.html?stream=BL1-5_PANEL&resolution=medium&size=medium
+BL1-5.video.sample.presetRequestUrl=
+BL1-5.video.hutch.presetRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=getPresetList&stream=BL1-5_HUTCH
+BL1-5.video.robot.presetRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=getPresetList&stream=BL1-5_ROBOT
+BL1-5.video.panel.presetRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=getPresetList&stream=BL1-5_PANEL
+BL1-5.video.sample.moveRequestUrl=
+BL1-5.video.hutch.moveRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=gotoPreset&stream=BL1-5_HUTCH
+BL1-5.video.robot.moveRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=gotoPreset&stream=BL1-5_ROBOT
+BL1-5.video.panel.moveRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=gotoPreset&stream=BL1-5_PANEL
+BL1-5.video.sample.textUrl=
+BL1-5.video.hutch.textUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=changeText&stream=BL1-5_HUTCH
+BL1-5.video.robot.textUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=changeText&stream=BL1-5_ROBOT
+BL1-5.video.panel.textUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=changeText&stream=BL1-5_PANEL
+
+
+BL7-1.dcssHost=blctl71
+BL7-1.dcssPort=14243
+BL7-1.video.sample.imageUrl=http://${video.host}:${video.port}/VideoSystem/video.html?stream=BL7-1_SAMPLE&resolution=medium&size=medium
+BL7-1.video.hutch.imageUrl=http://${video.host}:${video.port}/VideoSystem/video.html?stream=BL7-1_HUTCH&resolution=medium&size=medium
+BL7-1.video.robot.imageUrl=http://${video.host}:${video.port}/VideoSystem/video.html?stream=BL7-1_ROBOT&resolution=medium&size=medium
+BL7-1.video.panel.imageUrl=http://${video.host}:${video.port}/VideoSystem/video.html?stream=BL7-1_PANEL&resolution=medium&size=medium
+BL7-1.video.sample.presetRequestUrl=
+BL7-1.video.hutch.presetRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=getPresetList&stream=BL7-1_HUTCH
+BL7-1.video.robot.presetRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=getPresetList&stream=BL7-1_ROBOT
+BL7-1.video.panel.presetRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=getPresetList&stream=BL7-1_PANEL
+BL7-1.video.sample.moveRequestUrl=
+BL7-1.video.hutch.moveRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=gotoPreset&stream=BL7-1_HUTCH
+BL7-1.video.robot.moveRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=gotoPreset&stream=BL7-1_ROBOT
+BL7-1.video.panel.moveRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=gotoPreset&stream=BL7-1_PANEL
+BL7-1.video.sample.textUrl=
+BL7-1.video.hutch.textUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=changeText&stream=BL7-1_HUTCH
+BL7-1.video.robot.textUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=changeText&stream=BL7-1_ROBOT
+BL7-1.video.panel.textUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=changeText&stream=BL7-1_PANEL
+
+BL9-1.dcssHost=blctl91
+BL9-1.dcssPort=14243
+BL9-1.video.sample.imageUrl=http://${video.host}:${video.port}/VideoSystem/video.html?stream=BL9-1_SAMPLE&resolution=medium&size=medium
+BL9-1.video.hutch.imageUrl=http://${video.host}:${video.port}/VideoSystem/video.html?stream=BL9-1_HUTCH&resolution=medium&size=medium
+BL9-1.video.robot.imageUrl=http://${video.host}:${video.port}/VideoSystem/video.html?stream=BL9-1_ROBOT&resolution=medium&size=medium
+BL9-1.video.panel.imageUrl=http://${video.host}:${video.port}/VideoSystem/video.html?stream=BL9-1_PANEL&resolution=medium&size=medium
+BL9-1.video.sample.presetRequestUrl=
+BL9-1.video.hutch.presetRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=getPresetList&stream=BL9-1_HUTCH
+BL9-1.video.robot.presetRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=getPresetList&stream=BL9-1_ROBOT
+BL9-1.video.panel.presetRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=getPresetList&stream=BL9-1_PANEL
+BL9-1.video.sample.moveRequestUrl=
+BL9-1.video.hutch.moveRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=gotoPreset&stream=BL9-1_HUTCH
+BL9-1.video.robot.moveRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=gotoPreset&stream=BL9-1_ROBOT
+BL9-1.video.panel.moveRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=gotoPreset&stream=BL9-1_PANEL
+BL9-1.video.sample.textUrl=
+BL9-1.video.hutch.textUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=changeText&stream=BL9-1_HUTCH
+BL9-1.video.robot.textUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=changeText&stream=BL9-1_ROBOT
+BL9-1.video.panel.textUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=changeText&stream=BL9-1_PANEL
+
+BL9-2.dcssHost=blctl92
+BL9-2.dcssPort=14243
+BL9-2.video.sample.imageUrl=http://${video.host}:${video.port}/VideoSystem/video.html?stream=BL9-2_SAMPLE&resolution=medium&size=medium
+BL9-2.video.hutch.imageUrl=http://${video.host}:${video.port}/VideoSystem/video.html?stream=BL9-2_HUTCH&resolution=medium&size=medium
+BL9-2.video.robot.imageUrl=http://${video.host}:${video.port}/VideoSystem/video.html?stream=BL9-2_ROBOT&resolution=medium&size=medium
+BL9-2.video.panel.imageUrl=http://${video.host}:${video.port}/VideoSystem/video.html?stream=BL9-2_PANEL&resolution=medium&size=medium
+BL9-2.video.sample.presetRequestUrl=
+BL9-2.video.hutch.presetRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=getPresetList&stream=BL9-2_HUTCH
+BL9-2.video.robot.presetRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=getPresetList&stream=BL9-2_ROBOT
+BL9-2.video.panel.presetRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=getPresetList&stream=BL9-2_PANEL
+BL9-2.video.sample.moveRequestUrl=
+BL9-2.video.hutch.moveRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=gotoPreset&stream=BL9-2_HUTCH
+BL9-2.video.robot.moveRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=gotoPreset&stream=BL9-2_ROBOT
+BL9-2.video.panel.moveRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=gotoPreset&stream=BL9-2_PANEL
+BL9-2.video.sample.textUrl=
+BL9-2.video.hutch.textUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=changeText&stream=BL9-2_HUTCH
+BL9-2.video.robot.textUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=changeText&stream=BL9-2_ROBOT
+BL9-2.video.panel.textUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=changeText&stream=BL9-2_PANEL
+
+BL11-1.dcssHost=blctl111
+BL11-1.dcssPort=14243
+BL11-1.video.sample.imageUrl=http://${video.host}:${video.port}/VideoSystem/video.html?stream=BL11-1_SAMPLE&resolution=medium&size=medium
+BL11-1.video.hutch.imageUrl=http://${video.host}:${video.port}/VideoSystem/video.html?stream=BL11-1_HUTCH&resolution=medium&size=medium
+BL11-1.video.robot.imageUrl=http://${video.host}:${video.port}/VideoSystem/video.html?stream=BL11-1_ROBOT&resolution=medium&size=medium
+BL11-1.video.panel.imageUrl=http://${video.host}:${video.port}/VideoSystem/video.html?stream=BL11-1_PANEL&resolution=medium&size=medium
+BL11-1.video.sample.presetRequestUrl=
+BL11-1.video.hutch.presetRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=getPresetList&stream=BL11-1_HUTCH
+BL11-1.video.robot.presetRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=getPresetList&stream=BL11-1_ROBOT
+BL11-1.video.panel.presetRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=getPresetList&stream=BL11-1_PANEL
+BL11-1.video.sample.moveRequestUrl=
+BL11-1.video.hutch.moveRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=gotoPreset&stream=BL11-1_HUTCH
+BL11-1.video.robot.moveRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=gotoPreset&stream=BL11-1_ROBOT
+BL11-1.video.panel.moveRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=gotoPreset&stream=BL11-1_PANEL
+BL11-1.video.sample.textUrl=
+BL11-1.video.hutch.textUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=changeText&stream=BL11-1_HUTCH
+BL11-1.video.robot.textUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=changeText&stream=BL11-1_ROBOT
+BL11-1.video.panel.textUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=changeText&stream=BL11-1_PANEL
+
+BL11-3.dcssHost=blctl113
+BL11-3.dcssPort=14243
+BL11-3.video.sample.imageUrl=http://${video.host}:${video.port}/VideoSystem/video.html?stream=BL11-3_SAMPLE&resolution=medium&size=medium
+BL11-3.video.hutch.imageUrl=http://${video.host}:${video.port}/VideoSystem/video.html?stream=BL11-3_HUTCH&resolution=medium&size=medium
+BL11-3.video.robot.imageUrl=http://${video.host}:${video.port}/VideoSystem/video.html?stream=BL11-3_ROBOT&resolution=medium&size=medium
+BL11-3.video.panel.imageUrl=http://${video.host}:${video.port}/VideoSystem/video.html?stream=BL11-3_PANEL&resolution=medium&size=medium
+BL11-3.video.sample.presetRequestUrl=
+BL11-3.video.hutch.presetRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=getPresetList&stream=BL11-3_HUTCH
+BL11-3.video.robot.presetRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=getPresetList&stream=BL11-3_ROBOT
+BL11-3.video.panel.presetRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=getPresetList&stream=BL11-3_PANEL
+BL11-3.video.sample.moveRequestUrl=
+BL11-3.video.hutch.moveRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=gotoPreset&stream=BL11-3_HUTCH
+BL11-3.video.robot.moveRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=gotoPreset&stream=BL11-3_ROBOT
+BL11-3.video.panel.moveRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=gotoPreset&stream=BL11-3_PANEL
+BL11-3.video.sample.textUrl=
+BL11-3.video.hutch.textUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=changeText&stream=BL11-3_HUTCH
+BL11-3.video.robot.textUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=changeText&stream=BL11-3_ROBOT
+BL11-3.video.panel.textUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=changeText&stream=BL11-3_PANEL
+
+BL12-2.dcssHost=blctl122
+BL12-2.dcssPort=14243
+BL12-2.video.sample.imageUrl=http://${video.host}:${video.port}/VideoSystem/video.html?stream=BL12-2_SAMPLE&resolution=medium&size=medium
+BL12-2.video.hutch.imageUrl=http://${video.host}:${video.port}/VideoSystem/video.html?stream=BL12-2_HUTCH&resolution=medium&size=medium
+BL12-2.video.robot.imageUrl=http://${video.host}:${video.port}/VideoSystem/video.html?stream=BL12-2_ROBOT&resolution=medium&size=medium
+BL12-2.video.panel.imageUrl=http://${video.host}:${video.port}/VideoSystem/video.html?stream=BL12-2_PANEL&resolution=medium&size=medium
+BL12-2.video.sample.presetRequestUrl=
+BL12-2.video.hutch.presetRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=getPresetList&stream=BL12-2_HUTCH
+BL12-2.video.robot.presetRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=getPresetList&stream=BL12-2_ROBOT
+BL12-2.video.panel.presetRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=getPresetList&stream=BL12-2_PANEL
+BL12-2.video.sample.moveRequestUrl=
+BL12-2.video.hutch.moveRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=gotoPreset&stream=BL12-2_HUTCH
+BL12-2.video.robot.moveRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=gotoPreset&stream=BL12-2_ROBOT
+BL12-2.video.panel.moveRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=gotoPreset&stream=BL12-2_PANEL
+BL12-2.video.sample.textUrl=
+BL12-2.video.hutch.textUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=changeText&stream=BL12-2_HUTCH
+BL12-2.video.robot.textUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=changeText&stream=BL12-2_ROBOT
+BL12-2.video.panel.textUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=changeText&stream=BL12-2_PANEL
+
+BL14-1.dcssHost=blctl141
+BL14-1.dcssPort=14243
+BL14-1.video.sample.imageUrl=http://smbdev1.slac.stanford.edu:8080/VideoSystem/video.html?stream=BL14-1_SAMPLE&resolution=medium&size=medium
+BL14-1.video.hutch.imageUrl=http://smbdev1.slac.stanford.edu:8080/VideoSystem/video.html?stream=BL14-1_HUTCH&resolution=medium&size=medium
+BL14-1.video.robot.imageUrl=http://smbdev1.slac.stanford.edu:8080/VideoSystem/video.html?stream=BL14-1_ROBOT&resolution=medium&size=medium
+BL14-1.video.panel.imageUrl=http://smbdev1.slac.stanford.edu:8080/VideoSystem/video.html?stream=BL14-1_PANEL&resolution=medium&size=medium
+BL14-1.video.sample.presetRequestUrl=
+BL14-1.video.hutch.presetRequestUrl=http://smbdev1.slac.stanford.edu:8080/VideoSystem/control.html?method=getPresetList&stream=BL14-1_HUTCH
+BL14-1.video.robot.presetRequestUrl=http://smbdev1.slac.stanford.edu:8080/VideoSystem/control.html?method=getPresetList&stream=BL14-1_ROBOT
+BL14-1.video.panel.presetRequestUrl=http://smbdev1.slac.stanford.edu:8080/VideoSystem/control.html?method=getPresetList&stream=BL14-1_PANEL
+BL14-1.video.sample.moveRequestUrl=
+BL14-1.video.hutch.moveRequestUrl=http://smbdev1.slac.stanford.edu:8080/VideoSystem/control.html?method=gotoPreset&stream=BL14-1_HUTCH
+BL14-1.video.robot.moveRequestUrl=http://smbdev1.slac.stanford.edu:8080/VideoSystem/control.html?method=gotoPreset&stream=BL14-1_ROBOT
+BL14-1.video.panel.moveRequestUrl=http://smbdev1.slac.stanford.edu:8080/VideoSystem/control.html?method=gotoPreset&stream=BL14-1_PANEL
+BL14-1.video.sample.textUrl=
+BL14-1.video.hutch.textUrl=http://smbdev1.slac.stanford.edu:8080/VideoSystem/control.html?method=changeText&stream=BL14-1_HUTCH
+BL14-1.video.robot.textUrl=http://smbdev1.slac.stanford.edu:8080/VideoSystem/control.html?method=changeText&stream=BL14-1_ROBOT
+BL14-1.video.panel.textUrl=http://smbdev1.slac.stanford.edu:8080/VideoSystem/control.html?method=changeText&stream=BL14-1_PANEL
+
+
+SIM1-5.dcssHost=smbdev2
+SIM1-5.dcssPort=14363
+SIM1-5.video.sample.imageUrl=http://${video.host}:${video.port}/VideoSystem/video.html?stream=BL1-5_SAMPLE&resolution=medium&size=medium
+SIM1-5.video.hutch.imageUrl=http://${video.host}:${video.port}/VideoSystem/video.html?stream=BL1-5_HUTCH&resolution=medium&size=medium
+SIM1-5.video.robot.imageUrl=http://${video.host}:${video.port}/VideoSystem/video.html?stream=BL1-5_ROBOT&resolution=medium&size=medium
+SIM1-5.video.panel.imageUrl=http://${video.host}:${video.port}/VideoSystem/video.html?stream=BL1-5_PANEL&resolution=medium&size=medium
+SIM1-5.video.sample.presetRequestUrl=
+SIM1-5.video.hutch.presetRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=getPresetList&stream=BL1-5_HUTCH
+SIM1-5.video.robot.presetRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=getPresetList&stream=BL1-5_ROBOT
+SIM1-5.video.panel.presetRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=getPresetList&stream=BL1-5_PANEL
+SIM1-5.video.sample.moveRequestUrl=
+SIM1-5.video.hutch.moveRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=gotoPreset&stream=BL1-5_HUTCH
+SIM1-5.video.robot.moveRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=gotoPreset&stream=BL1-5_ROBOT
+SIM1-5.video.panel.moveRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=gotoPreset&stream=BL1-5_PANEL
+SIM1-5.video.sample.textUrl=
+SIM1-5.video.hutch.textUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=changeText&stream=BL1-5_HUTCH
+SIM1-5.video.robot.textUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=changeText&stream=BL1-5_ROBOT
+SIM1-5.video.panel.textUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=changeText&stream=BL1-5_PANEL
+
+SIM7-1.dcssHost=smbdev2
+SIM7-1.dcssPort=14323
+SIM7-1.video.sample.imageUrl=http://${video.host}:${video.port}/VideoSystem/video.html?stream=BL7-1_SAMPLE&resolution=medium&size=medium
+SIM7-1.video.hutch.imageUrl=http://${video.host}:${video.port}/VideoSystem/video.html?stream=BL7-1_HUTCH&resolution=medium&size=medium
+SIM7-1.video.robot.imageUrl=http://${video.host}:${video.port}/VideoSystem/video.html?stream=BL7-1_ROBOT&resolution=medium&size=medium
+SIM7-1.video.panel.imageUrl=http://${video.host}:${video.port}/VideoSystem/video.html?stream=BL7-1_PANEL&resolution=medium&size=medium
+SIM7-1.video.sample.presetRequestUrl=
+SIM7-1.video.hutch.presetRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=getPresetList&stream=BL7-1_HUTCH
+SIM7-1.video.robot.presetRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=getPresetList&stream=BL7-1_ROBOT
+SIM7-1.video.panel.presetRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=getPresetList&stream=BL7-1_PANEL
+SIM7-1.video.sample.moveRequestUrl=
+SIM7-1.video.hutch.moveRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=gotoPreset&stream=BL7-1_HUTCH
+SIM7-1.video.robot.moveRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=gotoPreset&stream=BL7-1_ROBOT
+SIM7-1.video.panel.moveRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=gotoPreset&stream=BL7-1_PANEL
+SIM7-1.video.sample.textUrl=
+SIM7-1.video.hutch.textUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=changeText&stream=BL7-1_HUTCH
+SIM7-1.video.robot.textUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=changeText&stream=BL7-1_ROBOT
+SIM7-1.video.panel.textUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=changeText&stream=BL7-1_PANEL
+
+SIM9-1.dcssHost=smbdev2
+SIM9-1.dcssPort=14373
+SIM9-1.video.sample.imageUrl=http://${video.host}:${video.port}/VideoSystem/video.html?stream=BL9-1_SAMPLE&resolution=medium&size=medium
+SIM9-1.video.hutch.imageUrl=http://${video.host}:${video.port}/VideoSystem/video.html?stream=BL9-1_HUTCH&resolution=medium&size=medium
+SIM9-1.video.robot.imageUrl=http://${video.host}:${video.port}/VideoSystem/video.html?stream=BL9-1_ROBOT&resolution=medium&size=medium
+SIM9-1.video.panel.imageUrl=http://${video.host}:${video.port}/VideoSystem/video.html?stream=BL9-1_PANEL&resolution=medium&size=medium
+SIM9-1.video.sample.presetRequestUrl=
+SIM9-1.video.hutch.presetRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=getPresetList&stream=BL9-1_HUTCH
+SIM9-1.video.robot.presetRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=getPresetList&stream=BL9-1_ROBOT
+SIM9-1.video.panel.presetRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=getPresetList&stream=BL9-1_PANEL
+SIM9-1.video.sample.moveRequestUrl=
+SIM9-1.video.hutch.moveRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=gotoPreset&stream=BL9-1_HUTCH
+SIM9-1.video.robot.moveRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=gotoPreset&stream=BL9-1_ROBOT
+SIM9-1.video.panel.moveRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=gotoPreset&stream=BL9-1_PANEL
+SIM9-1.video.sample.textUrl=
+SIM9-1.video.hutch.textUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=changeText&stream=BL9-1_HUTCH
+SIM9-1.video.robot.textUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=changeText&stream=BL9-1_ROBOT
+SIM9-1.video.panel.textUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=changeText&stream=BL9-1_PANEL
+
+SIM9-2.dcssHost=smbdev2
+SIM9-2.dcssPort=14393
+SIM9-2.video.sample.imageUrl=http://${video.host}:${video.port}/VideoSystem/video.html?stream=BL9-2_SAMPLE&resolution=medium&size=medium
+SIM9-2.video.hutch.imageUrl=http://${video.host}:${video.port}/VideoSystem/video.html?stream=BL9-2_HUTCH&resolution=medium&size=medium
+SIM9-2.video.robot.imageUrl=http://${video.host}:${video.port}/VideoSystem/video.html?stream=BL9-2_ROBOT&resolution=medium&size=medium
+SIM9-2.video.panel.imageUrl=http://${video.host}:${video.port}/VideoSystem/video.html?stream=BL9-2_PANEL&resolution=medium&size=medium
+SIM9-2.video.sample.presetRequestUrl=
+SIM9-2.video.hutch.presetRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=getPresetList&stream=BL9-2_HUTCH
+SIM9-2.video.robot.presetRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=getPresetList&stream=BL9-2_ROBOT
+SIM9-2.video.panel.presetRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=getPresetList&stream=BL9-2_PANEL
+SIM9-2.video.sample.moveRequestUrl=
+SIM9-2.video.hutch.moveRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=gotoPreset&stream=BL9-2_HUTCH
+SIM9-2.video.robot.moveRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=gotoPreset&stream=BL9-2_ROBOT
+SIM9-2.video.panel.moveRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=gotoPreset&stream=BL9-2_PANEL
+SIM9-2.video.sample.textUrl=
+SIM9-2.video.hutch.textUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=changeText&stream=BL9-2_HUTCH
+SIM9-2.video.robot.textUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=changeText&stream=BL9-2_ROBOT
+SIM9-2.video.panel.textUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=changeText&stream=BL9-2_PANEL
+
+SIM11-1.dcssHost=smbdev2
+SIM11-1.dcssPort=14383
+SIM11-1.video.sample.imageUrl=http://${video.host}:${video.port}/VideoSystem/video.html?stream=BL11-1_SAMPLE&resolution=medium&size=medium
+SIM11-1.video.hutch.imageUrl=http://${video.host}:${video.port}/VideoSystem/video.html?stream=BL11-1_HUTCH&resolution=medium&size=medium
+SIM11-1.video.robot.imageUrl=http://${video.host}:${video.port}/VideoSystem/video.html?stream=BL11-1_ROBOT&resolution=medium&size=medium
+SIM11-1.video.panel.imageUrl=http://${video.host}:${video.port}/VideoSystem/video.html?stream=BL11-1_PANEL&resolution=medium&size=medium
+SIM11-1.video.sample.presetRequestUrl=
+SIM11-1.video.hutch.presetRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=getPresetList&stream=BL11-1_HUTCH
+SIM11-1.video.robot.presetRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=getPresetList&stream=BL11-1_ROBOT
+SIM11-1.video.panel.presetRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=getPresetList&stream=BL11-1_PANEL
+SIM11-1.video.sample.moveRequestUrl=
+SIM11-1.video.hutch.moveRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=gotoPreset&stream=BL11-1_HUTCH
+SIM11-1.video.robot.moveRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=gotoPreset&stream=BL11-1_ROBOT
+SIM11-1.video.panel.moveRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=gotoPreset&stream=BL11-1_PANEL
+SIM11-1.video.sample.textUrl=
+SIM11-1.video.hutch.textUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=changeText&stream=BL11-1_HUTCH
+SIM11-1.video.robot.textUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=changeText&stream=BL11-1_ROBOT
+SIM11-1.video.panel.textUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=changeText&stream=BL11-1_PANEL
+
+SIM11-3.dcssHost=smbdev2
+SIM11-3.dcssPort=14353
+SIM11-3.video.sample.imageUrl=http://${video.host}:${video.port}/VideoSystem/video.html?stream=BL11-3_SAMPLE&resolution=medium&size=medium
+SIM11-3.video.hutch.imageUrl=http://${video.host}:${video.port}/VideoSystem/video.html?stream=BL11-3_HUTCH&resolution=medium&size=medium
+SIM11-3.video.robot.imageUrl=http://${video.host}:${video.port}/VideoSystem/video.html?stream=BL11-3_ROBOT&resolution=medium&size=medium
+SIM11-3.video.panel.imageUrl=http://${video.host}:${video.port}/VideoSystem/video.html?stream=BL11-3_PANEL&resolution=medium&size=medium
+SIM11-3.video.sample.presetRequestUrl=
+SIM11-3.video.hutch.presetRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=getPresetList&stream=BL11-3_HUTCH
+SIM11-3.video.robot.presetRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=getPresetList&stream=BL11-3_ROBOT
+SIM11-3.video.panel.presetRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=getPresetList&stream=BL11-3_PANEL
+SIM11-3.video.sample.moveRequestUrl=
+SIM11-3.video.hutch.moveRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=gotoPreset&stream=BL11-3_HUTCH
+SIM11-3.video.robot.moveRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=gotoPreset&stream=BL11-3_ROBOT
+SIM11-3.video.panel.moveRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=gotoPreset&stream=BL11-3_PANEL
+SIM11-3.video.sample.textUrl=
+SIM11-3.video.hutch.textUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=changeText&stream=BL11-3_HUTCH
+SIM11-3.video.robot.textUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=changeText&stream=BL11-3_ROBOT
+SIM11-3.video.panel.textUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=changeText&stream=BL11-3_PANEL
+
+SIM12-2.dcssHost=smbdev2
+SIM12-2.dcssPort=14383
+SIM12-2.video.sample.imageUrl=http://${video.host}:${video.port}/VideoSystem/video.html?stream=BL12-2_SAMPLE&resolution=medium&size=medium
+SIM12-2.video.hutch.imageUrl=http://${video.host}:${video.port}/VideoSystem/video.html?stream=BL12-2_HUTCH&resolution=medium&size=medium
+SIM12-2.video.robot.imageUrl=http://${video.host}:${video.port}/VideoSystem/video.html?stream=BL12-2_ROBOT&resolution=medium&size=medium
+SIM12-2.video.panel.imageUrl=http://${video.host}:${video.port}/VideoSystem/video.html?stream=BL12-2_PANEL&resolution=medium&size=medium
+SIM12-2.video.sample.presetRequestUrl=
+SIM12-2.video.hutch.presetRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=getPresetList&stream=BL12-2_HUTCH
+SIM12-2.video.robot.presetRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=getPresetList&stream=BL12-2_ROBOT
+SIM12-2.video.panel.presetRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=getPresetList&stream=BL12-2_PANEL
+SIM12-2.video.sample.moveRequestUrl=
+SIM12-2.video.hutch.moveRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=gotoPreset&stream=BL12-2_HUTCH
+SIM12-2.video.robot.moveRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=gotoPreset&stream=BL12-2_ROBOT
+SIM12-2.video.panel.moveRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=gotoPreset&stream=BL12-2_PANEL
+SIM12-2.video.sample.textUrl=
+SIM12-2.video.hutch.textUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=changeText&stream=BL12-2_HUTCH
+SIM12-2.video.robot.textUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=changeText&stream=BL12-2_ROBOT
+SIM12-2.video.panel.textUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=changeText&stream=BL12-2_PANEL
+
+BL-sim.dcssHost=smbdev2
+BL-sim.dcssPort=14343
+BL-sim.video.sample.imageUrl=http://${video.host}:${video.port}/VideoSystem/video.html?stream=BL11-1_SAMPLE&resolution=medium&size=medium
+BL-sim.video.hutch.imageUrl=http://${video.host}:${video.port}/VideoSystem/video.html?stream=BL11-1_HUTCH&resolution=medium&size=medium
+BL-sim.video.robot.imageUrl=http://${video.host}:${video.port}/VideoSystem/video.html?stream=BL11-1_ROBOT&resolution=medium&size=medium
+BL-sim.video.panel.imageUrl=http://${video.host}:${video.port}/VideoSystem/video.html?stream=BL11-1_PANEL&resolution=medium&size=medium
+BL-sim.video.sample.presetRequestUrl=
+BL-sim.video.hutch.presetRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=getPresetList&stream=BL11-1_HUTCH
+BL-sim.video.robot.presetRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=getPresetList&stream=BL11-1_ROBOT
+BL-sim.video.panel.presetRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=getPresetList&stream=BL11-1_PANEL
+BL-sim.video.sample.moveRequestUrl=
+BL-sim.video.hutch.moveRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=gotoPreset&stream=BL11-1_HUTCH
+BL-sim.video.robot.moveRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=gotoPreset&stream=BL11-1_ROBOT
+BL-sim.video.panel.moveRequestUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=gotoPreset&stream=BL11-1_PANEL
+BL-sim.video.sample.textUrl=
+BL-sim.video.hutch.textUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=changeText&stream=BL11-1_HUTCH
+BL-sim.video.robot.textUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=changeText&stream=BL11-1_ROBOT
+BL-sim.video.panel.textUrl=http://${video.host}:${video.port}/VideoSystem/control.html?method=changeText&stream=BL11-1_PANEL
+
+# all or collectWeb
+collect.monitorMode=all
+
+help.host=smb.slac.stanford.edu
+help.port=80
+help.rootUrl=http://${help.host}:${help.port}/facilities/remote_access/webice
+
+

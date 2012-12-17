@@ -1,0 +1,60 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title></title>
+</head>
+<body>
+<h1>Spotfinder</h1>
+
+<p>
+In the output JPEG image, different features are painted in different colors
+</p>
+<ul><li>      yellow:   overloaded pixel</li>
+<li>      red:      local maxima (spot peak)</li>
+<li>      green:    border of a good spot</li>
+ <li>     white:    border of a spot with close neighbors</li>
+<li>      red:      border of a spot with multiple peaks</li>
+<li>      yellow:   border of a spot with overloaded pixels</li>
+<li>      magenta:  central line of an ice-ring</li>
+<li>      blue:     image resolution limit by method 1 (short dashes)</li>
+<li>      blue:     image resolution limit by method 2 (long dashes)</li>
+</ul>
+   <p>In the output IMG image, features are less distinguishable due to limited colors.
+   The following features are indicated:</p> 
+<ul><li>      overloaded pixel:                                yellow</li>
+<li>      border of good spots:                            yellow</li>
+<li>      central line of ice-ring:                        yellow</li>
+<li>      resolution limit by method 1 (short dashes):     yellow</li>
+<li>      resolution limit by method 2 (long dashes):      yellow</li>
+ <li>     local maxima:                                    white</li>
+<li>      border of bad spots(peak overloaded, have close neighbors, or have multiple peaks):                             white</li>
+</ul>        
+
+  <p> The program shows a brief summary of each image it has processed.
+   Statistics shown include:
+   </p>    
+<ol>
+<li>number of spots vs number of overloaded, multiple maxima, with-close-neighbor
+spots.</li>
+<li> spot size median (pixel**2??) shape median (0 - 1, the bigger the better -more
+roundish.</li>
+<li>Estimate of the high resolution limit by two different methods</li>
+<li>Badness of the curve for the image resolution estimates; the
+smaller the better.</li>
+ <li>Number of ice rings and, if existent, intensity and location of ice ring.
+</li>
+<li>Size of largest overloaded patch and whether the largest overloaded patch lies on an 
+ice ring</li>
+</ol>
+
+<li>The most useful criteria to determine the quality of an image are:</li>
+<ol>
+<li>Ratio of number of spots to overloaded, split or close to other spots. The higher,
+the better</li>
+<li>Number of ice rings</li>
+<li>Closeness of the two image resolution estimates, from Method 1 and 2.
+If they are very different there may be something wrong with the image.</li>
+</ol>
+
+</body>
+</html>

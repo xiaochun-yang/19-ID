@@ -1,0 +1,22 @@
+CFLAGS = $(CFLAGS_OS) -D$(OSTYPE) -DUNIX -Dunix
+IOFLAGS = 
+OEXTS = defaults.o environ.o exec.o image.o input.o main.o param.o parse.o net_client.o xformsim.o \
+			get_moddb.o mod_support.o extras.o
+OBS  = glob.o
+OBJS = $(OEXTS) $(OBS) ../../lib/$(OSTYPE)/auxlib.a ../../lib/$(OSTYPE)/libwincompat.a
+DD = ../../bin/$(OSTYPE)
+
+PRCMD = pr
+
+$(DD)/ccd_image_gather : $(OBJS) ../../lib/$(OSTYPE)/auxlib.a
+	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) $(IOFLAGS) -o $(DD)/ccd_image_gather $(LIBFILE)
+
+
+$(OEXTS) : defs.h ext.h
+
+clean :	$(OEXTS) $(OBS)
+	rm $?
+
+print :	*.c *.h Makefile
+	$(PRCMD) $?
+	touch print

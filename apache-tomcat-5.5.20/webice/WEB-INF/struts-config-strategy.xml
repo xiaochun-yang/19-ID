@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE struts-config PUBLIC
+   "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN"
+   "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+
+<!-- Struts config for image viewer tab in webice -->
+
+<struts-config>
+
+
+  <!-- ========== Form Bean Definitions =================================== -->
+
+  <form-beans>
+        <form-bean name="labelitForm" type="webice.actions.strategy.LabelitForm">
+            <form-property name="dir" type="java.lang.String"/>
+            <form-property name="wildcard" type="java.lang.String"/>
+            <form-property name="done" type="java.lang.String"/>
+		</form-bean>
+        <form-bean name="labelitFinishSetupForm" type="webice.actions.strategy.LabelitForm">
+            <form-property name="integrate" type="java.lang.String"/>
+            <form-property name="generateStrategy" type="java.lang.boolean"/>
+            <form-property name="done" type="java.lang.String"/>
+		</form-bean>
+        <form-bean name="imageForm" type="webice.actions.strategy.ImageForm">
+            <form-property name="file" type="java.lang.String"/>
+            <form-property name="type" type="java.lang.String"/>
+            <form-property name="width" type="java.lang.String"/>
+            <form-property name="height" type="java.lang.String"/>
+		</form-bean>
+        <form-bean name="runNodeForm" type="webice.actions.strategy.RunNodeForm">
+            <form-property name="name" type="java.lang.String"/>
+		</form-bean>
+  </form-beans>
+
+
+  <!-- ========== Action Mapping Definitions ============================== -->
+  <action-mappings>
+
+        <action
+            path="/Strategy_ShowNavFrame"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="/pages/strategy/nav.jsp"/>
+
+        <action
+            path="/Strategy_ShowCreateRunForm"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="/pages/strategy/createRunForm.jsp"/>
+
+        <action
+            path="/Strategy_ShowNodeNav"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="/pages/strategy/nodeNav.jsp"/>
+
+        <action
+            path="/Strategy_ExpandNode"
+            type="webice.actions.strategy.ExpandNodeAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/pages/strategy/strategy.jsp" />
+		</action>
+
+        <action
+            path="/Strategy_SelectNode"
+            type="webice.actions.strategy.SelectNodeAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/pages/strategy/strategy.jsp" />
+		</action>
+
+        <action
+            path="/Strategy_SelectNodeFromTop"
+            type="webice.actions.strategy.SelectNodeAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/pages/top.jsp" />
+		</action>
+
+        <action
+            path="/Strategy_SelectTab"
+            type="webice.actions.strategy.SelectTabAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/pages/strategy/nodeView.jsp" />
+		</action>
+
+        <action
+            path="/Strategy_ReloadNode"
+            type="webice.actions.strategy.ReloadNodeAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/pages/strategy/strategy.jsp" />
+		</action>
+
+        <action
+            path="/Strategy_ShowNode"
+            type="webice.actions.strategy.ShowNodeAction"
+            scope="request"
+            validate="false">
+            <forward name="showRuns" path="/pages/strategy/runs.jsp" />
+            <forward name="loadRuns" path="/pages/strategy/loadRuns.jsp" />
+            <forward name="saveRuns" path="/pages/strategy/saveRuns.jsp" />
+            <forward name="showNode" path="/pages/strategy/nodeView.jsp" />
+		</action>
+
+        <action
+            path="/Strategy_ShowNodeViewer"
+            type="webice.actions.strategy.ShowNodeViewerAction"
+            scope="request"
+            validate="false">
+            <forward name="autoindexSetup" path="/pages/strategy/labelitSetup.jsp" />
+            <forward name="autoindexSolutions" path="/pages/strategy/labelitSolutions.jsp" />
+            <forward name="autoindexAutoindex_Summary" path="/pages/strategy/labelitAutoindex_Summary.jsp" />
+            <forward name="autoindexDetails" path="/pages/strategy/labelitDetails.jsp" />
+            <forward name="autoindexPredictions" path="/pages/strategy/labelitPredictions.jsp" />
+            <forward name="strategyStrategy_Summary" path="/pages/strategy/strategySpacegroups.jsp" />
+            <forward name="strategyIntegration_Results" path="/pages/strategy/strategyIntegration_Summary.jsp" />
+            <forward name="strategyDetails" path="/pages/strategy/strategyDetails.jsp" />
+            <forward name="spacegroupStrategy_Results" path="/pages/strategy/spacegroupStrategy_Summary.jsp" />
+            <forward name="spacegroupDetails" path="/pages/strategy/spacegroupDetails.jsp" />
+		</action>
+
+        <action
+            path="/Strategy_LabelitSetImageDir"
+            type="webice.actions.strategy.LabelitSetImageDirAction"
+            name="labelitForm"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/Strategy_ShowNodeViewer.do" />
+		</action>
+
+        <action
+            path="/Strategy_LabelitSetImageFilter"
+            type="webice.actions.strategy.LabelitSetImageFilterAction"
+            name="labelitForm"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/Strategy_ShowNodeViewer.do" />
+		</action>
+
+        <action
+            path="/Strategy_LabelitEditSetup"
+            type="webice.actions.strategy.LabelitEditSetupAction"
+            scope="request"
+            validate="false">
+            <forward name="warning" path="/pages/strategy/labelitWarning.jsp" />
+            <forward name="success" path="/Strategy_ShowNodeViewer.do" />
+		</action>
+
+        <action
+            path="/Strategy_LabelitFinishSetup"
+            type="webice.actions.strategy.LabelitFinishSetupAction"
+            name="labelitFinishSetupForm"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/Strategy_ShowNodeViewer.do" />
+		</action>
+
+        <action
+            path="/Strategy_LabelitSelectFiles"
+            type="webice.actions.strategy.LabelitSelectFilesAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/Strategy_ShowNodeViewer.do" />
+		</action>
+
+        <action
+            path="/Strategy_LabelitBrowseDirectory"
+            type="webice.actions.strategy.LabelitBrowseDirectoryAction"
+            name="labelitForm"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/Strategy_ShowNodeViewer.do" />
+		</action>
+
+        <action
+            path="/Strategy_UpdateStatus"
+            type="webice.actions.strategy.LabelitUpdateStatusAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/Strategy_ShowNodeViewer.do" />
+		</action>
+
+        <action
+            path="/Strategy_AbortLabelitRun"
+            type="webice.actions.strategy.LabelitAbortRunAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/Strategy_ShowNodeViewer.do" />
+		</action>
+
+        <action
+            path="/Strategy_StartLabelitRun"
+            type="webice.actions.strategy.LabelitRunAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/Strategy_ShowNode.do" />
+		</action>
+
+        <action
+            path="/Strategy_IntegrateAdditionalSolutions"
+            type="webice.actions.strategy.IntegrateAdditionalSolutionsAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/Strategy_ShowNode.do" />
+		</action>
+
+        <action
+            path="/Strategy_ShowImage"
+            type="webice.actions.strategy.ShowImageAction"
+            name="imageForm"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/Strategy_ShowNodeViewer.do" />
+		</action>
+
+        <action
+            path="/Strategy_ShowInteractiveViewer"
+            type="webice.actions.strategy.ShowInteractiveViewerAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/Strategy_ShowNodeViewer.do" />
+		</action>
+
+        <action
+            path="/Strategy_CreateRun"
+            type="webice.actions.strategy.CreateRunAction"
+            name="runNodeForm"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/pages/strategy/strategy.jsp" />
+            <forward name="error" path="/pages/strategy/strategy.jsp" />
+		</action>
+
+        <action
+            path="/Strategy_DeleteRun"
+            type="webice.actions.strategy.DeleteRunAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/pages/strategy/strategy.jsp" />
+		</action>
+
+        <action
+            path="/Strategy_ShowStrategyStatistics"
+            type="webice.actions.strategy.ShowStrategyStatisticsAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/pages/strategy/spacegroupStrategy_Summary.jsp" />
+		</action>
+
+  </action-mappings>
+
+
+  <!-- ========== Controller Configuration ================================ -->
+
+  <controller>
+    <!-- The "input" parameter on "action" elements is the name of a
+         local or global "forward" rather than a module-relative path -->
+    <set-property property="inputForward" value="true"/>
+  </controller>
+
+</struts-config>

@@ -1,0 +1,178 @@
+//
+//Galil Script for DMC2180
+//
+// WATCHDOG ROUTINE
+#AUTO
+MT2,2,2,2,2,2,2,2
+CN-1
+AG0,0,0
+LC1,1,1
+EN
+#W_Dog
+CW ,1
+Kick=0
+LastKic=0
+#WDog_ok
+//MG{EF} "WATCHDOG ok"
+AT 0
+AT 5000
+JP #WDogBad,Kick=LastKic
+LastKic=Kick
+TimeOut=0
+JP #WDog_ok
+#WDogBad
+//ST ABCDEFGH
+//ST S
+//#close shutter
+//SB 2
+TimeOut=1
+//DON'T Send an unsolicited message to DHS
+//MG{EF} "dtoh_watchdog_timeout"
+JP #WDog_ok
+//
+//
+//This routine closes all sockets after waiting for 1 second.
+//The 1 second wait is useful to allow the client to disconnect cleanly.
+//
+#ShutAll
+AT 0
+AT 1000
+IHA=>-2
+IHB=>-2
+IHC=>-2
+IHD=>-2
+IHE=>-2
+IHF=>-2
+EN
+//end of the routine
+//
+//
+//
+//Function: ExpServo (Exposure using Phi Servo Motor)
+//This script expects the following hardware configuration:
+// 1) Phi motor to be on the set on the ~a variable axis.
+// 2) Phi Encoder on channel H.  Output compare signal drives detector trigger
+//Before running, set the following variables: 
+// ExpStart...Exposure Start: phi location where shutter should open
+// ExpEnd...Exposure End: phi location where shutter should close
+// ExpVel...Exposure Velocity: speed of the motor during the exposure
+// ShutCh..Shutter channel
+// KSVal.  The desired value for KS that was used to calculate the ramp time.
+// RampCnt The number of counts required to get up to ExpVel
+#Expose
+KS~a=KSVal
+// OcDir..Output compare direction
+//MotErr is some extra counts to give a minimum counts for rollback
+IF @ABS[ExpVel] < 100
+MotErr = 5
+ELSE
+MotErr = 50
+ENDIF
+IF ExpVel < 0
+MotErr = MotErr * -1
+OcDir = -65536;
+ELSE
+OcDir = 0
+ENDIF
+//ShutDel is shutter delay in seconds that the shutter takes to open. With a
+//pilatus we can be generous because the detector will clip the exposure.
+ShutDel=.010
+//ShutCnt is the number of counts that will pass by as the shutter opens at constant velocity
+ShutCnt=ShutDel * ExpVel
+//ShutOpen is position where to start opening the shutter, but it will take physical time
+ShutOpen=ExpStart - ShutCnt
+//ReadyPos is where to start the move from.  It include ramp time and the minimum counts
+ReadyPos = ShutOpen - RampCnt - MotErr
+MG{EF} "log_info ReadyPos", ReadyPos
+MG{EF} "log_info ShutOpen", ShutOpen
+OverPos=ExpEnd + RampCnt + ShutCnt + MotErr
+MG{EF} "log_info OverPos", OverPos
+MG{EF} "log_info ShutCh", ShutCh
+//The exposure command starts where we want the detector to be triggered.
+//Set the phi encoder position to 0 so that we can use zero to trigger the output compare.
+// This is ok because the encoder is not used for anything else...
+//Encoder is on channel H!  Thus DPH=0 to set the trigger position.
+DPH=0
+//Move to ready position
+CB ShutCh
+//Disable the output compare while we get into position
+//OCH=-1
+MG{EF} "log_info Expose start"
+PA~a=ReadyPos
+BG~a
+MC~a
+//enable the output compare trigger that goes to the detector, the script won't do anything with it.
+//OCH=0,OcDir
+SP~a=ExpVel
+PA~a=OverPos
+BG~a
+JP #WtRv1, ExpVel < 0
+MG{EF} "log_info Forward motor"
+#WtFw1
+JP #WtFw1, _TD~a < ShutOpen 
+SB ShutCh
+JP #Cont1
+#WtRv1    //reverse direction
+JP #WtRv1, _TD~a > ShutOpen 
+SB ShutCh
+#Cont1
+//tell the dhs that the shutter is open
+MG{EF} "dtoh_shutter_open", ShutCh
+//keep waiting until the Output Compare is triggered, closing the shutter
+JP #WtRv2, ExpVel < 0
+#WtFw2
+JP #WtFw2, _TD~a < ExpEnd
+//tell the dhs that the shutter is closed
+CB ShutCh
+JP #Cont2
+#WtRv2
+JP #WtRv2, _TD~a > ExpEnd
+CB ShutCh
+#Cont2
+MG{EF} "dtoh_shutter_closed ", ShutCh
+//stop the motor
+#StopExp
+CB ShutCh
+//OCH=-1
+MC~a
+EN
+#AbrtExp
+MG{EF} "dtoh_shutter_closed ", ShutCh
+CB ShutCh
+EN
+//
+//
+//use this to get the same motor timing without opening the shutter.
+#NoExps
+//Close shutter and move to ready position
+CB ShutCh
+//Disable the output compare, because we don't want the shutter to open
+MG{EF} "log_info Expose start"
+PA~a=ReadyPos
+BG~a
+AM~a
+SP~a=ExpVel
+PA~a=OverPos
+BG~a
+AM~a
+EN
+#HALT
+MG{EF} "dtoh_shutter_closed", ShutCh
+CB ShutCh
+//#CMDERR
+//MG{EF} "dtoh_shutter_closed", ShutCh
+//CB ShutCh
+//JP #NOERR,_TC=0
+//JP #UNERR,_TC<>22
+//MG{EF} "hit hardware limits"
+//EN
+//#UNERR
+//MG{EF} "galil script error: ", _TC
+//EN
+//#NOERR
+//EN
+
+#ION
+#ION1
+//MG{EF} "dtoh_ion_chamber",2.0,1.1,2.2,3.3,4.4,5.5,6.6,7.7
+EN

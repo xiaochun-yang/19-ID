@@ -1,0 +1,49 @@
+#Main Sconscript for the ---jpegsoc--- module
+# An experimental build system used at LBNL (Nick Sauter) to compile the SSRL
+# packages for WebIce.  Build tools include SCons & cctbx, not gmake.
+
+import libtbx.load_env
+import os
+Import("env_base", "env_etc")
+
+env_etc.jpegsoc_dist = libtbx.env.dist_path("jpegsoc")
+
+env_etc.jpegsoc_include = env_etc.norm_join(env_etc.jpegsoc_dist,"src")
+
+arch_dependent_includes={"irix_CC":[
+                env_etc.norm_join(env_etc.jpegsoc_dist,"..","jpeg-6b")],
+                      "unix_gcc":[], 
+                      "tru64_cxx":[]}
+
+env_etc.jpegsoc_all_includes = arch_dependent_includes[env_etc.compiler] + [
+  env_etc.jpegsoc_include,
+  env_etc.xos_include,]
+
+env_jpegsoc = env_base.Copy(
+#  LIBS = env_etc.libm + ["rt","pthread","mach","exc","c"]
+)
+
+env_etc.include_registry.append(
+  env=env_jpegsoc,
+  paths=env_etc.jpegsoc_all_includes)
+
+arch_dependent_flags={"irix_CC":["-DIRIX","-DPTHREADS","-MP:dsm=off"],
+                      "unix_gcc":["-DLINUX","-fexceptions","-pthread"], 
+                      "tru64_cxx":["-DDEC_UNIX","-pthread"]}
+
+env_jpegsoc.Append(
+CCFLAGS=["-fexceptions","-c","-D_REENTRANT"]+
+  arch_dependent_flags[env_etc.compiler])
+
+env_jpegsoc.Append(LIBPATH=["#lib",])
+
+lib_jpegsoc_sources = [
+  "src/jsndrcv.c",
+  "src/jdatasrcsock.c",
+  "src/jdatadststream.c",
+]
+
+builder = env_jpegsoc.StaticLibrary
+builder(
+    target="#lib/jpegsoc",
+    source=lib_jpegsoc_sources)

@@ -1,0 +1,15 @@
+#!/bin/csh -f
+
+# foreach i ( ball.c bxutil-c.c callbacks-c.c circle.c color.c creation-c.c \
+# 	 data_to_pixel.c display.c filechooser.c filter.c gl.c graph.c \
+# 	 hist.c init.c interp.c line.c load.c magnify.c \
+# 	 main-c.c mesh.c marimageheader_vax_to_native.c \
+# 	 rubber_band.c utils.c zoom.c DigitalLine.c  \
+# 	 visual.c subtract.c psout.c )
+# 	echo $i
+# 	lint -u -x $i > l/$i:r.l
+# end
+
+
+lint -Xt -I/usr/include/Xm -D_NO_PROTO main-c.c creation-c.c callbacks-c.c bxutil-c.c load_blank_file.c \
+	 ccd_dc_seq.c marcommand.c param_file.c utils.c init.c sg_equiv.c adx_ccd_network.c > /tmp/ALL.l

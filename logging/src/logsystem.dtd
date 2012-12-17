@@ -1,0 +1,31 @@
+<!-- DTD used by the java.util.logging.LogManager -->
+<!-- This provides an XML formatted logger configuration. -->
+
+<!-- The document type is "logsystem" which consists of a list of logger elements -->
+<!ELEMENT logsystem (logger*)>
+
+<!-- Each logger has arbitrary attributes, a list of handlers and formatters -->
+<!ELEMENT logger (property*, formatter*, handler*)>
+<!ATTLIST logger name CDATA #required>
+<!ATTLIST logger parent CDATA #required>
+<!ATTLIST logger level CDATA #required>
+
+<!-- Each property is an empty element with name and type as attributes -->
+<!ELEMENT property EMPTY>
+<!ATTLIST property name CDATA #required>
+<!ATTLIST property value CDATA #required>
+
+<!-- Each formatter has name, type as attributes and a list 
+     arbitary properties as sub elements -->
+<!ELEMENT formatter (name, type, property*)>
+<!ATTLIST formatter name CDATA #required>
+<!ATTLIST formatter type (simple|xml) #required>
+
+<!-- Each handler has name, type as attributes and a list 
+     arbitary properties as sub elements -->
+<!ELEMENT handler (name, type, property*)>
+<!ATTLIST handler name CDATA #required>
+<!ATTLIST handler type (console|file) #required>
+<!ATTLIST handler level (OFF, SEVERE, WARNING, INFO, CONFIG, FINE, FINER, FINEST, ALL) #required>
+<!ATTLIST handler filter CDATA #required>
+<!ATTLIST handler formatter CADATA #required>

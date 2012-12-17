@@ -1,0 +1,35 @@
+[Version]
+Version=3.4.1
+[Make]
+ComputerName=BL111BOT
+GroupsEnabled=False
+BuildComplete=True
+RebuildReqd=False
+[Operator]
+Title=Operator Window
+WinState=0
+StartStop=True
+PauseCont=True
+Jog=True
+DisplayVision=False
+StatusBar=True
+Robot=True
+[Groups]
+MainGrp=magnet,utilities,cassette,gonio
+[Programs]
+magnet=True, True, 0, 0, 2460, 360, 10365, 4200, 380
+utilities=True, True, 0, 0, 345, 555, 10125, 3960, 23
+cassette=True, False, 0, 0, 345, 345, 10365, 4200, 452
+gonio=True, False, 0, 0, 1740, 1395, 10695, 5355, 1
+[Includes]
+robotdefs=True, True, 0, 0, 0, 705, 10125, 3960, 10
+[Robot 1]
+PointFiles=robot1,points
+[Points]
+robot1=False, 0, 0, 0, 8340, 5355
+points=False, 2, 350, 350, 10365, 4200
+[Workspace]
+ActiveWindow=Run
+Status=0,0,5665,13005,1995
+Run=2,0,345,6152,5355
+IOLabelSelect=0

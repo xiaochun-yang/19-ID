@@ -1,0 +1,6 @@
+
+auxlib/mdcclock.c
+
+	init_clock needs to not do anything if it has already been called.
+This will be necessary if we are to "share" these routines between detcon_lib
+and the upper level routines, such as a revised ccd_dc_api.

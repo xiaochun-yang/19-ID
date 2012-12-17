@@ -1,0 +1,61 @@
+#Main Sconscript for the ---auth_client--- module
+# An experimental build system used at LBNL (Nick Sauter) to compile the SSRL
+# packages for WebIce.  Build tools include SCons & cctbx, not gmake.
+
+import libtbx.load_env
+import os
+Import("env_base", "env_etc")
+
+base_include = env_etc.norm_join(libtbx.env.build_path,"base","include")
+
+env_etc.auth_client_dist = libtbx.env.dist_path("auth_client")
+
+env_etc.auth_client_common_includes = [
+  libtbx.env.include_path,
+  env_etc.scitbx_include,
+  env_etc.norm_join(env_etc.diffimage_dist,"src"),
+  env_etc.xos_include,
+  env_etc.xos_cpp_include,
+  env_etc.http_cpp_include,
+  env_etc.logging_include,
+  "../jpegsoc/src/",
+  env_etc.boost_include,
+] + env_etc.cbflib_include
+
+env = env_base.Copy(
+  CXXFLAGS=env_etc.cxxflags_base,
+  SHCXXFLAGS=env_etc.cxxflags_base,
+  SHLINKFLAGS=env_etc.shlinkflags,
+)
+
+env_etc.include_registry.append(
+  env=env,
+  paths=env_etc.auth_client_common_includes)
+
+env_auth_client = env.Copy(
+  LIBS = env_etc.libm + ["rt","pthread","c"],
+)
+
+arch_dependent_flags={"irix_CC":["-DIRIX","-DPTHREADS","-MP:dsm=off"],
+                      "unix_gcc":["-DLINUX","-fexceptions","-pthread"], 
+                      "tru64_cxx":["-DDEC_UNIX","-pthread"]}
+
+env_auth_client.Append(
+CXXFLAGS=["-c","-D_REENTRANT"]+
+ arch_dependent_flags[env_etc.compiler] )
+
+env_auth_client.Append(LIBPATH=["#lib",])
+
+Export("env_auth_client")
+
+lib_auth_client_sources = [
+  "src/Base64.cxx",
+  "src/AuthClient.cxx",
+]
+
+
+builder = env_auth_client.StaticLibrary
+builder(
+    target="#lib/auth_client",
+    source=lib_auth_client_sources,
+)

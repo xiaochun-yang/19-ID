@@ -1,0 +1,23 @@
+CC = cc
+CFLAGS = $(CFLAGS_OS) -D$(OSTYPE)
+IOFLAGS = 
+OEXTS = defaults.o environ.o exec.o xformsim.o image.o input.o main.o param.o parse.o net_client.o xform_real_int.o \
+			rotate_image.o
+OBS  = glob.o
+OBJS = $(OEXTS) $(OBS) ../../lib/$(OSTYPE)/auxlib.a
+DD = /tmp
+
+PRCMD = pr
+
+$(DD)/ccd_xform_new_api : $(OBJS) ../../lib/auxlib.a
+	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) $(IOFLAGS) -o $(DD)/ccd_xform_new_api $(LIBFILE)
+
+
+$(OEXTS) : defs.h ext.h
+
+clean :	$(OEXTS) $(OBS)
+	rm $?
+
+print :	*.c *.h Makefile
+	$(PRCMD) $?
+	touch print

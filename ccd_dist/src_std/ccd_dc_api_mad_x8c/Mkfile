@@ -1,0 +1,24 @@
+CC = cc
+CFLAGS = $(CFLAGS_OS) -D$(OSTYPE)
+IOFLAGS = 
+OEXTS = ccd_dc_main.o ccd_dc_args.o ccd_dc_strstat.o ccd_dc_misc.o ccd_dc_input.o ccd_dc_hwsim.o \
+	ccd_dc_heartbeat.o ccd_dc_hw.o ccd_server.o ccd_dc_bl.o ccd_dc_det.o ccd_dc_sio.o util_misc.o net_client.o \
+	ccd_dc_seq.o get_attenuator.o
+OBS  = ccd_dc_glob.o
+OBJS = $(OEXTS) $(OBS) ../../lib/$(OSTYPE)/auxlib.a
+DD = ../../bin/$(OSTYPE)
+
+PRCMD = pr
+
+$(DD)/ccd_dc_api_x8c : $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) $(IOFLAGS) -o $(DD)/ccd_dc_api_x8c
+	/bin/cp $(DD)/ccd_dc_api_x8c $(DD)/ccd_dc_api
+
+$(OEXTS) : ../incl/ccdconv.h ccd_dc_ext.h ccd_dc_defs.h
+
+clean :	$(OEXTS) $(OBS)
+	rm $?
+
+print :	*.c *.h Makefile
+	$(PRCMD) $?
+	touch print

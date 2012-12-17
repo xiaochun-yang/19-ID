@@ -1,0 +1,10 @@
+#!/usr/local/bin/bash
+#
+DCS_ROOT=$1
+CVSTAG=$2
+PROJECT=$3
+
+echo "checking $3"
+cd ${DCS_ROOT}/${PROJECT} 
+cvs -Q status | grep "File:" | grep -v "Status: Up-to-date"
+cvs status | grep "Sticky Tag" | grep -v $2

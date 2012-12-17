@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE struts-config PUBLIC
+   "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN"
+   "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+
+<!--
+     This is the Struts configuration file for the example application,
+     using the proposed new syntax.
+-->
+
+
+<struts-config>
+
+  <!-- ========== Form Bean Definitions =================================== -->
+  <form-beans>
+
+	<form-bean name="datasetForm" type="webice.actions.process.DatasetForm">
+		<form-property name="name" type="java.lang.String"/>
+		<form-property name="file" type="java.lang.String"/>
+		<form-property name="month" type="java.lang.String"/>
+		<form-property name="day" type="java.lang.String"/>
+		<form-property name="year" type="java.lang.String"/>
+		<form-property name="crystalId" type="java.lang.String"/>
+		<form-property name="beamline" type="java.lang.String"/>
+		<form-property name="experiment" type="java.lang.String"/>
+		<form-property name="resolution" type="double"/>
+		<form-property name="collectedBy" type="java.lang.String"/>
+		<form-property name="directory" type="java.lang.String"/>
+		<form-property name="xFileDirectory" type="java.lang.String"/>
+		<form-property name="beamX" type="double"/>
+		<form-property name="beamY" type="double"/>
+		<form-property name="autoindexIdent" type="java.lang.String"/>
+		<form-property name="autoindex1" type="int"/>
+		<form-property name="autoindex2" type="int"/>
+		<form-property name="fprimv1" type="double"/>
+		<form-property name="fprprv1" type="double"/>
+		<form-property name="img1" type="java.lang.String"/>
+		<form-property name="fprimv2" type="double"/>
+		<form-property name="fprprv2" type="double"/>
+		<form-property name="img2" type="java.lang.String"/>
+		<form-property name="fprimv3" type="double"/>
+		<form-property name="fprprv3" type="double"/>
+		<form-property name="img3" type="java.lang.String"/>
+		<form-property name="fprimv4" type="double"/>
+		<form-property name="fprprv4" type="double"/>
+		<form-property name="img4" type="java.lang.String"/>
+		<form-property name="spaceproup" type="java.lang.String"/>
+		<form-property name="nmol" type="int"/>
+		<form-property name="myComment" type="java.lang.String"/>
+		<form-property name="residues" type="int"/>
+		<form-property name="molecularWeight" type="double"/>
+		<form-property name="oligomerization" type="int"/>
+		<form-property name="hasSemet" type="int"/>
+		<form-property name="heavyAtom1" type="java.lang.String"/>
+		<form-property name="heavyAtom1Count" type="int"/>
+		<form-property name="heavyAtom2" type="java.lang.String"/>
+		<form-property name="heavyAtom2Count" type="int"/>
+		<form-property name="heavyAtom3" type="java.lang.String"/>
+		<form-property name="heavyAtom3Count" type="int"/>
+		<form-property name="heavyAtom4" type="java.lang.String"/>
+		<form-property name="heavyAtom4Count" type="int"/>
+		<form-property name="sequenceHeader" type="java.lang.String"/>
+		<form-property name="sequencePrefix" type="java.lang.String"/>
+		<form-property name="sequence" type="java.lang.String"/>
+	</form-bean>
+
+	<form-bean name="newDatasetForm" type="webice.actions.process.NewDatasetForm">
+		<form-property name="name" type="java.lang.String"/>
+		<form-property name="file" type="java.lang.String"/>
+	</form-bean>
+
+	<form-bean name="loadDatasetForm" type="webice.actions.process.NewDatasetForm">
+		<form-property name="file" type="java.lang.String"/>
+	</form-bean>
+
+	<form-bean name="loadDatasetsForm" type="webice.actions.process.LoadDatasetsForm">
+		<form-property name="file" type="java.lang.String"/>
+	</form-bean>
+
+    <!-- Configuration form bean -->
+    <form-bean       name="configForm"
+                     type="webice.actions.ConfigForm">
+      <form-property name="image_imageFile" type="java.lang.String"/>
+      <form-property name="image_imageDir" type="java.lang.String"/>
+      <form-property name="image_spotDir" type="java.lang.String"/>
+      <form-property name="image_infoTab" type="java.lang.String"/>
+      <form-property name="image_zoom" type="java.lang.double"/>
+      <form-property name="image_centerX" type="java.lang.double"/>
+      <form-property name="image_centerY" type="java.lang.double"/>
+      <form-property name="image_gray" type="java.lang.int"/>
+      <form-property name="image_width" type="java.lang.int"/>
+      <form-property name="image_height" type="java.lang.int"/>
+      <form-property name="top_workDir" type="java.lang.String"/>
+    </form-bean>
+
+
+  </form-beans>
+
+
+  <!-- ========== Action Mapping Definitions ============================== -->
+  <action-mappings>
+
+        <action
+            path="/ShowProcessNavFrame"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="/pages/process/processNav.jsp"/>
+
+        <action
+            path="/LoadDatasetsForm"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="/pages/process/loadDatasets.jsp"/>
+
+        <action
+            path="/ShowDataset"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="/pages/process/dataset.jsp"/>
+
+        <action
+            path="/ShowDatasetNavFrame"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="/pages/process/datasetNav.jsp"/>
+
+        <action
+            path="/ShowNewDatasetForm"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="/pages/process/newDataset.jsp"/>
+
+        <action
+            path="/ShowLoadDatasetForm"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="/pages/process/loadDataset.jsp"/>
+
+        <action
+            path="/CreateNewDataset"
+            type="webice.actions.process.CreateNewDatasetAction"
+            name="newDatasetForm"
+            scope="request"
+            validate="true">
+            <forward name="success" path="/pages/process/process.jsp" />
+		</action>
+
+        <action
+            path="/LoadDataset"
+            type="webice.actions.process.LoadDatasetAction"
+            name="loadDatasetForm"
+            scope="request"
+            validate="true">
+            <forward name="success" path="/pages/process/process.jsp" />
+		</action>
+
+        <action
+            path="/ShowProcessMainFrame"
+            type="webice.actions.process.ShowProcessMainFrameAction"
+            scope="request"
+            validate="false">
+            <forward name="showDataset" path="/ShowDataset.do" />
+            <forward name="showDatasets" path="/pages/process/datasets.jsp" />
+            <forward name="loadDatasets" path="/pages/process/loadDatasets.jsp" />
+            <forward name="saveDatasets" path="/pages/process/saveDatasets.jsp" />
+		</action>
+
+        <action
+            path="/SelectDataset"
+            type="webice.actions.process.SelectDatasetAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/pages/process/process.jsp" />
+		</action>
+
+        <action
+            path="/SetDatasetsCommand"
+            type="webice.actions.process.SetDatasetsCommandAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/pages/process/process.jsp" />
+		</action>
+
+        <action
+            path="/SaveDataset"
+            type="webice.actions.process.SaveDatasetAction"
+            name="datasetForm"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/ShowProcessMainFrame.do" />
+		</action>
+
+        <action
+            path="/ShowDatasetMainFrame"
+            type="webice.actions.process.ShowDatasetMainFrameAction"
+            scope="request"
+            validate="false">
+            <forward name="summary" path="/pages/process/datasetSummary.jsp" />
+            <forward name="details" path="/pages/process/datasetDetails.jsp" />
+            <forward name="setup" path="/pages/process/datasetDefinition.jsp" />
+		</action>
+
+        <action
+            path="/LoadDatasets"
+            type="webice.actions.process.LoadDatasetsAction"
+            name="loadDatasetsForm"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/pages/process/process.jsp" />
+		</action>
+
+
+  </action-mappings>
+
+
+  <!-- ========== Controller Configuration ================================ -->
+
+  <controller>
+    <!-- The "input" parameter on "action" elements is the name of a
+         local or global "forward" rather than a module-relative path -->
+    <set-property property="inputForward" value="true"/>
+  </controller>
+
+
+</struts-config>

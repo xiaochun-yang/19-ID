@@ -1,0 +1,22 @@
+CC = cc
+CFLAGS = $(CFLAGS_OS) -D$(OSTYPE)
+IOFLAGS = 
+OEXTS = ccd_bl.o ccd_bl_input.o ccd_bl_x4a.o ccd_bl_stat.o ccd_bl_glob.o util_misc.o cm_module.o sockio.o \
+	direct_com.o net_client.o
+OBS  =
+OBJS = $(OEXTS) $(OBS) ../../lib/$(OSTYPE)/auxlib.a
+DD = ../../bin/$(OSTYPE)
+
+PRCMD = pr
+
+$(DD)/ccd_bl_x4a : $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) $(IOFLAGS) -o $(DD)/ccd_bl_x4a
+
+$(OEXTS) :
+
+clean :	$(OEXTS) $(OBS)
+	rm $?
+
+print :	*.c *.h Makefile
+	$(PRCMD) $?
+	touch print

@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- WARNING: Eclipse auto-generated file.
+              Any modifications will be overwritten.
+              To include a user specific buildfile here, simply create one in the same
+              directory with the processing instruction <?eclipse.ant.import?>
+              as the first entry and export the buildfile again. -->
+<project basedir="." default="build" name="crystal-server">
+    <property environment="env"/>
+	
+    <!-- hostname -->
+	<exec executable = "hostname"  outputproperty = "hostName" >
+		<arg value="-s"/>
+	</exec>
+	
+	<!-- Need this jar file so that we can use if task -->
+	<taskdef resource="net/sf/antcontrib/antcontrib.properties">
+	  <classpath>
+	    <pathelement location="WebRoot/WEB-INF/lib/ant-contrib-0.6.jar"/>
+	  </classpath>
+	</taskdef>
+	
+    <!-- Local system paths -->
+    <property name="TOMCAT_BASE" value="${env.CATALINA_HOME}" />
+    <property name="TOMCAT_LIB" value="${TOMCAT_BASE}/common/lib" />
+    <property name="TOMCAT_WEBAPPS" value="${TOMCAT_BASE}/webapps" />
+    <property name="TOMCAT_WEBAPPS_BAK" value="${TOMCAT_BASE}/webapps_bak" />
+    <property name="APP_NAME" value="crystal-server" />
+	<property name="DEPLOY_NAME" value="${APP_NAME}" />
+
+    <property name="SsrlJavaLib.location" value="../SsrlJavaLib"/>
+	
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="1.5"/>
+    <property name="source" value="1.5"/>
+
+    <path id="J2EE 1.4 Libraries.libraryclasspath">
+        <pathelement location="${TOMCAT_LIB}/servlet-api.jar"/>
+    </path>
+    <path id="SsrlJavaLib.classpath">
+        <pathelement location="${SsrlJavaLib.location}/bin"/>
+    </path>
+    <path id="crystal-server.classpath">
+        <pathelement location="WebRoot/WEB-INF/classes"/>
+        <path refid="J2EE 1.4 Libraries.libraryclasspath"/>
+        <pathelement location="WebRoot/WEB-INF/lib/authUtility.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/classes12.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/httpunit.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/jxl.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/log4j-1.2.13.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/serializer.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/xalan.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/xml-apis.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/xercesImpl.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/h2.jar"/>
+        <path refid="SsrlJavaLib.classpath"/>
+        <pathelement location="WebRoot/WEB-INF/lib/poi-3.1-FINAL-20080629.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/velocity-1.6.2.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/velocity-tools-1.4.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/velocity-tools-generic-1.4.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/velocity-tools-view-1.4.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/mail.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/activation.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/mysql-connector-java-5.0.6-bin.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/ibatis-2.3.4.726.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/jdbc2_0-stdext.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/xsltc.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/commons-beanutils.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/commons-collections.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/commons-dbcp.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/commons-digester.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/commons-fileupload.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/commons-io.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/commons-lang.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/commons-logging.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/commons-pool.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/commons-validator.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/junit-4.4.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/spring-test.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/spring-webmvc.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/spring.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/jmock-2.5.1.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/hamcrest-core-1.1.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/hamcrest-library-1.1.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/jmock-junit3-2.5.1.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/jmock-junit4-2.5.1.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/commons-codec.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/commons-httpclient-3.1.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/cssparser-0.9.5.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/htmlunit-2.5.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/htmlunit-core-js-2.5.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/js-1.5R4.1.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/jwebunit-core-2.2.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/jwebunit-htmlunit-plugin-2.2.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/nekohtml-1.9.12.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/sac-1.3.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/slf4j-api-1.5.0.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/slf4j-log4j12-1.5.0.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/poi-3.5-FINAL-20090928.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/poi-ooxml-3.5-FINAL-20090928.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/poi-contrib-3.5-FINAL-20090928.jar"/>
+		<pathelement location="WebRoot/WEB-INF/lib/xmlbeans-2.3.0.jar"/>
+		<pathelement location="WebRoot/WEB-INF/lib/ooxml-schemas-1.0.jar"/>
+		<pathelement location="WebRoot/WEB-INF/lib/dom4j-1.6.1.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/geronimo-stax-api_1.0_spec-1.0.jar"/>
+        <pathelement location="WebRoot/WEB-INF/lib/odfdom.jar"/>
+     </path>
+	
+	<available classname="javax.servlet.http.HttpServletRequest"
+	          classpathref="J2EE 1.4 Libraries.libraryclasspath" property="servlets.present"/>
+
+	  <target name="j2ee_check" unless="servlets.present" >
+	    <echo message="*******************************************************" />
+		<echo message="The j2ee servlet api libraries could not be found." />
+	  	<echo message="Set CATALINA_HOME environment variable before building!" />
+		<echo message="For example: setenv CATALINA_HOME /usr/local/tomcat/" />
+	  	<echo message="*******************************************************" />
+
+	  	<fail message="Could not load the J2EE libraries" />
+	  </target>
+	
+	
+	<target name="init" depends="j2ee_check">
+        <mkdir dir="WebRoot/WEB-INF/classes"/>
+        <copy includeemptydirs="false" todir="WebRoot/WEB-INF/classes">
+            <fileset dir="src" excludes="**/*.launch, **/*.java"/>
+        </copy>
+		<echo message="Copying WebRoot/WEB-INF/config-production.xml to WebRoot/WEB-INF/config.xml" />
+	 	<copy file="WebRoot/WEB-INF/config-production.xml" tofile="WebRoot/WEB-INF/config.xml" ></copy>
+		<echo message="Copying WebRoot/WEB-INF/${hostName}.properties to WebRoot/WEB-INF/site-specific.properties" />
+	 	<copy file="WebRoot/WEB-INF/${hostName}.properties" tofile="WebRoot/WEB-INF/site-specific.properties" ></copy>
+    </target>
+    <target name="clean">
+        <delete dir="WebRoot/WEB-INF/classes"/>
+    </target>
+    <target depends="clean" name="cleanall">
+        <ant antfile="${SsrlJavaLib.location}/build.xml" inheritAll="false" target="clean"/>
+    </target>
+    <target depends="build-subprojects,build-project" name="build"/>
+    <target name="build-subprojects">
+        <ant antfile="${SsrlJavaLib.location}/build.xml" inheritAll="false" target="build-project">
+            <propertyset>
+                <propertyref name="build.compiler"/>
+            </propertyset>
+        </ant>
+    </target>
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="WebRoot/WEB-INF/classes" source="${source}" target="${target}">
+            <src path="src"/>
+            <classpath refid="crystal-server.classpath"/>
+        </javac>
+    </target>
+
+ 	<available file="${TOMCAT_WEBAPPS}/${DEPLOY_NAME}" type="dir" property="old_deploy.present"/>
+
+	<target name="undeploy" depends="build" if="old_deploy.present">
+
+ 	  <move todir="${TOMCAT_WEBAPPS_BAK}/${DEPLOY_NAME}">
+		    <fileset dir="${TOMCAT_WEBAPPS}/${DEPLOY_NAME}"/>
+		  </move>
+	 </target>
+	
+	 <target name="deploy-live" depends="build,undeploy">
+	 	<echo message="HOSTNAME ${hostName}" />
+	 	<echo message="DEPLOY_NAME ${DEPLOY_NAME}" />
+	 	<mkdir dir="${TOMCAT_WEBAPPS}/${DEPLOY_NAME}"/>
+	 	<copy todir="${TOMCAT_WEBAPPS}/${DEPLOY_NAME}">
+		    <fileset dir="WebRoot"/>
+		</copy>
+
+	 	<!-- export the class files from the dependent projects -->
+	 	<copy todir="${TOMCAT_WEBAPPS}/${DEPLOY_NAME}/WEB-INF/classes">
+		    <fileset dir="${SsrlJavaLib.location}/bin"/>
+		</copy>
+
+	 </target>
+
+	 <target name="deploy" depends="deploy-live" />
+
+
+
+</project>

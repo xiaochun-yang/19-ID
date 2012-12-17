@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+	 version="2.4" >
+
+	<display-name>WebIce Application</display-name>
+
+  <!-- Request filter -->
+  <filter>
+    <filter-name>LoginFilter</filter-name>
+    <filter-class>webice.beans.LoginFilter</filter-class>
+  </filter>
+
+  <filter-mapping>
+    <filter-name>LoginFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <!-- ServletContextListener -->
+  <listener>
+    <listener-class>webice.beans.WebIceContextListener</listener-class>
+  </listener>
+
+
+  <!-- HttpSessionListener -->
+  <listener>
+    <listener-class>webice.beans.WebIceSessionListener</listener-class>
+  </listener>
+
+  <!-- HttpSessionAttributeListener -->
+  <listener>
+    <listener-class>webice.beans.WebIceSessionAttributeListener</listener-class>
+  </listener>
+
+  <!-- HttpSessionBindingListener -->
+  <listener>
+    <listener-class>webice.beans.WebIceSessionBindingListener</listener-class>
+  </listener>
+
+
+  <!-- Action Servlet Configuration -->
+  <servlet>
+    <servlet-name>action</servlet-name>
+    <servlet-class>org.apache.struts.action.ActionServlet</servlet-class>
+    <init-param>
+      <param-name>properties</param-name>
+      <param-value>/WEB-INF/webice.properties</param-value>
+    </init-param>
+    <init-param>
+      <param-name>config</param-name>
+      <param-value>/WEB-INF/struts-config.xml,/WEB-INF/struts-config-image.xml,/WEB-INF/struts-config-strategy.xml,/WEB-INF/struts-config-process.xml,/WEB-INF/struts-config-screening.xml,/WEB-INF/struts-config-autoindex.xml,/WEB-INF/struts-config-video.xml,/WEB-INF/struts-config-collect.xml</param-value>
+    </init-param>
+    <load-on-startup>0</load-on-startup>
+  </servlet>
+
+  <!--Mtz Reader Servlet Configuration -->
+  <servlet>
+    <servlet-name>mtzReader</servlet-name>
+    <servlet-class>webice.servlets.MtzFileReader</servlet-class>
+    <load-on-startup>0</load-on-startup>
+  </servlet>
+
+  <servlet>
+    <servlet-name>rawScan</servlet-name>
+    <servlet-class>webice.servlets.ScanPlotter</servlet-class>
+    <load-on-startup>0</load-on-startup>
+  </servlet>
+
+  <servlet>
+    <servlet-name>fpFpp</servlet-name>
+    <servlet-class>webice.servlets.ScanPlotter</servlet-class>
+    <load-on-startup>0</load-on-startup>
+  </servlet>
+
+  <!-- Content Loader Servlet Configuration -->
+  <servlet>
+    <servlet-name>video</servlet-name>
+    <servlet-class>webice.servlets.VideoLoader</servlet-class>
+    <load-on-startup>0</load-on-startup>
+  </servlet>
+
+  <servlet>
+    <servlet-name>loader</servlet-name>
+    <servlet-class>webice.servlets.ContentLoader</servlet-class>
+    <load-on-startup>0</load-on-startup>
+  </servlet>
+
+  <!-- Xml Content Loader Servlet Configuration -->
+  <servlet>
+    <servlet-name>xmlLoader</servlet-name>
+    <servlet-class>webice.servlets.XmlContentLoader</servlet-class>
+    <load-on-startup>0</load-on-startup>
+  </servlet>
+
+  <!-- Image Applet Loader Servlet Configuration -->
+  <servlet>
+    <servlet-name>applet</servlet-name>
+    <jsp-file>/pages/applet/imageApplet.jsp</jsp-file>
+    <load-on-startup>0</load-on-startup>
+  </servlet>
+
+  <!-- Action Servlet Mapping -->
+  <servlet-mapping>
+    <servlet-name>action</servlet-name>
+    <url-pattern>*.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>mtzReader</servlet-name>
+    <url-pattern>/servlet/mtzReader</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>rawScan</servlet-name>
+    <url-pattern>/servlet/rawScan</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>fpFpp</servlet-name>
+    <url-pattern>/servlet/fpFpp</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>loader</servlet-name>
+    <url-pattern>/servlet/loader/*</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>video</servlet-name>
+    <url-pattern>/servlet/video/*</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>xmlLoader</servlet-name>
+    <url-pattern>/servlet/xmlLoader/*</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>applet</servlet-name>
+    <url-pattern>/applet/ImageApplet</url-pattern>
+  </servlet-mapping>
+
+  <!-- Session time out in minutes: use setting in webice server config and LoginFiltetr instead.  -->
+<!--  <session-config>
+    <session-timeout>180</session-timeout>
+  </session-config>-->
+
+  <!-- The Welcome File List -->
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+
+  <!-- Error pages -->
+  <error-page>
+    <exception-type>webice.beans.NullClientException</exception-type>
+    <location>/pages/showNullClientException.jsp</location>
+  </error-page>
+
+
+  <!-- Struts Tag Library Descriptors -->
+  <jsp-config>
+    <taglib>
+	   <taglib-uri>/WEB-INF/c.tld</taglib-uri>
+	   <taglib-location>/WEB-INF/c.tld</taglib-location>
+    </taglib>
+    <taglib>
+	   <taglib-uri>/WEB-INF/fmt.tld</taglib-uri>
+	   <taglib-location>/WEB-INF/fmt.tld</taglib-location>
+    </taglib>
+    <taglib>
+	   <taglib-uri>/WEB-INF/sql.tld</taglib-uri>
+	   <taglib-location>/WEB-INF/sql.tld</taglib-location>
+    </taglib>
+    <taglib>
+	   <taglib-uri>/WEB-INF/x.tld</taglib-uri>
+	   <taglib-location>/WEB-INF/x.tld</taglib-location>
+    </taglib>
+    <taglib>
+	   <taglib-uri>/WEB-INF/struts-bean.tld</taglib-uri>
+	   <taglib-location>/WEB-INF/struts-bean.tld</taglib-location>
+    </taglib>
+    <taglib>
+	   <taglib-uri>/WEB-INF/struts-html.tld</taglib-uri>
+	   <taglib-location>/WEB-INF/struts-html.tld</taglib-location>
+    </taglib>
+    <taglib>
+	   <taglib-uri>/WEB-INF/struts-logic.tld</taglib-uri>
+	   <taglib-location>/WEB-INF/struts-logic.tld</taglib-location>
+    </taglib>
+    <taglib>
+	   <taglib-uri>/WEB-INF/struts-nested.tld</taglib-uri>
+	   <taglib-location>/WEB-INF/struts-nested.tld</taglib-location>
+    </taglib>
+  </jsp-config>
+
+</web-app>

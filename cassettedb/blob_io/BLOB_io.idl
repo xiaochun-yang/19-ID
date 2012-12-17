@@ -1,0 +1,41 @@
+// BLOB_io.idl : IDL source for BLOB_io.dll
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (BLOB_io.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+	[
+		object,
+		uuid(55E74599-BE5F-47EA-907F-8953534F89D6),
+		dual,
+		helpstring("IBLOB_io1 Interface"),
+		pointer_default(unique)
+	]
+	interface IBLOB_io1 : IDispatch
+	{
+		[id(1), helpstring("method getBlobSize")] HRESULT getBlobSize([in] VARIANT* pBlob,  [out,retval] VARIANT* pBlobSize);
+		[id(2), helpstring("method loadBinFile")] HRESULT loadBinFile([in] BSTR bstrforName,[out,retval] VARIANT* pBlob);
+		[id(3), helpstring("method saveBinFile")] HRESULT saveBinFile([in,out] VARIANT* pBlob,[in] long lBlobSize,[in] BSTR bstrforName,[out,retval] VARIANT* pbstrResult);
+	};
+
+[
+	uuid(0AF39136-80FB-46F7-AF9D-AC923A4F4978),
+	version(1.0),
+	helpstring("BLOB_io 1.0 Type Library")
+]
+library BLOB_IOLib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+	[
+		uuid(2F4BEFE0-6C41-491D-B62A-20AA484FC246),
+		helpstring("BLOB_io1 Class")
+	]
+	coclass BLOB_io1
+	{
+		[default] interface IBLOB_io1;
+	};
+};

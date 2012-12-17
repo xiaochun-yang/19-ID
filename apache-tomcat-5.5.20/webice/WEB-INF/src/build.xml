@@ -1,0 +1,139 @@
+<project name="WebIce" basedir="../" default="compile">
+
+    <!-- Environment variables -->
+    <property environment="env"/>
+
+    <!-- Local system paths -->
+    <property name="tomcat_base" value="${env.CATALINA_HOME}" />
+    <property name="tomcat_lib" value="${tomcat_base}/common/lib" />
+    <property name="crystals_dir" value="${tomcat_base}/webapps/crystals" />
+    <property name="distpath.project" value="classes"/>
+
+    <!-- Project settings -->
+    <property name="project.title" value="WebIce"/>
+    <property name="project.distname" value="WebIce"/>
+    <property name="project.version" value="4.4"/>
+    <property name="dcs.rootDir" value="/home/yangx/release-5_1"/>
+
+
+    <!-- classpath for webice -->
+    <path id="compile.classpath">
+        <pathelement path ="${tomcat_lib}/servlet-api.jar"/>
+        <pathelement path ="lib/log4j-1.2.13.jar"/>
+        <pathelement path ="lib/commons-logging.jar"/>
+        <pathelement path ="lib/authUtility.jar"/>
+        <pathelement path ="lib/commons-beanutils.jar"/>
+        <pathelement path ="lib/commons-digester-1.7.jar"/>
+        <pathelement path ="lib/struts.jar"/>
+        <pathelement path ="lib/jcommon-1.0.5.jar"/>
+        <pathelement path ="lib/jfreechart-1.0.2.jar"/>
+        <pathelement path ="lib/xercesImpl.jar"/>
+        <pathelement path ="lib/commons-codec-1.4.jar"/>
+        <pathelement path ="classes"/>
+    </path>
+
+
+    <!-- Check timestamp on files -->
+    <target name="prepare">
+        <tstamp/>
+<!--	<echo message="Please build webice applet manually with java 1.4"/>
+	<echo message="using the following command:"/>
+	<echo message="javac -d ../../applets webice/applets/*.java"/>
+ 	<echo message="The applet classes should end up as [webice root dir]/applets/webice/applets/*.class"/>-->
+    </target>
+
+   <target name="compile_applets" depends="prepare">
+        <javac destdir="../applets">
+        	<src path="src/webice/applets"/>
+            <classpath refid="compile.classpath"/>
+        </javac>
+		<chmod dir="../applets" type="both" perm="ugo+rx" includes="**" verbose="true"/>
+    </target>
+
+    <!-- Normal build of application -->
+    <target name="compile" depends="prepare">
+        <mkdir dir="classes" />
+        <javac destdir="classes">
+        	<compilerarg value="-Xlint:deprecation"/>
+        	<src path="src/webice/beans"/>
+        	<src path="src/webice/actions"/>
+        	<src path="src/webice/servlets"/>
+            <classpath refid="compile.classpath"/>
+        </javac>
+		<chmod dir="classes/" type="both" perm="ugo+rx" includes="**" verbose="true"/>
+    </target>
+
+    <!-- Remove classes directory for clean build -->
+    <target name="clean"
+      description="Prepare for clean build">
+      <delete dir="classes/webice" verbose="true" />
+    </target>
+
+    <target name="install" depends="install_bin, install_scripts">
+    </target>
+
+	<!-- Install webice scripts -->
+    <target name="install_scripts">
+		<echo message="webice.installDir = ${webice.installDir}"/>
+<!--		<property name="webice.installDir" value="${webice.rootDir}/${webice.installName}"/> -->
+		<property name="webice.scriptDir" value="${webice.installDir}/scripts"/>
+		<mkdir dir="${webice.scriptDir}"/>
+		<copy todir="${webice.scriptDir}">
+			<fileset dir="scripts">
+				<include name="*.*"/>
+			</fileset>
+		</copy>
+	  <chmod dir="${webice.scriptDir}" type="both" perm="ugo+rx" includes="**"/>
+    </target>
+
+	<!-- Install webice scripts -->
+    <target name="install_bin">
+		<echo message="webice.installDir = ${webice.installDir}"/>
+<!--		<property name="webice.installDir" value="${webice.rootDir}/${webice.installName}"/> -->
+		<property name="webice.binDir" value="${webice.installDir}/bin"/>
+		<mkdir dir="${webice.binDir}"/>
+		<copy todir="${webice.binDir}" verbose="true">
+			<fileset dir="${dcs.rootDir}/spotfinder/decunix/">
+				<include name="spotfinder"/>
+				<include name="spotfinder.par"/>
+			</fileset>
+		</copy>
+		<copy todir="${webice.binDir}">
+			<fileset dir="scripts">
+				<include name="run_spotfinder.sh"/>
+			</fileset>
+		</copy>
+	  <chmod dir="${webice.binDir}" type="both" perm="ugo+rx" includes="**"/>
+    </target>
+
+
+    <!-- Build entire project -->
+    <target name="project" depends="clean,prepare,compile"/>
+
+
+    <!-- Create binary distribution -->
+    <target name="dist"
+        description="Create binary distribution">
+
+      <mkdir
+        dir="${distpath.project}"/>
+      <jar
+        jarfile="${distpath.project}/${project.distname}.jar"
+        basedir="./classes"/>
+      <copy
+        file="${distpath.project}/${project.distname}.jar"
+        todir="${distpath.project}"/>
+
+      <war
+        basedir="../"
+        warfile="${distpath.project}/${project.distname}.war"
+        webxml="web.xml">
+        <exclude name="${distpath.project}/${project.distname}.war"/>
+       </war>
+
+    </target>
+
+    <!-- Build project and create distribution-->
+    <target name="all" depends="project,compile,install_scripts"/>
+
+</project>

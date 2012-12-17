@@ -1,0 +1,393 @@
+========
+General:
+========
+
+The SMV file structure consists of an ASCII header, optionally
+followed by binary data.  The header must contain enough information
+about the binary data to allow it to be read.  It can also contain
+additional application-specific information which might be ignored by
+a general purpose file reader.  The binary data could be of any form,
+as long as it is defined in the header.
+
+Most of these routines were written by Marty Stanton.  Jim Pflugrath
+contributed to the design of the ASCII header and made many modifications and
+bug fixes.
+
+====================
+ASCII Header
+====================
+The header has the format:
+
+{
+HEADER_BYTES=nnnnn;
+KEYWORD=VALUE;
+KEYWORD=VALUE;
+.
+.
+.
+}
+
+The header always starts with a '{' and the end of the header
+information is marked with a '}'. Each field has format:
+
+KEYWORD=VALUE;
+
+where both the KEYWORD and VALUE are ASCII strings of any length.
+The only required keyword is HEADER_BYTES.
+
+For example, a 2-d image (DIM=2) of size (2048x2048) of type
+unsigned short with byte order big endian might have have the
+following header:
+
+{
+HEADER_BYTES=  512;
+DIM=    2;
+SIZE1= 2048;
+SIZE2= 2048;
+TYPE=unsigned_short;
+BYTE_ORDER=big_endian;
+}
+
+Information after the '}' is ignored by parsing routines.
+The header is usually padded with space characters up to a multiple of 512
+bytes.
+
+Typically the header would also contain application-specific information
+such as:
+
+{
+HEADER_BYTES=  512;
+DIM=    2;
+SIZE1= 2048;
+SIZE2= 2048;
+TYPE=unsigned_short;
+BYTE_ORDER=big_endian;
+ION_CHAMBERS=      672542      672542;
+FRAME_TIME= 60.00;
+TOTAL_TIME= 64.00;
+IMAGE_CREATION_TIME=14:22:37;
+IMAGE_CREATION_DATE=Wed Jan 11 1995;
+COMMENT= The following field are use for detector debugging ; 
+ADDRESS_REGISTER=53932448;
+WORD_COUNT_REGISTER=0;
+CONTROL_STATUS_REGISTER=1c700a0;
+DATA_BUFFER_REGISTER=376a376a;
+}
+
+Most programs would simply ignore all the fields after BYTE_ORDER.
+
+It is not necessary that the file contain any binary data.  For example,
+my detector calibration parameter files look something like:
+
+{
+HEADER_BYTES= 1024;
+TYPE=calibration_file;
+X_CENTER=    510.2730408;
+Y_CENTER=    510.8538513;
+X_SCALE=     10.0619507;
+Y_SCALE=      9.9388723;
+RATIO=      0.9877679;
+VER_SLOPE=     -0.0049183;
+HORZ_SLOPE=     -0.0020111;
+SPACING=      1.0000000;
+X_BEAM=    512.0000000;
+Y_BEAM=    512.0000000;
+X_SIZE=        1024;
+Y_SIZE=        1024;
+PIXEL_SIZE=      0.1000000;
+XINT_START=           1;            
+XINT_STEP=           4;
+YINT_START=           1;
+YINT_STEP=           4;
+BAD_FLAG=     1000000;
+PSCALE=      0.0100000;
+COMMENT=These fields have been added to determine module orientation;
+X_MASK_POINTS=          97;
+Y_MASK_POINTS=          97;
+LEFT___MASK_POINT=     35.940    509.153     40.273    510.854;
+CENTER_MASK_POINT=    520.766    512.280    520.273    510.854;
+RIGHT__MASK_POINT=   1004.114    508.219   1000.273    510.854;
+BOTTOM_MASK_POINT=    521.020     43.390    520.273     30.854;
+TOP____MASK_POINT=    517.744    997.533    520.273    990.854;
+}
+
+Notes:
+
+1.) The header must starts with a '{', ^J, 'HEADER_BYTES=nnnnn;', where
+nnnnn is the header length in bytes.  This allows for easy identification
+of files.
+
+2.) The end of the header information is marked with a '}'.  The
+header is usually padded with space characters up to a multiple of 512
+bytes to allow the binary data to be written along block boundries.
+
+3.) Each field is of the format:
+
+KEYWORD=VALUE;
+
+both the KEYWORD and VALUE are ASCII strings of any length.  The
+equals '=' and semicolon ';' are required.  The semicolon is followed
+by a ^J.  Keywords are case sensitive.  Whitespace is allowed after
+the '=' and before the ';'.
+
+4.) The fields can be in any order.
+
+5.) If there are multiple fields in the header with indentical
+keywords, the last occurance should contain the valid data.  This
+allows a history to be kept if the file is modified.  For example, a
+header might look like:
+
+{
+HEADER_BYTES=  512;
+DIM=2;
+SIZE1=512;
+SIZE2=512;
+TYPE=unsigned_short;
+BYTE_ORDER=big_endian;
+HISTORY=Cropping from (128,128) to (383,383);
+SIZE1=256;
+SIZE2=256;
+HISTORY=Converting type;
+TYPE=float;
+}
+
+This image was originally 512x512 unsigned_short, but was then 
+cropped and converted into a 256x256 floating point image.
+
+===========================
+ASCII Header Implementation
+===========================
+
+To manipulate the headers, there are C versions of the following
+routines,  There are also FORTRAN versions, but I have not updated
+them for several years.  For all these routine, header is a pointer
+to a character array sufficiently long to contain the entire
+header.  No bounds checking is performed.
+
+clrhd (header)
+      Effectively clears the header by resetting the header_bytes
+      field.  This always has to be called before a header is filled
+      the first time.
+
+      void clrhd ( char* header )
+
+gethd (keyword, value, header)
+      Get the value of the field with keyword from the header.
+      If mutiple fields have the same keyword, return the value
+      from the last one.
+
+      void gethd ( char* keyword, char* value, char* header )
+
+gethdl (headl, header)
+      Get the length (headl) of the header (including padding)
+
+      int gethdl ( int* headl, char* header )
+
+      returns -2 if HEADER_BYTES field not found, else 0
+
+gethddl (headl, header)
+      Get the length of the data in the header (not including padding)
+
+      int gethddl ( int* headl, char* header )
+
+      returns 0
+	
+gethdn (n, keyword, value, header)
+      Get the value from the nth occurance of a field with keyword
+      from the header.  This routine
+      is used to return the value from a field which is not the 
+      last occurance of that field.
+
+      int gethdn ( int n, char* keyword, char* value, char* header )
+
+      returns 1 if field n is found, else 0
+
+puthd (keyword, value, header)
+      Add a field with keyword and value to the header
+
+      void puthd (char* keyword, char* value, char* header)
+
+padhd (header, size)
+      Pad the header to the lowest multiple of size.  This is usually
+      used to pad the header up to a multiple of 512 after filling it.
+  
+      void padhd (char* header, int size)
+
+
+=============
+SMV Filetypes
+=============
+I have defined the following filetypes for my use.  Our detector
+images are typically written out as unsigned_short.
+
+TYPE=bit;
+   Bit unsigned array
+
+   Required keywords:
+	DIM (n)
+	SIZE1 ... SIZEn
+
+TYPE=unsigned_char;
+   8 bit unsigned integer array
+
+   Required keywords:
+	DIM (n)
+	SIZE1 ... SIZEn
+
+TYPE=unsigned_short;   
+   16 bit unsigned integer array
+
+   Required keywords:
+	DIM (n)
+	SIZE1 ... SIZEn
+	BYTE_ORDER
+
+TYPE=swap_rlmsb;
+   16 bit unsigned integer array in compressed format.
+   This compression uses run length encoding on the most signiicant
+   byte, providing extremely fast, lossless compression.  Typically,
+   compression and writing the file is faster than writing the 
+   uncompressed file.  Because only the msb's are compressed the
+   compression ratio cannot be greater than 2.
+
+   Required keywords:
+	DIM (n)
+	SIZE1 ... SIZEn
+	BYTE_ORDER
+
+TYPE=signed_long;
+   32 bit signed integer array
+
+   Required keywords:
+	DIM (n)
+	SIZE1 ... SIZEn
+	BYTE_ORDER
+
+TYPE=float;
+   32 bit floating point array
+
+   Required keywords:
+	DIM (n)
+	SIZE1 ... SIZEn
+
+
+TYPE=complex;
+   64 bit complex array
+
+   Required keywords:
+	DIM (n)
+	SIZE1 ... SIZEn
+
+TYPE=colortable
+   binary colortable data
+
+TYPE=ascii_colortable
+   ascii colortable data
+
+====================
+Implementation
+====================
+
+Routines to read/write files:
+-----------------------------
+
+int rdsmv (char* filename, char** head, char** array, 
+	   int* naxis, int* axis, int *type)
+	Read a SMV file
+	Allocates space for header and data array
+
+int rdmar ( char* filename, char** head, char** array, 
+	   int* naxis, int* axis, int *type);
+	Read a MAR file and convert header to SMV style
+	If there are no overflows, the image is returned in
+	an unsigned array, else in an int array.
+	Allocates space for header and data array
+
+int rdhead ( char* filename, char* head );
+	Read a header
+	Space for header provided by calling routine
+
+int wrfile (char* filename, char* head, char* array, 
+	    int naxis, int* axis, int type )
+	Write a SMV file
+	
+int wrrlmsb (char* filename, char* head, char* array, 
+	     int naxis, int* axis, int type )
+	Write a unsigned short data array as compressed file
+
+      filename - name of file to open
+      head - ascii header
+      array - binary data
+      naxis - number of array dimensions
+      axis - array dimensions
+      type - data type
+
+
+int rdctbl ( char* filename, char* red, char* green, char* blue, int* ncolor,
+	    int* control, int* ncontrol, int* mode );
+	Read a colortable
+
+int wrctbl (char* filename, char* red, char* green, char* blue, int ncolor,
+	    int* control, int ncontrol, int* mode );
+	Write a colortable
+
+	red, green, blue    colortable data
+	ncolor              number of colortable values
+	control             control points used to generate colortables
+	ncontrol            number of control points
+	mode 		    control mode for each color
+
+Routines to swap bytes
+----------------------
+int getbo(void);
+int swpbyt(int mode, int length, char* array);
+
+
+Low level io routines
+---------------------
+These routines provide optimized IO on VMS computers, and
+use standard fopen/fread/fwrite/fclose on UNIX computers.
+
+void dskbor_ (int* lun, char* filename, int* lfilename, int* istat);
+	Open file for reading
+
+void dskbow_ (int* lun, char * filename, int* lfilename, 
+	      int* size, int* istat);
+	Open file for writing
+
+void dskbcr_ (int* lun, int* istat);
+	Close a file opened for reading
+
+void dskbcw_ (int* lun, int* istat);
+	Close a file opened for writing
+
+void dskbr_  (int* lun, char* data, int* ldata, int* istat);
+	Read from a file
+
+void dskbw_  (int* lun, char* data, int* ldata, int* istat);
+	Write to a file
+
+void dskbwr_ (int* lun, int* lflag);
+	Set/Unset wait for read to complete
+
+void dskbww_ (int* lun, int* lflag);
+	Set/Unset wait for write to complete
+
+   filename          Filename
+   namlen            length of filename
+   lun               Fortran logical unit number
+                           currently can be 1,2,3, or 4
+   size              For VMS, Size in bytes of file to be opened
+                      for writing.  Things work if this
+                      is set to 0, they go faster
+                      if this is accurately specified, and
+                      they don't work if it is too small.
+                     For UNIX, ignored.
+   length            Number of bytes to read/write
+                           currently can be 1 to infinity
+                       (or characters in filename)
+   istat             Return status, 0 = successful
+   buffer            Buffer to read/write
+   iwait             For VMS, Flag for asynchronous/synchronous
+                           .true. (default) means synch.
+                     For UNIX, ignored.

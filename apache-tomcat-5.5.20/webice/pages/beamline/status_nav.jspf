@@ -1,0 +1,28 @@
+<% String statusTab = client.getBeamlineStatusView();
+if (statusTab.equals("screening")) { %>
+<span class="tab selected"><a class="a_selected" target="_self" href="showBeamlineStatus.do?view=screening">Screening</a></span>
+<% } else { %>
+<span class="tab unselected"><a class="a_unselected" target="_self" href="showBeamlineStatus.do?view=screening">Screening</a></span>
+<% } %>
+<% if (statusTab.equals("collect")) { %>
+<span class="tab selected"><a class="a_selected" target="_self" href="showBeamlineStatus.do?view=ec">Scollect</a></span>
+<% } else { %>
+<span class="tab unselected"><a class="a_unselected" target="_self" href="showBeamlineStatus.do?view=ec">Scollect</a></span>
+<% } %>
+<% if (statusTab.equals("scan")) { %>
+<span class="tab selected"><a class="a_selected" target="_self" href="showBeamlineStatus.do?view=scan">Scan</a></span>
+<% } else { %>
+<span class="tab unselected"><a class="a_unselected" target="_self" href="showBeamlineStatus.do?view=scan">Scan</a></span>
+<% } %>
+<% if (statusTab.equals("image")) { %>
+<span class="tab selected"><a class="a_selected" target="_self" href="showBeamlineStatus.do?view=image">Last Image Collected</a></span>
+<% } else { %>
+<span class="tab unselected"><a class="a_unselected" target="_self" href="showBeamlineStatus.do?view=image">Last Image Collected</a></span>
+<% } %>
+<% if (statusTab.equals("runDef")) { %>
+<span class="tab_right selected"><a class="a_selected" target="_self" href="showBeamlineStatus.do?view=runDef">Run Definitions</a></span>
+<% } else { %>
+<span class="tab_right unselected"><a class="a_unselected" target="_self" href="showBeamlineStatus.do?view=runDef">Run Definitions</a></span>
+<% } %>
+
+

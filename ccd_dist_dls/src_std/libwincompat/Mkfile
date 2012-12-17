@@ -1,0 +1,21 @@
+CFLAGS = $(CFLAGS_OS) -D$(OSTYPE)
+OEXTS = win_stubbs.o
+
+OBJS = $(OEXTS)
+DD = ../../lib/$(OSTYPE)
+
+PRCMD = pr
+
+$(DD)/libwincompat.a : $(OBJS)
+	/bin/rm -f $(DD)/libwincompat.a
+	ar rv $(DD)/libwincompat.a $(OBJS)
+	ar ts $(DD)/libwincompat.a
+
+$(OEXTS) : win_compat.h
+
+clean :	$(OEXTS)
+	rm $?
+
+print :	*.c *.h Makefile
+	$(PRCMD) $?
+	touch print

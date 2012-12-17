@@ -1,0 +1,28 @@
+<% String tab = viewer.getInfoTab(); %>
+
+<% if (tab.equals(ImageViewer.TAB_HEADER)) { %>
+    <a class="a_selected tab_white" href="sil_ImageInfoChangeTab.do?tab=<%= ImageViewer.TAB_HEADER %>">Header</a>
+<% } else { %>
+    <a class="a_unselected tab_white" href="sil_ImageInfoChangeTab.do?tab=<%= ImageViewer.TAB_HEADER %>">Header</a>
+<% } %>
+<% if (tab.equals(ImageViewer.TAB_ANALYSE)) { %>
+    <a class="a_selected tab_white" href="sil_ImageInfoChangeTab.do?tab=<%= ImageViewer.TAB_ANALYSE %>" target="_parent">Spot Statistics</a>
+<% } else { %>
+    <a class="a_unselected tab_white" href="sil_ImageInfoChangeTab.do?tab=<%= ImageViewer.TAB_ANALYSE %>" target="_parent">Spot Statistics</a>
+<% } %>
+<% if (tab.equals(ImageViewer.TAB_CRYSTAL)) { %>
+    <a class="a_selected tab_white" href="sil_ImageInfoChangeTab.do?tab=<%= ImageViewer.TAB_CRYSTAL %>">Crystal Image</a>
+<% } else { %>
+    <a class="a_unselected tab_white" href="sil_ImageInfoChangeTab.do?tab=<%= ImageViewer.TAB_CRYSTAL %>">Crystal Image</a>
+<% } %>
+<% if (tab.equals(ScreeningImageViewer.TAB_AUTOINDEX)) { %>
+    <a class="a_selected tab_white" href="sil_ImageInfoChangeTab.do?tab=<%= ScreeningImageViewer.TAB_AUTOINDEX %>" target="_parent">Autoindex</a>
+<% } else { %>
+    <a class="a_unselected tab_white" href="sil_ImageInfoChangeTab.do?tab=<%= ScreeningImageViewer.TAB_AUTOINDEX %>" target="_parent">Autoindex</a>
+<% } %>
+<% if (tab.equals(ScreeningImageViewer.TAB_DETAILS)) { %>
+    <a class="a_selected" href="sil_ImageInfoChangeTab.do?tab=<%= ScreeningImageViewer.TAB_DETAILS %>">Details</a>
+<% } else { %>
+    <a class="a_unselected" href="sil_ImageInfoChangeTab.do?tab=<%= ScreeningImageViewer.TAB_DETAILS %>">Details</a>
+<% } %>
+<hr>

@@ -1,0 +1,72 @@
+#include <stdio.h>
+#include "../incl/filec.h"
+
+
+/*****************************************************************
+ *   =================================================
+ *   int rdsmv (char* filename, char** head, char** array, 
+ *	   int* naxis, int* axis, int *type)
+ *   =================================================
+ *   read a file from disk. 
+ *
+ *   filename - name of file to open
+ *   head - ascii header (returned)
+ *   array - image (returned)
+ *   naxis - image dimensions (returned)
+ *   axis - image size (returned)
+ *   type - image type (returned)
+ ****************************************************************/
+
+int rdfile (char* filename, char** head, char** array,
+	      int* naxis, int* axis, int* type)
+{
+  int status;
+  int filec_debug = filec_getdebug();
+
+  status = rdsmv (filename, head, array, naxis, axis, type);
+
+  if (filec_debug)
+    {
+      if ( status == -1) 
+	printf ("File not found\n");
+      else if ( status) 
+	printf ("Not a SMV file\n");
+      else
+	printf ("SMV file\n");
+    }
+  if ( status == 0 || status == -1) return status;
+  
+  status = rdlum (filename, head, array, naxis, axis, type);
+  if (filec_debug)
+    {
+      if (status==0) 
+	printf ("Lumiscan file\n");
+      else
+	printf ("Not a Lumiscan file\n");
+    }
+  if ( status == 0 ) return status;
+
+#ifdef HAVE_FITSIO
+  status = rdfits (filename, head, array, naxis, axis, type);
+  if (filec_debug)
+    {  
+      if (status==0) 
+	printf ("FITS file\n");
+      else
+	printf ("Not a FITS file\n");
+    }
+  if ( status == 0 ) return status;
+#endif
+
+  status = rdmar (filename, head, array, naxis, axis, type);
+  if (filec_debug)
+    {
+      if (status==0) 
+	printf ("MAR file\n");
+      else
+	printf ("Not a MAR file\n");
+    }
+  if ( status != 0 ) status = -2;
+  return status;
+}
+     

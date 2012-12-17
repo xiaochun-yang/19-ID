@@ -1,0 +1,13 @@
+#parse("/xml/macros.vm")
+###################################
+## Output sil as xml
+###################################
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Sil>
+<Sil eventId="$sil.info.eventId" lock="$sil.info.locked" name="$sil.id" version="$sil.version" key="$!sil.info.key">
+#set ($crystals = $sil.crystals)
+#foreach ($key in $crystals.keySet())
+#set ($crystal = $crystals.get($key))
+#outputCrystal($crystal)
+#end
+</Sil>

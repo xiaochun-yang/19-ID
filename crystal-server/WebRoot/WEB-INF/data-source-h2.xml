@@ -1,0 +1,61 @@
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+"http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	
+	<bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean" >
+		<property name="dataSource"><ref bean="dataSource"/></property>		
+ 		<property name="configLocation"><value>/WEB-INF/ibatis/H2SqlMapConfig.xml</value>
+ 		</property>	
+   </bean>
+
+	<bean id ="dbScriptDir" class="java.lang.String">
+		<constructor-arg type="java.lang.String"><value>/home/penjitk/workspace/crystal-server/schema/h2</value></constructor-arg>
+	</bean>
+	
+	<bean id ="dbScriptDirWindows" class="java.lang.String">
+		<constructor-arg type="java.lang.String"><value>C:\\eclipse\\workspace\\crystal-server\\schema\\h2</value></constructor-arg>
+	</bean>
+	 	
+	 	<!-- Connect to h2 db by accessing db files directly. Only one process can use this datasource at a time since db files will be locked. -->
+	<!-- <bean id="dataSource"
+    	class="org.apache.commons.dbcp.BasicDataSource"
+    	destroy-method="close">
+    	<property name="driverClassName"><value>org.h2.Driver</value></property>
+    	<property name="url"><value>jdbc:h2:file:/data/penjitk/crystal-server/h2/test/test</value></property>
+    	<property name="username"><value>sil</value></property>
+    	<property name="password"><value></value></property>
+    </bean> -->
+    
+    <!-- Connect to h2 db via a tcp server. Many processes can connect at the same time. Tcp server must be running at this port. -->
+    <!-- See url format in http://www.h2database.com/html/features.html -->
+    <bean id="dataSource"
+    	class="org.apache.commons.dbcp.BasicDataSource"
+    	destroy-method="close">
+    	<property name="driverClassName"><value>org.h2.Driver</value></property>
+    	<property name="url"><value>jdbc:h2:tcp://localhost:8013//data/penjitk/crystal-server/h2/test/test</value></property>
+    	<property name="username"><value>sil</value></property>
+    	<property name="password"><value></value></property>
+    </bean>
+    
+    		<!-- Create h2 tcp server. -->
+	<!-- <bean id="org.h2.tools.Server"
+		class="org.h2.tools.Server"
+		factory-method="createTcpServer"
+		init-method="start"
+		destroy-method="stop">
+		<constructor-arg value="-tcp,-tcpAllowOthers,true,-tcpPort,8013" />
+	</bean> -->
+	
+	<!-- Use H2ServerFactory to create h2 server. It will create FakeH2Server instead 
+		 if port is in use. 
+	     This is to allow junit tests to include this bean in the application context 
+	     even if the server is already running.  -->
+	<bean id="java.lang.Object"
+		class="sil.app.H2ServerFactory"
+		factory-method="createTcpServer"
+		init-method="start"
+		destroy-method="stop">
+		<constructor-arg type="int" value="8013" />
+	</bean>
+
+</beans>

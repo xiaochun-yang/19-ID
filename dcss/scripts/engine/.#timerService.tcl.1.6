@@ -1,0 +1,67 @@
+### timer service turnOffSampleLight
+#######sample light turn off after 30 minutes of system_idle
+proc turnOffSampleLight_condition { } {
+    global gDevice
+    global gSampleLightName
+    variable ::nScripts::system_idle
+
+    if {[catch {
+        set pos [set gDevice($gSampleLightName,scaled)]
+    } error]} {
+        return 0
+    }
+    
+    if {abs($pos) < 0.001} {
+        return 0
+    }
+
+    if {$system_idle != ""} {
+        return 0
+    }
+    return 1
+}
+proc turnOffSampleLight_command { } {
+    global gSampleLightBOARD
+    global gSampleLightCHANNEL
+    if {[catch {
+        namespace eval ::nScripts {
+            start_recovery_operation setAnalogOut \
+            $gSampleLightBOARD $gSampleLightCHANNEL 0.0
+        }
+    } errMsg]} {
+    }
+}
+set cfgSideLight [::config getStr light.side]
+global gSampleLightName
+set gSampleLightName ""
+if {[llength $cfgSideLight] == 2} {
+    global gSampleLightBOARD
+    global gSampleLightCHANNEL
+    foreach {gSampleLightBOARD gSampleLightCHANNEL} $cfgSideLight break
+    set gSampleLightName aoDaq[join $cfgSideLight {}]
+    registerTimerService \
+    turnOffSampleLight 1800000 $gSampleLightName system_idle
+}
+#### for energency button to add "motorStopButton" to systemIdle
+proc onYellowButtonChange { } {
+    #puts "calling onYellowButtonChange"
+    if {[catch {
+        namespace eval ::nScripts {
+            variable hutchDoorStatus
+            variable system_idle
+
+            set yellowButtonOn [lindex $hutchDoorStatus 2]
+
+            if {$yellowButtonOn == "1"} {
+                #puts "add to systemidle"
+                add_to_system_idle motorStopButton 1
+            } else {
+                #puts "remove from systemidle"
+                remove_from_system_idle motorStopButton 1
+            }
+        }
+    } errMsg]} {
+        puts "onYellowButtonChange error: $errMsg"
+    }
+}
+#registerEventListener hutchDoorStatus onYellowButtonChange

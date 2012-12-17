@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE struts-config PUBLIC
+   "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN"
+   "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+
+<!-- Struts config for video tab in webice -->
+
+<struts-config>
+
+  <!-- ========== Form Bean Definitions =================================== -->
+
+  <form-beans>
+  </form-beans>
+
+
+
+  <!-- ========== Action Mapping Definitions ============================== -->
+  <action-mappings>
+
+         <action
+            path="/showCollect"
+            type="webice.actions.collect.ShowCollectAction"
+            scope="request"
+            validate="false">
+            <forward name="curRun" path="/pages/collect/curRun.jsp" />
+            <forward name="myRuns" path="/pages/collect/myRuns.jsp" />
+            <forward name="beamlineLog" path="/pages/collect/dcssLog.jsp" />
+	</action>
+
+         <action
+            path="/Collect_ChangeViewType"
+            type="webice.actions.collect.ChangeViewTypeAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/top.do" />
+	</action>
+
+         <action
+            path="/Collect_ShowImageViewer"
+            type="webice.actions.collect.ShowImageViewerAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/top.do" />
+	</action>
+
+         <action
+            path="/Collect_AbortCollectWeb"
+            type="webice.actions.collect.AbortCollectWebAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/showCollect.do" />
+	</action>
+
+         <action
+            path="/Collect_NewBeamlineLog"
+            type="webice.actions.collect.NewBeamlineLogAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/showCollect.do" />
+	</action>
+
+  </action-mappings>
+
+
+  <!-- ========== Controller Configuration ================================ -->
+
+  <controller>
+    <!-- The "input" parameter on "action" elements is the name of a
+         local or global "forward" rather than a module-relative path -->
+    <set-property property="inputForward" value="true"/>
+  </controller>
+
+
+</struts-config>

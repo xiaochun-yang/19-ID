@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE struts-config PUBLIC
+   "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN"
+   "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+
+<!-- Struts config for image viewer tab in webice -->
+
+<struts-config>
+
+  <!-- ========== Form Bean Definitions =================================== -->
+
+  <form-beans>
+        <form-bean name="selectImageForm" type="webice.actions.screening.SelectImageForm">
+            <form-property name="command" type="java.lang.String"/>
+		</form-bean>
+        <form-bean name="genericForm1" type="webice.actions.screening.OneFieldForm">
+            <form-property name="field1" type="java.lang.String"/>
+		</form-bean>
+  </form-beans>
+
+
+  <!-- ========== Action Mapping Definitions ============================== -->
+  <action-mappings>
+
+        <action
+            path="/sil_showImageViewer"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="/pages/screening/imageViewer.jsp"/>
+
+         <action
+            path="/showSampleQueuing"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="/pages/screening/sampleQueuing.jsp"/>
+
+         <action
+            path="/sil_showSampleQueuingViewer"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="/pages/screening/sampleQueuingViewer.jsp"/>
+	    
+	<action
+            path="/sil_showExperiments"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="/pages/screening/experiments_summary.jsp"/>
+	    
+	<action
+            path="/sil_showExperimentDetails"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="/pages/screening/experiments_details.jsp"/>
+
+	<action
+            path="/sil_showExperimentSummary"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="/pages/screening/experiments_summary.jsp"/>
+
+	<action
+            path="/sil_showRunDefs"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="/pages/screening/rundefs_summary.jsp"/>
+	    
+	<action
+            path="/sil_showRunDefSummary"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="/pages/screening/rundefs_summary.jsp"/>
+	    
+	<action
+            path="/sil_showRunDefDetails"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="/pages/screening/rundefs_details.jsp"/>
+
+
+       <action
+            path="/sil_SelectImageInfoDisplay"
+            type="webice.actions.image.SelectImageInfoDisplayAction"
+            scope="request"
+            validate="false">
+            <forward name="header" path="/pages/screening/imageHeader.jsp" />
+            <forward name="spotfinder" path="/pages/screening/imageSpotFinder.jsp" />
+            <forward name="crystal" path="/pages/screening/imageCrystal.jsp" />
+            <forward name="autoindex" path="/pages/screening/imageAutoindexResult.jsp" />
+            <forward name="details" path="/sil_ShowAutoindexDetails.do" />
+            <forward name="summary" path="/pages/screening/imageAutoindexSummary.jsp" />
+	</action>
+
+        <action
+            path="/sil_ShowAutoindexDetails"
+            type="webice.actions.screening.ShowAutoindexDetailsAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/pages/screening/imageAutoindexDetails.jsp" />
+	</action>
+
+        <action
+            path="/sil_ImageInfoChangeTab"
+            type="webice.actions.image.ImageInfoChangeTabAction"
+            scope="request"
+            validate="false">
+            <forward name="header" path="/pages/screening/imageHeader.jsp" />
+            <forward name="spotfinder1" path="/pages/screening/imageSpotFinder.jsp" />
+            <forward name="spotfinder" path="/pages/screening/imageViewer.jsp" />
+            <forward name="crystal" path="/pages/screening/imageCrystal.jsp" />
+            <forward name="autoindex1" path="/pages/screening/imageAutoindexResult.jsp" />
+            <forward name="autoindex" path="/pages/screening/imageViewer.jsp" />
+            <forward name="details" path="/sil_ShowAutoindexDetails.do" />
+            <forward name="summary" path="/pages/screening/imageAutoindexSummary.jsp" />
+	</action>
+
+        <action
+            path="/showSilBrowser"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="/pages/screening/silBrowser.jsp"/>
+
+        <action
+            path="/screening_loadRelativeImage"
+            type="webice.actions.screening.SelectImageAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/pages/screening/imageAndSilViewer.jsp" />
+	</action>
+
+        <action
+            path="/selectImage"
+            type="webice.actions.screening.SelectImageAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/pages/screening/imageAndSilViewer.jsp" />
+		</action>
+
+        <action
+            path="/selectCrystal"
+            type="webice.actions.screening.SelectCrystalAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/showScreening.do" />
+		</action>
+
+        <action
+            path="/setSilOverviewOption"
+            type="webice.actions.screening.SetSilOverviewOptionAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/showScreening.do" />
+		</action>
+
+        <action
+            path="/loadSil"
+            type="webice.actions.screening.LoadSilAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/showScreening.do" />
+            <forward name="failed" path="/pages/screening/loadSilFailed.jsp" />
+		</action>
+
+        <action
+            path="/reloadSil"
+            type="webice.actions.screening.ReloadSilAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/showScreening.do" />
+		</action>
+
+        <action
+            path="/showScreening"
+            type="webice.actions.screening.ShowScreeningAction"
+            scope="request"
+            validate="false">
+            <forward name="allSils" path="/loadSilList.do" />
+            <forward name="silOverview" path="/pages/screening/silOverview.jsp" />
+            <forward name="silDetails" path="/pages/screening/imageAndSilViewer.jsp" />
+            <forward name="silQueue" path="/showSampleQueuing.do" />
+	</action>
+
+        <action
+            path="/setSilDisplayMode"
+            type="webice.actions.screening.SetSilDisplayModeAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/top.do" />
+            <forward name="error" path="/top.do" />
+	</action>
+
+        <action
+            path="/findSil"
+            type="webice.actions.screening.FindSilAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/loadSilList.do" />
+	</action>
+
+        <action
+            path="/setSilOverviewTemplate"
+            type="webice.actions.screening.SetSilOverviewTemplateAction"
+            name="genericForm1"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/silOverview.do" />
+		</action>
+
+        <action
+            path="/loadSilList"
+            type="webice.actions.screening.SilListAction"
+            scope="request"
+            validate="false">
+            <forward name="dirList" path="/pages/screening/dirList.jsp" />
+            <forward name="silList" path="/pages/screening/silList.jsp" />
+            <forward name="userList" path="/pages/screening/silList.jsp" />
+            <forward name="beamlineList" path="/pages/screening/beamlineSilList.jsp" />
+            <forward name="success" path="/pages/screening/silList.jsp" />
+	</action>
+
+        <action
+            path="/handleSilCommand"
+            type="webice.actions.screening.HandleSilCommandAction"
+            scope="request"
+            validate="false">
+            <forward name="view" path="/showScreening.do" />
+            <forward name="edit" path="/pages/screening/silEdit.jsp" />
+            <forward name="analyze" path="/analyzeCrystal.do" />
+            <forward name="analyzeCrystals" path="/analyzeCrystals.do" />
+	    <forward name="setSelectionMode" path="/showScreening.do" />
+            <forward name="setCrystal" path="/setCrystal.do" />
+            <forward name="reload" path="/reloadSil.do" />
+            <forward name="customizeDisplay" path="/pages/screening/customizeDisplay.jsp" />
+            <forward name="viewStrategy" path="/viewStrategy.do" />
+		</action>
+
+        <action
+            path="/sortCrystal"
+            type="webice.actions.screening.SortCrystalAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/showScreening.do" />
+ 		</action>
+
+        <action
+            path="/customizeDisplay"
+            type="webice.actions.screening.CustomizeDisplayAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/customizeDisplay.jsp" />
+ 		</action>
+
+        <action
+            path="/analyzeCrystal"
+            type="webice.actions.screening.AnalyzeCrystalAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/showScreening.do" />
+            <forward name="error" path="/pages/screening/analyzeCrystalError.jsp" />
+	</action>
+
+        <action
+            path="/analyzeCrystals"
+            type="webice.actions.screening.AnalyzeCrystalsAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/showScreening.do" />
+            <forward name="error" path="/pages/screening/analyzeCrystalError.jsp" />
+	</action>
+
+        <action
+            path="/setCrystal"
+            type="webice.actions.screening.SetCrystalAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/showScreening.do" />
+            <forward name="failed" path="/pages/screening/setCrystalFailed.jsp" />
+		</action>
+
+        <action
+            path="/showSilOverviewPart1"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="/pages/screening/silOverviewPart1.jsp"/>
+
+        <action
+            path="/showSilOverviewPart2"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="/pages/screening/silOverviewPart2.jsp"/>
+
+         <action
+            path="/viewStrategy"
+            type="webice.actions.screening.ViewStrategyAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/top.do" />
+            <forward name="error" path="/top.do" />
+	</action>
+
+         <action
+            path="/sil_changeDirectory"
+            type="webice.actions.screening.ChangeDirectoryAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/pages/screening/dirList.jsp" />
+	</action>
+
+         <action
+            path="/sil_reloadDirectory"
+            type="webice.actions.screening.ReloadDirectoryAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/pages/screening/dirList.jsp" />
+	</action>
+
+         <action
+            path="/sil_createCassette"
+            type="webice.actions.screening.CreateCassetteAction"
+            scope="request"
+            validate="false">
+            <forward name="alreadyExists" path="/pages/screening/silAlreadyExists.jsp" />
+            <forward name="createFailed" path="/pages/screening/silCreateFailed.jsp" />
+            <forward name="success" path="/pages/screening/silCreated.jsp" />
+	</action>
+
+         <action
+            path="/sil_deleteCassette"
+            type="webice.actions.screening.DeleteCassetteAction"
+            scope="request"
+            validate="false">
+            <forward name="failure" path="/pages/screening/silDeleteFailed.jsp" />
+            <forward name="success" path="/pages/screening/silDeleted.jsp" />
+	</action>
+
+         <action
+            path="/sil_ShowMountedCrystal"
+            type="webice.actions.screening.ShowMountedCrystalAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/top.do" />
+            <forward name="failed" path="/pages/screening/ShowMountedCrystalFailed.jsp" />
+	</action>
+
+        <action
+            path="/screening_adjustImage"
+            type="webice.actions.image.AdjustImageAction"
+            scope="request"
+            validate="false">
+            <forward name="success" path="/showImage.do" />
+            <forward name="resize" path="/showImageViewer.do" />
+	</action>
+
+</action-mappings>
+
+
+  <!-- ========== Controller Configuration ================================ -->
+
+  <controller>
+    <!-- The "input" parameter on "action" elements is the name of a
+         local or global "forward" rather than a module-relative path -->
+    <set-property property="inputForward" value="true"/>
+  </controller>
+
+
+</struts-config>

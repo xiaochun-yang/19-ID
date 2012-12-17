@@ -1,0 +1,118 @@
+#Main Sconscript for the ---diffimage--- module
+# An experimental build system used at LBNL (Nick Sauter) to compile the SSRL
+# packages for WebIce.  Build tools include SCons & cctbx, not gmake.
+
+#suggestion from Dobes Vendermeer, for handling c++ code with .c file extension:
+#The easiest trick is to set CC=$CXX and CCFLAGS=$CXXFLAGS (roughly).
+
+import libtbx.load_env
+import os
+Import("env_base", "env_etc")
+
+base_include = env_etc.norm_join(libtbx.env.build_path,"base","include")
+
+env_etc.diffimage_dist = libtbx.env.dist_path("diffimage")
+
+arch_dependent_includes={"irix_CC":[
+                env_etc.norm_join(env_etc.diffimage_dist,"..","jpeg-6b")],
+                      "unix_gcc":[],
+		      "darwin_c++":[],
+                      "tru64_cxx":[]}
+
+env_etc.diffimage_common_includes = [base_include, #base include for ImageMagick
+  ] + arch_dependent_includes[env_etc.compiler] + [
+  libtbx.env.include_path,
+  env_etc.scitbx_include,
+  env_etc.norm_join(env_etc.diffimage_dist,"src"),
+  env_etc.xos_include,
+  env_etc.norm_join(env_etc.diffimage_dist,"..","jpegsoc","src"),
+  env_etc.boost_include,
+] + env_etc.cbflib_common_includes
+
+env = env_base.Copy(
+  CXXFLAGS=env_etc.cxxflags_base,
+  SHCXXFLAGS=env_etc.cxxflags_base,
+  SHLINKFLAGS=env_etc.shlinkflags,
+)
+
+env_etc.include_registry.append(
+  env=env,
+  paths=env_etc.diffimage_common_includes)
+
+env_etc.diffimage_libs = ["jpeg","Magick++","Wand","Magick"] + \
+                         env_etc.libm + ["rt","pthread","c"]
+if env_etc.compiler == "darwin_c++":
+  env_etc.diffimage_libs.remove("rt")
+  env_etc.diffimage_libs.append("crypto")
+  
+#if env_etc.compiler == "irix_CC":
+#  env_etc.diffimage_libs.remove("Wand")
+if env_etc.compiler in ["unix_gcc","darwin_c++"]:
+  env_etc.diffimage_libs.append("png")
+
+env_diffimage = env.Copy(
+  LIBS = env_etc.diffimage_libs,
+)
+
+arch_dependent_flags={
+  "irix_CC":["-DIRIX","-DPTHREADS","-MP:dsm=off"],
+  "unix_gcc":["-DLINUX","-fexceptions","-pthread","-DNKSNOOPT",
+              "-DDIFFIMAGE_HAVE_PNG_Z"],
+  "darwin_c++":["-DLINUX","-DMACOSX","-fexceptions","-pthread","-DNKSNOOPT",
+              "-DDIFFIMAGE_HAVE_PNG_Z"],
+  "tru64_cxx":["-DDEC_UNIX","-pthread"]
+}
+
+env_etc.diffimage_cxxflags = ["-c","-DDIFFIMAGE_HAVE_CBFLIB_ADAPTBX",
+  "-DIMAGEMAGICK_MARKUP","-D_REENTRANT"] + \
+ arch_dependent_flags[env_etc.compiler]
+ 
+env_diffimage.Append( CXXFLAGS = env_etc.diffimage_cxxflags )
+
+env_etc.diffimage_libpaths = ["#lib","#base/lib"]
+#if env_etc.compiler == "irix_CC":
+#  env_etc.diffimage_libpaths += ["/usr/freeware/lib32"]
+
+env_diffimage.Append(LIBPATH=env_etc.diffimage_libpaths)
+
+Export("env_diffimage")
+
+lib_diffimage_sources = [
+  "src/cbf.c",
+  "src/diffimage.c",
+  "src/libimage.c",
+  "src/mar165.c",
+  "src/marheader.c",
+  "src/markup_circleblock.cpp",
+  "src/markup_parse.cpp",
+  "src/write_png.cpp",
+]
+
+arch_cpp={"irix_CC":"",
+          "unix_gcc":"",
+	  "darwin_c++":"",
+          "tru64_cxx":" -x cxx "}
+
+env_diffimage_special_filenames = env_diffimage.Copy(
+  CC = "$CXX"+arch_cpp[env_etc.compiler],
+  CCFLAGS = "$CXXFLAGS"
+)
+Export("env_diffimage_special_filenames")
+
+builder = env_diffimage_special_filenames.StaticLibrary
+builder(
+    target="#lib/diffimage",
+    source=lib_diffimage_sources,
+)
+
+env_standalone = env_diffimage.Copy()
+env_standalone.Prepend(LIBS=["diffimage","cbf","xos"])
+
+for source in ["src/test1","src/test2",]:
+  target = "diffimage."+os.path.basename(source)
+  exe = env_standalone.Program(
+    target="#exe/"+env["PROGPREFIX"]+target+env["PROGSUFFIX"],
+    source=source+".cpp")
+  libtbx.env.write_dispatcher_in_bin(
+    source_file=exe[0].get_abspath(),
+    target_file=target)

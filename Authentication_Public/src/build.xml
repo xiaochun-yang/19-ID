@@ -1,0 +1,165 @@
+<project name="auth" basedir="../" default="all">
+
+
+    <!-- Local system paths -->
+    <property environment="env"/>
+    <property name="tomcat_base" value="${env.CATALINA_HOME}" />
+    <property name="tomcat_lib" value="${tomcat_base}/common/lib" />
+
+    <!-- classpath for webice -->
+    <path id="compile.classpath">
+        <pathelement path ="${tomcat_lib}/servlet-api.jar"/>
+        <pathelement path ="build/classes"/>
+        <pathelement path ="WebRoot/WEB-INF/lib/commons-logging.jar"/>
+        <pathelement path ="WebRoot/WEB-INF/lib/log4j-1.2.13.jar"/>
+    </path>
+
+
+    <!-- Check timestamp on files -->
+    <target name="prepare">
+	<echo message="Preparing directories."/>
+        <mkdir dir="build" />
+	<mkdir dir="build/classes" />
+	<mkdir dir="build/test" />
+	<mkdir dir="build/lib" />
+    </target>
+
+    <!-- Build authUtility.jar -->
+     <target name="build_utility" depends="prepare">
+        <tstamp/>
+	<echo message="Building authUtility.jar."/>
+        <javac destdir="build/classes">
+        	<src path="src/authUtility"/>
+		<classpath refid="compile.classpath"/>
+        </javac>
+        <jar basedir="build/classes" destfile="build/lib/authUtility.jar" 
+		filesonly="true"
+		includes="edu/stanford/slac/ssrl/authentication/utility/*.class"/>
+	<chmod file="build/lib/authUtility.jar" perm="ugo+rx" />
+    </target>
+
+    <!-- Build JPam.jar -->
+     <target name="build_jpam" depends="prepare">
+        <tstamp/>
+	<echo message="Building JPam.jar"/>
+	<delete file="build/lib/JPam.jar"/>
+        <javac destdir="build/classes" classpath="WebRoot/WEB-INF/lib/commons-logging.jar" 
+		srcdir="src" includes="net/sf/jpam/*.java.class,net/sf/jpam/jaas/*.java">
+		<classpath refid="compile.classpath"/>
+        </javac>
+        <jar destfile="build/lib/JPam.jar" filesonly="true">
+		<fileset dir="build/classes">
+			<include name="net/sf/jpam/Pam.class"/>
+			<include name="net/sf/jpam/PamException.class"/>
+			<include name="net/sf/jpam/PamReturnValue.class"/>
+			<include name="net/sf/jpam/jaas/JpamLoginModule.class"/>
+		</fileset>
+
+	</jar>
+	<chmod file="build/lib/JPam.jar" perm="ugo+rx" />
+    </target>
+
+    <!-- Build smbAuthentication.jar -->
+     <target name="build_smbAuthentication" depends="prepare">
+        <tstamp/>
+	<echo message="Building smbAuthentication.jar"/>
+	<delete file="build/lib/smbAuthentication.jar"/>
+        <javac destdir="build/classes">
+        	<src path="src/smbAuthentication"/>
+		<classpath refid="compile.classpath"/>
+        </javac>
+        <jar basedir="build/classes" destfile="build/lib/smbAuthentication.jar" 
+		filesonly="true"
+		includes="edu/stanford/slac/ssrl/smb/authentication/*.class"/>
+	<chmod file="build/lib/smbAuthentication.jar" perm="ugo+rx" />
+    </target>
+
+    <!-- Build gatewayTest.jar -->
+     <target name="build_test" depends="prepare">
+        <tstamp/>
+	<echo message="Building gatewayTest.jar"/>
+	<delete file="build/lib/gatewayTest.jar"/>
+        <javac destdir="build/test">
+        	<src path="src/gatewayTest"/>
+		<classpath refid="compile.classpath"/>
+        </javac>
+        <jar basedir="build/test" destfile="build/lib/gatewayTest.jar" 
+		filesonly="true"
+		includes="*.class"/>
+	<chmod file="build/lib/gatewayTest.jar" perm="ugo+rx" />
+    </target>
+
+    <!-- Build servlet classes -->
+     <target name="build_servlets" depends="prepare">
+        <tstamp/>
+	<echo message="Building servlets"/>
+        <javac destdir="build/classes">
+        	<src path="src/servlets"/>
+		<classpath refid="compile.classpath"/>
+        </javac>
+    </target>
+
+    <!-- Remove classes directory for clean build -->
+    <target name="clean"
+      description="Prepare for clean build">
+	<delete dir="build" verbose="true" />
+	<delete>
+		<fileset dir="WebRoot/WEB-INF/classes" includes="*.class"/>
+	</delete>
+	<delete file="WebRoot/WEB-INF/lib/authUtility.jar"/>
+	<delete file="WebRoot/WEB-INF/lib/smbAuthentication.jar"/>
+	<delete file="WebRoot/WEB-INF/lib/gatewayTest.jar"/>
+	<delete file="WebRoot/WEB-INF/lib/JPam.jar"/>
+	<delete file="WebRoot/WEB-INF/lib/libjpam.so"/>
+    </target>
+
+
+    <!-- Create binary distribution, alternative to using gateway.war -->
+    <target name="deploy" description="Deploying the authentication application">
+    
+	<!-- Copy jar files to WEB-INF/lib dir -->
+	<copy file="build/lib/authUtility.jar" 
+	      todir="WebRoot/WEB-INF/lib"/>
+	<copy file="build/lib/smbAuthentication.jar"
+	      todir="WebRoot/WEB-INF/lib"/>
+	<copy file="build/lib/gatewayTest.jar"
+	      todir="WebRoot/WEB-INF/lib"/>
+<!--	<copy verbose="true" file="build/lib/JPam.jar" 
+	      todir="WebRoot/WEB-INF/lib"/>-->
+<!--	<copy verbose="true" file="c/libjpam.so" 
+	      todir="WebRoot/WEB-INF/lib"/>-->
+	      
+	<!-- Copy servlet classes to WEB-INF/classes dir -->
+	<copy file="build/classes/APPFORWARD.class"
+	      todir="WebRoot/WEB-INF/classes"/>
+	<copy file="build/classes/APPLOGIN.class"
+	      todir="WebRoot/WEB-INF/classes"/>
+	<copy file="build/classes/EndSession.class"
+	      todir="WebRoot/WEB-INF/classes"/>
+	<copy file="build/classes/FRAMELOGIN.class"
+	      todir="WebRoot/WEB-INF/classes"/>
+	<copy file="build/classes/SessionStatus.class"
+	      todir="WebRoot/WEB-INF/classes"/>
+	<copy file="build/classes/WEBLOGIN.class"
+	      todir="WebRoot/WEB-INF/classes"/>	     
+	<copy file="build/classes/GetOneTimeSession.class"
+	      todir="WebRoot/WEB-INF/classes"/>	     
+
+	<!-- chmod so that it can be copied by tomcat -->
+	<chmod perm="ugo+rx">
+		<fileset dir="WebRoot">
+			<include name="*.html"/>
+			<include name="WEB-INF/*.xml"/>
+			<include name="WEB-INF/*.prop"/>
+			<include name="WEB-INF/classes/**/*.class"/>
+			<include name="WEB-INF/classes/**/*.properties"/>
+			<include name="WEB-INF/lib/*.jar"/>
+		</fileset>
+	</chmod>
+    </target>
+
+    <!-- Build project and create distribution-->
+    <target name="compile" depends="prepare,build_utility,build_jpam,build_smbAuthentication,build_test,build_servlets"/>
+    <target name="all" depends="compile,deploy"/>
+
+</project>

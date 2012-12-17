@@ -1,0 +1,131 @@
+# writejpg
+# Write out marked spot file in a JPEG file?
+# 1: yes; 0: no
+# In the output JPEG image, xxx.jpg, different features are painted in different colors,
+#   yellow:   overloaded pixel
+#   red:      local maxima (spot peak)
+#   green:    border of a good spot
+#   white:    border of a spot with close neighbors
+#   red:      border of a spot with multiple peaks
+#   yellow:   border of a spot with overloaded pixels
+#   magenta:  central line of an ice-ring
+#   blue:     image resolution limit by method 1 (short dashes)
+#   blue:     image resolution limit by method 2 (long dashes)
+0
+
+# writejpg_orig
+# Convert and write the original image in a JPEG file?
+# 1: yes; 0: no
+# The resultant file is named 'xxx.jpg',
+# on which overloaded pixels are yellow, other pixels are in gray scale.
+# This is intended to help compare the original with the output JPEG result file.
+0
+
+# jpgquality
+# Level of compression for the output JPEG image.
+# This should be an integer between 0 and 100.
+# 100: no compression; 0: no image at all.
+60
+
+# writeimg
+# Write out marked spot file in an IMG file?
+# 1: yest; 0: no
+# The resultant file is named 'xxx.img'.
+# In the output IMG image, features are less distinguishable due to limited colors.
+# The following features are indicated by overloaded pixels (yellow) or white pixels,
+#   overloaded pixel:                                yellow
+#   border of good spots:                            yellow
+#   central line of ice-ring:                        yellow
+#   resolution limit by method 1 (short dashes):     yellow
+#   resolution limit by method 2 (long dashes):      yellow
+#   local maxima:                                    white
+#   border of bad spots:                             white
+#     (Bad spots are those with overloaded peaks, have close neighbors, or have multiple peaks.)
+0
+
+# writeresolcurve
+# Write curves, in the log file, 
+# produced while estimating resolution limit?
+# 1: yes; 0: no
+0
+
+# spotbasesize
+# Summary of spot shape, strength, etc. are based on spots no smaller than this size.
+16
+
+# spotarealowcut
+# Bragg spots with less pixel area than this cutoff are ignored.
+# This parameter must be set high enough so that random fluctuations
+# and ice ring-associated artifacts are rejected.  It is very 
+# important that this cutoff be set high enough, especially when 
+# the spotintensitycut (see below) is correctly set to 0.  Most Bragg spots
+# are spread out due to crystal mosaicity, beam divergence and point-
+# spread function, so the value of 10 is a good minimum starting 
+# value for automated work.  The value should be changed to 4 for
+# specialized situations such as virus diffraction, or when the raw image
+# data is artificially binned (as is sometimes done in LABELIT)
+# to save processing time.
+5
+
+
+# imgmargin
+# Width of margin, on all four sides of the image, 
+# that are to be ignored in processing.
+# Should be an integer.
+20
+
+# overloadvalue
+# Pixels with a value above this are considered overloaded.
+# Should be in integer.
+65535
+
+# iceresolmin
+# Regions of resolution below this value (outside the circle)
+# are not checked for ice-rings.
+1.0
+
+# iceresolmax
+# Regions of resolution above this value (inside the circle)
+# are not checked for ice-rings.
+8.0
+
+# writespot
+# 1: yes 0: no
+# if turned on, following information will be printed out into log file
+# all spots, one spot per line
+# each line:
+# centerx centery num_pixel max_pixel_value sum
+#
+# it also print user parameter values at the end
+1
+
+# spotintensitycut
+# Bragg spots with peak pixel values less than this cutoff are ignored.
+# The previous value of 1000 led to unreasonable results.  No matter 
+# what positive cutoff is used (100, for example) it is still possible 
+# to collect a good dataset where the Bragg spots fall below this 
+# cutoff.  Therefore, this parameter should only be non-zero when used 
+# in manual operation, not automated screening within Web-Ice and 
+# not for most structural genomics.
+100
+
+# good_spot_only
+# Only used when good_spot_only is 1
+# 1 or 0
+# if turned on, number of spots will be affected by
+# 1)spot resolution must be within low and high
+# 2)spot not saturated
+# 3)spot not close to its neighbor
+# For the purpose of summarizing the images within Web-Ice, it is 
+# misleading to include bad spots in the total spot count.  Specifically,
+# signals containing overloaded pixels and peaks with close nearest 
+# neighbors should not be reported.
+0
+
+# good_spot_resolution_high
+# Only used when good_spot_only is 1
+3
+
+# good_spot_resolution_low
+# Only used when good_spot_only is 1
+40

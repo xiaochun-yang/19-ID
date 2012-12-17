@@ -1,0 +1,426 @@
+/*                                                     */
+/* Web-Ice Main Style Sheet */
+
+/* Common styles */
+
+body {
+     margin: 12px; 
+     background: white; 
+     font-family:Times, Garamond, serif;
+     font-size: 14px;
+}
+
+/* We can probably get rid of this one ?*/
+
+body.mainBody {
+     margin-top:12px; 
+     background:white; 
+     font-family:Times, Garamond, serif;
+     font-size: 14px;
+}
+
+/* Page titles */
+
+h3,h4 {
+	    color:black;
+	    font-size: 16px;
+	    }
+
+h1	    {
+	    font-size: 18px;	     
+	    border-bottom: 0.1em groove gray;
+	    }
+
+h2	    {
+	    color:black;
+	    font-size: 16px;
+	    }
+
+
+/* Table styles */
+
+table {
+      font:inherit;
+      }
+
+/*Help id for links to on-line doc.*/
+
+#help  {
+	  font-style: oblique; 
+	  font-weight:bold; 
+	  font-family:courier; /*courier font looks cute for "i" icon*/
+	  font-size:14px;
+	  color: blue; 
+          text-decoration:none;
+	  background-color: yellow; 
+	  border: solid;
+	  border-style: outset;
+	  padding-right:5px;
+	  padding-left:2px;
+	  }
+
+/* Buttons and other input */
+
+input,select {
+      font:inherit;
+}
+
+.actionbutton1,.inactionbutton
+ {
+    font-size:90%;
+    font-family:Arial,sans-serif;
+    color:#000000;
+    background-color:#E0E0E0;
+    border-width: 2px;
+    border-color: #C3C3C3;
+    border-style:outset;
+
+ }
+.inactionbutton
+	{
+	color:#666666;
+	}
+
+input.readonly {
+                   border-style:groove;
+		   background-color:inherit;
+		   color:black;
+		   font-weight:bold;
+		   text-align:center;		   
+}
+
+	
+a.actionbutton1
+ {
+    font-size:90%;
+    font-family:Arial,sans-serif;
+    color:#000000;
+    background-color:#E0E0E0;
+    text-decoration:none;
+/*    text-width:15em; */
+    border-width: 2px;
+    border-color: #C3C3C3;
+    padding:2px;
+    padding-right:7px;padding-left:7px;
+    border-style:outset;
+ }
+a.inactionbutton1
+ {
+    font-size:90%;
+    font-family:Arial,sans-serif;
+    color:#666666;
+    background-color:#E0E0E0;
+    text-decoration:none;
+    border-width: 2px;
+    border-color: #C3C3C3;
+    padding:2px;
+    padding-right:7px;padding-left:7px;
+    border-style:outset;
+ }
+
+
+
+/* classes for toolbar navigation */
+
+.toolbar_body {
+margin-top:5px;
+background-color:#CCCCCC;
+background-image:url(../images/gradient6897.png);
+background-repeat:repeat-x;
+}
+
+.a_selected {
+color:black;
+text-decoration:none;
+font-weight:bold;
+}
+
+.a_unselected {
+color:black;
+text-decoration:none;
+}
+
+.queue_selected {
+background-color:#AAAA00
+}
+ 
+.a_unselected:hover {
+color:black;
+text-decoration:underline;
+}
+ 
+.tab {
+color:black;
+border-right: 2px solid gray;
+padding-right: 7px;
+}
+
+   /* Used in image viewer and screening details */
+.tab_white {
+color:black;
+border-right: 2px solid gray;
+padding-right: 7px;
+}
+
+
+
+/* Text classes */
+
+.error {
+     color: #FF0000;
+
+}
+.warning {
+	 font-style:oblique;	 
+	 color: #993333;
+}
+
+.small {
+       font-size:80%;
+}
+
+/*Text alignment */
+
+.center {
+        text-align: center;
+}
+
+.right {
+       text-align:right;
+}
+
+.middle {
+        vertical-align: middle;
+}
+
+.bottom {
+        vertical-align: bottom;
+}
+
+/*Text spacing between list items*/
+
+li.p {
+     padding-top: 5px;
+     padding-bottom: 5px;
+     }
+
+
+/* Image Viewer styles */
+
+/* In the image viewer we make the font smaller */
+.imageviewer {
+/*		 margin-top:14px;  */
+		 font-size:12px;
+}
+
+
+/* Autoindex styles */
+
+/* tables for autoindex pages */
+
+table.autoindex {width:100%; border-width:1px; 
+		border-collapse:separate;
+		border-spacing:1px;
+		border-color:#FFCC00;
+		border-style:solid;
+		background-color:#FFFF99;
+
+		}
+.autoindex th {text-align:center;
+		    background-color:#FFCC00;
+		    font:bold;
+		    border-style:inset;
+		    border-width:1px; 
+		    border-color:#FFFF99;
+		    } 
+.autoindex tr.selected 
+	   {
+	   background-color:#FFCC00;	
+	   font-weight:normal;
+	     }
+.autoindex td {
+		     border-style:inset; 
+		     border-width:1px;
+		     border-color:#FFCC00;
+	             padding:2px; 
+		     }
+
+
+.autoindex2 th  {
+	    border:0px;
+	    background-color:#FFFF99;
+	    text-align:right;
+	    }
+
+.autoindex2 td {
+	    border: 0px;	    
+}
+
+/* Bodies and frames for autoindex pages */
+/* they are to look like autoindex table */
+
+.setupIframe {
+		border-style: none;
+		border-width: 0px;
+		border-color: #FFFF99 ;
+}
+
+
+/* Style for autoindex setup */
+
+.setupDiv {
+	  text-align:left;
+	  padding-left:2px;
+	  background-color:#FFFF99;
+	  border-style: outset;
+	  border-color: #FFCC00;
+}
+
+.setupDivHeader {
+		width:100%;
+		text-align:left;
+		padding-top:2px;
+		background-color:#FFCC00;
+	        bottom-border-color: #FFFF99;
+}
+
+
+.setupTab {
+	  color:black;
+	  background-color:#FFcc00;
+	  border-right-style: solid;
+	  border-right-width: 2px;
+	  border-right-color: #CC9900;
+	  padding:2px;
+	  padding-left: 7px;
+	  padding-right: 7px;
+}
+.setupTabSelected {
+		  color:black;
+		  border-right-style: solid;
+		  border-right-width: 2px;
+		  border-right-color: #CC9900;
+		  padding: 2px;
+		  padding-left: 7px;
+		  padding-right: 7px;
+		  font-weight:bold;
+		  background-color:#FFFF99;
+		  background-image:url(../images/gradient914479.png);
+		  background-repeat:repeat;
+}
+
+/*table.setupTable { 
+border:solid 1px #ffee00;
+width:100%;
+background-color:#FFFF99;
+}
+.setupTable th {
+width: 200px;
+text-align:left;
+}*/
+
+.setupNav {
+	  border-width:1px;
+	  font-style:italic;
+	  font-size:80%;
+	  padding-right:2px;
+}
+
+.setupNavSelected {
+		  font-style:italic;
+		  font-size:90%;
+		  font-weight:bold;
+		  padding-right:2px;
+}
+
+.arrow {
+font-size:80%;
+color:#CC3300;
+}
+
+
+/* Screening tab styles */
+
+/* Tables for screening pages */
+
+table.sil-list {
+	       border-collapse: separate;
+
+ }
+
+.sil-list td {
+          background-color:inherit;
+	  padding: 0px 5px 0px 5px;
+	  border-color:#FFFFFF;
+
+}
+		
+.sil-list th {
+	  background-color:#BED4E7;
+	  padding: 0px 5px 0px 5px;
+	  border: #FFFFFF;
+}
+
+.sil-list tr.selected {
+	  background-color:#BED4E7;
+}		
+
+.sil-list tr.unselected {
+	  background-color:#E9EEF5;
+}		
+
+
+/* Video style */
+
+
+table.video {
+ }
+
+.video tr {
+            background-color:#CCCCCC;
+}
+.video th {
+	    text-align:center;
+}
+
+.video td {
+           text-align:center;
+	   }
+.video td iframe {
+           border-style:solid;
+	   }
+
+/* Preferences style */
+
+
+table.preferences {
+		  border-collapse:separate;
+		  border: gray 1px solid;
+ }
+
+.preferences th {
+            background-color:#CCCCCC;
+}
+.preferences td {
+            border: gray 1px solid;
+}
+
+table.side-menu{ border:solid gray 1px;
+text-align:center;}
+
+
+a.sel_button {
+border-color:gray;
+background-color:gray;
+font-weight:bold;
+text-decoration:none;
+color:white;
+padding-right:7px;padding-left:7px;
+}
+a.unsel_button {
+border-color:gray;
+background-color:white;
+color:black;
+text-decoration:none;
+padding-right:7px;padding-left:7px;
+}

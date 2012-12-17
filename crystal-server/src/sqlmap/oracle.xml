@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+"http://ibatis.apache.org/dtd/sql-map-2.dtd" > 
+<sqlMap>
+
+	<resultMap id="UserInfo" class="sil.beans.UserInfo" >
+		<result property="id" column="USER_ID"/>
+		<result property="loginName" column="LOGIN_NAME" />
+		<result property="realName" column="REAL_NAME"/>
+		<result property="uploadTemplate" column="XSLT_DATAIMPORT" />
+	</resultMap>
+
+	<resultMap id="SilInfo" class="sil.beans.SilInfo" >
+		<result property="id" column="silId"/>
+		<result property="owner" column="loginName" />
+		<result property="fileName" column="fileName"/>
+		<result property="uploadFileName" column="uploadFileName"/>
+		<result property="uploadTime" column="uploadTime"/>
+	</resultMap>		
+					
+	
+	<!-- Return all users in the USER_INFO table. -->
+	<select id="getUserList" resultMap="UserInfo">
+		select
+			USER_ID, LOGIN_NAME, REAL_NAME, XSLT_DATAIMPORT
+		from 
+			CTS_USER
+		where
+			LOGIN_NAME &lt;&gt; 'null'
+		order by
+			LOGIN_NAME asc
+	</select>
+
+	<!-- Return sil info for a given sil id. -->
+	<select id="getSilInfo" parameterClass="int" resultMap="SilInfo">
+		select
+			CTS_CASSETTE.CASSETTE_ID as silId,
+			CTS_USER.LOGIN_NAME as loginName, CTS_CASSETTEFILE.FILENAME as fileName, 
+			CTS_CASSETTEFILE.UPLOAD_FILENAME as uploadFileName, 
+			CTS_CASSETTEFILE.UPLOAD_TIME as uploadTime
+		from 
+			CTS_CASSETTE, CTS_USER, CTS_CASSETTEFILE
+		where
+			CTS_CASSETTE.CASSETTE_ID = #value# and
+			CTS_CASSETTE.USER_ID = CTS_USER.USER_ID and
+			CTS_CASSETTEFILE.FILE_ID in (
+				select 
+					max(CTS_CASSETTEFILE.FILE_ID) 
+				from 
+					CTS_CASSETTEFILE 
+				where 
+					CTS_CASSETTEFILE.CASSETTE_ID = CTS_CASSETTE.CASSETTE_ID
+			)
+	</select>
+	
+	<select id="getHighestSilId" resultClass="java.lang.Integer">
+		select
+			max(CASSETTE_ID)
+		from 
+			CTS_CASSETTE
+	</select>	
+				
+</sqlMap>
+

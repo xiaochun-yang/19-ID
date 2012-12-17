@@ -1,0 +1,136 @@
+package require Itcl
+
+############################################################
+## through epics_gw
+##
+## need mapping:
+## mardtb_status         MARDTB:GonioStsLI
+## mardtb_load           MARDTB:CscLoadLO
+## mardtb_unload         MARDTB:CscUnldLO.PROC
+## mardtb_port           MARDTB:CscSmplLI
+## MARDTB_BARCODE        MARDTB:CscBarcodeSI
+###########################################################
+
+#### MARDTB CSC will take care all motor positions
+#### for safely mount/dismount samples
+
+itcl::class SampleMountingDevice {
+    # private data members -- beamline component interactions
+    private {
+        variable validcassetteList
+        variable validcolumnList
+        variable validrowList
+    }
+
+    public method constructor
+
+    public method getRobotState { } 
+    public method getMovingBackMotorList { } {
+        return ""
+    }
+
+    # for crystal
+    public method mountCrystal { cassette row column wash_cycle }
+    public method dismountCrystal { cassette row column }
+    public method mountNextCrystal { cassette row column cassette_nxt row_nxt column_nxt wash_cycle }
+
+    # private methods
+    private method validPort { cassette row column }
+}
+
+itcl::body SampleMountingDevice::constructor { } {
+    set validcassetteList [list l]
+    set validcolumnList [list A]
+    set validrowList [list 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19]
+}
+itcl::body SampleMountingDevice::getRobotState { } {
+    variable ::nScripts::mardtb_status
+    return $mardtb_status
+}
+itcl::body SampleMountingDevice::mountCrystal { cassette row column wash_cycle } {
+    variable ::nScripts::robot_status
+
+    variable ::nScripts::mardtb_load
+    variable ::nScripts::mardtb_port
+    variable ::nScripts::mardtb_status
+    if { ![validPort $cassette $row $column] } {
+        return -code error "Invalid port specified."
+    }
+
+    set robot_status [lreplace $robot_status 7 7 "mounting"]
+    block_all_motors
+    set mardtb_load $row
+    wait_for_string_contents mardtb_status 131072
+    wait_for_string_contents mardtb_status 0
+    set robot_status [lreplace $robot_status 7 7 "idle"]
+
+    if {$mardtb_port == 0} {
+        set robot_status [lreplace $robot_status 15 15 {}]
+    } elseif {$mardtb_port == $row} {
+        set robot_status [lreplace $robot_status 15 15 "$cassette $row $column"]
+    }
+
+    unblock_all_motors
+    return "normal $cassette $row $column"
+}
+
+itcl::body SampleMountingDevice::dismountCrystal { cassette row column } {
+    variable ::nScripts::robot_status
+    variable ::nScripts::mardtb_unload
+    variable ::nScripts::mardtb_port
+    variable ::nScripts::mardtb_status
+
+    if { ![ validPort $cassette $row $column ] } {
+        return -code error "Invalid port specified."
+    }
+    block_all_motors
+    set robot_status [lreplace $robot_status 7 7 "dismounting"]
+    set mardtb_unload 1
+    wait_for_string_contents mardtb_port 0
+    set robot_status [lreplace $robot_status 15 15 {}]
+    
+    wait_for_string_contents mardtb_status 0
+    set robot_status [lreplace $robot_status 7 7 "idle"]
+    
+    unblock_all_motors
+    return "normal $cassette $row $column"
+}
+itcl::body SampleMountingDevice::mountNextCrystal { cassette row column cassette_nxt row_nxt column_nxt wash_cycle } {
+    variable ::nScripts::robot_status
+    variable ::nScripts::mardtb_load
+    variable ::nScripts::mardtb_port
+    variable ::nScripts::mardtb_status
+    if { ![ validPort $cassette_nxt $row_nxt $column_nxt ] } {
+        return -code error "Invalid port specified."
+    }
+
+    block_all_motors
+    set mardtb_load $row_nxt
+    wait_for_string_contents mardtb_port 0
+    set robot_status [lreplace $robot_status 15 15 {}]
+    
+    wait_for_string_contents mardtb_status 0
+    if {$mardtb_port == 0} {
+        set robot_status [lreplace $robot_status 15 15 {}]
+    } elseif {$mardtb_port == $row_nxt} {
+        set robot_status [lreplace $robot_status 15 15 "$cassette_nxt $row_nxt $column_nxt"]
+    }
+
+    unblock_all_motors
+    return "normal $cassette_nxt $row_nxt $column_nxt"
+}
+
+itcl::body SampleMountingDevice::validPort { cassette row column } {
+
+    set portOK 0
+
+    set cassOK [ lsearch -exact $validcassetteList $cassette ]
+    set colOK [ lsearch -exact $validcolumnList $column ]
+    set rowOK [ lsearch -exact $validrowList $row ]
+
+    if { $cassOK != -1 && $colOK != -1 && $rowOK != -1 } {
+        set portOK 1
+    }
+
+    return $portOK
+}

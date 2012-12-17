@@ -1,0 +1,153 @@
+#
+#	CCD software system.
+#
+#   NOTES:
+#
+#      Change CCDHOME to the root of the ccd_dist distribution.
+#
+#      Change:
+#
+#                     DCHOSTNAME	to the name of the computer which
+#					runs all of the linux software.
+#			MAKE SURE IT AGREES WITH WHAT IS RETURNED FROM THE
+#					hostname
+#			COMMAND OR THERE WILL BE PROBLEMS!!
+#
+#                    CCD_DCHOSTNAME	to the linux pc hostname. 
+#		     CCD_DTHOSTNAME	to the framegrabber PC hostname
+#		     CCD_DTDHOSTNAME    to the framegrabber PC hostname
+#		     CCD_BLHOSTNAME	to the hostname running Yang's bl conrol program.
+#		     CCD_DAHOSTNAME	to the linux pc hostname.
+#		     CCD_STHOSTNAME	to the linux pc hostname.
+#		     CCD_XFHOSTNAME	to the linux pc hostname.
+#		     CCD_CONHOSTNAME	to the linux pc hosthame.
+#
+#			MAKE SURE THE LINUX PC HOSTNAME AGREES WITH WHAT IS RETURNED 
+#			FROM THE
+#					hostname
+#
+#			COMMAND ON THAT MACHINE OR THERE WILL BE PROBLEMS!!
+#
+#
+export	CCDHOME=/usr/local/ccd_dist
+export	USE_STRIPS=1
+#----------------------------------------------------
+# For CCD-specific Denzo (v 1.5.5) and needed aliases
+#----------------------------------------------------
+#
+export	CCD_COMMUNICATION="tcp-ip"
+#
+#	Program elements, their hosts and port numbers.
+#
+export	CCD_DCSERVER=ccd_dc_api
+export	CCD_DCHOSTNAME=x4hhmi4.nsls.bnl.gov
+export	CCD_DCPORT=8040
+#
+export	CCD_DTSERVER=det_api
+export	CCD_DTHOSTNAME=x4hhmi6.nsls.bnl.gov
+export	CCD_DTPORT=8041
+#
+export	CCD_DTDSERVER=det_api
+export	CCD_DTDHOSTNAME=x4hhmi6.nsls.bnl.gov
+export	CCD_DTDPORT=8042
+#
+export	CCD_BLSERVER=ccd_bl_x4a
+export	CCD_BLHOSTNAME=x4hhmi4.nsls.bnl.gov
+export	CCD_BLPORT=8043
+export  CCD_BLSTATPORT=8051
+export	LOCAL_CONTROL_HOST=130.199.192.228
+export	LOCAL_CONTROL_PORT=8059
+
+#
+export	CCD_DASERVER=ccd_daemon
+export	CCD_DAHOSTNAME=x4hhmi4.nsls.bnl.gov
+export	CCD_DAPORT=8044
+#
+export	CCD_STSERVER=ccd_status
+export	CCD_STHOSTNAME=x4hhmi4.nsls.bnl.gov
+export	CCD_STPORT=8045
+#
+export	CCD_XFSERVER=ccd_xform_new_api
+export	CCD_XFHOSTNAME=x4hhmi4.nsls.bnl.gov
+export	CCD_XFPORT=8046
+#
+#	control and view have no host or port.
+#
+export	CCD_CONSERVER=adx_ccd_control
+export	CCD_CONHOSTNAME=x4hhmi4.nsls.bnl.gov
+export	CCD_VIEWSERVER=adxv
+export	CCD_AIHOSTNAME=x4hhmi2.nsls.bnl.gov
+export	CCD_AIPORT=8059
+#
+#  Details for the 2x2:
+#
+export	CCD_N_CTRL=4
+export	CCD_U_CTRL="1 1 1 1"
+export	CCD_M_ROTATE="180 270 90 0"
+#
+#	Status file
+#
+export	CCD_STATUS_FILE=$HOME/ccd_status
+export	MARSTATUSFILE=$HOME/ccd_status
+#
+#	Log file for ccd_dc (as opposed to the standard output)
+#
+export	CCD_DC_LOCAL_LOG=$HOME/ccd_dc_local_log
+#
+#	Log file for ccd_dc (as opposed to the standard output)
+#
+export	CCD_BL_LOCAL_LOG=$HOME/ccd_bl_local_log
+#
+#	Where the Raw ccd files are placed (from ccd_det's point of view).
+#
+export	CCDSCANDIR='"e:\tmp\"'
+#
+#	Where the Raw ccd files are placed (from ccd_xform's point of view).
+#
+export	CCDSCANDIR_EXPORT=/CCD1/e/tmp
+#
+#	The ccd config file (currently the same as mardc).
+#
+export	CCD_DC_CONFIG=$CCDHOME/tables_api_418/config_ccd
+#
+#	The mardc config file.  Used when the base is part of data collection.
+#
+export	MARCONFIGFILE=$CCDHOME/tables_api_418/config
+#
+export	MARCOLLECTFILE=$CCDHOME/tmp/marcollect
+#
+export	XFORMSTATUSFILE=$CCDHOME/tmp/xf_status
+#
+export	LOG_DC_FILE=ccd_dc.log
+export	LOG_BL_FILE=ccd_bl.log
+export	LOG_XF_FILE=ccd_xform.log
+export	LOG_ST_FILE=ccd_status.log
+export	LOG_CON_FILE=adx_control.log
+#
+# Generic Background file for the transform process
+#
+export	CCD_GENERICBGND=$CCDHOME/corr_tables/bgnd.gen
+#
+# For use of the multiwire system hardware.
+#
+export XTAL_GONIOFILE=$CCDHOME/tables/goniostat.
+export XTAL_GONIOPARAM=$CCDHOME/tables/gonioparam
+export XTAL_CAMACDEV=/dev/multiwire
+export XTAL_MOTORDEV=/dev/ttyts2
+export XTAL_MOTFILE=$CCDHOME/tables/motors.
+export MARBEAMLINEFILE=$CCDHOME/tables/marbeamlinefile
+export CCD_KAPPA_POSITIONS=$CCDHOME/tables_api_418/kappa_positions
+#export CCD_KAPPA_TTY=/dev/ttyd1
+export CCD_KAPPA_TTY=/dev/cua1
+#
+#  Transform code.
+#
+export CCD_NONUNF=$CCDHOME/tables_api_418/NONUNF
+export CCD_CALFIL=$CCDHOME/tables_api_418/CALFIL
+export CCD_POSTNUF=$CCDHOME/tables_api_418/POSTNUF
+export CCD_X_INT=$CCDHOME/tables_api_418/COMBINED.x_int
+export CCD_Y_INT=$CCDHOME/tables_api_418/COMBINED.y_int
+export CCD_CALPAR=$CCDHOME/tables_api_418/COMBINED.calpar
+export GUI_EDITOR=vi
+#
+export CCD_RAW_SATURATION=50000

@@ -1,0 +1,86 @@
+###################################################
+#
+# Revision 2.0
+# by Boom
+#
+###################################################
+
+autochooch is currently supported on decunix, irix
+and linux. 
+
+To install:
+
+1. Build the executables by using the makefile in autochooch top 
+directory to build Benny_auto, Chooch_auto
+and wasel executables. The object files and executables
+are generated in autochooch/decunix, autochooch/irix
+or autochooch/linux depending on the platform
+it is built on. Type,
+
+> cd autochooch
+> gmake
+
+2. Install the data files, executables and shell scripts
+in the distribution location such as /user/local/autochooch.
+
+Edit autochooch/makefile
+
+Set the INSTALL dir variable, for example
+INSTALL_DIR=/user/local/autochooch
+
+> gmake install
+
+The data files from autochooch/data will be copied to 
+/user/local/autochooch/data. The executables and scripts
+are copied to /user/local/autochooch/bin.
+
+3. Set the env variables so that the the executables
+and scripts can be found in the executable paths.
+Also set CHOOCHDAT env variable so that the scripts
+know where to find the necessary input data files.
+
+> setenv PATH /user/local/autochooch/bin:$PATH
+> setenv CHOOCHDAT /user/local/autochooch/data
+
+
+
+###################################################
+#
+# Revision 1.0
+# by Ashley Deacon
+#
+###################################################
+
+####################################################
+Installation instructions for Benny_auto/Chooch_auto
+Based on Benny-3.01\Chooch-4.01
+####################################################
+
+N.B. For autochooch you do not need PGPLOT library.
+N.B. Before doing this you should have already installed the PGPLOT
+library on your system
+
+To install:
+
+1. Download the distribution file Chooch_auto.tar.gz
+
+2a. type gunzip Chooch_auto.tar.gz 
+2b. tar xvf Chooch_auto.tar
+
+3. cd Chooch-4.01/src
+
+4. Edit the Makefile corresponding to your machine achitecture as instructed
+   in the Makefile header.
+
+5. Remove or rename any old versions of Benny and Chooch 
+   in your bin directory
+
+6. cd ../ and run the install script chooch-install.sh
+
+7. Finally you will need to edit your site or personal .login file to
+   define the environment variable CHOOCHDAT to point to the data directory
+   under the Chooch-4.01 distrubution.<BR>
+   e.g.  setenv CHOOCHDAT /usr/local/Chooch-4.01/data
+
+8. Run the examples in the Chooch-4.01/examples directory and make sure everything is
+   working correctly

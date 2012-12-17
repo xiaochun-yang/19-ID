@@ -1,0 +1,28 @@
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+"http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	
+	<bean id ="oracleDataSource" class="ssrl.datasource.spring.DataSourceExternalPassword" destroy-method="close"  >
+        <property name="driverClassName"><value>oracle.jdbc.driver.OracleDriver</value></property>
+        <property name="username"><value>screening</value></property>
+        <property name="url"><value>jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS=(HOST=smbdb1)(PROTOCOL=tcp)(PORT=1521))(CONNECT_DATA=(SID=SDC)))</value></property>
+        <property name="passwordFile"><value>/usr/local/tomcat/access/oracle_password.txt</value></property>
+ 	</bean>
+ 	 	
+ 	<bean id="oracleDao" class="sil.dao.OracleDao">
+		<property name="sqlMapClient"><ref local="oracleSqlMapClient"/></property>
+	</bean>
+ 	
+ 	 <bean id="oracleSqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean" >
+		<property name="dataSource"><ref bean="oracleDataSource"/></property>		
+ 		<property name="configLocation"><value>/WEB-INF/ibatis/OracleSqlMapConfig.xml</value></property>	
+ 	</bean>
+ 	
+	<bean id="migrationTool" class="sil.migration.Migration2_0_to_3_0">
+ 		<property name="storageManager"><ref bean="storageManager"/></property>
+ 		<property name="silDao"><ref bean="silDao"/></property>
+ 		<property name="oracleDao"><ref bean="oracleDao"/></property>
+ 		<property name="silLoader"><ref bean="silXmlLoader"/></property>
+   	</bean>
+ 	 	
+</beans>

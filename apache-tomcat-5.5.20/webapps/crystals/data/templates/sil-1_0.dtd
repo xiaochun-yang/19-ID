@@ -1,0 +1,70 @@
+<!ELEMENT Sil (Crystal*)>
+<!ATTLIST Sil 
+	name CDATA #REQUIRED
+	eventId CDATA #REQUIRED
+	lock (true|false) #REQUIRED
+	version CDATA #FIXED "1.0" 
+>
+
+<!ELEMENT Crystal (ContainerID, Port, CrystalID, Protein, 
+					Comment, FreezingCond, CrystalCond,
+					Metal, Priority, Person, CrystalURL, ProteinURL,
+					Directory, SystemWarning, Images, AutoindexImages,
+					Score, UnitCell, Mosaicity, Rmsr, BravaisLattice, 
+					Resolution?, ISigma?)>
+
+<!ATTLIST Crystal 
+	row CDATA #REQUIRED
+	excelRow CDATA #REQUIRED
+	selected (0|1) #REQUIRED
+>
+
+
+<!ELEMENT ContainerID (#PCDATA)>
+<!ELEMENT Port (#PCDATA)>
+<!ELEMENT CrystalID (#PCDATA)>
+<!ELEMENT Protein (#PCDATA)>
+<!ELEMENT Comment (#PCDATA)>
+<!ELEMENT FreezingCond (#PCDATA)>
+<!ELEMENT CrystalCond (#PCDATA)>
+<!ELEMENT Metal (#PCDATA)>
+<!ELEMENT Priority (#PCDATA)>
+<!ELEMENT Person (#PCDATA)>
+<!ELEMENT CrystalURL (#PCDATA)>
+<!ELEMENT ProteinURL (#PCDATA)>
+<!ELEMENT Directory (#PCDATA)>
+<!ELEMENT SystemWarning (#PCDATA)>
+<!ELEMENT AutoindexImages (#PCDATA)>
+<!ELEMENT Score (#PCDATA)>
+<!ELEMENT UnitCell (#PCDATA)>
+<!ELEMENT Mosaicity (#PCDATA)>
+<!ELEMENT Rmsr (#PCDATA)>
+<!ELEMENT BravaisLattice (#PCDATA)>
+<!ELEMENT Resolution (#PCDATA)>
+<!ELEMENT ISigma (#PCDATA)>
+<!ELEMENT AutoindexDir (#PCDATA)>
+
+<!ELEMENT Images (Group*)>
+<!ELEMENT Group (Image*)>
+<!ATTLIST Group 
+	name CDATA #REQUIRED
+>
+<!ELEMENT Image EMPTY>
+<!ATTLIST Image 
+	dir CDATA #IMPLIED
+	name CDATA #IMPLIED
+	jpeg CDATA #REQUIRED
+	small CDATA #REQUIRED
+	medium CDATA #REQUIRED
+	large CDATA #REQUIRED
+	quality CDATA #REQUIRED
+	spotShape CDATA #REQUIRED
+	resolution CDATA #REQUIRED
+	iceRings CDATA #REQUIRED
+	diffractionStrength CDATA #REQUIRED
+	score CDATA #REQUIRED
+	numSpots CDATA #IMPLIED
+	numOverloadSpots CDATA #IMPLIED
+	integratedIntensity CDATA #IMPLIED
+	spotfinderDir CDATA #IMPLIED
+>

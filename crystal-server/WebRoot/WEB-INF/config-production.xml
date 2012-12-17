@@ -1,0 +1,58 @@
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+"http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+
+ 	<!-- <import resource="data-source-oracle.xml"/> -->
+ 	<import resource="data-source-mysql.xml"/>
+
+	<bean id="props" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="WEB-INF/site-specific.properties"/>
+	</bean>
+
+	<bean id="emailMessageSender" class="sil.interceptors.EmailMessageSender">
+		<property name="velocityEngine"><ref bean="velocityEngine"/></property>		
+		<property name="mailSender"><ref bean="mailSender"/></property>
+ 		<property name="sender" value="${email.sender}"/>
+ 		<property name="recipients" value="${email.recipients}"/>
+ 		<property name="subjectPrefix" value="${email.subjectPrefix}"/>
+	</bean>
+	
+	 <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+   		<property name="host" value="${email.host}"/>
+	</bean>
+	
+	<bean id ="adminList" class="java.lang.String">
+		<constructor-arg type="java.lang.String" value="${adminList}"/>
+	</bean>
+
+	<bean id ="unsecuredBaseUrl" class="java.lang.String">
+		<constructor-arg type="java.lang.String" value="${unsecuredBaseUrl}"/>
+	</bean>
+	<bean id ="baseUrl" class="java.lang.String">
+		<constructor-arg type="java.lang.String" value="${baseUrl}"/>
+	</bean>
+	
+	<bean id ="dataDir" class="java.lang.String">
+		<constructor-arg type="java.lang.String" value="${data.rootDir}"/>
+	</bean>
+	
+	<bean id ="tmpDir" class="java.lang.String">
+		<constructor-arg type="java.lang.String" value="${data.tmpDir}"/>
+	</bean>
+	<bean id ="badDir" class="java.lang.String">
+		<constructor-arg type="java.lang.String" value="${data.badUploadFileDir}"/>
+	</bean>
+	
+	<bean id="appSessionManager" class="ssrl.authClient.spring.AppSessionManagerAuthServer">
+		<property name="servletHost" value="${auth.servletHost}"/>
+		<property name="authMethod" value="${auth.method}"/>
+		<property name="appName" value="${auth.appName}"/>
+		<property name="sessionTag" value="APP_SESSION"/>
+		<property name="appSessionFactory"><ref bean="appSessionFactory"/></property>
+	</bean>
+ 		
+	<bean id="helpUrl" class="java.lang.String">
+		<constructor-arg type="java.lang.String" value="${helpUrl}"/>
+	</bean>
+	
+</beans>

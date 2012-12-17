@@ -1,0 +1,54 @@
+#parse("/silPages/topbanner.html")
+<body>
+<span style="float:right; font-size:100%; padding-right:10px">
+You are $appSession.authSession.userName<br/><a class="link" href="Logout.html">Logout</a>
+</span>
+<h1><a href="http://ssrl.slac.stanford.edu"><img src="images/ssrl2.gif" border="0"  height="50" width="50"/></a>Edit Crystal Form</h1>
+<font color="red">
+#springBind("crystal")
+$status.errorMessage
+</font>
+<form name="crystalForm" method="post">
+ <table class="sil" border="1">
+	#springBind("crystal.row")
+	<tr><th>Row</th><td><input type="text" value="$!status.value" disabled/><span class="error">$status.errorMessage</span></td></tr>
+	#springBind("crystal.port")
+	<tr><th>Port</th><td><input type="text" value="$!status.value" disabled/><span class="error">$status.errorMessage</span></td></tr>
+	#springBind("crystal.crystalId")
+	<tr><th>CrystalID</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+ 	#springBind("crystal.containerId")
+	<tr><th>ContainerID</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+ 	#springBind("crystal.data.protein")
+	<tr><th>Protein</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+ 	#springBind("crystal.data.comment")
+	<tr><th>Comment</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+ 	#springBind("crystal.data.freezingCond")
+	<tr><th>FreezingCond</th><td><iut type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+ 	#springBind("crystal.data.crystalCond")
+	<tr><th>CrystalCond</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+ 	#springBind("crystal.data.metal")
+	<tr><th>Metal</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+ 	#springBind("crystal.data.priority")
+	<tr><th>Priority</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+ 	#springBind("crystal.data.crystalUrl")
+	<tr><th>CrystalURL</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+ 	#springBind("crystal.data.proteinUrl")
+	<tr><th>proteinURL</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+ 	#springBind("crystal.data.directory")
+	<tr><th>Directory</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+ 	#springBind("crystal.data.person")
+	<tr><th>Person</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+ 	#springBind("crystal.result.reorientable")
+	<tr><th>ReOrientable</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+ 	#springBind("crystal.result.reorientPhi")
+	<tr><th>ReOrientPhi</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+ 	#springBind("crystal.result.reorientInfo")
+	<tr><th>ReOrientInfo</th><td><input type="text" name="$status.expression" value="$!status.value"/><span class="error">$status.errorMessage</span></td></tr>
+</table>  
+<input type="submit" name="submit" value="Submit"/>
+<input type="submit" name="_cancel" value="Cancel"/>
+</form>
+ 
+</body>
+
+</html>

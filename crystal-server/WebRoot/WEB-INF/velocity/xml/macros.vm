@@ -1,0 +1,103 @@
+###################################
+## Macro for displaying each crystal
+###################################
+#macro(outputCrystal $crystal)
+#set ($selected = 0)
+#if ($crystal.selected) 
+#set ($selected = 1)
+#end
+<Crystal row="$crystal.row" excelRow="$!crystal.excelRow" selected="$selected">
+<UniqueID>$!crystal.uniqueId</UniqueID>
+<ContainerID>$!crystal.containerId</ContainerID>
+<ContainerType>$!crystal.containerType</ContainerType>
+<Port>$!crystal.port</Port>
+<CrystalID>$!crystal.crystalId</CrystalID>
+<Protein>$!esc.xml($crystal.data.protein)</Protein>
+<Comment>$!esc.xml($crystal.data.comment)</Comment>
+<FreezingCond>$!esc.xml($crystal.data.freezingCond)</FreezingCond>
+<CrystalCond>$!esc.xml($crystal.data.crystalCond)</CrystalCond>
+<Metal>$!esc.xml($crystal.data.metal)</Metal>
+<Priority>$!crystal.data.priority</Priority>
+<Person>$!esc.xml($crystal.data.person)</Person>
+<CrystalURL>$!esc.xml($crystal.data.crystalUrl)</CrystalURL>
+<ProteinURL>$!esc.xml($crystal.data.proteinUrl)</ProteinURL>
+<Directory>$!esc.xml($crystal.data.directory)</Directory>
+<Move>$!esc.xml($crystal.data.move)</Move>
+<SystemWarning>$!esc.xml($crystal.result.autoindexResult.warning)</SystemWarning>
+<AutoindexImages>$!esc.xml($crystal.result.autoindexResult.images)</AutoindexImages>
+<Score>$!crystal.result.autoindexResult.score</Score>
+<UnitCell>$!crystal.result.autoindexResult.unitCell</UnitCell>
+<Mosaicity>$!crystal.result.autoindexResult.mosaicity</Mosaicity>
+<Rmsr>$!crystal.result.autoindexResult.rmsd</Rmsr>
+<BravaisLattice>$!crystal.result.autoindexResult.bravaisLattice</BravaisLattice>
+<Resolution>$!crystal.result.autoindexResult.resolution</Resolution>
+<ISigma>$!crystal.result.autoindexResult.isigma</ISigma>
+<AutoindexDir>$!esc.xml($crystal.result.autoindexResult.dir)</AutoindexDir>
+<Solution>$!crystal.result.autoindexResult.bestSolution</Solution>
+<ReOrientable>$!crystal.result.reorientable</ReOrientable>
+<ReOrientInfo>$!crystal.result.reorientInfo</ReOrientInfo>
+<ReOrientPhi>$!crystal.result.reorientPhi</ReOrientPhi>
+<Images>
+#outputImage($crystal.images "1")
+#outputImage($crystal.images "2")
+#outputImage($crystal.images "3")
+</Images>
+<Repositions>
+#foreach ($reposition in $crystal.result.repositions)
+<Reposition repositionId="$!reposition.repositionId" jpeg1="$!reposition.jpeg1" jpeg2="$!reposition.jpeg2"  
+	jpegBox1="$!reposition.jpegBox1" jpegBox2="$!reposition.jpegBox2" 
+	image1="$!reposition.image1" image2="$!reposition.image2" 
+	beamSizeX="$!reposition.beamSizeX" beamSizeY="$!reposition.beamSizeY" 
+	offsetX="$!reposition.offsetX" offsetY="$!reposition.offsetY" offsetZ="$!reposition.offsetZ"
+	autoindexable="$!reposition.autoindexable" reorientInfo="$!reposition.reorientInfo"
+	images="$!reposition.autoindexResult.images" score="$!reposition.autoindexResult.score" unitCell="$!reposition.autoindexResult.unitCell"
+	mosaicity="$!reposition.autoindexResult.mosaicity" rmsd="$!reposition.autoindexResult.rmsd" bravaisLattice="$!reposition.autoindexResult.bravaisLattice"
+	resolution="$!reposition.autoindexResult.resolution" isigma="$!reposition.autoindexResult.isigma" dir="$!reposition.autoindexResult.dir"
+	bestSolution="$!reposition.autoindexResult.bestSolution" warning="$!reposition.autoindexResult.warning"/>	
+#end
+</Repositions>
+<RunDefs>
+#set ($count = 0)
+#foreach ($rundef in $crystal.result.runs)
+<RunDef 
+	runIndex="$count" repositionId="$!rundef.repositionId" jpeg1="$!rundef.jpeg1" jpeg2="$!rundef.jpeg2"  
+	jpegBox1="$!rundef.jpegBox1" jpegBox2="$!rundef.jpegBox2" 
+	image1="$!rundef.image1" image2="$!rundef.image2" 
+	beamSizeX="$!rundef.beamSizeX" beamSizeY="$!rundef.beamSizeY" 
+	offsetX="$!rundef.offsetX" offsetY="$!rundef.offsetY" offsetZ="$!rundef.offsetZ"
+	runStatus="$!rundef.runStatus" nextFrame="$!rundef.nextFrame" 
+	runLabel="$!rundef.runLabel" fileRoot="$!rundef.fileRoot"
+	director="$!rundef.directory" startFrame="$!rundef.startFrame"
+	axisMotorName="$!rundef.axisMotorName" startAngle="$!rundef.startAngle"
+	endAngle="$!rundef.endAngle" delta="$!rundef.delta"
+	wedgeSize="$!rundef.wedgeSize" doseMode="$!rundef.doseMode"
+	attenuation="$!rundef.attenuation" exposureTime="$!rundef.exposureTime"
+	photonCount="$!rundef.photonCount" resolutionMode="$!rundef.resolutionMode"
+	resolution="$!rundef.resolution" 
+	distance="$!rundef.distance" beamStop="$!rundef.beamStop"
+	numEnergy="$!rundef.numEnergy" energy1="$!rundef.energy1"
+	energy2="$!rundef.energy2" energy3="$!rundef.energy3"
+	energy4="$!rundef.energy4" energy5="$!rundef.energy5"
+	detectorMode="$!rundef.detectorMode" inverse="$!rundef.inverse"
+	autoindexDir="$!rundef.autoindexDir"/>
+#set ($count = $count + 1)
+#end
+</RunDefs>
+</Crystal>
+#end
+######################################
+## Macro for displaying each group of images
+######################################
+#macro(outputImage $images $groupName)
+<Group name="$groupName">
+#foreach ($image in $images)
+#if ($image.group == $groupName) 
+#if (!$nullTool.isNull($image.name) && ($image.name != ""))
+#set ($data = $image.data)
+#set ($result = $image.result.spotfinderResult)
+<Image name="$!image.name" jpeg="$!data.jpeg" integratedIntensity="$!result.integratedIntensity" numOverloadSpots="$!result.numOverloadSpots" score="$!result.score" dir="$!image.dir" resolution="$!result.resolution" iceRings="$!result.numIceRings" small="$!data.small" numSpots="$!result.numSpots" numBraggSpots="$!result.numBraggSpots" spotShape="$!result.spotShape" quality="$!result.quality" large="$!data.large" diffractionStrength="$!result.diffractionStrength" medium="$!data.medium" spotfinderDir="$!result.dir" />
+#end
+#end
+#end
+</Group>
+#end

@@ -1,0 +1,23 @@
+setenv  CCDHOME                 /home/yangx/ccd_dist_dls
+#
+#       Simulation mode of the detector api
+#
+setenv  CCD_MSERVER_MEM_LIMIT   100M
+setenv  CCD_TYPE                "T2K"
+setenv  CCD_TABLES_DIR          $CCDHOME/sim_calib/
+setenv  CCD_TABLES_HB_DIR       $CCDHOME/sim_calib/
+#
+#       Pedestal adjustment for T2K chips is an open question.
+#
+setenv  NO_PEDESTAL_ADJUST
+setenv  NO_PEDESTAL_ADJUST_BIN
+setenv  CCD_UNIFORM_PEDESTAL    1500
+setenv  CCD_DETECTOR_DB         $CCDHOME/tables_api_2x2/detector_db.txt
+#
+setenv	CCD_N_CTRL		4
+#
+#       These need to be here or we get the EEV defaults.
+#
+setenv CCD_MODULE_NROWS 2124
+setenv CCD_MODULE_NCOLS 2160
+setenv CCD_MODULE_IMSIZE 2048

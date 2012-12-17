@@ -1,0 +1,22 @@
+CC = cc
+CFLAGS = $(CFLAGS_OS) -D$(OSTYPE)
+IOFLAGS = 
+OEXTS = main.o glob.o input.o get_moddb.o mod_support.o test_subs.o send_serial.o pv_stubbs.o \
+		read_until.o ztime.o reply_cmd.o net_client.o
+OBS  =
+OBJS = $(OEXTS) $(OBS) ../../lib/$(OSTYPE)/auxlib.a ../../lib/$(OSTYPE)/libwincompat.a
+DD = ../../bin/$(OSTYPE)
+
+PRCMD = pr
+
+$(DD)/det_api_workstation : $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) $(IOFLAGS) -o $(DD)/det_api_workstation
+
+$(OEXTS) : defs.h ext.h
+
+clean :	$(OEXTS) $(OBS)
+	rm $?
+
+print :	*.c *.h Makefile
+	$(PRCMD) $?
+	touch print

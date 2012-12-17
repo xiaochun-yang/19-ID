@@ -1,0 +1,2290 @@
+package require Itcl
+
+#DCS::String "table_property" stores data not changeable for table
+#You should be able to get these data from drawings of table.
+
+#field 0: normal distance between V1 and V2.
+#         For BL12-2, physical pivot is at V2
+
+#field 1: normal distance between goniometer center to V pivot (V2)
+
+#field 2: high distance from goniometer head to V pivot (V2)
+#
+
+#DCS::string "table_setup"
+#These values need to be updated if table setup changed them.
+
+#field 0: not used
+
+#field 1: safe sample Z value for mount/dismount:
+#         The distance from cryojet should be enough for tong to move in +5mm
+
+#field 2: the distance from goniometer head to center line of top table
+#         (the center line is beamline) when the goniometer is at the
+#         safe_Z position.
+
+#field 3: detector_z value for mount/dismount. Make sure this
+#         is big enough that the detector clears the robot
+#         interlock IR beam.
+
+#field 4: sample_z value after mount
+#         This is for extra short or extra long pins.
+
+#DCS::String "table_position"
+#            Save the table position when you run the goniometer-calibration
+#            You can move back to this position to mount/dismount
+# fields:  H, H2, V1, V2
+
+#DCS::String "table_adjust"
+#which table motors will be moved to access position
+#if "table_vert1" is found, both table_vett1 and table_vert2 will be moved
+#                           to "table_position"
+#else if "table_vert2" is found, it will be moved to tanle_vert1, so no pitch
+#else no movement in vertical aspect. 
+
+#SAME goes to horizontal
+
+#DCS::String "table_gonio_scale"
+#from the above strings, we can calculate:
+# length_V1_to_gonio
+# height_V1_to_gonio
+# length_H1_to_gonio
+# offset_H1_to_gonio
+#This string is to store the scales for these values from calibration
+
+itcl::class SampleMountingDevice {
+
+    # private data members -- beamline component interactions
+    private {
+        variable safedistanceArray
+        variable moveToAccessArray
+        variable moveBackArray
+        variable validcassetteList
+        variable validcolumnList
+        variable validrowList
+
+        #static values
+        variable camera_zoom_safe 0
+        variable beamstop_z_safe 42.00
+        variable gonio_phi_safe 90.00 
+        variable gonio_kappa_safe 0.00 
+        variable sample_x_safe 0.00 
+        variable sample_y_safe 0.00 
+
+        #will be overrided from table_setup
+        variable detector_safe 300.00
+        variable sample_z_safe 0.0
+        variable sample_z_after 0.0
+        variable sample_x_after 0.0
+        variable sample_y_after 0.0
+
+        #3 seconds
+        variable AVERAGE_TIME 3000
+        variable RESET_WAIT_TIME 2000
+
+        #will be overrided from table_property
+        variable length_vert2_gonio 890
+        variable height_vert2_gonio 630
+        variable offset_horz_gonio 30
+        variable raw_offset_horz_gonio 30
+    }
+
+    private variable need_goHome 0
+
+    public method constructor
+
+    #call after table_property or table_setup changes
+    public method calculateTableSetup
+
+    #should be private, put here to debug
+    public method fillSafeDistanceArray { move_table_option }
+    public method fillMoveList { move_table_option }
+    public method getDeltaGonioPosFromMotor { }
+    public method getDeltaGonioPosFromFutureMotor { }
+    public method getDeltaGonioPosFromMotorArgument { V1 V2 H }
+
+    # for reset
+    public method skipReset
+    public method delayReset
+    public method resetProcedure
+    public method goToNextResetStep
+    public method getRobotState { }
+    public method resetAllowed { }
+    public method openGripper { }
+    public method heatGripper { heatsecs }
+    public method returnDumbbell { }
+    public method moveToCheckPoint { }
+    public method check { tool }
+    public method performNextRobotResetStep
+    public method stepUp { args }
+
+    # for crystal
+    public method mountCrystal { cassette row column wash_cycle }
+    public method dismountCrystal { cassette row column }
+    public method mountNextCrystal { cassette row column cassette_nxt row_nxt column_nxt wash_cycle }
+    public method moveCrystal { args }
+    public method washCrystal { times }
+
+    # for calibration
+    public method calibrateMagnet { { find_magnet 0 } {quick 0} } 
+    public method calibrateCassette { cassettes { init 0 } } 
+    public method calibrateGoniometer { { init 0 } }
+    public method checkGoniometerReachable { }
+    public method getGonioCALDATA { }
+    public method calibrateBeamLineTool { { init 0 } }
+    public method mountBeamLineTool {  }
+    public method dismountBeamLineTool {  }
+    public method newGonioCAL { }
+    ###### one buttont start all calibration #######
+    public method oneCalibrate { }
+
+    # for user action
+    public method portJamUserAction { args }
+
+    #special gonio cal for table CAL
+    #it does not calculate dx, dy, dz and du
+    #in short: no call to getDeltaGonioPos
+    #to avoid operation readAnalog
+    public method specialGonioCAL { dx dy dz du }
+    public method newSpecialGonioCAL { dx dy dz du }
+    
+    #for manula goniometer cal
+    public method moveToGoniometer { }
+    public method teachGoniometer { }
+    public method moveHome { }
+
+    # for manual beamlineTool CAL
+    public method moveToBeamlineTool { }
+    public method teachBeamlineTool { }
+    public method jumpHome { }
+
+    #### barcode reader
+    public method readSampleBarcode { deltaGonioPos index port time_wait {goHome 1}}
+    public method readCassetteIdBarcode { {stay_in_dewar 0} }
+    public method updateCassetteOwnerFromBarcode { }
+
+    ### this is here because we want to trigger updateCassetteOwner
+    public method addUsersToBarcode { barcode users }
+    ### SETUP
+    public method moveToBarcodeReader { }
+    public method teachBarcodeReader { }
+    #### rescue
+    public method putSampleBackFromBarcodeReader { }
+
+    public method probe
+
+    #for Robot_Test
+    public method prepareRobotTest { }
+
+    ###### to do more parallel
+    public method getMovingBackMotorList { } {
+        return [array names moveBackArray]
+    }
+
+    # private methods
+    private method validPort { cassette row column }
+    private method getDeltaGonioPos { }
+    private method calculateDeltaGonioPos { V2 Pitch H XAdjust YAdjust }
+    private method moveToAccessPosition { }
+    private method moveBackToOriginalPosition { }
+    private method saveCurrentTablePosition { }
+    private method clearTableCALDATA { }
+    private method checkIfRecoverableError { result_message }
+    private method autoSampleCheck { {retr_cmd ""} }
+    private method autoSampleCalibrate { }
+    private method warnDetectorZ { }
+
+    private method readBarcodeWhileWaitForOperationToFinish { handle }
+
+    private proc getDefaultBarcodePort { cas }
+    private proc anyProbe { cas }
+
+    public method sampleOnGoniometer { }
+    public method sampleOffGoniometer { }
+    public method sampleOnOffCalibrate { }
+}
+
+itcl::body SampleMountingDevice::constructor { } {
+    calculateTableSetup 
+
+    set validcassetteList [ list l m r ]
+    set validcolumnList [ list A B C D E F G H I J K L ]
+    set validrowList [ list 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 ]
+}
+itcl::body SampleMountingDevice::saveCurrentTablePosition { } {
+    variable ::nScripts::table_position
+
+    set table_position [list \
+        $::gDevice(table_horz,scaled) \
+        $::gDevice(table_vert_1,scaled) \
+        $::gDevice(table_vert_2,scaled)]
+}
+itcl::body SampleMountingDevice::moveToAccessPosition { } {
+    ::nScripts::removeInlineCamera
+    ::nScripts::collimatorMoveOut
+    
+    foreach device [array names moveToAccessArray] {
+        move $device to $moveToAccessArray($device)
+    }
+    eval wait_for_devices [array names moveToAccessArray]
+
+}
+itcl::body SampleMountingDevice::moveBackToOriginalPosition { } {
+    foreach device [array names moveBackArray] {
+        move $device to $moveBackArray($device)
+    }
+    
+    ####comment out following line if you want to allow
+    #### loop centering while detector_z is moving
+    eval wait_for_devices [array names moveBackArray]
+}
+itcl::body SampleMountingDevice::fillSafeDistanceArray { move_table_option } {
+    variable ::nScripts::table_setup
+    variable ::nScripts::table_position
+    variable ::nScripts::table_adjust
+    variable ::nScripts::gonio_kappa
+
+    # get safe values that are not hardcoded
+    set z_safe_from_string [lindex $table_setup 1]
+    if {[string is double -strict $z_safe_from_string]} {
+        set sample_z_safe $z_safe_from_string
+    } else {
+        puts "no sample_z specificed for mount from table_setup default to $sample_z_safe"
+    }
+    set z_after_from_string [lindex $table_setup 4]
+    if {[string is double -strict $z_after_from_string]} {
+        set sample_z_after $z_after_from_string
+    } else {
+        puts "no sample_z specificed after mount from table_setup default to $sample_z_after"
+    }
+
+    set x_after_from_string [lindex $table_setup 5]
+    if {[string is double -strict $x_after_from_string]} {
+        set sample_x_after $x_after_from_string
+    } else {
+        puts "no sample_x specificed after mount from table_setup default to $sample_x_after"
+    }
+
+    set y_after_from_string [lindex $table_setup 6]
+    if {[string is double -strict $y_after_from_string]} {
+        set sample_y_after $y_after_from_string
+    } else {
+        puts "no sample_y specificed after mount from table_setup default to $sample_y_after"
+    }
+
+    set table_horz_safe [lindex $table_position 0]
+    set table_vert_1_safe [lindex $table_position 1]
+    set table_vert_2_safe [lindex $table_position 2]
+    if {$table_horz_safe == ""} {
+        log_error "bad table_position field 0"
+        return -code error "bad table_position field 0"
+    }
+    if {$table_vert_1_safe == "" || $table_vert_2_safe == ""} {
+        log_error "bad table_position field 1 and 2"
+        return -code error "bad table_position field 1 and 2"
+    }
+
+    set detector_z_from_string [lindex $table_setup 3]
+    if {[string is double -strict $detector_z_from_string]} {
+        set detector_safe $detector_z_from_string
+    } else {
+        puts "no detector_z specificed for mount from table_setup default to $detector_safe"
+    }
+
+    set distanceMotor [::nScripts::getDetectorDistanceMotorName]
+    ##### these motors are always moved
+    array unset safedistanceArray
+    array set safedistanceArray [list $distanceMotor $detector_safe \
+                    camera_zoom $camera_zoom_safe \
+                    beamstop_z $beamstop_z_safe \
+                    gonio_phi $gonio_phi_safe \
+                    sample_x $sample_x_safe  \
+                    sample_y $sample_y_safe \
+                    sample_z $sample_z_safe \
+                    ]
+
+    if {!$::gDevice(gonio_kappa,lockOn)} {
+        set safedistanceArray(gonio_kappa) $gonio_kappa_safe
+    } else {
+        if {abs($gonio_kappa) >= 0.001} {
+            ::dcss2 sendMessage "htos_log severe hardware trying to use robot when kappa is at $gonio_kappa"
+            return -code error "Robot will work only when kappa at 0.000"
+        }
+    }
+
+    #########check if we need to move table motors
+    switch -exact -- $move_table_option {
+        not_move_table {
+        }
+        forced_move_table {
+            set safedistanceArray(table_horz) $table_horz_safe
+            set safedistanceArray(table_vert_1) $table_vert_1_safe
+            set safedistanceArray(table_vert_2) $table_vert_2_safe
+        }
+        depend_on_table_adjust -
+        default {
+            if {[lsearch -exact $table_adjust table_horz] >= 0} {
+                set safedistanceArray(table_horz) $table_horz_safe
+            }
+            
+            if {[lsearch -exact $table_adjust table_vert_1] >= 0} {
+                set safedistanceArray(table_vert_1) $table_vert_1_safe
+                set safedistanceArray(table_vert_2) $table_vert_2_safe
+            } elseif {[lsearch -exact $table_adjust table_vert_2] >= 0} {
+                set safedistanceArray(table_vert_2) $::gDevice(table_vert_1, scaled)
+            }
+        }
+    }
+    return "[array names safedistanceArray]"
+}
+############fill move and delta list
+itcl::body SampleMountingDevice::fillMoveList { move_table_option } {
+    #fill safe distance array first
+    fillSafeDistanceArray $move_table_option
+
+    ######### reset array to empty
+    array unset moveToAccessArray
+    array unset moveBackArray
+
+    foreach device [array names safedistanceArray] {
+        set add_to_move 0
+        set add_to_back 0
+
+        #must define back_position if add_to_back = 1
+        switch -exact -- $device { 
+            detector_z_corr -
+            detector_z -
+            beamstop_z {
+                #add cases that only move if less than the safe position
+                set current_position $::gDevice($device,scaled)
+                set deltaDistance \
+                [expr $safedistanceArray($device) - $current_position]
+                #there is no abs in the following line
+                if { $deltaDistance > 0.001 } {
+                    set add_to_move 1
+                    set add_to_back 1
+                    set back_position $current_position
+                }
+            }
+            sample_x -
+            sample_y -
+            sample_z {
+                #### move to a specified position after mount
+
+                set after_position [set ${device}_after]
+                log_note after_position for $device: $after_position
+
+                set current_position $::gDevice($device,scaled)
+                set deltaDistance \
+                [expr $safedistanceArray($device) - $current_position]
+                log_note deltaDistance: $deltaDistance
+                if { abs($deltaDistance) > 0.001 } {
+                    set add_to_move 1
+                }
+                set afterDelta \
+                [expr $safedistanceArray($device) - $after_position]
+                log_note afterDelta $afterDelta
+                if { abs($afterDelta) > 0.001 } {
+                    ###must have add_to_move for add_to_back
+                    set add_to_move 1
+                    set add_to_back 1
+                    set back_position $after_position
+                }
+            }
+            camera_zoom -
+            gonio_kappa -
+            gonio_phi {
+                #add cases that do not need move back
+                set current_position $::gDevice($device,scaled)
+                set deltaDistance \
+                [expr $safedistanceArray($device) - $current_position]
+                if { abs($deltaDistance) > 0.001 } {
+                    set add_to_move 1
+                    set add_to_back 0
+                }
+            }
+            default {
+                #move and back if not at the safe position
+                set current_position $::gDevice($device,scaled)
+                set deltaDistance \
+                [expr $safedistanceArray($device) - $current_position]
+                if { abs($deltaDistance) > 0.001 } {
+                    set add_to_move 1
+                    set add_to_back 1
+                    set back_position $current_position
+                }
+            }
+        }
+        if {$add_to_move} {
+            set moveToAccessArray($device) $safedistanceArray($device)
+            if {$add_to_back} {
+                set moveBackArray($device) $back_position
+            }
+        }
+    }
+    puts "fill move list: move: [array names moveToAccessArray]"
+    puts "fill move list: back: [array names moveBackArray]"
+    return "move: [array get moveToAccessArray] back: [array get moveBackArray]"
+}
+
+itcl::body SampleMountingDevice::calculateTableSetup { } {
+    variable ::nScripts::table_property
+    variable ::nScripts::table_setup
+
+    set length_vert2_gonio [lindex $table_property 1]
+    set height_vert2_gonio [lindex $table_property 2]
+
+    set result [format "%2.4f %2.4f" \
+            $length_vert2_gonio \
+            $height_vert2_gonio]
+    puts "calculateTableSetup: $result"
+}
+
+itcl::body SampleMountingDevice::getRobotState { } {
+
+    if { [catch {
+        set operationHandle [eval start_waitable_recovery_operation get_robotstate ]
+        
+        set result [wait_for_operation_to_finish $operationHandle]
+        set status [lindex $result 0]
+        set value [lindex $result 1]
+    } e ] } {
+        log_error $e
+        if { [lindex $e 0] == "no_hw_host" } {
+            return 1
+        } else {
+            return -code error $e
+        }
+    } else {
+        return $value
+    }
+}
+
+itcl::body SampleMountingDevice::resetAllowed { } {
+        puts "resetAllowed called"
+
+        if { [catch {
+    
+        fillMoveList depend_on_table_adjust
+        moveToAccessPosition 
+
+        set operationHandle [ start_waitable_operation robot_config reset_allowed ]
+        set result [wait_for_operation_to_finish $operationHandle]
+
+        set status [lindex $result 0]
+        set value [lindex $result 1]
+
+        if { $status == "normal" && $value == "1" } {
+            set result "RobotDHSOK"
+        }
+        if { $status == "normal" && $value == "0" } {
+            set result "RobotDHSError"
+        }
+
+    } e ] } {
+        log_error $e
+        return -code error $e
+    } else {
+        return $result 
+    }
+}
+
+
+itcl::body SampleMountingDevice::moveToCheckPoint { } {
+
+    if { [catch {
+        
+        set operationHandle [eval start_waitable_operation robot_config move_to_checkpoint [ getDeltaGonioPos ] ]
+        wait_for_operation_to_finish $operationHandle
+
+    } e ] } {
+        log_error $e
+        return -code error $e
+    } else {
+        return "RobotDHSOK"
+    }
+}
+
+itcl::body SampleMountingDevice::check { tool } {
+
+        if { [catch {
+
+        fillMoveList depend_on_table_adjust
+        moveToAccessPosition 
+        
+        set operationHandle [eval start_waitable_operation robot_config check_$tool ]
+        wait_for_operation_to_finish $operationHandle
+        
+    } e ] } {
+        log_error $e
+        return -code error $e
+    } else {
+        return "RobotDHSOK"
+    }
+}
+
+itcl::body SampleMountingDevice::openGripper { } {
+
+        if { [catch {
+    
+        set operationHandle [ start_waitable_operation robot_config open_gripper ]
+        wait_for_operation_to_finish $operationHandle
+    
+    } e ] } {
+        log_error $e
+        return -code error $e
+    } else {
+        return "RobotDHSOK"
+    }
+}
+
+itcl::body SampleMountingDevice::heatGripper { heatsecs } {
+        
+    if { [catch {
+    
+        set operationHandle [ start_waitable_operation robot_config heat_gripper $heatsecs ]
+        wait_for_operation_to_finish $operationHandle
+    
+    } e ] } {
+        log_error $e
+        return -code error $e
+    } else {
+        return "RobotDHSOK"
+    }
+}
+
+itcl::body SampleMountingDevice::returnDumbbell { } {
+        
+    if { [catch {
+    
+        set operationHandle [start_waitable_operation robot_config return_dumbbell ]
+        wait_for_operation_to_finish $operationHandle
+        
+        set operationHandle [ start_waitable_operation robot_config heat_gripper 20 done]
+        wait_for_operation_to_finish $operationHandle
+    
+    } e ] } {
+        log_error $e
+        return -code error $e
+    } else {
+        return "RobotDHSOK"
+    }
+}
+
+itcl::body SampleMountingDevice::portJamUserAction { args } {
+    if {[catch {
+        set operationHandle [eval start_waitable_operation robot_config port_jam_action $args]
+        set result [wait_for_operation_to_finish $operationHandle]
+    } e]} {
+        log_error $e
+        return -code error $e
+    } else {
+        return $result
+    }
+}
+
+itcl::body SampleMountingDevice::calibrateMagnet { { find_magnet 0 } { quick 0 } } {
+    if { [catch {
+    
+        set operationHandle [eval start_waitable_operation robot_calibrate magnet_post $find_magnet $quick]
+        set result [wait_for_operation_to_finish $operationHandle]
+        
+    } e ] } {
+        log_error $e
+        return -code error $e
+    } else { 
+        return $result
+    }
+}
+itcl::body SampleMountingDevice::calibrateCassette { cassettes { init 0 } } {
+    set ll [string length $cassettes]
+    if { $ll <= 0 || $ll > 3 } {
+        return -code error "Cassettes should be any one or more of lmr."
+    }
+    for {set index 0} {$index < $ll} {incr index} {
+        set one_cassette [string range $cassettes $index $index]
+        if { $one_cassette != "l" && $one_cassette != "m" && $one_cassette != "r" } {
+            return -code error "Cassettes should be any one or more of lmr."
+        }
+    }
+
+    #set heatsecs 10
+  
+    if { [catch {
+        set operationHandle [eval start_waitable_operation robot_calibrate cassette $cassettes $init  ]
+        set result [wait_for_operation_to_finish $operationHandle]
+    } e ] } {
+        log_error $e
+        return -code error $e
+    } else { 
+        return $result
+    }
+ }
+
+itcl::body SampleMountingDevice::calibrateGoniometer { { init 0 } } {
+    block_all_motors
+    #set argument "0 0 5"
+    if { [catch {
+        # not include_move_table
+        fillMoveList not_move_table
+        moveToAccessPosition
+    } e ] } {
+        log_error $e
+        return -code error $e
+    }
+
+    #check if need to do sample_xyz calibration
+    #autoSampleCalibrate
+    variable ::nScripts::auto_sample_const
+    #check if need to do sample_xyz calibration
+    set system_on [lindex $auto_sample_const 29]
+
+    if {$system_on == "1"} {
+        ::nScripts::checkSampleXYZ_start
+    }
+
+    sampleOnOffCalibrate
+    
+    #this function must NOT be called before moveToAccessPosition
+    set argument "$init [getDeltaGonioPos]"
+    if { [catch {
+        set operationHandle [eval start_waitable_operation robot_calibrate goniometer $argument]
+        set result [wait_for_operation_to_finish $operationHandle]
+
+        saveCurrentTablePosition
+
+    
+    } e ] } {
+        log_error $e
+        return -code error $e
+    }
+
+    if { [catch {
+        moveBackToOriginalPosition
+    } e ] } {
+        log_error $e
+    }
+    unblock_all_motors
+    return $result
+}
+
+
+itcl::body SampleMountingDevice::checkGoniometerReachable { } {
+    block_all_motors
+    if { [catch {
+        fillMoveList not_move_table
+        moveToAccessPosition
+    } e ] } {
+        log_error $e
+        return -code error $e
+    }
+
+    #this function must NOT be called before moveToAccessPosition
+    set argument "0 [getDeltaGonioPos]"
+    if { [catch {
+        set operationHandle [eval start_waitable_operation robot_calibrate check_goniometer_reachable $argument]
+        set result [wait_for_operation_to_finish $operationHandle]
+
+    } e ] } {
+        log_error $e
+        return -code error $e
+    }
+
+    if { [catch {
+        moveBackToOriginalPosition
+    } e ] } {
+        log_error $e
+    }
+    unblock_all_motors
+    return $result
+}
+
+
+itcl::body SampleMountingDevice::newGonioCAL { } {
+    block_all_motors
+    if { [catch {
+        # not include_move_table
+        fillMoveList not_move_table
+        moveToAccessPosition
+    } e ] } {
+        log_error $e
+        return -code error $e
+    }
+    #this function must NOT be called before moveToAccessPosition
+    set argument "[getDeltaGonioPos]"
+    set need_goHome 0
+    if { [catch {
+        #cool the tong and move to goniometer
+        set operationHandle [eval start_waitable_operation robot_calibrate prepare_goniometer $argument]
+        set result [wait_for_operation_to_finish $operationHandle]
+        set need_goHome 1
+
+        #start goniometer cal with option "init"
+        set operationHandle [eval start_waitable_operation robot_calibrate goniometer 1 $argument]
+        set result [wait_for_operation_to_finish $operationHandle]
+
+        #save table position and go home
+        saveCurrentTablePosition
+
+        set need_goHome 0
+        start_recovery_operation robot_standby low_power
+    } e ] } {
+        log_error $e
+        if {$need_goHome} {
+            set need_goHome 0
+            start_recovery_operation robot_standby low_power
+        }
+        return -code error $e
+    }
+
+    ### we ignore errors here
+    if { [catch {
+        moveBackToOriginalPosition
+    } e ] } {
+        log_error $e
+    }
+    unblock_all_motors
+    return $result
+}
+itcl::body SampleMountingDevice::specialGonioCAL { dx dy dz du } {
+    block_all_motors
+    if { [catch {
+        # not include_move_table
+        fillMoveList not_move_table
+        moveToAccessPosition
+    } e ] } {
+        log_error $e
+        return -code error $e
+    }
+    if { [catch {
+        set operationHandle [eval start_waitable_operation robot_calibrate goniometer 0 $dx $dy $dz $du]
+        set result [wait_for_operation_to_finish $operationHandle]
+    } e ] } {
+        log_error $e
+        return -code error $e
+    }
+
+    unblock_all_motors
+    return $result
+}
+itcl::body SampleMountingDevice::newSpecialGonioCAL { dx dy dz du } {
+    block_all_motors
+    if { [catch {
+        # not include_move_table
+        fillMoveList not_move_table
+        moveToAccessPosition
+    } e ] } {
+        log_error $e
+        return -code error $e
+    }
+    set argument "$dx $dy $dz $du"
+    set need_goHome 0
+    if { [catch {
+        #cool the tong and move to goniometer
+        set operationHandle [eval start_waitable_operation robot_calibrate prepare_goniometer $argument]
+        set result [wait_for_operation_to_finish $operationHandle]
+        set need_goHome 1
+
+        #start goniometer cal with option "init"
+        set operationHandle [eval start_waitable_operation robot_calibrate goniometer 1 $argument]
+        set result [wait_for_operation_to_finish $operationHandle]
+
+        start_recovery_operation robot_standby low_power
+        set need_goHome 0
+    } e ] } {
+        log_error $e
+        if {$need_goHome} {
+            set need_goHome 0
+            start_recovery_operation robot_standby low_power
+        }
+        return -code error $e
+    }
+    unblock_all_motors
+    return $result
+}
+itcl::body SampleMountingDevice::getGonioCALDATA { } {
+    fillMoveList not_move_table
+    return "$sample_z_safe [getDeltaGonioPos]"
+}
+itcl::body SampleMountingDevice::calibrateBeamLineTool { { init 0 } } {
+    if { [catch {
+        set operationHandle [eval start_waitable_operation robot_calibrate beamline_tool $init ]
+        set result [wait_for_operation_to_finish $operationHandle]
+    } e ] } {
+        log_error $e
+        return -code error $e
+    } else { 
+        return $result
+    }
+}
+itcl::body SampleMountingDevice::oneCalibrate { } {
+    variable ::nScripts::robot_cal_config
+
+    foreach {mask_auto mask_tool mask_cas mask_gonio mask_find mask_quick mask_left mask_middle mask_right } $robot_cal_config break
+
+    if {$mask_tool == "1"} {
+        calibrateMagnet 1 0
+    }
+    ###call to allow change during run
+    foreach {mask_auto mask_tool mask_cas mask_gonio mask_find mask_quick mask_left mask_middle mask_right } $robot_cal_config break
+    if {$mask_cas} {
+        set cas ""
+        if {$mask_left == "1"} {
+            append cas l
+        }
+        if {$mask_middle == "1"} {
+            append cas m
+        }
+        if {$mask_right == "1"} {
+            append cas r
+        }
+        if {$cas != ""} {
+            calibrateCassette $cas 0
+        }
+    }
+    ###call to allow change during run
+    foreach {mask_auto mask_tool mask_cas mask_gonio mask_find mask_quick mask_left mask_middle mask_right } $robot_cal_config break
+    if {$mask_gonio} {
+        calibrateGoniometer 0
+    }
+}
+
+itcl::body SampleMountingDevice::mountBeamLineTool { } {
+    if { [catch {
+        fillMoveList depend_on_table_adjust
+        moveToAccessPosition
+    } e ] } {
+        log_error $e
+        return -code error $e
+    }
+    #check if need to do sample_xyz calibration
+    autoSampleCheck
+    sampleOffGoniometer
+    
+    #this function must NOT be called before moveToAccessPosition
+    set argument [getDeltaGonioPos]
+    if { [catch {
+        set operationHandle [eval start_waitable_operation robot_calibrate mount_beamline_tool $argument ]
+        set result [wait_for_operation_to_finish $operationHandle]
+    } e ] } {
+        log_error $e
+        return -code error $e
+    }
+    if { [catch {
+        moveBackToOriginalPosition
+    } e ] } {
+        log_error $e
+    }
+    return $result
+}
+itcl::body SampleMountingDevice::dismountBeamLineTool { } {
+    if {[isOperation scan3DSetup]} {
+        if {[catch {
+            ### now we need the scan3DSetup operation.  BluIce needs it.
+            set h [start_waitable_operation scan3DSetup clear]
+            wait_for_operation_to_finish $h
+        } errMsg]} {
+            puts "rastering clear failed: $errMsg"
+        }
+    }
+    if {[isOperation rasterRunsConfig]} {
+        if {[catch {
+            set h [start_waitable_operation rasterRunsConfig deleteAllRasters]
+            wait_for_operation_to_finish $h
+        } errMsg]} {
+            puts "rasterRun clear failed: $errMsg"
+        }
+    }
+
+    if { [catch {
+        fillMoveList depend_on_table_adjust
+        moveToAccessPosition
+    } e ] } {
+        log_error $e
+        return -code error $e
+    }
+    #check if need to do sample_xyz calibration
+    autoSampleCheck
+    sampleOnGoniometer
+    
+    #this function must NOT be called before moveToAccessPosition
+    set argument [getDeltaGonioPos]
+    if { [catch {
+    
+        set operationHandle [eval start_waitable_operation robot_calibrate dismount_beamline_tool $argument]
+        set result [wait_for_operation_to_finish $operationHandle]
+    } e ] } {
+        log_error $e
+        return -code error $e
+    }
+    if { [catch {
+        moveBackToOriginalPosition
+    } e ] } {
+        log_error $e
+    }
+    return $result
+}
+itcl::body SampleMountingDevice::moveToGoniometer { } {
+    if { [catch {
+        fillMoveList not_move_table
+        moveToAccessPosition
+    } e ] } {
+        log_error $e
+        return -code error $e
+    }
+
+    #this function must NOT be called before moveToAccessPosition
+    set argument [getDeltaGonioPos]
+
+    #move robot to goniometer standby position
+    if { [catch { 
+        set operationHandle [eval start_waitable_operation robot_calibrate move_to_goniometer $argument]
+        set result [wait_for_operation_to_finish $operationHandle]
+    } e ] } {
+        log_error $e
+        return -code error $e
+    } else { 
+        return $result
+    }
+}
+itcl::body SampleMountingDevice::teachGoniometer { } {
+    set argument [getDeltaGonioPos]
+
+    #save current position to goniometer position
+    if { [catch { 
+        set operationHandle [eval start_waitable_operation robot_calibrate save_goniometer_position $argument]
+        set result [wait_for_operation_to_finish $operationHandle]
+    } e ] } {
+        log_error $e
+        return -code error $e
+    } else { 
+        return $result
+    }
+}
+itcl::body SampleMountingDevice::moveHome { } {
+    set argument [getDeltaGonioPos]
+
+    if { [catch { 
+        set operationHandle [eval start_waitable_operation robot_calibrate move_home $argument]
+        set result [wait_for_operation_to_finish $operationHandle]
+    } e ] } {
+        log_error $e
+        return -code error $e
+    } else { 
+        return $result
+    }
+}
+itcl::body SampleMountingDevice::jumpHome { } {
+    if { [catch { 
+        set operationHandle [eval start_waitable_operation robot_calibrate jump_home]
+        set result [wait_for_operation_to_finish $operationHandle]
+    } e ] } {
+        log_error $e
+        return -code error $e
+    } else { 
+        return $result
+    }
+}
+itcl::body SampleMountingDevice::moveToBeamlineTool { } {
+    #move robot to beamlineTool standby position
+    if { [catch { 
+        set operationHandle [eval start_waitable_operation \
+        robot_calibrate move_to_beamline_tool]
+        set result [wait_for_operation_to_finish $operationHandle]
+    } e ] } {
+        log_error $e
+        return -code error $e
+    } else { 
+        return $result
+    }
+}
+itcl::body SampleMountingDevice::teachBeamlineTool { } {
+    #save current position to beamline tool position
+    if { [catch { 
+        set operationHandle [eval start_waitable_operation \
+        robot_calibrate save_beamline_tool_position]
+        set result [wait_for_operation_to_finish $operationHandle]
+    } e ] } {
+        log_error $e
+        return -code error $e
+    } else { 
+        return $result
+    }
+}
+itcl::body SampleMountingDevice::moveCrystal { args } {
+    set Nargs [ llength $args ]
+
+    if { $Nargs == 0 } {
+        return -code error "ERROR: Invalid number of ports specified"
+    }
+
+    for { set i 0 } {$i < $Nargs } { incr i } {
+        set OnePair [lindex $args $i]
+        if { [string length $OnePair] < 8 } {
+            return -code error "Invalid pair length specified: $OnePair, should be something like lA8->rB1."
+        }
+        set indexArrow [string first "->" $OnePair]
+        if { $indexArrow < 3 } {
+            return -code error "Invalid pair format specified: $OnePair, should be something like lA8->rB1."
+        }
+        set S_Cassette [string index $OnePair 0]
+        set S_Column [string index $OnePair 1]
+        set end_row [expr $indexArrow - 1]
+        set S_Row [string range $OnePair 2 $end_row]
+
+        set targetIndex [expr $indexArrow + 2]
+
+        set T_Cassette [string index $OnePair $targetIndex]
+        incr targetIndex
+        set T_Column [string index $OnePair $targetIndex]
+        incr targetIndex
+        set T_Row [string range $OnePair $targetIndex end]
+
+        puts "one pair: $S_Cassette $S_Column $S_Row ---> $T_Cassette $T_Column $T_Row"
+
+
+        if { ![ validPort $S_Cassette $S_Row $S_Column ] || ![ validPort $T_Cassette $T_Row $T_Column ] } {
+            return -code error "Invalid port specified."
+        }
+    }
+
+    set heatsecs 10
+
+    set need_goHome 0
+
+    if { [catch {
+
+        set operationHandle [eval start_waitable_operation prepare_move_crystal $args]
+        wait_for_operation_to_finish $operationHandle
+
+        set need_goHome 1
+
+        set operationHandle [eval start_waitable_operation move_crystal $args]
+        set result [wait_for_operation_to_finish $operationHandle]
+
+        set need_goHome 0
+
+        start_recovery_operation robot_standby
+        
+    } e ] } {
+        if {$need_goHome} {
+            set need_goHome 0
+            start_recovery_operation robot_standby
+        }
+        log_error $e
+        return -code error $e
+    } else { 
+        return $result
+    }
+
+}
+itcl::body SampleMountingDevice::mountCrystal { cassette row column wash_cycle } {
+    set h [start_waitable_operation userAlignBeam]
+    set r [wait_for_operation_to_finish $h]
+
+    block_all_motors
+    
+    if { ![ validPort $cassette $row $column ] } {
+        return -code error "Invalid port specified."
+    }
+
+    set need_goHome 0
+
+    if { [catch {
+        fillMoveList depend_on_table_adjust
+
+        set argument "$cassette $row $column [getDeltaGonioPosFromFutureMotor]"
+        set operationHandle [eval start_waitable_operation prepare_mount_crystal $argument]
+        set result [wait_for_operation $operationHandle]
+
+        if {[checkIfRecoverableError $result]} {
+            #the above call will also change fillMoveList
+            #restart the operation
+            set argument "$cassette $row $column [getDeltaGonioPosFromFutureMotor]"
+            set operationHandle [eval start_waitable_operation prepare_mount_crystal $argument]
+            set result [wait_for_operation $operationHandle]
+        }
+
+        set status [lindex $result 0]
+    
+        #first reply must be update or normal to continue
+        if { $status != "update" && $status != "normal" } {
+            return -code error "$result"
+        }
+
+        if { $status == "normal" && [llength $result] >=4 } {
+            if {[lindex $result 1] == "n" && \
+                [lindex $result 2] == "0" && \
+                [lindex $result 3] == "N" } {
+                #empty port
+                return $result
+            }
+        }
+
+        set need_goHome 1
+
+        moveToAccessPosition
+        #check if need to do sample_xyz calibration
+        ### create command
+        set prepare_cmd [list start_waitable_operation prepare_mount_crystal]
+        lappend prepare_cmd $cassette $row $column
+        set deltaGonioPos [getDeltaGonioPos]
+        eval lappend prepare_cmd $deltaGonioPos
+        autoSampleCheck $prepare_cmd
+        sampleOffGoniometer
+
+        #this function must NOT be called before moveToAccessPosition
+        set argument "$cassette $row $column $deltaGonioPos $wash_cycle"
+
+        if { $status == "update" } {
+            wait_for_operation_to_finish $operationHandle
+        }
+
+        set operationHandle [eval start_waitable_operation mount_crystal $argument]
+        set result [readBarcodeWhileWaitForOperationToFinish $operationHandle]
+
+        set need_goHome 0
+
+        if {([lindex $result 1] != "n" || \
+        [lindex $result 2] != "0" || \
+        [lindex $result 3] != "N") && 
+        [catch sampleOnGoniometer errMsg]} {
+            start_recovery_operation robot_standby rescue_sample
+            set result "sample not on goniometer after mount"
+            log_severe $result
+            log_severe "Robot maybe failed to pull out the sample from cassette"
+        } else {
+            start_recovery_operation robot_standby
+        }
+    } e ] } {
+        if {[lindex $e 0] == "normal"} {
+            return $e
+        }
+
+        if {$need_goHome} {
+            set need_goHome 0
+            start_recovery_operation robot_standby
+        }
+
+        if {$e == "sample_still_on_goniometer"} {
+            if { [catch {
+                moveBackToOriginalPosition
+            } e ] } {
+                log_error $e
+            }
+        }
+        log_error $e
+        warnDetectorZ
+        return -code error $e
+    }
+
+    ### we ignore errors here
+    if { [catch {
+        moveBackToOriginalPosition
+    } e ] } {
+        log_error $e
+    }
+    unblock_all_motors
+
+    ::nScripts::correctPreCheckMotors 1
+    
+    return $result
+}
+
+itcl::body SampleMountingDevice::dismountCrystal { cassette row column } {
+    block_all_motors
+
+    if { ![ validPort $cassette $row $column ] } {
+        return -code error "Invalid port specified."
+    }
+    
+    set need_goHome 0
+
+    if { [catch {
+
+        fillMoveList depend_on_table_adjust
+        set operationHandle [eval start_waitable_operation prepare_dismount_crystal $cassette $row $column [ getDeltaGonioPosFromFutureMotor ] ]
+        set result [wait_for_operation $operationHandle]
+
+        if {[checkIfRecoverableError $result]} {
+            set operationHandle [eval start_waitable_operation prepare_dismount_crystal $cassette $row $column [ getDeltaGonioPosFromFutureMotor ] ]
+            set result [wait_for_operation $operationHandle]
+        }
+        set status [lindex $result 0]
+    
+        #first reply must be update to continue
+        if { $status != "update" && $status != "normal" } {
+            return -code error $result
+        }
+        if { $status == "normal" && [llength $result] >=4 } {
+            if {[lindex $result 1] == "n" && \
+                [lindex $result 2] == "0" && \
+                [lindex $result 3] == "N" } {
+                #nothing on goniometer
+                return $result
+            }
+        }
+
+        set need_goHome 1
+
+        moveToAccessPosition
+        #check if need to do sample_xyz calibration
+        ### create command
+        set prepare_cmd [list start_waitable_operation prepare_dismount_crystal]
+        lappend prepare_cmd $cassette $row $column
+        set deltaGonioPos [getDeltaGonioPos]
+        eval lappend prepare_cmd $deltaGonioPos
+        autoSampleCheck $prepare_cmd
+        sampleOnGoniometer
+        
+        if { $status == "update"  } {
+            wait_for_operation_to_finish $operationHandle
+        }
+        
+        set operationHandle [eval start_waitable_operation dismount_crystal $cassette $row $column $deltaGonioPos]
+        set result [wait_for_operation_to_finish $operationHandle]
+
+        set need_goHome 0
+
+        start_recovery_operation robot_standby
+    } e ] } {
+        if {[lindex $e 0] == "normal"} {
+            return $e
+        }
+        log_error $e
+        warnDetectorZ
+        if {$need_goHome} {
+            set need_goHome 0
+            start_recovery_operation robot_standby
+        }
+        if {$e == "no_sample_on_goniometer"} {
+            log_severe "no sample on goniometer before dismount."
+            log_severe " Please call staff to clear mounted if really there is no sample"
+        }
+        return -code error $e
+    }
+
+    if {[catch sampleOffGoniometer errMsg]} {
+        set result "maybe sample still on goniometer after dismount"
+        log_warning $result
+    }
+
+    ### we ignore errors here
+    if { [catch {
+        moveBackToOriginalPosition
+    } e ] } {
+        log_error $e
+    }
+
+    unblock_all_motors
+    return $result
+}
+itcl::body SampleMountingDevice::washCrystal { times } {
+    block_all_motors
+
+    #puts "wash crystal $times"
+
+    set need_goHome 0
+
+    if { [catch {
+        fillMoveList depend_on_table_adjust
+        #puts "start prepare operation"
+        set operationHandle [eval start_waitable_operation prepare_wash_crystal $times [ getDeltaGonioPosFromFutureMotor ] ]
+        set result [wait_for_operation $operationHandle]
+
+        if {[checkIfRecoverableError $result]} {
+            set operationHandle [eval start_waitable_operation prepare_wash_crystal $times [ getDeltaGonioPosFromFutureMotor ]]
+            set result [wait_for_operation $operationHandle]
+        }
+        set status [lindex $result 0]
+    
+        #first reply must be update to continue
+        if { $status != "update" && $status != "normal" } {
+            return -code error $result
+        }
+        if { $status == "normal" && [lindex $result 1] == "nothing" } {
+            return $result
+        }
+        #puts "move to access positoin"
+
+        set need_goHome 1
+
+        moveToAccessPosition
+        #check if need to do sample_xyz calibration
+        ### create command
+        set prepare_cmd [list start_waitable_operation prepare_wash_crystal]
+        lappend prepare_cmd $times
+        set deltaGonioPos [getDeltaGonioPos]
+        eval lappend prepare_cmd $deltaGonioPos
+        autoSampleCheck $prepare_cmd
+        sampleOnGoniometer
+        
+        if { $status == "update"  } {
+            wait_for_operation_to_finish $operationHandle
+        }
+        
+        #puts "start wash operation"
+        set operationHandle [eval start_waitable_operation wash_crystal $times $deltaGonioPos]
+        set result [wait_for_operation_to_finish $operationHandle]
+
+        set need_goHome 0
+
+        if {[catch sampleOnGoniometer errMsg]} {
+            start_recovery_operation robot_standby rescue_sample
+            set result "sample not on goniometer after wash"
+            log_severe $result
+        } else {
+            start_recovery_operation robot_standby
+        }
+    } e ] } {
+        if {[lindex $e 0] == "normal"} {
+            return $e
+        }
+
+        log_error $e
+        warnDetectorZ
+
+        if {$need_goHome} {
+            set need_goHome 0
+            start_recovery_operation robot_standby
+        }
+        if {$e == "no_sample_on_goniometer"} {
+            log_severe "no sample on goniometer before washing"
+            log_severe " Please call staff to clear mounted if really there is no sample"
+        }
+        return -code error $e
+    }
+
+    ### we ignore errors here
+    if { [catch {
+        moveBackToOriginalPosition
+    } e ] } {
+        log_error $e
+    }
+
+    unblock_all_motors
+    return $result
+}
+
+itcl::body SampleMountingDevice::mountNextCrystal { cassette row column cassette_nxt row_nxt column_nxt wash_cycle } {
+    foreach {willDo1 willDo2} [::nScripts::userAlignBeam_getNeedToDo 0] break
+    if {$willDo1 || $willDo2} {
+        set result1 [dismountCrystal $cassette $row $column]
+
+        ###this will call the userAlignBeam
+        set result2 [mountCrystal $cassette_nxt $row_nxt $column_nxt $wash_cycle]
+
+        eval lappend result1 $result2
+        return $result1
+
+    }
+
+    block_all_motors
+    
+    if { ![ validPort $cassette $row $column ] || ![ validPort $cassette_nxt $row_nxt $column_nxt ] } {
+        return -code error "Invalid port specified."
+    }
+    
+    set need_goHome 0
+
+    if { [catch {
+
+        fillMoveList depend_on_table_adjust
+        set operationHandle [eval start_waitable_operation prepare_mount_next_crystal $cassette $row $column $cassette_nxt $row_nxt $column_nxt [ getDeltaGonioPosFromFutureMotor ] ]
+        set result [wait_for_operation $operationHandle]
+
+        if {[checkIfRecoverableError $result]} {
+            set operationHandle [eval start_waitable_operation prepare_mount_next_crystal $cassette $row $column $cassette_nxt $row_nxt $column_nxt [ getDeltaGonioPosFromFutureMotor ] ]
+            set result [wait_for_operation $operationHandle]
+        }
+
+        set status [lindex $result 0]
+    
+        if { $status != "update" && $status != "normal" } {
+            return -code error $result
+        }
+        if { $status == "normal" && [llength $result] >=8 } {
+            if {[lindex $result 1] == "n" && \
+                [lindex $result 2] == "0" && \
+                [lindex $result 3] == "N" && \
+                [lindex $result 4] == "normal" && \
+                [lindex $result 5] == "n" && \
+                [lindex $result 6] == "0" && \
+                [lindex $result 7] == "N" } {
+                #nothing on goniometer with empty source port
+                return $result
+            }
+        }
+
+        set need_goHome 1
+
+        moveToAccessPosition
+        #check if need to do sample_xyz calibration
+        ### create command
+        set prepare_cmd [list start_waitable_operation prepare_mount_next_crystal]
+        lappend prepare_cmd $cassette $row $column $cassette_nxt $row_nxt $column_nxt
+        set deltaGonioPos [getDeltaGonioPos]
+        eval lappend prepare_cmd $deltaGonioPos
+        autoSampleCheck $prepare_cmd
+        sampleOnGoniometer
+
+        if { $status == "update" } {
+            wait_for_operation_to_finish $operationHandle
+        }
+        
+        set operationHandle [eval start_waitable_recovery_operation mount_next_crystal $cassette $row $column $cassette_nxt $row_nxt $column_nxt $deltaGonioPos $wash_cycle]
+        set result [readBarcodeWhileWaitForOperationToFinish $operationHandle]
+
+        set need_goHome 0
+
+        if {[llength $result] >=8 && \
+        [lindex $result 4] == "normal" && \
+        [lindex $result 5] != "n" && \
+        [lindex $result 6] != "0" && \
+        [lindex $result 7] != "N" && \
+        [catch sampleOnGoniometer errMsg]} {
+            start_recovery_operation robot_standby rescue_sample
+            set result "sample not on goniometer after mount next"
+            log_severe $result
+        } else {
+            start_recovery_operation robot_standby
+        }
+    } e ] } {
+        if {[lindex $e 0] == "normal"} {
+            return $e
+        }
+        if {$need_goHome} {
+            set need_goHome 0
+            start_recovery_operation robot_standby
+        }
+        log_error $e
+        warnDetectorZ
+        return -code error $e
+    }
+
+    ### we ignore errors here
+    if { [catch {
+        moveBackToOriginalPosition
+    } e ] } {
+        log_error $e
+    }
+    unblock_all_motors
+    return $result
+}
+
+itcl::body SampleMountingDevice::validPort { cassette row column } {
+
+    set portOK 0
+
+    set cassOK [ lsearch -exact $validcassetteList $cassette ]
+    set colOK [ lsearch -exact $validcolumnList $column ]
+    set rowOK [ lsearch -exact $validrowList $row ]
+
+    if { $cassOK != -1 && $colOK != -1 && $rowOK != -1 } {
+        set portOK 1
+    }
+
+    return $portOK
+}
+
+itcl::body SampleMountingDevice::calculateDeltaGonioPos { V2 Pitch H XAdjust YAdjust } {
+    set dx_robot [ expr -$length_vert2_gonio*(1- cos($Pitch)) + $height_vert2_gonio*sin($Pitch) + $XAdjust ]
+    set dz_robot [ expr -$length_vert2_gonio*sin($Pitch) + $height_vert2_gonio*(cos($Pitch) - 1) + $V2 ]
+
+    set dy_robot [ expr -$H + $YAdjust ]
+
+    set du_robot 0
+    
+    return [ format "%2.4f %2.4f %2.4f %2.4f" $dx_robot $dy_robot $dz_robot $du_robot] 
+
+}
+itcl::body SampleMountingDevice::getDeltaGonioPos { } {
+    return [getDeltaGonioPosFromMotor]
+}
+itcl::body SampleMountingDevice::getDeltaGonioPosFromMotor { } {
+    set V1 $::gDevice(table_vert_1,scaled)
+    set V2 $::gDevice(table_vert_2,scaled)
+    set H $::gDevice(table_horz,scaled)
+
+    return [getDeltaGonioPosFromMotorArgument $V1 $V2 $H]
+}
+itcl::body SampleMountingDevice::getDeltaGonioPosFromFutureMotor { } {
+    set V1 $::gDevice(table_vert_1,scaled)
+    set V2 $::gDevice(table_vert_2,scaled)
+    set H $::gDevice(table_horz,scaled)
+
+    #if the motor name exist in moveArray, then take the future value
+    if {[info exists moveToAccessArray(table_vert_1)]} {
+        set V1 moveToAccessArray(table_vert_1)
+    }
+    if {[info exists moveToAccessArray(table_vert_2)]} {
+        set V2 moveToAccessArray(table_vert_2)
+    }
+    if {[info exists moveToAccessArray(table_horz)]} {
+        set H moveToAccessArray(table_horz)
+    }
+
+    return [getDeltaGonioPosFromMotorArgument $V1 $V2 $H]
+}
+itcl::body SampleMountingDevice::getDeltaGonioPosFromMotorArgument { V1 V2 H } {
+    #calculate V1, H, pitch and yaw from the real motors.
+    # 111111111 get raw data
+    set l_V2_V1 [expr $::gDevice(table_v2_z,scaled) \
+                         -$::gDevice(table_v1_z,scaled)]
+
+    if {$l_V2_V1 <= 0} {
+        log_severe "bad distance between V1 and V2: $l_V2_V1"
+        return -code error "bad distance between V1 and V2: $l_V2_V1" 
+    }
+    set Pitch [expr ($V2 - $V1) / $l_V2_V1]
+    set Pitch [expr atan($Pitch)]
+
+    return [calculateDeltaGonioPos $V2 $Pitch $H 0 0]
+}
+
+itcl::body SampleMountingDevice::resetProcedure { } {
+    variable ::nScripts::robotResetStep
+    variable ::nScripts::screening_msg
+   #gContinueResetProcedure set by the continueResetProcedure operation 
+    global gContinueResetProcedure
+
+    set screening_msg "Robot reset"
+
+    block_all_motors
+    
+    set gContinueResetProcedure 0
+    
+    if { [catch {
+        
+        for { set step 1 } {$step < 22} {incr step} {
+            
+            performNextRobotResetStep $step
+            
+            set robotResetStep $step
+
+            #loop until we get an abort or the continueResetProcedure is called
+            set gContinueResetProcedure 0
+            set screening_msg "waiting staff input"
+
+            while { $gContinueResetProcedure == 0 } {
+                wait_for_time 200
+            }
+            set screening_msg "doing robot reset step $step"
+        }
+        set screening_msg ""
+    } errorResult ] } {
+        set gContinueResetProcedure 0 
+        set robotResetStep 0
+        set screening_msg ""
+        
+        log_error $errorResult
+        return -code error $errorResult
+   }
+
+    set gContinueResetProcedure 0 
+    set robotResetStep 0
+}
+
+itcl::body SampleMountingDevice::delayReset { } {
+    if { [catch {
+        set operationHandle [eval start_waitable_operation robot_config delay_reset [getDeltaGonioPos]]
+        wait_for_operation_to_finish $operationHandle
+
+    } e ] } {
+        log_error $e
+        return -code error $e
+    } else {
+        return "RobotDHSOK"
+    }
+}
+itcl::body SampleMountingDevice::skipReset { } {
+    if { [catch {
+        set operationHandle [eval start_waitable_operation robot_config sample_confirmed_on_goniometer]
+        wait_for_operation_to_finish $operationHandle
+
+    } e ] } {
+        log_error $e
+        return -code error $e
+    } else {
+        return "RobotDHSOK"
+    }
+}
+#03/16/04: P20 stores goniometer position when MOTOR V1=V2=H1=H2=0
+itcl::body SampleMountingDevice::performNextRobotResetStep { step_ } {
+    
+    switch $step_ {
+      1 {
+            # do not use robot for Screening
+            set handle [start_waitable_operation sequenceSetConfig setConfig useRobot "0"]
+            wait_for_operation $handle
+            
+            # send dismount message to dcss to reset the crystal
+            #state to "no crystal mounted"
+            #set handle [start_waitable_operation sequenceSetConfig setConfig dismount 1]
+            #wait_for_operation $handle
+
+            wait_for_time $RESET_WAIT_TIME
+
+       }
+       2 {
+            #Press the green hutch reset button.
+            wait_for_time $RESET_WAIT_TIME
+      }
+      3 {
+        #The robot server now performs a check to see if a Reset is allowed.
+            wait_for_time $RESET_WAIT_TIME
+      }
+      4 {
+            resetAllowed
+            
+            #The robot will now move the gripper arm to an accessible location
+      }
+      5 {
+            moveToCheckPoint
+            #Manually remove any crystal from the goniometer.
+      }
+      6 {
+            #If the gripper is closed use a heat gun to melt any excess ice
+            #on the gripper.
+            wait_for_time $RESET_WAIT_TIME
+      }
+      7 {
+            #The robot will now open the grippers
+            wait_for_time $RESET_WAIT_TIME
+      }
+      8 {
+            openGripper
+            #Please remove the dumbbell magnet and any crystal on it.
+            wait_for_time $RESET_WAIT_TIME
+        }
+        9 {
+        #Please remove any crystal from inside the gripper cavity.
+            wait_for_time $RESET_WAIT_TIME
+        }
+        10 {
+            #The robot will now move the gripper to the heating chamber and
+            #dry the gripper arms.
+            wait_for_time $RESET_WAIT_TIME
+        }
+        11 {
+            heatGripper 10
+         #The robot gripper will now try to retrieve a dumbbell magnet.
+        }
+        12 {
+            check dumbbell
+            #The robot will now move the gripper arm to an accessible location
+        }
+        13 {
+            moveToCheckPoint
+            
+          openGripper
+
+            #Remove the dumbbell magnet and any crystal on it.
+        }
+        14 {
+            #The robot will now move the gripper to the heating chamber and
+            #dry the gripper arms
+            wait_for_time $RESET_WAIT_TIME
+    }
+        15 {
+            heatGripper 0
+            #The robot will now move the gripper arm to an accessible location
+            #above the dispensing Dewar, with the lid closed.
+        }
+        16 {
+            moveToCheckPoint
+            #Use a heat gun to make sure the dumbbell magnet is free
+            #from ice and dry
+        }
+        17 {
+            #Please replace the dumbbell magnet
+            wait_for_time $RESET_WAIT_TIME
+        }
+        18 {
+            #The robot will now return the dumbbell magnet to the dispensing
+            wait_for_time $RESET_WAIT_TIME
+        }
+        19 {
+            returnDumbbell
+            #Please verify that the cassettes inside the Dewar correspond to
+            #the ones loaded into the Screening Web Interface.
+        }
+        20 {
+            # enable robot mode
+            set handle [start_waitable_operation sequenceSetConfig setConfig useRobot "1"]
+            wait_for_operation $handle
+            # sync with robot if it can
+            set handle [start_waitable_operation sequenceSetConfig syncWithRobot 1]
+            wait_for_operation $handle
+            
+            #Please use the Search / Reset key to interlock the hutch and close the hutch door.
+            wait_for_time $RESET_WAIT_TIME
+        }
+        21 {
+            #Enable Safeguard and press the Safeguard release button.
+            wait_for_time $RESET_WAIT_TIME
+        }
+        default {
+            return -code error "Unknown robot reset step."
+        }
+    }
+}
+itcl::body SampleMountingDevice::clearTableCALDATA { } {
+    variable ::nScripts::table_calibration0
+    variable ::nScripts::table_calibration1
+    variable ::nScripts::table_calibration2
+    variable ::nScripts::table_calibration3
+    variable ::nScripts::table_calibration4
+
+    set timeStamp [clock format [clock seconds] -format "%D-%T"]
+    set table_calibration0 [lreplace table_calibration0 0 1 0 $timeStamp]
+    set table_calibration1 [lreplace table_calibration1 0 1 0 $timeStamp]
+    set table_calibration2 [lreplace table_calibration2 0 1 0 $timeStamp]
+    set table_calibration3 [lreplace table_calibration3 0 1 0 $timeStamp]
+    set table_calibration4 [lreplace table_calibration4 0 1 0 $timeStamp]
+    return "all data cleared"
+}
+itcl::body SampleMountingDevice::checkIfRecoverableError { result_message } {
+    variable ::nScripts::robot_attribute
+    #currently only deal with goniometer unreachable error
+
+    if {[lindex $result_message 0] != "out"} {
+        return 0
+    }
+    if {[llength $result_message] < 4} {
+        return 0
+    }
+    if {[lindex $result_message 1] != "of" || \
+        [lindex $result_message 2] != "robot" || \
+        [lindex $result_message 3] != "range"} {
+        return 0
+    }
+
+    #check to see if robot_attribute for "move table in case of goniometer unreachable is turned on"
+    set move_table_if_need [lindex $robot_attribute 10]
+    if {$move_table_if_need != "1"} {
+        return 0
+    }
+
+    #re-fill the list with forced_move_table
+    fillMoveList forced_move_table
+    return 1
+}
+
+itcl::body SampleMountingDevice::prepareRobotTest { } {
+    #set argument "0 0 5"
+    if { [catch {
+        # not include_move_table
+        fillMoveList not_move_table
+        moveToAccessPosition
+    } e ] } {
+        log_error $e
+        return -code error $e
+    }
+    #this function must NOT be called before moveToAccessPosition
+    return [getDeltaGonioPos]
+}
+itcl::body SampleMountingDevice::autoSampleCheck { {retry_cmd ""}} {
+    variable ::nScripts::auto_sample_const
+    #check if need to do sample_xyz calibration
+    set system_on [lindex $auto_sample_const 29]
+
+    if {$system_on != "1"} return
+
+    #if {$retry_cmd != ""} {
+    #    log_warning "retry command: $retry_cmd"
+    #}
+    
+    set auto_center 0
+    log_note "perform automatic sample_xyz checking...."
+    if {[catch {
+        set result [::nScripts::checkSampleXYZ_start]
+    } e ] } {
+        log_error $e
+
+        if {1} {
+            return -code error $e
+        }
+        set e1 [lindex $e 0]
+        if {$e1 != "check_xyz_failed"} {
+            return -code error $e
+        }
+        ###### auto calibration if check failed
+        set auto_center 1
+    }
+    if {$auto_center} {
+        log_warning "auto calibrate the goniomemter position....."
+        if {$retry_cmd != ""} {
+            set need_goHome 0
+            start_recovery_operation robot_standby
+        }
+        if {[catch autoSampleCalibrate e]} {
+            if {$e != "aborted"} {
+                log_severe $e
+            }
+            return -code error $e
+        }
+        log_note "auto center goniometer succeeded: $e"
+        if {$retry_cmd != ""} {
+            set handle [eval $retry_cmd]
+            wait_for_operation_to_finish $handle
+            set need_goHome 1
+        }
+    }
+}
+itcl::body SampleMountingDevice::autoSampleCalibrate { } {
+    variable ::nScripts::auto_sample_const
+    #check if need to do sample_xyz calibration
+    set system_on [lindex $auto_sample_const 29]
+
+    if {$system_on != "1"} return
+    
+    log_note "perform automatic sample_xyz calibration...."
+    if {[catch {
+        set result [::nScripts::auto_sample_cal_start full_calibrate]
+    } e ] } {
+        log_error $e
+        return -code error $e
+    }
+    return $result
+}
+itcl::body SampleMountingDevice::sampleOnGoniometer { } {
+    variable ::nScripts::robot_attribute
+
+    ### if auto sample position is not on, skip this also
+    variable ::nScripts::auto_sample_const
+    #check if need to do sample_xyz calibration
+    set system_on [lindex $auto_sample_const 29]
+    if {$system_on != "1"} return
+
+    if {![::nScripts::CSO_get_constant system_on]} {
+        return
+    }
+
+    #if probe port is turned off, we will skip sample gonio check
+    if {![lindex $robot_attribute 2]} {
+        log_warning sampleOnGoniometer skipped because port probing is turned off
+        return
+    }
+
+    log_note "auto check sample on goniometer"
+    if {[catch {::nScripts::check_sample_on_start sample_on} e] && \
+    $e == "no_sample_on_goniometer"} {
+        return -code error $e
+    }
+}
+itcl::body SampleMountingDevice::sampleOffGoniometer { } {
+    variable ::nScripts::robot_attribute
+
+    ### if auto sample position is not on, skip this also
+    variable ::nScripts::auto_sample_const
+    #check if need to do sample_xyz calibration
+    set system_on [lindex $auto_sample_const 29]
+    if {$system_on != "1"} return
+
+    if {![::nScripts::CSO_get_constant system_on]} {
+        return
+    }
+    log_note sample check is on
+
+    #if probe port is turned off, we will skip sample gonio check
+    if {![lindex $robot_attribute 2]} {
+        log_warning sampleOffGoniometer skipped because port probing is turned off
+        return
+    }
+
+    log_note "auto check sample off goniometer"
+    if {[catch {::nScripts::check_sample_on_start sample_off} e] && \
+    $e == "sample_still_on_goniometer"} {
+        log_severe Sample on Goniometer
+        return -code error $e
+    }
+}
+itcl::body SampleMountingDevice::sampleOnOffCalibrate { } {
+
+    ### if auto sample position is not on, skip this also
+    variable ::nScripts::auto_sample_const
+    #check if need to do sample_xyz calibration
+    set system_on [lindex $auto_sample_const 29]
+    if {$system_on != "1"} return
+
+    if {![::nScripts::CSO_get_constant system_on]} {
+        return
+    }
+
+    log_note "calibrate sample on off goniometer"
+    if {[catch {
+        set result [::nScripts::check_sample_on_start self_calibration]
+    } e ] } {
+        log_error $e
+        return -code error $e
+    }
+}
+itcl::body SampleMountingDevice::stepUp { args } {
+    if { [catch {
+        set operationHandle [eval start_waitable_operation robot_config raise_robot $args]
+        wait_for_operation_to_finish $operationHandle
+
+    } e ] } {
+        log_error $e
+        return -code error $e
+    } else {
+        return "RobotDHSOK"
+    }
+}
+itcl::body SampleMountingDevice::warnDetectorZ { } {
+    variable ::nScripts::screening_msg
+    set distanceMotor [::nScripts::getDetectorDistanceMotorName]
+
+    if {[info exists moveBackArray($distanceMotor)]} {
+        log_warning please notice that old $distanceMotor was $moveBackArray($distanceMotor)
+        set screening_msg "WARNING: old $distanceMotor=$moveBackArray($distanceMotor)"
+    }
+
+}
+itcl::body SampleMountingDevice::readSampleBarcode { deltaGonioPos index port wait_time {goHome 1}} {
+    variable ::nScripts::cassette_barcode
+
+    puts "readSampleBarcode port=$port index=$index"
+
+    set cassette [string index $port 0]
+    set column   [string index $port 1]
+    set row      [string range $port 2 end]
+
+    if { ![ validPort $cassette $row $column ] } {
+        return -code error "Invalid port specified."
+    }
+
+    set need_goHome 0
+    set readResult "failed"
+
+    if { [catch {
+        if {$deltaGonioPos == ""} {
+            set deltaGonioPos [getDeltaGonioPos]
+        }
+        set argument "$cassette $row $column $deltaGonioPos"
+        set operationHandle [eval start_waitable_operation prepare_mount_crystal $argument]
+        set result [wait_for_operation $operationHandle]
+        set status [lindex $result 0]
+    
+        #first reply must be update or normal to continue
+        if { $status != "update" && $status != "normal" } {
+            return -code error "$result"
+        }
+
+        if { $status == "normal" && [llength $result] >=4 } {
+            if {[lindex $result 1] == "n" && \
+                [lindex $result 2] == "0" && \
+                [lindex $result 3] == "N" } {
+                #empty port
+                return -code error "empty port"
+            }
+        }
+
+        set need_goHome 1
+        ### move to barcode reader position
+        set argument "$cassette $row $column $deltaGonioPos -1"
+        set operationHandle \
+        [eval start_waitable_operation flash_barcode $argument]
+        set result [wait_for_operation_to_finish $operationHandle]
+        if {[lindex $result 1] == "n" && \
+        [lindex $result 2] == "0" && \
+        [lindex $result 3] == "N"} {
+            return -code error "empty port"
+        }
+
+        #### read barcode: need to put sample back even it failed or aborted
+        if {[catch {
+            set time_second [expr $wait_time / 1000.0]
+            set time_to_wait [expr $wait_time + 2000]
+            set readHandle [start_waitable_operation readBarCode $time_second]
+            set readResult [wait_for_operation_to_finish $readHandle $time_to_wait]
+            if {$index >= 0} {
+                set barcode [lindex $readResult 1]
+                set cassette_barcode \
+                [setStringFieldWithPadding $cassette_barcode $index $barcode]
+
+                updateCassetteOwnerFromBarcode
+            }
+        } barcodeError]} {
+            set readResult "ERROR $barcodeError"
+        }
+
+        #### put back sample (ignore abort command)
+        set argument "$cassette $row $column $deltaGonioPos -2"
+        set operationHandle \
+        [eval start_waitable_recovery_operation flash_barcode $argument]
+        set result [wait_for_operation_to_finish $operationHandle]
+
+        if {$goHome} {
+            set need_goHome 0
+            start_recovery_operation robot_standby
+        }
+
+    } e ] } {
+        if {$goHome} {
+            if {$need_goHome} {
+                start_recovery_operation robot_standby
+            }
+        }
+        return -code error $e
+    }
+
+    if {[lindex $readResult 0] != "normal"} {
+        return -code error $readResult
+    }
+
+    return [lrange $readResult 1 end]
+}
+itcl::body SampleMountingDevice::moveToBarcodeReader { } {
+    if { [catch {
+        fillMoveList not_move_table
+        moveToAccessPosition
+    } e ] } {
+        log_error $e
+        return -code error $e
+    }
+
+    set argument [getDeltaGonioPos]
+
+    if { [catch { 
+        set operationHandle [eval start_waitable_operation robot_calibrate move_to_barcode_reader $argument]
+        set result [wait_for_operation_to_finish $operationHandle]
+    } e ] } {
+        log_error $e
+        return -code error $e
+    } else { 
+        return $result
+    }
+}
+itcl::body SampleMountingDevice::teachBarcodeReader { } {
+    set argument [getDeltaGonioPos]
+
+    #save current position to goniometer position
+    if { [catch { 
+        set operationHandle [eval start_waitable_operation robot_calibrate save_barcode_reader $argument]
+        set result [wait_for_operation_to_finish $operationHandle]
+    } e ] } {
+        log_error $e
+        return -code error $e
+    } else { 
+        return $result
+    }
+}
+itcl::body SampleMountingDevice::putSampleBackFromBarcodeReader { } {
+    set argument [getDeltaGonioPos]
+
+    if { [catch { 
+        set operationHandle [eval start_waitable_operation robot_config put_sample_back_from_barcode $argument]
+        set result [wait_for_operation_to_finish $operationHandle]
+    } e ] } {
+        log_error $e
+        return -code error $e
+    } else { 
+        return $result
+    }
+}
+### here probe includes scan barcode
+itcl::body SampleMountingDevice::probe { } {
+    variable ::nScripts::scanId_config
+
+    ### do we need to scan barcode?
+    set needScanBarcode 0
+    for {set i 0} {$i < 3} {incr i} {
+        set need [lindex $scanId_config $i]
+        if {$need == "1"} {
+            set needScanBarcode 1
+            break
+        }
+    }
+
+    if {$needScanBarcode} {
+        readCassetteIdBarcode 1
+    }
+
+    if {[anyProbe l] || [anyProbe m] || [anyProbe r]} {
+        set operationHandle [eval start_waitable_operation robot_config probe]
+        set result [wait_for_operation_to_finish $operationHandle]
+    } else {
+        start_recovery_operation robot_standby
+        set result OK
+    }
+
+    return $result
+}
+itcl::body SampleMountingDevice::readCassetteIdBarcode { {stay_in_dewar 0} } {
+    variable ::nScripts::scanId_config
+    variable ::nScripts::cassette_barcode
+    variable ::nScripts::barcode_port
+
+    block_all_motors
+    if { [catch {
+        fillMoveList not_move_table
+        moveToAccessPosition
+    } e ] } {
+        log_error $e
+        return -code error $e
+    }
+
+    set deltaGonioPos [getDeltaGonioPos]
+    set casList [list l m r]
+
+    for {set i 0} {$i < 3} {incr i} {
+        set offset [expr $i + 1]
+        set enabled [lindex $scanId_config $i]
+        if {!$enabled} {
+            continue
+        }
+        set cas      [lindex $casList $i]
+        set portList [lindex $barcode_port  $i]
+        if {$portList == ""} {
+            set portList [getDefaultBarcodePort $cas]
+        }
+        set gotBarcode 0
+        set barcode no_barcode
+        foreach colRow $portList {
+            set port $cas$colRow
+            if {[catch {
+                set barcode [readSampleBarcode $deltaGonioPos $offset $port 2000.0 0]
+                puts "got barcode=$barcode for $port"
+                set gotBarcode 1
+            } errMsg] == 1} {
+                puts "readBarcode $port failed: $errMsg"
+            }
+            if {$gotBarcode} {
+                break
+            }
+        }
+        if {!$gotBarcode} {
+            set barcode no_barcode
+            set cassette_barcode \
+            [setStringFieldWithPadding $cassette_barcode $offset $barcode]
+        }
+    }
+    updateCassetteOwnerFromBarcode
+    if {!$stay_in_dewar} {
+        start_recovery_operation robot_standby
+    }
+
+    if { [catch {
+        moveBackToOriginalPosition
+    } e ] } {
+        log_error $e
+    }
+    unblock_all_motors
+}
+itcl::body SampleMountingDevice::updateCassetteOwnerFromBarcode { } {
+    variable ::nScripts::cassette_barcode
+    variable ::nScripts::cassette_owner
+
+    set ll [llength $cassette_barcode]
+    if {$ll < 4} {
+        set lNeed [expr 4 - $ll]
+        for {set i 0} {$i < $lNeed} {incr i} {
+            lappend cassette_barcode ""
+        }
+    }
+
+    set ulList [eval ::nScripts::barcodeData_start get_multiple_user_list $cassette_barcode]
+    set cassette_owner $ulList
+}
+itcl::body SampleMountingDevice::addUsersToBarcode { barcode users } {
+    variable ::nScripts::cassette_barcode
+    variable ::nScripts::cassette_owner
+
+    if {$barcode == "" || $barcode == "unknown" || $barcode == "no_barcode" || $users == ""} {
+        return NO_NEED
+    }
+    eval ::nScripts::barcodeData_start add_user $barcode $users
+
+    if {[lsearch -exact $cassette_barcode $barcode] >= 0} {
+        updateCassetteOwnerFromBarcode
+    }
+}
+itcl::body SampleMountingDevice::getDefaultBarcodePort { cas } {
+    variable ::nScripts::robot_cassette
+    switch -exact -- $cas {
+        l {
+            set index 0
+        }
+        m {
+            set index 97
+        }
+        r {
+            set index 194
+        }
+        default {
+            log_error wrong cassette $cas. Only l m r
+            return -code error wrong_cassette
+        }
+    }
+    set casStatus [lindex $robot_cassette $index]
+    if {$casStatus == 3} {
+        # puck adaptor
+        return [list A1 B1 C1 D1]
+    } else {
+        return A1
+    }
+}
+itcl::body SampleMountingDevice::anyProbe { cas } {
+    variable ::nScripts::robot_probe
+
+    switch -exact -- $cas {
+        l {
+            set start 0
+        }
+        m {
+            set start 97
+        }
+        r {
+            set start 194
+        }
+        default {
+            return -code error UNKNOWN_CASSETTE
+        }
+    }
+    set end [expr $start + 97]
+    for {set i $start} {$i < $end} {incr i} {
+        set p [lindex $robot_probe $i]
+        if {$p == "1"} {
+            return 1
+        }
+    }
+    return 0
+}
+itcl::body SampleMountingDevice::readBarcodeWhileWaitForOperationToFinish { \
+handle } {
+    set barcodeStarted 0
+    set barcodeResult "not_started"
+    set status "update"
+
+    while { $status == "update" } {
+        set result [wait_for_operation $handle]
+        set status [lindex $result 0]
+        if {$status == "update"} {
+            set tag [lindex $result 1]
+            if {!$barcodeStarted && $tag == "START_BARCODE" } {
+                set hBarcode [start_waitable_operation readBarCode 30]
+                set barcodeStarted 1
+            } elseif {$barcodeStarted && $tag == "END_BARCODE" } {
+                start_recovery_operation stopBarCode
+                puts "waiting barcode result"
+                catch {wait_for_operation_to_finish $hBarcode 2000} \
+                barcodeResult
+
+                puts "barcode result=$barcodeResult"
+            }
+        } elseif {$status == "normal"} {
+            puts "END of operation"
+            if {[lindex $barcodeResult 0] == "normal"} {
+                puts "append barcode to result"
+                set barcodeData [lindex $barcodeResult 1]
+                puts "append barcode $barcodeData to result"
+                lappend result $barcodeData
+            } else {
+                puts "no or bad barcode $barcodeResult"
+            }
+        }
+    }
+    return $result
+}

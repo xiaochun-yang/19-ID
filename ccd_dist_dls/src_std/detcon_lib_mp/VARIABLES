@@ -1,0 +1,62 @@
+
+Variables used in detector command:
+
+header_size 	n		header size, computed.
+info 		string		filename, sans directory, for display purposes.
+row_xfer	n		number of rows in the image (basic size, or quadrant, for Q4s)
+col_xfer	n		number of cols in the image (basic size, or quadrant, for Q4s)
+pcshutter	bool		1 to use pcshutter, else 0.
+j5_trigger	bool		1 to use j5_trigger synchronization, else 0.
+timecheck	1		1 to check time rationality, else 0.
+row_bin		n		1 or 2, binning.
+col_bin		n		1 or 2, binning.
+adc		n		1 for fast, 0 for slow.
+time		fval		time for the image.
+
+
+Variables used in transform command:
+
+row_mm		fval		Beam_x
+col_mm		fval		Beam_y
+dist_mm		fval		Distance
+two_theta	fval		TwoTheta
+header_size     n               header size, computed.
+row_xfer        n               number of rows in the image (basic size, or quadrant, for Q4s)
+col_xfer        n               number of cols in the image (basic size, or quadrant, for Q4s)
+row_bin         n               1 or 2, binning.
+col_bin         n               1 or 2, binning.
+reply		n		Usually 0 (don't wait for op finished before replying).
+compress	bool		1 to compress.
+detector_sn	n		serial number.
+strip_ave	string		strip averages if applicable.
+save_raws	bool		1 to save raws.
+outfile_type	n		0 for 16 bit, 1 for 32 bit.
+infile		string		<socket>, usually.
+outfile		string		output file with suffix (.img).
+rawfile		string		raw file name, without the .imx_?
+kind		n		Image kind (see transform code, indicating which item is being sent).
+dz_ratio	fval		dezingering ratio.
+
+
+Variables which end up in the header, which are not derivable.
+
+PHI
+OMEGA
+KAPPA
+OSC_START
+OSC_RANGE
+TWOTHETA
+DISTANCE
+WAVELENGTH
+BEAM_CENTER_X
+BEAM_CENTER_Y
+AXIS
+TIME
+DOSE
+
+
+Modes which may be specified by the caller.
+
+dark_interval		n		time between darks.
+repeat_dark_current	bool		1 to repeat darks periodically.
+dark_mode		n		0 for manual, 1 for auto (the usual).

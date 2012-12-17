@@ -1,0 +1,24 @@
+#! /bin/csh -f
+
+nvi -e main-c.c << EOF
+:se nosm
+:se noai
+:%s/XmNx,.*)/XmNx, 1280-402)/
+:%s/XmNy,.*)/XmNy, 0)/
+:%s/XtManageChild(manual_controlDialog);/\/\* & \*\/
+:%s/XtManageChild(snapshotDialog);/\/\* & \*\/
+:%s/XtManageChild(strategyDialog);/\/\* & \*\/ /
+:%s/XtAppMainLoop(app);/\
+	XtAddEventHandler(setup_arrowButton,\
+		ButtonPressMask, False, MENU_POST, (XtPointer)setup_popupMenu);\
+	XtAddEventHandler(stop_arrowButton,\
+		ButtonPressMask, False, MENU_POST, (XtPointer)popupMenu);\
+	XtAddEventHandler(display_arrowButton,\
+		ButtonPressMask, False, MENU_POST, (XtPointer)display_popupMenu);\
+	XtAddEventHandler(process_arrowButton,\
+		ButtonPressMask, False, MENU_POST, (XtPointer)process_popupMenu);\
+		\
+	XtAppMainLoop(app);\
+
+:wq
+EOF

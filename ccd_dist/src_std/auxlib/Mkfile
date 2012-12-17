@@ -1,0 +1,26 @@
+CC = cc
+CFLAGS = $(CFLAGS_OS) -D$(OSTYPE) -DCRYSTAL_LOGIC_KAPPA
+OEXTS = trnlog.o timer.o mdcclock.o fio_for_unix.o marpack.o check_environ.o netich.o\
+	net_client.o \
+	dskhd.o dskio.o file_test.o filec_debug.o getbo.o namfil.o rdcal.o \
+	rdctbl.o rdfile.o rdfits.o rdhead.o rdlum.o rdmad.o rdmar.o rdsmv.o \
+	swpbyt.o wrctbl.o wrfile.o wrfits.o wrmad.o wrswap.o kappa.o swapfcns.o pack_c.o \
+	issue_signal.o
+OBJS = $(OEXTS)
+DD = ../../lib/$(OSTYPE)
+
+PRCMD = pr
+
+$(DD)/auxlib.a : $(OBJS)
+	/bin/rm -f $(DD)/auxlib.a
+	ar rv $(DD)/auxlib.a $(OBJS)
+	ar ts $(DD)/auxlib.a
+
+$(OEXTS) : ../incl/ccdconv.h ../incl/filec.h
+
+clean :	$(OEXTS)
+	rm $?
+
+print :	*.c *.h Makefile
+	$(PRCMD) $?
+	touch print

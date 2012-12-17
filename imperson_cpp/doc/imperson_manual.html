@@ -1,0 +1,4326 @@
+<!DOCTYPE html PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=iso-8859-1">
+  <meta name="Author" content="Boom">
+  <meta name="GENERATOR"
+ content="Mozilla/4.79 [en] (Windows NT 5.0; U) [Netscape]">
+  <title>Impersonation Server Manual</title>
+</head>
+<body>
+<h1>
+<tt>Impersonation Server: Users' Manual</tt></h1>
+<h2>
+<tt>Table of Contents</tt></h2>
+<ul>
+1&nbsp; <a href="#Introduction">Introduction</a>
+  <ul>
+1.1&nbsp; <a href="#HTTP/1.1%20Speicification%20%28RFC">HTTP/1.1.Specification
+(RFC 2616)</a>
+  </ul>
+  <ul>
+1.2&nbsp; <a href="#URI%20Specification%20%28RFC">URI Specification
+(RFC
+2396)</a>
+  </ul>
+</ul>
+<ul>
+2&nbsp; <a href="#Constructing%20HTTP">Constructing a Command in HTTP
+Request</a>
+  <ul>
+2.1&nbsp; <a href="#In%20Request%20URI">Using Request-URI</a>
+  </ul>
+  <ul>
+2.2&nbsp; <a href="#Using%20HTML_FORM">Using HTML-FORM</a>
+  </ul>
+  <ul>
+2.3&nbsp; <a href="#Using%20Request%20Headers">Using Request Headers</a>
+  </ul>
+</ul>
+<ul>
+3&nbsp; <a href="#Complete%20List%20of">Complete List of Commands</a>
+  <ul>
+3.1&nbsp; <a href="#File%20and%20Directory">File and Directory
+Management</a>
+    <ul>
+3.1.1&nbsp; <a href="#listDirectory">listDirectory</a>
+    </ul>
+    <ul>
+3.1.2&nbsp; <a href="#createDirectory">createDirectory</a>
+    </ul>
+    <ul>
+3.1.3&nbsp; <a href="#deleteDirectory">deleteDirectory</a>
+    </ul>
+    <ul>
+3.1.4&nbsp; <a href="#copyDirectory">copyDirectory</a>
+    </ul>
+    <ul>
+3.1.5&nbsp; <a href="#renameFile">renameFile</a>
+    </ul>
+    <ul>
+3.1.6&nbsp; <a href="#copyFile">copyFile</a>
+    </ul>
+    <ul>
+3.1.7&nbsp; <a href="#getFileStatus">getFileStatus</a>
+    </ul>
+    <ul>
+3.1.8&nbsp; <a href="#getFilePermissions">getFilePermissions</a>
+    </ul>
+    <ul>
+3.1.9&nbsp; <a href="#readFile">readFile</a>
+    </ul>
+    <ul>
+3.1.10 <a href="#writeFile">writeFile</a>
+    </ul>
+    <ul>
+3.1.11 <a href="#deleteFile">deleteFile</a>
+    </ul>
+    <ul>
+3.1.12 <a href="#isFileReadable">isFileReadable</a>
+    </ul>
+  </ul>
+  <ul>
+3.2&nbsp; <a href="#Running%20an%20Executable">Running an Executable</a>
+  </ul>
+  <ul>
+3.3&nbsp; <a href="#Running%20a%20Shell%20Script">Running a Shell
+Script</a>
+  </ul>
+  <ul>
+3.4&nbsp; <a href="#Process_Management">Process Management</a>
+  </ul>
+  <ul>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3.4.1&nbsp; <a
+ href="#getProcessStatus">getProcessStatus</a>
+  </ul>
+  <ul>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; 3.4.2&nbsp; <a
+ href="#killProcess">killProcess</a>
+  </ul>
+</ul>
+<ul>
+3.5&nbsp; <a href="#getVersion">getVersion</a>
+</ul>
+<ul>
+4&nbsp; <a href="#Complete%20List%20of%20Status%20Codes%20and%20Reason">Complete
+List of Status Codes and Reason Phrases</a>
+</ul>
+<ul>
+5&nbsp; <a href="#Appendix">Appendices</a>
+  <ul>
+5.1&nbsp; <a href="#Specifications">Specifications</a>
+  </ul>
+  <ul>
+5.2&nbsp; <a href="#Wildcards">Wildcards</a>
+  </ul>
+</ul>
+<h2>
+<tt>1&nbsp;<a name="Introduction"></a>Introduction</tt></h2>
+<tt>The Impersonation Server is a program that allows other
+applications
+to run programs or scripts on behalf of any user. It communicates with
+a client via the HTTP/1.1 protocol and uses the Authentication Server
+to
+verify that the client application has the right to run jobs on behalf
+of the specified user. It currently runs as a Unix daemon started by
+inetd.</tt>
+<p><tt>The client sends a command to the server in an HTTP request
+message
+and receives a result in an HTTP response message. A command usually
+requires
+some input parameters, for example, listDirectory command requires
+impDirectory
+parameter which represents a directory path that the client wants to
+display.
+Some parameters are mandatory and some other optional, for example,
+impDirectory
+is mandatory for listDirectory whereas impShowDetails is an optional
+parameter.
+The server uses default values for the optional parameters&nbsp; that
+are
+absent from the request. See <a href="#Complete%20List%20of">section 3</a>
+for a complete list of commands and parameters.</tt>
+</p>
+<p><tt>All commands, however, require impUser and impSessionID
+parameters.
+impSessionID is an string returned by the Authentication server for a
+given
+user and password. The client must authenticate itself and get a
+session
+id from the authentication server prior to sending a request to the
+impersonation
+server. The impersonation server sends the user name and the session id
+to the authentication server to validate the session before executing
+the
+command.</tt>
+</p>
+<p><tt>Although the impersonation server implements only a small subset
+of the HTTP/1.1 specification, it conforms to the specification as
+closely
+as possible. This section describes the HTTP/1.1 and URI
+specifications,
+focusing on the parts that will be helpful for the users to construct a
+request and parse a response returned by the server. Links to the
+official
+web sites for the specifications can be found in <a
+ href="#Specifications">section
+5.1</a>.</tt>
+<br>
+&nbsp;
+<br>
+&nbsp;
+</p>
+<h3><tt>1.1&nbsp;<a name="HTTP/1.1 Speicification (RFC"></a>HTTP/1.1
+Specification
+(<a href="#Specifications">RFC 2616</a>)</tt></h3>
+<p><br>
+<tt>Request and Response messages use the generic message format
+of RFC 822 for transferring entities (the payload of the message). Both
+types of message consist of a start-line, zero or more header fields
+(also
+known as "headers"), an empty line (i.e., a line with nothing preceding
+the CRLF) indicating the end of the header fields, and possibly a
+message-body.
+Notes that CR is the carriage return character (US-ASCII 13) and LF is
+the linefeed (US-ASCII 10).</tt>
+</p>
+<p><tt>A request message from a client to a server includes, within the
+first line of that message, the method to be applied to the resource,
+the
+identifier of the resource, and the protocol version in use. Text in
+the
+grey box below shows the syntax of an HTTP request.</tt>
+<br>
+&nbsp;
+<br>
+&nbsp;
+<br>
+&nbsp;
+<table width="100%" bgcolor="#d2d2d2">
+  <tbody>
+    <tr>
+      <td><i><tt>Method request-URI HTTP/1.1</tt></i> <br>
+      <i><tt>General-header: value</tt></i> <br>
+      <i><tt>Request-header: value</tt></i> <br>
+      <i><tt>Entity-header: value</tt></i>
+      <p><i><tt>Message-body</tt></i></p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;
+</p>
+<dl>
+  <li><tt>The Method token indicates the method to be performed on the
+resource
+identified by the Request-URI. The method is case-sensitive.</tt></li>
+  <p><br>
+  <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Method&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+= OPTIONS</tt> <br>
+  <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| GET</tt> <br>
+  <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| HEAD</tt> <br>
+  <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| POST</tt> <br>
+  <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| PUT</tt> <br>
+  <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| DELETE</tt> <br>
+  <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| TRACE</tt> <br>
+  <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| CONNECT</tt> <br>
+  <tt>&nbsp;Only GET and POST are supported by the impersontaion
+server.
+A request containing any other methods will result in a response with
+an
+error code.</tt> <br>
+&nbsp; </p>
+  <li><tt>Request-URI is a uniform Resource Identifiers (URI) that
+identifies
+a resource that is meaningful to the server. See <a
+ href="#URI%20Specification%20%28RFC">section
+1.2</a> for more on the URI specifiction. In general, the request-URI
+is
+in the following format:</tt></li>
+  <br>
+&nbsp;
+  <p>&nbsp; </p>
+  <p><tt>&nbsp;&nbsp;&nbsp; [http://host:port]/resource_path?query</tt>
+  </p>
+  <p><tt>&nbsp;http://host:port is optional but if omitted, "Host"
+header
+must be included.</tt> <br>
+  <tt>&nbsp;resource_path is either a filepath or an impersonation
+command
+such as listDirectory, readFile and etc.</tt> <br>
+  <tt>&nbsp;query is in the URL encoded format. It contains a list of
+parameters for the given command, each separated by "&amp;" sign.</tt> </p>
+  <p><tt>&nbsp;&nbsp;&nbsp;
+param1=value1&amp;param2=value2[&amp;paramN=valueN]</tt> <br>
+&nbsp; </p>
+  <li><tt>General headers are headers that can be included in both
+request and
+response.</tt></li>
+  <p><br>
+  <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; general-header =
+Cache-Control</tt> <br>
+  <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| Connection</tt> <br>
+  <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| Date</tt> <br>
+  <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| Pragma</tt> <br>
+  <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| Trailer</tt> <br>
+  <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| Transfer-Encoding</tt> <br>
+  <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| Upgrade</tt> <br>
+  <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| Via</tt> <br>
+  <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| Warning</tt> </p>
+  <p><tt>The only supported general headers are Connection, Date and
+Transfer-Encoding;
+although the server does not use Connection, Date headers.
+Transfer-Encoding
+is required for the request that contains a body (else Content-Encoding
+entity-header must be present).</tt> <br>
+&nbsp; </p>
+  <li><tt>Request headers are found only in the request message.</tt></li>
+  <p><br>
+  <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; request-header = Accept</tt>
+  <br>
+  <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| Accept-Charset</tt> <br>
+  <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| Accept-Encoding</tt> <br>
+  <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| Accept-Language</tt> <br>
+  <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| Authorization</tt> <br>
+  <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| Expect</tt> <br>
+  <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| From</tt> <br>
+  <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| Host</tt> <br>
+  <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| If-Match</tt> <br>
+  <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| If-Modified-Since</tt> <br>
+  <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| If-None-Match</tt> <br>
+  <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| If-Range</tt> <br>
+  <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| If-Unmodified-Since</tt> <br>
+  <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| Max-Forwards</tt> <br>
+  <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| Proxy-Authorization</tt> <br>
+  <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| Range</tt> <br>
+  <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| Referer</tt> <br>
+  <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| TE</tt> <br>
+  <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| User-Agent</tt> </p>
+  <p><tt>The supported request headers are Host and TE. If TE is
+present
+and if its value is "chunked", the response message body (if any) will
+be chunked encoded. Host header is not currently used by the server.</tt>
+  <br>
+&nbsp; </p>
+  <li><a name="Entity headers"></a><tt>Entity headers can be included
+in both
+request and response. They define meta information about the
+entity-body.</tt></li>
+  <br>
+&nbsp;
+  <p>&nbsp; </p>
+  <p><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; entity-header&nbsp; =
+Allow</tt> <br>
+  <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| Content-Encoding</tt> <br>
+  <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| Content-Language</tt> <br>
+  <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| Content-Length</tt> <br>
+  <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| Content-Location</tt> <br>
+  <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| Content-MD5</tt> <br>
+  <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| Content-Range</tt> <br>
+  <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| Content-Type</tt> <br>
+  <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| Expires</tt> <br>
+  <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| Last-Modified</tt> <br>
+  <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| extension-header</tt> <br>
+&nbsp; </p>
+  <p><tt>The server processes Content-Length and extension-header only.
+Extension-header
+used as one of the means to pass the command parameters to the server.</tt>
+  <br>
+&nbsp; </p>
+  <li><tt>A message is allowed to have a message body if the method is
+POST or
+PUT. A request that contains a message body must also include either
+Content-Length
+or Transfer-Encoding header. If the Content-Length is present, the
+message
+body will be read up to the number of bytes specified by this header.
+If
+Tranfer-Encoding is present and its value is chunked, the message body
+is expected to be chunked encoded. If both Content-Length and chunked
+Transfer-Encoding
+are present, Content-Length will be ignored.</tt></li>
+  <br>
+&nbsp;
+  <p>&nbsp; <br>
+&nbsp; <br>
+&nbsp;
+  <table width="100%" bgcolor="#d2d2d2">
+    <tbody>
+      <tr>
+        <td><i><tt>Method request-URI HTTP/1.1</tt></i> <br>
+        <i><tt>General-header: value</tt></i> <br>
+        <i><tt>Request-header: value</tt></i> <br>
+        <i><tt>Entity-header: value</tt></i> <br>
+        <i><tt>Content-Length: xxx</tt></i>
+        <p><i><tt>message body</tt></i></p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <br>
+&nbsp; </p>
+  <p><tt>The chunked encoding modifies the body of a message in order
+to
+transfer it as a series of chunks, each with its own size indicator (as
+hex number), followed by an optional trailer containing entity-header
+fields.
+This allows dynamically produced content to be transferred along with
+the
+information necessary for the recipient to verify that it has received
+the full message. The chunk-size field is a string of hex digits
+indicating
+the size of the chunk. The chunked encoding is ended by any chunk whose
+size is zero, followed by the trailer, which is terminated by an empty
+line.</tt> <br>
+&nbsp; <br>
+&nbsp;
+  <table width="100%" bgcolor="#d2d2d2">
+    <tbody>
+      <tr>
+        <td><i><tt>Method request-URI HTTP/1.1</tt></i> <br>
+        <i><tt>General-header: value</tt></i> <br>
+        <i><tt>Request-header: value</tt></i> <br>
+        <i><tt>Entity-header: value</tt></i> <br>
+        <i><tt>Tranfer-Encoding: chunked</tt></i>
+        <p><i><tt>hex</tt></i> <br>
+        <i><tt>chunk</tt></i> <br>
+        <i><tt>hex</tt></i> <br>
+        <i><tt>chunk</tt></i> <br>
+        <i><tt>0</tt></i></p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  </p>
+  <p><tt>The impersonation server supports chunked transfer-encoding
+but
+does not currently support trailers in the chunked body.</tt></p>
+</dl>
+<p><br>
+<tt>After receiving and interpreting a request message, the server
+responds with an HTTP response message. The first line of a response
+message
+is the status line, consisting of the protocol version followed by a
+numeric
+status code and its associated textual phrase, with each element
+separated
+by a space character. The status code element is a 3-digit integer
+result
+code of the attempt to understand and satisfy the request. The reason
+phrase
+is intended to give a short textual description of the status code. The
+status code is intended for use by client applications that wish to
+automatically
+discover if the server returns a successful result.</tt>
+<br>
+&nbsp;
+<br>
+&nbsp;
+<br>
+&nbsp;
+<table width="100%" bgcolor="#d2d2d2">
+  <tbody>
+    <tr>
+      <td><i><tt>HTTP status-code reason-phrase</tt></i> <br>
+      <i><tt>General-header: value</tt></i> <br>
+      <i><tt>Response-header: value</tt></i> <br>
+      <i><tt>Entity-header: value</tt></i> <br>
+      <i><tt>Content-Length: xxx</tt></i>
+      <p><i><tt>Message-body</tt></i></p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<p><tt>Using chunked transfer encoding</tt>
+<br>
+&nbsp;
+<table width="100%" bgcolor="#d2d2d2">
+  <tbody>
+    <tr>
+      <td><i><tt>HTTP status-code reason-phrase</tt></i> <br>
+      <i><tt>General-header: value</tt></i> <br>
+      <i><tt>Response-header: value</tt></i> <br>
+      <i><tt>Entity-header: value</tt></i> <br>
+      <i><tt>Tranfer-Encoding: chunked</tt></i>
+      <p><i><tt>hex</tt></i> <br>
+      <i><tt>chunk</tt></i> <br>
+      <i><tt>hex</tt></i> <br>
+      <i><tt>chunk</tt></i> <br>
+      <i><tt>0</tt></i></p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;
+</p>
+<dl>
+  <li><tt>The first digit of the status-code defines the class of
+response. The
+last two digits do not have any categorization role. There are 5 values
+for the first digit:</tt></li>
+</dl>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - 1xx: Informational - Request
+received,
+continuing process</tt>
+<p><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - 2xx: Success - The action was
+successfully
+received,</tt>
+<br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; understood, and accepted</tt>
+</p>
+<p><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - 3xx: Redirection - Further
+action
+must be taken in order to</tt>
+<br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; complete the request</tt>
+</p>
+<p><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - 4xx: Client Error - The request
+contains bad syntax or cannot</tt>
+<br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; be fulfilled</tt>
+</p>
+<p><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - 5xx: Server Error - The server
+failed to fulfill an apparently</tt>
+<br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; valid request</tt>
+<br>
+&nbsp;
+</p>
+<dl>
+  <tt>The impersonation server uses both the stand code defined by
+HTTP/1.1.
+speification and also its own extension code in the 4xx and 5xx ranges.
+Complete list of status codes and reason phrases (Standard and
+extension
+codes) can be found in <a
+ href="#Complete%20List%20of%20Status%20Codes%20and%20Reason">section
+4</a>.</tt>
+</dl>
+<dl>
+  <li><tt>The response-header fields allow the server to pass
+additional information
+about the response which cannot be placed in the Status-Line. These
+header
+fields give information about the server and about further access to
+the
+resource identified by the Request-URI.</tt></li>
+  <p><br>
+  <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; response-header =
+Accept-Ranges</tt> <br>
+  <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| Age</tt> <br>
+  <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| ETag</tt> <br>
+  <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| Location</tt> <br>
+  <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| Proxy-Authenticate</tt> <br>
+  <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| Retry-After</tt> <br>
+  <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| Server</tt> <br>
+  <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| Vary</tt> <br>
+  <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| WWW-Authenticate</tt> </p>
+  <p><tt>The only response header returned by the server is Server.</tt>
+  <br>
+&nbsp; </p>
+  <li><tt>The concept of the entity-header is the same as <a
+ href="#Entity%20headers">described
+aboved</a> for the request message. The server only returns any of
+these
+headers if the response message contains a body. Content-Length is
+included
+if the message body is not chunked encoded (using 'Transfer-Encding:
+chunked'
+general header). Content-Encoding and Content-Type are included if the
+encoding and media type of the message body are known. Note that the
+server
+puts the status code and phrase in the message body if the status code
+is not 2xx. In this case, Content-Type wil be included to indicate the
+size of the message body and Content-Type is set to text/plain.</tt></li>
+  <br>
+&nbsp;
+  <p>&nbsp; </p>
+  <p><tt>The impersonation server may also return extension headers
+which
+embody the result of the command. This is only applicable to some&nbsp;
+requests whose result can be represented as a list of parameter name
+and
+value pairs, for example, getFileStatus command returns&nbsp; entity
+headers
+impFileSize and impFileMtime, which describe the file size and
+modification
+time of the requested file.</tt> <br>
+&nbsp; </p>
+  <li><tt>Message body will be included in the response if the
+Transfer-Encoding
+or the Content-Length header. If the status code is not in the 2xx
+range,
+the body will contain the status code and phrase. This is used as an
+easy
+way to debug the result in a browser such as IE and Netscape.</tt></li>
+</dl>
+<h3>
+<tt>1.2&nbsp;<a name="URI Specification (RFC"></a>URI Specification (<a
+ href="#Specifications">RFC
+2396</a>)</tt></h3>
+<p><br>
+<b><tt>URI Syntax</tt></b>
+</p>
+<p><tt>The Impersonation Server accepts a subset of the URI
+specification
+for HTTP scheme. The syntax of the accepted request URI is as follows:</tt>
+</p>
+<p><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+[http://host:port]/resource_path?param1=value1[&amp;paramN=valueN]</tt>
+</p>
+<p><tt>where</tt>
+</p>
+<dl>
+  <li><tt>resource_path is typically an Impersonation command such as
+listDirectory,
+readFile and etc. readFile command is an exception, where path MAY
+represent
+a file path that the client wants to retrieve, in which case,
+impCommand=readFile
+parameter is required in the query part of the URI. In general,
+impCommand
+parameter is not required if the command is already specified in the
+URI
+resource path.</tt></li>
+  <li><tt>paramN and valueN present a parameter name and value pair
+specific
+to the command. See <a href="#Complete%20List%20of">section 3</a> for
+a complete
+list of parameters for each command.</tt></li>
+</dl>
+<tt>Path and parameters must be escaped following the rules described
+above.
+If http://host:port is not present in the request URI, the request
+header
+"Host" must be present and must contain the host name. Note that port
+number
+maybe omitted, in which case, it's defaulted to 80.</tt>
+<p><tt>Section 2.1 describes in details how to construct an
+impersonation
+server command and parameters in a URI.</tt>
+<br>
+&nbsp;
+<br>
+&nbsp;
+</p>
+<p><b><tt>Rules for Escaping/Unescaping URI Characters</tt></b>
+<br>
+&nbsp;
+</p>
+<p><tt>Within a URI, characters are either used as delimiters, or to
+represent
+strings of data (octets) within the delimited portions. Octets are
+either
+represented directly by a character (using the US- ASCII character for
+that octet [ASCII]) or by an escape encoding.</tt>
+</p>
+<p><tt>A URI is represented as a sequence of characters, not as a
+sequence
+of octets (8-bit data).</tt>
+</p>
+<p><tt>The "reserved" syntax class below refers to those characters
+that
+are allowed within a URI, but which may not be allowed within a
+particular
+component of the generic URI syntax. These characters used in the data
+portion of the URI must be escaped.</tt>
+</p>
+<p><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; reserved&nbsp;&nbsp;&nbsp; = ";"
+| "/" | "?" | ":" | "@" | "&amp;" | "=" | "+" |</tt>
+<br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+"$" | ","</tt>
+<br>
+&nbsp;
+</p>
+<p><tt>Data characters that are allowed in a URI but do not have a
+reserved
+purpose are called unreserved. These include upper and lower case
+letters,
+decimal digits, and a limited set of punctuation marks and symbols.</tt>
+<br>
+&nbsp;
+</p>
+<p><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; unreserved&nbsp; = alphanum | mark</tt>
+</p>
+<p><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+mark&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+= "-" | "_" | "." | "!" | "~" | "*" | "'" | "(" | ")"</tt>
+</p>
+<p><tt>Unreserved characters can be escaped without changing the
+semantics
+of the URI, but this should not be done unless the URI is being used in
+a context that does not allow the un-escaped character to appear.</tt>
+</p>
+<p><tt>An escaped octet is encoded as a character triplet, consisting
+of
+the percent character "%" followed by the two hexadecimal digits
+representing
+the octet code. For example, "%20" is the escaped encoding for the
+US-ASCII
+space character.</tt>
+<br>
+&nbsp;
+</p>
+<p><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; escaped&nbsp;&nbsp;&nbsp;&nbsp; =
+"%" hex hex</tt>
+<br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+hex&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+= digit | "A" | "B" | "C" | "D" | "E" | "F" |</tt>
+<br>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+"a" | "b" | "c" | "d" | "e" | "f"</tt>
+<br>
+&nbsp;
+</p>
+<p><tt>In some cases, data that could be represented by an unreserved
+character
+may appear escaped; for example, some of the unreserved "mark"
+characters
+are automatically escaped by some systems. If the given URI scheme
+defines
+a canonicalization algorithm, then unreserved characters may be
+un-escaped
+according to that algorithm. For example, "%7e" is sometimes used
+instead
+of "~" in an http URL path, but the two are equivalent for an http URL.</tt>
+</p>
+<p><tt>Because the percent "%" character always has the reserved
+purpose
+of being the escape indicator, it must be escaped as "%25" in order to
+be used as data within a URI. Implementers should be careful not to
+escape
+or un-escape the same string more than once, since un-escaping an
+already
+un-escaped string might lead to misinterpreting a percent data
+character
+as another escaped character, or vice versa in the case of escaping an
+already escaped string.</tt>
+</p>
+<p><tt>Data corresponding to excluded characters, listed below, must be
+escaped in order to be properly represented within a URI.</tt>
+<br>
+&nbsp;
+</p>
+<p><tt>&nbsp;&nbsp; control&nbsp;&nbsp;&nbsp;&nbsp; = &lt;US-ASCII
+coded
+characters 00-1F and 7F hexadecimal&gt;</tt>
+</p>
+<p><tt>&nbsp;&nbsp; space&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+&lt;US-ASCII
+coded character 20 hexadecimal&gt;</tt>
+</p>
+<p><tt>&nbsp;&nbsp; delims&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = "&lt;" |
+"&gt;"
+| "#" | "%" | &lt;"&gt;</tt>
+</p>
+<p><tt>&nbsp;&nbsp; unwise&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = "{" | "}" |
+"|" | "\" | "^" | "[" | "]" | "`"</tt>
+<br>
+&nbsp;
+<br>
+&nbsp;
+<br>
+&nbsp;
+</p>
+<h2><tt>2&nbsp;<a name="Constructing HTTP"></a>Constructing a Command
+in HTTP
+Request</tt></h2>
+<p><br>
+<tt>A request that the client sends to the server is comprised of
+a command, its parameters/values, and, optionally, input data. There
+are,
+however, more than one ways to compose the request in an HTTP message
+that
+will result in the same response from the server. This section
+describes
+three different ways to construct a command in an HTTP message: using
+the
+request-URI, extension headers and HTML-FORM. For example, a command
+listDirectory
+with a parameter impDirectory may be constructed in many different
+ways,
+as shown below.</tt>
+</p>
+<p><tt>Using request-URI with GET or POST method:</tt>
+<br>
+&nbsp;
+<br>
+&nbsp;
+<table width="100%" bgcolor="#d2d2d2">
+  <tbody>
+    <tr>
+      <td><i><tt>GET
+/listDirectory?impDirectory=%2Fdata%2Fimg&amp;impUser=penjitk&amp;impSessionID=<nobr>7F9F7AE06690871616F</nobr></tt></i>
+      <br>
+      <i><tt>Host: smblx7:61000</tt></i></td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;
+<table width="100%" bgcolor="#d2d2d2">
+  <tbody>
+    <tr>
+      <td><i><tt>POST
+/listDirectory?impDirectory=%2Fdata%2Fimg&amp;impUser=penjitk&amp;impSessionID=<nobr>7F9F7AE06690871616F</nobr></tt></i>
+      <br>
+      <i><tt>Host: smblx7:61000</tt></i></td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<p><tt>Using Extension headers with GET or POST method:</tt>
+<br>
+&nbsp;
+<br>
+&nbsp;
+<table width="100%" bgcolor="#d2d2d2">
+  <tbody>
+    <tr>
+      <td><i><tt>GET /listDirectory HTTP/1.1</tt></i> <br>
+      <i><tt>Host: smblx7:61000</tt></i> <br>
+      <i><tt>impDirectory: /data/img</tt></i> <br>
+      <i><tt>impUser: penjitk</tt></i> <br>
+      <i><tt>impSessionID: <nobr>7F9F7AE06690871616F</nobr></tt></i></td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;
+<table width="100%" bgcolor="#d2d2d2">
+  <tbody>
+    <tr>
+      <td><i><tt>POST /listDirectory HTTP/1.1</tt></i> <br>
+      <i><tt>Host: smblx7:61000</tt></i> <br>
+      <i><tt>impDirectory: /data/img</tt></i> <br>
+      <i><tt>impUser: penjitk</tt></i> <br>
+      <i><tt>impSessionID: <nobr>7F9F7AE06690871616F</nobr></tt></i></td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<p><tt>Using HTML-FORM with POST method (note that HTML-FORM with GET
+mehtod
+is the same as</tt>
+<br>
+<tt>using request-URI with GET, as shown above):</tt>
+<br>
+&nbsp;
+<table width="100%" bgcolor="#d2d2d2">
+  <tbody>
+    <tr>
+      <td><i><tt>POST /listDirectory HTTP/1.1</tt></i> <br>
+      <i><tt>Host: smblx7:61000</tt></i> <br>
+      <i><tt>Content-Length: 75</tt></i>
+      <p><i><tt>impDirectory=%2Fdata%2Fimg&amp;impUser=penjitk&amp;impSessionID=<nobr>7F9F7AE06690871616F</nobr></tt></i></p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;
+</p>
+<p><tt>All of the above HTTP request messages yield the same response
+from
+the server.</tt>
+<br>
+&nbsp;
+</p>
+<p><tt>Not all of the commands can be constructed using the above
+options
+interchangeably. Some special commands require extra data, besides the
+parameters, in the body of the request message. Currently, these
+commands
+can not be constructed using HTML-FORM. These commands are writeFile,
+runExecutable
+and runScript. writeFile allows the client to upload a file onto the
+server,
+where the file is included as the body of the request message. The
+message
+body for runExecutable and runScript may contain data that the server
+pipes
+to the executable or script as standard input.</tt>
+</p>
+<p><tt>If the same parameter appears in more than one places (URI,
+header,
+body as URL-encoded form), the header will replace the URI and the body
+will replace the header. This is due to the order in which different
+parts
+of the message are parsed.</tt>
+<br>
+&nbsp;
+</p>
+<h3><tt>2.1&nbsp;<a name="Using Request URI"></a>Using Request-URI</tt></h3>
+<tt>The client can put a command and its parameters in the request-URI,
+which appears in the first line of the request, after the request
+method.
+There is no difference whether the method is GET or POST. Either way,
+the
+request does not contain the message body.</tt>
+<p><tt>This type of request can also be constructed in directly from a
+browser. The user enters a complete URI using the syntax shown below in
+the URL address box. The browser will construct a HTTP request message
+with the GET method and send it to a server.</tt>
+</p>
+<p><tt>With an exception of writeFile, all commands can be constructed
+within the request URI. The rules for escaping characters in the URI is
+described in <a href="#URI%20Specification%20%28RFC">section 1.2</a>
+above. In
+general the request URI for the impersonation server is in the
+following
+format:</tt>
+</p>
+<p><tt>[http://host:port]/path?param1=value1[&amp;paramN=valueN]&amp;impUser=username&amp;impSessionID=id</tt>
+<br>
+&nbsp;
+</p>
+<dl>
+  <li><tt>path is a command name such as listDirectory, writeFile and
+etc. The
+only exception is readFile command where path maybe the file path and
+readFile
+is specified as impCommand=readFile parameter instead.</tt></li>
+  <li><tt>paramN/valueN make up a pair of parameter and its value
+specific to
+the command. Some commands may not require any parameter at all. Some
+parameters
+are mandatory and some are optional with default values.</tt></li>
+  <li><tt>impUser is a parameter name whose value is the user login
+name.</tt></li>
+  <li><tt>impSessionID is a parameter name whose value is an
+authentication string
+for the given user. The string can be obtained from the authentication
+server, given a user name and password. The session id typically
+expires
+after a period of time. See the authentication server manual for more
+details.</tt></li>
+</dl>
+<p><br>
+<tt>impUser and impSessionID are mandatory in all requests.</tt>
+</p>
+<p><tt>Note that http://host:port maybe omitted in the URI, in which
+case,
+host:port must be specified in the "Host" request header. Port number
+maybe
+omitted when using default port 80.</tt>
+<br>
+&nbsp;
+</p>
+<p><b><tt>Examples</tt></b>
+</p>
+<p><tt>Full URI:</tt>
+<br>
+&nbsp;
+<br>
+&nbsp;
+<table width="100%" bgcolor="#d2d2d2">
+  <tbody>
+    <tr>
+      <td><i><tt><nobr>GET
+http://smblx7:61000/listDirectory?impDirectory=%2data%2img&amp;impUser=penjitk&amp;impSessionID=7F9F7AE06690871616F
+HTTP/1.1</nobr></tt></i> <br>
+      <i><tt>Host: smblx7:6100</tt></i></td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<p><tt><nobr>Host and port in header:</nobr></tt>
+<br>
+&nbsp;
+<table width="100%" bgcolor="#d2d2d2">
+  <tbody>
+    <tr>
+      <td><i><tt>GET <nobr>/deleteDirectory?impDirectory=</nobr>%2F<nobr>data</nobr>%2F<nobr>img&amp;impUser=penjitk&amp;impSessionID=7F9F7AE06690871616F
+HTTP/1.1</nobr></tt></i> <br>
+      <i><tt>Host: smblx7:61000</tt></i></td>
+    </tr>
+  </tbody>
+</table>
+<table width="100%" bgcolor="#d2d2d2">
+  <tbody>
+    <tr>
+      <td><i><tt>GET <nobr>/readFile?impFilePath=</nobr>%2F<nobr>data</nobr>%2F<nobr>img%2Fmyimg.gif&amp;impUser=penjitk&amp;impSessionID=7F9F7AE06690871616F&nbsp;
+HTTP/1.1</nobr></tt></i> <br>
+      <i><tt>Host: smblx7:61000</tt></i></td>
+    </tr>
+  </tbody>
+</table>
+<table width="100%" bgcolor="#d2d2d2">
+  <tbody>
+    <tr>
+      <td><i><tt>GET <nobr>/listDirectory?impDirectory=</nobr>%2F<nobr>data</nobr>%2F<nobr>img&amp;impUser=penjitk&amp;impSessionID=7F9F7AE06690871616F
+HTTP/1.1</nobr></tt></i> <br>
+      <i><tt>Host: smblx7:61000</tt></i></td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<p><tt><nobr>Special case for readFile, filepath in the resource and
+impCommand
+is specified as a parameter in the query:</nobr></tt>
+<br>
+&nbsp;
+<br>
+&nbsp;
+<table width="100%" bgcolor="#d2d2d2">
+  <tbody>
+    <tr>
+      <td><i><tt>GET <nobr>/data/img/myimage.gif?impCommand=readFile&amp;impUser=penjitk&amp;impSessionID=7F9F7AE06690871616F
+HTTP/1.1</nobr></tt></i> <br>
+      <i><tt>Host: smblx7:61000</tt></i></td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;
+<br>
+&nbsp;
+</p>
+<p><a name="Special cases: writeFile, runExecutable and"></a><b><tt>Special
+cases: writeFile, runExecutable and runScript</tt></b>
+</p>
+<p><tt>These three commands may require a message body in the request
+(it
+is requires in the case of writeFile). A request body for the writeFile
+command contains a file content the client wishes to upload onto the
+server.
+runExecutable and runScript request may contain data in the body that
+the
+server will pipe to the executable or script as standard input. In
+order
+to send a message body in the request, the request method must be POST
+since GET does not allow to have a body. A valid HTTP request that
+contains
+a body must also contain&nbsp; Content-Length or chunked
+Transfer-Encoding
+header. Note that if Content-Type is set to
+application/x-www-form-urlencoded,
+the server will interpret the body as HTML-FORM (see <a
+ href="#Using%20HTML_FORM">section
+2.2</a> below).</tt>
+</p>
+<p><tt>An example of writeFile request (writing file to
+/data/img/newimage.gif
+on the server),</tt>
+</p>
+<p><tt>Using Content-Length</tt>
+<br>
+&nbsp;
+<br>
+&nbsp;
+<table width="100%" bgcolor="#d2d2d2">
+  <tbody>
+    <tr>
+      <td><i><tt>POST
+/writeFile?impFilePath=%2Fdata%2Fimg%2Fnewimage.gif&amp;impUser=penjitk&amp;impSessionID=7F9F7AE06690871616F
+HTTP/1.1</tt></i> <br>
+      <i><tt>Host: smblx7:61000</tt></i> <br>
+      <i><tt>Content-Length: 102</tt></i>
+      <p><i><tt>file content (102 bytes long)</tt></i></p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<p><tt>Using chunked transfer encoding to transfer file of 102 bytes:</tt>
+<br>
+&nbsp;
+<br>
+&nbsp;
+<table width="100%" bgcolor="#d2d2d2">
+  <tbody>
+    <tr>
+      <td><i><tt>POST
+/writeFile?impFilePath=%2Fdata%2Fimg%2Fnewimage.gif&amp;impUser=penjitk&amp;impSessionID=7F9F7AE06690871616F
+HTTP/1.1</tt></i> <br>
+      <i><tt>Host: smblx7:61000</tt></i> <br>
+      <i><tt>Transfer-Encoding: chunked</tt></i>
+      <p><i><tt>3C</tt></i> <br>
+      <i><tt>chunk (60 bytes long)</tt></i> <br>
+      <i><tt>2A</tt></i> <br>
+      <i><tt>chunk (42 bytes long)</tt></i> <br>
+      <i><tt>0</tt></i></p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;
+</p>
+<p><tt>An example of runExecutable than runs the /bin/echo program to
+to
+echo 'Hello. How are you?':</tt>
+</p>
+<p><tt>Using content length:</tt>
+<br>
+&nbsp;
+<br>
+&nbsp;
+<table width="100%" bgcolor="#d2d2d2">
+  <tbody>
+    <tr>
+      <td><i><tt>POST
+/runExecutable?impExecutable=%2Fbin%2F%echo&amp;impUser=penjitk&amp;impSessionID=7F9F7AE06690871616F
+HTTP/1.1</tt></i> <br>
+      <i><tt>Host: smblx7:61000</tt></i> <br>
+      <i><tt>Content-Length: 19</tt></i>
+      <p><i><tt>Hello. How are you?</tt></i></p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<p><tt>Using chunked encoding:</tt>
+<br>
+&nbsp;
+<br>
+&nbsp;
+<table width="100%" bgcolor="#d2d2d2">
+  <tbody>
+    <tr>
+      <td><i><tt>POST
+/runExecutable?impExecutable=%2Fbin%2F%echo&amp;impUser=penjitk&amp;impSessionID=7F9F7AE06690871616F
+HTTP/1.1</tt></i> <br>
+      <i><tt>Host: smblx7:61000</tt></i> <br>
+      <i><tt>Transfer-Encoding: chunked</tt></i>
+      <p><i><tt>1C</tt></i> <br>
+      <i><tt>Hello, this is</tt></i> <br>
+      <i><tt>first chunk.</tt></i> <br>
+      <i><tt>1B</tt></i> <br>
+      <i><tt>This is last chunk</tt></i> <br>
+      <i><tt>Goodbye.</tt></i> <br>
+      <i><tt>0</tt></i></p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;
+</p>
+<h3><tt>2.2&nbsp;<a name="Using HTML_FORM"></a>Using HTML-FORM</tt></h3>
+<tt>This is a way to construct a command and its parameters in an HTML
+page. An HTML form contains a method which is usually GET or POST. The
+form action is an impersonation in the URI resource syntax such as
+/listDirector;
+or, in case of readFile command, an absolute file path such as
+/data/img/myimage1.jpeg.
+The command's parameters are specified as input parameters in the form.
+Below is an example of an HTML page containing a form:</tt>
+<br>
+&nbsp;
+<br>
+&nbsp;
+<table width="100%" bgcolor="#d2d2d2">
+  <tbody>
+    <tr>
+      <td><i><tt>&lt;HTML&gt;&lt;HEAD&gt;&lt;TITLE&gt;Example: post
+form&lt;/TITLE&gt;&lt;/HEAD&gt;</tt></i> <br>
+      <i><tt>&lt;BODY&gt;</tt></i> <br>
+      <i><tt>&lt;BR&gt;</tt></i> <br>
+      <i><tt>&lt;FORM method="GET" action="/listDirectory"&gt;</tt></i>
+      <br>
+      <i><tt>&lt;input type="Hidden" name="impDirectory"
+value="/data/img"&gt;</tt></i> <br>
+      <i><tt>&lt;input type="Hidden" name="impUser" value="penjitk"&gt;</tt></i>
+      <br>
+      <i><tt>&lt;input type="Hidden" name=" impSessionID "
+value="3B23491B5DB87F9F7AE06690871616F"&gt;</tt></i> <br>
+      <i><tt>&lt;p&gt;&lt;input type="submit" value="Send"&gt;&lt;/p&gt;</tt></i>
+      <br>
+      <i><tt>&lt;/FORM&gt;</tt></i> <br>
+      <i><tt>&lt;BR&gt;</tt></i> <br>
+      <i><tt>&lt;/BODY&gt;</tt></i> <br>
+      <i><tt>&lt;/HTML&gt;</tt></i></td>
+    </tr>
+  </tbody>
+</table>
+<p><b><tt>Via GET Method</tt></b>
+</p>
+<p><tt>Before sending the request, if the form method is GET, the
+browser
+concatenates the input parameters into a URI escaped string. It then
+appends
+this string URL specified in the form action as query string (following
+the ? reserved character). This URI appears on the first line of the
+request
+message and the HTTP message does not contain a message body. In the
+above
+example, the raw HTTP message will be as follows:</tt>
+<br>
+&nbsp;
+<br>
+&nbsp;
+<table width="100%" bgcolor="#d2d2d2">
+  <tbody>
+    <tr>
+      <td><i><tt><nobr>GET
+http://smblx7:61000/listDirectory?impDirectory=%2Fdata%2Fimg&amp;impUser=penjitk&amp;impSessionID=7F9F7AE06690871616F
+HTTP/1.1</nobr></tt></i> <br>
+      <i><tt>Host: smblx7:61000</tt></i></td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;
+</p>
+<p><b><tt>Via POST Method</tt></b>
+</p>
+<p><tt>If the form above uses POST instead of GET, the browser will
+construct
+a URI escaped string as described above but will put this string in the
+message body instead of appending it to the request URI. The browser
+will
+also add Content-Type and Content-Length entity headers to the message.
+Content-Type will always be application/x-www-form-urlencoded and
+Content-Length
+is the number of bytes of the body.</tt>
+</p>
+<p><tt>The server will not read the body if the Content-Length is not
+set
+and will not treat the body as URL-encoded form, if the content-type is
+not set to application/x-www-form-urlencoded.</tt>
+<br>
+&nbsp;
+<br>
+&nbsp;
+<table width="100%" bgcolor="#d2d2d2">
+  <tbody>
+    <tr>
+      <td><i><tt>POST http://smblx7:61000/listDirectory HTTP/1.1</tt></i>
+      <br>
+      <i><tt>Content-Type: application/x-www-form-urlencoded</tt></i> <br>
+      <i><tt>Host: smblx7:61000</tt></i> <br>
+      <i><tt>Content-Length: 88</tt></i>
+      <p><i><tt>impDirectory=%2Fdata%2Fimg&amp;impUser=penjitk&amp;impSessionID=7F9F7AE06690871616F</tt></i></p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<p><tt>A raw HTTP request described in this section can also be
+generated
+by application directly following the HTML form encoding format via
+POST
+or GET.</tt>
+<br>
+&nbsp;
+<br>
+&nbsp;
+</p>
+<h3><tt>2.3&nbsp;<a name="Using Request Headers"></a>Using Request
+Headers</tt></h3>
+<tt>With this method, the parameter name/value pairs are written as
+extension
+headers. The URL resource in the request line only contains a command
+and,
+optionally, http://host:port.&nbsp; Note that because there is no way
+to
+add extra headers to the message from the browser, this method is only
+available to applications that can create raw HTTP messages directly
+(via
+socket or http libraries).</tt>
+<p><tt>For most cases (except writeFile, runExecutable and runScript),
+GET and POST methods differ only in the method name; both types of
+messages
+do not contain a body.</tt>
+</p>
+<p><b><tt>GET Example</tt></b>
+<br>
+&nbsp;
+<br>
+&nbsp;
+<table width="100%" bgcolor="#d2d2d2">
+  <tbody>
+    <tr>
+      <td><i><tt>GET /listDirectory HTTP/1.1</tt></i> <br>
+      <i><tt>Date: Thu, 20 Feb 2003 22:22:39 GMT</tt></i> <br>
+      <i><tt>Host: smblx7:61000</tt></i> <br>
+      <i><tt>impDirectory: /data/img</tt></i> <br>
+      <i><tt>impUser: penjitk</tt></i> <br>
+      <i><tt>impSessionID: 7F9F7AE06690871616F</tt></i></td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<p><b><tt>POST Example</tt></b>
+<br>
+&nbsp;
+<br>
+&nbsp;
+<table width="100%" bgcolor="#d2d2d2">
+  <tbody>
+    <tr>
+      <td><i><tt>POST /listDirectory HTTP/1.1</tt></i> <br>
+      <i><tt>Date: Thu, 20 Feb 2003 22:22:39 GMT</tt></i> <br>
+      <i><tt>Host: smblx7:61000</tt></i> <br>
+      <i><tt>impDirectory: /data/img</tt></i> <br>
+      <i><tt>impSessionID: 7F9F7AE06690871616F</tt></i> <br>
+      <i><tt>impUser: penjitk</tt></i></td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;
+</p>
+<p><b><tt>Special cases: writeFile, runExecutable and runScript</tt></b>
+</p>
+<p><tt><a href="#Special%20cases:%20writeFile,%20runExecutable%20and">Same
+as described
+in section 2.1</a>, if the body is included in the request,
+Content-Length
+or Transfer-Encoding must be included in the header. Again, POST can
+only
+be used in this case as GET method does not allow the body.</tt>
+<br>
+&nbsp;
+<br>
+&nbsp;
+<br>
+&nbsp;
+</p>
+<h2><tt>3&nbsp;<a name="Complete List of"></a>Complete List of Commands</tt></h2>
+<tt>This section describes each command in details including the input
+parameters, possible status codes, and response body format (if
+included).
+Note that impUser and impSessionID parameters are required for all
+commands
+and are thus omitted in the detailed description of each individual
+command.</tt>
+<p><tt>The server sends an HTTP response to the client with a status
+code
+and status phrase, which appear in the first line of the response. If
+the
+status code is 200, the client can assume that the server has execute
+the
+command successfully. The server returns a 4xx status code if the
+request
+is invalid or if a parameter is missing. It returns a 5xx code if there
+is an internal error. The response body contains a text description of
+the error if the status code is 4xx or 5xx (Content-Length is set to
+the
+length of the body).</tt>
+</p>
+<p><tt>The impersonation server may add impTmpDir, impUserID and
+impGroupID
+parameters to the request. impTmpDir is the location where temporary
+files
+created by the server are stored. The files are owned by the the user
+specified
+as impUser and only the user has a read and wrire permission to the
+file.
+The server deletes the temporary files after the command has been
+successfully
+executed. However, if the server crashes or exits abnormally, the files
+may be left in the directory.</tt>
+</p>
+<p><tt>The common status codes which may be returned by the server for
+any of the commands are:</tt>
+</p>
+<p><tt>Invalid Request:</tt>
+<br>
+&nbsp;
+</p>
+<li><tt>421 Failed to read HTTP request line</tt></li>
+<li> <tt>422 Invalid HTTP request line</tt></li>
+<li> <tt>423 Missing value of parameter</tt></li>
+<li> <tt>424 Failed to decode parameter in request URI</tt></li>
+<li> <tt>425 Failed to read header</tt></li>
+<li> <tt>426 Failed to decode header</tt></li>
+<li> <tt>427 Missing content-type header</tt></li>
+<li> <tt>428 Failed to read message body</tt></li>
+<li> <tt>431 Missing impSessionID</tt></li>
+<li> <tt>432 Missing impUser</tt></li>
+<li> <tt>433 Missing impCommand</tt></li>
+<br>
+&nbsp;
+<p>&nbsp;
+</p>
+<p><tt>Internal Server Error:</tt>
+<br>
+&nbsp;
+</p>
+<li><tt>551 Authentication failed</tt></li>
+<li> <tt>552 Permission Denied</tt></li>
+<li> <tt>553 Invalid session ID</tt></li>
+<li> <tt>554 Invalid command</tt></li>
+<li> <tt>584 Server tried to write more data in body when after body
+is
+completed</tt></li>
+<br>
+&nbsp;
+<p>&nbsp;
+</p>
+<p><tt>The client should not attempt to parse the status phrase in
+order
+to get a meaningful and consistent description of the response as the
+server
+may return different phrase for the same status code. Status phrase
+should
+be used only as a human readable string for debugging the result and
+should
+not be used for automation.</tt>
+</p>
+<h3><tt>3.1&nbsp;<a name="File and Directory"></a>File and Directory
+Management</tt></h3>
+<h3>
+<tt>3.1.1&nbsp;<a name="listDirectory"></a>listDirectory</tt></h3>
+<p><br>
+<tt>listDirectory allows the client to list the contents of a
+directory,
+specified as impDirectory. impMaxDepth can be used to specified the
+depth
+of the directory tree. impFileFilter is a <a href="#Wildcards">filename-wildcard</a><font
+ color="#ff0000">or
+TODO</font><font color="#cc0000"> </font><font color="#ff0000">a list
+of
+wildcards (separated by commas)</font> for filter the files to be
+returned.
+Note that the directories will not be filtered by this wildcard.
+impFileType
+can be used to select the type of files. The value can be file,
+directory
+or all. See more about wildcards in <a href="#Wildcards">section 5.2</a>.</tt>
+<br>
+&nbsp;
+</p>
+<h4><tt>Request Parameters</tt></h4>
+&nbsp;
+<table border="1" width="79%">
+  <tbody>
+    <tr>
+      <td><b><tt>Parameter</tt></b></td>
+      <td><b><tt>Value</tt></b></td>
+      <td><b><tt>Require: Default</tt></b></td>
+      <td><b><tt>Description</tt></b></td>
+    </tr>
+    <tr>
+      <td><tt>impDirectory</tt></td>
+      <td><tt>string</tt></td>
+      <td><tt>yes</tt></td>
+      <td><tt>Full path to a directory</tt></td>
+    </tr>
+    <tr>
+      <td><tt>impShowAbsolutePath</tt></td>
+      <td><tt>true: false</tt></td>
+      <td><tt>no: false</tt></td>
+      <td><tt>If false the returned file paths will be relative to
+impDirectory</tt></td>
+    </tr>
+    <tr>
+      <td><tt>impMaxDepth</tt></td>
+      <td><tt>0 or positive number</tt></td>
+      <td><tt>no: 1</tt></td>
+      <td><tt>Maximum directory depth. 1 means only file/dir&nbsp;</tt>
+      <br>
+      <tt>under impDirectory will be returned</tt></td>
+    </tr>
+    <tr>
+      <td><tt>impFileFilter</tt></td>
+      <td><tt>wildcard pattern</tt></td>
+      <td><tt>no</tt></td>
+      <td><tt>A small set of wildcards which can be used to filter out
+file</tt></td>
+    </tr>
+    <tr>
+      <td><tt>impFileType</tt></td>
+      <td><tt>file | directory | all</tt></td>
+      <td><tt>no: all</tt></td>
+      <td><tt>File means only regular files will be returned.&nbsp;</tt>
+      <br>
+      <tt>Directory will return only directories. All will return all
+file
+types</tt></td>
+    </tr>
+    <tr>
+      <td><tt>impFollowSymlink</tt></td>
+      <td><tt>true | false</tt></td>
+      <td><tt>no: false</tt></td>
+      <td><tt>If true, the directory that is a symlink will be
+followed.&nbsp;</tt></td>
+    </tr>
+    <tr>
+      <td><tt>impShowDetails</tt></td>
+      <td><tt>true | false</tt></td>
+      <td><tt>no: true</tt></td>
+      <td><tt>If true, each line will filename and other info. If
+false, only
+filename will be displayed.</tt></td>
+    </tr>
+    <tr>
+      <td><tt>impSortType</tt></td>
+      <td><tt>0 | 1</tt></td>
+      <td><tt>no: 0</tt></td>
+      <td><tt>0 to return an unsorted directory list and 1 for a sorted list (sorted by name).</tt></td>
+    </tr>  </tbody>
+</table>
+<h4>
+<tt>Request Examples</tt></h4>
+&nbsp;
+<table width="100%" bgcolor="#d2d2d2">
+  <tbody>
+    <tr>
+      <td><i><tt>GET
+/listDirectory?impDirectory=%2Fhome%2Fpenjitk%2Ftest&amp;impMaxDepth=10&amp;impUser=penjitk&amp;impSessionID=7B246107AC73C4A7B8B
+HTTP/1.1</tt></i> <br>
+      <i><tt>Host: smblx7:61000</tt></i></td>
+    </tr>
+  </tbody>
+</table>
+<p><tt>or</tt>
+<br>
+&nbsp;
+<br>
+&nbsp;
+<table width="100%" bgcolor="#d2d2d2">
+  <tbody>
+    <tr>
+      <td><i><tt>GET /listDirectory HTTP/1.1</tt></i> <br>
+      <i><tt>Host smblx7:61000</tt></i> <br>
+      <i><tt>impDirectory: /home/penjitk</tt></i> <br>
+      <i><tt>impMaxDepth: 10</tt></i> <br>
+      <i><tt>impShowAbsolutePath: false</tt></i> <br>
+      <i><tt>impFileType: all</tt></i> <br>
+      <i><tt>impFollowSymlink: true</tt></i> <br>
+      <i><tt>impUser: penjitk</tt></i> <br>
+      <i><tt>impSessionID: 7B246107AC73C4A7B8B</tt></i></td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<h4><tt>Status Code</tt></h4>
+<li> <tt>200 OK</tt></li>
+<li> <tt>440 Missing impDirectory</tt></li>
+<li> <tt>442 Invalid impFileType</tt></li>
+<li> <tt>443 Invalid impFileFilter</tt></li>
+<li> <tt>444 Invalid impDirectory: returned if impDirectory is not a
+valid
+directory.</tt></li>
+<li> <tt>558 Failed to get file stat: returned when it fails to check
+the
+file
+status of impDirectory</tt></li>
+<li> <tt>570 Home directory not set</tt></li>
+<li> <tt>572 Failed to read dir</tt></li>
+<br>
+&nbsp;
+<h4><tt>Response Header and Body</tt></h4>
+<p><br>
+<tt>If the request header contains &#8220;TE: chunked&#8221;, the server will
+send the body in chunked encoding. If not, the result will be sent as
+it
+become available and no Content-Length will be included in the header.
+Although, this behavior does not conform to the HTTP specifications, IE
+will happily display it even though content-length in the response
+header
+is not set. IE will fail to display the response body if sent in
+chunked
+encoding when IE does not sent the TE header in the request.</tt>
+</p>
+<p><tt>If impShowDetails is true, each line in the response body
+contains
+comma separated file information fields of a file that matches the
+request.
+Note that these fields are the same as the ones defined in
+getFileStatus
+command. The fields are listed in the order shown in the table below.
+Column
+2 contains the file name that matches the request. If the file is a
+symbolic
+link, this column will contain the symbolic link name and column 16
+will
+contain the actual filename. Columns 2-15 always contain info of the
+file
+whether it is a symlink or a real file. If impShowDetails is false,
+each
+line displays filename from column 1 only.</tt>
+<br>
+&nbsp;
+<br>
+&nbsp;
+<table border="1" width="80%">
+  <tbody>
+    <tr>
+      <td><b><tt>Ordinal</tt></b></td>
+      <td><b><tt>Name</tt></b></td>
+      <td><b><tt>Value</tt></b></td>
+      <td><b><tt>Description</tt></b></td>
+    </tr>
+    <tr>
+      <td><tt>1</tt></td>
+      <td><tt>Filename</tt></td>
+      <td><tt>string</tt></td>
+      <td><tt>Name of the file.&nbsp; If the file is a symlink, this is
+the name
+of the symlink and not the actual file. The file that the symlink
+points
+to is displayed in "real filename" field.</tt></td>
+    </tr>
+    <tr>
+      <td><tt>2</tt></td>
+      <td><tt>Type</tt></td>
+      <td><tt>regular file | directory | symbolic link | character
+special |
+block special | socket | fifo</tt></td>
+      <td><tt>Type of the file</tt></td>
+    </tr>
+    <tr>
+      <td><tt>3</tt></td>
+      <td><tt>Permissions</tt></td>
+      <td><tt>10-character string</tt></td>
+      <td><tt>File permissions as a fixed length string where</tt> <br>
+      <tt>c[0]: &#8216;d&#8217; for directory, &#8216;l&#8217; for symlink, &#8216;c&#8217; for&nbsp;</tt> <br>
+      <tt>character special, &#8216;b&#8217; for block special,&nbsp;</tt> <br>
+      <tt>&#8216;f&#8217; for fifo, &#8216;s&#8217; for socket, &#8216;-&#8217; for regular file.</tt> <br>
+      <tt>c[1]: &#8216;r&#8217; for user-read, otherwise &#8216;-&#8217;</tt> <br>
+      <tt>c[2]: &#8216;w&#8217; for user-write, otherwise &#8216;-&#8217;</tt> <br>
+      <tt>c[3]: &#8216;x&#8217; for user-execute, otherwise &#8216;-&#8217;</tt> <br>
+      <tt>c[4]: &#8216;r&#8217; for group-read, otherwise &#8216;-&#8217;</tt> <br>
+      <tt>c[5]: &#8216;w&#8217; for group -write, otherwise &#8216;-&#8217;</tt> <br>
+      <tt>c[6]: &#8216;x&#8217; for group -execute, otherwise &#8216;-&#8217;</tt> <br>
+      <tt>c[7]: &#8216;r&#8217; for other-read, otherwise &#8216;-&#8217;</tt> <br>
+      <tt>c[8]: &#8216;w&#8217; for other -write, otherwise &#8216;-&#8217;</tt> <br>
+      <tt>c[9]: &#8216;x&#8217; for other -execute, otherwise &#8216;-&#8217;</tt></td>
+    </tr>
+    <tr>
+      <td><tt>4</tt></td>
+      <td><tt>i-node</tt></td>
+      <td><tt>long unsigned int</tt></td>
+      <td><tt>&nbsp;i-node number (serial number)</tt></td>
+    </tr>
+    <tr>
+      <td><tt>5</tt></td>
+      <td><tt>dev</tt></td>
+      <td><tt>long&nbsp; int</tt></td>
+      <td><tt>Device number</tt></td>
+    </tr>
+    <tr>
+      <td><tt>6</tt></td>
+      <td><tt>rdev</tt></td>
+      <td><tt>long&nbsp; int</tt></td>
+      <td><tt>Device number for special file</tt></td>
+    </tr>
+    <tr>
+      <td><tt>7</tt></td>
+      <td><tt>nlink</tt></td>
+      <td><tt>long&nbsp; int</tt></td>
+      <td><tt>Number of links</tt></td>
+    </tr>
+    <tr>
+      <td><tt>8</tt></td>
+      <td><tt>uid</tt></td>
+      <td><tt>long&nbsp; int</tt></td>
+      <td><tt>User ID of owner</tt></td>
+    </tr>
+    <tr>
+      <td><tt>9</tt></td>
+      <td><tt>gid</tt></td>
+      <td><tt>long&nbsp; int</tt></td>
+      <td><tt>Groupt ID of owner</tt></td>
+    </tr>
+    <tr>
+      <td><tt>10</tt></td>
+      <td><tt>size</tt></td>
+      <td><tt>long&nbsp; int</tt></td>
+      <td><tt>Size of file in bytes</tt></td>
+    </tr>
+    <tr>
+      <td><tt>11</tt></td>
+      <td><tt>atime</tt></td>
+      <td><tt>unsigned int</tt></td>
+      <td><tt>Time of last access</tt></td>
+    </tr>
+    <tr>
+      <td><tt>12</tt></td>
+      <td><tt>mtime</tt></td>
+      <td><tt>unsigned int</tt></td>
+      <td><tt>Time of last modification</tt></td>
+    </tr>
+    <tr>
+      <td><tt>13</tt></td>
+      <td><tt>ctime</tt></td>
+      <td><tt>unsigned int</tt></td>
+      <td><tt>Time of last file status change</tt></td>
+    </tr>
+    <tr>
+      <td><tt>14</tt></td>
+      <td><tt>blksize</tt></td>
+      <td><tt>long int</tt></td>
+      <td><tt>Best I/O block size</tt></td>
+    </tr>
+    <tr>
+      <td><tt>15</tt></td>
+      <td><tt>blocks</tt></td>
+      <td><tt>long int</tt></td>
+      <td><tt>Number of 512-byte blocks allocated</tt></td>
+    </tr>
+    <tr>
+      <td><tt>16</tt></td>
+      <td><tt>real filename</tt></td>
+      <td><tt>string</tt></td>
+      <td><tt>Name of actual file if the file is a symbolic link. Note
+that this
+parameter is returned only if impFollowSymlink is true and file is a
+symbolic
+link. This field&nbsp; will not be included if the file is not a symlink</tt></td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<p><b><tt>Response Examples</tt></b>
+</p>
+<p><tt>Below are some examples of the response body where
+impDirectory=/home/penjit/test.
+The test directory contains a symlink directory called imperson_cpp
+which
+points to /home/penjitk/code/20030123/imperson_cpp directory.
+imperson_cpp/linux/auth.c
+file is also a symlink pointing to
+/home/penjitk/code/20030123/auth/src/auth.c.</tt>
+</p>
+<p><tt>If impFollowSymlink is true</tt>
+<br>
+&nbsp;
+<br>
+&nbsp;
+<table width="100%" bgcolor="#d2d2d2">
+  <tbody>
+    <tr>
+      <td><i><tt>HTTP/1.1 200 OK</tt></i> <br>
+      <i><tt>connection: close</tt></i> <br>
+      <i><tt>date: Sat, 15 Mar 2003 00:18:54 GMT</tt></i> <br>
+      <i><tt>server: Impersonation Server/2.0</tt></i>
+      <p><i><tt><nobr>./imperson_cpp,symbolic
+link,lrwxrwxrwx,1007643887,8,0,0,0,1,1534,26,40,1047686509,1047598240,1047598240,/home/penjitk/code/20030123/imperson_cpp</nobr></tt></i>
+      <br>
+      <i><tt>./imperson_cpp/src,directory,drwxr-x---,688415745,8,0,0,0,2,1534,26,4096,1047686559,1047680312,1047680312</tt></i>
+      <br>
+      <i><tt>./imperson_cpp/src/XosException.h,regular,-rw-r-----,697190700,8,0,0,0,1,1534,26,451,1047682750,1046216809,1046297327</tt></i>
+      <br>
+      <i><tt><nobr>./imperson_cpp/linux/auth.c,symbolic
+link,lrwxrwxrwx,710993170,8,0,0,0,1,1534,26,43,1047686509,1047684096,1047684096,/home/penjitk/code/20030123/auth/src/auth.c</nobr></tt></i></p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<p><tt>If impFollowSymlink is false</tt>
+<br>
+&nbsp;
+<br>
+&nbsp;
+<table width="100%" bgcolor="#d2d2d2">
+  <tbody>
+    <tr>
+      <td><i><tt>HTTP/1.1 200 OK</tt></i> <br>
+      <i><tt>connection: close</tt></i> <br>
+      <i><tt>date: Sat, 15 Mar 2003 00:18:54 GMT</tt></i> <br>
+      <i><tt>server: Impersonation Server/2.0</tt></i>
+      <p><i><tt><nobr>./imperson_cpp,symbolic
+link,lrwxrwxrwx,1007643887,8,0,0,0,1,1534,26,40,1047686509,1047598240,1047598240,/home/penjitk/code/20030123/imperson_cpp</nobr></tt></i></p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<h3><tt>3.1.2&nbsp;<a name="createDirectory"></a>createDirectory</tt></h3>
+<tt>This command creates a directory specified in impDirectory. If
+impCreateParents
+is true, parent directories in the path which do not exist will also be
+created. The newly created directory and its parents created by this
+command
+will have the file permissions as specified in impFileMode.</tt>
+<p><b><tt>Request Parameters</tt></b>
+<br>
+&nbsp;
+<br>
+&nbsp;
+<table border="1" width="80%">
+  <tbody>
+    <tr>
+      <td><b><tt>Parameter</tt></b></td>
+      <td><b><tt>Value</tt></b></td>
+      <td><b><tt>Required: default</tt></b></td>
+      <td><b><tt>Description</tt></b></td>
+    </tr>
+    <tr>
+      <td><tt>impDirectory</tt></td>
+      <td><tt>file path</tt></td>
+      <td><tt>yes</tt></td>
+      <td><tt>Absolute path of the file to be created</tt></td>
+    </tr>
+    <tr>
+      <td><tt>impCreateParents</tt></td>
+      <td><tt>true : false</tt></td>
+      <td><tt>no: false</tt></td>
+      <td><tt>If true, all parents will created if they do not exist</tt></td>
+    </tr>
+    <tr>
+      <td><tt>impFileMode</tt></td>
+      <td><tt>octal number or 10-character string</tt></td>
+      <td><tt>no: 0640</tt></td>
+      <td><tt>File permission such as 0755 or a fixed length string
+where</tt> <br>
+      <tt>c[0]: &#8216;d&#8217; for directory, &#8216;l&#8217; for symlink, &#8216;c&#8217; for&nbsp;</tt> <br>
+      <tt>character special, &#8216;b&#8217; for block special,&nbsp;</tt> <br>
+      <tt>&#8216;f&#8217; for fifo, &#8216;s&#8217; for socket, &#8216;-&#8217; for regular file.</tt> <br>
+      <tt>c[1]: &#8216;r&#8217; for user-read, otherwise &#8216;-&#8217;</tt> <br>
+      <tt>c[2]: &#8216;w&#8217; for user-write, otherwise &#8216;-&#8217;</tt> <br>
+      <tt>c[3]: &#8216;x&#8217; for user-execute, otherwise &#8216;-&#8217;</tt> <br>
+      <tt>c[4]: &#8216;r&#8217; for group-read, otherwise &#8216;-&#8217;</tt> <br>
+      <tt>c[5]: &#8216;w&#8217; for group -write, otherwise &#8216;-&#8217;</tt> <br>
+      <tt>c[6]: &#8216;x&#8217; for group -execute, otherwise &#8216;-&#8217;</tt> <br>
+      <tt>c[7]: &#8216;r&#8217; for other-read, otherwise &#8216;-&#8217;</tt> <br>
+      <tt>c[8]: &#8216;w&#8217; for other -write, otherwise &#8216;-&#8217;</tt> <br>
+      <tt>c[9]: &#8216;x&#8217; for other -execute, otherwise &#8216;-&#8217;</tt></td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<p><b><tt>Request Examples</tt></b>
+</p>
+<p><tt>This example shows how to create a directory test3. The
+directories
+test1 and test2 will be created as well if they do not already exists.</tt>
+<br>
+&nbsp;
+<table width="100%" bgcolor="#d2d2d2">
+  <tbody>
+    <tr>
+      <td><i><tt>GET /createDirectory HTTP/1.1</tt></i> <br>
+      <i><tt>Host smblx7:61000</tt></i> <br>
+      <i><tt>impDirectory: /home/penjitk/test1/test2/test3</tt></i> <br>
+      <i><tt>impCreateParent: true</tt></i> <br>
+      <i><tt>impFileMode: drwx------</tt></i> <br>
+      <i><tt>impUser: penjitk</tt></i> <br>
+      <i><tt>impSessionID: 7B246107AC73C4A7B8B</tt></i></td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<p><b><tt>Status Code</tt></b>
+<br>
+&nbsp;
+</p>
+<li><tt>200 OK</tt></li>
+<li> <tt>440 Missing impDirectory</tt></li>
+<li> <tt>453: Invalid impFileMode</tt></li>
+<li> <tt>454: User root not allowed</tt></li>
+<li> <tt>573: Status phrase comes from the errno after mkdir fails</tt></li>
+<br>
+&nbsp;
+<p>&nbsp;
+</p>
+<p><b><tt>Response Header and Body</tt></b>
+</p>
+<p><tt>Returns the status phrase in the body. No extra header.</tt>
+<br>
+&nbsp;
+</p>
+<h3><tt>3.1.3&nbsp;<a name="deleteDirectory"></a>deleteDirectory</tt></h3>
+<tt>The command deletes a directory specified in impDirectory. If
+impDeleteChildren
+is true all files and directories under impDirectory will be removed
+first.
+If false, impDirectory will only be removed if it is an empty directory.</tt>
+<p><b><tt>Request Parameters</tt></b>
+<br>
+&nbsp;
+<br>
+&nbsp;
+<table border="1" width="80%">
+  <tbody>
+    <tr>
+      <td><b><tt>Parameter</tt></b></td>
+      <td><b><tt>Value</tt></b></td>
+      <td><b><tt>Required: default</tt></b></td>
+      <td><b><tt>Description</tt></b></td>
+    </tr>
+    <tr>
+      <td><tt>impDirectory</tt></td>
+      <td><tt>directory path</tt></td>
+      <td><tt>yes</tt></td>
+      <td><tt>Full&nbsp; path of the dir to be deleted</tt></td>
+    </tr>
+    <tr>
+      <td><tt>impDeleteChildren</tt></td>
+      <td><tt>true | false</tt></td>
+      <td><tt>no: false</tt></td>
+      <td><tt>If true, all file and sub directories under impDirectory
+will be
+deleted before impDirectory is deleted. If false and impDirectory is
+not
+empty, an error status will be returned and the directory will not be
+deleted.</tt></td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;
+</p>
+<p><b><tt>Request Example</tt></b>
+<br>
+&nbsp;
+<table width="100%" bgcolor="#d2d2d2">
+  <tbody>
+    <tr>
+      <td><i><tt><nobr>GET
+/deleteDirectory?impDirectory=%2Fhome%2Fpenjitk%2Ftest&amp;impUser=penjitk&amp;impSessionID=7B246107AC73C4A7B8B
+HTTP/1.1</nobr></tt></i> <br>
+      <i><tt>Host: smblx7:61000</tt></i></td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<p><b><tt>Status Code</tt></b>
+<br>
+&nbsp;
+</p>
+<li><tt>200 OK</tt></li>
+<li> <tt>440 Missing impDirectory</tt></li>
+<li> <tt>558 Failed to get file stat</tt></li>
+<li> <tt>574 Failed to remove file or dir</tt></li>
+<li> <tt>575 Can not remove system or special file</tt></li>
+<li> <tt>576 Failed to unlink symbolic link file</tt></li>
+<p><br>
+<b><tt>Response Header and Body</tt></b>
+</p>
+<p><tt>No extra header is returned. The body contains the status phrase.</tt>
+<br>
+&nbsp;
+</p>
+<h3><tt>3.1.4&nbsp;<a name="copyDirectory"></a>copyDirectory</tt></h3>
+<tt>copyDirectory allows the user to copy a directory and its contents,
+including sub directories, to a new location. If impSymlink is true,
+all
+symlink files and directories will be copied. If not, the symlink files
+or directories will be ignored.</tt>
+<br>
+&nbsp;
+<br>
+&nbsp;
+<table border="1" width="80%">
+  <tbody>
+    <tr>
+      <td><b><tt>Parameter</tt></b></td>
+      <td><b><tt>Value</tt></b></td>
+      <td><b><tt>Required: default</tt></b></td>
+      <td><b><tt>Description</tt></b></td>
+    </tr>
+    <tr>
+      <td><tt>impOldDirectory</tt></td>
+      <td><tt>string</tt></td>
+      <td><tt>yes</tt></td>
+      <td><tt>Full path of a directory to be copied</tt></td>
+    </tr>
+    <tr>
+      <td><tt>impNewDirectory</tt></td>
+      <td><tt>string</tt></td>
+      <td><tt>yes</tt></td>
+      <td><tt>Full path of a new directory name</tt></td>
+    </tr>
+    <tr>
+      <td><tt>impMaxDepth</tt></td>
+      <td><tt>positive number</tt></td>
+      <td><tt>no: all sub directories will be copied</tt></td>
+      <td><tt>Directory depth to copy. If if this parameter is not
+present, all
+subdir and their children will be copied recursively.</tt></td>
+    </tr>
+    <tr>
+      <td><tt>impFollowSymlink</tt></td>
+      <td><tt>true | false</tt></td>
+      <td><tt>no: true</tt></td>
+      <td><tt>If true, follow and copy the file/dir the synlink points
+to.</tt></td>
+    </tr>
+  </tbody>
+</table>
+<p><b><tt>Status Code</tt></b>
+<br>
+&nbsp;
+</p>
+<li><tt>200 OK</tt></li>
+<li> <tt>447 Missing impOldDirectory</tt></li>
+<li> <tt>448 Missing impNewDirectory</tt></li>
+<li> <tt>449 Invalid impMaxDepth</tt></li>
+<li> <tt>450 impOldDirectory is not a valid directory</tt></li>
+<li> <tt>558 Failed to get file stat</tt></li>
+<li> <tt>572 Failed to read dir</tt></li>
+<li> <tt>573 Failed to create dir</tt></li>
+<li> <tt>580 Failed to allocate memory</tt></li>
+<li> <tt>583 Failed to close dir</tt></li>
+<br>
+&nbsp;
+<p>&nbsp;
+</p>
+<p><b><tt>Response Header and Body</tt></b>
+</p>
+<p><tt>No extra header is returned. The body contains the status phrase.</tt>
+<br>
+&nbsp;
+<br>
+&nbsp;
+<br>
+&nbsp;
+</p>
+<h3><tt>3.1.5&nbsp;<a name="renameFile"></a>renameFile</tt></h3>
+<tt>renameFile allows the user to rename a file. The old and new file
+names
+are specified as impOldFilePath and impNewFilePath.</tt>
+<br>
+&nbsp;
+<table border="1" width="80%">
+  <tbody>
+    <tr>
+      <td><b><tt>Parameter</tt></b></td>
+      <td><b><tt>Value</tt></b></td>
+      <td><b><tt>Required: default</tt></b></td>
+      <td><b><tt>Description</tt></b></td>
+    </tr>
+    <tr>
+      <td><tt>impOldFilePath</tt></td>
+      <td><tt>string</tt></td>
+      <td><tt>yes</tt></td>
+      <td><tt>Full path of a file to be renamed&nbsp;</tt></td>
+    </tr>
+    <tr>
+      <td><tt>impNewFilePath</tt></td>
+      <td><tt>string</tt></td>
+      <td><tt>yes</tt></td>
+      <td><tt>Full path of a new file name</tt></td>
+    </tr>
+  </tbody>
+</table>
+<p><b><tt>Status Code</tt></b>
+</p>
+<li><tt>200 OK</tt></li>
+<li> <tt>445 Invalid impOldFilePath</tt></li>
+<li> <tt>446 Invalid impNewFilePath</tt></li>
+<li> <tt>581 Failed to rename file</tt></li>
+<br>
+&nbsp;
+<p>&nbsp;
+</p>
+<p><b><tt>Response Header and Body</tt></b>
+</p>
+<p><tt>No extra header is returned. The body contains the status phrase.</tt>
+<br>
+&nbsp;
+<br>
+&nbsp;
+<br>
+&nbsp;
+</p>
+<h3><tt>3.1.6&nbsp;<a name="copyFile"></a>copyFile</tt></h3>
+<tt>copyFile allows the user to copy a file. The original file to be
+copied
+and the destination file names are specified as impOldFilePath and
+impNewFilePath.</tt>
+<br>
+&nbsp;
+<table border="1" width="80%">
+  <tbody>
+    <tr>
+      <td><b><tt>Parameter</tt></b></td>
+      <td><b><tt>Value</tt></b></td>
+      <td><b><tt>Required: default</tt></b></td>
+      <td><b><tt>Description</tt></b></td>
+    </tr>
+    <tr>
+      <td><tt>impOldFilePath</tt></td>
+      <td><tt>string</tt></td>
+      <td><tt>yes</tt></td>
+      <td><tt>Full path of a file to be copied&nbsp;</tt></td>
+    </tr>
+    <tr>
+      <td><tt>impNewFilePath</tt></td>
+      <td><tt>string</tt></td>
+      <td><tt>yes</tt></td>
+      <td><tt>Full path of a new file</tt></td>
+    </tr>
+    <tr>
+      <td><tt>impFileMode</tt></td>
+      <td><tt>octual number</tt></td>
+      <td><tt>no: File mode of impOldFilePath</tt></td>
+      <td><tt>File mode of the copied file. If this paramater is not
+present,
+the new file will have the same file mode as the original file.</tt></td>
+    </tr>
+  </tbody>
+</table>
+<p><b><tt>Status Code</tt></b>
+<br>
+&nbsp;
+</p>
+<li><tt>200 OK</tt></li>
+<li> <tt>445 Invalid impOldFilePath</tt></li>
+<li> <tt>446 Invalid impNewFilePath</tt></li>
+<li> <tt>555 Failed to open file for reading</tt></li>
+<li> <tt>558 Failed to get file stat</tt></li>
+<li> <tt>561 Failed to open file to writing</tt></li>
+<li> <tt>562 Failed to write file</tt></li>
+<li> <tt>563 Failed to change file mode</tt></li>
+<li> <tt>579 Failed to read file</tt></li>
+<li> <tt>580 Failed to allocate memory</tt></li>
+<li> <tt>582 Failed to close file</tt></li>
+<br>
+&nbsp;
+<p>&nbsp;
+</p>
+<p><b><tt>Response Header and Body</tt></b>
+</p>
+<p><tt>No extra header is returned. The body contains the status phrase.</tt>
+<br>
+&nbsp;
+<br>
+&nbsp;
+</p>
+<h3><tt>3.1.7&nbsp;<a name="getFileStatus"></a>getFileStatus</tt></h3>
+<tt>getFileStatus returns information of the file specified in
+impFilePath.
+The results are returned in the message body and also in the headers.</tt>
+<h4><tt>Request Parameters</tt></h4>
+&nbsp;
+<table border="1" width="80%">
+  <tbody>
+    <tr>
+      <td><b><tt>Parameter</tt></b></td>
+      <td><b><tt>Value</tt></b></td>
+      <td><b><tt>Required: default</tt></b></td>
+      <td><b><tt>Description</tt></b></td>
+    </tr>
+    <tr>
+      <td><tt>impFilePath</tt></td>
+      <td>string</td>
+      <td>yes</td>
+      <td>Full path of a file&nbsp;</td>
+    </tr>
+    <tr>
+      <td><tt>impShowSymlinkStatus</tt></td>
+      <td><tt>true | false</tt></td>
+      <td><tt>no: false</tt></td>
+      <td><tt>If impFilePath is a symlink, this flag tells the server
+whether
+to return info of the symlink or of the file the symlink refers to. If
+true, the returned info is that of the symlink. If false, the info will
+be that of actual file.</tt></td>
+    </tr>
+  </tbody>
+</table>
+<p><b><tt>Status code</tt></b>
+<br>
+&nbsp;
+</p>
+<li><tt>200 OK</tt></li>
+<li> <tt>437 Missing impFilePath</tt></li>
+<li> <tt>558: The status phrase reflects the errno resulted from lstat
+or
+stat
+function call.</tt></li>
+<br>
+&nbsp;
+<h4><tt>Response Header and Body</tt></h4>
+<p><br>
+<tt>Upon a successful execution of the command, the server returns
+duplicated result in the response header and body. The result consists
+of a list of name and value pairs. In the header, like any other header
+fields, the name and value are separated by a colon and a space. In the
+body, each name and value are separated by a &#8220;=&#8221; on one line. The
+fields
+in the message body will be returned in the exact order as listed in
+the
+table below. The order may be different, however, in the header fields.</tt>
+</p>
+<p><tt>Note that Content-Length header and Content-Type headers are set
+to the length of the body in bytes and to text/plain, respectively.</tt>
+<br>
+&nbsp;
+<table border="1" width="80%">
+  <tbody>
+    <tr>
+      <td><b><tt>Name</tt></b></td>
+      <td><b><tt>Value</tt></b></td>
+      <td><b><tt>Description</tt></b></td>
+    </tr>
+    <tr>
+      <td><tt>impFilePath</tt></td>
+      <td><tt>string</tt></td>
+      <td><tt>Name of the file.&nbsp; If the file is a symlink, this is
+the name
+of the symlink and not the actual file. The file that the symlink
+points
+to is displayed in "real filename" field.</tt></td>
+    </tr>
+    <tr>
+      <td><tt>impFileType</tt></td>
+      <td><tt>regular file | directory | symbolic link | character
+special |
+block special | socket | fifo</tt></td>
+      <td><tt>Type of the file</tt></td>
+    </tr>
+    <tr>
+      <td><tt>impFileMode</tt></td>
+      <td><tt>10-character string</tt></td>
+      <td><tt>File permissions as a fixed length string where</tt> <br>
+      <tt>c[0]: &#8216;d&#8217; for directory, &#8216;l&#8217; for symlink, &#8216;c&#8217; for&nbsp;</tt> <br>
+      <tt>character special, &#8216;b&#8217; for block special,&nbsp;</tt> <br>
+      <tt>&#8216;f&#8217; for fifo, &#8216;s&#8217; for socket, &#8216;-&#8217; for regular file.</tt> <br>
+      <tt>c[1]: &#8216;r&#8217; for user-read, otherwise &#8216;-&#8217;</tt> <br>
+      <tt>c[2]: &#8216;w&#8217; for user-write, otherwise &#8216;-&#8217;</tt> <br>
+      <tt>c[3]: &#8216;x&#8217; for user-execute, otherwise &#8216;-&#8217;</tt> <br>
+      <tt>c[4]: &#8216;r&#8217; for group-read, otherwise &#8216;-&#8217;</tt> <br>
+      <tt>c[5]: &#8216;w&#8217; for group -write, otherwise &#8216;-&#8217;</tt> <br>
+      <tt>c[6]: &#8216;x&#8217; for group -execute, otherwise &#8216;-&#8217;</tt> <br>
+      <tt>c[7]: &#8216;r&#8217; for other-read, otherwise &#8216;-&#8217;</tt> <br>
+      <tt>c[8]: &#8216;w&#8217; for other -write, otherwise &#8216;-&#8217;</tt> <br>
+      <tt>c[9]: &#8216;x&#8217; for other -execute, otherwise &#8216;-&#8217;</tt></td>
+    </tr>
+    <tr>
+      <td><tt>impFileInode</tt></td>
+      <td><tt>long unsigned int</tt></td>
+      <td><tt>&nbsp;i-node number (serial number)</tt></td>
+    </tr>
+    <tr>
+      <td><tt>impFileDev</tt></td>
+      <td><tt>long&nbsp; int</tt></td>
+      <td><tt>Device number</tt></td>
+    </tr>
+    <tr>
+      <td><tt>impFileRdev</tt></td>
+      <td><tt>long&nbsp; int</tt></td>
+      <td><tt>Device number for special file</tt></td>
+    </tr>
+    <tr>
+      <td><tt>impFileNlink</tt></td>
+      <td><tt>long&nbsp; int</tt></td>
+      <td><tt>Number of links</tt></td>
+    </tr>
+    <tr>
+      <td><tt>impFileUid</tt></td>
+      <td><tt>long&nbsp; int</tt></td>
+      <td><tt>User ID of owner</tt></td>
+    </tr>
+    <tr>
+      <td><tt>impFileGid</tt></td>
+      <td><tt>long&nbsp; int</tt></td>
+      <td><tt>Groupt ID of owner</tt></td>
+    </tr>
+    <tr>
+      <td><tt>impFileSize</tt></td>
+      <td><tt>long&nbsp; int</tt></td>
+      <td><tt>Size of file in bytes</tt></td>
+    </tr>
+    <tr>
+      <td><tt>impFileAtime</tt></td>
+      <td><tt>unsigned int</tt></td>
+      <td><tt>Time of last access</tt></td>
+    </tr>
+    <tr>
+      <td><tt>impFileMtime</tt></td>
+      <td><tt>unsigned int</tt></td>
+      <td><tt>Time of last modification</tt></td>
+    </tr>
+    <tr>
+      <td><tt>impFileCtime</tt></td>
+      <td><tt>unsigned int</tt></td>
+      <td><tt>Time of last file status change</tt></td>
+    </tr>
+    <tr>
+      <td><tt>impFileBlksize</tt></td>
+      <td><tt>long int</tt></td>
+      <td><tt>Best I/O block size</tt></td>
+    </tr>
+    <tr>
+      <td><tt>impFileBlocks</tt></td>
+      <td><tt>long int</tt></td>
+      <td><tt>Number of 512-byte blocks allocated</tt></td>
+    </tr>
+    <tr>
+      <td><tt>impFilePathReal</tt></td>
+      <td><tt>string</tt></td>
+      <td><tt>Name of actual file if the file is a symbolic link. Note
+that this
+parameter is returned only if impFollowSymlink is true and file is a
+symbolic
+link. This field&nbsp; will not be included if the file is not a symlink</tt></td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<p><b><tt>Examples</tt></b>
+<br>
+&nbsp;
+<br>
+&nbsp;
+<table width="100%" bgcolor="#d2d2d2">
+  <tbody>
+    <tr>
+      <td><i><tt><nobr>GET
+/getFileStatus?impFilePath=home/penjitk/test/imperson_cpp&amp;impShowSymlinkStatus=true&amp;impUser=penjitk&amp;impSessionID=446515EC0415B
+HTTP/1.1</nobr></tt></i> <br>
+      <tt>Host: <i><nobr>smblx7:61000</nobr></i></tt></td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<p><tt>In the above request, impFilePath is a symbolic link. The status
+fields will correspond to the status of the symlink file since
+impShowSymlinkStatus
+is set to true. Below is an HTTP response for the above request (the
+lines
+marked in green are the result in the header and the ones marked in red
+are the duplicated result in the body):</tt>
+<br>
+&nbsp;
+<br>
+&nbsp;
+<table width="100%" bgcolor="#d2d2d2">
+  <tbody>
+    <tr>
+      <td><i><tt>HTTP/1.1 200 OK</tt></i> <br>
+      <i><tt>date: Tue, 18 Mar 2003 02:38:41 GMT</tt></i> <br>
+      <i><tt>connection: close</tt></i> <br>
+      <i><tt>server: Impersonation Server/2.0</tt></i> <br>
+      <i><tt>content-length: 410</tt></i> <br>
+      <i><tt>content-type: text/plain</tt></i> <br>
+      <i><tt><font color="#009900">impfilepath:
+home/penjitk/test/imperson_cpp</font></tt></i> <br>
+      <i><tt><font color="#009900">impfiletype: directory</font></tt></i>
+      <br>
+      <i><tt><font color="#009900">impfileatime: Mon Mar 17 17:56:56
+2003</font></tt></i> <br>
+      <i><tt><font color="#009900">impfileblksize: 512</font></tt></i> <br>
+      <i><tt><font color="#009900">impfileblocks: 0</font></tt></i> <br>
+      <i><tt><font color="#009900">impfilectime: Tue Mar 11 11:33:01
+2003</font></tt></i> <br>
+      <i><tt><font color="#009900">impfiledev: 8</font></tt></i> <br>
+      <i><tt><font color="#009900">impfilegid: 26</font></tt></i> <br>
+      <i><tt><font color="#009900">impfileinode: 673540144</font></tt></i>
+      <br>
+      <i><tt><font color="#009900">impfilemtime: Tue Mar 11 11:33:01
+2003</font></tt></i> <br>
+      <i><tt><font color="#009900">impfilenlink: 7</font></tt></i> <br>
+      <i><tt><font color="#009900">impfilepermissions: drwxr-x---</font></tt></i>
+      <br>
+      <i><tt><font color="#009900">impfilerdev: 0</font></tt></i> <br>
+      <i><tt><font color="#009900">impfilesize: 59</font></tt></i> <br>
+      <i><tt><font color="#009900">impfileuid: 1534</font></tt></i> <br>
+      <i><tt><font color="#009900">impfilepathreal:
+/home/penjitk/code/20030123/imperson_cpp</font></tt></i>
+      <p><i><tt><font color="#990000">impFilePath=home/penjitk/test/imperson_cpp</font></tt></i>
+      <br>
+      <i><tt><font color="#990000">impFileType=directory</font></tt></i>
+      <br>
+      <i><tt><font color="#990000">impFilePermissions=drwxr-x---</font></tt></i>
+      <br>
+      <i><tt><font color="#990000">impFileInode=673540144</font></tt></i>
+      <br>
+      <i><tt><font color="#990000">impFileDev=8</font></tt></i> <br>
+      <i><tt><font color="#990000">impFileRdev=0</font></tt></i> <br>
+      <i><tt><font color="#990000">impFileNlink=7</font></tt></i> <br>
+      <i><tt><font color="#990000">impFileUid=1534</font></tt></i> <br>
+      <i><tt><font color="#990000">impFileGid=26</font></tt></i> <br>
+      <i><tt><font color="#990000">impFileSize=59</font></tt></i> <br>
+      <i><tt><font color="#990000">impFileAtime=Mon Mar 17 17:56:56 2003</font></tt></i>
+      <br>
+      <i><tt><font color="#990000">impFileMtime=Tue Mar 11 11:33:01 2003</font></tt></i>
+      <br>
+      <i><tt><font color="#990000">impFileCtime=Tue Mar 11 11:33:01 2003</font></tt></i>
+      <br>
+      <i><tt><font color="#990000">impFileBlkSize=512</font></tt></i> <br>
+      <i><tt><font color="#990000">impFileBlocks=0</font></tt></i> <br>
+      <i><tt><font color="#990000">impFilePathReal=/home/penjitk/code/20030123/imperson_cpp</font></tt></i></p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<h3><tt>3.1.8&nbsp;<a name="getFilePermissions"></a>getFilePermissions</tt></h3>
+<tt>This command tests the user&#8217;s permissions for the given file. If
+the
+file is a symbolic link, the returned permissions are those of the
+actual
+file. A client application should use this command to find out if the
+user
+can access the file or not. It is more convenient and more concise for
+this purpose than parsing the impFilePermission, impFileUid and
+impFileGid
+parameters of getFileStatus command.</tt>
+<p><b><tt>Request Parameters</tt></b>
+<br>
+&nbsp;
+<table border="1" width="80%">
+  <tbody>
+    <tr>
+      <td><b><tt>Parameter</tt></b></td>
+      <td><b><tt>Value</tt></b></td>
+      <td><b><tt>Required: default</tt></b></td>
+      <td><b><tt>Description</tt></b></td>
+    </tr>
+    <tr>
+      <td><tt>impFilePath</tt></td>
+      <td><tt>string</tt></td>
+      <td><tt>yes</tt></td>
+      <td><tt>Full path to a file</tt></td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<p><b><tt>Status Code</tt></b>
+<br>
+&nbsp;
+</p>
+<li><tt>200 OK</tt></li>
+<li> <tt>437 Missing impFilePath</tt></li>
+<p><br>
+<b><tt>Response Header and Body</tt></b>
+</p>
+<p><tt>Upon a successful execution of the command, the result is
+duplicated
+and returned in the header and body. The result is a list of name and
+value
+pairs. In the header, name and value are separated by a colon and a
+space
+and are in one line. In the body, they are separated by and equal sign.</tt>
+</p>
+<p><tt>Note that Content-Length header is the length of the body in
+bytes
+and Content-Type headers set to text/plain.</tt>
+</p>
+<p><tt>The table below contains a list of all parameters returned by
+this
+command.</tt>
+<br>
+&nbsp;
+<table border="1" width="80%">
+  <tbody>
+    <tr>
+      <td><b><tt>Name</tt></b></td>
+      <td><b><tt>Value</tt></b></td>
+      <td><b><tt>Description</tt></b></td>
+    </tr>
+    <tr>
+      <td><tt>impReadPermission</tt></td>
+      <td><tt>true | false</tt></td>
+      <td><tt>True if the user has read permission for this file</tt></td>
+    </tr>
+    <tr>
+      <td><tt>impWritePermission</tt></td>
+      <td><tt>true | false</tt></td>
+      <td><tt>True if the user has write permission</tt></td>
+    </tr>
+    <tr>
+      <td><tt>impExecutePermission</tt></td>
+      <td><tt>true | false</tt></td>
+      <td><tt>True if the user has execute permission</tt></td>
+    </tr>
+    <tr>
+      <td><tt>impFileExists</tt></td>
+      <td><tt>true | false</tt></td>
+      <td><tt>True if the file exists</tt></td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<p><tt>Request Example</tt>
+</p>
+<p><i><tt>GET
+/getFilePermissions?impFilePath=home/penjitk/test/imperson_cpp&amp;impUser=penjitk&amp;impSessionID=A8D0604CBA4769E8F109C04A8E551E91</tt></i>
+<br>
+<i><tt>Host: smblx7:61000</tt></i>
+<br>
+&nbsp;
+</p>
+<p><tt>Response Example</tt>
+<br>
+&nbsp;
+<br>
+&nbsp;
+<table width="100%" bgcolor="#d2d2d2">
+  <tbody>
+    <tr>
+      <td><i><tt>HTTP/1.1 200 OK</tt></i> <br>
+      <i><tt>date: Tue, 18 Mar 2003 03:09:28 GMT</tt></i> <br>
+      <i><tt>connection: close</tt></i> <br>
+      <i><tt>server: Impersonation Server/2.0</tt></i> <br>
+      <i><tt>content-length: 91</tt></i> <br>
+      <i><tt>content-type: text/plain</tt></i> <br>
+      <i><tt><font color="#009900">impexecutepermission: true</font></tt></i>
+      <br>
+      <i><tt><font color="#009900">impfileexists: true</font></tt></i> <br>
+      <i><tt><font color="#009900">impreadpermission: true</font></tt></i>
+      <br>
+      <i><tt><font color="#009900">impwritepermission: true</font></tt></i>
+      <p><i><tt><font color="#990000">impReadPermission=true</font></tt></i>
+      <br>
+      <i><tt><font color="#990000">impWritePermission=true</font></tt></i>
+      <br>
+      <i><tt><font color="#990000">impExecutePermission=true</font></tt></i>
+      <br>
+      <i><tt><font color="#990000">impFileExists=true</font></tt></i></p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<h3><tt>3.1.9&nbsp;<a name="readFile"></a>readFile</tt></h3>
+<tt>readFile allows the client to read a file readable by the user. The
+contents of the file are returned in the body of the http response.
+Starting
+and ending positions within the file may be specified in the request.
+If
+the command is constructed in the request URI, The requested file can
+be
+specified in the impFilePath parameter or the resource of the URI (in
+which
+case, impCommand parameter must be included). For example,
+http://smblx7:61000/home/penjitk/test.txt?impCommand=readFile&amp;impUser=penjitk&amp;impSessionID=IUREIOUROU
+and
+http://smblx7:61000/readFile?impFilePath=/home/penjitk/test.txt&amp;impUser=penjitk&amp;impSessionID=IUREIOUROU
+will give the same result. However, the browser will be able to figure
+out how to display the file properly if the file path is specified as
+URI
+resource.</tt>
+<p><b><tt>Request Parameters</tt></b>
+<br>
+&nbsp;
+<table border="1" width="80%">
+  <tbody>
+    <tr>
+      <td><b><tt>Parameter</tt></b></td>
+      <td><b><tt>Value</tt></b></td>
+      <td><b><tt>Required: default</tt></b></td>
+      <td><b><tt>description</tt></b></td>
+    </tr>
+    <tr>
+      <td><tt>impFilePath</tt></td>
+      <td><tt>string</tt></td>
+      <td><tt>yes</tt></td>
+      <td><tt>Full path to a file</tt></td>
+    </tr>
+    <tr>
+      <td><tt>impFileStartOffset</tt></td>
+      <td><tt>0 or positive number</tt></td>
+      <td><tt>no: 0</tt></td>
+      <td><tt>Byte offset of the first byte to read</tt></td>
+    </tr>
+    <tr>
+      <td><tt>impFileEndOffset</tt></td>
+      <td><tt>positive number</tt></td>
+      <td><tt>no: end of file</tt></td>
+      <td><tt>Byte offset of the last byte to read</tt></td>
+    </tr>
+    <tr>
+      <td><tt>impCommand</tt></td>
+      <td><tt>readFile</tt></td>
+      <td><tt>no</tt></td>
+      <td><tt>Only required if impFilePath is not present and the
+requested file
+is specified as URI resource.</tt></td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<p><b><tt>Status Code</tt></b>
+<br>
+&nbsp;
+</p>
+<li><tt>200 OK</tt></li>
+<li> <tt>437 Missing impFilePath:</tt></li>
+<li> <tt>438 Invalid impFileStartOffset:</tt></li>
+<li> <tt>439 Invalid impFileEndOffset</tt></li>
+<li> <tt>555 Failed to open file for reading</tt></li>
+<li> <tt>556 Failed to convert file descriptor to a stream</tt></li>
+<li> <tt>557 fseek failed</tt></li>
+<li> <tt>558 Failed to get file stat</tt></li>
+<p><br>
+<b><tt>Response Header and Body</tt></b>
+</p>
+<p><tt>If the status code is 200, the message body contains the
+requested
+file. If the request header contains "TE: chunked" which indicates that
+the client can handle chunked transfer-encoding, the response message
+body
+will be in the chunked encoding format and the response header will
+include
+"Transfer-Encoding: chunked". The Content-Type header of the response
+is
+the server's best guess of the content type of the file, such as pdf,
+MSWord
+and etc. The server guesses the content type by inspecting the first N
+bytes of the file and looking for a sequence of bytes for known file
+types
+(e.g. a pdf file begins with %PDF). If it can not recognize the file
+from
+the content, it will try to guess from the file extension. In the worst
+case, it will at least guess if the file is text or binary.</tt>
+<br>
+&nbsp;
+</p>
+<p><b><tt>Examples</tt></b>
+</p>
+<p><tt>Request for a pdf file with Content-Length header</tt>
+<br>
+&nbsp;
+<br>
+&nbsp;
+<table width="100%" bgcolor="#d2d2d2">
+  <tbody>
+    <tr>
+      <td><i><tt>GET
+/home/penjitk/test/a_document.pdf?impCommand=readFile&amp;impUser=penjitk&amp;impSessionID=109C04A8E551E91
+HTTP/1.1</tt></i> <br>
+      <i><tt>Host: smblx7:61000</tt></i></td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<p><tt>Response</tt>
+<br>
+&nbsp;
+<table width="100%" bgcolor="#d2d2d2">
+  <tbody>
+    <tr>
+      <td><i><tt>HTTP/1.1 200 OK</tt></i> <br>
+      <i><tt>date: Tue, 18 Mar 2003 04:03:39 GMT</tt></i> <br>
+      <i><tt>connection: close</tt></i> <br>
+      <i><tt>server: Impersonation Server/2.0</tt></i> <br>
+      <i><tt>content-encoding: identity</tt></i> <br>
+      <i><tt>content-length: 130002</tt></i> <br>
+      <i><tt>content-type: application/pdf</tt></i>
+      <p><i><tt>PDF content 130002 bytes long</tt></i></p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;
+</p>
+<p><tt>Request for a gzip file with Content-Length header</tt>
+<br>
+&nbsp;
+<br>
+&nbsp;
+<table width="100%" bgcolor="#d2d2d2">
+  <tbody>
+    <tr>
+      <td><i><tt>GET
+/home/penjitk/test/soap-src-2.3.1.tar.gz?impCommand=readFile&amp;impUser=penjitk&amp;impSessionID=109C04A8E551E91
+HTTP/1.1</tt></i> <br>
+      <i><tt>Host: smblx7:61000</tt></i></td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<p><tt>Response (notice C<i>ontent-Encoding header)</i></tt>
+<br>
+&nbsp;
+<table width="100%" bgcolor="#d2d2d2">
+  <tbody>
+    <tr>
+      <td><i><tt>HTTP/1.1 200 OK</tt></i> <br>
+      <i><tt>date: Tue, 18 Mar 2003 04:08:24 GMT</tt></i> <br>
+      <i><tt>connection: close</tt></i> <br>
+      <i><tt>server: Impersonation Server/2.0</tt></i> <br>
+      <i><tt>content-encoding: gzip</tt></i> <br>
+      <i><tt>content-length: 142925</tt></i> <br>
+      <i><tt>content-type: application/octet-stream</tt></i>
+      <p><i><tt>gzip content 142925 bytes long</tt></i></p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;
+</p>
+<p><tt>Request for a pdf file with TE header</tt>
+<br>
+&nbsp;
+<table width="100%" bgcolor="#d2d2d2">
+  <tbody>
+    <tr>
+      <td><i><tt>GET
+/home/penjitk/test/a_document.pdf?impCommand=readFile&amp;impUser=penjitk&amp;impSessionID=109C04A8E551E91
+HTTP/1.1</tt></i> <br>
+      <i><tt>Host: smblx7:61000</tt></i> <br>
+      <i><tt>TE: chunked</tt></i></td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;
+</p>
+<p><tt>Response with chunked encoded message body (pdf file size <i>130002</i>
+bytes)</tt>
+<br>
+&nbsp;
+<table width="100%" bgcolor="#d2d2d2">
+  <tbody>
+    <tr>
+      <td><i><tt>HTTP/1.1 200 OK</tt></i> <br>
+      <i><tt>date: Tue, 18 Mar 2003 04:03:39 GMT</tt></i> <br>
+      <i><tt>connection: close</tt></i> <br>
+      <i><tt>server: Impersonation Server/2.0</tt></i> <br>
+      <i><tt>Transfer-Encoding: chunked</tt></i> <br>
+      <i><tt>content-type: application/pdf</tt></i>
+      <p><i><tt>C350</tt></i> <br>
+      <i><tt>pdf content 50000 bytes long</tt></i> <br>
+      <i><tt>C350</tt></i> <br>
+      <i><tt>pdf content 50000 bytes long</tt></i> <br>
+      <i><tt>7532</tt></i> <br>
+      <i><tt>pdf content 30002 bytes long</tt></i> <br>
+      <i><tt>0</tt></i></p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;
+</p>
+<p><tt>Request for a gzip file with TE header</tt>
+<br>
+&nbsp;
+<br>
+&nbsp;
+<table width="100%" bgcolor="#d2d2d2">
+  <tbody>
+    <tr>
+      <td><i><tt>GET
+/home/penjitk/test/soap-src-2.3.1.tar.gz?impCommand=readFile&amp;impUser=penjitk&amp;impSessionID=A8D0604CBA4769E8F109C04A8E551E91
+HTTP/1.1</tt></i> <br>
+      <i><tt>Host: smblx7:61000</tt></i> <br>
+      <i><tt>TE: chunked</tt></i></td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<p><tt>Response with message body in chunked Transfer-Encoding (gzip
+file
+size <i>142925 bytes)</i></tt>
+<br>
+&nbsp;
+<br>
+&nbsp;
+<table width="100%" bgcolor="#d2d2d2">
+  <tbody>
+    <tr>
+      <td><i><tt>HTTP/1.1 200 OK</tt></i> <br>
+      <i><tt>date: Tue, 18 Mar 2003 04:08:24 GMT</tt></i> <br>
+      <i><tt>connection: close</tt></i> <br>
+      <i><tt>server: Impersonation Server/2.0</tt></i> <br>
+      <i><tt>content-encoding: gzip</tt></i> <br>
+      <i><tt>Transfer-Encoding</tt></i> <br>
+      <i><tt>content-type: application/octet-stream</tt></i>
+      <p><i><tt>C350</tt></i> <br>
+      <i><tt>gzip content 50000 bytes long</tt></i> <br>
+      <i><tt>C350</tt></i> <br>
+      <i><tt>gzip content 50000 bytes long</tt></i> <br>
+      <i><tt>A7AD</tt></i> <br>
+      <i><tt>gzip content 42925 bytes long</tt></i> <br>
+      <i><tt>0</tt></i></p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;
+<br>
+&nbsp;
+<br>
+&nbsp;
+<br>
+&nbsp;
+</p>
+<h3><tt>3.1.10&nbsp;<a name="writeFile"></a>writeFile</tt></h3>
+<tt>writeFile allows the user to upload a file onto the server. The
+message
+body of the request contains the file content. The file name and file
+permissions
+are specified by impFilePath and impFileMode, respectively. The request
+header must include
+either "Transfer-Encoding: chunked" or Content-Length, which is set the
+length of the message body (in bytes). Note that only POST method with
+the parameters in the request-URI or in the headers for this command.
+HTML-FORM with POST method is not applicable.</tt>
+<br>
+&nbsp;
+<p><b><tt>Request Parameters</tt></b>
+<br>
+&nbsp;
+<table border="1" width="80%">
+  <tbody>
+    <tr>
+      <td><b><tt>Parameter</tt></b></td>
+      <td><b><tt>Value</tt></b></td>
+      <td><b><tt>Required: default</tt></b></td>
+      <td><b><tt>Description</tt></b></td>
+    </tr>
+    <tr>
+      <td><tt>impFilePath</tt></td>
+      <td><tt>string</tt></td>
+      <td><tt>yes</tt></td>
+      <td><tt>Full path to the saved file.</tt></td>
+    </tr>
+    <tr>
+      <td><tt>impFileMode</tt></td>
+      <td><tt>octal number</tt></td>
+      <td><tt>no: 0640</tt></td>
+      <td><tt>An absolute file mode is given as an octal number
+constructed from the OR of the following modes:</tt><br>
+0700 =&gt; read, write, execute: owner<br>
+0400 =&gt; read permission: owner<br>
+0200 =&gt; write permission: owner<br>
+0100 =&gt; execute permission: owner<br>
+0070 =&gt; read, write, execute: group<br>
+0040 =&gt; read permission: group<br>
+0020 =&gt; write permission: group<br>
+0010 =&gt; execute permission: group<br>
+0007 =&gt; read, write, execute: other<br>
+0004 =&gt; read permission: other<br>
+0002 =&gt; write permission: other<br>
+0001 =&gt; execute permission: other<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<p><b><tt>Status Code</tt></b>
+<br>
+&nbsp;
+</p>
+<li><tt>200 OK</tt></li>
+<li> <tt>411 Length required: Content-Type is not set when not using
+chunked
+transfer-encoding</tt></li>
+<li> <tt>437 Missing impFilePath</tt></li>
+<li> <tt>561 Failed to open file to writing: fopen fails</tt></li>
+<li> <tt>562 Failed to write file: fwrite fails</tt></li>
+<li> <tt>563 Failed to change file mode</tt></li>
+<li> <tt>577 Write file incomplete: The number of bytes received in
+the
+request
+body is not the same as the number of bytes written to impFilePath file.</tt></li>
+<li> <tt>578 Content-length differs from body length: The request
+specifies
+a valid Content-Length header and the transfer-encoding is NOT chunked
+but the number of bytes read from the message body is not the same as
+Content-Length.</tt></li>
+<br>
+&nbsp;
+<p>&nbsp;
+</p>
+<p><b><tt>Response Header and Body</tt></b>
+</p>
+<p><tt>There is no extra header. The body contains the status code and
+phrase.</tt>
+</p>
+<p><b><tt>Examples</tt></b>
+</p>
+<p><tt>Using Content-Length and request in URI</tt>
+<br>
+&nbsp;
+<table width="100%" bgcolor="#d2d2d2">
+  <tbody>
+    <tr>
+      <td><i><tt>POST
+/writeFile?impFilePath=%2Fdata%2Fpenjitk%2Fdoc.pdf&amp;impFileMode=0600&amp;impUser=penjitk&amp;impSessionID=A8D0604CBA4769E8F109C
+HTTP/1.1</tt></i> <br>
+      <i><tt>date: Tue, 18 Mar 2003 04:03:39 GMT</tt></i> <br>
+      <i><tt>connection: close</tt></i> <br>
+      <i><tt>Host: smblx7:61000</tt></i> <br>
+      <i><tt>content-length: 130002</tt></i>
+      <p><i><tt>PDF content 130002 bytes long</tt></i></p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<p><tt>Using Content-Length and request in extension headers</tt>
+<br>
+&nbsp;
+<br>
+&nbsp;
+<table width="100%" bgcolor="#d2d2d2">
+  <tbody>
+    <tr>
+      <td><i><tt>POST /writeFile HTTP/1.1</tt></i> <br>
+      <i><tt>date: Tue, 18 Mar 2003 04:03:39 GMT</tt></i> <br>
+      <i><tt>connection: close</tt></i> <br>
+      <i><tt>Host: smblx7:61000</tt></i> <br>
+      <i><tt>impFilePath: /data/penjitk/doc.pdf</tt></i> <br>
+      <i><tt>impFileMode: 0600</tt></i> <br>
+      <i><tt>impUser: penjitk</tt></i> <br>
+      <i><tt>impSessionID: A8D0604CBA4769E8F109C</tt></i> <br>
+      <i><tt>content-length: 130002</tt></i>
+      <p><i><tt>PDF content 130002 bytes long</tt></i></p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<p><tt>Using chunked Transfer-Encoding and request URI</tt>
+<br>
+&nbsp;
+<table width="100%" bgcolor="#d2d2d2">
+  <tbody>
+    <tr>
+      <td><i><tt>POST
+/writeFile?impFilePath=%2Fdata%2Fpenjitk%2Fdoc.pdf&amp;impFileMode=0600&amp;impUser=penjitk&amp;impSessionID=A8D0604CBA4769E8F109C
+HTTP/1.1</tt></i> <br>
+      <i><tt>date: Tue, 18 Mar 2003 04:03:39 GMT</tt></i> <br>
+      <i><tt>connection: close</tt></i> <br>
+      <i><tt>Host: smblx7:61000</tt></i> <br>
+      <i><tt>Transfer-Encoding: chunked</tt></i>
+      <p><i><tt>C350</tt></i> <br>
+      <i><tt>pdf content 50000 bytes long</tt></i> <br>
+      <i><tt>C350</tt></i> <br>
+      <i><tt>pdf content 50000 bytes long</tt></i> <br>
+      <i><tt>7532</tt></i> <br>
+      <i><tt>pdf content 30002 bytes long</tt></i> <br>
+      <i><tt>0</tt></i></p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<p><tt>Using chunked Transfer-Encoding and extension headers</tt>
+<br>
+&nbsp;
+<table width="100%" bgcolor="#d2d2d2">
+  <tbody>
+    <tr>
+      <td><i><tt>POST /writeFile HTTP/1.1</tt></i> <br>
+      <i><tt>date: Tue, 18 Mar 2003 04:03:39 GMT</tt></i> <br>
+      <i><tt>connection: close</tt></i> <br>
+      <i><tt>Host: smblx7:61000</tt></i> <br>
+      <i><tt>impFilePath: /data/penjitk/doc.pdf</tt></i> <br>
+      <i><tt>impFileMode: 0600</tt></i> <br>
+      <i><tt>impUser: penjitk</tt></i> <br>
+      <i><tt>impSessionID: A8D0604CBA4769E8F109C04A8E551E91</tt></i> <br>
+      <i><tt>Transfer-Encoding: chunked</tt></i>
+      <p><i><tt>C350</tt></i> <br>
+      <i><tt>pdf content 50000 bytes long</tt></i> <br>
+      <i><tt>C350</tt></i> <br>
+      <i><tt>pdf content 50000 bytes long</tt></i> <br>
+      <i><tt>7532</tt></i> <br>
+      <i><tt>pdf content 30002 bytes long</tt></i> <br>
+      <i><tt>0</tt></i></p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<h3><tt>3.1.11&nbsp;<a name="deleteFile"></a>deleteFile</tt></h3>
+<tt>This command deletes a file or a list of files that match the
+wildcard
+in the given directory. See more about wildcard in section</tt>
+<br>
+&nbsp;
+<p><b><tt>Request Parameters</tt></b>
+<br>
+&nbsp;
+<table border="1" width="80%">
+  <tbody>
+    <tr>
+      <td><b><tt>Parameter</tt></b></td>
+      <td><b><tt>Value</tt></b></td>
+      <td><b><tt>Required: default</tt></b></td>
+      <td><b><tt>Description</tt></b></td>
+    </tr>
+    <tr>
+      <td><tt>impFilePath</tt></td>
+      <td><tt>string</tt></td>
+      <td><tt>no</tt></td>
+      <td><tt>Full path to a file to be deleted</tt></td>
+    </tr>
+    <tr>
+      <td><tt>impDirectory</tt></td>
+      <td><tt>string</tt></td>
+      <td><tt>no</tt></td>
+      <td><tt>Directory that contains files to be deleted. Must be
+present if
+impFilePath is absent. Will be ignore if impFilePath is present.</tt></td>
+    </tr>
+    <tr>
+      <td>impFileFilter</td>
+      <td>wildcard</td>
+      <td>no</td>
+      <td>Wildcard for the files in impDirectory to be deleted. Must be
+present
+or absent together with impDirectory.</td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<p><b><tt>Status Code</tt></b>
+<br>
+&nbsp;
+</p>
+<li><tt>200 OK</tt></li>
+<li> <tt>435 Missing impFileFilter</tt></li>
+<li> <tt>440 Missing impDirectory</tt></li>
+<li> <tt>572 Failed to read dir</tt></li>
+<li> <tt>574 Failed to remove file or dir</tt></li>
+<li> <tt>576 Failed to unlink symbolic link file</tt></li>
+<p><br>
+<b><tt>Response Header and Body</tt></b>
+</p>
+<p><tt>There is no extra header. The body contains the status code and
+phrase.</tt>
+</p>
+<p><b><tt>Examples</tt></b>
+</p>
+<p><tt>Deleting a single file</tt>
+<br>
+&nbsp;
+<table width="100%" bgcolor="#d2d2d2">
+  <tbody>
+    <tr>
+      <td><i><tt>POST
+/writeFile?impFilePath=%2Fdata%2Fpenjitk%2Ftest%2Fdoc.pdf&amp;impUser=penjitk&amp;impSessionID=A8D0604CBA4769E8F109C
+HTTP/1.1</tt></i> <br>
+      <i><tt>date: Tue, 18 Mar 2003 04:03:39 GMT</tt></i> <br>
+      <i><tt>connection: close</tt></i> <br>
+      <i><tt>Host: smblx7:61000</tt></i></td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<p><tt>Deleting *.pdf in /data/penjitk/test directory</tt>
+<br>
+&nbsp;
+<table width="100%" bgcolor="#d2d2d2">
+  <tbody>
+    <tr>
+      <td><i><tt>POST
+/writeFile?impDirectory=%2Fdata%2Fpenjitk%2Ftest&amp;impFileFilter=*.pdf&amp;impUser=penjitk&amp;impSessionID=A8D0604CBA4769E8F109C
+HTTP/1.1</tt></i> <br>
+      <i><tt>date: Tue, 18 Mar 2003 04:03:39 GMT</tt></i> <br>
+      <i><tt>connection: close</tt></i> <br>
+      <i><tt>Host: smblx7:61000</tt></i></td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<h3><tt>3.1.12&nbsp;<a name="isFileReadable"></a>isFileReadable</tt></h3>
+<tt>isFileReadble allows the client to check if the file is readable by
+the user. The file will be opened by the user but the content of the
+file
+will not be read.</tt>
+<p><b><tt>Request Parameters</tt></b>
+<br>
+&nbsp;
+<table border="1" width="80%">
+  <tbody>
+    <tr>
+      <td><b><tt>Parameter</tt></b></td>
+      <td><b><tt>Value</tt></b></td>
+      <td><b><tt>Required: default</tt></b></td>
+      <td><b><tt>description</tt></b></td>
+    </tr>
+    <tr>
+      <td><tt>impFilePath</tt></td>
+      <td><tt>string</tt></td>
+      <td><tt>yes</tt></td>
+      <td><tt>Full path to a file</tt></td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<p><b><tt>Status Code</tt></b>
+<br>
+&nbsp;
+</p>
+<li><tt>200 OK</tt></li>
+<li> <tt>437 Missing impFilePath</tt></li>
+<p><br>
+<b><tt>Response Header and Body</tt></b>
+</p>
+<p><tt>If the status code is 200, the response will include header
+impFileReadable
+which indicates whether the file is readable by the user. If the status
+code is not 200, the file status can not be determined.</tt>
+</p>
+<p><tt>The table below contains a list of all parameters returned by
+this
+command.</tt>
+<br>
+&nbsp;
+<table border="1" width="80%">
+  <tbody>
+    <tr>
+      <td><b><tt>Name</tt></b></td>
+      <td><b><tt>Value</tt></b></td>
+      <td><b><tt>Description</tt></b></td>
+    </tr>
+    <tr>
+      <td><tt>impFileReadable</tt></td>
+      <td><tt>true | false</tt></td>
+      <td><tt>True if the user can read the file.</tt></td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<p><b><tt>Examples</tt></b>
+<br>
+&nbsp;
+<br>
+&nbsp;
+<table width="100%" bgcolor="#d2d2d2">
+  <tbody>
+    <tr>
+      <td><i><tt>GET
+/isFileReadable?impFilePath=/home/data/img/image1.gif&amp;impUser=penjitk&amp;impSessionID=109C04A8E551E91
+HTTP/1.1</tt></i> <br>
+      <i><tt>Host: smblx7:61000</tt></i></td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<p><tt>Response</tt>
+<br>
+&nbsp;
+<table width="100%" bgcolor="#d2d2d2">
+  <tbody>
+    <tr>
+      <td><i><tt>HTTP/1.1 200 OK</tt></i> <br>
+      <i><tt>date: Tue, 18 Mar 2003 04:03:39 GMT</tt></i> <br>
+      <i><tt>connection: close</tt></i> <br>
+      <i><tt>server: Impersonation Server/2.0</tt></i> <br>
+      <tt style="font-family: monospace; font-style: italic;">impFileReadable</tt><i
+ style="font-family: monospace; font-style: italic;">: true</i><span
+ style="font-family: monospace; font-style: italic;"> </span><br>
+      <i><tt>&nbsp;</tt></i></td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;
+</p>
+<h3><tt>3.2&nbsp;<a name="Running an Executable"></a>Running an
+Executable</tt></h3>
+<tt>The actual command is runExecutable. The impersonation server can
+run
+an arbitrary executable on behalf of the user. If required, the client
+can supply the command line arguments and environment variables as
+request
+parameters. The output of the executable from stdout is sent back to
+the
+client in the message body. If the executable requires data from stdin,
+impUseFork must be set to true and the data can be placed in the
+request
+body (accompanied by Content-Length or chunked Transfer-Encoding
+header).</tt>
+<p><tt>By default the server replaces its process image with the
+executable
+process image through execve function.&nbsp; The executable inherits
+stdin/stdout/stderr
+file descriptors from the server, which means that data written to
+stdout
+and stderr will be sent to the client directly.&nbsp; The server sends
+the status line and the headers to the client before calling execve so
+that the data written by the new process will be in the message body. A
+few drawbacks with this methods are, firstly, the new process will hang
+if it requires stdin; and the status code and phrase will always be 200
+OK (if all parameters are correct) even if execve fails. However, when
+execve fails, the message body will contain 567 status code and a
+status
+phrase that explains the cause of the failure.</tt>
+</p>
+<p><tt>If impUseFork is true, the server will fork and run the
+executable in the child
+process. Standard output and standard error are redirected to files
+sepecified by impStdoutFile and impStderrFile parameters, respectively.
+The response header contains information about the child process
+including the process id, names of the files to which standard output
+and standard error are redirected.</tt><br>
+&nbsp;
+<br>
+&nbsp;
+<br>
+&nbsp;
+<table border="1" width="80%">
+  <tbody>
+    <tr>
+      <td><b><tt>Parameter</tt></b></td>
+      <td><b><tt>Value</tt></b></td>
+      <td><b><tt>Required: default</tt></b></td>
+      <td><b><tt>Description</tt></b></td>
+    </tr>
+    <tr>
+      <td><tt>impExecutable</tt></td>
+      <td><tt>string</tt></td>
+      <td><tt>yes</tt></td>
+      <td><tt>Full path tof an executable</tt></td>
+    </tr>
+    <tr>
+      <td><tt>impArg[i]</tt></td>
+      <td><tt>string</tt></td>
+      <td><tt>no</tt></td>
+      <td><tt>Command line arguments for the executable. i starts from
+1. For
+example, for impExecutable is /bin/ls, the arguments may be
+impArg1=-al,
+impArg2=%2Fdata%2Fimg.&nbsp;</tt></td>
+    </tr>
+    <tr>
+      <td><tt>impEnv[i]</tt></td>
+      <td><tt>string</tt></td>
+      <td><tt>no</tt></td>
+      <td><tt>Environment variables where i starts from 1. For example,
+impEnv1=PATH%3D%2Fhome%2Fjava%2Fbin.</tt></td>
+    </tr>
+    <tr>
+      <td><tt>impUseFork</tt></td>
+      <td><tt>true | false</tt></td>
+      <td><tt>no: false</tt></td>
+      <td><tt>If true, the server will fork a child process and run the
+executable
+in the child process. If false, the server will run the executable in
+its
+own process; the new process will replace the server process.</tt></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">impStdoutFile<br>
+      </td>
+      <td style="vertical-align: top; font-family: monospace;">string<br>
+      </td>
+      <td style="vertical-align: top; font-family: monospace;">no<br>
+      </td>
+      <td style="vertical-align: top;"><span
+ style="font-family: monospace;">Filename to which standard output of
+child process is redirected. If this parameter is not supplied the
+standard output will be redirected to &lt;pid&gt;_stdout.txt in the
+current directory where the executable is run, where &lt;pid&gt; is the
+process id of the child process.</span><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">impStderrFile<br>
+      </td>
+      <td style="vertical-align: top; font-family: monospace;">string<br>
+      </td>
+      <td style="vertical-align: top; font-family: monospace;">no<br>
+      </td>
+      <td style="vertical-align: top; font-family: monospace;">Name of
+file to which standard error of&nbsp; child process is redirected. <span
+ style="font-family: monospace;">If this parameter is not supplied
+the standard output will be redirected to &lt;pid&gt;_stderr.txt in the
+current directory where the executable is run, where &lt;pid&gt; is the
+process id of the child process.</span></td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<p><b><tt>Status Code</tt></b>
+<br>
+&nbsp;
+</p>
+<li><tt>200 OK</tt></li>
+<li> <tt>441 Missing impExecutable</tt></li>
+<li> <tt>500 Internal Server Error (or more specific status phrase)</tt></li>
+<li> <tt>564 Failed to change dir</tt></li>
+<li> <tt>565 Failed to fork a process</tt></li>
+<li> <tt>567 Failed to run executable (or more specific status phrase)</tt></li>
+<br>
+&nbsp;
+<p>&nbsp;
+</p>
+<p><b><tt>Response Header and Body<br>
+</tt></b></p>
+<p><span style="font-family: monospace;">If impUseFork is set to false,
+the impersonation server&nbsp; returns the standard output geberated by
+the executable in the body of the response. The response body </span><span
+ style="font-family: monospace;">ends when the process exits. If
+impUseFork is true, the impersonation server returns the process id of
+the child process that runs the executable. It also returns the names
+of the files to which standard output and standard error are
+redirected. The child process may still be running when the response is
+sent to the client. The client can find out if the child process is
+still running by using the command impGetProcess or kill the process by
+using impKillProcess.</span><br>
+&nbsp;
+</p>
+<table border="1" width="80%">
+  <tbody>
+    <tr>
+      <td><b><tt>Parameter</tt></b></td>
+      <td><b><tt>Value</tt></b></td>
+      <td><b><tt>Description</tt></b></td>
+    </tr>
+    <tr>
+      <td><tt>impProcessId</tt></td>
+      <td><tt>string</tt></td>
+      <td><tt>Process id of the child process that runs the </tt><tt>impExecutable.</tt></td>
+    </tr>
+    <tr>
+      <td><tt>impStdoutFile</tt></td>
+      <td><tt>string</tt></td>
+      <td><span style="font-family: monospace;">Filename to which
+standard output
+of child process is redirected. If this parameter is not supplied the
+standard output will be redirected to &lt;pid&gt;_stdout.txt in the
+current directory where the executable is run, where &lt;pid&gt; is the
+process id of the child process.</span></td>
+    </tr>
+    <tr>
+      <td><tt>impStderrFile</tt></td>
+      <td><tt>string</tt></td>
+      <td>Name of file to which standard error of&nbsp; child process
+is redirected. <span style="font-family: monospace;">If this parameter
+is not supplied
+the standard output will be redirected to &lt;pid&gt;_stderr.txt in the
+current directory where the executable is run, where &lt;pid&gt; is the
+process id of the child process.</span></td>
+    </tr>
+  </tbody>
+</table>
+<p></p>
+<span style="font-family: monospace;"><span style="font-weight: bold;"><br>
+</span></span>
+<p><b><tt>Examples</tt></b>
+<br>
+&nbsp;
+<br>
+<span style="font-family: monospace;">Request: </span><br>
+<br>
+<table width="100%" bgcolor="#d2d2d2">
+  <tbody>
+    <tr>
+      <td><i><tt>POST /runExecutable HTTP/1.1</tt></i> <br>
+      <i><tt>date: Tue, 18 Mar 2003 04:03:39 GMT</tt></i> <br>
+      <i><tt>connection: close</tt></i> <br>
+      <i><tt>Host: smblx7:61000</tt></i> <br>
+      <i><tt>impExecutable: /usr/java/bin/java</tt></i> <br>
+      <i><tt>impArg1: MyTestClass</tt></i> <br>
+      <i><tt>impEnv1: CLASSPATH=$(CLASSPATH):/home/penjitk/test</tt></i>
+      <br>
+      <i><tt>impEnv2: JAVA_HOME=/usr/java</tt></i> <br>
+      <i><tt>impUser: penjitk</tt></i> <br>
+      <i><tt>impSessionID: A8D0604CBA4769E8F109C</tt></i></td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<span style="font-family: monospace;">Respons: (impUseFork is true)</span><br>
+<br>
+<table width="100%" bgcolor="#d2d2d2">
+  <tbody>
+    <tr>
+      <td><i><tt>HTTP/1.1 200 OK</tt></i> <br>
+      <i><tt>date: Tue, 18 Mar 2003 04:03:39 GMT</tt></i> <br>
+      <i><tt>connection: close</tt></i> <br>
+      <i><tt>server: Impersonation Server/2.0</tt></i> <span
+ style="font-family: monospace;"><span style="font-style: italic;"><br>
+impProcessId</span></span><i><tt>: 9002<br>
+impStdoutFile: /tmp/9002_stdout.txt<br>
+impStderrFile: /tmp/9002_stderr.txt<br>
+      <br>
+      </tt></i></td>
+    </tr>
+  </tbody>
+</table>
+<h3><br>
+</h3>
+<h3><tt>3.3&nbsp;<a name="Running a Shell Script"></a>Running a Shell
+Script</tt></h3>
+<tt>runScript command allows clients to run any shell (default is
+default
+shell of the user) and pass one command line for the shell to execute.
+Output is returned in the body of the http response.</tt>
+<br>
+&nbsp;
+<table border="1" width="80%">
+  <tbody>
+    <tr>
+      <td><b><tt>Parameter</tt></b></td>
+      <td><b><tt>Value</tt></b></td>
+      <td><b><tt>Required: default</tt></b></td>
+      <td><b><tt>Description</tt></b></td>
+    </tr>
+    <tr>
+      <td><tt>impShell</tt></td>
+      <td><tt>string</tt></td>
+      <td><tt>yes</tt></td>
+      <td><tt>Full path of a shell command</tt></td>
+    </tr>
+    <tr>
+      <td><tt>impCommandLine</tt></td>
+      <td><tt>string</tt></td>
+      <td><tt>no</tt></td>
+      <td><tt>Command line arguments for the shell. For example,
+ls%20-al%20%2Fhome%2Fpenjitk%2F*.*
+to run ls -al /home/penjitk/*.*</tt></td>
+    </tr>
+    <tr>
+      <td><tt>impEnv[i]</tt></td>
+      <td>string</td>
+      <td>no</td>
+      <td><tt>Environment variables where i starts from 1. For example,
+impEnv1=PATH%3D%2Fhome%2Fjava%2Fbin.</tt></td>
+    </tr>
+    <tr>
+      <td><tt>impUseFork</tt></td>
+      <td><tt>true | false</tt></td>
+      <td><tt>no: false</tt></td>
+      <td><tt>If true, the server will fork a child process and run the
+executable
+in the child process. If false, the server will run the executable in
+its
+own process; the new process will replace the server process.</tt></td>
+    </tr>
+  </tbody>
+</table>
+<p><b><tt>Status Code</tt></b>
+<br>
+&nbsp;
+</p>
+<li><tt>200 OK</tt></li>
+<li> <tt>451 Missing impCommandLine</tt></li>
+<li> <tt>452 Invalid impShell</tt></li>
+<li> <tt>500 Internal Server Error (or more specific status phrase)</tt></li>
+<li> <tt>564 Failed to change dir</tt></li>
+<li> <tt>565 Failed to fork a process</tt></li>
+<li> <tt>567 Failed to run executable (or more specific status phrase)</tt></li>
+<p><br>
+<b><tt>Request Header and Body</tt></b>
+</p>
+<p><b><tt>Examples</tt></b>
+</p>
+<p><tt>Running ls -al /home/penjitk in a shell</tt>
+<br>
+&nbsp;&nbsp;<br>
+</p>
+<p>
+<table width="100%" bgcolor="#d2d2d2">
+  <tbody>
+    <tr>
+      <td><i><tt><nobr>GET
+/bin/csh?impCommand=runScript&amp;impCommandLine=ls%20-al%20%2Fhome%2Fpenjitk&amp;impUser=penjitk&amp;impSessionID=CB0D346BB8B1739A05FD
+HTTP/1.1</nobr></tt></i> <br>
+      <i><tt>Host: smblx7:61000</tt></i></td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;
+<table width="100%" bgcolor="#d2d2d2">
+  <tbody>
+    <tr>
+      <td><i><tt><nobr>GET
+/runScript?impShell=/bin/csh&amp;impCommandLine=ls%20-al%20%2Fhome%2Fpenjitk&amp;impUser=penjitk&amp;impSessionID=CB0D346BB8B1739A05FD
+HTTP/1.1</nobr></tt></i> <br>
+      <i><tt>Host: smblx7:61000</tt></i></td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<h3><br>
+</h3>
+<h3><tt>3.4 <a name="Process_Management"></a>Process Management</tt></h3>
+<h3>
+</h3>
+<tt>This group of commands allows the user to get a process status or
+kill a process.<br>
+<br>
+</tt>
+<h3><tt>3.4.1 <a name="getProcessStatus"></a>getProcessStatus</tt></h3>
+<tt>getProcess status returns status of processes currently running
+on the system. If impShowUserProcOnly parameter is set to true,<br>
+only the status of the user's processes will be returned. If
+impShowUserProcOnly is not present or set to false, and impProcessId<br>
+is valid, only the status of the specified process will be returned.<br>
+</tt>
+&nbsp;
+<table border="1" width="80%">
+  <tbody>
+    <tr>
+      <td><b><tt>Parameter</tt></b></td>
+      <td><b><tt>Value</tt></b></td>
+      <td><b><tt>Required: default</tt></b></td>
+      <td><b><tt>Description</tt></b></td>
+    </tr>
+    <tr>
+      <td><tt>impProcessId</tt></td>
+      <td><tt>integer</tt></td>
+      <td><tt>no</tt></td>
+      <td><tt>If impProcessId is valid, only the status of this process
+will be returned. This parameter only takes effect if
+impShowUserProcOnly is not present or is false.<br>
+      </tt></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">impShowUserProcessOnly<br>
+      </td>
+      <td style="vertical-align: top;">true or false<br>
+      </td>
+      <td style="vertical-align: top;">no: false<br>
+      </td>
+      <td style="vertical-align: top;">If true, only processes that
+belong to the impUser will be returned. Otherwise either all processes
+will be returned or, if impProcessId is valid, only the process with
+impProcessId will be returned.<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<b><tt><br>
+</tt></b><tt><br>
+The response body contains a table of process status. The first line is
+the table header and each subsequent line <br>
+contains the status of a process.<br>
+<br>
+</tt>
+<table border="1" width="80%">
+  <tbody>
+    <tr>
+      <td><b><tt>Header</tt></b></td>
+      <td><b><tt>Description</tt></b></td>
+    </tr>
+    <tr>
+      <td> PID<br>
+      </td>
+      <td><span style="font-family: monospace;">The decimal value of
+the process ID.</span><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">PPID<br>
+      </td>
+      <td style="vertical-align: top;">The decimal value of the parent
+process ID.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">PGID<br>
+      </td>
+      <td style="vertical-align: top;">The decimal value of the process
+group ID.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">RUSER<br>
+      </td>
+      <td style="vertical-align: top;">The real user ID of the process.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">USER<br>
+      </td>
+      <td style="vertical-align: top;">The effective user ID of the
+process.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">RGROUP<br>
+      </td>
+      <td style="vertical-align: top;">The real group UD of the process.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">GROUP<br>
+      </td>
+      <td style="vertical-align: top;">The effective group ID of the
+process.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">SZ<br>
+      </td>
+      <td style="vertical-align: top;">Total size (in pages) of the
+process, including code, data, shared memory, mapped files, shared
+libraries and stack.&nbsp; Pages associated with mapped devices are not
+counted.&nbsp; (Refer to sysconf(1) or sysconf(3C) for information on
+determining the page size.)<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">RSS<br>
+      </td>
+      <td style="vertical-align: top;">Total resident size (in pages)
+of process.&nbsp; This includes only those pages of the process that
+are physically resident in memory.&nbsp; Mapped devices (such as
+graphics) are not included.&nbsp; Shared memory (shmget(2)) and the
+shared parts of a forked child (code, shared objects, and files mapped
+MAP_SHARED) have the number of pages prorated by the number of
+processes sharing the page.&nbsp; Two independent processes that use
+the same shared objects and/or the same code each count all valid
+resident pages as part of their own resident size.&nbsp; The page size
+can either be 4096 or 16384 bytes as determined by the return value of
+the getpagesize(2) system call.&nbsp; In general the larger page size
+is used on systems where uname(1) returns "IRIX64". This is not
+displayed in X/OPEN XPG4 conformance mode.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">VSZ<br>
+      </td>
+      <td style="vertical-align: top;">The size of the process in
+(virtual) memory.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">TIME<br>
+      </td>
+      <td style="vertical-align: top;">The cumulative execution time
+for the process.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">ELAPSED<br>
+      </td>
+      <td style="vertical-align: top;">The elapsed time since the
+process was started.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">STIME<br>
+      </td>
+      <td style="vertical-align: top;">The starting time of the
+process, given in hours, minutes, and seconds.&nbsp; A process begun
+more than twenty-four hours before the ps inquiry is executed is given
+in months and days. Note that on irix and decunix, month and day are
+separated by a space, e.g. "Aug 06" whereas on linux there is no space,
+e.g. "Aug06".<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">S<br>
+      </td>
+      <td style="vertical-align: top;">State of the process:<br>
+0&nbsp;&nbsp; Process is running on a processor.<br>
+S&nbsp;&nbsp; Process is sleeping, waiting for a resource.<br>
+R&nbsp;&nbsp; Process is running.<br>
+Z&nbsp;&nbsp; Process is terminated and parent not waiting (wait(2)).<br>
+T&nbsp;&nbsp; Process is stopped.<br>
+I&nbsp;&nbsp; Process is in intermediate state of creation.<br>
+X&nbsp;&nbsp; Process is waiting for memory.<br>
+C&nbsp;&nbsp; Process is creating core image after error.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">UID<br>
+      </td>
+      <td style="vertical-align: top;">The user ID number of the
+process owner<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">COMMAND<br>
+      </td>
+      <td style="vertical-align: top;">The command with all its
+arguments as a string.&nbsp; A process that has exited and has a
+parent, but has not yet been waited for by the parent, is marked
+&lt;defunct&gt;.<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<b><tt><br>
+</tt></b><tt><br>
+</tt><b><tt>Status Code</tt></b>
+<br>
+<p></p>
+<li><tt>200 OK</tt></li>
+<li><span style="font-family: monospace;"></span><tt>456 Invalid
+impProcessId</tt></li>
+<li><tt>584 Failed to get process status<br>
+  </tt></li>
+<br>
+<p><b><tt>Request Header and Body</tt></b>
+</p>
+<p><b><tt>Examples</tt></b><br>
+&nbsp; <br>
+<tt>Getting status of the given process only.</tt><br>
+</p>
+<p>
+<table width="100%" bgcolor="#d2d2d2">
+  <tbody>
+    <tr>
+      <td><i><tt><nobr>GET
+/getProcessStatus?impUser=penjitk&amp;impSessionID=90FCE6E07CCF8A1D24DEBE556D9FBDD2&amp;impProcessId=31278
+HTTP/1.1</nobr></tt></i> <br>
+      <i><tt>Host: smblx7:61000</tt></i></td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<p>&nbsp;<tt>Getiting status of the all processes.</tt><br>
+&nbsp;
+<table width="100%" bgcolor="#d2d2d2">
+  <tbody>
+    <tr>
+      <td><i><tt><nobr>GET
+http://smbdev1:61001/getProcessStatus?impUser=penjitk&amp;impSessionID=90FCE6E07CCF8A1D24DEBE556D9FBDD2
+HTTP/1.1</nobr></tt></i> <br>
+      <i><tt>Host: smblx7:61000</tt></i></td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<span style="font-weight: bold;"><span style="font-family: monospace;"><br>
+</span></span>
+<p><b><tt>Response Header and Body</tt></b></p>
+<p><b><tt>Examples</tt></b><br>
+&nbsp; <br>
+<tt>Getting status of the given process only.</tt><br>
+</p>
+<p>
+<table width="100%" bgcolor="#d2d2d2">
+  <tbody>
+    <tr>
+      <td><i><tt><nobr></nobr></tt></i><i><tt>HTTP/1.1 200 OK</tt></i> <br>
+      <i><tt>date: Tue, 18 Mar 2003 04:03:39 GMT</tt></i> <br>
+      <i><tt>connection: close</tt></i> <br>
+      <i><tt>server: Impersonation Server/2.0</tt></i> <span
+ style="font-family: monospace;"><span style="font-style: italic;"><br>
+&nbsp;&nbsp;&nbsp; <br>
+      </span></span> PID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; PPID&nbsp;
+PGID&nbsp;&nbsp;&nbsp; RUSER&nbsp; USER&nbsp; RGROUP GROUP
+SZ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RSS&nbsp; VSZ&nbsp;&nbsp;&nbsp;
+TIME&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ELAPSED&nbsp;&nbsp;&nbsp;
+STIME&nbsp;&nbsp; S&nbsp; UID&nbsp;&nbsp;&nbsp; COMMAND<br>
+31278&nbsp;&nbsp; 1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+31278&nbsp;&nbsp; blctl&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+blctl&nbsp;&nbsp;&nbsp;&nbsp;
+px&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+px&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 10984 1160
+43936&nbsp; 00:00:00&nbsp; 4-23:31:02&nbsp;&nbsp;
+Aug26&nbsp;&nbsp;&nbsp; S&nbsp; 1444&nbsp;&nbsp;&nbsp; xterm -e
+./impdhs BL-sim <i><tt><nobr></nobr></tt></i></td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<p>&nbsp;<tt>Getiting status of the all processes.</tt><br>
+&nbsp;
+<table width="100%" bgcolor="#d2d2d2">
+  <tbody>
+    <tr>
+      <td><i><tt><nobr></nobr></tt></i><i><tt>HTTP/1.1 200 OK</tt></i> <br>
+      <i><tt>date: Tue, 18 Mar 2003 04:03:39 GMT</tt></i> <br>
+      <i><tt>connection: close</tt></i> <br>
+      <i><tt>server: Impersonation Server/2.0</tt></i> <span
+ style="font-family: monospace;"><span style="font-style: italic;"><br>
+&nbsp;&nbsp;&nbsp; <br>
+      </span></span> PID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; PPID&nbsp;
+PGID&nbsp;&nbsp;&nbsp; RUSER&nbsp; USER&nbsp; RGROUP GROUP
+SZ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RSS&nbsp;
+VSZ&nbsp;&nbsp;&nbsp;&nbsp; TIME&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ELAPSED&nbsp;&nbsp;&nbsp; STIME&nbsp;&nbsp; S&nbsp;&nbsp;
+UID&nbsp;&nbsp;&nbsp;
+COMMAND<br>
+&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;
+root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 383&nbsp;&nbsp;&nbsp;&nbsp;
+472&nbsp;&nbsp;&nbsp; 1532&nbsp;&nbsp;&nbsp; 00:00:20&nbsp;
+25-17:06:43&nbsp; Aug05&nbsp;&nbsp; S&nbsp;&nbsp;&nbsp;
+0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; init<br>
+31277&nbsp;&nbsp; 1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+31277&nbsp;&nbsp; blctl&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+blctl&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+px&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+px&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+8654&nbsp;&nbsp; 1244&nbsp; 34616&nbsp; 00:00:04&nbsp;
+4-23:31:02&nbsp;&nbsp;&nbsp; Aug26&nbsp;&nbsp; S&nbsp;&nbsp;&nbsp;
+1444&nbsp;&nbsp; xterm -e ./detectordhs BL-sim <br>
+31278&nbsp;&nbsp; 1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+31278&nbsp;&nbsp; blctl&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+blctl&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+px&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+px&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 10984
+1160&nbsp; 43936&nbsp; 00:00:00&nbsp; 4-23:31:02&nbsp;&nbsp;&nbsp;
+Aug26&nbsp;&nbsp; S&nbsp;&nbsp;&nbsp; 1444&nbsp;&nbsp; xterm -e
+./impdhs BL-sim&nbsp; <i><tt><nobr></nobr></tt></i></td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<h3><br>
+</h3>
+<h3><tt>3.4.2 <a name="killProces_"></a>killProces</tt></h3>
+<tt>killProcess kills a unix process of the given process id. Only the
+process that belongs to the user can be killed.<br>
+</tt>
+&nbsp;
+<table border="1" width="80%">
+  <tbody>
+    <tr>
+      <td><b><tt>Parameter</tt></b></td>
+      <td><b><tt>Value</tt></b></td>
+      <td><b><tt>Required: default</tt></b></td>
+      <td><b><tt>Description</tt></b></td>
+    </tr>
+    <tr>
+      <td><tt>impProcessId</tt></td>
+      <td><tt>intteger</tt></td>
+      <td><tt>no</tt></td>
+      <td><tt>Process id<br>
+      </tt></td>
+    </tr>
+  </tbody>
+</table>
+<b><tt><br>
+Status Code</tt></b>
+<br>
+<p>
+</p>
+<li><tt>200 OK</tt></li>
+<li><tt>455 Missing impProcessId</tt></li>
+<li><tt>456 Invalid impProcessId<br>
+  </tt></li>
+<li><tt>584 Failed to get process status</tt></li>
+<p><b><tt><br>
+Request Header and Body</tt></b>
+</p>
+<p><b><tt>Examples</tt></b><br>
+&nbsp; <br>
+</p>
+<p>
+<table width="100%" bgcolor="#d2d2d2">
+  <tbody>
+    <tr>
+      <td><i><tt><nobr>GET
+/killProcess?impUser=penjitk&amp;impSessionID=90FCE6E07CCF8A1D24DEBE556D9FBDD2&amp;impProcessId=31278
+HTTP/1.1</nobr></tt></i> <br>
+      <i><tt>Host: smblx7:61000</tt></i></td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<p>&nbsp;<tt><br>
+</tt></p>
+<span style="font-weight: bold;"><span style="font-family: monospace;"></span></span>
+<p><b><tt>Response Header and Body</tt></b>
+</p>
+<p><b><tt>Examples</tt></b><br>
+&nbsp; <br>
+</p>
+<p>
+<table width="100%" bgcolor="#d2d2d2">
+  <tbody>
+    <tr>
+      <td><i><tt><nobr></nobr></tt></i><i><tt>HTTP/1.1 200 OK</tt></i> <br>
+      <i><tt>date: Tue, 18 Mar 2003 04:03:39 GMT</tt></i> <br>
+      <i><tt>connection: close</tt></i> <br>
+      <i><tt>server: Impersonation Server/2.0</tt></i> <span
+ style="font-family: monospace;"><span style="font-style: italic;"><br>
+      <br>
+      </span>Process 31278 killed successfully</span><i><tt><nobr></nobr></tt></i></td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<p>&nbsp;<tt><br>
+<br>
+</tt></p>
+<h3></h3>
+<h3><tt><tt>3.5 <a name="getVersion"></a>getVersion</tt></tt></h3>
+<tt>The user uses this command to find out the version number of the
+impersonation server. The command is <br>
+only available in the impersonation server version 2.1 and above. </tt><tt>For
+an impersonation server <br>
+version 2.0 and below, the getVerion command will return "554 Invalid
+command".<br>
+<br>
+This command does not require any other parameters besides impUser and
+impSessionID.<br>
+</tt>
+<h2></h2>
+<b><tt><br>
+Status Code</tt></b>
+<br>
+<p></p>
+<li><tt>200 OK</tt></li>
+<li><tt>431 Missing impSessionID</tt></li>
+<li><tt>432 Missing impUser</tt></li>
+<br>
+<p><br>
+<b><tt>Request Header and Body</tt></b>
+</p>
+<p><b><tt>Examples</tt></b><br>
+&nbsp;<br>
+</p>
+<p>
+<table width="100%" bgcolor="#d2d2d2">
+  <tbody>
+    <tr>
+      <td><i><tt><nobr>GET
+/getVersion?impUser=penjitk&amp;impSessionID=</nobr></tt></i><i><tt>CB0D346BB8B1739A05FD
+      </tt></i><nobr></nobr><i><tt><nobr>HTTP/1.1</nobr></tt></i> <br>
+      <i><tt>Host: smblx7:61000</tt></i></td>
+    </tr>
+  </tbody>
+</table>
+<br>
+</p>
+<p><b><tt>Response Header and Body</tt></b></p>
+<table width="100%" bgcolor="#d2d2d2">
+  <tbody>
+    <tr>
+      <td><i><tt>HTTP/1.1 200 OK</tt></i> <br>
+      <i><tt>date: Tue, 18 Mar 2003 04:03:39 GMT</tt></i> <br>
+      <i><tt>connection: close</tt></i> <br>
+      <i><tt>server: Impersonation Server/2.0</tt></i> <br>
+      <i><tt>Content-Type: text/plain; charset=ISO-859-1<br>
+Content-Length=3<br>
+impVersion: 2.1</tt></i><span style="font-family: monospace;"><span
+ style="font-style: italic;"><br>
+      <br>
+2.1</span></span><br>
+      <i><tt>&nbsp;</tt></i></td>
+    </tr>
+  </tbody>
+</table>
+<br>
+&nbsp;
+<h2><tt>4&nbsp;<a name="Complete List of Status Codes and Reason"></a>Complete
+List of Status Codes and Reason Phrases</tt></h2>
+&nbsp;
+<li><tt>100 Continue</tt></li>
+<li> <tt>101 Switching Protocols</tt></li>
+<br>
+&nbsp;
+<li><tt>200 OK</tt></li>
+<li> <tt>201 Created</tt></li>
+<li> <tt>202 Accepted</tt></li>
+<li> <tt>203 Non-Authoritative Information</tt></li>
+<li> <tt>204 No Content</tt></li>
+<li> <tt>205 Reset Content</tt></li>
+<li> <tt>206 Partial Content</tt></li>
+<br>
+&nbsp;
+<li><tt>300 Multiple Choices</tt></li>
+<li> <tt>301 Moved Permanently</tt></li>
+<li> <tt>302 Found</tt></li>
+<li> <tt>303 See Other</tt></li>
+<li> <tt>304 Not Modified</tt></li>
+<li> <tt>305 Use Proxy</tt></li>
+<li> <tt>307 Temporary Redirect</tt></li>
+<br>
+&nbsp;
+<li><tt>400 Bad Request</tt></li>
+<li> <tt>401 Unauthorized</tt></li>
+<li> <tt>402 Payment Required</tt></li>
+<li> <tt>403 Forbidden</tt></li>
+<li> <tt>404 Not Found</tt></li>
+<li> <tt>405 Method Not Allowed</tt></li>
+<li> <tt>406 Not Acceptable</tt></li>
+<li> <tt>407 Proxy Authentication Required</tt></li>
+<li> <tt>408 Request Time-out</tt></li>
+<li> <tt>409 Conflict</tt></li>
+<li> <tt>410 Gone</tt></li>
+<li> <tt>411 Length Required</tt></li>
+<li> <tt>412 Precondition Failed</tt></li>
+<li> <tt>413 Request Entity Too Large</tt></li>
+<li> <tt>414 Request-URI Too Large</tt></li>
+<li> <tt>415 Unsupported Media Type</tt></li>
+<li> <tt>416 Requested range not satisfiable</tt></li>
+<li> <tt>417 Expectation Failed</tt></li>
+<li> <tt>421 Failed to read HTTP request line</tt></li>
+<li> <tt>422 Invalid HTTP request line</tt></li>
+<li> <tt>423 Missing value of parameter</tt></li>
+<li> <tt>424 Failed to decode parameter in request URI</tt></li>
+<li> <tt>425 Failed to read header</tt></li>
+<li> <tt>426 Failed to decode header</tt></li>
+<li> <tt>427 Missing content-type header</tt></li>
+<li> <tt>428 Failed to read message body</tt></li>
+<li> <tt>431 Missing impSessionID</tt></li>
+<li> <tt>432 Missing impUser</tt></li>
+<li> <tt>433 Missing impCommand</tt></li>
+<li> <tt>434 Invalid impExecutable</tt></li>
+<li> <tt>435 Missing impFileFilter</tt></li>
+<li> <tt>436 Missing impFileMode</tt></li>
+<li> <tt>437 Missing impFilePath</tt></li>
+<li> <tt>438 Invalid impFileStartOffset</tt></li>
+<li> <tt>439 Invalid impFileEndOffset</tt></li>
+<li> <tt>440 Missing impDirectory</tt></li>
+<li> <tt>441 Missing impExecutable</tt></li>
+<li> <tt>442 Invalid impFileType</tt></li>
+<li> <tt>443 Invalid impFileFilter</tt></li>
+<li> <tt>444 Invalid impDirectory</tt></li>
+<li> <tt>445 Missing impOldFilePath</tt></li>
+<li> <tt>446 Missings impNewFilePath</tt></li>
+<li> <tt>447 Missing impOldDirectory</tt></li>
+<li> <tt>448 Missings impNewDirectory</tt></li>
+<li> <tt>449 Invalid impMaxDepth</tt></li>
+<li> <tt>450 impOldDirectory is not a valid directory</tt></li>
+<li> <tt>451 Missing impCommandLine</tt></li>
+<li> <tt>452 Invalid impShell</tt></li>
+<br>
+&nbsp;
+<li><tt>500 Internal Server Error</tt></li>
+<li> <tt>501 Not Implemented</tt></li>
+<li> <tt>502 Bad Gateway</tt></li>
+<li> <tt>503 Service Unavailable</tt></li>
+<li> <tt>504 Gateway Time-out</tt></li>
+<li> <tt>505 HTTP Version not supported</tt></li>
+<li> <tt>551 Authentication failed</tt></li>
+<li> <tt>552 Permission Denied</tt></li>
+<li> <tt>553 Invalid session ID</tt></li>
+<li> <tt>554 Invalid command</tt></li>
+<li> <tt>555 Failed to open file for reading</tt></li>
+<li> <tt>556 Failed to convert file descriptor to a stream</tt></li>
+<li> <tt>557 fseek failed</tt></li>
+<li> <tt>558 Failed to get file stat</tt></li>
+<li> <tt>559 Content length not set by server</tt></li>
+<li> <tt>560 Failed to read message body</tt></li>
+<li> <tt>561 Failed to open file for writing</tt></li>
+<li> <tt>562 Failed to write file</tt></li>
+<li> <tt>563 Failed to change file mode</tt></li>
+<li> <tt>564 Failed to change dir</tt></li>
+<li> <tt>565 Failed to fork a process</tt></li>
+<li> <tt>566 Failed to create pipe</tt></li>
+<li> <tt>567 Failed to run executable</tt></li>
+<li> <tt>568 Failed to redirect stdout of child process</tt></li>
+<li> <tt>569 Failed to redirect stderr of child process</tt></li>
+<li> <tt>570 Home directory not set</tt></li>
+<li> <tt>571 Not a valid directory</tt></li>
+<li> <tt>572 Failed to read dir</tt></li>
+<li> <tt>573 Failed to create dir</tt></li>
+<li> <tt>574 Failed to remove file or dir</tt></li>
+<li> <tt>575 Can not remove system or special file</tt></li>
+<li> <tt>576 Failed to unlink symbolic link file</tt></li>
+<li> <tt>577 Write file incomplete</tt></li>
+<li> <tt>578 Content-Length differs from body length</tt></li>
+<li> <tt>579 Failed to read file</tt></li>
+<li> <tt>580 Failed to allocate memory</tt></li>
+<li> <tt>581 Failed to rename file</tt></li>
+<li> <tt>582 Failed to close file</tt></li>
+<li> <tt>583 Failed to close dir</tt></li>
+<br>
+&nbsp;
+<p>&nbsp;
+</p>
+<h2><tt>5&nbsp;<a name="Appendix"></a>Appendices</tt></h2>
+<h3>
+<tt>5.1&nbsp;<a name="Specifications"></a>Specifications</tt></h3>
+<h4>
+<tt>RFC 2616</tt></h4>
+&nbsp;
+<li><a href="http://www.w3.org/Protocols/rfc2616/rfc2616.html">http://www.w3.org/Protocols/rfc2616/rfc2616.html</a></li>
+<li> <tt><a href="ftp://ftp.isi.edu/in-notes/rfc2616.txt">ftp://ftp.isi.edu/in-notes/rfc2616.txt</a></tt></li>
+<br>
+&nbsp;
+<p>&nbsp;
+</p>
+<h4><tt>RFC 3396</tt></h4>
+&nbsp;
+<li><tt><a href="ftp://ftp.isi.edu/in-notes/rfc2616.txt">http://www.w3.org/Addressing</a></tt></li>
+<li> <tt><a
+ href="http://www.cis.ohio-state.edu/cgi-bin/rfc/rfc2396.html">http://www.cis.ohio-state.edu/cgi-bin/rfc/rfc2396.html</a></tt></li>
+<br>
+&nbsp;
+<p>&nbsp;
+<br>
+&nbsp;
+<br>
+&nbsp;
+</p>
+<h3><tt>5.2&nbsp;<a name="Wildcards"></a>Wildcards</tt></h3>
+<tt>Wildcards are used as a parameter in some of the commands such as
+listDirectory
+and deleteFile. The impersonation servers implements a small subset of
+wildcards primarily aimed for filename matching. <font color="#ff0000">TODO:
+look at POSIX regex and GNU fnmatch.</font></tt>
+<br>
+&nbsp;
+<h4><tt>Generic Wildcard</tt></h4>
+<p><br>
+<tt>Here we will define a wildcard as a string that contains 0 to
+2 star characters ('*'). If there is only one star in the string, it
+can
+be located anywhere. If there are 2 stars in the string, they must be
+at
+the beginning and at the end of the string.</tt>
+</p>
+<p>*
+<br>
+<tt>*xxx</tt>
+<br>
+<tt>xxx*</tt>
+<br>
+<tt>xxx*xxx</tt>
+<br>
+<tt>*xxx*</tt>
+</p>
+<p><tt>A string will match the wildcard if it contains all of the fixed
+parts of the wildcard and contains a sequence of 0 - N arbitrary
+characters
+in the place of *, where N can be any length. If the wildcard does not
+contain a star, a string will match the wildcard if contains exactly
+the
+same sequence of characters as the wildcard. For example, a wildcard
+*xyz
+will match xyz, abcxyz, and abcdefxyz; but will not match xyzzzz or
+abcxyza</tt>
+<br>
+&nbsp;
+<br>
+&nbsp;
+</p>
+<h4><tt>Filename Wildcard</tt></h4>
+<p><br>
+<tt>A filename-wildcard is defined as a sequence of 1 to 2 wildcards
+separated by a dot ('.'). It is aimed to match typical filenames used
+on
+many file systems, where dot is used to separate a filename into name
+and
+extension. Any other characters including sepatator tokens such as
+command
+semicolon and etc are treated as normal characters.</tt>
+</p>
+<p><tt>A filename-wildcard can be one of the following:</tt>
+</p>
+<p><tt>Containing 1 wildcard:</tt>
+</p>
+<p>*
+<br>
+<tt>*xxx</tt>
+<br>
+<tt>xxx*</tt>
+<br>
+<tt>xxx*xxx</tt>
+<br>
+<tt>*xxx*</tt>
+</p>
+<p><tt><font color="#000000">Special cases for file that begins with a
+dot or ends with a dot:</font></tt>
+<br>
+<tt><font color="#000000">*.</font></tt>
+<br>
+<tt><font color="#000000">.*</font></tt>
+<br>
+&nbsp;
+</p>
+<p><tt>Containing 2 wildcards separated by a dot using all possible
+permutations
+between the 2 generic wildcards:</tt>
+</p>
+<p>*.<font color="#cc0000">*</font>
+<br>
+<tt>*xxx.<font color="#cc0000">*</font></tt>
+<br>
+<tt>xxx*.<font color="#cc0000">*</font></tt>
+<br>
+<tt>xxx*xxx.<font color="#cc0000">*</font></tt>
+<br>
+<tt>*xxx*.<font color="#cc0000">*</font></tt>
+</p>
+<p>*.<tt><font color="#cc0000">*xxx</font></tt>
+<br>
+<tt>*xxx</tt>.<tt><font color="#cc0000">*xxx</font></tt>
+<br>
+<tt>xxx*</tt>.<tt><font color="#cc0000">*xxx</font></tt>
+<br>
+<tt>xxx*xxx</tt>.<tt><font color="#cc0000">*xxx</font></tt>
+<br>
+<tt>*xxx*</tt>.<tt><font color="#cc0000">*xxx</font></tt>
+<br>
+&nbsp;
+</p>
+<p>*.<tt><font color="#cc0000">xxx*</font></tt>
+<br>
+<tt>*xxx</tt>.<tt><font color="#cc0000">xxx*</font></tt>
+<br>
+<tt>xxx*</tt>.<tt><font color="#cc0000">xxx*</font></tt>
+<br>
+<tt>xxx*xxx</tt>.<tt><font color="#cc0000">xxx*</font></tt>
+<br>
+<tt>*xxx*</tt>.<tt><font color="#cc0000">xxx*</font></tt>
+</p>
+<p>*.<tt><font color="#cc0000">xxx*xxx</font></tt>
+<br>
+<tt>*xxx</tt>.<tt><font color="#cc0000">xxx*xxx</font></tt>
+<br>
+<tt>xxx*</tt>.<tt><font color="#cc0000">xxx*xxx</font></tt>
+<br>
+<tt>xxx*xxx</tt>.<tt><font color="#cc0000">xxx*xxx</font></tt>
+<br>
+<tt>*xxx*</tt>.<tt><font color="#cc0000">xxx*xxx</font></tt>
+</p>
+<p>*.<tt><font color="#cc0000">*xxx*</font></tt>
+<br>
+<tt>*xxx</tt>.<tt><font color="#cc0000">*xxx*</font></tt>
+<br>
+<tt>xxx*</tt>.<tt><font color="#cc0000">*xxx*</font></tt>
+<br>
+<tt>xxx*xxx</tt>.<tt><font color="#cc0000">*xxx*</font></tt>
+<br>
+<tt>*xxx*</tt>.<tt><font color="#cc0000">*xxx*</font></tt>
+<br>
+&nbsp;
+<br>
+&nbsp;
+<br>
+&nbsp;
+</p>
+<h4><tt>Examples</tt></h4>
+<p><br>
+<tt>*abc*.ijk*</tt>
+<br>
+<tt>ddd*.</tt>
+<br>
+<tt>.fff*</tt>
+<br>
+<tt>*.*ooo</tt>
+<br>
+<tt>hhh*jjj.*</tt>
+</p>
+<p><tt><font color="#000000">There are some exceptions for filename
+wildcards:
+a wildcard beginning with star and dot, such as *.xxx*, will not match
+filenames that begin with dot such as .xxxabc or .xxxddd. However, a
+wildcard
+that ends with dot and star, such as file*.*, will match filename
+ending
+with dot, such as &#8216;file1.&#8217; or &#8216;file2.&#8217;; this is the same behavior as
+the
+shell command &#8220;ls&#8221;.</font></tt>
+<br>
+&nbsp;
+<br>
+&nbsp;
+<br>
+&nbsp;
+<br>
+&nbsp;
+<br>
+&nbsp;
+<br>
+&nbsp;
+<br>
+&nbsp;
+<br>
+&nbsp;
+<br>
+&nbsp;
+<br>
+&nbsp;
+<br>
+&nbsp;
+<br>
+&nbsp;
+<br>
+&nbsp;
+<br>
+&nbsp;
+<br>
+&nbsp;
+<br>
+&nbsp;
+<br>
+&nbsp;
+<br>
+&nbsp;
+<br>
+&nbsp;
+<br>
+&nbsp;
+<br>
+&nbsp;
+<br>
+&nbsp;
+<br>
+&nbsp;
+<br>
+&nbsp;
+<br>
+&nbsp;
+<br>
+&nbsp;
+<br>
+&nbsp;
+<br>
+&nbsp;
+<br>
+&nbsp;
+<br>
+&nbsp;
+<br>
+&nbsp;
+<br>
+&nbsp;
+<br>
+&nbsp;
+<br>
+&nbsp;
+<br>
+&nbsp;
+<br>
+&nbsp;
+<br>
+&nbsp;
+<br>
+&nbsp;
+<br>
+&nbsp;
+<br>
+&nbsp;
+<br>
+&nbsp;
+</p>
+</body>
+</html>

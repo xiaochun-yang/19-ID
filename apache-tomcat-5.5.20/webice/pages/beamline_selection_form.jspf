@@ -1,0 +1,22 @@
+<span style="float:right" class="small">
+<form name="beamlineForm" target="_parent" action="Connect.do" >
+Beamline:<select name="beamline" onchange="beamline_onchange()">
+<% if (!client.isConnectedToBeamline()) { %>
+  <option value="" selected>Select beamline
+<% } else { %>
+  <option value="">Disconnect
+<% }
+
+   Vector beamlines = client.getAvailableBeamlines();
+   for (int i = 0; i < beamlines.size(); ++i) {
+   		String bl = (String)beamlines.elementAt(i);
+   		if (client.getBeamline().equals(bl)) {
+%>
+	<option value="<%= bl %>" selected ><%= bl %>
+<% } else { %>
+	<option value="<%= bl %>" ><%= bl %>
+<% } } %>
+
+</select>
+</form>
+</span>

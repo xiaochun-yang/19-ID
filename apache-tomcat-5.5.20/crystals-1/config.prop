@@ -1,0 +1,44 @@
+# The following config customizes the web pages
+# Page containing logo and title
+pageheader=ssrlheader.jsp
+# Header, footer and stylesheet for the login form
+loginForm.header=smb_menu.html
+loginForm.footer=smbFooter.jspf
+loginForm.stylesheet=https://smb.slac.stanford.edu/smb_mainstyle.css
+ 
+# Server secured port
+securedPort=8443
+ 
+# Crystals server root dir
+rootDir=/usr/local/dcs/apache-tomcat-5.5.20/webapps/crystals
+ 
+# Template dir
+templateDir=/usr/local/dcs/apache-tomcat-5.5.20/webapps/crystals/data/templates/
+ 
+# Cassette dir
+cassetteDir=/usr/local/dcs/apache-tomcat-5.5.20/webapps/crystals/data/cassettes/
+ 
+# Beamline dir
+beamlineDir=/usr/local/dcs/apache-tomcat-5.5.20/webapps/crystals/data/beamlines/
+ 
+# URL path for crystals server
+crystalsURL=https://dkong:8443/crystals
+ 
+# Default URL for loading cassette files
+getCassetteURL=https://dkong:8443/crystals/data/cassettes/
+ 
+# Default page for crystals server
+cassetteInfoURL=https://dkong:8443/crystals/CassetteInfo.jsp
+ 
+# URL for excel to xml converter
+ 
+# Database type: oracle or xml
+dbType=xml
+dbFile=db.txt
+ 
+# Authentication
+auth.host=dkong
+auth.port=8080
+auth.method=simple_user_database
+auth.gatewayUrl=http://dkong:8080/gateway/servlet/
+auth.loginUrl=https://dkong:8443/crystals/login.jsp

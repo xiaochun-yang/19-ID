@@ -1,0 +1,177 @@
+##############################
+# Default config
+##############################
+#it will use the user name who starts the dcss
+#if not defined here and not on the command line
+#dcss.defaultUserName=blctl
+
+#dcs
+#yang dcs.rootDir=/usr/local/dcs
+dcs.rootDir=/home/yangx/release-5_1
+
+###### define list of directoies allowed to collect data
+###### "/data" is not the same as "/data/".
+### you can have serveral lines defined.
+### any match will be allowed
+#collect.allowedDirectory=/data
+#collect.allowedDirectory=/another_place
+collect.allowedDirectory=/home/yangx
+
+### light control (board_index channel_index)
+##back light is DigitalOutput
+light.back=0 1
+##side light is AnalogOutput
+light.side=0 0
+
+laser.goniometer.control=0 0
+laser.goniometer.read=0 0
+laser.sample.control=0 1
+laser.sample.read=0 1
+laser.table_vert_1.control=0 2
+laser.table_vert_1.read=0 2
+laser.table_vert_2.control=0 3
+laser.table_vert_2.read=0 3
+laser.table_horz_1.control=0 4
+laser.table_horz_1.read=0 4
+laser.table_horz_2.control=0 5
+laser.table_horz_2.read=0 5
+
+cryoBlock.control=0 0
+cryoBlock.open_read=0 0
+cryoBlock.close_read=0 1
+
+# Old authentication server
+#auth.host=smb.slac.stanford.edu
+#auth.port=8180
+#auth.secureHost=smb.slac.stanford.edu
+#auth.securePort=8543
+
+# New authentication server on smbws1
+#yang auth.host=smbws1.slac.stanford.edu
+auth.host=localhost
+auth.port=8080
+auth.method=smb_config_database
+#auth.method=smb_pam
+auth.secureHost=localhost
+auth.securePort=8443
+#comment following to accept any certificates
+auth.trusted_ca_file=/home/yangx/release-5_1/dcsconfig/data/server-jsse.crt
+
+
+############################
+#IMPORTANT
+# Uncomment the following lines to change the defaults
+# for SSL certificate warning
+#auth.secBetweenHrCertWarn=60
+#auth.secBetweenDayCertWarn=300
+#auth.secBetweenWkCertWarn=14400
+#auth.secBetweenMonCertWarn=43200
+###########################
+
+
+
+#read MBBI as string. default is read its number
+epicsgw.beamlineOpenState.stringTypeRead=1
+
+# image server
+imgsrv.host=localhost
+imgsrv.guiPort=14005
+imgsrv.webPort=14006
+imgsrv.httpPort=14007
+imgsrv.tmpDir=/home/yangx/webstaff/jpegscratch
+imgsrv.maxIdleTime=60
+imgsrv.logStdout=true
+imgsrv.logUdpHost=
+imgsrv.logUdpPort=
+imgsrv.logFilePattern=/home/yangx/release-5_1/imgsrv/imgsrv_log_%d.log
+imgsrv.logFileSize=31457280
+imgsrv.logFileMax=1
+imgsrv.logLevel=ALL
+imgsrv.logLibs=
+
+# impersoanation server
+imperson.host=localhost
+imperson.port=61001
+imperson.readonlyHost=localhost
+imperson.readonlyPort=61002
+
+# Original value
+
+# FOR METHEWS TESTING
+# First screening pass
+#screening.crystalAutoindexUrl=https://smbws1.slac.stanford.edu:8445/crystal-analysis/jsp/strategy.jsp
+# Second screening pass
+#screening.crystalAutoindexUrl=https://smbws1.slac.stanford.edu:8445/crystal-analysis/jsp/reautoindex.jsp
+
+
+# Bluice needs to supply SMBSessionID and beamline parameters
+
+
+screening.defaultDataHome=/data
+
+# Displays diff image in the image viewer tab in webice
+# parameters: SMBSessionID, userName, file, beamline (optional)
+
+bluice.tabOrder=Hutch Sample Collect Screening Scan Users UserLog Staff
+#bluice.tabOrder=Hutch Sample Collect Scan Users UserLog Staff
+bluice.hutchView=DCS::HutchOverview
+bluice.useOneTimeTicket=0
+
+impdhs.ciphers=RC4-MD5
+impdhs.smallImageParam=&sizeX=100&sizeY=100&zoom=1.0&gray=400&percentX=0.5&percentY=0.5
+impdhs.largeImageParam=&sizeX=400&sizeY=400&zoom=1.0&gray=400&percentX=0.5&percentY=0.5
+
+######to allow anyone see the excitation scan
+###### each beamline will have one file in this directory
+###### file name will have beamline name in it.
+excitationScan.directory=/data/blctl/currentExcitationScan
+
+#the periodic file should reside in the 'BluIceWidgets/data' directory
+periodic.filename=periodic-table.dat
+
+######################################################
+# Site customization:
+# Add notify.staff_list to the beamline config file
+# to OVERRIDE this list
+######################################################
+#yang notify.staff_list="Aina Cohen SMS"          6507149402@tmomail.net
+
+document.displacement_sensor=https://smb.slac.stanford.edu/secure/staff_pages/EngineeringDev/DisplacementSensorInstallation
+document.robot_advanced=https://smb.slac.stanford.edu/secure/staff_pages/UserSupport/BEAMLINES/bluice/Robot_Control.html#SECTION00097000000000000000
+document.optimized_energy=https://smb.slac.stanford.edu/secure/staff_pages/UserSupport/BEAMLINES/motors/Device_description.html#SECTION000410000000000000000
+document.calibrate_sample_camera=https://smb.slac.stanford.edu/wiki/Installation_of_the_Camera_on_the_Beamline#Setting_the_Click-to-center_zoom_parameters
+
+attenuation.filterThickness=Al_32 800 Al_16 400 Al_8 200 Al_4 100 Al_2 50 Al_1 25 Al_0.5 12
+bluice.filterLabelMap=Al_0.5 0.5 Al_1 1 Al_2 2 Al_4 4 Al_8 8 Al_16 16 Al_32 32 Se Se
+
+
+########################################################
+# default units override
+########################################################
+units.mirror_pitch=mrad
+units.mirror_yaw=mrad
+units.toroid_pitch=mrad
+units.toroid_yaw=mrad
+units.focusing_mirror_2_pitch=mrad
+units.mono_pitch=steps
+units.mono_a_pitch=steps
+units.mono_b_pitch=steps
+units.mono_roll=steps
+units.mono_a_roll=steps
+units.mono_b_roll=steps
+
+###############################################
+# fluorescence scan deadtime default 3%
+###############################################
+fluorescentScan.deadTimeRatio=0.03
+
+##########################################################
+# efforts to move static strings to config
+##########################################################
+sampleCameraConstantsNameList=zoomMinScale zoomMedScale zoomMaxScale zoomMinYAxis zoomMedYAxis zoomMaxYAxis zoomMaxXAxis sampleImageWidth sampleImageHeight sampleAspectRatio
+
+#######################################
+#do disable, add it to the beamline config
+#######################################
+#bluice.oneTicketPerImage=0
+

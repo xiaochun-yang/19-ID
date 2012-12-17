@@ -1,0 +1,604 @@
+Stand-alone DCS Installation Guide
+==================================
+
+Pre-requisites
+==============
+
+- tclsh 8.4 installed from RPM
+  - /usr/lib/libtcl8.4.so
+  - /usr/lib/libtk8.4.so
+- Itcl 3.3 installed from RPM
+  - /usr/lib/itcl3.3/libitcl3.3.so
+- BWidget 1.7
+  - Download bwidget_1.7.0.orig.tar.gz from http://packages.debian.org/stable/libs/bwidget
+  - NEED: /usr/local/lib/BWidget-1.7.0/*.tcl
+- BLT 2.4
+  - /usr/lib/libBLT24.so
+- tls 1.5
+  - /usr/lib/libtls1.50.so
+- Img 1.3
+  - Download tkimg1.3.tar.gz from http://sourceforge.net/projects/tkimg/
+- Iwidgets 4.0.1
+- mime 1.4.1
+
+batchbuild
+==========
+
+1. Login to cvs and check out batchbuild
+
+   > cd /usr/local/dcs
+   > cvs -d :pserver:blctl@smb.slac.stanford.edu:/home/code/repository login
+   > password:
+
+   > cvs -d :pserver:blctl@smb.slac.stanford.edu:/home/code/repository checkout batchbuild
+
+2. Set CVSCOMMAND in makefile. 
+
+   - Uncomment out the following line.
+
+CVSCOMMAND=cvs -d :pserver:penjitk@smb.slac.stanford.edu:/home/code/repository
+
+   - Comment out the following line.
+   
+CVSCOMMAND=cvs
+   
+
+Installing Authentication Server
+================================
+
+1. Install jdk 1.5
+
+   - Download (e.g. jdk-1_5_0_06-linux-i586.bin)
+   - Extract it to /usr/local/dcs/jdk1.5.0_06
+
+
+2. Install tomcat 5.5.*
+
+   - Download apache-tomcat-5.5.15.tar.gz
+   - Unzip and unpack it to /usr/local/dcs/apache-tomcat-5.5.15
+
+3. Configure tomcat
+
+   - Edit apache-tomcat-5.5.15/conf/tomcat-users.xml and add the following user:
+   
+  <user username="admin" password="admin" roles="manager,tomcat"/>
+  
+     This will be the user name and password for tomcat manager page for 
+     starting/stopping web applications including webice.
+     
+   - Enable SSRL. Uncomment out the following lines in conf/server.xml file.
+   
+     <Connector port="8443" maxHttpHeaderSize="8192"
+               maxThreads="150" minSpareThreads="25" maxSpareThreads="75"
+               enableLookups="false" disableUploadTimeout="true"
+               acceptCount="100" scheme="https" secure="true"
+               clientAuth="false" sslProtocol="TLS" />
+
+   - Generate /home/blctl/.keystore by running the following command
+   
+   > cd /usr/local/dcs
+   > setenv JAVA_HOME /usr/local/dcs/jdk1.5.0_06
+   > ${JAVA_HOME}/bin/keytool -genkey -alias tomcat -keyalg RSA    
+     Use password "changeit" to generate key.
+   
+   - Start Tomcat web server.
+
+   > cd /home/penjitk/code
+   > setenv JAVA_HOME /usr/local/dcs/jdk1.5.0_06
+   > setenv PATH /usr/local/dcs/jdk1.5.0_06/bin:$PATH
+   > setenv CATALINA_HOME /usr/local/dcs/apache-tomcat-5.5.15
+   > cd apache-tomcat-5.5.15/bin
+   > ./startup.sh
+   > ps -ef | grep tomcat
+   
+   To stop Tomcat web server:
+   
+   > cd /usr/local/dcs
+   > setenv JAVA_HOME /usr/local/dcs/jdk1.5.0_06
+   > setenv CATALINA_HOME /usr/local/dcs/apache-tomcat-5.5.15
+   > setenv PATH /usr/local/dcs/jdk1.5.0_06/bin:$PATH
+   > cd apache-tomcat-5.5.15/bin
+   > ./shutdown.sh
+   > ps -ef | grep tomcat
+  
+   - Test tomcat. Open mozilla and go to the following urls:
+   
+     http://smblx99:8080
+     https://smblx99:8443
+ 
+   
+   - Run tomcat manager. Open mozilla and go to the following urls
+   
+     http://smblx99:8080/manager/html
+  
+   Login as admin with password admin. webice application should be listed on the manager page.
+   To start/stop the application, click on the start or stop link.
+
+4. Install authentication server.
+
+   - Checkout Authentication_Public
+
+   > cd /usr/local/dcs
+   > cvs -d :pserver:blctl@smb.slac.stanford.edu:/home/code/repository login
+   > password:
+   
+   > cvs -d :pserver:blctl@smb.slac.stanford.edu:/home/code/repository checkout Authentication_Public
+   
+   - Copy UserAuthenticationGateway.jar to /usr/local/dcs/apache-tomcat-5.5.15/conf directory. 
+     Extract the files
+   
+   > setenv JAVA_HOME /usr/local/dcs/jdk1.5.0_06
+   > setenv CATALINA_HOME /usr/local/dcs/apache-tomcat-5.5.15
+   > setenv PATH /usr/local/dcs/jdk1.5.0_06/bin:$PATH
+   
+   > cd Authentication_Pub
+   > jar xvf UserAuthenticationGateway.jar
+
+ created: META-INF/
+ inflated: META-INF/MANIFEST.MF
+ inflated: authUtility.jar
+ inflated: gatewayConfig.jar
+ inflated: gatewayDocs.jar
+ inflated: gatewaySource.jar
+ inflated: gatewayTest.jar
+ inflated: smbAuthentication.jar
+ inflated: gateway.war
+ inflated: README
+   
+
+   > cd /usr/local/dcs/apache-tomcat-5.5.15/conf
+   > cp /usr/local/dcs/Authentication_Public/gatewayConfig.jar .
+   > jar xvf gatewayConfig.jar
+   
+ created: META-INF/
+ inflated: META-INF/MANIFEST.MF
+ inflated: AuthGatewayApps.xml
+ inflated: AuthGatewayMethods.xml
+ inflated: AuthGatewaySystems.xml
+ inflated: SimpleUserDB.xml
+ 
+ 
+   - Edit conf/AuthGatewaySystems.xml and set sysname to either localhost or ${HOST}. 
+     The authentication servlets can be accessed only from host on this list.
+   
+    <AuthGatewaySystems>
+       <AuthGatewaySystem id="127.0.0.1">
+          <ip>127.0.0.1</ip>
+          <sysname>localhost</sysname>
+       </AuthGatewaySystem>
+    </AuthGatewaySystems>
+   
+   - Edit conf/AuthGatewayMethods.xml and change the value of <domain>
+     to the domain name of this computer, which reflects the domain for 
+     which cookies will be valid. In this example, the host name is smblx99.slac.stanford.edu
+     The following domain setting will allow session sharing among
+     requests sent to url whose domain ends with .slac.stanford.edu.
+     You can also leave it blank.
+     
+     <domain>.slac.stanford.edu</domain>
+     
+   - Edit conf/SimpleUserDB.xml and modify user info, for example:
+   
+   <UserInfo id="blctl">
+      <password>xxx</password>
+      <UserPriv>4</UserPriv>
+      <UserName>Test User</UserName>
+      <OfficePhone>1-650-555-5555</OfficePhone>
+      <JobTitle>Software Developer</JobTitle>
+      <Beamlines>ALL</Beamlines>
+      <UserStaff>Y</UserStaff>
+      <RemoteAccess>Y</RemoteAccess>
+      <Enabled>Y</Enabled>
+   </UserInfo>
+   
+     Note that you can set the password to be any arbitary string. It does not
+     have to match the acutally linux account password.
+     
+     Add a list of beamlines to <AllBeamlines>, for example:
+     
+     <AllBeamlines id="BL1-5;BL9-1;BL9-2;BL11-1;BL11-3;SIM1-5;SIM9-1;SIM9-2;SIM11-1;SIM11-3">
+   
+   - Copy gateway.war to /usr/local/dcs/apache-tomcat-5.5.15/webapps directory.
+     
+     > cd /usr/local/dcs/apache-tomcat-5.5.15/webapps
+     > cp /usr/local/dcs/Authentication_Public/gateway.war .
+     
+   - Restart Tomcat.
+   
+     > cd /usr/local/dcs
+     > setenv JAVA_HOME /usr/local/dcs/jdk1.5.0_06
+     > setenv CATALINA_HOME /usr/local/dcs/apache-tomcat-5.5.15
+     > setenv PATH /usr/local/dcs/jdk1.5.0_06/bin:$PATH
+     > cd apache-tomcat-5.5.15/bin
+     > ./shutdown.sh
+     > ./startup.csh
+     
+   - Note that the authentication listens on port 8080 for http connection
+     and on 8443 for https.
+     
+5. Test the authentication server
+   
+     > cd /usr/local/dcs
+     > setenv JAVA_HOME /usr/local/dcs/jdk1.5.0_06
+     > setenv CATALINA_HOME /usr/local/dcs/apache-tomcat-5.5.15
+     > setenv PATH /usr/local/dcs/jdk1.5.0_06/bin:$PATH
+     > cd Authentication_Public
+     > java -cp authUtility.jar:gatewayTest.jar AuthGatewayTest
+     
+     In GatewayTest window, enter http://smblx99:8080 in the Host entry box.
+     Enter Userid and Passwd found in conf/SimpleUserDB.xml. Click the login button.
+     The window will display info similar to the following.
+     
+Session created with AuthGatewayBean.
+Session ID: 9CB3B8682AEB4409E16BBE75FA90EBC6
+Session Valid: true
+Created: Fri Mar 10 12:13:55 PST 2006
+Accessed: Fri Mar 10 12:13:55 PST 2006
+Login: blctl
+AuthGatewayBean properties: 
+Auth.UserName: Test User
+Auth.JobTitle: Beamline Scientist
+Auth.OfficePhone: 1-650-555-1212
+Auth.Beamlines: ALL
+Auth.Enabled: Y
+Auth.UserStaff: Y
+Auth.UserType: 
+Auth.AllBeamlines: BL9-1;SIM9-1
+Auth.RemoteAccess: Y
+Auth.UserPriv: 4
+
+     Note that the session id from the second line can be used to test 
+     the impersonation server and image server (in section 5 and 6).
+     
+     - Make note of the session id displayed in GatewayTest window. We will use 
+       this session id to test the following steps.
+
+	9CB3B8682AEB4409E16BBE75FA90EBC6
+
+
+Installing Impersonation Daemon
+===============================
+
+
+1. Checkout impserver from cvs
+
+   > cd /usr/local/dcs
+   > cvs -d :pserver:blctl@smb.slac.stanford.edu:/home/code/repository login
+   > password:
+   
+   > cvs -d :pserver:blctl@smb.slac.stanford.edu:/home/code/repository co batchbuild
+   > cd batchbuild
+   > gmake coimperson
+   > gmake buildimperson
+   
+   If it failed to build, check if xos, xos_cpp, http_cpp, auth_client and imperson_cpp
+   directories have been checked out from cvs by the make script. You can also cd to each
+   directory and type gmake to build each one manually.
+   
+   
+   
+2. Login as root and create file /etc/xinetd.d/imperson with the following content:
+   
+service imperson
+{
+        type            = UNLISTED
+        socket_type     = stream
+        protocol        = tcp
+        wait            = no
+        user            = root
+        server          = /usr/local/sbin/imperson.d
+        server_args     = localhost 8080
+        port            = 61001
+        disable         = no
+}
+
+     Note that host and port in server_args are host and port values for the 
+     authentication server. The values must match host and port of tomcat 
+     installed in the previous section.
+     
+3. Copy /usr/local/dcs/imperson_cpp/linux/imperson.d to /usr/local/sbin/imperson.d
+   
+4. Search for pid of xinetd process and restart it with the following command:
+   
+   > ps -ef | grep inetd
+   > kill -HUP <pid>
+   
+   
+5. Test impserver by opening a web browser and go to the following url. Note that the session id
+     should be the one displayed in the GatewayTest tool described in step 5 of 
+     the "Installing Authentication Server" section.
+   
+http://smblx99:61001/listDirectory?impUser=blctl&impSessionID=3282119982E7C317C64D9574BE00001&impDirectory=/home/blctl
+
+     Check if the directory is listed correctly in the browser.
+
+
+Installing Image Server
+=======================
+
+1. Checkout imgsrv from cvs and build it.
+
+   > cd /usr/local/dcs/batchbuild
+   > gmake coimgsrv
+   > gmake buildimgsrv
+   
+2. Configure imgsrv. Modify /home/penjitk/code/dcsconfig/default.config by changing the 
+   value of auth.host, imgsrv.host and imperson.host to either localhost or the value
+   from HOST env variable. Set auth.port to 8080 for http and set auth.securePort to 8443
+   or to the values set in ${CATALINA_HOME}/conf.server.xml. 
+
+# authentication server
+auth.host=localhost
+auth.port=8080
+auth.secureHost=localhost
+auth.securePort=8443
+
+# image server
+imgsrv.host=localhost
+imgsrv.guiPort=14005
+imgsrv.webPort=14006
+imgsrv.httpPort=14007
+imgsrv.tmpDir=/home/webstaff/jpegscratch
+imgsrv.maxIdleTime=60
+imgsrv.logStdout=true
+imgsrv.logUdpHost=
+imgsrv.logUdpPort=
+imgsrv.logFilePattern=./imgsrv_log_%d.log
+imgsrv.logFileSize=31457280
+imgsrv.logFileMax=1
+imgsrv.logLevel=ALL
+imgsrv.logLibs=
+
+# impersonation server
+imperson.host=localhost
+imperson.port=61001
+imperson.readonlyHost=localhost
+imperson.readonlyPort=61002
+
+
+3. Start image server. Login as root.
+
+   > cd /usr/local/dcs/imgsrv/linux
+   > ./imgsrv ../../dcsconfig/data/default.config
+
+03/07/06 09:10:15 3086894784     INFO    gui port = 14005 {src/imgsrv_main.c 89  }
+03/07/06 09:10:15 3086894784     INFO    web port = 14006 {src/imgsrv_main.c 90  }
+03/07/06 09:10:15 3086894784     INFO    http port = 14007 {src/imgsrv_main.c 91  }
+03/07/06 09:10:15 3086894784     INFO    temp dir = /home/webstaff/jpegscratch {src/imgsrv_main.c 92  }
+03/07/06 09:10:15 3086894784     INFO    imperson host = blcpu5 {src/imgsrv_main.c 93  }
+03/07/06 09:10:15 3086894784     INFO    imperson port = 61001 {src/imgsrv_main.c 94  }
+03/07/06 09:10:15 3086894784     INFO    max idle time = 60 seconds {src/imgsrv_main.c 95  }
+03/07/06 09:10:15 3086894784     INFO    STARTING IMAGE SERVER. {src/imgsrv_main.c 101  }
+
+   Check out autoindex_test_images from cvs for test images. 
+
+   > cd /usr/local/dcs
+   > cvs -d :pserver:blctl@smb.slac.stanford.edu:/home/code/repository checkout autoindex_test_images
+   
+   Test image server from web browser:
+
+http://smblx99:14007/getImage?fileName=/usr/local/dcs/autoindex_test_images/myo3_4_E1_001&sizeX=500.img&sizeY=500&gray=400&zoom=1.0&percentX=0.5&percentY=0.5&userName=blctl&sessionId=3282119982E7C317C64D9574BE00001
+
+
+      Note: user name and session id must be changed. Use session id generated in step 5 in 
+      the "Installing Authentication Server" section. The image will be displayed as jpeg in the browser.
+
+
+
+Installing dcss, simdhs, simdetector, impdhs and bluice
+=======================================================
+
+1. Check out other cvs projects from cvs HEAD.
+
+   > cd /usr/local/dcs/batchbuild
+   > gmake co
+
+
+2. Check versions of required tcl packages.
+
+   > cd batchbuild/linux_enterprise
+   > setenv TCLLIBPATH "/usr/local/dcs/BluIceWidgets /usr/local/dcs/DcsWidgets /usr/local/lib /usr/lib"
+   > ./check_tcl_packages.csh
+
+TCLLIBPATH=/usr/local/dcs/BluIceWidgets /usr/local/dcs/DcsWidgets /usr/local/lib /usr/lib
+tcl 8.4
+Itcl 3.3
+BWidget 1.7
+BLT 2.4
+Img 1.3
+Iwidgets 4.0.1
+tls 1.50
+mime 1.4.1
+
+   If the script returns an error, check if paths to ".so" files for the above libraries installed 
+   and are included in LD_LIBRARY_PATH and tcl files in TCLLIBPATH.
+
+3. Upgrade dcs code. The script will modify some makefiles and C code 
+   so that it compiles with gcc 3.4.4 and new tcl libraries. See step 4. if you want to
+   make the changes manually and skip this step. Choose to do only step 4 or 5.
+
+   > cd batchbuild/linux_enterprise
+   > ./upgarde_dcs.csh
+
+
+4. If the script in step 4 failed, do this step. This step explains
+    how to upgrade dcs code manually.
+    Modify tcl_clibs so that it builds with tcl8.4 (Code in cvs HEAD only builds with tcl8.3).
+    
+    > cd tcl_clibs
+
+   - Edit makefile.
+     
+     Replace the following line 
+
+     TCL_LIB = /usr/lib/libtcl8.3$(SHAREDEXT) /usr/lib/libtk8.3$(SHAREDEXT)
+
+     with 
+
+     TCL_LIB = /usr/lib/libtcl8.4$(SHAREDEXT) /usr/lib/libtk8.4$(SHAREDEXT)
+
+     Note: make sure /usr/lib/libtcl8.4.so exists.
+
+
+   - Edit src/analyzePeak.c.
+
+     Line 160: replace "char*" with "const char*".
+
+   - Edit src/ice_cal.c
+     
+     Lines 39-42, 72-75: replace "char*" with "const char*".
+
+   - Edit src/image_channel.c
+
+     - Line 285-286, 291, 378, 432: replace "char*" with "const char*".
+
+     - Line 417: replace 
+
+      channel->width, channel->height );
+      
+      with
+      
+      channel->width, channel->height, TK_PHOTO_COMPOSITE_SET);
+
+      Alternatively, this step can be skipped if a compiler flag
+      "-DUSE_COMPOSITELESS_PHOTO_PUT_BLOCK" is added to the makefile. 
+      In makefile, replace
+
+      CFLAGS  += -fexceptions -c -DLINUX -pthread -D_REENTRANT
+
+      with 
+
+      CFLAGS  += -fexceptions -c -DLINUX -pthread -D_REENTRANT -DUSE_COMPOSITELESS_PHOTO_PUT_BLOCK
+
+   
+     - Line 542 and 591: replace XOS_SUCCESS with XOS_WAIT_SUCCESS.
+     
+     - Line 670: replace 
+     
+       "char * channelName;"
+
+       with
+
+       "const char * channelName = argv[1];"
+
+    - Remove line 683 
+
+      "channelName = argv[1];".
+ 
+
+    - Edit src/tcl_macros.h.
+     
+      Replace (change from "char*" to "const char*")
+
+   #define DECLARE_TCL_COMMAND(f) int f( ClientData clientData,\
+	Tcl_Interp *interp,int argc, char *argv[] )
+
+   with
+
+#define DECLARE_TCL_COMMAND(f) int f( ClientData clientData,\
+	Tcl_Interp *interp,int argc, const char *argv[] )
+
+
+    - Modify dcss/makefile.
+
+   Replace line 244 from
+
+   TCL_LIB =
+
+   with
+
+   TCL_LIB = /usr/lib/libtcl8.4.so /usr/lib/libtk8.4.so /usr/lib/itcl3.3/libitcl3.3.so
+
+   Then comment out or remove the 244-246:
+
+#STD_LIBS += -ltk \
+#          -ltcl \
+#	 		  -litcl
+
+
+5. Build dcss, simdetector and impdhs.
+
+   > cd batchbuild
+   > gmake buildlibs
+   > gmake build_dcss
+   > gmake build_SimDetector
+   > gmake build_impdhs
+   
+   
+6. Modify config files in dcsconfig/data for beamline SIM9-1.
+   
+   - Edit dcsconfig/data/SIM9-1.config. Replace blctlxx and blctlxx.slac.stanford.edu 
+     with localhost or the value of HOST env variable.
+     
+     dcss.host
+     dcss.dbDumpFile
+     imperson.host
+     imperson.readonlyHost
+     impdhs.cameraHost
+     impdhs.cameraPort
+     impdhs.impHost
+     impdhs.silHost
+     imgsrv.host
+     
+     Replace smb.slac.stanford.edu with hist name for the video server.
+
+   - Edit dcsconfig/data/default.config. Set imperson.host and imperson.readonlyHost 
+     to localhost or the value of HOST env variable or to localhost.
+
+   - Edit dcsconfig/data/SIM9-1.dat. Set simdetector and imperson
+     to localhost or the value of HOST env variable or localhost.
+
+
+
+
+7. Start dcss.
+
+   > setenv TCLLIBPATH "/usr/local/dcs/BluIceWidgets /usr/local/dcs/DcsWidgets /usr/local/lib /usr/lib"
+   > cd dcss/linux
+   > ./dcss SIM9-1 -r ../../dcsconfig/data/SIM9-1.dat
+   > ./dcss SIM9-1 -s
+   
+   Note that the password required for running dcss is the password of blctl user found in 
+   ${CATALINA_HOME}/conf/SimpleUserDB.xml (See step 4 in "Installing Authentication Server" section).
+
+
+8. Start simdhs.
+
+   > setenv TCLLIBPATH "/usr/local/dcs/BluIceWidgets /usr/local/dcs/DcsWidgets /usr/local/lib /usr/lib"
+   > cd simdhs/scripts
+   > ./simdhs SIM9-1
+
+9. Start simdetector.
+
+   > cd simdetector/linux
+   > cp ../cassette_dirs.txt .
+   > ./simdetector SIM9-1
+
+10. Start impdhs.
+
+   > cd impdhs/linux
+   > ./impdhs SIM9-1
+
+
+12. Upgrade BluIceWidgets and DcsWidgets code to use the following tcl packages:
+    
+    tclsh 8.4
+    Itcl 3.3
+    BWidget 1.7
+    BLT 2.4
+    Img 1.3
+    Iwidgets 4.0.1
+
+    - Run configure_bluice.csh in batchbuild dir.
+
+      > cd batchbuild/linux_enterprise
+      > setenv TCLLIBPATH "/usr/local/dcs/BluIceWidgets /usr/local/dcs/DcsWidgets /usr/local/lib /usr/lib"
+      > ./upgrade_bluice.csh
+
+    - Run bluice
+
+      > setenv TCLLIBPATH "/usr/local/dcs/BluIceWidgets /usr/local/dcs/DcsWidgets /usr/local/lib /usr/lib"
+      > cd BluiceWidgets
+      > ./bluice.tcl SIM9-1
+
+

@@ -1,0 +1,233 @@
+package webice.beans.autoindex;
+
+import java.util.*;
+import java.io.*;
+import webice.beans.*;
+import java.net.*;
+
+public class RunController
+{
+	// Setup status
+	public static int SETUP = 10;
+	public static int READY = 20;
+	public static int AUTOINDEX_RUNNING = 30;
+	public static int ABORTED = 32;
+	public static int LABELIT_FINISHED = 35;
+	public static int INTEGRATION_FINISHED = 37;
+	public static int STRATEGY_FINISHED = 39;
+	public static int AUTOINDEX_FINISHED = 40;
+	public static int ADDITONAL_INTEGRATION_RUNNING = 50;
+	public static int ADDITONAL_INTEGRATION_FINISHED = 60;
+	public static int FINISHED = 100;
+
+	private boolean running = false;
+	private int status = SETUP;
+
+	private AutoindexSetupData setupData = new AutoindexSetupData();
+	private AutoindexSetupData curSetupData = new AutoindexSetupData();
+
+	private AutoindexRun parent = null;
+
+	private String definitionFile = "input.xml";
+
+	/**
+	 */
+	public RunController(AutoindexRun parent)
+		throws Exception
+	{
+		this.parent = parent;
+	}
+
+	/**
+	 */
+	public void load()
+		throws Exception
+	{
+		loadSetup();
+	}
+
+	/**
+	 */
+	public boolean isRunning()
+	{
+	}
+
+	/**
+	 */
+	public int getRunStatus()
+	{
+		return status;
+	}
+
+	/**
+	 */
+	private void setRunStatus(int s)
+	{
+		status = s;
+	}
+
+	/**
+	 */
+	public AutoindexSetupData getSetupData()
+	{
+		return setupData;
+	}
+
+
+	/**
+	 * Load up run definition and results if they exist.
+	 * Need to set imageDir and list of images
+	 */
+	private void loadSetup()
+		throws Exception
+	{
+		setRunStatus(SETUP);
+
+		InputStream stream = null;
+		String runDefFile = null;
+
+		curSetupData.setImageDir(parent.getDefaultImageDir());
+
+		setupData.copy(curSetupData);
+
+		runDefFile = parent.getWorkDir() + "/" + definitionFile;
+
+		if (!parent.getClient().getImperson().fileExists(runDefFile))
+			throw new Exception("Cannot find or open file " + runDefFile);
+
+		// Read remote file either input.xml or autoindex.xml.
+		stream = parent.getClient().getImperson().readFileStream(runDefFile);
+
+		if (stream == null)
+			throw new Exception("Failed to read file " + runDefFile
+								+ ": Null input stream");
+
+		AutoindexSetupSerializer.load(stream, curSetupData);
+
+		setupData.copy(curSetupData);
+
+		if (setupData.validate())
+			setRunStatus(READY);
+
+
+	}
+
+	/**
+	 * Find out if it is running by looking at control.txt file.
+	 * Also find out what it's doing by looking at autoindex.out file.
+ 	 */
+	public void updateRunStatus()
+	{
+
+
+		String commandline = ServerConfig.getScriptDir()
+								+ "/con_autoindex_updatestatus.csh "
+								+ parent.getWorkDir();
+
+		String urlStr = "http://" + ServerConfig.getSpotServerHost()
+							+ ":" + String.valueOf(ServerConfig.getSpotServerPort())
+							+ "/runScript";
+
+		URL url = new URL(urlStr);
+
+		HttpURLConnection con = (HttpURLConnection)url.openConnection();
+
+		Client client = parent.getClient();
+
+		con.setRequestMethod("GET");
+		con.setRequestProperty("impShell", "/bin/tcsh");
+		con.setRequestProperty("impCommandLine", commandline);
+		con.setRequestProperty("impEnv1", "HOME=/home/" + client.getUser());
+		con.setRequestProperty("impUser", client.getUser());
+		con.setRequestProperty("impSessionID", client.getSessionId());
+
+
+		int response = con.getResponseCode();
+		if (response != 200)
+			throw new Exception("Failed to run labelit: impserson server returns "
+						+ String.valueOf(response) + " " + con.getResponseMessage()
+						+ " (for " + urlStr + ")");
+
+
+		BufferedReader reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
+		String line = reader.readLine();
+		status.parseStatus(line);
+
+		reader.close();
+		con.disconnect();
+
+		// Update the log displayed in setup tab
+		updateRunLog();
+
+
+	}
+
+
+	/**
+	 * Check autoindex.out and look for "Finished running autoindex" line.
+	 */
+	private void updateRunLog()
+		throws Exception
+	{
+
+		int pos = 0;
+
+		if (!hasAutoindexLog)
+			hasAutoindexLog = client.getImperson().fileExists(getWorkDir() + "/autoindex.out");
+
+		if (hasAutoindexLog) {
+		    runLog = client.getImperson().readFile(getWorkDir() + "/autoindex.out");
+
+			// Finished running labelit
+		    pos = runLog.indexOf("Finished running labelit", pos);
+		    if (pos > 0)
+		    	setRunStatus(LABELIT_FINISHED);
+
+		    // Finished the first round of integration
+		    pos = runLog.indexOf("Finished integrating solutions", pos);
+		    if (pos > 0)
+		    	setRunStatus(INTEGRATION_FINISHED);
+
+			if (getRunStatus() == INTEGRATION_FINISHED) {
+
+				// Finished strategy
+				if (!setupData.isGenerateStrategy()) {
+					setRunStatus(STRATEGY_FINISHED);
+					} else {
+					int pos1 = runLog.indexOf("Finsihed generating strategies", pos);
+					if (pos1 > 0) {
+						strategyDone = true;
+						pos = pos1;
+					}
+				}
+
+				// Finished autoindexing
+
+				pos = runLog.indexOf("Finished running autoindex", pos);
+				if (pos > 0)
+					setRunStatus(AUTOINDEX_FINISHED);
+			}
+
+			if (getRunStatus() == AUTOINDEX_FINISHED) {
+				// Default prediction image
+				setImage(getImage1());
+
+				// Finished additional integration
+				// Find the last line. There is a matching "Started" and "Finished"
+				// when a task is done.
+				int pos1 = runLog.lastIndexOf("integrating additional solutions", pos);
+				if ((pos1 > 0) && ((pos1-9) > 0) && (runLog.substring(pos1, pos1+8).equals("Finished"))) {
+					setRunStatus(ADDITONAL_INTEGRATION_FINISHED);
+				}
+			}
+
+			pos = runLog.indexOf("autoindex aborted");
+			if (pos > 0)
+				setRunStatus(ABORTED);
+		}
+
+	}
+
+}
+

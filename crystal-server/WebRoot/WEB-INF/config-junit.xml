@@ -1,0 +1,151 @@
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+"http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+
+	<bean id="props" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="WEB-INF/site-specific.properties"/>
+	</bean>
+
+	<bean id="emailMessageSender" class="sil.interceptors.EmailMessageSender">
+		<property name="velocityEngine"><ref bean="velocityEngine"/></property>		
+		<property name="mailSender"><ref bean="mailSender"/></property>
+ 		<property name="sender"><value>${email.sender}</value></property>
+ 		<property name="recipients"><value>${email.recipients}</value></property>
+ 		<property name="subjectPrefix"><value>${email.subjectPrefix}</value></property>
+	</bean>
+	
+	 <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+   		<property name="host"><value>${email.host}</value></property>
+	</bean>
+
+	<bean id ="adminList" class="java.lang.String">
+		<constructor-arg type="java.lang.String" value="${adminList}"/>
+	</bean>
+
+	<bean id ="unsecuredBaseUrl" class="java.lang.String">
+		<constructor-arg type="java.lang.String"><value>${unsecuredBaseUrl}</value></constructor-arg>
+	</bean>
+	<bean id ="baseUrl" class="java.lang.String">
+		<constructor-arg type="java.lang.String"><value>${baseUrl}</value></constructor-arg>
+	</bean>
+	
+	<bean id ="dataDir" class="java.lang.String">
+		<constructor-arg type="java.lang.String"><value>${data.rootDir}</value></constructor-arg>
+	</bean>
+	
+	<bean id ="tmpDir" class="java.lang.String">
+		<constructor-arg type="java.lang.String"><value>${data.tmpDir}</value></constructor-arg>
+	</bean>
+	<bean id ="badDir" class="java.lang.String">
+		<constructor-arg type="java.lang.String"><value>${data.badUploadFileDir}</value></constructor-arg>
+	</bean>
+	
+	<bean id="helpUrl" class="java.lang.String">
+		<constructor-arg type="java.lang.String"><value>${helpUrl}</value></constructor-arg>
+	</bean>
+	
+	<bean id ="testRootDir" class="java.lang.String">
+		<constructor-arg type="java.lang.String"><value>/home/penjitk/workspace/crystal-server</value></constructor-arg>
+	</bean>
+		 			
+	<!-- staff -->
+	<bean id="annikas" class="sil.app.FakeUser">
+		<property name="loginName"><value>annikas</value></property>
+		<property name="password"><value>abc</value></property>
+		<property name="realName"><value>Annika Sorenstam</value></property>
+		<property name="staff"><value>true</value></property>
+		<property name="beamlines">
+			<list>
+				<value>BL1-5</value>
+				<value>BL7-1</value>
+				<value>BL9-1</value>
+				<value>BL9-2</value>
+				<value>BL11-1</value>
+				<value>BL11-3</value>
+				<value>BL12-2</value>
+				<value>BL14-1</value>
+			</list>
+		</property>
+	</bean>
+	<!-- staff -->
+	<bean id="lorenao" class="sil.app.FakeUser">
+		<property name="loginName"><value>lorenao</value></property>
+		<property name="password"><value>abc</value></property>
+		<property name="realName"><value>Lorena Ochoa</value></property>
+		<property name="staff"><value>true</value></property>
+		<property name="beamlines">
+			<list>
+				<value>BL1-5</value>
+				<value>BL7-1</value>
+				<value>BL9-1</value>
+				<value>BL9-2</value>
+				<value>BL11-1</value>
+				<value>BL11-3</value>
+				<value>BL12-2</value>
+				<value>BL14-1</value>
+			</list>
+		</property>
+	</bean>
+	<!-- user -->
+	<bean id="tigerw" class="sil.app.FakeUser">
+		<property name="loginName"><value>tigerw</value></property>
+		<property name="password"><value>abc</value></property>
+		<property name="realName"><value>Tiger Woods</value></property>
+		<property name="staff"><value>false</value></property>
+		<property name="beamlines">
+			<list>
+				<value>BL1-5</value>
+				<value>BL7-1</value>
+				<value>BL9-1</value>
+				<value>BL9-2</value>
+				<value>BL11-1</value>
+				<value>BL11-3</value>
+			</list>
+		</property>
+	</bean>
+	<!-- user -->
+	<bean id="sergiog" class="sil.app.FakeUser">
+		<property name="loginName"><value>sergiog</value></property>
+		<property name="password"><value>abc</value></property>
+		<property name="realName"><value>Sergio Garcia</value></property>
+		<property name="staff"><value>false</value></property>
+		<property name="beamlines">
+			<list>
+				<value>BL7-1</value>
+				<value>BL12-2</value>
+			</list>
+		</property>
+	</bean>
+	<!-- user -->
+	<bean id="davidb" class="sil.app.FakeUser">
+		<property name="loginName"><value>davidb</value></property>
+		<property name="password"><value>abc</value></property>
+		<property name="realName"><value>David Beckam</value></property>
+		<property name="staff"><value>false</value></property>
+		<property name="beamlines">
+			<list>
+				<value>BL19-2</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="appSessionManager" class="sil.app.FakeAppSessionManager">
+		<property name="users">
+			<map>
+				<entry key="annikas"><ref local="annikas"/></entry>
+				<entry key="tigerw"><ref local="tigerw"/></entry>
+				<entry key="lorenao"><ref local="lorenao"/></entry>
+				<entry key="sergiog"><ref local="sergiog"/></entry>
+				<entry key="davidb"><ref local="davidb"/></entry>
+			</map>
+		</property>
+		<property name="sessionTag"><value>APP_SESSION</value></property>
+		<property name="maxIdleTime"><value>1800000</value></property>
+		<property name="appSessionFactory"><ref bean="appSessionFactory"/></property>
+		<property name="authSessionFile"><value>/data/penjitk/fakeAuthSessions.txt</value></property>
+	</bean>	
+	
+ 	<import resource="data-source-oracle-junit.xml"/>
+ 	<import resource="data-source-h2.xml"/>
+ 	
+</beans>

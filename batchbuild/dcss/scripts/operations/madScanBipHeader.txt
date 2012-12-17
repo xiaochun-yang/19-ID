@@ -1,0 +1,30 @@
+_graph_title.text "raw data"
+
+_graph_axes.xLabel "Energy (ev)"
+_graph_axes.yLabel "Counts"
+_graph_axes.x2Label ""
+_graph_axes.y2Label "Fluorescence"
+
+_graph_background.showGrid 1
+
+data_
+_trace.name scan
+_trace.xLabels "{Energy (ev)}"
+_trace.hide 0
+
+loop_
+_sub_trace.name
+_sub_trace.yLabels
+_sub_trace.color
+_sub_trace.width
+_sub_trace.symbol
+_sub_trace.symbolSize
+signal "{Signal Counts} {Counts}" darkgreen 2 none 2
+ref "{Reference Counts} {Counts}" black 2 none 2
+fluor "{Sample Fluorescence} {Fluorescence}" red 2 none 2
+
+loop_
+_sub_trace.x
+_sub_trace.y1
+_sub_trace.y2
+_sub_trace.y3

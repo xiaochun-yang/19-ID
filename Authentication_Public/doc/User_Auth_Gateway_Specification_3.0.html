@@ -1,0 +1,3858 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 11">
+<meta name=Originator content="Microsoft Word 11">
+<link rel=File-List
+href="User_Auth_Gateway_Specification_3.0_files/filelist.xml">
+<title>User Authentication Gateway (v3.0) Specification</title>
+<!--[if gte mso 9]><xml>
+ <o:DocumentProperties>
+  <o:Subject>User Authentication Gateway Functional Specification</o:Subject>
+  <o:Author>Ken Sharp</o:Author>
+  <o:LastAuthor>Ken Sharp</o:LastAuthor>
+  <o:Revision>2</o:Revision>
+  <o:TotalTime>1123</o:TotalTime>
+  <o:LastPrinted>2001-08-25T00:04:00Z</o:LastPrinted>
+  <o:Created>2005-09-16T23:15:00Z</o:Created>
+  <o:LastSaved>2005-09-16T23:15:00Z</o:LastSaved>
+  <o:Pages>1</o:Pages>
+  <o:Words>5645</o:Words>
+  <o:Characters>32181</o:Characters>
+  <o:Company>SSRL</o:Company>
+  <o:Bytes>33760768</o:Bytes>
+  <o:Lines>268</o:Lines>
+  <o:Paragraphs>75</o:Paragraphs>
+  <o:CharactersWithSpaces>37751</o:CharactersWithSpaces>
+  <o:Version>11.6408</o:Version>
+ </o:DocumentProperties>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:DoNotHyphenateCaps/>
+  <w:DisplayHorizontalDrawingGridEvery>0</w:DisplayHorizontalDrawingGridEvery>
+  <w:DisplayVerticalDrawingGridEvery>0</w:DisplayVerticalDrawingGridEvery>
+  <w:UseMarginsForDrawingGridOrigin/>
+  <w:ValidateAgainstSchemas/>
+  <w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid>
+  <w:IgnoreMixedContent>false</w:IgnoreMixedContent>
+  <w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText>
+  <w:DoNotShadeFormData/>
+  <w:Compatibility>
+   <w:UsePrinterMetrics/>
+   <w:WW6BorderRules/>
+   <w:FootnoteLayoutLikeWW8/>
+   <w:ShapeLayoutLikeWW8/>
+   <w:AlignTablesRowByRow/>
+   <w:ForgetLastTabAlignment/>
+   <w:LayoutRawTableWidth/>
+   <w:LayoutTableRowsApart/>
+   <w:UseWord97LineBreakingRules/>
+   <w:SelectEntireFieldWithStartOrEnd/>
+   <w:UseWord2002TableStyleRules/>
+  </w:Compatibility>
+  <w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel>
+ </w:WordDocument>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <w:LatentStyles DefLockedState="false" LatentStyleCount="156">
+ </w:LatentStyles>
+</xml><![endif]-->
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;
+	mso-font-charset:2;
+	mso-generic-font-family:auto;
+	mso-font-pitch:variable;
+	mso-font-signature:0 268435456 0 0 -2147483648 0;}
+@font-face
+	{font-family:Garamond;
+	panose-1:2 2 4 4 3 3 1 1 8 3;
+	mso-font-charset:0;
+	mso-generic-font-family:roman;
+	mso-font-pitch:variable;
+	mso-font-signature:647 0 0 0 159 0;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{mso-style-parent:"";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:.5in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";}
+h1
+	{mso-style-next:"Body Text";
+	margin-top:.25in;
+	margin-right:0in;
+	margin-bottom:6.0pt;
+	margin-left:0in;
+	text-indent:0in;
+	line-height:18.0pt;
+	mso-line-height-rule:exactly;
+	page-break-before:always;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	mso-outline-level:1;
+	mso-list:l0 level1 lfo1;
+	border:none;
+	mso-border-bottom-alt:solid windowtext .75pt;
+	padding:0in;
+	mso-padding-alt:0in 0in 3.0pt 0in;
+	font-size:12.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:Arial;
+	mso-bidi-font-family:"Times New Roman";
+	text-transform:uppercase;
+	mso-font-kerning:14.0pt;
+	mso-bidi-font-weight:normal;}
+h2
+	{mso-style-next:"Body Text";
+	margin-top:12.0pt;
+	margin-right:0in;
+	margin-bottom:6.0pt;
+	margin-left:0in;
+	text-indent:0in;
+	line-height:14.0pt;
+	mso-line-height-rule:exactly;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	mso-outline-level:2;
+	mso-list:l0 level2 lfo1;
+	font-size:12.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:Arial;
+	mso-bidi-font-family:"Times New Roman";
+	mso-font-kerning:14.0pt;
+	mso-bidi-font-weight:normal;}
+h3
+	{mso-style-next:"Body Text";
+	margin-top:12.0pt;
+	margin-right:0in;
+	margin-bottom:6.0pt;
+	margin-left:0in;
+	text-indent:0in;
+	line-height:14.0pt;
+	mso-line-height-rule:exactly;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	mso-outline-level:3;
+	mso-list:l0 level3 lfo1;
+	font-size:12.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:Arial;
+	mso-bidi-font-family:"Times New Roman";
+	mso-font-kerning:14.0pt;
+	mso-bidi-font-weight:normal;
+	font-style:italic;
+	mso-bidi-font-style:normal;}
+h4
+	{mso-style-next:"Body Text";
+	margin-top:12.0pt;
+	margin-right:0in;
+	margin-bottom:6.0pt;
+	margin-left:0in;
+	text-indent:0in;
+	line-height:14.0pt;
+	mso-line-height-rule:exactly;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	mso-outline-level:4;
+	mso-list:l0 level4 lfo1;
+	font-size:11.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:Arial;
+	mso-bidi-font-family:"Times New Roman";
+	mso-font-kerning:14.0pt;
+	mso-bidi-font-weight:normal;}
+h5
+	{mso-style-next:"Body Text";
+	margin-top:12.0pt;
+	margin-right:0in;
+	margin-bottom:6.0pt;
+	margin-left:0in;
+	text-indent:0in;
+	line-height:14.0pt;
+	mso-line-height-rule:exactly;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	mso-outline-level:5;
+	mso-list:l0 level5 lfo1;
+	font-size:11.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:Arial;
+	mso-bidi-font-family:"Times New Roman";
+	mso-font-kerning:14.0pt;
+	mso-bidi-font-weight:normal;
+	font-style:italic;
+	mso-bidi-font-style:normal;}
+h6
+	{mso-style-next:"Body Text";
+	margin-top:12.0pt;
+	margin-right:0in;
+	margin-bottom:6.0pt;
+	margin-left:0in;
+	text-indent:0in;
+	line-height:14.0pt;
+	mso-line-height-rule:exactly;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	mso-outline-level:6;
+	mso-list:l0 level6 lfo1;
+	font-size:11.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:Arial;
+	mso-bidi-font-family:"Times New Roman";
+	mso-font-kerning:14.0pt;
+	mso-bidi-font-weight:normal;}
+p.MsoHeading7, li.MsoHeading7, div.MsoHeading7
+	{mso-style-next:"Body Text";
+	margin-top:12.0pt;
+	margin-right:0in;
+	margin-bottom:6.0pt;
+	margin-left:0in;
+	text-indent:0in;
+	line-height:14.0pt;
+	mso-line-height-rule:exactly;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	mso-outline-level:7;
+	mso-list:l0 level7 lfo1;
+	font-size:11.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	mso-font-kerning:14.0pt;}
+p.MsoHeading8, li.MsoHeading8, div.MsoHeading8
+	{mso-style-next:"Body Text";
+	margin-top:12.0pt;
+	margin-right:0in;
+	margin-bottom:6.0pt;
+	margin-left:0in;
+	text-indent:0in;
+	line-height:14.0pt;
+	mso-line-height-rule:exactly;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	mso-outline-level:8;
+	mso-list:l0 level8 lfo1;
+	font-size:11.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	mso-font-kerning:14.0pt;
+	font-style:italic;
+	mso-bidi-font-style:normal;}
+p.MsoHeading9, li.MsoHeading9, div.MsoHeading9
+	{mso-style-next:"Body Text";
+	margin-top:12.0pt;
+	margin-right:0in;
+	margin-bottom:6.0pt;
+	margin-left:0in;
+	text-indent:0in;
+	line-height:14.0pt;
+	mso-line-height-rule:exactly;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	mso-outline-level:9;
+	mso-list:l0 level9 lfo1;
+	font-size:11.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	mso-font-kerning:14.0pt;
+	font-style:italic;
+	mso-bidi-font-style:normal;}
+p.MsoToc1, li.MsoToc1, div.MsoToc1
+	{mso-style-noshow:yes;
+	mso-style-parent:"TOC Base";
+	margin-top:6.0pt;
+	margin-right:0in;
+	margin-bottom:6.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	tab-stops:right dotted 6.0in;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";
+	text-transform:uppercase;
+	font-weight:bold;
+	mso-bidi-font-weight:normal;}
+p.MsoToc2, li.MsoToc2, div.MsoToc2
+	{mso-style-noshow:yes;
+	mso-style-parent:"TOC Base";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:11.0pt;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	tab-stops:right dotted 6.0in;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";
+	font-variant:small-caps;}
+p.MsoToc3, li.MsoToc3, div.MsoToc3
+	{mso-style-noshow:yes;
+	mso-style-parent:"TOC Base";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:22.0pt;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	tab-stops:right dotted 6.0in;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";
+	font-style:italic;
+	mso-bidi-font-style:normal;}
+p.MsoToc4, li.MsoToc4, div.MsoToc4
+	{mso-style-noshow:yes;
+	mso-style-parent:"TOC Base";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:33.0pt;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	tab-stops:right dotted 6.0in;
+	font-size:9.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";}
+p.MsoToc5, li.MsoToc5, div.MsoToc5
+	{mso-style-noshow:yes;
+	mso-style-parent:"TOC Base";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:44.0pt;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	tab-stops:right dotted 6.0in;
+	font-size:9.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";}
+p.MsoToc6, li.MsoToc6, div.MsoToc6
+	{mso-style-noshow:yes;
+	mso-style-parent:"TOC Base";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:55.0pt;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	tab-stops:right dotted 6.0in;
+	font-size:9.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";}
+p.MsoToc7, li.MsoToc7, div.MsoToc7
+	{mso-style-noshow:yes;
+	mso-style-parent:"TOC Base";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:66.0pt;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	tab-stops:right dotted 6.0in;
+	font-size:9.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";}
+p.MsoToc8, li.MsoToc8, div.MsoToc8
+	{mso-style-noshow:yes;
+	mso-style-parent:"TOC Base";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:77.0pt;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	tab-stops:right dotted 6.0in;
+	font-size:9.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";}
+p.MsoToc9, li.MsoToc9, div.MsoToc9
+	{mso-style-noshow:yes;
+	mso-style-parent:"TOC Base";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:88.0pt;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	tab-stops:right dotted 6.0in;
+	font-size:9.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";}
+p.MsoNormalIndent, li.MsoNormalIndent, div.MsoNormalIndent
+	{margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:.75in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";}
+p.MsoHeader, li.MsoHeader, div.MsoHeader
+	{margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan lines-together;
+	tab-stops:center 3.0in right 6.0in;
+	border:none;
+	mso-border-bottom-alt:solid windowtext .75pt;
+	padding:0in;
+	mso-padding-alt:0in 0in 4.0pt 0in;
+	font-size:9.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	text-transform:uppercase;
+	letter-spacing:1.0pt;
+	font-weight:bold;
+	mso-bidi-font-weight:normal;}
+p.MsoFooter, li.MsoFooter, div.MsoFooter
+	{margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:.5in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan lines-together;
+	tab-stops:center 3.25in right 6.0in;
+	border:none;
+	mso-border-top-alt:solid windowtext .75pt;
+	padding:0in;
+	mso-padding-alt:4.0pt 0in 0in 0in;
+	font-size:9.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	text-transform:uppercase;
+	letter-spacing:1.0pt;
+	font-weight:bold;
+	mso-bidi-font-weight:normal;}
+p.MsoCaption, li.MsoCaption, div.MsoCaption
+	{mso-style-noshow:yes;
+	mso-style-parent:Picture;
+	mso-style-next:"Body Text";
+	margin-top:6.0pt;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:0in;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	page-break-after:avoid;
+	font-size:10.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	font-style:italic;
+	mso-bidi-font-style:normal;}
+p.MsoTof, li.MsoTof, div.MsoTof
+	{mso-style-noshow:yes;
+	mso-style-parent:"TOC Base";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:22.0pt;
+	margin-bottom:.0001pt;
+	text-indent:-22.0pt;
+	mso-pagination:widow-orphan;
+	tab-stops:right dotted 6.0in;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";
+	font-variant:small-caps;}
+span.MsoPageNumber
+	{font-weight:bold;
+	mso-bidi-font-weight:normal;}
+p.MsoToa, li.MsoToa, div.MsoToa
+	{mso-style-noshow:yes;
+	mso-style-parent:"TOC Base";
+	margin-top:3.0pt;
+	margin-right:0in;
+	margin-bottom:3.0pt;
+	margin-left:.25in;
+	text-indent:-.25in;
+	mso-pagination:widow-orphan;
+	tab-stops:right dotted 6.0in;
+	font-size:10.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";}
+p.MsoMacroText, li.MsoMacroText, div.MsoMacroText
+	{mso-style-noshow:yes;
+	mso-style-parent:"Body Text";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:6.0pt;
+	margin-left:0in;
+	text-align:justify;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Courier New";
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";}
+p.MsoToaHeading, li.MsoToaHeading, div.MsoToaHeading
+	{mso-style-noshow:yes;
+	mso-style-parent:"Section Heading";
+	mso-style-next:"Table of Authorities";
+	margin-top:12.0pt;
+	margin-right:0in;
+	margin-bottom:6.0pt;
+	margin-left:0in;
+	line-height:18.0pt;
+	mso-line-height-rule:exactly;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	font-size:14.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	mso-font-kerning:14.0pt;
+	font-weight:bold;
+	mso-bidi-font-weight:normal;}
+p.MsoListNumber2, li.MsoListNumber2, div.MsoListNumber2
+	{margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:.5in;
+	margin-bottom:.0001pt;
+	text-indent:-.25in;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";}
+p.MsoListNumber3, li.MsoListNumber3, div.MsoListNumber3
+	{margin-top:0in;
+	margin-right:0in;
+	margin-bottom:6.0pt;
+	margin-left:1.5in;
+	text-align:justify;
+	text-indent:-.25in;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";}
+p.MsoListNumber4, li.MsoListNumber4, div.MsoListNumber4
+	{margin-top:0in;
+	margin-right:0in;
+	margin-bottom:6.0pt;
+	margin-left:1.75in;
+	text-align:justify;
+	text-indent:-.25in;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";}
+p.MsoListNumber5, li.MsoListNumber5, div.MsoListNumber5
+	{margin-top:0in;
+	margin-right:0in;
+	margin-bottom:6.0pt;
+	margin-left:2.0in;
+	text-align:justify;
+	text-indent:-.25in;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";}
+p.MsoTitle, li.MsoTitle, div.MsoTitle
+	{mso-style-next:Subtitle;
+	margin-top:.25in;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:0in;
+	text-align:center;
+	line-height:28.0pt;
+	mso-line-height-rule:exactly;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	font-size:20.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	mso-font-kerning:14.0pt;
+	font-weight:bold;
+	mso-bidi-font-weight:normal;}
+p.MsoBodyText, li.MsoBodyText, div.MsoBodyText
+	{margin-top:0in;
+	margin-right:0in;
+	margin-bottom:6.0pt;
+	margin-left:0in;
+	text-align:justify;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";}
+p.MsoBodyTextIndent, li.MsoBodyTextIndent, div.MsoBodyTextIndent
+	{margin-top:0in;
+	margin-right:0in;
+	margin-bottom:6.0pt;
+	margin-left:.5in;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";}
+p.MsoMessageHeader, li.MsoMessageHeader, div.MsoMessageHeader
+	{mso-style-parent:"Body Text";
+	margin-top:0in;
+	margin-right:1.5in;
+	margin-bottom:6.0pt;
+	margin-left:.75in;
+	text-align:justify;
+	text-indent:-.75in;
+	mso-pagination:widow-orphan lines-together;
+	tab-stops:2.5in 3.25in;
+	font-size:11.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";}
+p.MsoSubtitle, li.MsoSubtitle, div.MsoSubtitle
+	{mso-style-parent:Title;
+	mso-style-next:"Body Text";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:0in;
+	text-align:center;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	font-size:14.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	mso-font-kerning:14.0pt;
+	font-style:italic;
+	mso-bidi-font-style:normal;}
+p.MsoDate, li.MsoDate, div.MsoDate
+	{mso-style-parent:"Body Text";
+	margin-top:24.0pt;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:0in;
+	margin-bottom:.0001pt;
+	text-align:justify;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";}
+p.MsoBodyText2, li.MsoBodyText2, div.MsoBodyText2
+	{margin-top:0in;
+	margin-right:0in;
+	margin-bottom:6.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";}
+p.MsoBodyText3, li.MsoBodyText3, div.MsoBodyText3
+	{margin-top:0in;
+	margin-right:0in;
+	margin-bottom:6.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-font-weight:bold;}
+p.MsoBodyTextIndent2, li.MsoBodyTextIndent2, div.MsoBodyTextIndent2
+	{margin-top:0in;
+	margin-right:0in;
+	margin-bottom:6.0pt;
+	margin-left:-4.5pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";}
+a:link, span.MsoHyperlink
+	{color:blue;
+	text-decoration:underline;
+	text-underline:single;}
+a:visited, span.MsoHyperlinkFollowed
+	{color:purple;
+	text-decoration:underline;
+	text-underline:single;}
+strong
+	{mso-bidi-font-weight:normal;}
+p.Picture, li.Picture, div.Picture
+	{mso-style-name:Picture;
+	mso-style-parent:"Body Text";
+	mso-style-next:Caption;
+	margin-top:6.0pt;
+	margin-right:0in;
+	margin-bottom:6.0pt;
+	margin-left:0in;
+	text-align:justify;
+	mso-pagination:widow-orphan;
+	page-break-after:avoid;
+	font-size:10.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";}
+p.SectionHeading, li.SectionHeading, div.SectionHeading
+	{mso-style-name:"Section Heading";
+	margin-top:12.0pt;
+	margin-right:0in;
+	margin-bottom:6.0pt;
+	margin-left:0in;
+	line-height:18.0pt;
+	mso-line-height-rule:exactly;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	font-size:14.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	mso-font-kerning:14.0pt;
+	font-weight:bold;
+	mso-bidi-font-weight:normal;}
+p.SubtitleCover, li.SubtitleCover, div.SubtitleCover
+	{mso-style-name:"Subtitle Cover";
+	mso-style-parent:"Title Cover";
+	mso-style-next:"Body Text";
+	margin-top:6.0pt;
+	margin-right:0in;
+	margin-bottom:24.0pt;
+	margin-left:0in;
+	text-align:center;
+	line-height:24.0pt;
+	mso-line-height-rule:exactly;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	font-size:18.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	mso-font-kerning:14.0pt;
+	font-weight:bold;
+	mso-bidi-font-weight:normal;
+	font-style:italic;
+	mso-bidi-font-style:normal;}
+p.TitleCover, li.TitleCover, div.TitleCover
+	{mso-style-name:"Title Cover";
+	mso-style-next:"Subtitle Cover";
+	margin-top:24.0pt;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:0in;
+	text-align:center;
+	line-height:28.0pt;
+	mso-line-height-rule:exactly;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	border:none;
+	mso-border-bottom-alt:solid windowtext 2.25pt;
+	padding:0in;
+	mso-padding-alt:0in 0in 20.0pt 0in;
+	font-size:28.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	mso-font-kerning:14.0pt;
+	font-weight:bold;
+	mso-bidi-font-weight:normal;}
+span.Superscript
+	{mso-style-name:Superscript;
+	mso-style-parent:"";
+	font-weight:bold;
+	mso-bidi-font-weight:normal;
+	vertical-align:super;}
+p.TOCBase, li.TOCBase, div.TOCBase
+	{mso-style-name:"TOC Base";
+	margin-top:3.0pt;
+	margin-right:1.0in;
+	margin-bottom:3.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	tab-stops:right dotted 6.0in;
+	font-size:10.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";}
+p.ListNumberLast, li.ListNumberLast, div.ListNumberLast
+	{mso-style-name:"List Number Last";
+	mso-style-next:"Body Text";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:1.0in;
+	text-align:justify;
+	text-indent:-.25in;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";}
+p.ListNumberFirst, li.ListNumberFirst, div.ListNumberFirst
+	{mso-style-name:"List Number First";
+	mso-style-next:Normal;
+	margin-top:3.0pt;
+	margin-right:0in;
+	margin-bottom:6.0pt;
+	margin-left:1.0in;
+	text-align:justify;
+	text-indent:-.25in;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";}
+p.SubjectLine, li.SubjectLine, div.SubjectLine
+	{mso-style-name:"Subject Line";
+	mso-style-parent:"Body Text";
+	mso-style-next:"Body Text";
+	margin-top:6.0pt;
+	margin-right:0in;
+	margin-bottom:6.0pt;
+	margin-left:0in;
+	text-align:justify;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	font-weight:bold;
+	mso-bidi-font-weight:normal;
+	font-style:italic;
+	mso-bidi-font-style:normal;}
+p.SectionLabel, li.SectionLabel, div.SectionLabel
+	{mso-style-name:"Section Label";
+	mso-style-next:"Body Text";
+	margin-top:.25in;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	border:none;
+	mso-border-bottom-alt:solid windowtext 1.5pt;
+	padding:0in;
+	mso-padding-alt:0in 0in 8.0pt 0in;
+	font-size:14.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	text-transform:uppercase;
+	mso-font-kerning:14.0pt;
+	font-weight:bold;
+	mso-bidi-font-weight:normal;}
+p.PartLabel, li.PartLabel, div.PartLabel
+	{mso-style-name:"Part Label";
+	mso-style-next:"Part Title";
+	margin-top:24.0pt;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:0in;
+	margin-bottom:.0001pt;
+	text-align:center;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	font-size:14.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	text-transform:uppercase;
+	mso-font-kerning:14.0pt;
+	font-weight:bold;
+	mso-bidi-font-weight:normal;}
+p.PartTitle, li.PartTitle, div.PartTitle
+	{mso-style-name:"Part Title";
+	mso-style-next:"Part Subtitle";
+	margin-top:24.0pt;
+	margin-right:0in;
+	margin-bottom:6.0pt;
+	margin-left:0in;
+	text-align:center;
+	line-height:24.0pt;
+	mso-line-height-rule:exactly;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	border:none;
+	mso-border-bottom-alt:solid windowtext .75pt;
+	padding:0in;
+	mso-padding-alt:0in 0in 6.0pt 0in;
+	font-size:22.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	text-transform:uppercase;
+	mso-font-kerning:14.0pt;
+	font-weight:bold;
+	mso-bidi-font-weight:normal;}
+p.PartSubtitle, li.PartSubtitle, div.PartSubtitle
+	{mso-style-name:"Part Subtitle";
+	mso-style-parent:"Part Title";
+	mso-style-next:"Body Text";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:24.0pt;
+	margin-left:0in;
+	text-align:center;
+	mso-pagination:widow-orphan lines-together;
+	page-break-after:avoid;
+	font-size:16.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	mso-font-kerning:14.0pt;
+	font-weight:bold;
+	mso-bidi-font-weight:normal;
+	font-style:italic;
+	mso-bidi-font-style:normal;}
+p.t2, li.t2, div.t2
+	{mso-style-name:t2;
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-line-height-alt:9.0pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";}
+p.t3, li.t3, div.t3
+	{mso-style-name:t3;
+	margin:0in;
+	margin-bottom:.0001pt;
+	line-height:12.0pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";}
+p.t4, li.t4, div.t4
+	{mso-style-name:t4;
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-line-height-alt:9.0pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";}
+p.t5, li.t5, div.t5
+	{mso-style-name:t5;
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-line-height-alt:10.0pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";}
+p.TableEntry, li.TableEntry, div.TableEntry
+	{mso-style-name:"Table Entry";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";}
+p.TableHeader, li.TableHeader, div.TableHeader
+	{mso-style-name:"Table Header";
+	mso-style-next:Normal;
+	margin:0in;
+	margin-bottom:.0001pt;
+	text-align:center;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;
+	mso-bidi-font-weight:normal;}
+p.Paragraph, li.Paragraph, div.Paragraph
+	{mso-style-name:Paragraph;
+	margin-top:6.0pt;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:0in;
+	margin-bottom:.0001pt;
+	text-indent:.5in;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";}
+p.DocumentLabel, li.DocumentLabel, div.DocumentLabel
+	{mso-style-name:"Document Label";
+	mso-style-parent:"";
+	mso-style-next:Normal;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:2.0pt;
+	margin-left:0in;
+	text-align:center;
+	line-height:12.0pt;
+	mso-pagination:widow-orphan;
+	border:none;
+	mso-border-top-alt:double gray 2.25pt;
+	mso-border-bottom-alt:double gray 2.25pt;
+	padding:0in;
+	mso-padding-alt:8.0pt 0in 8.0pt 0in;
+	font-size:9.0pt;
+	mso-bidi-font-size:10.0pt;
+	font-family:Garamond;
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	text-transform:uppercase;
+	letter-spacing:1.0pt;
+	font-weight:bold;
+	mso-bidi-font-weight:normal;}
+span.MessageHeaderLabel
+	{mso-style-name:"Message Header Label";
+	mso-style-parent:"";
+	mso-ansi-font-size:9.0pt;
+	font-weight:bold;
+	mso-bidi-font-weight:normal;}
+ /* Page Definitions */
+ @page
+	{mso-footnote-separator:url("User_Auth_Gateway_Specification_3.0_files/header.html") fs;
+	mso-footnote-continuation-separator:url("User_Auth_Gateway_Specification_3.0_files/header.html") fcs;
+	mso-endnote-separator:url("User_Auth_Gateway_Specification_3.0_files/header.html") es;
+	mso-endnote-continuation-separator:url("User_Auth_Gateway_Specification_3.0_files/header.html") ecs;
+	mso-facing-pages:yes;
+	mso-endnote-position:end-of-section;
+	mso-footnote-numbering-restart:each-page;
+	mso-endnote-numbering-style:arabic;
+	mso-endnote-numbering-restart:each-section;}
+@page Section1
+	{size:8.5in 11.0in;
+	margin:1.2in 1.25in 1.0in 1.25in;
+	mso-header-margin:.5in;
+	mso-footer-margin:.5in;
+	mso-page-numbers:roman-upper 1;
+	mso-title-page:yes;
+	mso-even-header:url("User_Auth_Gateway_Specification_3.0_files/header.html") eh1;
+	mso-header:url("User_Auth_Gateway_Specification_3.0_files/header.html") h1;
+	mso-even-footer:url("User_Auth_Gateway_Specification_3.0_files/header.html") ef1;
+	mso-footer:url("User_Auth_Gateway_Specification_3.0_files/header.html") f1;
+	mso-first-header:url("User_Auth_Gateway_Specification_3.0_files/header.html") fh1;
+	mso-first-footer:url("User_Auth_Gateway_Specification_3.0_files/header.html") ff1;
+	mso-paper-source:0;}
+div.Section1
+	{page:Section1;
+	mso-footnote-numbering-restart:each-page;
+	mso-endnote-numbering-style:arabic;
+	mso-endnote-numbering-restart:each-section;}
+@page Section2
+	{size:8.5in 11.0in;
+	margin:1.0in 1.25in 1.0in 1.25in;
+	mso-header-margin:.5in;
+	mso-footer-margin:.5in;
+	mso-page-numbers:1;
+	mso-even-header:url("User_Auth_Gateway_Specification_3.0_files/header.html") eh1;
+	mso-header:url("User_Auth_Gateway_Specification_3.0_files/header.html") h2;
+	mso-even-footer:url("User_Auth_Gateway_Specification_3.0_files/header.html") ef1;
+	mso-footer:url("User_Auth_Gateway_Specification_3.0_files/header.html") f2;
+	mso-first-header:url("User_Auth_Gateway_Specification_3.0_files/header.html") fh1;
+	mso-first-footer:url("User_Auth_Gateway_Specification_3.0_files/header.html") ff1;
+	mso-paper-source:0;}
+div.Section2
+	{page:Section2;
+	mso-footnote-numbering-restart:each-page;
+	mso-endnote-numbering-style:arabic;
+	mso-endnote-numbering-restart:each-section;}
+ /* List Definitions */
+ @list l0
+	{mso-list-id:-5;
+	mso-list-template-ids:-1;}
+@list l0:level1
+	{mso-level-style-link:"Heading 1";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	mso-level-legacy:yes;
+	mso-level-legacy-indent:0in;
+	mso-level-legacy-space:.1in;
+	margin-left:0in;
+	text-indent:0in;}
+@list l0:level2
+	{mso-level-style-link:"Heading 2";
+	mso-level-text:"%1\.%2";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	mso-level-legacy:yes;
+	mso-level-legacy-indent:0in;
+	mso-level-legacy-space:.1in;
+	margin-left:0in;
+	text-indent:0in;}
+@list l0:level3
+	{mso-level-style-link:"Heading 3";
+	mso-level-text:"%1\.%2\.%3";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	mso-level-legacy:yes;
+	mso-level-legacy-indent:0in;
+	mso-level-legacy-space:.1in;
+	margin-left:0in;
+	text-indent:0in;}
+@list l0:level4
+	{mso-level-style-link:"Heading 4";
+	mso-level-text:"%1\.%2\.%3\.%4";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	mso-level-legacy:yes;
+	mso-level-legacy-indent:0in;
+	mso-level-legacy-space:.1in;
+	margin-left:0in;
+	text-indent:0in;}
+@list l0:level5
+	{mso-level-style-link:"Heading 5";
+	mso-level-text:"%1\.%2\.%3\.%4\.%5";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	mso-level-legacy:yes;
+	mso-level-legacy-indent:0in;
+	mso-level-legacy-space:.1in;
+	margin-left:0in;
+	text-indent:0in;}
+@list l0:level6
+	{mso-level-style-link:"Heading 6";
+	mso-level-text:"%1\.%2\.%3\.%4\.%5\.%6";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	mso-level-legacy:yes;
+	mso-level-legacy-indent:0in;
+	mso-level-legacy-space:.1in;
+	margin-left:0in;
+	text-indent:0in;}
+@list l0:level7
+	{mso-level-style-link:"Heading 7";
+	mso-level-text:"%1\.%2\.%3\.%4\.%5\.%6\.%7";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	mso-level-legacy:yes;
+	mso-level-legacy-indent:0in;
+	mso-level-legacy-space:.1in;
+	margin-left:0in;
+	text-indent:0in;}
+@list l0:level8
+	{mso-level-style-link:"Heading 8";
+	mso-level-text:"%1\.%2\.%3\.%4\.%5\.%6\.%7\.%8";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	mso-level-legacy:yes;
+	mso-level-legacy-indent:0in;
+	mso-level-legacy-space:.1in;
+	margin-left:0in;
+	text-indent:0in;}
+@list l0:level9
+	{mso-level-style-link:"Heading 9";
+	mso-level-text:"%1\.%2\.%3\.%4\.%5\.%6\.%7\.%8\.%9";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	mso-level-legacy:yes;
+	mso-level-legacy-indent:0in;
+	mso-level-legacy-space:.1in;
+	margin-left:0in;
+	text-indent:0in;}
+@list l1
+	{mso-list-id:-2;
+	mso-list-type:simple;
+	mso-list-template-ids:-1;}
+@list l1:level1
+	{mso-level-start-at:0;
+	mso-level-text:*;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	margin-left:0in;
+	text-indent:0in;}
+@list l2
+	{mso-list-id:13390171;
+	mso-list-type:simple;
+	mso-list-template-ids:67698703;}
+@list l2:level1
+	{mso-level-tab-stop:.25in;
+	mso-level-number-position:left;
+	margin-left:.25in;
+	text-indent:-.25in;}
+@list l3
+	{mso-list-id:51857347;
+	mso-list-type:simple;
+	mso-list-template-ids:-668458430;}
+@list l3:level1
+	{mso-level-text:"%1\. ";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	mso-level-legacy:yes;
+	mso-level-legacy-indent:.25in;
+	mso-level-legacy-space:0in;
+	margin-left:.25in;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Arial;
+	mso-bidi-font-family:"Times New Roman";
+	mso-ansi-font-weight:normal;
+	mso-ansi-font-style:normal;}
+@list l4
+	{mso-list-id:140737978;
+	mso-list-type:simple;
+	mso-list-template-ids:-668458430;}
+@list l4:level1
+	{mso-level-text:"%1\. ";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	mso-level-legacy:yes;
+	mso-level-legacy-indent:.25in;
+	mso-level-legacy-space:0in;
+	margin-left:.25in;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Arial;
+	mso-bidi-font-family:"Times New Roman";
+	mso-ansi-font-weight:normal;
+	mso-ansi-font-style:normal;}
+@list l5
+	{mso-list-id:173542892;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-1327735656 67698689 67698691 67698693 67698689 67698691 67698693 67698689 67698691 67698693;}
+@list l5:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:Symbol;}
+@list l6
+	{mso-list-id:503251481;
+	mso-list-type:simple;
+	mso-list-template-ids:-668458430;}
+@list l6:level1
+	{mso-level-text:"%1\. ";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	mso-level-legacy:yes;
+	mso-level-legacy-indent:.25in;
+	mso-level-legacy-space:0in;
+	margin-left:.25in;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Arial;
+	mso-bidi-font-family:"Times New Roman";
+	mso-ansi-font-weight:normal;
+	mso-ansi-font-style:normal;}
+@list l7
+	{mso-list-id:518011472;
+	mso-list-type:simple;
+	mso-list-template-ids:648425328;}
+@list l7:level1
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	mso-level-legacy:yes;
+	mso-level-legacy-indent:.25in;
+	mso-level-legacy-space:0in;
+	margin-left:.75in;
+	text-indent:-.25in;}
+@list l8
+	{mso-list-id:520626940;
+	mso-list-type:hybrid;
+	mso-list-template-ids:1745931944 67698703 67698713 67698715 67698703 67698713 67698715 67698703 67698713 67698715;}
+@list l8:level1
+	{mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l9
+	{mso-list-id:601062421;
+	mso-list-type:simple;
+	mso-list-template-ids:67698703;}
+@list l9:level1
+	{mso-level-tab-stop:.25in;
+	mso-level-number-position:left;
+	margin-left:.25in;
+	text-indent:-.25in;}
+@list l10
+	{mso-list-id:616832710;
+	mso-list-type:simple;
+	mso-list-template-ids:-1616354220;}
+@list l10:level1
+	{mso-level-number-format:roman-lower;
+	mso-level-text:"%1\. ";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	mso-level-legacy:yes;
+	mso-level-legacy-indent:.25in;
+	mso-level-legacy-space:0in;
+	margin-left:1.25in;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Arial;
+	mso-bidi-font-family:"Times New Roman";
+	mso-ansi-font-weight:normal;
+	mso-ansi-font-style:normal;}
+@list l11
+	{mso-list-id:663584717;
+	mso-list-type:simple;
+	mso-list-template-ids:-668458430;}
+@list l11:level1
+	{mso-level-text:"%1\. ";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	mso-level-legacy:yes;
+	mso-level-legacy-indent:.25in;
+	mso-level-legacy-space:0in;
+	margin-left:.25in;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Arial;
+	mso-bidi-font-family:"Times New Roman";
+	mso-ansi-font-weight:normal;
+	mso-ansi-font-style:normal;}
+@list l12
+	{mso-list-id:804814655;
+	mso-list-type:simple;
+	mso-list-template-ids:-668458430;}
+@list l12:level1
+	{mso-level-text:"%1\. ";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	mso-level-legacy:yes;
+	mso-level-legacy-indent:.25in;
+	mso-level-legacy-space:0in;
+	margin-left:.25in;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Arial;
+	mso-bidi-font-family:"Times New Roman";
+	mso-ansi-font-weight:normal;
+	mso-ansi-font-style:normal;}
+@list l13
+	{mso-list-id:902106643;
+	mso-list-type:simple;
+	mso-list-template-ids:1397104626;}
+@list l13:level1
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	mso-level-legacy:yes;
+	mso-level-legacy-indent:.25in;
+	mso-level-legacy-space:0in;
+	margin-left:.25in;
+	text-indent:-.25in;}
+@list l14
+	{mso-list-id:962465043;
+	mso-list-type:simple;
+	mso-list-template-ids:-668458430;}
+@list l14:level1
+	{mso-level-text:"%1\. ";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	mso-level-legacy:yes;
+	mso-level-legacy-indent:.25in;
+	mso-level-legacy-space:0in;
+	margin-left:.25in;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Arial;
+	mso-bidi-font-family:"Times New Roman";
+	mso-ansi-font-weight:normal;
+	mso-ansi-font-style:normal;}
+@list l15
+	{mso-list-id:1068066773;
+	mso-list-type:simple;
+	mso-list-template-ids:1397104626;}
+@list l15:level1
+	{mso-level-start-at:5;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	mso-level-legacy:yes;
+	mso-level-legacy-indent:.25in;
+	mso-level-legacy-space:0in;
+	margin-left:.75in;
+	text-indent:-.25in;}
+@list l16
+	{mso-list-id:1104882504;
+	mso-list-type:simple;
+	mso-list-template-ids:648425328;}
+@list l16:level1
+	{mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	mso-level-legacy:yes;
+	mso-level-legacy-indent:.25in;
+	mso-level-legacy-space:0in;
+	text-indent:-.25in;}
+@list l17
+	{mso-list-id:1115054971;
+	mso-list-type:hybrid;
+	mso-list-template-ids:1828480940 67698689 67698691 67698693 67698689 67698691 67698693 67698689 67698691 67698693;}
+@list l17:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:Symbol;}
+@list l18
+	{mso-list-id:1131248138;
+	mso-list-type:hybrid;
+	mso-list-template-ids:250259134 67698703 67698713 67698715 67698703 67698713 67698715 67698703 67698713 67698715;}
+@list l18:level1
+	{mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l19
+	{mso-list-id:1168138288;
+	mso-list-type:hybrid;
+	mso-list-template-ids:1223727082 67698689 67698691 67698693 67698689 67698691 67698693 67698689 67698691 67698693;}
+@list l19:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:Symbol;}
+@list l20
+	{mso-list-id:1228150072;
+	mso-list-type:simple;
+	mso-list-template-ids:-668458430;}
+@list l20:level1
+	{mso-level-text:"%1\. ";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	mso-level-legacy:yes;
+	mso-level-legacy-indent:.25in;
+	mso-level-legacy-space:0in;
+	margin-left:.25in;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Arial;
+	mso-bidi-font-family:"Times New Roman";
+	mso-ansi-font-weight:normal;
+	mso-ansi-font-style:normal;}
+@list l21
+	{mso-list-id:1289819635;
+	mso-list-type:simple;
+	mso-list-template-ids:67698703;}
+@list l21:level1
+	{mso-level-tab-stop:.25in;
+	mso-level-number-position:left;
+	margin-left:.25in;
+	text-indent:-.25in;}
+@list l22
+	{mso-list-id:1370765178;
+	mso-list-type:simple;
+	mso-list-template-ids:94922324;}
+@list l22:level1
+	{mso-level-text:"%1\. ";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	mso-level-legacy:yes;
+	mso-level-legacy-indent:.25in;
+	mso-level-legacy-space:0in;
+	margin-left:.25in;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Arial;
+	mso-bidi-font-family:"Times New Roman";
+	mso-ansi-font-weight:normal;
+	mso-ansi-font-style:normal;
+	text-decoration:none;
+	text-underline:none;}
+@list l23
+	{mso-list-id:1612007204;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-595010982 67698689 67698691 67698693 67698689 67698691 67698693 67698689 67698691 67698693;}
+@list l23:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	font-family:Symbol;}
+@list l24
+	{mso-list-id:1628968321;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-883149026 67698703 67698713 67698715 67698703 67698713 67698715 67698703 67698713 67698715;}
+@list l24:level1
+	{mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l25
+	{mso-list-id:1664431410;
+	mso-list-type:simple;
+	mso-list-template-ids:-668458430;}
+@list l25:level1
+	{mso-level-text:"%1\. ";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	mso-level-legacy:yes;
+	mso-level-legacy-indent:.25in;
+	mso-level-legacy-space:0in;
+	margin-left:.25in;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Arial;
+	mso-bidi-font-family:"Times New Roman";
+	mso-ansi-font-weight:normal;
+	mso-ansi-font-style:normal;}
+@list l26
+	{mso-list-id:1748530463;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-1686881996;}
+@list l26:level1
+	{mso-level-tab-stop:.75in;
+	mso-level-number-position:left;
+	margin-left:.75in;
+	text-indent:-.25in;}
+@list l27
+	{mso-list-id:1935505157;
+	mso-list-type:hybrid;
+	mso-list-template-ids:684114554;}
+@list l27:level1
+	{mso-level-tab-stop:.75in;
+	mso-level-number-position:left;
+	margin-left:.75in;
+	text-indent:-.25in;}
+@list l28
+	{mso-list-id:2056393249;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-1908664462;}
+@list l28:level1
+	{mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l28:level4
+	{mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l28:level7
+	{mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;}
+@list l29
+	{mso-list-id:2080398314;
+	mso-list-type:simple;
+	mso-list-template-ids:-695541054;}
+@list l29:level1
+	{mso-level-tab-stop:.25in;
+	mso-level-number-position:left;
+	margin-left:.25in;
+	text-indent:-.25in;}
+@list l30
+	{mso-list-id:2119451354;
+	mso-list-type:simple;
+	mso-list-template-ids:-668458430;}
+@list l30:level1
+	{mso-level-text:"%1\. ";
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	mso-level-legacy:yes;
+	mso-level-legacy-indent:.25in;
+	mso-level-legacy-space:0in;
+	margin-left:.25in;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Arial;
+	mso-bidi-font-family:"Times New Roman";
+	mso-ansi-font-weight:normal;
+	mso-ansi-font-style:normal;}
+@list l15:level1 lfo6
+	{mso-level-start-at:1;
+	mso-level-numbering:continue;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	mso-level-legacy:yes;
+	mso-level-legacy-indent:.25in;
+	mso-level-legacy-space:0in;
+	margin-left:.75in;
+	text-indent:-.25in;}
+@list l1:level1 lfo7
+	{mso-level-start-at:1;
+	mso-level-number-format:bullet;
+	mso-level-numbering:continue;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	mso-level-legacy:yes;
+	mso-level-legacy-indent:.25in;
+	mso-level-legacy-space:0in;
+	margin-left:.75in;
+	text-indent:-.25in;
+	font-family:Symbol;}
+ol
+	{margin-bottom:0in;}
+ul
+	{margin-bottom:0in;}
+-->
+</style>
+<!--[if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:"Table Normal";
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-parent:"";
+	mso-padding-alt:0in 5.4pt 0in 5.4pt;
+	mso-para-margin:0in;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-ansi-language:#0400;
+	mso-fareast-language:#0400;
+	mso-bidi-language:#0400;}
+</style>
+<![endif]--><!--[if gte mso 9]><xml>
+ <o:shapedefaults v:ext="edit" spidmax="3074"/>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <o:shapelayout v:ext="edit">
+  <o:idmap v:ext="edit" data="1"/>
+ </o:shapelayout></xml><![endif]-->
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:.5in'>
+
+<div class=Section1>
+
+<p class=MsoBodyText align=center style='margin-bottom:0in;margin-bottom:.0001pt;
+text-align:center'><o:p>&nbsp;</o:p></p>
+
+<p class=MsoBodyText><o:p>&nbsp;</o:p></p>
+
+<p class=MsoBodyText><o:p>&nbsp;</o:p></p>
+
+<p class=MsoBodyText><o:p>&nbsp;</o:p></p>
+
+<div style='mso-element:para-border-div;border-top:solid windowtext 3.0pt;
+border-left:none;border-bottom:solid windowtext 3.0pt;border-right:none;
+padding:1.0pt 0in 1.0pt 0in'>
+
+<p class=TitleCover style='border:none;mso-border-top-alt:solid windowtext 3.0pt;
+mso-border-bottom-alt:solid windowtext 3.0pt;padding:0in;mso-padding-alt:1.0pt 0in 1.0pt 0in'><span
+style='color:black'><span style='mso-field-code:" TITLE  \\* MERGEFORMAT "'>User
+Authentication Gateway (v3.0) Specification</span> <o:p></o:p></span></p>
+
+</div>
+
+<p class=SubtitleCover>Document Version 3.1.0</p>
+
+<p class=MsoBodyText align=center style='margin-bottom:0in;margin-bottom:.0001pt;
+text-align:center'><o:p>&nbsp;</o:p></p>
+
+<p class=MsoBodyText align=center style='margin-bottom:0in;margin-bottom:.0001pt;
+text-align:center'><o:p>&nbsp;</o:p></p>
+
+<p class=MsoBodyText align=center style='margin-bottom:0in;margin-bottom:.0001pt;
+text-align:center'><o:p>&nbsp;</o:p></p>
+
+<p class=MsoBodyText align=center style='margin-bottom:0in;margin-bottom:.0001pt;
+text-align:center'><o:p>&nbsp;</o:p></p>
+
+<p class=MsoBodyText align=center style='margin-bottom:0in;margin-bottom:.0001pt;
+text-align:center'><o:p>&nbsp;</o:p></p>
+
+<p class=MsoBodyText align=center style='margin-bottom:0in;margin-bottom:.0001pt;
+text-align:center'><o:p>&nbsp;</o:p></p>
+
+<p class=MsoBodyText align=center style='margin-bottom:0in;margin-bottom:.0001pt;
+text-align:center'><o:p>&nbsp;</o:p></p>
+
+<p class=MsoBodyText align=center style='margin-bottom:0in;margin-bottom:.0001pt;
+text-align:center'><o:p>&nbsp;</o:p></p>
+
+<p class=MsoBodyText align=center style='margin-bottom:0in;margin-bottom:.0001pt;
+text-align:center'><o:p>&nbsp;</o:p></p>
+
+<p class=MsoBodyText align=center style='margin-bottom:0in;margin-bottom:.0001pt;
+text-align:center'><o:p>&nbsp;</o:p></p>
+
+<p class=MsoBodyText align=center style='margin-bottom:0in;margin-bottom:.0001pt;
+text-align:center'><o:p>&nbsp;</o:p></p>
+
+<p class=MsoBodyText align=center style='margin-bottom:0in;margin-bottom:.0001pt;
+text-align:center'><o:p>&nbsp;</o:p></p>
+
+<p class=MsoBodyText align=center style='margin-bottom:0in;margin-bottom:.0001pt;
+text-align:center'><o:p>&nbsp;</o:p></p>
+
+<p class=MsoBodyText align=center style='margin-bottom:0in;margin-bottom:.0001pt;
+text-align:center'><o:p>&nbsp;</o:p></p>
+
+<p class=MsoBodyText align=center style='margin-bottom:0in;margin-bottom:.0001pt;
+text-align:center'><o:p>&nbsp;</o:p></p>
+
+<p class=MsoBodyText align=center style='margin-bottom:0in;margin-bottom:.0001pt;
+text-align:center'><o:p>&nbsp;</o:p></p>
+
+<p class=MsoBodyText align=center style='margin-bottom:0in;margin-bottom:.0001pt;
+text-align:center'><b style='mso-bidi-font-weight:normal'><span
+style='font-size:16.0pt;mso-bidi-font-size:10.0pt'><o:p>&nbsp;</o:p></span></b></p>
+
+<b style='mso-bidi-font-weight:normal'><span style='font-size:8.0pt;mso-bidi-font-size:
+10.0pt;font-family:Arial;mso-fareast-font-family:"Times New Roman";mso-bidi-font-family:
+"Times New Roman";mso-ansi-language:EN-US;mso-fareast-language:EN-US;
+mso-bidi-language:AR-SA'><br clear=all style='mso-special-character:line-break;
+page-break-before:always'>
+</span></b>
+
+<p class=MsoBodyText align=center style='text-align:center'><b
+style='mso-bidi-font-weight:normal'><span style='font-size:16.0pt;mso-bidi-font-size:
+10.0pt'><o:p>&nbsp;</o:p></span></b></p>
+
+<span style='font-size:10.0pt;font-family:Arial;mso-fareast-font-family:"Times New Roman";
+mso-bidi-font-family:"Times New Roman";mso-ansi-language:EN-US;mso-fareast-language:
+EN-US;mso-bidi-language:AR-SA'><br clear=all style='mso-special-character:line-break;
+page-break-before:always'>
+</span>
+
+<p class=MsoBodyText align=right style='text-align:right'><o:p>&nbsp;</o:p></p>
+
+<p class=MsoBodyText align=center style='text-align:center'><b
+style='mso-bidi-font-weight:normal'><span style='font-size:14.0pt;mso-bidi-font-size:
+10.0pt'>TABLE OF CONTENTS<o:p></o:p></span></b></p>
+
+<p class=MsoBodyText align=center style='text-align:center'><b
+style='mso-bidi-font-weight:normal'><span style='font-size:14.0pt;mso-bidi-font-size:
+10.0pt'><o:p>&nbsp;</o:p></span></b></p>
+
+<p class=MsoToc1 style='tab-stops:22.0pt right dotted 6.0in'><!--[if supportFields]><span
+style='mso-element:field-begin'></span><span
+style='mso-spacerun:yes'> </span>TOC \o &quot;1-5&quot; <span style='mso-element:
+field-separator'></span><![endif]--><span style='mso-no-proof:yes'>1.</span><span
+style='font-size:12.0pt;text-transform:none;font-weight:normal;mso-no-proof:
+yes'><span style='mso-tab-count:1'>     </span></span><span style='mso-no-proof:
+yes'>iNTRODUCTION<span style='mso-tab-count:1 dotted'>................................................................................................................................................... </span></span><!--[if supportFields]><span
+style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
+_Toc114647192 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
+style='mso-no-proof:yes'>1<!--[if gte mso 9]><xml>
+ <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003100310034003600340037003100390032000000</w:data>
+</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
+style='mso-element:field-end'></span></span><![endif]--><span style='font-size:
+12.0pt;text-transform:none;font-weight:normal;mso-no-proof:yes'><o:p></o:p></span></p>
+
+<p class=MsoToc2 style='tab-stops:44.0pt right dotted 6.0in'><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>1.1</span><span style='font-size:12.0pt;font-variant:normal !important;
+mso-no-proof:yes'><span style='mso-tab-count:1'>       </span></span><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>Document Summary<span style='mso-tab-count:1 dotted'>........................................................................................................................... </span></span><!--[if supportFields]><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'><span style='mso-element:field-begin'></span> PAGEREF _Toc114647193 \h <span
+style='mso-element:field-separator'></span></span><![endif]--><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>1<!--[if gte mso 9]><xml>
+ <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003100310034003600340037003100390033000000</w:data>
+</xml><![endif]--></span><!--[if supportFields]><span style='font-variant:normal !important;
+text-transform:uppercase;mso-no-proof:yes'><span style='mso-element:field-end'></span></span><![endif]--><span
+style='font-size:12.0pt;font-variant:normal !important;mso-no-proof:yes'><o:p></o:p></span></p>
+
+<p class=MsoToc2 style='tab-stops:44.0pt right dotted 6.0in'><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>1.2</span><span style='font-size:12.0pt;font-variant:normal !important;
+mso-no-proof:yes'><span style='mso-tab-count:1'>       </span></span><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>User Authentication Gateway Clients<span style='mso-tab-count:1 dotted'>................................................................................. </span></span><!--[if supportFields]><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'><span style='mso-element:field-begin'></span> PAGEREF _Toc114647194 \h <span
+style='mso-element:field-separator'></span></span><![endif]--><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>1<!--[if gte mso 9]><xml>
+ <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003100310034003600340037003100390034000000</w:data>
+</xml><![endif]--></span><!--[if supportFields]><span style='font-variant:normal !important;
+text-transform:uppercase;mso-no-proof:yes'><span style='mso-element:field-end'></span></span><![endif]--><span
+style='font-size:12.0pt;font-variant:normal !important;mso-no-proof:yes'><o:p></o:p></span></p>
+
+<p class=MsoToc2 style='tab-stops:44.0pt right dotted 6.0in'><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>1.3</span><span style='font-size:12.0pt;font-variant:normal !important;
+mso-no-proof:yes'><span style='mso-tab-count:1'>       </span></span><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>Platforms<span style='mso-tab-count:1 dotted'>................................................................................................................................................ </span></span><!--[if supportFields]><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'><span style='mso-element:field-begin'></span> PAGEREF _Toc114647195 \h <span
+style='mso-element:field-separator'></span></span><![endif]--><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>1<!--[if gte mso 9]><xml>
+ <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003100310034003600340037003100390035000000</w:data>
+</xml><![endif]--></span><!--[if supportFields]><span style='font-variant:normal !important;
+text-transform:uppercase;mso-no-proof:yes'><span style='mso-element:field-end'></span></span><![endif]--><span
+style='font-size:12.0pt;font-variant:normal !important;mso-no-proof:yes'><o:p></o:p></span></p>
+
+<p class=MsoToc2 style='tab-stops:44.0pt right dotted 6.0in'><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>1.4</span><span style='font-size:12.0pt;font-variant:normal !important;
+mso-no-proof:yes'><span style='mso-tab-count:1'>       </span></span><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>Cookies<span style='mso-tab-count:1 dotted'>........................................................................................................................................................ </span></span><!--[if supportFields]><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'><span style='mso-element:field-begin'></span> PAGEREF _Toc114647196 \h <span
+style='mso-element:field-separator'></span></span><![endif]--><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>2<!--[if gte mso 9]><xml>
+ <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003100310034003600340037003100390036000000</w:data>
+</xml><![endif]--></span><!--[if supportFields]><span style='font-variant:normal !important;
+text-transform:uppercase;mso-no-proof:yes'><span style='mso-element:field-end'></span></span><![endif]--><span
+style='font-size:12.0pt;font-variant:normal !important;mso-no-proof:yes'><o:p></o:p></span></p>
+
+<p class=MsoToc2 style='tab-stops:44.0pt right dotted 6.0in'><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>1.5</span><span style='font-size:12.0pt;font-variant:normal !important;
+mso-no-proof:yes'><span style='mso-tab-count:1'>       </span></span><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>References<span style='mso-tab-count:1 dotted'>................................................................................................................................................ </span></span><!--[if supportFields]><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'><span style='mso-element:field-begin'></span> PAGEREF _Toc114647197 \h <span
+style='mso-element:field-separator'></span></span><![endif]--><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>2<!--[if gte mso 9]><xml>
+ <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003100310034003600340037003100390037000000</w:data>
+</xml><![endif]--></span><!--[if supportFields]><span style='font-variant:normal !important;
+text-transform:uppercase;mso-no-proof:yes'><span style='mso-element:field-end'></span></span><![endif]--><span
+style='font-size:12.0pt;font-variant:normal !important;mso-no-proof:yes'><o:p></o:p></span></p>
+
+<p class=MsoToc2 style='tab-stops:44.0pt right dotted 6.0in'><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>1.6</span><span style='font-size:12.0pt;font-variant:normal !important;
+mso-no-proof:yes'><span style='mso-tab-count:1'>       </span></span><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>Revision History<span style='mso-tab-count:1 dotted'>.................................................................................................................................... </span></span><!--[if supportFields]><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'><span style='mso-element:field-begin'></span> PAGEREF _Toc114647198 \h <span
+style='mso-element:field-separator'></span></span><![endif]--><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>2<!--[if gte mso 9]><xml>
+ <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003100310034003600340037003100390038000000</w:data>
+</xml><![endif]--></span><!--[if supportFields]><span style='font-variant:normal !important;
+text-transform:uppercase;mso-no-proof:yes'><span style='mso-element:field-end'></span></span><![endif]--><span
+style='font-size:12.0pt;font-variant:normal !important;mso-no-proof:yes'><o:p></o:p></span></p>
+
+<p class=MsoToc1 style='tab-stops:22.0pt right dotted 6.0in'><span
+style='mso-no-proof:yes'>2.</span><span style='font-size:12.0pt;text-transform:
+none;font-weight:normal;mso-no-proof:yes'><span style='mso-tab-count:1'>     </span></span><span
+style='mso-no-proof:yes'>getting started<span style='mso-tab-count:1 dotted'>............................................................................................................................................. </span></span><!--[if supportFields]><span
+style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
+_Toc114647199 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
+style='mso-no-proof:yes'>4<!--[if gte mso 9]><xml>
+ <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003100310034003600340037003100390039000000</w:data>
+</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
+style='mso-element:field-end'></span></span><![endif]--><span style='font-size:
+12.0pt;text-transform:none;font-weight:normal;mso-no-proof:yes'><o:p></o:p></span></p>
+
+<p class=MsoToc2 style='tab-stops:44.0pt right dotted 6.0in'><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>2.1</span><span style='font-size:12.0pt;font-variant:normal !important;
+mso-no-proof:yes'><span style='mso-tab-count:1'>       </span></span><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>Tomcat Installation<span style='mso-tab-count:1 dotted'>....................................................................................................................... </span></span><!--[if supportFields]><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'><span style='mso-element:field-begin'></span> PAGEREF _Toc114647200 \h <span
+style='mso-element:field-separator'></span></span><![endif]--><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>4<!--[if gte mso 9]><xml>
+ <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003100310034003600340037003200300030000000</w:data>
+</xml><![endif]--></span><!--[if supportFields]><span style='font-variant:normal !important;
+text-transform:uppercase;mso-no-proof:yes'><span style='mso-element:field-end'></span></span><![endif]--><span
+style='font-size:12.0pt;font-variant:normal !important;mso-no-proof:yes'><o:p></o:p></span></p>
+
+<p class=MsoToc2 style='tab-stops:44.0pt right dotted 6.0in'><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>2.2</span><span style='font-size:12.0pt;font-variant:normal !important;
+mso-no-proof:yes'><span style='mso-tab-count:1'>       </span></span><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>Other Servlet Containers<span style='mso-tab-count:1 dotted'>.............................................................................................................. </span></span><!--[if supportFields]><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'><span style='mso-element:field-begin'></span> PAGEREF _Toc114647201 \h <span
+style='mso-element:field-separator'></span></span><![endif]--><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>4<!--[if gte mso 9]><xml>
+ <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003100310034003600340037003200300031000000</w:data>
+</xml><![endif]--></span><!--[if supportFields]><span style='font-variant:normal !important;
+text-transform:uppercase;mso-no-proof:yes'><span style='mso-element:field-end'></span></span><![endif]--><span
+style='font-size:12.0pt;font-variant:normal !important;mso-no-proof:yes'><o:p></o:p></span></p>
+
+<p class=MsoToc2 style='tab-stops:44.0pt right dotted 6.0in'><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>2.3</span><span style='font-size:12.0pt;font-variant:normal !important;
+mso-no-proof:yes'><span style='mso-tab-count:1'>       </span></span><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>Gateway Configuration Files<span style='mso-tab-count:1 dotted'>..................................................................................................... </span></span><!--[if supportFields]><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'><span style='mso-element:field-begin'></span> PAGEREF _Toc114647202 \h <span
+style='mso-element:field-separator'></span></span><![endif]--><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>4<!--[if gte mso 9]><xml>
+ <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003100310034003600340037003200300032000000</w:data>
+</xml><![endif]--></span><!--[if supportFields]><span style='font-variant:normal !important;
+text-transform:uppercase;mso-no-proof:yes'><span style='mso-element:field-end'></span></span><![endif]--><span
+style='font-size:12.0pt;font-variant:normal !important;mso-no-proof:yes'><o:p></o:p></span></p>
+
+<p class=MsoToc2 style='tab-stops:44.0pt right dotted 6.0in'><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>2.4</span><span style='font-size:12.0pt;font-variant:normal !important;
+mso-no-proof:yes'><span style='mso-tab-count:1'>       </span></span><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>Gateway Deployment<span style='mso-tab-count:1 dotted'>....................................................................................................................... </span></span><!--[if supportFields]><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'><span style='mso-element:field-begin'></span> PAGEREF _Toc114647203 \h <span
+style='mso-element:field-separator'></span></span><![endif]--><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>5<!--[if gte mso 9]><xml>
+ <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003100310034003600340037003200300033000000</w:data>
+</xml><![endif]--></span><!--[if supportFields]><span style='font-variant:normal !important;
+text-transform:uppercase;mso-no-proof:yes'><span style='mso-element:field-end'></span></span><![endif]--><span
+style='font-size:12.0pt;font-variant:normal !important;mso-no-proof:yes'><o:p></o:p></span></p>
+
+<p class=MsoToc2 style='tab-stops:44.0pt right dotted 6.0in'><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>2.5</span><span style='font-size:12.0pt;font-variant:normal !important;
+mso-no-proof:yes'><span style='mso-tab-count:1'>       </span></span><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>Sample Applications<span style='mso-tab-count:1 dotted'>.......................................................................................................................... </span></span><!--[if supportFields]><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'><span style='mso-element:field-begin'></span> PAGEREF _Toc114647204 \h <span
+style='mso-element:field-separator'></span></span><![endif]--><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>5<!--[if gte mso 9]><xml>
+ <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003100310034003600340037003200300034000000</w:data>
+</xml><![endif]--></span><!--[if supportFields]><span style='font-variant:normal !important;
+text-transform:uppercase;mso-no-proof:yes'><span style='mso-element:field-end'></span></span><![endif]--><span
+style='font-size:12.0pt;font-variant:normal !important;mso-no-proof:yes'><o:p></o:p></span></p>
+
+<p class=MsoToc1 style='tab-stops:22.0pt right dotted 6.0in'><span
+style='mso-no-proof:yes'>3.</span><span style='font-size:12.0pt;text-transform:
+none;font-weight:normal;mso-no-proof:yes'><span style='mso-tab-count:1'>     </span></span><span
+style='mso-no-proof:yes'>Authenticating an end-user<span style='mso-tab-count:
+1 dotted'>.................................................................................................................. </span></span><!--[if supportFields]><span
+style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
+_Toc114647205 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
+style='mso-no-proof:yes'>6<!--[if gte mso 9]><xml>
+ <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003100310034003600340037003200300035000000</w:data>
+</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
+style='mso-element:field-end'></span></span><![endif]--><span style='font-size:
+12.0pt;text-transform:none;font-weight:normal;mso-no-proof:yes'><o:p></o:p></span></p>
+
+<p class=MsoToc2 style='tab-stops:44.0pt right dotted 6.0in'><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>3.1</span><span style='font-size:12.0pt;font-variant:normal !important;
+mso-no-proof:yes'><span style='mso-tab-count:1'>       </span></span><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>Web-Based Applications<span style='mso-tab-count:1 dotted'>.................................................................................................................. </span></span><!--[if supportFields]><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'><span style='mso-element:field-begin'></span> PAGEREF _Toc114647206 \h <span
+style='mso-element:field-separator'></span></span><![endif]--><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>6<!--[if gte mso 9]><xml>
+ <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003100310034003600340037003200300036000000</w:data>
+</xml><![endif]--></span><!--[if supportFields]><span style='font-variant:normal !important;
+text-transform:uppercase;mso-no-proof:yes'><span style='mso-element:field-end'></span></span><![endif]--><span
+style='font-size:12.0pt;font-variant:normal !important;mso-no-proof:yes'><o:p></o:p></span></p>
+
+<p class=MsoToc2 style='tab-stops:44.0pt right dotted 6.0in'><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>3.2</span><span style='font-size:12.0pt;font-variant:normal !important;
+mso-no-proof:yes'><span style='mso-tab-count:1'>       </span></span><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>Gateway Login Page<span style='mso-tab-count:1 dotted'>........................................................................................................................... </span></span><!--[if supportFields]><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'><span style='mso-element:field-begin'></span> PAGEREF _Toc114647207 \h <span
+style='mso-element:field-separator'></span></span><![endif]--><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>7<!--[if gte mso 9]><xml>
+ <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003100310034003600340037003200300037000000</w:data>
+</xml><![endif]--></span><!--[if supportFields]><span style='font-variant:normal !important;
+text-transform:uppercase;mso-no-proof:yes'><span style='mso-element:field-end'></span></span><![endif]--><span
+style='font-size:12.0pt;font-variant:normal !important;mso-no-proof:yes'><o:p></o:p></span></p>
+
+<p class=MsoToc2 style='tab-stops:44.0pt right dotted 6.0in'><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>3.3</span><span style='font-size:12.0pt;font-variant:normal !important;
+mso-no-proof:yes'><span style='mso-tab-count:1'>       </span></span><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>HTML Frames<span style='mso-tab-count:1 dotted'>........................................................................................................................................... </span></span><!--[if supportFields]><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'><span style='mso-element:field-begin'></span> PAGEREF _Toc114647208 \h <span
+style='mso-element:field-separator'></span></span><![endif]--><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>8<!--[if gte mso 9]><xml>
+ <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003100310034003600340037003200300038000000</w:data>
+</xml><![endif]--></span><!--[if supportFields]><span style='font-variant:normal !important;
+text-transform:uppercase;mso-no-proof:yes'><span style='mso-element:field-end'></span></span><![endif]--><span
+style='font-size:12.0pt;font-variant:normal !important;mso-no-proof:yes'><o:p></o:p></span></p>
+
+<p class=MsoToc2 style='tab-stops:44.0pt right dotted 6.0in'><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>3.4</span><span style='font-size:12.0pt;font-variant:normal !important;
+mso-no-proof:yes'><span style='mso-tab-count:1'>       </span></span><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>Non Web-Based Applications<span style='mso-tab-count:1 dotted'>........................................................................................................ </span></span><!--[if supportFields]><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'><span style='mso-element:field-begin'></span> PAGEREF _Toc114647209 \h <span
+style='mso-element:field-separator'></span></span><![endif]--><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>8<!--[if gte mso 9]><xml>
+ <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003100310034003600340037003200300039000000</w:data>
+</xml><![endif]--></span><!--[if supportFields]><span style='font-variant:normal !important;
+text-transform:uppercase;mso-no-proof:yes'><span style='mso-element:field-end'></span></span><![endif]--><span
+style='font-size:12.0pt;font-variant:normal !important;mso-no-proof:yes'><o:p></o:p></span></p>
+
+<p class=MsoToc1 style='tab-stops:22.0pt right dotted 6.0in'><span
+style='mso-no-proof:yes'>4.</span><span style='font-size:12.0pt;text-transform:
+none;font-weight:normal;mso-no-proof:yes'><span style='mso-tab-count:1'>     </span></span><span
+style='mso-no-proof:yes'>Session Data<span style='mso-tab-count:1 dotted'>.................................................................................................................................................... </span></span><!--[if supportFields]><span
+style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
+_Toc114647210 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
+style='mso-no-proof:yes'>9<!--[if gte mso 9]><xml>
+ <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003100310034003600340037003200310030000000</w:data>
+</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
+style='mso-element:field-end'></span></span><![endif]--><span style='font-size:
+12.0pt;text-transform:none;font-weight:normal;mso-no-proof:yes'><o:p></o:p></span></p>
+
+<p class=MsoToc2 style='tab-stops:44.0pt right dotted 6.0in'><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>4.1</span><span style='font-size:12.0pt;font-variant:normal !important;
+mso-no-proof:yes'><span style='mso-tab-count:1'>       </span></span><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>Session ID<span style='mso-tab-count:1 dotted'>................................................................................................................................................... </span></span><!--[if supportFields]><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'><span style='mso-element:field-begin'></span> PAGEREF _Toc114647211 \h <span
+style='mso-element:field-separator'></span></span><![endif]--><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>9<!--[if gte mso 9]><xml>
+ <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003100310034003600340037003200310031000000</w:data>
+</xml><![endif]--></span><!--[if supportFields]><span style='font-variant:normal !important;
+text-transform:uppercase;mso-no-proof:yes'><span style='mso-element:field-end'></span></span><![endif]--><span
+style='font-size:12.0pt;font-variant:normal !important;mso-no-proof:yes'><o:p></o:p></span></p>
+
+<p class=MsoToc2 style='tab-stops:44.0pt right dotted 6.0in'><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>4.2</span><span style='font-size:12.0pt;font-variant:normal !important;
+mso-no-proof:yes'><span style='mso-tab-count:1'>       </span></span><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>Session Lifespan<span style='mso-tab-count:1 dotted'>.................................................................................................................................... </span></span><!--[if supportFields]><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'><span style='mso-element:field-begin'></span> PAGEREF _Toc114647212 \h <span
+style='mso-element:field-separator'></span></span><![endif]--><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>9<!--[if gte mso 9]><xml>
+ <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003100310034003600340037003200310032000000</w:data>
+</xml><![endif]--></span><!--[if supportFields]><span style='font-variant:normal !important;
+text-transform:uppercase;mso-no-proof:yes'><span style='mso-element:field-end'></span></span><![endif]--><span
+style='font-size:12.0pt;font-variant:normal !important;mso-no-proof:yes'><o:p></o:p></span></p>
+
+<p class=MsoToc2 style='tab-stops:44.0pt right dotted 6.0in'><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>4.3</span><span style='font-size:12.0pt;font-variant:normal !important;
+mso-no-proof:yes'><span style='mso-tab-count:1'>       </span></span><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>Session Sharing<span style='mso-tab-count:1 dotted'>..................................................................................................................................... </span></span><!--[if supportFields]><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'><span style='mso-element:field-begin'></span> PAGEREF _Toc114647213 \h <span
+style='mso-element:field-separator'></span></span><![endif]--><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>9<!--[if gte mso 9]><xml>
+ <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003100310034003600340037003200310033000000</w:data>
+</xml><![endif]--></span><!--[if supportFields]><span style='font-variant:normal !important;
+text-transform:uppercase;mso-no-proof:yes'><span style='mso-element:field-end'></span></span><![endif]--><span
+style='font-size:12.0pt;font-variant:normal !important;mso-no-proof:yes'><o:p></o:p></span></p>
+
+<p class=MsoToc2 style='tab-stops:44.0pt right dotted 6.0in'><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>4.4</span><span style='font-size:12.0pt;font-variant:normal !important;
+mso-no-proof:yes'><span style='mso-tab-count:1'>       </span></span><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>Session Validity and Data<span style='mso-tab-count:1 dotted'>........................................................................................................... </span></span><!--[if supportFields]><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'><span style='mso-element:field-begin'></span> PAGEREF _Toc114647214 \h <span
+style='mso-element:field-separator'></span></span><![endif]--><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>10<!--[if gte mso 9]><xml>
+ <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003100310034003600340037003200310034000000</w:data>
+</xml><![endif]--></span><!--[if supportFields]><span style='font-variant:normal !important;
+text-transform:uppercase;mso-no-proof:yes'><span style='mso-element:field-end'></span></span><![endif]--><span
+style='font-size:12.0pt;font-variant:normal !important;mso-no-proof:yes'><o:p></o:p></span></p>
+
+<p class=MsoToc2 style='tab-stops:44.0pt right dotted 6.0in'><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>4.5</span><span style='font-size:12.0pt;font-variant:normal !important;
+mso-no-proof:yes'><span style='mso-tab-count:1'>       </span></span><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>Ending a Session<span style='mso-tab-count:1 dotted'>.................................................................................................................................. </span></span><!--[if supportFields]><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'><span style='mso-element:field-begin'></span> PAGEREF _Toc114647215 \h <span
+style='mso-element:field-separator'></span></span><![endif]--><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>11<!--[if gte mso 9]><xml>
+ <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003100310034003600340037003200310035000000</w:data>
+</xml><![endif]--></span><!--[if supportFields]><span style='font-variant:normal !important;
+text-transform:uppercase;mso-no-proof:yes'><span style='mso-element:field-end'></span></span><![endif]--><span
+style='font-size:12.0pt;font-variant:normal !important;mso-no-proof:yes'><o:p></o:p></span></p>
+
+<p class=MsoToc2 style='tab-stops:44.0pt right dotted 6.0in'><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>4.6</span><span style='font-size:12.0pt;font-variant:normal !important;
+mso-no-proof:yes'><span style='mso-tab-count:1'>       </span></span><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>Java Classes<span style='mso-tab-count:1 dotted'>.......................................................................................................................................... </span></span><!--[if supportFields]><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'><span style='mso-element:field-begin'></span> PAGEREF _Toc114647216 \h <span
+style='mso-element:field-separator'></span></span><![endif]--><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>11<!--[if gte mso 9]><xml>
+ <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003100310034003600340037003200310036000000</w:data>
+</xml><![endif]--></span><!--[if supportFields]><span style='font-variant:normal !important;
+text-transform:uppercase;mso-no-proof:yes'><span style='mso-element:field-end'></span></span><![endif]--><span
+style='font-size:12.0pt;font-variant:normal !important;mso-no-proof:yes'><o:p></o:p></span></p>
+
+<p class=MsoToc3 style='tab-stops:55.0pt right dotted 6.0in'><span
+style='mso-no-proof:yes'>4.6.1</span><span style='font-size:12.0pt;font-style:
+normal;mso-no-proof:yes'><span style='mso-tab-count:1'>    </span></span><span
+style='mso-no-proof:yes'>Java Bean AuthG<span style='mso-bidi-font-weight:bold'>atewayBean</span><span
+style='mso-tab-count:1 dotted'>............................................................................................................ </span></span><!--[if supportFields]><span
+style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
+_Toc114647217 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
+style='mso-no-proof:yes'>11<!--[if gte mso 9]><xml>
+ <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003100310034003600340037003200310037000000</w:data>
+</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
+style='mso-element:field-end'></span></span><![endif]--><span style='font-size:
+12.0pt;font-style:normal;mso-no-proof:yes'><o:p></o:p></span></p>
+
+<p class=MsoToc3 style='tab-stops:55.0pt right dotted 6.0in'><span
+style='mso-no-proof:yes'>4.6.2</span><span style='font-size:12.0pt;font-style:
+normal;mso-no-proof:yes'><span style='mso-tab-count:1'>    </span></span><span
+style='mso-no-proof:yes'>Java Class <span style='mso-bidi-font-weight:bold'>SMBGatewaySession</span><span
+style='mso-tab-count:1 dotted'>....................................................................................................... </span></span><!--[if supportFields]><span
+style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
+_Toc114647218 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
+style='mso-no-proof:yes'>12<!--[if gte mso 9]><xml>
+ <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003100310034003600340037003200310038000000</w:data>
+</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
+style='mso-element:field-end'></span></span><![endif]--><span style='font-size:
+12.0pt;font-style:normal;mso-no-proof:yes'><o:p></o:p></span></p>
+
+<p class=MsoToc3 style='tab-stops:55.0pt right dotted 6.0in'><span
+style='mso-no-proof:yes'>4.6.3</span><span style='font-size:12.0pt;font-style:
+normal;mso-no-proof:yes'><span style='mso-tab-count:1'>    </span></span><span
+style='mso-no-proof:yes'>Java Bean SMBGatewayBean<span style='mso-tab-count:
+1 dotted'>............................................................................................................ </span></span><!--[if supportFields]><span
+style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
+_Toc114647219 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
+style='mso-no-proof:yes'>12<!--[if gte mso 9]><xml>
+ <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003100310034003600340037003200310039000000</w:data>
+</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
+style='mso-element:field-end'></span></span><![endif]--><span style='font-size:
+12.0pt;font-style:normal;mso-no-proof:yes'><o:p></o:p></span></p>
+
+<p class=MsoToc1 style='tab-stops:22.0pt right dotted 6.0in'><span
+style='mso-no-proof:yes'>5.</span><span style='font-size:12.0pt;text-transform:
+none;font-weight:normal;mso-no-proof:yes'><span style='mso-tab-count:1'>     </span></span><span
+style='mso-no-proof:yes'>Authentication Methods<span style='mso-tab-count:1 dotted'>...................................................................................................................... </span></span><!--[if supportFields]><span
+style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
+_Toc114647220 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
+style='mso-no-proof:yes'>13<!--[if gte mso 9]><xml>
+ <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003100310034003600340037003200320030000000</w:data>
+</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
+style='mso-element:field-end'></span></span><![endif]--><span style='font-size:
+12.0pt;text-transform:none;font-weight:normal;mso-no-proof:yes'><o:p></o:p></span></p>
+
+<p class=MsoToc2 style='tab-stops:44.0pt right dotted 6.0in'><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>5.1</span><span style='font-size:12.0pt;font-variant:normal !important;
+mso-no-proof:yes'><span style='mso-tab-count:1'>       </span></span><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>Required Components<span style='mso-tab-count:1 dotted'>...................................................................................................................... </span></span><!--[if supportFields]><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'><span style='mso-element:field-begin'></span> PAGEREF _Toc114647221 \h <span
+style='mso-element:field-separator'></span></span><![endif]--><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>13<!--[if gte mso 9]><xml>
+ <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003100310034003600340037003200320031000000</w:data>
+</xml><![endif]--></span><!--[if supportFields]><span style='font-variant:normal !important;
+text-transform:uppercase;mso-no-proof:yes'><span style='mso-element:field-end'></span></span><![endif]--><span
+style='font-size:12.0pt;font-variant:normal !important;mso-no-proof:yes'><o:p></o:p></span></p>
+
+<p class=MsoToc2 style='tab-stops:44.0pt right dotted 6.0in'><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>5.2</span><span style='font-size:12.0pt;font-variant:normal !important;
+mso-no-proof:yes'><span style='mso-tab-count:1'>       </span></span><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>AuthGatewayMethods.xml<span style='mso-tab-count:1 dotted'>....................................................................................................... </span></span><!--[if supportFields]><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'><span style='mso-element:field-begin'></span> PAGEREF _Toc114647222 \h <span
+style='mso-element:field-separator'></span></span><![endif]--><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>13<!--[if gte mso 9]><xml>
+ <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003100310034003600340037003200320032000000</w:data>
+</xml><![endif]--></span><!--[if supportFields]><span style='font-variant:normal !important;
+text-transform:uppercase;mso-no-proof:yes'><span style='mso-element:field-end'></span></span><![endif]--><span
+style='font-size:12.0pt;font-variant:normal !important;mso-no-proof:yes'><o:p></o:p></span></p>
+
+<p class=MsoToc2 style='tab-stops:44.0pt right dotted 6.0in'><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>5.3</span><span style='font-size:12.0pt;font-variant:normal !important;
+mso-no-proof:yes'><span style='mso-tab-count:1'>       </span></span><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>Authentication Method Class Files<span style='mso-tab-count:1 dotted'>..................................................................................... </span></span><!--[if supportFields]><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'><span style='mso-element:field-begin'></span> PAGEREF _Toc114647223 \h <span
+style='mso-element:field-separator'></span></span><![endif]--><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>14<!--[if gte mso 9]><xml>
+ <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003100310034003600340037003200320033000000</w:data>
+</xml><![endif]--></span><!--[if supportFields]><span style='font-variant:normal !important;
+text-transform:uppercase;mso-no-proof:yes'><span style='mso-element:field-end'></span></span><![endif]--><span
+style='font-size:12.0pt;font-variant:normal !important;mso-no-proof:yes'><o:p></o:p></span></p>
+
+<p class=MsoToc2 style='tab-stops:44.0pt right dotted 6.0in'><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>5.4</span><span style='font-size:12.0pt;font-variant:normal !important;
+mso-no-proof:yes'><span style='mso-tab-count:1'>       </span></span><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>Package Files<span style='mso-tab-count:1 dotted'>........................................................................................................................................ </span></span><!--[if supportFields]><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'><span style='mso-element:field-begin'></span> PAGEREF _Toc114647224 \h <span
+style='mso-element:field-separator'></span></span><![endif]--><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>14<!--[if gte mso 9]><xml>
+ <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003100310034003600340037003200320034000000</w:data>
+</xml><![endif]--></span><!--[if supportFields]><span style='font-variant:normal !important;
+text-transform:uppercase;mso-no-proof:yes'><span style='mso-element:field-end'></span></span><![endif]--><span
+style='font-size:12.0pt;font-variant:normal !important;mso-no-proof:yes'><o:p></o:p></span></p>
+
+<p class=MsoToc2 style='tab-stops:44.0pt right dotted 6.0in'><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>5.5</span><span style='font-size:12.0pt;font-variant:normal !important;
+mso-no-proof:yes'><span style='mso-tab-count:1'>       </span></span><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>User Authentication Gateway Java Classes<span style='mso-tab-count:1 dotted'>.................................................................. </span></span><!--[if supportFields]><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'><span style='mso-element:field-begin'></span> PAGEREF _Toc114647225 \h <span
+style='mso-element:field-separator'></span></span><![endif]--><span
+style='font-variant:normal !important;text-transform:uppercase;mso-no-proof:
+yes'>14<!--[if gte mso 9]><xml>
+ <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003100310034003600340037003200320035000000</w:data>
+</xml><![endif]--></span><!--[if supportFields]><span style='font-variant:normal !important;
+text-transform:uppercase;mso-no-proof:yes'><span style='mso-element:field-end'></span></span><![endif]--><span
+style='font-size:12.0pt;font-variant:normal !important;mso-no-proof:yes'><o:p></o:p></span></p>
+
+<p class=MsoToc3 style='tab-stops:55.0pt right dotted 6.0in'><span
+style='mso-no-proof:yes'>5.5.1</span><span style='font-size:12.0pt;font-style:
+normal;mso-no-proof:yes'><span style='mso-tab-count:1'>    </span></span><span
+style='mso-no-proof:yes'>Servlets<span style='mso-tab-count:1 dotted'>.................................................................................................................................................... </span></span><!--[if supportFields]><span
+style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
+_Toc114647226 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
+style='mso-no-proof:yes'>14<!--[if gte mso 9]><xml>
+ <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003100310034003600340037003200320036000000</w:data>
+</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
+style='mso-element:field-end'></span></span><![endif]--><span style='font-size:
+12.0pt;font-style:normal;mso-no-proof:yes'><o:p></o:p></span></p>
+
+<p class=MsoToc3 style='tab-stops:55.0pt right dotted 6.0in'><span
+style='mso-no-proof:yes'>5.5.2</span><span style='font-size:12.0pt;font-style:
+normal;mso-no-proof:yes'><span style='mso-tab-count:1'>    </span></span><span
+style='mso-no-proof:yes'>Utility Classes<span style='mso-tab-count:1 dotted'>........................................................................................................................................ </span></span><!--[if supportFields]><span
+style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
+_Toc114647227 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
+style='mso-no-proof:yes'>15<!--[if gte mso 9]><xml>
+ <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003100310034003600340037003200320037000000</w:data>
+</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
+style='mso-element:field-end'></span></span><![endif]--><span style='font-size:
+12.0pt;font-style:normal;mso-no-proof:yes'><o:p></o:p></span></p>
+
+<p class=MsoToc3 style='tab-stops:55.0pt right dotted 6.0in'><span
+style='mso-no-proof:yes'>5.5.3</span><span style='font-size:12.0pt;font-style:
+normal;mso-no-proof:yes'><span style='mso-tab-count:1'>    </span></span><span
+style='mso-no-proof:yes'>Authentication Method classes<span style='mso-tab-count:
+1 dotted'>.......................................................................................................... </span></span><!--[if supportFields]><span
+style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
+_Toc114647228 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
+style='mso-no-proof:yes'>15<!--[if gte mso 9]><xml>
+ <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003100310034003600340037003200320038000000</w:data>
+</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
+style='mso-element:field-end'></span></span><![endif]--><span style='font-size:
+12.0pt;font-style:normal;mso-no-proof:yes'><o:p></o:p></span></p>
+
+<p class=MsoToc3 style='tab-stops:55.0pt right dotted 6.0in'><span
+style='mso-no-proof:yes'>5.5.4</span><span style='font-size:12.0pt;font-style:
+normal;mso-no-proof:yes'><span style='mso-tab-count:1'>    </span></span><span
+style='mso-no-proof:yes'>Test Applications<span style='mso-tab-count:1 dotted'>.................................................................................................................................. </span></span><!--[if supportFields]><span
+style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
+_Toc114647229 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
+style='mso-no-proof:yes'>15<!--[if gte mso 9]><xml>
+ <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003100310034003600340037003200320039000000</w:data>
+</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
+style='mso-element:field-end'></span></span><![endif]--><span style='font-size:
+12.0pt;font-style:normal;mso-no-proof:yes'><o:p></o:p></span></p>
+
+<p class=TOCBase><!--[if supportFields]><span style='mso-element:field-end'></span><![endif]--><o:p>&nbsp;</o:p></p>
+
+<p class=TOCBase><o:p>&nbsp;</o:p></p>
+
+<p class=TOCBase><o:p>&nbsp;</o:p></p>
+
+<p class=TOCBase><o:p>&nbsp;</o:p></p>
+
+<p class=TOCBase><o:p>&nbsp;</o:p></p>
+
+</div>
+
+<span style='font-size:10.0pt;font-family:Arial;mso-fareast-font-family:"Times New Roman";
+mso-bidi-font-family:"Times New Roman";mso-ansi-language:EN-US;mso-fareast-language:
+EN-US;mso-bidi-language:AR-SA'><br clear=all style='page-break-before:always;
+mso-break-type:section-break'>
+</span>
+
+<div class=Section2>
+
+<div style='mso-element:para-border-div;border:none;border-bottom:solid windowtext 1.0pt;
+mso-border-bottom-alt:solid windowtext .75pt;padding:0in 0in 3.0pt 0in'>
+
+<h1 style='margin-left:0in;text-indent:0in'><a name="_Toc114647192"></a><a
+name="_Toc372026946"><span style='mso-bookmark:_Toc114647192'><![if !supportLists]><span
+style='mso-fareast-font-family:Arial;mso-bidi-font-family:Arial'><span
+style='mso-list:Ignore'>1.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]>iNTRODUCTION</span></a></h1>
+
+</div>
+
+<h2 style='margin-left:0in;text-indent:0in'><a name="_Toc372026947"></a><a
+name="_Toc359313088"></a><a name="_Ref359310985"></a><a name="_Ref359310908"></a><a
+name="_Ref359310905"></a><a name="_Toc114647193"></a><a name="_Toc371829276"><span
+style='mso-bookmark:_Toc114647193'><span style='mso-bookmark:_Ref359310905'><span
+style='mso-bookmark:_Ref359310908'><span style='mso-bookmark:_Ref359310985'><span
+style='mso-bookmark:_Toc359313088'><span style='mso-bookmark:_Toc372026947'><![if !supportLists]><span
+style='mso-fareast-font-family:Arial;mso-bidi-font-family:Arial'><span
+style='mso-list:Ignore'>1.1<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]>Document Summary</span></span></span></span></span></span></a><span
+style='mso-bookmark:_Ref359310905'><span style='mso-bookmark:_Ref359310908'><span
+style='mso-bookmark:_Ref359310985'><span style='mso-bookmark:_Toc359313088'><span
+style='mso-bookmark:_Toc372026947'></span></span></span></span></span></h2>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'><span style='mso-bookmark:_Ref359310905'><span
+style='mso-bookmark:_Ref359310908'><span style='mso-bookmark:_Ref359310985'><span
+style='mso-bookmark:_Toc359313088'><span style='mso-bookmark:_Toc372026947'>This
+document provides a detailed functional specification of the API and user
+interface for version 3.0 of the User Authentication Gateway. </span></span></span></span></span></p>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'><span style='mso-bookmark:_Ref359310905'><span
+style='mso-bookmark:_Ref359310908'><span style='mso-bookmark:_Ref359310985'><span
+style='mso-bookmark:_Toc359313088'><span style='mso-bookmark:_Toc372026947'>The
+User Authentication Gateway is a back-end user authentication system to which
+any HTTP-enabled web or stand-alone application may interface. The gateway will
+authenticate userid/password combinations and, in its default implementation,
+will create sessions for authenticated users that contain information about the
+user including (but not limited to) user name, staff membership, and beamline
+access permissions.<span style='mso-spacerun:yes'>  </span></span></span></span></span></span></p>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'><span style='mso-bookmark:_Ref359310905'><span
+style='mso-bookmark:_Ref359310908'><span style='mso-bookmark:_Ref359310985'><span
+style='mso-bookmark:_Toc359313088'><span style='mso-bookmark:_Toc372026947'>It
+will be incumbent upon individual applications to perform user authentication,
+either by forwarding the user’s browser to the gateway’s login page (in the
+case of web applications), or by submitting a userid/password combination
+directly (in the case of non-web applications). It will also be incumbent upon
+individual applications to check for session timeouts and to check other
+information about the user generated by the authentication method.</span></span></span></span></span></p>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'><span style='mso-bookmark:_Ref359310905'><span
+style='mso-bookmark:_Ref359310908'><span style='mso-bookmark:_Ref359310985'><span
+style='mso-bookmark:_Toc359313088'><span style='mso-bookmark:_Toc372026947'>The
+gateway comes complete with a simple authentication method that may be used
+“out-of-the-box” with implementations of Blu-Ice and Web-Ice. The gateway is
+also extensible and you may add your own authentication methods.</span></span></span></span></span></p>
+
+<h2 style='margin-left:0in;text-indent:0in'><span style='mso-bookmark:_Ref359310905'><span
+style='mso-bookmark:_Ref359310908'><span style='mso-bookmark:_Ref359310985'><span
+style='mso-bookmark:_Toc359313088'><span style='mso-bookmark:_Toc372026947'><a
+name="_Toc114647194"><![if !supportLists]><span style='mso-fareast-font-family:
+Arial;mso-bidi-font-family:Arial'><span style='mso-list:Ignore'>1.2<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]>User
+Authentication Gateway Clients</a></span></span></span></span></span></h2>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'><span style='mso-bookmark:_Ref359310905'><span
+style='mso-bookmark:_Ref359310908'><span style='mso-bookmark:_Ref359310985'><span
+style='mso-bookmark:_Toc359313088'><span style='mso-bookmark:_Toc372026947'>Clients
+of the software described in this document may be either of the following:</span></span></span></span></span></p>
+
+<ol style='margin-top:0in' start=1 type=1>
+ <li class=MsoNormal style='margin-bottom:6.0pt;margin-left:.5in;mso-list:l28 level1 lfo22;
+     tab-stops:list .5in'><span style='mso-bookmark:_Ref359310905'><span
+     style='mso-bookmark:_Ref359310908'><span style='mso-bookmark:_Ref359310985'><span
+     style='mso-bookmark:_Toc359313088'><span style='mso-bookmark:_Toc372026947'>Any
+     web-based application that is accessible to users via web browser from any
+     intranet or Internet-enabled location. Please note that the only direct
+     interaction between the end-user’s web browser and the gateway itself will
+     be the user’s login screen. All other interaction will be between the
+     web-based application’s server (whose IP address must be previously known
+     to the gateway) and the gateway.</span></span></span></span></span></li>
+ <li class=MsoNormal style='margin-bottom:6.0pt;margin-left:.5in;mso-list:l28 level1 lfo22;
+     tab-stops:list .5in'><span style='mso-bookmark:_Ref359310905'><span
+     style='mso-bookmark:_Ref359310908'><span style='mso-bookmark:_Ref359310985'><span
+     style='mso-bookmark:_Toc359313088'><span style='mso-bookmark:_Toc372026947'>Any
+     non-web based application that would like to do user authentication and
+     that is running on a system whose IP address is previously known to the
+     gateway.</span></span></span></span></span></li>
+</ol>
+
+<h2 style='margin-left:0in;text-indent:0in'><span style='mso-bookmark:_Ref359310905'><span
+style='mso-bookmark:_Ref359310908'><span style='mso-bookmark:_Ref359310985'><span
+style='mso-bookmark:_Toc359313088'><span style='mso-bookmark:_Toc372026947'><a
+name="_Toc114647195"><![if !supportLists]><span style='mso-fareast-font-family:
+Arial;mso-bidi-font-family:Arial'><span style='mso-list:Ignore'>1.3<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]>Platforms</a></span></span></span></span></span></h2>
+
+<p class=MsoListNumber2 style='mso-list:l16 level1 lfo2'><span
+style='mso-bookmark:_Ref359310905'><span style='mso-bookmark:_Ref359310908'><span
+style='mso-bookmark:_Ref359310985'><span style='mso-bookmark:_Toc359313088'><span
+style='mso-bookmark:_Toc372026947'><![if !supportLists]><span style='mso-fareast-font-family:
+Arial;mso-bidi-font-family:Arial'><span style='mso-list:Ignore'>1.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]>Server-side
+components of the User Authentication Gateway were implemented using Java
+Servlets and have been tested using Apache’s Tomcat servlet container (versions
+4.1 and 5.5). Please see section 2 for information on deploying the gateway on
+your Tomcat installation.</span></span></span></span></span></p>
+
+<p class=MsoListNumber2 style='mso-list:l16 level1 lfo2'><span
+style='mso-bookmark:_Ref359310905'><span style='mso-bookmark:_Ref359310908'><span
+style='mso-bookmark:_Ref359310985'><span style='mso-bookmark:_Toc359313088'><span
+style='mso-bookmark:_Toc372026947'><![if !supportLists]><span style='mso-fareast-font-family:
+Arial;mso-bidi-font-family:Arial'><span style='mso-list:Ignore'>2.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]>User
+Authentication Gateway Clients (described above) may be implemented on any
+platform that can provide an HTTP connection to the gateway.<span
+style='mso-spacerun:yes'>  </span>The IP addresses of client systems (application
+servers or stand-alone applications) must be made known to the gateway via its
+configuration file.</span></span></span></span></span></p>
+
+<p class=MsoListNumber2 style='mso-list:l16 level1 lfo2'><span
+style='mso-bookmark:_Ref359310905'><span style='mso-bookmark:_Ref359310908'><span
+style='mso-bookmark:_Ref359310985'><span style='mso-bookmark:_Toc359313088'><span
+style='mso-bookmark:_Toc372026947'><![if !supportLists]><span style='mso-fareast-font-family:
+Arial;mso-bidi-font-family:Arial'><span style='mso-list:Ignore'>3.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]>End-user
+browser-based components of gateway (currently limited to the login screen)
+will be implemented using simple HTML only. </span></span></span></span></span></p>
+
+<p class=MsoListNumber2 style='mso-list:l16 level1 lfo2'><span
+style='mso-bookmark:_Ref359310905'><span style='mso-bookmark:_Ref359310908'><span
+style='mso-bookmark:_Ref359310985'><span style='mso-bookmark:_Toc359313088'><span
+style='mso-bookmark:_Toc372026947'><![if !supportLists]><span style='mso-fareast-font-family:
+Arial;mso-bidi-font-family:Arial'><span style='mso-list:Ignore'>4.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]>In
+order to access the User Authentication Gateway, end-users will be required to
+use current versions of web browsers that support secure (SSL) connections. In
+order to maintain the security of session ids and user information, it is
+strongly recommended that all applications use SSL to communicate between the
+application server and the end-user’s web browser. It is also recommended that
+end-users use web browsers be enabled for session-level cookies, although it
+will be left up to individual web applications if enabled cookies are a
+requirement. Web applications may choose to pass session ids to the gateway in
+the form of URL parameters instead of as cookies.</span></span></span></span></span></p>
+
+<h2 style='margin-left:0in;text-indent:0in'><span style='mso-bookmark:_Ref359310905'><span
+style='mso-bookmark:_Ref359310908'><span style='mso-bookmark:_Ref359310985'><span
+style='mso-bookmark:_Toc359313088'><span style='mso-bookmark:_Toc372026947'><a
+name="_Toc114647196"><![if !supportLists]><span style='mso-fareast-font-family:
+Arial;mso-bidi-font-family:Arial'><span style='mso-list:Ignore'>1.4<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]>Cookies</a></span></span></span></span></span></h2>
+
+<p class=MsoBodyText align=left style='text-align:left'><span style='mso-bookmark:
+_Ref359310905'><span style='mso-bookmark:_Ref359310908'><span style='mso-bookmark:
+_Ref359310985'><span style='mso-bookmark:_Toc359313088'><span style='mso-bookmark:
+_Toc372026947'>Cookies are a common, and sometimes controversial, means by
+which a web-based application may store user, session, application state, or
+other data on an end-user’s system. Cookies are transmitted to by an
+application to a web-browser via a text-string in the HTTP header of a web
+page.<span style='mso-spacerun:yes'>  </span>Cookies may be stored permanently
+(or for a specified period of time) on a user’s system, or they may exist only
+for the life of the user’s current session (that is until the user closes the
+web browser).<span style='mso-spacerun:yes'>  </span>These temporary cookies
+are sometimes known as Session Cookies.</span></span></span></span></span></p>
+
+<p class=MsoBodyText align=left style='text-align:left'><span style='mso-bookmark:
+_Ref359310905'><span style='mso-bookmark:_Ref359310908'><span style='mso-bookmark:
+_Ref359310985'><span style='mso-bookmark:_Toc359313088'><span style='mso-bookmark:
+_Toc372026947'>Session cookies are commonly used to maintain authentication
+data during an end-user’s session so that the end-user need only log in once,
+at the start of the session, to a web application’s domain. This allows the
+end-user to go from page to page within an application, or from application to
+application within a domain, without having to endure multiple login screens.
+Many web application domains, such as Yahoo, telephone companies, banks, and
+credit card companies, require the end-user to enable session cookies on their
+browsers before the user may log in to an application. Other web application
+domains do not require cookies, choosing instead to store user authentication
+data within the URL of every web page.</span></span></span></span></span></p>
+
+<p class=MsoBodyText align=left style='text-align:left'><span style='mso-bookmark:
+_Ref359310905'><span style='mso-bookmark:_Ref359310908'><span style='mso-bookmark:
+_Ref359310985'><span style='mso-bookmark:_Toc359313088'><span style='mso-bookmark:
+_Toc372026947'>Allowing cookies provides the end-user with easy access between
+web pages and applications, since session data will be automatically
+transmitted to all web applications within the defined domain. Cookies also
+provide a layer of security, in that session data is hidden from the user and
+sessions are limited to the user’s web-browser session. End-users need not
+worry about privacy concerns since the cookie disappears when the web browser
+is closed; no permanent data is written to the user’s system, and, in the case
+of the User Authentication Gateway, no 3<sup>rd</sup>-party cookies are used.
+Esthetically, the use of cookies provides a cleaner URL to the user, hiding
+much of the inner workings of session management.</span></span></span></span></span></p>
+
+<p class=MsoBodyText align=left style='text-align:left'><span style='mso-bookmark:
+_Ref359310905'><span style='mso-bookmark:_Ref359310908'><span style='mso-bookmark:
+_Ref359310985'><span style='mso-bookmark:_Toc359313088'><span style='mso-bookmark:
+_Toc372026947'>URL-based session management also has certain advantages.
+Debugging a web-application is easier, since the developer can open a new
+browser and type the session id into the URL, thereby skipping a login step. It
+also allows the end-user to open multiple browsers on multiple computers,
+sharing a session across systems by manually keying (or cutting and pasting)
+the session id into the URL. In theory, the end-user could share the session id
+with a user-support person when requesting help. (For the security conscious,
+however, these are all arguments against URL-based session ids).</span></span></span></span></span></p>
+
+<p class=MsoBodyText align=left style='text-align:left'><span style='mso-bookmark:
+_Ref359310905'><span style='mso-bookmark:_Ref359310908'><span style='mso-bookmark:
+_Ref359310985'><span style='mso-bookmark:_Toc359313088'><span style='mso-bookmark:
+_Toc372026947'>The User Authentication Gateway will allow client applications
+to work using either cookie-based or URL-based session data.<span
+style='mso-spacerun:yes'>  </span>Individual web applications may choose which
+method they will use.</span></span></span></span></span></p>
+
+<h2 style='margin-left:0in;text-indent:0in'><span style='mso-bookmark:_Ref359310905'><span
+style='mso-bookmark:_Ref359310908'><span style='mso-bookmark:_Ref359310985'><span
+style='mso-bookmark:_Toc359313088'><span style='mso-bookmark:_Toc372026947'><a
+name="_Toc114647197"><![if !supportLists]><span style='mso-fareast-font-family:
+Arial;mso-bidi-font-family:Arial'><span style='mso-list:Ignore'>1.5<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]>References</a></span></span></span></span></span></h2>
+
+<h2 style='margin-left:0in;text-indent:0in'><a name="_Toc114647198"></a><a
+name="_Toc372026951"></a><a name="_Toc359313094"><span style='mso-bookmark:
+_Toc372026951'><span style='mso-bookmark:_Toc114647198'><![if !supportLists]><span
+style='mso-fareast-font-family:Arial;mso-bidi-font-family:Arial'><span
+style='mso-list:Ignore'>1.6<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]>Revision Histor</span></span></a><span
+style='mso-bookmark:_Toc372026951'><span style='mso-bookmark:_Toc114647198'>y</span></span></h2>
+
+<p class=MsoBodyText>Kenneth R. Sharp<span style='mso-tab-count:1'>          </span>V1.0<span
+style='mso-tab-count:1'>     </span>04/15/02<span style='mso-tab-count:1'>            </span>Initial
+Version.</p>
+
+<p class=MsoBodyText>Kenneth R. Sharp<span style='mso-tab-count:1'>          </span>V1.1<span
+style='mso-tab-count:1'>     </span>04/18/02<span style='mso-tab-count:1'>            </span>Updated
+Draft</p>
+
+<p class=MsoBodyText>Kenneth R. Sharp<span style='mso-tab-count:1'>          </span>V1.2<span
+style='mso-tab-count:1'>     </span>05/03/02<span style='mso-tab-count:1'>            </span>Updated
+Draft</p>
+
+<p class=MsoBodyText>Kenneth R. Sharp<span style='mso-tab-count:1'>          </span>V1.3<span
+style='mso-tab-count:1'>     </span>07/22/02<span style='mso-tab-count:1'>            </span>Updated
+with v1 development changes</p>
+
+<p class=MsoBodyText>Kenneth R. Sharp<span style='mso-tab-count:1'>          </span>V1.4<span
+style='mso-tab-count:1'>     </span>10/31/02<span style='mso-tab-count:1'>            </span>Updated
+with new Staff and Priv changes</p>
+
+<p class=MsoBodyText>Kenneth R. Sharp<span style='mso-tab-count:1'>          </span>V2.0.0<span
+style='mso-tab-count:1'>   </span>07/17/03<span style='mso-tab-count:1'>            </span>Updated
+to reflect broader architecture.</p>
+
+<p class=MsoBodyText>Kenneth R. Sharp<span style='mso-tab-count:1'>          </span>V3.0.0<span
+style='mso-tab-count:1'>   </span>09/15/05<span style='mso-tab-count:1'>            </span>Updated
+to remove all SMB/SSRL dependencies <span style='mso-tab-count:4'>                                     </span><span
+style='mso-tab-count:2'>                        </span>and to provide a new
+simple authentication <span style='mso-tab-count:7'>                                                                                  </span>method.</p>
+
+<div style='mso-element:para-border-div;border:none;border-bottom:solid windowtext 1.0pt;
+mso-border-bottom-alt:solid windowtext .75pt;padding:0in 0in 3.0pt 0in'>
+
+<h1 style='margin-left:0in;text-indent:0in'><a name="_Toc114647199"><![if !supportLists]><span
+style='mso-fareast-font-family:Arial;mso-bidi-font-family:Arial'><span
+style='mso-list:Ignore'>2.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]>getting started</a></h1>
+
+</div>
+
+<h2 style='margin-left:0in;text-indent:0in'><a name="_Toc114647200"><![if !supportLists]><span
+style='mso-fareast-font-family:Arial;mso-bidi-font-family:Arial'><span
+style='mso-list:Ignore'>2.1<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]>Tomcat Installation</a></h2>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'>The User Authentication Gateway has been developed and tested
+using Apache Tomcat versions 4.1 and 5.5. While the gateway should run with any
+servlet-specification compliant container, we recommend Tomcat if you are new
+to servlet containers.</p>
+
+<p class=MsoNormal style='margin-bottom:6.0pt;text-indent:-.25in;mso-list:l28 level4 lfo22;
+tab-stops:list .5in'><![if !supportLists]><span style='mso-fareast-font-family:
+Arial;mso-bidi-font-family:Arial'><span style='mso-list:Ignore'>1.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]>Download
+Tomcat from <a href="http://jakarta.apache.org/tomcat/index.html">http://jakarta.apache.org/tomcat/index.html</a>
+and follow its instructions for installation. Its default port for HTTP access
+is 8080, but can be changed in the Tomcat configuration file.</p>
+
+<p class=MsoNormal style='margin-bottom:6.0pt;text-indent:-.25in;mso-list:l28 level4 lfo22;
+tab-stops:list .5in'><![if !supportLists]><span style='mso-fareast-font-family:
+Arial;mso-bidi-font-family:Arial'><span style='mso-list:Ignore'>2.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]>You
+must enable SSL support in Tomcat for user access to the WEBLOGIN servlet. It
+is also highly recommended that web and stand-alone applications communicate
+with the gateway using SSL as well. See the “SSL Configuration HOW-TO” page in
+the Tomcat documentation for more information. The default port for HTTPS
+access is 8443, but can be changed in the Tomcat configuration file.</p>
+
+<p class=MsoNormal style='margin-bottom:6.0pt;text-indent:-.25in;mso-list:l28 level4 lfo22;
+tab-stops:list .5in'><![if !supportLists]><span style='mso-fareast-font-family:
+Arial;mso-bidi-font-family:Arial'><span style='mso-list:Ignore'>3.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]>Copy
+the file “gatewayConfig.jar” to Tomcats /conf directory use “jar –xvf
+gatewayConfig.jar” to unpack its files into the directory.</p>
+
+<h2 style='margin-left:0in;text-indent:0in'><a name="_Toc114647201"><![if !supportLists]><span
+style='mso-fareast-font-family:Arial;mso-bidi-font-family:Arial'><span
+style='mso-list:Ignore'>2.2<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]>Other Servlet Containers</a></h2>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'>If you are using a servlet container other than Tomcat for the
+User Authentication Gateway, please see its instructions for enabling SSL
+support and for deploying the gateway servlet context.</p>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'>Copy the file “gatewayConfig.jar” into the containers
+configuration directory or some other location where only the container has
+access to them. You may need to change code references to “catalina.base” in
+AuthenticationInit.java, SMBAuth_SimpleUserDB.java, and SimpleAuth_Test1.java
+to the directory containing these files.</p>
+
+<h2 style='margin-left:0in;text-indent:0in'><a name="_Toc114647202"><![if !supportLists]><span
+style='mso-fareast-font-family:Arial;mso-bidi-font-family:Arial'><span
+style='mso-list:Ignore'>2.3<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]>Gateway Configuration Files</a></h2>
+
+<ol style='margin-top:0in' start=1 type=1>
+ <li class=MsoNormal style='margin-bottom:6.0pt;margin-left:.5in;mso-list:l24 level1 lfo29;
+     tab-stops:list .5in'>Modify the file AuthGatewayApps.xml to include valid
+     application names which will be passed as parameters in gateway URLs. The
+     file comes pre-configured with application names: SMBTest, BluIce, and
+     WebIce.</li>
+ <li class=MsoNormal style='margin-bottom:6.0pt;margin-left:.5in;mso-list:l24 level1 lfo29;
+     tab-stops:list .5in'>Modify the file AuthGatewaySystems.xml to include the
+     hostname and IP address of any systems that will host web or stand-alone
+     applications that utilize the gateway. The file comes pre-configured with
+     hostname “localhost” at IP address “127.0.0.1”.</li>
+ <li class=MsoNormal style='margin-bottom:6.0pt;margin-left:.5in;mso-list:l24 level1 lfo29;
+     tab-stops:list .5in'>Modify the file AuthGatewayMethods.xml as follows if
+     you are planning to use the gateway’s default functionality with Blu-Ice
+     or Web-Ice: modify the “domain” tag to reflect the domain for which
+     cookies will be valid, modify the “login_” tags to point to HTML files
+     that you would like to include in the HEAD and BODY of the WEBLOGIN page,
+     and add any additional properties you would like the gateway to store in a
+     user session. The default properties included are ones expected by Blu-Ice
+     and Web-Ice.</li>
+ <li class=MsoNormal style='margin-bottom:6.0pt;margin-left:.5in;mso-list:l24 level1 lfo29;
+     tab-stops:list .5in'>Modify the file SimpleUserDB.xml as follows if you
+     are planning to use the gateway’s default functionality, especially with
+     Blu-Ice or Web-Ice: modify the “AllBeamlines” tag to include the names of
+     all your beamlines (ex. BL9-1;BL9-2), and add users defining all the
+     properties shown in the sample users included as defaults.</li>
+ <li class=MsoNormal style='margin-bottom:6.0pt;margin-left:.5in;mso-list:l24 level1 lfo29;
+     tab-stops:list .5in'>If you are planning to implement your own
+     authentication method, please see section 5: Authentication Methods.</li>
+</ol>
+
+<h2 style='margin-left:0in;text-indent:0in'><a name="_Toc114647203"><![if !supportLists]><span
+style='mso-fareast-font-family:Arial;mso-bidi-font-family:Arial'><span
+style='mso-list:Ignore'>2.4<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]>Gateway Deployment</a></h2>
+
+<p class=MsoBodyText align=left style='text-align:left'>For Tomcat
+installations, copy the file “gateway.war” to Tomcat’s /webapps directory.<span
+style='mso-spacerun:yes'>  </span>If Tomcat is configured for auto-deployment the
+gateway servlets will be loaded automatically. If not, use the Tomcat manager
+application to deploy and start the gateway application.</p>
+
+<p class=MsoBodyText align=left style='text-align:left'>For non-Tomcat
+installations, please read the servlet container’s instructions for deploying
+applications.</p>
+
+<h2 style='margin-left:0in;text-indent:0in'><a name="_Toc114647204"><![if !supportLists]><span
+style='mso-fareast-font-family:Arial;mso-bidi-font-family:Arial'><span
+style='mso-list:Ignore'>2.5<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]>Sample Applications</a></h2>
+
+<p class=MsoBodyText align=left style='text-align:left'>A sample web
+application and a sample stand-alone application are included in the file
+“gatewayTest.jar”. </p>
+
+<p class=MsoBodyText align=left style='text-align:left'>The web application can
+be run by extracting the file “SimpleAuth_Test1.class” from the jar file into a
+servlet context such as the “examples” context in Tomcat. SimpleAuth_Test1 is a
+servlet which will exercise the gateway via the WEBLOGIN, SessionStatus, and
+EndSession servlets.</p>
+
+<p class=MsoBodyText align=left style='text-align:left'>The stand-alone
+application exercises the gateway using the AuthGateayBean utility class and
+the APPFORWARD servlet. It requires that you first extract the file
+“authUtility.jar”<span style='mso-spacerun:yes'>  </span>from “gateway.war”
+into whichever directory you place “gatewayTest.jar”. Run the application with
+the command (Unix):</p>
+
+<p class=MsoBodyText align=left style='text-align:left'>java –cp
+authUtility.jar:gatewayTest.jar AuthGatewayTest</p>
+
+<p class=MsoBodyText align=left style='text-align:left'>or (Windows):</p>
+
+<p class=MsoBodyText align=left style='text-align:left'>java –cp
+authUtility.jar;gatewayTest.jar AuthGatewayTest</p>
+
+<p class=MsoBodyText align=left style='text-align:left'><o:p>&nbsp;</o:p></p>
+
+<p class=MsoBodyText align=left style='text-align:left'><o:p>&nbsp;</o:p></p>
+
+<div style='mso-element:para-border-div;border:none;border-bottom:solid windowtext 1.0pt;
+mso-border-bottom-alt:solid windowtext .75pt;padding:0in 0in 3.0pt 0in'>
+
+<h1 style='margin-left:0in;text-indent:0in'><a name="_Toc114647205"><![if !supportLists]><span
+style='mso-fareast-font-family:Arial;mso-bidi-font-family:Arial'><span
+style='mso-list:Ignore'>3.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]>Authenticating an end-user</a></h1>
+
+</div>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'>An end-user of an application has been authenticated if the
+application receives a valid Session ID (SMBSessionID, in the case of SMB
+applications) as part of the end-user’s request. Please see section 4, Session
+Data, for information on retrieving the Session ID and determining its
+validity.</p>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'>If the end-user’s request to the application does not contain
+a Session ID, or if the Session ID is not valid, then it is the applications
+responsibility to authenticate the user, as follows.</p>
+
+<h2 style='margin-left:0in;text-indent:0in'><a name="_Toc114647206"><![if !supportLists]><span
+style='mso-fareast-font-family:Arial;mso-bidi-font-family:Arial'><span
+style='mso-list:Ignore'>3.1<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]>Web-Based Applications</a></h2>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'>Web-based applications may authenticate an end-user and create
+a new end-user session by redirecting the end-user’s browser to the gateway
+login page. At that page, the user will be prompted to enter a userid and
+password. If successfully authenticated, the browser will then be redirected
+back to the calling application.</p>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'>If a request is made to your application without a Session ID
+cookie or URL parameter, or with an invalid Session ID, it is the application's
+responsibility to redirect the user's browser to the Gateway login page. The
+user's browser can be redirected by returning an HTTP response code of 302
+(Object Moved) with the following location header added to the response header:
+</p>
+
+<p class=MsoBodyText2 style='margin-right:-1.0in'><strong>Location
+&lt;AUTH_URL&gt; <o:p></o:p></strong></p>
+
+<p class=MsoBodyText2 style='margin-right:-1.0in'><strong><span
+style='font-weight:normal;mso-bidi-font-weight:bold'>where </span>&lt;AUTH_URL&gt;</strong><strong><span
+style='font-weight:normal;mso-bidi-font-weight:bold'> takes the following form:<o:p></o:p></span></strong></p>
+
+<p class=MsoBodyText2 style='margin-right:-1.0in'><strong>https://&lt;hostname:port&gt;/gateway/servlet/WEBLOGIN?&lt;P1&gt;=&lt;V1&gt;&amp;&lt;P2&gt;=&lt;V2&gt;&amp;…&amp;&lt;Pn&gt;=&lt;Vn&gt;<o:p></o:p></strong></p>
+
+<p class=MsoBodyText2><strong><span style='font-weight:normal;mso-bidi-font-weight:
+bold'>where &lt;hostname&gt; is the name of the system on which the
+authentication gateway is running (&quot;smb.slac.stanford.edu&quot;), port is
+the SSL port number (if not the standard port 443), &lt;P1&gt;,
+&lt;P2&gt;,&lt;Pn&gt; are parameter names and &lt;V1&gt;, &lt;V2&gt;, and
+&lt;Vn&gt; are corresponding parameter values. All parameters, except for URL
+and AppName, are optional. When a parameter is not present in the AUTH_URL, its
+default value (as defined below) will be used.<o:p></o:p></span></strong></p>
+
+<p class=MsoBodyText2><strong><span style='font-weight:normal;mso-bidi-font-weight:
+bold'>The following lists the parameters that may be included in the URL, along
+with their default values. <o:p></o:p></span></strong></p>
+
+<p class=MsoBodyText2><strong>URL=&lt;url&gt;</strong><strong><span
+style='font-weight:normal;mso-bidi-font-weight:bold'> - the fully-encoded URL
+to which the gateway will redirect the end-user’s browser upon successful
+authentication. If this URL needs to include parameters, they should either be
+passed as separate parameters (see below) or encoded into the URL using %3F for
+‘?’, %3D for ‘=’, and %26 for ‘&amp;’, and %20 for space.<span
+style='mso-spacerun:yes'>  </span>There is no default value. If no URL
+parameter is included, an error message will be displayed on the user’s
+browser.<o:p></o:p></span></strong></p>
+
+<p class=MsoBodyText2><strong>URLSession = &lt;True or False&gt;</strong><strong><span
+style='font-weight:normal;mso-bidi-font-weight:bold'> – URLSession=True
+indicates that the gateway should include the Session ID as a parameter in the
+redirected URL, in addition to the Session ID cookie.<span
+style='mso-spacerun:yes'>  </span>Any other value indicates that the
+SMBSessionID should not be included as a parameter in the redirected URL.
+Default value: </span>False.</strong><strong><span style='font-weight:normal;
+mso-bidi-font-weight:bold'><o:p></o:p></span></strong></p>
+
+<p class=MsoBodyText2><strong>Message = &lt;string&gt;</strong><strong><span
+style='font-weight:normal;mso-bidi-font-weight:bold'> - indicates that the
+message string should be displayed to the end-user as part of the login page.
+The message string must be encoded as with the URL parameter above. Default
+value: </span>null</strong><strong><span style='font-weight:normal;mso-bidi-font-weight:
+bold'><o:p></o:p></span></strong></p>
+
+<p class=MsoBodyText2><strong>AppName = &lt;string&gt; </strong><strong><span
+style='font-weight:normal;mso-bidi-font-weight:bold'>- tells the gateway which
+web application is making the call. The AppName is checked against a list of
+valid application names that can call WEBLOGIN. If the parameter is not
+provided, or if its value is invalid, an error message will be displayed on the
+user’s browser.<o:p></o:p></span></strong></p>
+
+<p class=MsoBodyText2><strong><span style='mso-bidi-font-weight:bold'>SessionTimeout=&lt;int&gt;</span></strong><strong><span
+style='font-weight:normal;mso-bidi-font-weight:bold'> - sets the number of
+seconds that a session may remain inactive before automatically becoming
+invalidated. Default value: </span></strong><strong><span style='mso-bidi-font-weight:
+bold'>1800</span></strong><strong><span style='font-weight:normal;mso-bidi-font-weight:
+bold'>. If the parameter is not provided or its value is not a valid integer,
+the default value will be used.<o:p></o:p></span></strong></p>
+
+<p class=MsoBodyText2><strong>dbAuth = &lt;True or False&gt;</strong><strong><span
+style='font-weight:normal;mso-bidi-font-weight:bold'> - </span>DEPRECATED</strong><strong><span
+style='font-weight:normal;mso-bidi-font-weight:bold'>. Default value: </span>False.
+This parameter will be ignored in version 2.0 and above, in favor of the
+AuthMethod parameter, described below.<o:p></o:p></strong></p>
+
+<p class=MsoBodyText2><strong>AuthMethod=&lt;string&gt; </strong><strong><span
+style='font-weight:normal;mso-bidi-font-weight:bold'>- tells the gateway which
+authentication method to use. See Section 5 for more information about
+authentication methods. &lt;string&gt; must match one of the authentication
+method names defined in the gateway's configuration data. If &lt;string&gt;
+does not match one of the authentication method names, an error message will be
+displayed on the user's browser. If this parameter is not included, the default
+authentication method will be used. Default value: </span>null</strong><strong><span
+style='font-weight:normal;mso-bidi-font-weight:bold'><o:p></o:p></span></strong></p>
+
+<p class=MsoBodyText2><strong><span style='font-weight:normal;mso-bidi-font-weight:
+bold'>Any additional parameters not defined here will simply be passed back to
+the calling application.<o:p></o:p></span></strong></p>
+
+<p class=MsoBodyText2><strong><span style='font-weight:normal;mso-bidi-font-weight:
+bold'>Examples of the redirection URL:<o:p></o:p></span></strong></p>
+
+<p class=MsoBodyText2><strong>https://smb.slac.stanford.edu/gateway/servlet/WEBLOGIN?URL=https://smb.slac.stanford.edu/portal/servlet/VideoSystem&amp;Message=Your%20session%20has%20expired.%20Please%20log%20in%20again.&amp;AppName=VideoSystem<o:p></o:p></strong></p>
+
+<p class=MsoBodyText2><strong>https://smb.slac.stanford.edu/gateway/servlet/WEBLOGIN?URL=https://myserver.slac.stanford.edu&amp;URLSession=True&amp;AppName=MyApp&amp;MyParam=SomeParameterValue<o:p></o:p></strong></p>
+
+<p class=MsoBodyText2><strong>https://smb.slac.stanford.edu/gateway/servlet/WEBLOGIN?URL=http://myserver.slac.stanford.edu/myapp/servlet/MyApp%3FMyParam%3DStuff%26MyOtherParam%3DMoreStuff&amp;AppName=MyApp&amp;AuthMethod=simple_user_database<o:p></o:p></strong></p>
+
+<p class=MsoBodyText2><strong><span style='font-weight:normal;mso-bidi-font-weight:
+bold'>Upon successful authentication, the first example will redirect the
+user’s browser to: </span></strong><strong><span style='mso-bidi-font-weight:
+bold'>https://smb.slac.stanford.edu/portal/servlet/VideoSystem</span></strong><strong><span
+style='font-weight:normal;mso-bidi-font-weight:bold'> where the Session ID
+(SMBSessionID) will be found in the header as a Cookie if the end-user's
+browser supports cookies.<o:p></o:p></span></strong></p>
+
+<p class=MsoBodyText2><strong><span style='font-weight:normal;mso-bidi-font-weight:
+bold'>The second example will include the Session ID in the URL and redirect
+the user’s browser to: </span></strong><strong><span style='mso-bidi-font-weight:
+bold'>https://myserver.slac.stanford.edu?MyParam=SomeParameterValue&amp;SMBSessionID=&lt;sessionid&gt;
+</span></strong><strong><span style='font-weight:normal'><o:p></o:p></span></strong></p>
+
+<p class=MsoBodyText2><strong><span style='font-weight:normal;mso-bidi-font-weight:
+bold'>The third example will redirect the user’s browser to:<o:p></o:p></span></strong></p>
+
+<p class=MsoBodyText2><strong>https://myserver.slac.stanford.edu/myapp/servlet/MyApp?MyParam=Stuff&amp;MyOtherParam=MoreStuff
+</strong><strong><span style='font-weight:normal;mso-bidi-font-weight:bold'>and
+will attempt to authenticate using the </span></strong><strong><span
+style='mso-bidi-font-weight:bold'>simple_user_database</span></strong><strong><span
+style='font-weight:normal;mso-bidi-font-weight:bold'> authentication method.<o:p></o:p></span></strong></p>
+
+<h2 style='margin-left:0in;text-indent:0in'><a name="_Toc114647207"><![if !supportLists]><span
+style='mso-fareast-font-family:Arial;mso-bidi-font-family:Arial'><span
+style='mso-list:Ignore'>3.2<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]>Gateway Login Page</a></h2>
+
+<p class=MsoBodyText align=left style='text-align:left'>The Gateway Login Page
+will consist of the following elements:</p>
+
+<p class=MsoBodyText align=left style='margin-top:0in;margin-right:0in;
+margin-bottom:0in;margin-left:.25in;margin-bottom:.0001pt;text-align:left;
+text-indent:-.25in;mso-list:l28 level4 lfo22;tab-stops:list .25in'><![if !supportLists]><span
+style='mso-fareast-font-family:Arial;mso-bidi-font-family:Arial'><span
+style='mso-list:Ignore'>4.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]>Header – a header whose HTML content will be
+specified by the Authentication Method definition being used (see Section 5).</p>
+
+<p class=MsoBodyText align=left style='margin-top:0in;margin-right:0in;
+margin-bottom:0in;margin-left:.25in;margin-bottom:.0001pt;text-align:left;
+text-indent:-.25in;mso-list:l28 level4 lfo22;tab-stops:list .25in'><![if !supportLists]><span
+style='mso-fareast-font-family:Arial;mso-bidi-font-family:Arial'><span
+style='mso-list:Ignore'>5.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]>HTML Body (top) – HTML content specified by the
+Authentication Method definition.</p>
+
+<p class=MsoBodyText align=left style='margin-top:0in;margin-right:0in;
+margin-bottom:0in;margin-left:.25in;margin-bottom:.0001pt;text-align:left;
+text-indent:-.25in;mso-list:l28 level4 lfo22;tab-stops:list .25in'><![if !supportLists]><span
+style='mso-fareast-font-family:Arial;mso-bidi-font-family:Arial'><span
+style='mso-list:Ignore'>6.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]>Application Message – a message provided by the
+application for display to the user.</p>
+
+<p class=MsoBodyText align=left style='margin-top:0in;margin-right:0in;
+margin-bottom:0in;margin-left:.25in;margin-bottom:.0001pt;text-align:left;
+text-indent:-.25in;mso-list:l28 level4 lfo22;tab-stops:list .25in 153.0pt'><![if !supportLists]><span
+style='mso-fareast-font-family:Arial;mso-bidi-font-family:Arial'><span
+style='mso-list:Ignore'>7.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]>Userid Field – standard text box in which the
+user types in his or her user id.</p>
+
+<p class=MsoBodyText align=left style='margin-top:0in;margin-right:0in;
+margin-bottom:0in;margin-left:.25in;margin-bottom:.0001pt;text-align:left;
+text-indent:-.25in;mso-list:l28 level4 lfo22;tab-stops:list .25in 153.0pt'><![if !supportLists]><span
+style='mso-fareast-font-family:Arial;mso-bidi-font-family:Arial'><span
+style='mso-list:Ignore'>8.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]>Password Field – standard password text box in
+which the user types in his or her password. Only asterisks are displayed.</p>
+
+<p class=MsoBodyText align=left style='margin-top:0in;margin-right:0in;
+margin-bottom:0in;margin-left:.25in;margin-bottom:.0001pt;text-align:left;
+text-indent:-.25in;mso-list:l28 level4 lfo22;tab-stops:list .25in 153.0pt'><![if !supportLists]><span
+style='mso-fareast-font-family:Arial;mso-bidi-font-family:Arial'><span
+style='mso-list:Ignore'>9.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]>Submit button – submits the user information to
+the server for authentication. All information transmittal is encrypted via
+SSL.</p>
+
+<p class=MsoBodyText align=left style='margin-top:0in;margin-right:0in;
+margin-bottom:0in;margin-left:.25in;margin-bottom:.0001pt;text-align:left;
+text-indent:-.25in;mso-list:l28 level4 lfo22;tab-stops:list .25in 153.0pt'><![if !supportLists]><span
+style='mso-fareast-font-family:Arial;mso-bidi-font-family:Arial'><span
+style='mso-list:Ignore'>10.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;
+</span></span></span><![endif]>HTML Body (bottom) – HTML content specified by
+the Authentication Method being used.</p>
+
+<p class=MsoBodyText align=left style='margin-bottom:0in;margin-bottom:.0001pt;
+text-align:left;tab-stops:list 153.0pt'><o:p>&nbsp;</o:p></p>
+
+<p class=MsoBodyText align=left style='text-align:left'>Successful
+authentication will cause a browser redirect to the URL specified by the URL
+parameter.</p>
+
+<h2 style='margin-left:0in;text-indent:0in'><a name="_Toc114647208"><![if !supportLists]><span
+style='mso-fareast-font-family:Arial;mso-bidi-font-family:Arial'><span
+style='mso-list:Ignore'>3.3<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]>HTML Frames</a></h2>
+
+<p class=MsoBodyText align=left style='text-align:left'>If your web application
+is frame-based, you will find that redirecting a frame to WEBLOGIN will display
+the gateway login page within that frame. Redirect the frame instead to
+FRAMELOGIN, with all the same parameters as WEBLOGIN. FRAMELOGIN will return
+some JavaScript that will instruct the browser to redirect its parent frame to
+WEBLOGIN.</p>
+
+<h2 style='margin-left:0in;text-indent:0in'><a name="_Toc114647209"><![if !supportLists]><span
+style='mso-fareast-font-family:Arial;mso-bidi-font-family:Arial'><span
+style='mso-list:Ignore'>3.4<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]>Non Web-Based Applications</a></h2>
+
+<p class=TableEntry style='margin-bottom:6.0pt'><span style='font-family:Arial;
+mso-bidi-font-family:"Times New Roman"'>For non-web applications that would
+like to create a session for a user, make an HTTP <span
+style='mso-spacerun:yes'> </span>or HTTPS request to: <o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:-1.0in;margin-bottom:
+6.0pt;margin-left:0in'><strong>http(s)://&lt;hostname:port&gt;/gateway/servlet/APPLOGIN?userid=&lt;userid&gt;&amp;passwd=&lt;encodedid&gt;&amp;</strong>
+<b>AppName=&lt;application name&gt; </b>where <b>&lt;hostname&gt;</b> is the
+system on which the gateway is running, <b>&lt;port&gt;</b> is the port on
+which the gateway is listening for this request (if other than standard ports
+80 or 443), <b>&lt;userid&gt;</b> is the userid in clear text, <b>&lt;encodedid&gt;</b>
+is the Base64 encoded hash of<span style='mso-spacerun:yes'>  </span>userid:password,
+and <b>&lt;application name&gt; </b>is the name of the calling application. All
+these parameters are required. Additional optional parameters are <b>AuthMethod=&lt;string&gt;</b>
+and <b style='mso-bidi-font-weight:normal'>SessionTimeout=&lt;int&gt;</b> as
+described for WEBLOGIN. The default value for SessionTimeout for app logins is
+259200 (72 hours). <span style='mso-spacerun:yes'> </span><b>AppName</b> must
+match a list of permitted applications, and the call to APPLOGIN must come from
+a trusted IP address as defined in the configuration files. If successful, the
+http response will include a Session ID cookie and the session information
+specified in section 4. If unsuccessful, the http response will consist of a
+response code 403 (Forbidden). </p>
+
+<p class=MsoBodyText style='margin-bottom:0in;margin-bottom:.0001pt'><o:p>&nbsp;</o:p></p>
+
+<div style='mso-element:para-border-div;border:none;border-bottom:solid windowtext 1.0pt;
+mso-border-bottom-alt:solid windowtext .75pt;padding:0in 0in 3.0pt 0in'>
+
+<h1 style='margin-left:0in;text-indent:0in'><a name="_Toc114647210"><![if !supportLists]><span
+style='mso-fareast-font-family:Arial;mso-bidi-font-family:Arial'><span
+style='mso-list:Ignore'>4.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]>Session Data</a></h1>
+
+</div>
+
+<h2 style='margin-left:0in;text-indent:0in'><a name="_Toc114647211"><![if !supportLists]><span
+style='mso-fareast-font-family:Arial;mso-bidi-font-family:Arial'><span
+style='mso-list:Ignore'>4.1<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]>Session ID</a></h2>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'>Once an end-user has successfully logged in, a 128-bit session
+id will be created and returned. The name of the Session ID is found in the
+configuration data for the authentication method (see Section 5). The name of
+the Session ID for SMB applications such as Blu-Ice and Web-Ice will be
+SMBSessionID. For end-user browsers that allow session-cookies, the Session ID
+is stored in the browser, otherwise it may be returned as a URL parameter. Each
+request to your web application should include SMBSessionID as a cookie in the
+cookie header of the http request from the user's browser, or as a URL
+parameter.</p>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'>Cookies are found in the HTTP header in the form: </p>
+
+<p class=TableEntry style='margin-bottom:6.0pt'><span style='font-family:Arial;
+mso-bidi-font-family:"Times New Roman"'>cookie: &lt;cookie1&gt;=&lt;value1&gt;;
+&lt;cookie2&gt;=&lt;value2&gt;; ... &lt;cookieN&gt;=&lt;valueN&gt; <o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'>It will be your application's responsibility to extract the
+Session ID value from this cookie header. </p>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'>If you are choosing to use URL-based session ids, then the
+redirection from the login page to your application will include Session ID as
+a URL parameter (in the form, for SMB applications,
+SMBSessionID=&lt;string&gt;. It will be the responsibility of your application
+to extract the session id from the URL and pass it to other pages within your
+application.</p>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'>The Session ID may also be found in the text of the
+&lt;BODY&gt; of the HTML response to the APPLOGIN servlet.</p>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'>If no Session ID value is found in the cookie header (or URL),
+then the user has not logged in, and should be redirected to the login page (as
+described above). </p>
+
+<h2 style='margin-left:0in;text-indent:0in'><a name="_Toc114647212"><![if !supportLists]><span
+style='mso-fareast-font-family:Arial;mso-bidi-font-family:Arial'><span
+style='mso-list:Ignore'>4.2<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]>Session Lifespan</a></h2>
+
+<p class=MsoBodyText align=left style='text-align:left'>Sessions created for
+web-based applications (that is, those sessions created by calls to the
+WEBLOGIN servlet) will time-out after 30 minutes have passed without any
+activity on the session. Any activity on the session will keep it alive for
+another 30 minutes. The default value may be changed by use of the
+SessionTimeout parameter as described above.</p>
+
+<p class=MsoBodyText align=left style='text-align:left'>Sessions create for non
+web-base applications (that is, those sessions create by calls to the APPLOGIN
+servlet) will time-out 72 hours after they are created. No activity is required
+on the session to keep it alive within that period. This default value may be
+changed by use of the SessionTimeout parameter as described above.</p>
+
+<h2 style='margin-left:0in;text-indent:0in'><a name="_Toc114647213"><![if !supportLists]><span
+style='mso-fareast-font-family:Arial;mso-bidi-font-family:Arial'><span
+style='mso-list:Ignore'>4.3<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]>Session Sharing</a></h2>
+
+<p class=MsoBodyText align=left style='text-align:left'>A non web-based
+application may spawn a web-based application, sharing its session
+authentication data so that the user does not have to explicitly log in to the
+web-based application. It should be noted, however, that the web-based
+application will maintain its own session object, separate from that of the
+application from whence it came. This will allow the user to explicitly log out
+from the web application without affecting the parent application and
+vice-versa.</p>
+
+<p class=MsoBodyText align=left style='text-align:left'>So, for example, if
+Blu-Ice were to create a session using the APPLOGIN servlet, it could then have
+a button that would bring up a web-browser with the Video System already logged
+in for the user.</p>
+
+<p class=MsoBodyText align=left style='text-align:left'>An application can
+start a cloned web session by starting a browser and setting it to:</p>
+
+<p class=MsoBodyText align=left style='text-align:left'><b>http(s)://&lt;hostname:port&gt;/gateway/servlet/APPFORWARD?URL=&lt;app
+url&gt;&amp;AppName=&lt;application name&gt;&amp;&lt;sessionkey&gt;=&lt;session
+id&gt;<o:p></o:p></b></p>
+
+<p class=MsoBodyText align=left style='text-align:left'>where <b>&lt;hostname&gt;</b>
+is the system on which the gateway is running, <b>&lt;port&gt;</b> is the port
+on which the gateway is listening for this request (if other than the default
+ports of 80 or 443), <b style='mso-bidi-font-weight:normal'>URL</b> is the URL
+of the web-based application, <b style='mso-bidi-font-weight:normal'>AppName</b>
+is the name of the calling application, <b style='mso-bidi-font-weight:normal'>&lt;sessionkey&gt;</b>
+is the name for session Ids defined in the authentication method (SMBSessionID)
+and &lt;session id&gt; is the calling application’s session id. All parameters
+are required, and the AppName must be on the list of known applications, and
+the IP address of the calling application must be on the list of trusted
+systems as defined in the configuration files.</p>
+
+<p class=MsoBodyText align=left style='text-align:left'>There is no planned
+mechanism by which a web-based application would spawn a non web-based application.
+That is, a user would not run Blu-Ice by clicking a link on a web page.</p>
+
+<h2 style='margin-left:0in;text-indent:0in'><a name="_Toc114647214"><![if !supportLists]><span
+style='mso-fareast-font-family:Arial;mso-bidi-font-family:Arial'><span
+style='mso-list:Ignore'>4.4<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]>Session Validity and Data</a></h2>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'>Once you have found a Session ID string, you can check on the
+validity of the current session by making an HTTP or HTTPS request to: </p>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'><strong>http(s)://&lt;hostname:port&gt;/gateway/servlet/SessionStatus;jsessionid=&lt;Session
+ID&gt;?AppName=&lt;application name&gt;</strong></p>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'>or to </p>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'><strong>http://&lt;hostname:port&gt;/gateway/servlet/SessionStatus;jsessionid=&lt;Session
+ID&gt;?RecheckDatabase=True&amp;AppName=&lt;application name&gt;</strong> </p>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'>where <b>&lt;hostname&gt;</b> is the system on which the
+gateway is running, <b>&lt;port&gt;</b> is the port on which the gateway is
+listening for this request (if other than the default ports of 80 or 443), and <b
+style='mso-bidi-font-weight:normal'>&lt;SessionID&gt; </b>if the session being
+queried. </p>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'>The first form will check if the Session ID is currently valid.
+The second form will check if the session is currently valid, and will also
+re-query the appropriate database to refresh the additional user data stored in
+the user's session. This form should be used if there’s a possibility of
+frequent changes to user data (such as accessible beamlines) during the course
+of a typical session.</p>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'>Requests to this servlet will only be accepted from trusted
+computers listed in the AuthGatewaySystems.xml file found in the configuration
+directory. The AppName parameter is required, and it must be the name of a
+trusted application listed in the AuthGatewayApps.xml file.</p>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'>Each request will receive a response consisting of a text-only
+web page with the following information found both as headers in the HTTP
+header response and as text within the response body:</p>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'><b style='mso-bidi-font-weight:normal'>Auth.SessionKey=&lt;keyname&gt;</b>
+where &lt;keyname&gt; is the name of Session IDs as defined in the session’s
+authentication method. For the simple_user_database method, this value is
+“SMBSessionID”.</p>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'><b style='mso-bidi-font-weight:normal'>Auth.&lt;keyname&gt;=&lt;SessionID&gt;</b>
+where &lt;keyname&gt; is the value returned in the Auth.SessionKey header and
+&lt;SessionID&gt; is the 128-bit session id. For example:
+Auth.SMBSessionID=0847ABDE13E1B9B55250C178C66A3B64</p>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'><strong>Auth.SessionValid=&lt;status&gt;</strong> where
+&lt;status&gt;=TRUE for a valid session, FALSE for an invalid session. For any
+response where the SessionValid value is not TRUE, the user must be redirected
+to the login page. </p>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'><strong>Auth.SessionCreation=&lt;time&gt;</strong> where
+&lt;time&gt; is the session's creation time expressed as milliseconds since
+midnight, Jan 1, 1970, UTC. </p>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'><strong>Auth.SessionAccessed=&lt;time&gt;</strong> where
+&lt;time&gt; is the last time the session was accessed, also expressed as ms
+since midnight, Jan 1, 1970 UTC. </p>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'><strong>Auth.UserID=&lt;userid&gt;</strong> where
+&lt;userid&gt; is the user id used to log onto the system</p>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'><b style='mso-bidi-font-weight:normal'>Auth.Method=&lt;authentication
+method&gt;</b> where &lt;authentication method&gt; is the method used to create
+this session. For example: Auth.Method=simple_user_database.</p>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'>Additional information will be returned as defined in the
+Authentication Method being used. For example, sessions created with the
+simple_user_database method will also return the following fields used by
+Blu-Ice and Web-Ice:</p>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'><strong>Auth.AllBeamlines=&lt;string&gt; </strong><strong><span
+style='font-weight:normal'>where the &lt;string&gt; is a semi-colon delimited
+string of all beamliens available to Blu-Ice or Web-Ice.<o:p></o:p></span></strong></p>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'><b>Auth.RemoteAccess=&lt;TRUE|FALSE&gt;</b> </p>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'><b>Auth.Enabled=&lt;TRUE|FALSE&gt;</b></p>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'><b>Auth.UserPriv=&lt;priv&gt;</b></p>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'><strong>Auth.UserName=&lt;name&gt;</strong> </p>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'><strong>Auth.Beamlines=&lt;active beamlines&gt;</strong> where
+&lt;active beamlines&gt; will be a string in the form: &quot;bl;bl;bl&quot;
+detailing which specific beamlines to which the user has access or “ALL”
+meaning that the user has access to all beamlines. </p>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'><b>Auth.JobTitle=&lt;string&gt;</b> </p>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'><b>Auth.OfficePhone=&lt;string&gt;</b> </p>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'><b>Auth.UserStaff=&lt;TRUE|FALSE&gt;</b> </p>
+
+<h2 style='margin-left:0in;text-indent:0in'><a name="_Toc114647215"><![if !supportLists]><span
+style='mso-fareast-font-family:Arial;mso-bidi-font-family:Arial'><span
+style='mso-list:Ignore'>4.5<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]>Ending a Session</a></h2>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'>You can force a session to end by calling:</p>
+
+<p class=MsoBodyText3><strong><span style='mso-bidi-font-weight:normal'>http(s)://&lt;hostname:port&gt;/gateway/servlet/EndSession;jsessionid=&lt;SessionID&gt;?AppName=&lt;application
+name&gt;<o:p></o:p></span></strong></p>
+
+<p class=MsoBodyText align=left style='text-align:left'>where <b>&lt;hostname&gt;</b>
+is the system on which the gateway is running, <b>&lt;port&gt;</b> is the port
+on which the gateway is listening for this request (if other than the default
+ports of 80 or 443), <b style='mso-bidi-font-weight:normal'>&lt;application
+name&gt;</b> is the name of the calling application, and <b style='mso-bidi-font-weight:
+normal'>&lt;SessionID&gt;</b> is the calling application’s session id. All
+parameters are required, and the AppName must be on the list of known
+applications, and the IP address of the calling application must be on the list
+of trusted systems as defined in the configuration files.</p>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'>Calling EndSession invalidates that session for all
+applications currently sharing it.</p>
+
+<h2 style='margin-left:0in;text-indent:0in'><a name="_Toc114647216"><![if !supportLists]><span
+style='mso-fareast-font-family:Arial;mso-bidi-font-family:Arial'><span
+style='mso-list:Ignore'>4.6<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]>Java Classes</a></h2>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'>For those using Java, and not wishing to deal directly with
+HTTP requests, several Java class wrappers around the above are available. </p>
+
+<h3 style='margin-left:0in;text-indent:0in'><a name="_Toc114647217"><![if !supportLists]><span
+style='mso-fareast-font-family:Arial;mso-bidi-font-family:Arial'><span
+style='mso-list:Ignore'>4.6.1<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]>Java Bean AuthG</a><span style='mso-bookmark:
+_Toc114647217'><strong><span style='mso-bidi-font-weight:bold'>atewayBean</span></strong></span></h3>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'>This will be a generic Java Bean that may be used for any
+gateway session, whatever authentication method is used.</p>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'>Constructor: AuthGatewayBean()</p>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'>methods:</p>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'>void initialize(String SMBSessionID, String AppName, String
+servletHost) – for existing sessions. servletHost is a string of the form:
+http(s)://host:port</p>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'>void initialize(String SMBSessionID, String AppName) – for
+existing sessions. Looks for host information (http(s)://host:port) in Java
+system property “authgateway.host”.</p>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'>void initialize(String AppName, String userID, String
+password, String authMethod, String servletHost, int sessionTimeout) – for new
+sessions</p>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'>void initialize(String AppName, String userID, String
+password, String authMethod) – for new sessions using the default APPLOGIN sessionTimeout
+value and host information found in Java system property “authgateway.host”.</p>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'>void initialie(String AppName, String userID, String password,
+String authMethod, String servletHost) – for new sessions using the default
+APPLOGIN sessionTimeout value.</p>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'>void initialie(String AppName, String userID, String password,
+String authMethod, int sessionTimeout) – for new sessions using host
+information found in Java system property “authgateway.host”</p>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'>String getSessionID() returns the session id</p>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'>boolean isSessionValid() returns true or false</p>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'>long getCreationTime()<span style='mso-spacerun:yes'> 
+</span>- returns SessionCreation value, defined above</p>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'>long getLastAccessTime()<span style='mso-spacerun:yes'> 
+</span>- returns SessionAccessed value, defined above</p>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'>String getUserID()<span style='mso-spacerun:yes'>  </span>-
+returns UserID value, defined above </p>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'>String getSessionKey() returns the name of the session key
+(Ex: SMBSessionID)</p>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'>String getAuthMethod() returns authentication method used </p>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'>boolean updateSessionData(boolean recheckDatabase) – checks
+the session status. If recheckDatabase is true, also reexamines the database to
+see which beamlines are available to the user.</p>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'>boolean isUpdateSuccessful() – returns true if most recent
+update request was successful</p>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'>String getUpdateError() – returns an error message if update
+was unsuccessful</p>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'>void endSession() – ends a session.</p>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'>Hashtable getProperties() – returns a table of key-value pairs
+for all other data stored in the session</p>
+
+<h3 style='margin-left:0in;text-indent:0in'><a name="_Toc114647218"><![if !supportLists]><span
+style='mso-fareast-font-family:Arial;mso-bidi-font-family:Arial'><span
+style='mso-list:Ignore'>4.6.2<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]>Java Class </a><span style='mso-bookmark:_Toc114647218'><strong><span
+style='mso-bidi-font-weight:bold'>SMBGatewaySession</span></strong></span> </h3>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'>This is a Java class used in existing SMB applications. It is
+not recommended for development of non-SMB applications.</p>
+
+<h3 style='margin-left:0in;text-indent:0in'><a name="_Toc114647219"><![if !supportLists]><span
+style='mso-fareast-font-family:Arial;mso-bidi-font-family:Arial'><span
+style='mso-list:Ignore'>4.6.3<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]>Java Bean SMBGatewayBean</a></h3>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'>This is a Java Bean used in existing SMB applications. It is
+not recommended for development of non-SMB applications.</p>
+
+<p class=MsoNormal style='margin-top:0in;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in'><o:p>&nbsp;</o:p></p>
+
+<div style='mso-element:para-border-div;border:none;border-bottom:solid windowtext 1.0pt;
+mso-border-bottom-alt:solid windowtext .75pt;padding:0in 0in 3.0pt 0in'>
+
+<h1 style='margin-left:0in;text-indent:0in'><a name="_Toc114647220"><![if !supportLists]><span
+style='mso-fareast-font-family:Arial;mso-bidi-font-family:Arial'><span
+style='mso-list:Ignore'>5.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]>Authentication Methods</a></h1>
+
+</div>
+
+<h2 style='margin-left:0in;text-indent:0in'><a name="_Toc114647221"><![if !supportLists]><span
+style='mso-fareast-font-family:Arial;mso-bidi-font-family:Arial'><span
+style='mso-list:Ignore'>5.1<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]>Required Components</a></h2>
+
+<p class=MsoBodyText align=left style='text-align:left'>Two components are
+required to implement an authentication method in the User Authentication
+Gateway. The first component is an entry in the AuthGatewayMethods.xml
+configuration file that describes various aspects of the authentications
+method. The second component is a Java class that implements the
+AuthGatewayMethod interface. This section explains both components.</p>
+
+<h2 style='margin-left:0in;text-indent:0in'><a name="_Toc114647222"><![if !supportLists]><span
+style='mso-fareast-font-family:Arial;mso-bidi-font-family:Arial'><span
+style='mso-list:Ignore'>5.2<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]>AuthGatewayMethods.xml</a></h2>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'>This file, stored in Tomcats /conf directory, describes
+the authentication methods to be used by the Authentication Gateway as well as
+the data that will be associated with a user's session. Multiple methods may be
+defined. <b style='mso-bidi-font-weight:normal'><i style='mso-bidi-font-style:
+normal'>The first method defined will be the default method used.</i></b></p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><o:p>&nbsp;</o:p></p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'>The following describes the entries for the
+simple_user_database method that comes with the gateway. You may use it as is,
+or modify it. You may also add entries for additional authentication methods.
+If you add a new method and would like it to be the default, be sure that it is
+the first method described in the file.</p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><o:p>&nbsp;</o:p></p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><span style='font-family:"Courier New"'>&lt;?xml
+version=&quot;1.0&quot; encoding=&quot;ISO-8859-1&quot; ?&gt;<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><span style='font-family:"Courier New"'>&lt;AuthGatewayMethods&gt;<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><span style='font-family:"Courier New"'><span
+style='mso-tab-count:1'>      </span>&lt;AuthGatewayMethod&gt;<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><span style='font-family:"Courier New"'><span
+style='mso-tab-count:2'>            </span>&lt;!-- the following elements are
+required --&gt;<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><span style='font-family:"Courier New"'><span
+style='mso-tab-count:2'>            </span>&lt;!-- the name of the method
+--&gt;<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><span style='font-family:"Courier New"'><span
+style='mso-tab-count:2'>            </span>&lt;name&gt;simple_user_database&lt;/name&gt;<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><span style='font-family:"Courier New"'><span
+style='mso-tab-count:2'>            </span>&lt;!-- the Java class that implements
+AuthGatewayMethod --&gt; <o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><span style='font-family:"Courier New"'><span
+style='mso-tab-count:2'>            </span>&lt;!-- interface and performs the
+authentication --&gt;<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><span style='font-family:"Courier New"'><span
+style='mso-tab-count:2'>            </span>&lt;class&gt;<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:1.0in;text-indent:.5in;mso-layout-grid-align:
+none;text-autospace:none'><span style='font-family:"Courier New"'>edu.stanford.slac.ssrl.smb.SMBAuth_SimpleUserDB<o:p></o:p></span></p>
+
+<p class=MsoNormal style='text-indent:.5in;mso-layout-grid-align:none;
+text-autospace:none'><span style='font-family:"Courier New"'>&lt;/class&gt;<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><span style='font-family:"Courier New"'><span
+style='mso-tab-count:2'>            </span>&lt;!-- the name of the session key
+--&gt;<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><span style='font-family:"Courier New"'><span
+style='mso-tab-count:2'>            </span>&lt;keyname&gt;SMBSessionID&lt;/keyname&gt;<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><span style='font-family:"Courier New"'><span
+style='mso-tab-count:2'>            </span>&lt;!-- the domain in which session
+cookies are used --&gt;<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><span style='font-family:"Courier New"'><span
+style='mso-tab-count:2'>            </span>&lt;domain&gt;.slac.stanford.edu&lt;/domain&gt;<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><span style='font-family:"Courier New"'><span
+style='mso-tab-count:2'>            </span>&lt;!-- html files to be included in
+the login page --&gt;<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><span style='font-family:"Courier New"'><span
+style='mso-tab-count:2'>            </span>&lt;login_header_include&gt;header.html&lt;/login_header_include&gt;<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><span style='font-family:"Courier New"'><span
+style='mso-tab-count:2'>            </span>&lt;login_body_top_include&gt;top.html&lt;/login_body_top_include&gt;<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><span style='font-family:"Courier New"'><span
+style='mso-tab-count:2'>            </span>&lt;login_body_end_include&gt;bottom.html&lt;/login_body_end_include&gt;<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><span style='font-family:"Courier New"'><span
+style='mso-tab-count:2'>            </span>&lt;!-- the following elements are
+specific properties<span style='mso-spacerun:yes'>  </span>--&gt;<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><span style='font-family:"Courier New"'><span
+style='mso-tab-count:2'>            </span>&lt;!—- returned by this
+authentication method --&gt;<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><span style='font-family:"Courier New"'><span
+style='mso-tab-count:2'>            </span>&lt;!-- They are used by Blu-Ice and
+Web-Ice --&gt;<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><span style='font-family:"Courier New"'><span
+style='mso-tab-count:2'>            </span>&lt;auth_properties&gt;<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><span style='font-family:"Courier New"'><span
+style='mso-tab-count:3'>                  </span>&lt;property&gt;UserPriv&lt;/property&gt;<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><span style='font-family:"Courier New"'><span
+style='mso-tab-count:3'>                  </span>&lt;property&gt;UserName&lt;/property&gt;<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><span style='font-family:"Courier New"'><span
+style='mso-tab-count:3'>                  </span>&lt;property&gt;OfficePhone&lt;/property&gt;<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><span style='font-family:"Courier New"'><span
+style='mso-tab-count:3'>                  </span>&lt;property&gt;JobTitle&lt;/property&gt;<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><span style='font-family:"Courier New"'><span
+style='mso-tab-count:3'>                  </span>&lt;property&gt;Beamlines&lt;/property&gt;<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><span style='font-family:"Courier New"'><span
+style='mso-tab-count:3'>                  </span>&lt;property&gt;UserStaff&lt;/property&gt;<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><span style='font-family:"Courier New"'><span
+style='mso-tab-count:3'>                  </span>&lt;property&gt;RemoteAccess&lt;/property&gt;<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><span style='font-family:"Courier New"'><span
+style='mso-tab-count:3'>                  </span>&lt;property&gt;Enabled&lt;/property&gt;<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><span style='font-family:"Courier New"'><span
+style='mso-tab-count:3'>                  </span>&lt;property&gt;AllBeamlines&lt;/property&gt;<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><span style='font-family:"Courier New"'><span
+style='mso-tab-count:2'>            </span>&lt;/auth_properties&gt;<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><span style='font-family:"Courier New"'><span
+style='mso-tab-count:1'>      </span>&lt;/AuthGatewayMethod&gt;<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><span style='font-family:"Courier New"'><o:p>&nbsp;</o:p></span></p>
+
+<h2 style='margin-left:0in;text-indent:0in'><a name="_Toc114647223"><![if !supportLists]><span
+style='mso-fareast-font-family:Arial;mso-bidi-font-family:Arial'><span
+style='mso-list:Ignore'>5.3<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]>Authentication Method Class Files</a></h2>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'>For each method defined in the AuthGatewayMethods.xml
+file, create the class named in the &lt;class&gt; tag to implement the
+AuthGatewayMethod interface:</p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><o:p>&nbsp;</o:p></p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><span style='font-family:"Courier New"'>public interface
+AuthGatewayMethod {<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><span style='font-family:"Courier New"'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><span style='font-family:"Courier New"'><span
+style='mso-tab-count:1'>      </span>public boolean authenticateUser(<span
+style='mso-tab-count:1'>    </span>String userID, <o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><span style='font-family:"Courier New"'><span
+style='mso-tab-count:7'>                                          </span>String
+encodedUserPwd,<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:3.0in;text-indent:.5in;mso-layout-grid-align:
+none;text-autospace:none'><span style='font-family:"Courier New"'>AuthGatewaySession
+auth );<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><span style='font-family:"Courier New"'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><span style='font-family:"Courier New"'><span
+style='mso-tab-count:1'>      </span>public void addConfigurationData (<span
+style='mso-tab-count:1'>  </span>AuthGatewaySession auth );<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><span style='font-family:"Courier New"'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><span style='font-family:"Courier New"'><span
+style='mso-tab-count:1'>      </span>public void updateAccessLog<span
+style='mso-tab-count:1'>   </span>( String appName,<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><span style='font-family:"Courier New"'><span
+style='mso-tab-count:6'>                                    </span><span
+style='mso-spacerun:yes'>  </span>String userName,<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><span style='font-family:"Courier New"'><span
+style='mso-tab-count:6'>                                    </span><span
+style='mso-spacerun:yes'>  </span>HttpSession session );<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><span style='font-family:"Courier New"'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><span style='font-family:"Courier New"'>}<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><o:p>&nbsp;</o:p></p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'>The authenticateUser function authenticates “userID” using
+the Base64 –encoded “encodedUserPwd” and, if valid, populates the
+AuthGatewaySession object “auth”.</p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><o:p>&nbsp;</o:p></p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'>The addConfigurationData function checks for the
+additional configuration data specified in the authentication method and adds those
+properties to the AuthGatewaySession object “auth”.</p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><o:p>&nbsp;</o:p></p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'>The updateAccessLog function can be used to track usage of
+the web and stand-alone applications which use the gateway. Each call to
+WEBLOGIN, APPLOGIN, and SessionStatus triggers a call to this function. If you
+wish to do tracking, you could implement this function to write to a log file
+or database. If you do not wish to do tracking, you must still implement this
+function but have it do nothing (as shown in the simple_user_database method.</p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><o:p>&nbsp;</o:p></p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'>Please see SMBAuth_SimpleUserDB.java for an example
+implementation.</p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><o:p>&nbsp;</o:p></p>
+
+<h2 style='margin-left:0in;text-indent:0in'><a name="_Toc114647224"><![if !supportLists]><span
+style='mso-fareast-font-family:Arial;mso-bidi-font-family:Arial'><span
+style='mso-list:Ignore'>5.4<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]>Package Files</a></h2>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'>The authentication classes must be packaged into a .jar
+file and placed in the appropriate Tomcat directory. </p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><o:p>&nbsp;</o:p></p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'>For example, the class file for the simple_user_database
+method is stored in smbAuthentication.jar and that file is copied to:</p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><o:p>&nbsp;</o:p></p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'>/&lt;path to
+Tomcat&gt;/webapps/gateway/WEB-INF/lib/smbAuthentication.jar</p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><o:p>&nbsp;</o:p></p>
+
+<h2 style='margin-left:0in;text-indent:0in'><a name="_Toc114647225"><![if !supportLists]><span
+style='mso-fareast-font-family:Arial;mso-bidi-font-family:Arial'><span
+style='mso-list:Ignore'>5.5<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]>User Authentication Gateway Java Classes</a></h2>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><o:p>&nbsp;</o:p></p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'>The following are the Java classes that make up the
+gateway. See the API html document for more details.</p>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><o:p>&nbsp;</o:p></p>
+
+<h3 style='margin-left:0in;text-indent:0in'><a name="_Toc114647226"><![if !supportLists]><span
+style='mso-fareast-font-family:Arial;mso-bidi-font-family:Arial'><span
+style='mso-list:Ignore'>5.5.1<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]>Servlets</a></h3>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'>The following are found in “gateway.war”</p>
+
+<ul style='margin-top:0in' type=disc>
+ <li class=MsoNormal style='margin-left:.5in;mso-list:l23 level1 lfo30;
+     tab-stops:list .5in;mso-layout-grid-align:none;text-autospace:none'>APPFORWARD.class
+     – servlet used to clone a session for sharing between stand-alone and web
+     applications.</li>
+ <li class=MsoNormal style='margin-left:.5in;mso-list:l23 level1 lfo30;
+     tab-stops:list .5in;mso-layout-grid-align:none;text-autospace:none'>APPLOGIN.class
+     – servlet used to authenticate a user and create a session from a
+     stand-alone application.</li>
+ <li class=MsoNormal style='margin-left:.5in;mso-list:l23 level1 lfo30;
+     tab-stops:list .5in;mso-layout-grid-align:none;text-autospace:none'>EndSession.class
+     – servlet used to invalidate an existing user session.</li>
+ <li class=MsoNormal style='margin-left:.5in;mso-list:l23 level1 lfo30;
+     tab-stops:list .5in;mso-layout-grid-align:none;text-autospace:none'>FRAMELOGIN.class
+     – servlet which can be called from within an html frame to display
+     WEBLOGIN in a browser’s parent frame.</li>
+ <li class=MsoNormal style='margin-left:.5in;mso-list:l23 level1 lfo30;
+     tab-stops:list .5in;mso-layout-grid-align:none;text-autospace:none'>SessionStatus.java
+     – servlet used to query a session for validity and user information.</li>
+ <li class=MsoNormal style='margin-left:.5in;mso-list:l23 level1 lfo30;
+     tab-stops:list .5in;mso-layout-grid-align:none;text-autospace:none'>WEBLOGIN.java
+     – servlet used by web applications to obtain userid and password<span
+     style='mso-spacerun:yes'>  </span>information from the end-user.</li>
+</ul>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><o:p>&nbsp;</o:p></p>
+
+<h3 style='margin-left:0in;text-indent:0in'><a name="_Toc114647227"><![if !supportLists]><span
+style='mso-fareast-font-family:Arial;mso-bidi-font-family:Arial'><span
+style='mso-list:Ignore'>5.5.2<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]>Utility Classes</a></h3>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'>The following are found in “authUtility.jar”</p>
+
+<ul style='margin-top:0in' type=disc>
+ <li class=MsoNormal style='margin-left:.5in;mso-list:l17 level1 lfo31;
+     tab-stops:list .5in;mso-layout-grid-align:none;text-autospace:none'>AuthBase64.class
+     – used to Base64 encode and decode userid:password strings</li>
+ <li class=MsoNormal style='margin-left:.5in;mso-list:l17 level1 lfo31;
+     tab-stops:list .5in;mso-layout-grid-align:none;text-autospace:none'>AuthGatewayBean.class
+     – used by applications which don’t want to make direct calls to servlets
+     for user authentication and session management.</li>
+ <li class=MsoNormal style='margin-left:.5in;mso-list:l17 level1 lfo31;
+     tab-stops:list .5in;mso-layout-grid-align:none;text-autospace:none'>AuthGatewayMethod.class
+     – interface for implemented authentication methods</li>
+ <li class=MsoNormal style='margin-left:.5in;mso-list:l17 level1 lfo31;
+     tab-stops:list .5in;mso-layout-grid-align:none;text-autospace:none'>AuthGatewaySession.class
+     – the gateway session object which stores data about the session and the
+     user.</li>
+ <li class=MsoNormal style='margin-left:.5in;mso-list:l17 level1 lfo31;
+     tab-stops:list .5in;mso-layout-grid-align:none;text-autospace:none'>AuthMethodDescription.class
+     – an object each instance of which stores the description of an
+     authentication method described in AuthGatewayMethods.xml</li>
+ <li class=MsoNormal style='margin-left:.5in;mso-list:l17 level1 lfo31;
+     tab-stops:list .5in;mso-layout-grid-align:none;text-autospace:none'>AuthenticationInit.class
+     – a gateway initialization class whose static method is called when each
+     of the gateway servlets is first called.</li>
+ <li class=MsoNormal style='margin-left:.5in;mso-list:l17 level1 lfo31;
+     tab-stops:list .5in;mso-layout-grid-align:none;text-autospace:none'>SMBGatewaySession.class
+     – similar to AuthGatewayBean, this is a utility class used by SMB web and
+     stand-alone applications.</li>
+ <li class=MsoNormal style='margin-left:.5in;mso-list:l17 level1 lfo31;
+     tab-stops:list .5in;mso-layout-grid-align:none;text-autospace:none'>SMBGatewaySession.class
+     – a Java Bean version of SMBGatewaySession</li>
+</ul>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><o:p>&nbsp;</o:p></p>
+
+<h3 style='margin-left:0in;text-indent:0in'><a name="_Toc114647228"><![if !supportLists]><span
+style='mso-fareast-font-family:Arial;mso-bidi-font-family:Arial'><span
+style='mso-list:Ignore'>5.5.3<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]>Authentication Method classes</a></h3>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'>The following is found in “smbAuthentication.jar”</p>
+
+<ul style='margin-top:0in' type=disc>
+ <li class=MsoNormal style='margin-left:.5in;mso-list:l19 level1 lfo32;
+     tab-stops:list .5in;mso-layout-grid-align:none;text-autospace:none'>SMBAuth_SimpleUserDB.class
+     – implements the simple_user_database authentication method.</li>
+</ul>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><o:p>&nbsp;</o:p></p>
+
+<h3 style='margin-left:0in;text-indent:0in'><a name="_Toc114647229"><![if !supportLists]><span
+style='mso-fareast-font-family:Arial;mso-bidi-font-family:Arial'><span
+style='mso-list:Ignore'>5.5.4<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]>Test Applications</a></h3>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'>The follwing are found in “gatewayTest.jar”</p>
+
+<ul style='margin-top:0in' type=disc>
+ <li class=MsoNormal style='margin-left:.5in;mso-list:l19 level1 lfo32;
+     tab-stops:list .5in;mso-layout-grid-align:none;text-autospace:none'>AuthGatewayTest.class
+     – a sample stand-alone application which uses AuthGatewayBean.class</li>
+ <li class=MsoNormal style='margin-left:.5in;mso-list:l19 level1 lfo32;
+     tab-stops:list .5in;mso-layout-grid-align:none;text-autospace:none'>SimpleAuth_Test1.class
+     – a sample web application which makes calls to the gateway servlets.</li>
+</ul>
+
+<p class=MsoNormal style='margin-left:0in;mso-layout-grid-align:none;
+text-autospace:none'><o:p>&nbsp;</o:p></p>
+
+</div>
+
+</body>
+
+</html>

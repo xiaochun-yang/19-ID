@@ -1,0 +1,22 @@
+CC = cc
+CFLAGS = $(CFLAGS_OS) -D$(OSTYPE)
+IOFLAGS = 
+OEXTS = det_spool_t2k.o 
+OBS  =
+OBJS = $(OEXTS) $(OBS) ../../lib/$(OSTYPE)/libdet_spool_t2k.a ../../lib/$(OSTYPE)/libxform_spool.a \
+			../../lib/$(OSTYPE)/auxlib.a ../../lib/$(OSTYPE)/libwincompat.a
+DD = ../../bin/$(OSTYPE)
+
+PRCMD = pr
+
+$(DD)/det_spool_t2k : $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) $(IOFLAGS) -o $(DD)/det_spool_t2k
+
+$(OEXTS) :
+
+clean :	$(OEXTS) $(OBS)
+	rm $?
+
+print :	*.c *.h Makefile
+	$(PRCMD) $?
+	touch print

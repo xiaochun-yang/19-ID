@@ -1,0 +1,33 @@
+Please download CBFlib and unzip here, e.g. CBFlib-0.8.1. You will end up with the following dir structure. Note that name of cbflib distribution directory may be different depending on the version you downloaded.
+
+- cbflib
+  - Makefile
+  - README
+  - CBFlib-0.8.1
+
+Copy Makefile in this directory to the cbflib distribution directory, for example,
+
+ cp Makefile CBFlib-0.8.1/Makefile
+
+You may need to modify examples/testcell.C to let it compile on irix.
+
+move the "using namespace std;" after "#include <iostream>"
+
+Build and install:
+
+ cd CBFlib-0.8.1
+ make install
+
+Header files and library and executable files will be copied to include, lib and linux directories under cbflib dir. You will end up with the following:
+
+- cbflib
+  - Makefile
+  - README
+  - CBFlib-0.8.1
+  - include
+  - lib
+  - linux
+
+
+
+

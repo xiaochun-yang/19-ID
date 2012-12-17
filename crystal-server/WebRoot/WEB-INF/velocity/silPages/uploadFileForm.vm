@@ -1,0 +1,60 @@
+#parse("/silPages/topbanner.html")
+<body>
+#set ($authSession = $appSession.authSession)
+
+<span style="float:right; font-size:100%; padding-right:10px">
+You are ${authSession.userName}<br/><a class="link" href="Logout.html">Logout</a>
+</span>
+
+<h1><a href="http://ssrl.slac.stanford.edu"><img src="images/ssrl2.gif" border="0"  height="50" width="50"/></a>Sample Database</h1>
+<table id="uploadTable">
+<form name="uploadXls" action="" enctype="multipart/form-data" method="post">
+<tr><td width="150" valign="center" align="right">
+#springBind("command.file")
+Excel Spreadsheet File: </td><td><input type="file" name="file"/>&nbsp;<span class="error">$status.errorMessage</span>
+</td></tr>
+<tr><td width="150" valign="center" align="right">
+#springBind("command.sheetName")
+Sheet Name: </td><td><input type="text" name="sheetName" value="$!command.sheetName"/>&nbsp;<span class="error">$status.errorMessage</span>
+</td></tr>
+<tr><td width="150" valign="center" align="right">
+#springBind("command.templateName")
+Template Name: </td><td>
+#if ($authSession.staff)
+<select name="templateName">
+#foreach ($templateName in $templateNames)
+	#if ($command.templateName == $templateName)
+		<option value="$templateName" selected>$templateName</option>
+	#else
+		<option value="$templateName">$templateName</option>
+	#end
+#end
+</select>
+#else
+$!command.templateName
+#end
+&nbsp;<span class="error">$status.errorMessage</span>
+</td></tr>
+<tr><td width="150" valign="center" align="right">
+#springBind("command.containerType")
+Container Type: </td><td>
+<select name="containerType">
+#foreach ($type in $containerTypes)
+	#if ($command.containerType == $type)
+		<option value="$type" selected>$type</option>
+	#else
+		<option value="$type">$type</option>
+	#end
+#end
+</select>
+</td></tr>
+<tr><td></td><td>
+<input type="submit" value="Upload"/>
+<input type="submit" name="_cancel" value="Cancel"/>
+</td></tr>
+</table>
+
+</form>
+</body>
+
+</html>

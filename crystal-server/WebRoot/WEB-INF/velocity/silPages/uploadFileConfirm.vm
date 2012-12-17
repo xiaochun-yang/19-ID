@@ -1,0 +1,38 @@
+#parse("/silPages/topbanner.html")
+
+<script language="javascript">
+
+function showCassetteListFunc() {
+    document.location.replace("cassetteList.html");
+}
+function showSilFunc() {
+    document.location.replace("showSil.html?silId=" + $silId);
+}
+</script>
+
+<body>
+#set ($authSession = $appSession.authSession)
+
+<span style="float:right; font-size:100%; padding-right:10px">
+You are ${authSession.userName}<br/><a class="link" href="Logout.html">Logout</a>
+</span>
+
+<h1><a href="http://ssrl.slac.stanford.edu"><img src="images/ssrl2.gif" border="0"  height="50" width="50"/></a>Sample Database</h1>
+
+<p><b>You have successfully uploaded the file. </b></p>
+#if ($warnings.size() > 0)
+Warnings:<br/>
+	<span style="color:green">
+	#foreach ($msg in $warnings)
+		$msg</br>
+	#end
+	</span>
+#end
+
+<br/>
+<form name="uploadSuccessfulForm" action="">
+<input type="button" id="showCassetteList" value="Cassette List" onclick="showCassetteListFunc()"/>&nbsp;&nbsp;<input type="button" id="showSil" value="View SIL $!{silId}" onclick="showSilFunc()"/>
+</form>
+</body>
+
+</html>

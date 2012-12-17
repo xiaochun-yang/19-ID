@@ -1,0 +1,1203 @@
+#!/bin/bash
+
+DCS_MAXRETRY=20
+
+if [[ $OS = "Windows_NT" ]]
+then
+MACHINE=nt
+else
+OS=`uname`
+case $OS in
+    OSF1)
+	MACHINE=decunix
+	;;
+    IRIX64)
+	MACHINE=irix
+	;;
+    Linux)
+	MACH=`uname -m`
+	case $MACH in
+	    x86_64)
+		MACHINE=linux64
+		;;
+	    ia64)
+		MACHINE=ia64
+		;;
+	    *)
+		MACHINE=linux
+		;;
+	esac
+	;;
+    *)
+    ;;
+esac
+fi
+
+#################################################################
+function kill_authserver ( ) {
+    TIMES=0
+    PID_MYAUTHSERVER=`/bin/ps -ef | /bin/grep "MyAuthServer $*" | \
+			/bin/grep -v grep | \
+			/bin/grep -v xterm | \
+			/bin/awk '{ print $2 }'`
+    while [[ ${PID_MYAUTHSERVER:=x} != 'x' ]] ;do
+	if ((TIMES++ > DCS_MAXRETRY))
+	then
+            echo "failed to kill authserver"
+            break
+	fi
+        echo "Killing old \"MyAuthServer\" process"
+        kill $PID_MYAUTHSERVER
+        sleep 1
+        PID_MYAUTHSERVER=`/bin/ps -ef | /bin/grep "MyAuthServer $*" | \
+			/bin/grep -v grep | \
+			/bin/grep -v xterm | \
+			/bin/awk '{ print $2 }'`
+    done
+}
+
+#################################################################
+function kill_console ( ) {
+    TIMES=0
+    PID_MYCONSOLE=`/bin/ps -ef | /bin/grep "ConsoleDhs $*" | \
+                        /bin/grep -v grep | \
+                        /bin/grep -v xterm | \
+                        /bin/awk '{ print $2 }'`
+    while [[ ${PID_MYCONSOLE:=x} != 'x' ]] ;do
+        if ((TIMES++ > DCS_MAXRETRY))
+        then
+            echo "failed to kill console"
+            break
+        fi
+        echo "Killing old \"ConsoleDhs\" process"
+        kill $PID_MYCONSOLE
+        sleep 1
+        PID_MYCONSOLE=`/bin/ps -ef | /bin/grep "ConsoleDhs $*" | \
+                        /bin/grep -v grep | \
+                        /bin/grep -v xterm | \
+                        /bin/awk '{ print $2 }'`
+    done
+}
+
+#################################################################
+function kill_dcss ( ) {
+    TIMES=0
+    PID_DCSS=`/bin/ps -ef | /bin/grep "dcss $* -s" | \
+			/bin/grep -v grep | \
+			/bin/grep -v xterm | \
+			/bin/awk '{ print $2 }'`
+    while [[ ${PID_DCSS:=x} != 'x' ]] ;do
+	if ((TIMES++ > DCS_MAXRETRY))
+	then
+            echo "failed to kill dcss"
+            break
+	fi
+        echo "Killing old \"dcss\" process"
+        kill $PID_DCSS
+        sleep 1
+        PID_DCSS=`/bin/ps -ef | /bin/grep "dcss $* -s" | \
+			/bin/grep -v grep | \
+			/bin/grep -v xterm | \
+			/bin/awk '{ print $2 }'`
+    done
+}
+
+#################################################################
+function kill_dhs () {
+    TIMES=0
+    PID_DHS=`/bin/ps -ef | /bin/grep "dhs $*" | \
+			/bin/grep -v grep | \
+			/bin/grep -v impdhs | \
+			/bin/grep -v xterm | \
+			/bin/awk '{ print $2 }'`
+    while [[ ${PID_DHS:=x} != 'x' ]] ;do
+	if ((TIMES++ > DCS_MAXRETRY))
+	then
+            echo "failed to kill dhs"
+            break
+	fi
+        echo "Killing old \"dhs for galil camera, and detector\" process"
+        kill $PID_DHS
+        sleep 1
+        PID_DHS=`/bin/ps -ef | /bin/grep "dhs $*" | \
+			/bin/grep -v grep | \
+			/bin/grep -v xterm | \
+			/bin/awk '{ print $2 }'`
+    done
+}
+
+function kill_impdhs () {
+    TIMES=0
+    PID_IMPDHS=`/bin/ps -ef | /bin/grep "impdhs $*" | \
+			/bin/grep -v grep | \
+			/bin/grep -v xterm | \
+			/bin/awk '{ print $2 }'`
+    while [[ ${PID_IMPDHS:=x} != 'x' ]] ;do
+	if ((TIMES++ > DCS_MAXRETRY))
+	then
+            echo "failed to kill impdhs"
+            break
+	fi
+        echo "Killing old \"impdhs\" process"
+        kill $PID_IMPDHS
+        sleep 1
+        PID_IMPDHS=`/bin/ps -ef | /bin/grep "impdhs $*" | \
+			/bin/grep -v grep | \
+			/bin/grep -v xterm | \
+			/bin/awk '{ print $2 }'`
+    done
+}
+
+#################################################################
+function kill_epics () {
+    TIMES=0
+    PID_EPICS=`/bin/ps -ef | /bin/grep "epicsgw $*" | \
+			/bin/grep -v grep | \
+			/bin/grep -v xterm | \
+			/bin/awk '{ print $2 }'`
+    while [[ ${PID_EPICS:=x} != 'x' ]] ;do
+	if ((TIMES++ > DCS_MAXRETRY))
+	then
+            echo "failed to kill epicsgw"
+            break
+	fi
+        echo "Killing old \"epicsgw \" process"
+        kill $PID_EPICS
+        sleep 1
+        PID_EPICS=`/bin/ps -ef | /bin/grep "epicsgw $*" | \
+			/bin/grep -v grep | \
+			/bin/grep -v xterm | \
+			/bin/awk '{ print $2 }'`
+    done
+}
+#################################################################
+function kill_cryojet () {
+    TIMES=0
+    PID_CRYO=`/bin/ps -ef | /bin/grep "cryojetDhs $*" | \
+			/bin/grep -v grep | \
+			/bin/grep -v xterm | \
+			/bin/awk '{ print $2 }'`
+    while [[ ${PID_CRYO:=x} != 'x' ]] ;do
+	if ((TIMES++ > DCS_MAXRETRY))
+	then
+            echo "failed to kill cryojetDhs"
+            break
+	fi
+        echo "Killing old \"cryojetDhs\" process"
+        kill $PID_CRYO
+        sleep 1
+        PID_CRYO=`/bin/ps -ef | /bin/grep "cryojetDhs $*" | \
+			/bin/grep -v grep | \
+			/bin/grep -v xterm | \
+			/bin/awk '{ print $2 }'`
+    done
+}
+#################################################################
+function kill_simdhs () {
+    TIMES=0
+    PID_SIM=`/bin/ps -ef | /bin/grep "simdhs.tcl $*" | \
+			/bin/grep -v grep | \
+			/bin/grep -v xterm | \
+			/bin/awk '{ print $2 }'`
+    while [[ ${PID_SIM:=x} != 'x' ]] ;do
+	if ((TIMES++ > DCS_MAXRETRY))
+	then
+            echo "failed to kill simdhs"
+            break
+	fi
+        echo "Killing old \"dhs simulator\" process"
+        kill $PID_SIM
+        sleep 1
+        PID_SIM=`/bin/ps -ef | /bin/grep "simdhs $*" | \
+			/bin/grep -v grep | \
+			/bin/grep -v xterm | \
+			/bin/awk '{ print $2 }'`
+    done
+}
+
+#################################################################
+function kill_simdetector () {
+    TIMES=0
+    PID_SIMDET=`/bin/ps -ef | /bin/grep "simdetector $*" | \
+			/bin/grep -v grep | \
+			/bin/grep -v xterm | \
+			/bin/awk '{ print $2 }'`
+    while [[ ${PID_SIMDET:=x} != 'x' ]] ;do
+	if ((TIMES++ > DCS_MAXRETRY))
+	then
+            echo "failed to kill simdetector"
+            break
+	fi
+        echo "Killing old \"dhs simulator\" process"
+        echo "Killing old \"detector simulator\" process"
+        kill $PID_SIMDET
+        sleep 1
+        PID_SIMDET=`/bin/ps -ef | /bin/grep "simdetector $*" | \
+			/bin/grep -v grep | \
+			/bin/grep -v xterm | \
+			/bin/awk '{ print $2 }'`
+    done
+}
+
+#################################################################
+function kill_temperatureDhs () {
+    TIMES=0
+    PID_SIM=`/bin/ps -ef | /bin/grep "temperatureDhs.tcl $*" | \
+			/bin/grep -v grep | \
+			/bin/grep -v xterm | \
+			/bin/awk '{ print $2 }'`
+    while [[ ${PID_SIM:=x} != 'x' ]] ;do
+	if ((TIMES++ > DCS_MAXRETRY))
+	then
+            echo "failed to kill temperatureDhs"
+            break
+	fi
+        echo "Killing old \"dhs temperatureDhs\" process"
+        sudo kill $PID_SIM
+        sleep 1
+        PID_SIM=`/bin/ps -ef | /bin/grep "temperatureDhs $*" | \
+			/bin/grep -v grep | \
+			/bin/grep -v xterm | \
+			/bin/awk '{ print $2 }'`
+    done
+}
+
+function kill_sr570 () {
+    TIMES=0
+    PID_SIM=`/bin/ps -ef | /bin/grep "sr570.tcl $*" | \
+			/bin/grep -v grep | \
+			/bin/grep -v xterm | \
+			/bin/awk '{ print $2 }'`
+    while [[ ${PID_SIM:=x} != 'x' ]] ;do
+	if ((TIMES++ > DCS_MAXRETRY))
+	then
+            echo "failed to kill sr570"
+            break
+	fi
+        echo "Killing old \"dhs sr570\" process"
+        sudo kill $PID_SIM
+        sleep 1
+        PID_SIM=`/bin/ps -ef | /bin/grep "sr570.tcl $*" | \
+			/bin/grep -v grep | \
+			/bin/grep -v xterm | \
+			/bin/awk '{ print $2 }'`
+    done
+}
+
+#################################################################
+function kill_image () {
+    TIMES=0
+    PID_IMGSRV=`/bin/ps -ef | /bin/grep 'imgsrv' | \
+			/bin/grep -v grep | \
+			/bin/grep -v xterm | \
+			/bin/awk '{ print $2 }'`
+    while [[ ${PID_IMGSRV:=x} != 'x' ]] ;do
+	if ((TIMES++ > DCS_MAXRETRY))
+	then
+            echo "failed to kill imgsrv"
+            break
+	fi
+        echo "Killing old \"Image Server\" process"
+        kill $PID_IMGSRV
+        sleep 1
+        PID_IMGSRV=`/bin/ps -ef | /bin/grep 'imgsrv' | \
+			/bin/grep -v grep | \
+			/bin/grep -v xterm | \
+			/bin/awk '{ print $2 }'`
+    done
+}
+
+#################################################################
+function kill_adsc () {
+    TIMES=0
+    PID_ADSC_WORKSTATION=`/bin/ps -ef | /bin/grep 'det_api_workstation' | \
+			/bin/grep -v grep | \
+			/bin/grep -v source | \
+			/bin/grep -v xterm | \
+			/bin/awk '{ print $2 }'`
+    while [[ ${PID_ADSC_WORKSTATION:=x} != 'x' ]] ;do
+	if ((TIMES++ > DCS_MAXRETRY))
+	then
+            echo "failed to kill adsc"
+            break
+	fi
+        echo "Killing old \"adsc det_api_workstation\" process"
+        kill $PID_ADSC_WORKSTATION
+        sleep 1
+        PID_ADSC_WORKSTATION=`/bin/ps -ef | /bin/grep 'det_api_workstation' | \
+			/bin/grep -v grep | \
+			/bin/grep -v source | \
+			/bin/grep -v xterm | \
+			/bin/awk '{ print $2 }'`
+    done
+}
+
+
+#################################################################
+function kill_scan345 () {
+    TIMES=0
+    PID_SCAN345=`/bin/ps -ef | /bin/grep 'scan345.exe' | \
+			/bin/grep -v grep | \
+			/bin/grep -v xterm | \
+			/bin/awk '{ print $2 }'`
+    while [[ ${PID_SCAN345:=x} != 'x' ]] ;do
+	if ((TIMES++ > DCS_MAXRETRY))
+	then
+            echo "failed to kill scan345"
+            break
+	fi
+        echo "Killing old \"adsc det_api_workstation\" process"
+        sudo kill $PID_SCAN345
+        sleep 1
+        PID_SCAN345=`/bin/ps -ef | /bin/grep 'scan345.exe' | \
+			/bin/grep -v grep | \
+			/bin/grep -v xterm | \
+			/bin/awk '{ print $2 }'`
+    done
+}
+
+####################################################
+function kill_remote_detector () {
+    TIMES=0
+    PID_DET=`ssh -x smbfs "/bin/ps -ef | /bin/grep \"dhs $* detector\" | \
+			/bin/grep -v sudo | \
+			/bin/grep -v grep"`
+    REAL_ID=`echo $PID_DET| /bin/awk '{ print $2 }'`
+    echo "remote id: \"$REAL_ID\""
+    while [[ ${REAL_ID}:=x} != 'x' && "$REAL_ID" != "" ]] ;do
+	if ((TIMES++ > DCS_MAXRETRY))
+	then
+            echo "failed to kill remote detector"
+            break
+	fi
+        echo "Killing old \"detector on smbfs\" process"
+        ssh -t smbfs "sudo kill -9 $REAL_ID"
+        sleep 2
+        PID_DET=`ssh -x smbfs "/bin/ps -ef | /bin/grep \"dhs $* detector\" | \
+			/bin/grep -v sudo | \
+            /bin/grep -v grep"`
+        REAL_ID=`echo $PID_DET| /bin/awk '{ print $2 }'`
+        echo "remote id \"$REAL_ID\""
+    done
+}
+
+##################################################################
+function wait_dcss () {
+    TIMES=0
+    BEAMLINE=$1
+    PID_DCSS=`/bin/ps -ef | /bin/grep "dcss $BEAMLINE -s" | \
+			/bin/grep -v grep | \
+			/bin/grep -v xterm | \
+			/bin/awk '{ print $2 }'`
+    while [[ ${PID_DCSS:=x} == 'x' ]] ;do
+	if ((TIMES++ > DCS_MAXRETRY))
+	then
+            echo "failed to start dcss"
+            break
+	fi
+        echo "########################################"
+        echo "waiting \"dcss\" to start, pid = $PID_DCSS"
+        sleep 1
+
+        PID_DCSS=`/bin/ps -ef | /bin/grep "dcss $BEAMLINE -s" | \
+			/bin/grep -v grep | \
+			/bin/grep -v xterm | \
+			/bin/awk '{ print $2 }'`
+    done
+    PID_DCSS_FILE=$(< /tmp/dcss_${1}.lock)
+	 echo "checking lock file /tmp/dcss_${BEAMLINE}.lock"
+    TIMES=0
+    while [[ $PID_DCSS != $PID_DCSS_FILE ]] ;do
+	if ((TIMES++ > DCS_MAXRETRY))
+	then
+            echo "failed to wait dcss"
+            break
+	fi
+        echo "########################################"
+        echo "waiting \"dcss\" to initialize"
+        echo "It may wait you for password"
+        sleep 1
+        PID_DCSS_FILE=$(< /tmp/dcss_${BEAMLINE}.lock)
+    done
+    echo "dcss PID: $PID_DCSS"
+}
+
+##################################################################
+function wait_dhs () {
+    TIMES=0
+    PID_DHS=`/bin/ps -ef | /bin/grep "dhs $*" | \
+			/bin/grep -v impdhs | \
+			/bin/grep -v grep | \
+			/bin/grep -v xterm | \
+			/bin/awk '{ print $2 }'`
+    while [[ ${PID_DHS:=x} == 'x' ]] ;do
+	if ((TIMES++ > DCS_MAXRETRY))
+	then
+            echo "failed to wait dhs"
+            break
+	fi
+        echo "########################################"
+        echo "waiting \"dhs $@\" to start"
+        sleep 1
+        PID_DHS=`/bin/ps -ef | /bin/grep "dhs $*" | \
+			/bin/grep -v grep | \
+			/bin/grep -v xterm | \
+			/bin/awk '{ print $2 }'`
+    done
+    echo "dhs $* pid: $PID_DHS"
+}
+
+##################################################################
+function wait_scan345 () {
+    TIMES=0
+    PID_SCAN345=`/bin/ps -ef | /bin/grep "scan345.exe" | \
+			/bin/grep -v grep | \
+			/bin/grep -v xterm | \
+			/bin/awk '{ print $2 }'`
+    while [[ ${PID_SCAN345:=x} == 'x' ]] ;do
+	if ((TIMES++ > DCS_MAXRETRY))
+	then
+            echo "failed to wait scan345"
+            break
+	fi
+        echo "########################################"
+        echo "waiting for scan345 to start"
+        sleep 1
+        PID_SCAN345=`/bin/ps -ef | /bin/grep "scan345.exe" | \
+			/bin/grep -v grep | \
+			/bin/grep -v xterm | \
+			/bin/awk '{ print $2 }'`
+    done
+    echo "scan345 pid: $PID_SCAN345"
+}
+
+#################################################################
+function wait_epics () {
+    TIMES=0
+    PID_EPICS=`/bin/ps -ef | /bin/grep "epicsgw $*" | \
+			/bin/grep -v grep | \
+			/bin/grep -v xterm | \
+			/bin/awk '{ print $2 }'`
+    while [[ ${PID_EPICS:=x} == 'x' ]] ;do
+	if ((TIMES++ > DCS_MAXRETRY))
+	then
+            echo "failed to wait epics"
+            break
+	fi
+        echo "########################################"
+        echo "waiting \"epicsgw \" to start"
+        sleep 1
+        PID_EPICS=`/bin/ps -ef | /bin/grep "epicsgw $*" | \
+			/bin/grep -v grep | \
+			/bin/grep -v xterm | \
+			/bin/awk '{ print $2 }'`
+    done
+    echo "epics PID: $PID_EPICS"
+}
+function wait_cryojet () {
+    TIMES=0
+    PID_CRYO=`/bin/ps -ef | /bin/grep "cryojetDhs $*" | \
+            /bin/grep -v grep | \
+            /bin/grep -v xterm | \
+            /bin/awk '{ print $2 }'`
+    while [[ ${PID_CRYO:=x} == 'x' ]] ;do
+	if ((TIMES++ > DCS_MAXRETRY))
+	then
+            echo "failed to wait epics"
+            break
+	fi
+        echo "########################################"
+        echo "waiting \"cryojetDhs\" to start"
+        sleep 1
+        PID_CRYO=`/bin/ps -ef | /bin/grep "epicsgw $*" | \
+			/bin/grep -v grep | \
+			/bin/grep -v xterm | \
+			/bin/awk '{ print $2 }'`
+    done
+    echo "cryojet PID: $PID_CRYO"
+}
+
+#################################################################
+function wait_impdhs () {
+    TIMES=0
+    PID_IMPDHS=`/bin/ps -ef | /bin/grep "impdhs $*" | \
+			/bin/grep -v grep | \
+			/bin/grep -v xterm | \
+			/bin/awk '{ print $2 }'`
+    while [[ ${PID_IMPDHS:=x} == 'x' ]] ;do
+	if ((TIMES++ > DCS_MAXRETRY))
+	then
+            echo "failed to wait impdhs"
+            break
+	fi
+        echo "########################################"
+        echo "waiting \"impdhs \" to start"
+        sleep 1
+        PID_IMPDHS=`/bin/ps -ef | /bin/grep "impdhs $*" | \
+			/bin/grep -v grep | \
+			/bin/grep -v xterm | \
+			/bin/awk '{ print $2 }'`
+    done
+    echo "impdhs PID: $PID_IMPDHS"
+}
+
+#################################################################
+function wait_imgsrv () {
+    TIMES=0
+    PID_IMGSRV=`/bin/ps -ef | /bin/grep "imgsrv $*" | \
+                        /bin/grep -v grep | \
+                        /bin/grep -v xterm | \
+                        /bin/awk '{ print $2 }'`
+    while [[ ${PID_IMGSRV:=x} == 'x' ]] ;do
+        if ((TIMES++ > DCS_MAXRETRY))
+        then
+            echo "failed to wait imgsrv"
+            break
+        fi
+        echo "########################################"
+        echo "waiting \"imgsrv \" to start"
+        sleep 1
+        PID_IMGSRV=`/bin/ps -ef | /bin/grep "imgsrv $*" | \
+                        /bin/grep -v grep | \
+                        /bin/grep -v xterm | \
+                        /bin/awk '{ print $2 }'`
+    done
+    echo "imgsrv PID: $PID_IMGSRV"
+}
+
+#################################################################
+function wait_console () {
+    TIMES=0
+    PID_CONSOLEDHS=`/bin/ps -ef | /bin/grep "ConsoleDhs $*" | \
+                        /bin/grep -v grep | \
+                        /bin/grep -v xterm | \
+                        /bin/awk '{ print $2 }'`
+    while [[ ${PID_CONSOLEDHS:=x} == 'x' ]] ;do
+        if ((TIMES++ > DCS_MAXRETRY))
+        then
+            echo "failed to wait impdhs"
+            break
+        fi
+        echo "########################################"
+        echo "waiting \"consoledhs \" to start"
+        sleep 1
+        PID_CONSOLEDHS=`/bin/ps -ef | /bin/grep "ConsoleDhs $*" | \
+                        /bin/grep -v grep | \
+                        /bin/grep -v xterm | \
+                        /bin/awk '{ print $2 }'`
+    done
+    echo "consoledhs PID: $PID_CONSOLEDHS"
+}
+
+
+####################################################
+function wait_remote_detector () {
+    TIMES=0
+    PID_DET=`ssh -x smbfs "/bin/ps -ef | /bin/grep \"dhs $* detector\" | \
+			/bin/grep -v sudo | \
+			/bin/grep -v grep"`
+    REAL_ID=`echo $PID_DET| /bin/awk '{ print $2 }'`
+    while [[ ${REAL_ID}:=x} == 'x' || "$REAL_ID" == "" ]] ;do
+	if ((TIMES++ > DCS_MAXRETRY))
+	then
+            echo "failed to wait remote detector"
+            break
+	fi
+        echo "########################################"
+        echo "waiting \"detector on smbfs\" to start"
+        sleep 2
+        PID_DET=`ssh smbfs "/bin/ps -ef | /bin/grep \"dhs $* detector\" | \
+			/bin/grep -v sudo | \
+            /bin/grep -v grep"`
+        REAL_ID=`echo $PID_DET| /bin/awk '{ print $2 }'`
+        echo "wait_remote_detector got pid: \"$REAL_ID\""
+    done
+    echo "detector on smbfs PID: $REAL_ID"
+}
+
+####################################################
+function wait_simdhs () {
+    TIMES=0
+    PID_SIMDHS=`/bin/ps -ef | /bin/grep "simdhs.tcl $*" | \
+			/bin/grep -v grep | \
+			/bin/grep -v xterm | \
+			/bin/awk '{ print $2 }'`
+    while [[ ${PID_SIMDHS:=x} == 'x' ]] ;do
+	if ((TIMES++ > DCS_MAXRETRY))
+	then
+            echo "failed to wait simdhs"
+            break
+	fi
+        echo "########################################"
+        echo "waiting \"simdhs \" to start"
+        sleep 1
+        PID_SIMDHS=`/bin/ps -ef | /bin/grep "simdhs.tcl $*" | \
+			/bin/grep -v grep | \
+			/bin/grep -v xterm | \
+			/bin/awk '{ print $2 }'`
+    done
+    echo "simdhs PID: $PID_SIMDHS"
+}
+
+
+
+
+####################################################
+function wait_temperatureDhs () {
+    TIMES=0
+    PID_SIMDHS=`/bin/ps -ef | /bin/grep "temperatureDhs.tcl $*" | \
+			/bin/grep -v grep | \
+			/bin/grep -v xterm | \
+			/bin/awk '{ print $2 }'`
+    while [[ ${PID_SIMDHS:=x} == 'x' ]] ;do
+	if ((TIMES++ > DCS_MAXRETRY))
+	then
+            echo "failed to wait temperatureDhs"
+            break
+	fi
+        echo "########################################"
+        echo "waiting for \"temperatureDhs \" to start"
+        sleep 1
+        PID_SIMDHS=`/bin/ps -ef | /bin/grep "temperatureDhs.tcl $*" | \
+			/bin/grep -v grep | \
+			/bin/grep -v xterm | \
+			/bin/awk '{ print $2 }'`
+    done
+    echo "temperatureDhs PID: $PID_SIMDHS"
+}
+
+function wait_sr570 () {
+    TIMES=0
+    PID_SIMDHS=`/bin/ps -ef | /bin/grep "sr570.tcl $*" | \
+			/bin/grep -v grep | \
+			/bin/grep -v xterm | \
+			/bin/awk '{ print $2 }'`
+    while [[ ${PID_SIMDHS:=x} == 'x' ]] ;do
+	if ((TIMES++ > DCS_MAXRETRY))
+	then
+            echo "failed to wait sr570"
+            break
+	fi
+        echo "########################################"
+        echo "waiting for \"sr570 \" to start"
+        sleep 1
+        PID_SIMDHS=`/bin/ps -ef | /bin/grep "sr570.tcl $*" | \
+			/bin/grep -v grep | \
+			/bin/grep -v xterm | \
+			/bin/awk '{ print $2 }'`
+    done
+    echo "sr570 PID: $PID_SIMDHS"
+}
+
+
+####################################################
+function wait_simdetector () {
+    TIMES=0
+    PID_SIMDET=`/bin/ps -ef | /bin/grep "simdetector $*" | \
+			/bin/grep -v grep | \
+			/bin/grep -v xterm | \
+			/bin/awk '{ print $2 }'`
+    while [[ ${PID_SIMDET:=x} == 'x' ]] ;do
+	if ((TIMES++ > DCS_MAXRETRY))
+	then
+            echo "failed to wait simdetector"
+            break
+	fi
+        echo "########################################"
+        echo "waiting \"simdetector \" to start"
+        sleep 1
+        PID_SIMDET=`/bin/ps -ef | /bin/grep "simdetector $*" | \
+			/bin/grep -v grep | \
+			/bin/grep -v xterm | \
+			/bin/awk '{ print $2 }'`
+    done
+    echo "simdetector PID: $PID_SIMDET"
+}
+
+#################################################################
+function wait_adsc () {
+    TIMES=0
+    PID_ADSC_WORKSTATION=`/bin/ps -ef | /bin/grep 'det_api_workstation' | \
+			/bin/grep -v grep | \
+			/bin/grep -v source | \
+			/bin/grep -v xterm | \
+			/bin/awk '{ print $2 }'`
+    while [[ ${PID_ADSC_WORKSTATION:=x} == 'x' ]] ;do
+	if ((TIMES++ > DCS_MAXRETRY))
+	then
+            echo "failed to wait adsc"
+            break
+	fi
+        echo "waiting \"adsc det_api_workstation\" to start"
+        sleep 1
+        PID_ADSC_WORKSTATION=`/bin/ps -ef | /bin/grep 'det_api_workstation' | \
+			/bin/grep -v grep | \
+			/bin/grep -v source | \
+			/bin/grep -v xterm | \
+			/bin/awk '{ print $2 }'`
+    done
+    echo "det_api_workstation PID: $PID_ADSC_WORKSTATION"
+}
+#############################################################
+#### following functions depend on many variables in start_dcs
+#############################################################
+function start_dcss () {
+    kill_dcss $BEAMLINE
+    echo "Starting new \"dcss\" process"
+    cd ${DCS_ROOT}/dcss/$MACHINE
+
+    if [[ $DCSDaemonMode = "1" ]]
+    then
+        echo "start dcss in daemon mode"
+        ./dcss $BEAMLINE -s -b
+    else
+        POS_X=$(($POS_X + $DELTA_X))
+        POS_Y=$(($POS_Y + $DELTA_Y))
+        xterm -geometry 80x24+$POS_X+$POS_Y -e ./dcss $BEAMLINE -s &
+    fi
+    wait_dcss $BEAMLINE
+}
+function start_impdhs () {
+    kill_impdhs $BEAMLINE
+    echo "Starting new \"impdhs\" process"
+    cd ${DCS_ROOT}/impdhs/$MACHINE
+
+    if [[ $DCSDaemonMode = "1" ]]
+    then
+        ./impdhs $BEAMLINE -b
+    else
+        POS_X=$(($POS_X + $DELTA_X))
+        POS_Y=$(($POS_Y + $DELTA_Y))
+        xterm -geometry 80x24+$POS_X+$POS_Y -e ./impdhs $BEAMLINE &
+    fi
+    wait_impdhs $BEAMLINE
+}
+function start_image () {
+    kill_image $BEAMLINE
+    echo "Starting new \"imgsrv\" process"
+    cd ${DCS_ROOT}/imgsrv/$MACHINE
+
+    if [[ $DCSDaemonMode = "1" ]]
+    then
+        ./imgsrv $BEAMLINE -b
+    else
+        POS_X=$(($POS_X + $DELTA_X))
+        POS_Y=$(($POS_Y + $DELTA_Y))
+        xterm -geometry 80x24+$POS_X+$POS_Y -e ./imgsrv ${DCS_ROOT}/dcsconfig/data/default.config &
+    fi
+    wait_imgsrv 
+}
+function start_console () {
+    kill_console $BEAMLINE
+    echo "Starting new \"ConsoleDhs\" process"
+    cd ${DCS_ROOT}/xpscandhs/$MACHINE
+
+    if [[ $DCSDaemonMode = "1" ]]
+    then
+        ./impdhs $BEAMLINE -b
+    else
+        POS_X=$(($POS_X + $DELTA_X))
+        POS_Y=$(($POS_Y + $DELTA_Y))
+        xterm -geometry 80x24+$POS_X+$POS_Y -e ./ConsoleDhs $BEAMLINE &
+    fi
+    wait_console $BEAMLINE
+}
+function start_dhs () {
+    kill_dhs $BEAMLINE $*
+    echo "Starting new \"dhs $*\" process"
+    cd ${DCS_ROOT}/dhs/$MACHINE
+
+    if [[ $DCSDaemonMode = "1" ]]
+    then
+        ./dhs $BEAMLINE $* -b
+    else
+        POS_X=$(($POS_X + $DELTA_X))
+        POS_Y=$(($POS_Y + $DELTA_Y))
+        xterm -geometry 80x24+$POS_X+$POS_Y -e ./dhs $BEAMLINE $* &
+    fi
+    wait_dhs $BEAMLINE $*
+}
+function start_dhs_md () {
+    kill_dhs $BEAMLINE $*
+    echo "Starting new \"dhs $*\" process"
+    cd ${DCS_ROOT}/dhs_md/$MACHINE
+
+    if [[ $DCSDaemonMode = "1" ]]
+    then
+        ./dhs $BEAMLINE $* -b
+    else
+        POS_X=$(($POS_X + $DELTA_X))
+        POS_Y=$(($POS_Y + $DELTA_Y))
+        xterm -geometry 80x24+$POS_X+$POS_Y -e ./dhs $BEAMLINE $* &
+    fi
+    wait_dhs $BEAMLINE $*
+}
+function start_dhs_sd () {
+    kill_dhs $BEAMLINE $*
+    echo "Starting new \"dhs $*\" process"
+    cd ${DCS_ROOT}/dhs_sd/$MACHINE
+
+    if [[ $DCSDaemonMode = "1" ]]
+    then
+        ./dhs $BEAMLINE $* -b
+    else
+        POS_X=$(($POS_X + $DELTA_X))
+        POS_Y=$(($POS_Y + $DELTA_Y))
+        xterm -geometry 80x24+$POS_X+$POS_Y -e ./dhs $BEAMLINE $* &
+    fi
+    wait_dhs $BEAMLINE $*
+}
+function start_sudo_dhs_detector () {
+    kill_dhs $BEAMLINE detector
+    echo "Starting new \"dhs $*\" process"
+    cd ${DCS_ROOT}/dhs/$MACHINE
+
+    if [[ $DCSDaemonMode = "1" ]]
+    then
+        sudo ./dhs $BEAMLINE detector -b
+    else
+        POS_X=$(($POS_X + $DELTA_X))
+        POS_Y=$(($POS_Y + $DELTA_Y))
+        xterm -geometry 80x24+$POS_X+$POS_Y -e sudo ./dhs $BEAMLINE detector &
+    fi
+    wait_dhs $BEAMLINE $*
+}
+function start_epicsgw () {
+    kill_epics $BEAMLINE
+    echo "Starting new \"epics gateway\" process"
+    cd ${DCS_ROOT}/epicsgw/$MACHINE
+
+    if [[ $DCSDaemonMode = "1" ]]
+    then
+        ./epicsgw $BEAMLINE -b
+    else
+        POS_X=$(($POS_X + $DELTA_X))
+        POS_Y=$(($POS_Y + $DELTA_Y))
+        xterm -geometry 80x24+$POS_X+$POS_Y -e ./epicsgw $BEAMLINE &
+    fi
+    wait_epics $BEAMLINE
+}
+function start_cryojet () {
+    kill_cryojet $BEAMLINE
+    echo "Starting new \"cryojet\" process"
+    cd ${DCS_ROOT}/CryojetDHS/$MACHINE
+    POS_X=$(($POX_S + $DELTA_X))
+    POS_Y=$(($POS_Y + $DELTA_Y))
+    xterm -geometry 80x24+$POS_X+$POS_Y -e ./cryojetDhs $BEAMLINE &
+    wait_cryojet $BEAMLINE
+}
+function start_simdhs () {
+    kill_simdhs $BEAMLINE
+    echo "Starting new \"simdhs\" process"
+    cd ${DCS_ROOT}/simdhs/scripts
+
+    if [[ $DCSDaemonMode = "1" ]]
+    then
+        nohup tclsh ./simdhs.tcl $BEAMLINE -b >& /dev/null &
+    else
+        POS_X=$(($POS_X + $DELTA_X))
+        POS_Y=$(($POS_Y + $DELTA_Y))
+        xterm -geometry 80x24+$POS_X+$POS_Y -e tclsh simdhs.tcl $BEAMLINE &
+    fi
+    wait_simdhs $BEAMLINE
+}
+
+function start_temperatureDhs () {
+    kill_temperatureDhs $BEAMLINE
+    echo "Starting new \"temperatureDhs\" process"
+    cd ${DCS_ROOT}/simdhs/scripts
+
+    if [[ $DCSDaemonMode = "1" ]]
+    then
+        nohup tclsh ./temperatureDhs.tcl $BEAMLINE -b >& /dev/null &
+    else
+        POS_X=$(($POS_X + $DELTA_X))
+        POS_Y=$(($POS_Y + $DELTA_Y))
+        xterm -geometry 80x24+$POS_X+$POS_Y -e tclsh temperatureDhs.tcl $BEAMLINE &
+    fi
+    wait_temperatureDhs $BEAMLINE
+}
+
+function start_sr570 () {
+    kill_sr570 $BEAMLINE
+    echo "Starting new \"sr570\" process"
+    cd ${DCS_ROOT}/simdhs/scripts
+
+    if [[ $DCSDaemonMode = "1" ]]
+    then
+        nohup tclsh ./sr570.tcl $BEAMLINE -b >& /dev/null &
+    else
+        POS_X=$(($POS_X + $DELTA_X))
+        POS_Y=$(($POS_Y + $DELTA_Y))
+        xterm -geometry 80x24+$POS_X+$POS_Y -e tclsh sr570.tcl $BEAMLINE &
+    fi
+    wait_sr570 $BEAMLINE
+}
+
+function start_simdetector () {
+    kill_simdetector $BEAMLINE
+    echo "Starting new \"simdetector\" process"
+    cd ${DCS_ROOT}/simdetector/$MACHINE
+
+    if [[ $DCSDaemonMode = "1" ]]
+    then
+        ./simdetector $BEAMLINE -b
+    else
+        POS_X=$(($POS_X + $DELTA_X))
+        POS_Y=$(($POS_Y + $DELTA_Y))
+        xterm -geometry 80x24+$POS_X+$POS_Y -e ./simdetector $BEAMLINE &
+    fi
+    wait_simdetector $BEAMLINE
+}
+function start_adsc_detector () {
+    if [[ $DCSDaemonMode = "1" ]]
+    then
+        kill_adsc
+        echo "restart det_api_workstation"
+        cd ${DCS_ROOT}/det_api 
+        source det_api_workstation_env_bash
+        nohup ./det_api_workstation >& /dev/null &
+        wait_adsc
+
+        kill_remote_detector $BEAMLINE
+        echo "Starting new \"dhs detector\" process on smbfs"
+        ssh smbfs "cd ${DCS_ROOT}/dhs/irix; sudo ./dhs $BEAMLINE detector -b"
+        wait_remote_detector $BEAMLINE
+    else
+        sleep 2
+        kill_adsc
+        echo "restart det_api_workstation"
+        cd ${DCS_ROOT}/det_api 
+        POS_X=$(($POS_X + $DELTA_X))
+        POS_Y=$(($POS_Y + $DELTA_Y))
+        xterm -geometry 80x24+$POS_X+$POS_Y -e "source det_api_workstation_env;./det_api_workstation" &
+        wait_adsc
+
+        kill_remote_detector $BEAMLINE
+        echo "Starting new \"dhs detector\" process on smbfs"
+        POS_X=$(($POS_X + $DELTA_X))
+        POS_Y=$(($POS_Y + $DELTA_Y))
+        xterm -geometry 80x24+$POS_X+$POS_Y -e ssh -xt smbfs "cd ${DCS_ROOT}/dhs/irix; sudo ./dhs $BEAMLINE detector" &
+        wait_remote_detector $BEAMLINE
+    fi
+}
+function start_adsc () {
+    if [[ $DCSDaemonMode = "1" ]]
+    then
+        kill_adsc
+        echo "restart det_api_workstation"
+        cd ${DCS_ROOT}/det_api 
+        source det_api_workstation_env_bash
+        nohup ./det_api_workstation >& /dev/null &
+        wait_adsc
+    else
+        sleep 2
+        kill_adsc
+        echo "restart det_api_workstation"
+        cd ${DCS_ROOT}/det_api 
+        POS_X=$(($POS_X + $DELTA_X))
+        POS_Y=$(($POS_Y + $DELTA_Y))
+        xterm -geometry 80x24+$POS_X+$POS_Y -e "source det_api_workstation_env;./det_api_workstation" &
+        wait_adsc
+    fi
+}
+function start_adsc_detector_with_hostname () {
+    if [[ $DCSDaemonMode = "1" ]]
+    then
+        kill_adsc
+        echo "restart det_api_workstation"
+        cd ${DCS_ROOT}/det_api 
+        source det_api_workstation_env_bash
+        nohup ./det_api_workstation >& /dev/null &
+        wait_adsc
+
+        kill_remote_detector_with_hostname $1
+        echo "Starting new \"dhs detector\" process on $1"
+        ssh $1 "cd ${DCS_ROOT}/dhs/irix; sudo ./dhs $BEAMLINE detector -b"
+        wait_remote_detector_with_hostname $1
+    else
+        sleep 2
+        kill_adsc
+        echo "restart det_api_workstation"
+        cd ${DCS_ROOT}/det_api 
+        POS_X=$(($POS_X + $DELTA_X))
+        POS_Y=$(($POS_Y + $DELTA_Y))
+        xterm -geometry 80x24+$POS_X+$POS_Y -e "source det_api_workstation_env;./det_api_workstation" &
+        wait_adsc
+
+        kill_remote_detector_with_hostname $1
+        echo "Starting new \"dhs detector\" process on $1"
+        POS_X=$(($POS_X + $DELTA_X))
+        POS_Y=$(($POS_Y + $DELTA_Y))
+        xterm -geometry 80x24+$POS_X+$POS_Y -e ssh -xt $1 "cd ${DCS_ROOT}/dhs/irix; sudo ./dhs $BEAMLINE detector" &
+        wait_remote_detector_with_hostname $1
+    fi
+}
+function start_scan345 () {
+    kill_scan345
+    echo "Starting new \"scan345\" process"
+    if [[ $DCSDaemonMode = "1" ]]
+    then
+        sudo -b scan345 >& /dev/null
+    else
+        POS_X=$(($POS_X + $DELTA_X))
+        POS_Y=$(($POS_Y + $DELTA_Y))
+        xterm -geometry 80x24+$POS_X+$POS_Y -e sudo scan345 &
+    fi
+    wait_scan345
+}
+function start_marccd_detector () {
+    echo "restart mar software"
+    POS_X=$(($POS_X + $DELTA_X))
+    POS_Y=$(($POS_Y + $DELTA_Y))
+    xterm -geometry 80x24+$POS_X+$POS_Y -e ssh $* "/usr/local/dcs/batchbuild/start_marccd $POS_X $POS_Y $DELTA_X $DELTA_Y" &
+}
+###########################################################
+# remote mode
+###########################################################
+function start_marccd_detector_with_hostname () {
+    kill_marccd_detector_with_hostname $1
+
+    echo "restart marccd software"
+    POS_X=$(($POS_X + $DELTA_X))
+    POS_Y=$(($POS_Y + $DELTA_Y))
+    setsid xterm -geometry 80x24+$POS_X+$POS_Y -e ssh $1 "/opt/marccd/bin/linux/marccd -r -f" &
+    wait_remote_marccd_with_hostname $1
+
+    echo "restart remote detector for marccd"
+    POS_X=$(($POS_X + $DELTA_X))
+    POS_Y=$(($POS_Y + $DELTA_Y))
+    echo "Starting new \"dhs detector\" process on $1"
+    setsid xterm -geometry 80x24+$POS_X+$POS_Y -e ssh $1 "cd ${DCS_ROOT}/dhs/linux; ./dhs $BEAMLINE detector" &
+    wait_remote_detector_with_hostname $1
+}
+function kill_marccd_detector_with_hostname () {
+    kill_remote_detector_with_hostname $1
+    kill_remote_marccd_with_hostname $1
+}
+
+function kill_remote_detector_with_hostname () {
+    echo "killing remote detector on $1 for $BEAMLINE"
+    TIMES=0
+    PID_DET=`ssh -x $1 "/bin/ps -ef | /bin/grep \"dhs $BEAMLINE detector\" | \
+			/bin/grep -v sudo | \
+			/bin/grep -v grep"`
+    REAL_ID=`echo $PID_DET| /bin/awk '{ print $2 }'`
+    echo "remote id: \"$REAL_ID\""
+    while [[ ${REAL_ID}:=x} != 'x' && "$REAL_ID" != "" ]] ;do
+	if ((TIMES++ > DCS_MAXRETRY))
+	then
+            echo "failed to kill remote detector"
+            break
+	fi
+        echo "Killing old \"detector on $1\" process"
+        ssh -t $1 "kill -9 $REAL_ID"
+        sleep 2
+        PID_DET=`ssh -x $1 "/bin/ps -ef | /bin/grep \"dhs $BEAMLINE detector\" | \
+			/bin/grep -v sudo | \
+            /bin/grep -v grep"`
+        REAL_ID=`echo $PID_DET| /bin/awk '{ print $2 }'`
+        echo "remote id \"$REAL_ID\""
+    done
+}
+function kill_remote_marccd_with_hostname () {
+    echo "killing remote marccd server on $1"
+    TIMES=0
+    PID_DET=`ssh -x $1 "/bin/ps -ef | /bin/grep marccd_server_socket | \
+			/bin/grep -v tcsh | \
+			/bin/grep -v sudo | \
+			/bin/grep -v grep"`
+    REAL_ID=`echo $PID_DET| /bin/awk '{ print $2 }'`
+    echo "remote id: \"$REAL_ID\""
+    while [[ ${REAL_ID}:=x} != 'x' && "$REAL_ID" != "" ]] ;do
+	if ((TIMES++ > DCS_MAXRETRY))
+	then
+            echo "failed to kill remote marccd server"
+            break
+	fi
+        echo "Killing old \"marccd server on $1\" process"
+        ssh -t $1 "kill -9 $REAL_ID"
+        sleep 2
+        PID_DET=`ssh -x $1 "/bin/ps -ef | /bin/grep marccd_server_socket | \
+			/bin/grep -v tcsh | \
+			/bin/grep -v sudo | \
+            /bin/grep -v grep"`
+        REAL_ID=`echo $PID_DET| /bin/awk '{ print $2 }'`
+        echo "remote id \"$REAL_ID\""
+    done
+
+
+
+    echo "killing remote marccd on $1"
+    TIMES=0
+    PID_DET=`ssh -x $1 "/bin/ps -ef | /bin/grep \"/opt/marccd/bin/linux/marccd\" | \
+			/bin/grep -v tcsh | \
+			/bin/grep -v sudo | \
+			/bin/grep -v grep"`
+    REAL_ID=`echo $PID_DET| /bin/awk '{ print $2 }'`
+    echo "remote id: \"$REAL_ID\""
+    while [[ ${REAL_ID}:=x} != 'x' && "$REAL_ID" != "" ]] ;do
+	if ((TIMES++ > DCS_MAXRETRY))
+	then
+            echo "failed to kill remote detector"
+            break
+	fi
+        echo "Killing old \"marccd on $1\" process"
+        ssh -t $1 "kill -9 $REAL_ID"
+        sleep 2
+        PID_DET=`ssh -x $1 "/bin/ps -ef | /bin/grep \"/opt/marccd/bin/linux/marccd\" | \
+			/bin/grep -v tcsh | \
+			/bin/grep -v sudo | \
+            /bin/grep -v grep"`
+        REAL_ID=`echo $PID_DET| /bin/awk '{ print $2 }'`
+        echo "remote id \"$REAL_ID\""
+    done
+}
+function wait_remote_detector_with_hostname () {
+    TIMES=0
+    PID_DET=`ssh -x $1 "/bin/ps -ef | /bin/grep \"dhs $BEAMLINE detector\" | \
+			/bin/grep -v sudo | \
+			/bin/grep -v grep"`
+    REAL_ID=`echo $PID_DET| /bin/awk '{ print $2 }'`
+    while [[ ${REAL_ID}:=x} == 'x' || "$REAL_ID" == "" ]] ;do
+	if ((TIMES++ > DCS_MAXRETRY))
+	then
+            echo "failed to wait remote detector"
+            break
+	fi
+        echo "########################################"
+        echo "waiting \"detector on $1\" to start"
+        sleep 2
+        PID_DET=`ssh -x $1 "/bin/ps -ef | /bin/grep \"dhs $BEAMLINE detector\" | \
+			/bin/grep -v sudo | \
+            /bin/grep -v grep"`
+        REAL_ID=`echo $PID_DET| /bin/awk '{ print $2 }'`
+        echo "wait_remote_detector_with_hostname got pid: \"$REAL_ID\""
+    done
+    echo "detector on $1 PID: $REAL_ID"
+}
+function wait_remote_marccd_with_hostname () {
+    TIMES=0
+    PID_DET=`ssh -x $1 "/bin/ps -ef | /bin/grep \"/opt/marccd/bin/linux/marccd\" | \
+			/bin/grep -v tcsh | \
+			/bin/grep -v sudo | \
+			/bin/grep -v grep"`
+    REAL_ID=`echo $PID_DET| /bin/awk '{ print $2 }'`
+    while [[ ${REAL_ID}:=x} == 'x' || "$REAL_ID" == "" ]] ;do
+	if ((TIMES++ > DCS_MAXRETRY))
+	then
+            echo "failed to wait for remote marccd"
+            break
+	fi
+        echo "########################################"
+        echo "waiting \"marccd on $1\" to start"
+        sleep 2
+        PID_DET=`ssh -x $1 "/bin/ps -ef | /bin/grep \"/opt/marccd/bin/linux/marccd\" | \
+			/bin/grep -v tcsh | \
+			/bin/grep -v sudo | \
+            /bin/grep -v grep"`
+        REAL_ID=`echo $PID_DET| /bin/awk '{ print $2 }'`
+        echo "wait_remote_marccd got pid: \"$REAL_ID\""
+    done
+    echo "detector on $1 PID: $REAL_ID"
+}

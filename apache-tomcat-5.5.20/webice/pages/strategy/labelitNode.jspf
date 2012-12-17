@@ -1,0 +1,55 @@
+<%
+	Object labelitNodes[] = topNode.getChildren();
+	String handle = "";
+
+	if (labelitNodes != null) {
+
+		for (int li = 0; li < labelitNodes.length; ++li) {
+
+			LabelitNode labelitNode = (LabelitNode)labelitNodes[li];
+			imageName = "images/strategy/folder.png";
+			// display open folder for the selected node
+			if (viewer.isSelectedNode(labelitNode)) {
+				imageName = "images/strategy/folder_sel.png";
+			}
+
+			if (labelitNode.getChildrenCount() == 0) {
+				handle = "images/strategy/line";
+			} else {
+				handle = "images/strategy/handle";
+				if (labelitNode.isExpanded()) {
+					handle += "down";
+				} else {
+					handle += "right";
+				}
+			}
+
+			if (li < labelitNodes.length-1) {
+				handle += "middle.png";
+			} else {
+				handle += "last.png";
+			}
+%>
+
+<tr><td></td>
+<td width="1%" align='center'><a href="Strategy_ExpandNode.do?nodePath=<%= labelitNode.getPath() %>" target="_parent"><img src="<%= handle %>" border="0"></a></td>
+<td width="1%" align='center'><img src="<%= imageName %>" width="16" height="16" border="0"></td>
+<td align="left" colspan="4"><a href="Strategy_SelectNode.do?nodePath=<%= labelitNode.getPath() %>" target="_parent">
+
+<% if (viewer.isSelectedNode(labelitNode)) { %>
+<b><%= labelitNode.getName() %></b>
+<% } else { %>
+<%= labelitNode.getName() %>
+<% } %>
+</a></td>
+</tr>
+
+<% if (labelitNode.isExpanded()) { %>
+<%@ include file="/pages/strategy/strategyNode.jspf" %>
+<%			}
+
+		}
+
+	}
+
+%>

@@ -1,0 +1,70 @@
+# Makefile
+# Created on Oct 30 1999 by Gwyndaf Evans
+#
+# Edit the three first directory definitions to specify
+# a)  the directory where the pgplot library is (PGPLOTLIB);
+# b)  the directory where the X11 library is (LIBX11);
+# c)  and the directory where you would like you executables to go (BINDIR).
+#
+#
+#
+# PGPLOTDIR = /usr/local/pgplot
+X11LIBDIR = /usr/lib
+BINDIR    = /home/ash/Chooch-4.01/bin
+######################################
+#
+XLIB      = -lX11
+# PGPLOTLIB = -lpgplot
+#
+EXE1       = Benny_auto 
+EXE2       = Chooch_auto 
+#
+# How to compile and link
+#
+FC     = f77
+FOPTIM = -O2 -o32
+FFLAGS = $(FOPTIM) 
+LDFLAGS =  -L$(X11LIBDIR) $(XLIB)
+LNS    = ln -s
+#
+# Basic definitions
+#
+SHELL = /bin/sh
+RM    = /bin/rm
+MV    = /bin/mv
+CP    = /bin/cp
+#
+# 
+BENNYOBJ  = Benny_auto.o polfit.o
+CHOOCHOBJ = Chooch_auto.o extrap.o entest.o eqofline.o mucal.o upcase.o
+#
+#
+benny : $(BENNYOBJ)
+	$(FC) -o $(EXE1) $(BENNYOBJ) $(FFLAGS) $(LDFLAGS)
+#
+#
+chooch : $(CHOOCHOBJ)
+	$(FC) -o $(EXE2)  $(CHOOCHOBJ) $(FFLAGS) $(LDFLAGS)
+#
+#
+#
+install :
+	$(MV) $(EXE1) $(BINDIR)
+	$(MV) $(EXE2) $(BINDIR)
+	$(CP) Chooch_auto.sh $(BINDIR)
+	$(CP) autochooch $(BINDIR)
+
+#
+#
+clean :
+	$(RM) *.o
+# 
+# End
+#
+
+
+
+
+
+
+

@@ -1,0 +1,106 @@
+
+
+	Instructions for simulation software.
+
+	Edit each of the files in .../ccd_dist_dls/logicals_files and
+change the environment name CCDHOME in each to the root of this
+distribution.
+
+	The software can be run to simulate a 1x1 (single module) detector,
+a 2x2 (Q210) detector, or 3x3 (Q315) detector.  There are logicals files
+
+Size	Framegrabber simulation		Applicaton software
+----	-----------------------		-------------------
+
+1x1	log_framegrabber_1x1		logicals_1x1
+2x2	log_framegrabber_2x2		logicals_2x2
+3x3	log_framegrabber_3x3		logicals_3x3
+
+for each detector size.
+
+	The log_framegrabber_? files contain only the environment necessary
+to run the detector process in simulation mode under linux.  The environment
+names follow those which are defined on the windows XP framegrabber computers.
+
+	The log_logicals_? files contain the environment for all the application
+programs which are used in taking images.  These files are more complex than
+the framegrabber environment files since they contain the connection scheme
+between the various processes (hostnames, port numbers, and application names).
+
+	The connection scheme looks like this:
+
+
+		FRAMEGRABBER COMPUTERS (4 or 9)
+	     (or single process simulation program)
+			/	\
+		       /         \
+                      /           \
+                     /             \
+         det_api_workstation	ccd_image_gather
+	 (API for all apps)	(gathers data taken in framegrabbers)
+                     \            /
+                      \          /
+                       \        /
+                        \      /
+              data collection sequencer and control
+		program.  Takes input from user GUI
+                and calls beamline control and exposure
+                functions.	
+
+	Some data collection sequencers read and write directly to the
+API interfaces (det & gather) [ccd_dc_api_mad_x8c], and others use
+the ESRF TACO-compliant library detcon_lib_mp to interface to the
+det & gather APIs [biocars_iface, detcon_test_mp].
+
+	To test the interface, make sure that the hostnames and "home"
+environment variables are correctly set.  If the framegrabber simulation
+is to be run on a separate host from the apps, then you need to change
+the environment variables
+
+setenv  CCD_DTHOSTNAME          localhost
+	and
+setenv  CCD_DTDHOSTNAME         localhost
+
+to the proper hostname (other than localhost).  You then need to change
+the file detector_db.txt in either tables_api_1x1, tables_api_2x2, or
+tables_api_3x3 and change "localhost" to the proper framegrabber simulation
+host.
+
+	The easiest way to start up the testing of the software is to
+create 4 windows. "?" refers to 1x1, 2x2, or 3x3.
+
+	In window 1, source ccd_dist_dls/logicals_files/log_framegrabber_?
+		     set path = ($path $CCDHOME/bin/linux)
+
+		     det_spool_t2k
+
+	In window 2, source ccd_dist_dls/logicals_files/log_framegrabber_?
+		     set path = ($path $CCDHOME/bin/linux)
+
+		     det_api_workstation
+
+			(you should see it connect to the process in window 1)
+
+	In window 3, source ccd_dist_dls/logicals_files/log_framegrabber_?
+		     set path = ($path $CCDHOME/bin/linux)
+
+		     ccd_image_gather
+
+			(you should see it connect to the process in window 1)
+
+	In window 4, source ccd_dist_dls/logicals_files/log_framegrabber_?
+		     set path = ($path $CCDHOME/bin/linux)
+
+		     detcon_test_mp
+
+			or
+
+		     biocars_iface
+
+			(you should see it "operate" the detector and interfaces).
+
+	Limitation:
+
+		In simulation mode, you can only output BOTH raws and corrected
+		images in the 1x1 case.  This is an artificial limitation due to
+		running all "n" detector modules (n > 1) in the same process.
