@@ -43,7 +43,7 @@ analogInStatus1
 galil2 analogInStatus1
 0 1 1 1 1
 0 1 1 1 1
-0.021100 -0.007900 0.021400 3.463800 2.596400 2.597700 2.597400 0.024700
+0.024700 -0.011900 0.023800 3.463900 2.595800 2.597700 2.597400 0.040900
 
 get_robotstate
 11
@@ -253,7 +253,7 @@ lastImageCollected
 detector lastImageCollected
 0 1 1 1 1
 0 1 1 1 1
-/home/nysbc/old-dhs/test_1_00003.img
+/home/nysbc/old-dhs/test_1_00010.img
 
 detector_collect_image
 11
@@ -299,7 +299,7 @@ self collectFrame
 
 collectRun
 11
-self collectRun
+self collectShutterless
 0 0 1 1 1
 0 0 1 1 1
 
@@ -655,7 +655,7 @@ ConsoleDhs MFirst
 0 1 1 1 1
 0 1 1 1 1
 0
-12671.860350 16000.000000 5400.000000 1 1 0 0 eV
+12672.700200 16000.000000 5400.000000 1 1 0 0 eV
 0
 
 optimizedEnergyParameters
@@ -687,7 +687,7 @@ galil1 gonio_phi
 0 1 1 1 1
 0 1 1 1 1
 0
-3.009300 1000.000000 0.000000 10000.000000 900000 10 0 0 0 0 0 0 1 deg
+10.012300 1000.000000 0.000000 10000.000000 900000 10 0 0 0 0 0 0 1 deg
 
 mono_vert
 1
@@ -1211,7 +1211,7 @@ galil1 tripot_3
 0 1 1 1 1
 0 1 1 1 1
 0
--1.007690 10.000000 -10.000000 20157.000000 5000 20 0 0 0 0 0 0 0 mm
+-0.878057 10.000000 -10.000000 20157.000000 5000 20 0 0 0 0 0 0 0 mm
 
 tripot_2
 1
@@ -1219,7 +1219,7 @@ galil1 tripot_2
 0 1 1 1 1
 0 1 1 1 1
 0
--0.813514 5.500000 -5.500000 20157.000000 5000 20 0 0 0 0 0 0 0 mm
+-0.707645 5.500000 -5.500000 20157.000000 5000 20 0 0 0 0 0 0 0 mm
 
 tripot_1
 1
@@ -1227,7 +1227,7 @@ galil1 tripot_1
 0 1 1 1 1
 0 1 1 1 1
 0
--1.142779 10.000000 -10.000000 20157.000000 5000 20 0 0 0 0 0 0 0 mm
+-1.041673 10.000000 -10.000000 20157.000000 5000 20 0 0 0 0 0 0 0 mm
 
 sample_x
 2
@@ -1235,7 +1235,7 @@ self sample_x
 0 1 1 1 1
 0 1 1 1 1
 1
-0.830656 10.000000 -10.000000 0 0 0 0 mm
+0.842671 10.000000 -10.000000 0 0 0 0 mm
 tripot_1 tripot_2
 
 sample_y
@@ -1244,7 +1244,7 @@ self sample_y
 0 1 1 1 1
 0 1 1 1 1
 1
--0.085961 10.000000 -10.000000 0 0 0 0 mm
+-0.009887 10.000000 -10.000000 0 0 0 0 mm
 tripot_1 tripot_2 tripot_3
 
 sample_z
@@ -1253,7 +1253,7 @@ self sample_z
 0 1 1 1 1
 0 1 1 1 1
 1
--0.987994 10.000000 -10.000000 0 0 0 0 mm
+-0.875792 10.000000 -10.000000 0 0 0 0 mm
 tripot_1 tripot_2 tripot_3
 
 sample_z_corr
@@ -1262,7 +1262,7 @@ self sample_z_corr
 0 1 1 1 1
 0 1 1 1 1
 1
--0.987994 4.950000 -28.100000 1 0 0 0 mm
+-0.875792 4.950000 -28.100000 1 0 0 0 mm
 sample_z
 
 bend_x3
@@ -1394,7 +1394,7 @@ collect_msg
 self collectStatus
 0 1 1 1 1
 0 1 1 1 1
-0 {Data collection completed normally} 6 X4A nysbc {} 1
+0 {DCSS was reset.} 0 {} {} {} {}
 
 runs
 13
@@ -1408,14 +1408,14 @@ run0
 self runDefinition
 0 1 1 1 1
 0 1 1 1 1
-inactive 0 0 test /home/nysbc/new-dhs 22 Phi 1.00 573.0 1.00 180.0 5.00 500.000000 50.000000 50 1 12671.720700 {} {} {} {} 1 0
+inactive 0 0 test /home/nysbc/new-dhs 25 Phi 90.000000 662.0 1.00 180.0 7.00 500.000000 50.000000 50 1 12672.700200 {} {} {} {} 1 0
 
 run1
 13
 self runDefinition
 0 1 1 1 1
 0 1 1 1 1
-complete 3 1 test /home/nysbc/old-dhs 1 Phi 0.00 3.0 1.00 180.0 6.00 500.000000 50.000000 50 1 12671.580080 {} {} {} {} 1 0
+complete 10 1 test /home/nysbc/old-dhs 1 Phi 0.00 10.0 1.00 180.0 5.00 500.000000 50.000000 50 1 12672.419920 {} {} {} {} 1 0
 
 run2
 13
@@ -1897,7 +1897,7 @@ self attenuation
 0 1 1 1 1
 0 1 1 1 1
 0
-49.759459 100.000000 0.000000 0 0 0 0 %
+49.752927 100.000000 0.000000 0 0 0 0 %
 0
 
 acquireSpectrum
@@ -1973,7 +1973,7 @@ hutchDoorStatus
 simDhs standardString
 0 1 1 1 1
 0 1 1 1 1
-closed 1355759564
+closed 1355784900
 
 getPV
 11
@@ -2096,7 +2096,7 @@ detectorType
 detector standardString
 0 1 1 1 1
 0 1 1 1 1
-{Q4CCD}
+PILATUS6
 
 robotResetStep
 13
@@ -2673,7 +2673,7 @@ system_status
 self systemStatus
 1 1 1 1 1
 0 0 0 0 0
-{Detector Ready} black #00a040
+{detector offline} black red
 
 scan_msg
 13

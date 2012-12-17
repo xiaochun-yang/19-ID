@@ -1649,7 +1649,7 @@ xos_result_t dmc2180_motor_start_oscillation( dhs_motor_start_oscillation_messag
 		shutter = (Dmc2180_shutter * ) dhs_database_get_volatile_data( exposeCmd.shutterDeviceIndex );
 		exposeCmd.shutterChannel = shutter->channel;
 	} else {
-		exposeCmd.shutterChannel = 0;
+		exposeCmd.shutterChannel = 17;
 	}
 
 	xos_result_t result = motor->timedExposure( exposeCmd );
