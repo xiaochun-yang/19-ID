@@ -303,10 +303,10 @@ proc collectRun_start { runNumber userName reuseDark sessionID args } {
                 set needSaveSystemSnapshot 1
             }
 
-            if {$needSaveSystemSnapshot} {
-                set snapshotPath [file join $directoryNew $filename.txt]
-                saveSystemSnapshot $userName $sessionID $snapshotPath
-            }
+#yangx            if {$needSaveSystemSnapshot} {
+#                set snapshotPath [file join $directoryNew $filename.txt]
+#                saveSystemSnapshot $userName $sessionID $snapshotPath
+#            }
 
 
 	        ###set wavelength [expr 12398.0 / $energy ]

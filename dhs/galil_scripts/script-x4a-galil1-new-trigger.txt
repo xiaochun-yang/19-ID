@@ -97,18 +97,21 @@ MG{EF} "log_info ShutCh", ShutCh
 //Set the phi encoder position to 0 so that we can use zero to trigger the output compare.
 // This is ok because the encoder is not used for anything else...
 //Encoder is on channel H!  Thus DPH=0 to set the trigger position.
+MG{EF} "log_info before DPH=0"
 DPH=0
+MG{EF} "log_info after DPH=0"
 //Move to ready position
 //yangx original CB Shutch
 SB ShutCh
 //Disable the output compare while we get into position
-OCH=-1
+MG{EF} "log_info before disable the output compare"
+//yangx OCH=-1
 MG{EF} "log_info Expose start"
 PA~a=ReadyPos
 BG~a
 MC~a
 //enable the output compare trigger that goes to the detector, the script won't do anything with it.
-OCH=0,OcDir
+//yangx OCH=0,OcDir
 SP~a=ExpVel
 PA~a=OverPos
 BG~a
@@ -144,7 +147,7 @@ MG{EF} "dtoh_shutter_closed ", ShutCh
 #StopExp
 //yangx original CB ShutCh
 SB ShutCh
-OCH=-1
+//yangx OCH=-1
 MC~a
 EN
 #AbrtExp

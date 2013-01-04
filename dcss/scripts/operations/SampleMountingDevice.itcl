@@ -1262,14 +1262,12 @@ itcl::body SampleMountingDevice::moveCrystal { args } {
 
 }
 itcl::body SampleMountingDevice::mountCrystal { cassette row column wash_cycle } {
-#<<<<<<< SampleMountingDevice.itcl
-#variable ::nScripts::robot_status
-#variable ::nScripts::robot_cassette
-#=======
-    variable ::nScripts::sil_config
+
+variable ::nScripts::robot_status
+variable ::nScripts::robot_cassette
+variable ::nScripts::sil_config
 
     set fastMode [lindex $sil_config 4]
-#>>>>>>> 1.146
 
 #    block_all_motors
     
@@ -1752,25 +1750,6 @@ itcl::body SampleMountingDevice::mountNextCrystal { cassette row column cassette
 	set operationHandle1 [eval start_waitable_operation screening_mode "OFF"]
         set result1 [wait_for_operation_to_finish $operationHandle1]
 
-#<<<<<<< SampleMountingDevice.itcl
-#=======
-#        if {[llength $result] >=8 && \
-#        [lindex $result 4] == "normal" && \
-#        [lindex $result 5] != "n" && \
-#        [lindex $result 6] != "0" && \
-#        [lindex $result 7] != "N" && \
-#        [catch sampleOnGoniometer errMsg]} {
-#            start_recovery_operation robot_standby rescue_sample
-#            set result "sample not on goniometer after mount next"
-#            log_severe $result
-#        } else {
-#            if {$fastMode == "1"} {
-#                start_recovery_operation robot_standby skip_heating
-#            } else {
-#                start_recovery_operation robot_standby
-#            }
-#        }
-#>>>>>>> 1.146
     } e ] } {
         if {[lindex $e 0] == "normal"} {
             return $e

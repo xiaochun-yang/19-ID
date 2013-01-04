@@ -202,13 +202,9 @@ source ImpWriteFiles.tcl
 source Logger.tcl
 
 global env
-puts "yangx 1"
 set di [DCS::DependencyInjector #auto ]
-puts "yangx 2"
 $di load ../config/${env(HOST)}.config
-puts "yangx 3"
 $di createObjectByName pilatusDhs
-puts "yangx 4"
 $di createObjectByName logger
 
 rename puts native_puts

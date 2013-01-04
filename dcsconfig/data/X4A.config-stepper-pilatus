@@ -1,0 +1,361 @@
+##############################
+# X4A.config
+##############################
+
+# dcss server.
+dcss.host=dkong
+
+dcs.rootDir=/usr/local/dcs
+
+#serverPorts.txt file fields conversion table
+#   1st -->dcss.scriptPort 
+#   2nd -->dcss.hardwarePort
+#   3rd -->dcss.guiPort
+#dcss.ssl=1
+dcss.scriptPort=14244
+dcss.hardwarePort=14242
+dcss.guiPort=14243
+dcss.authProtocol=2
+
+# how often to validate session ids (in msec)
+dcss.validationRate=30000
+
+# Location of the dabase memory map file
+dcss.dbMapFile=/usr/local/dcs/dcss/dbmapfile/X4A.dat
+dcss.certificate=/usr/local/dcs/dcsconfig/data/X4A.crt
+
+# dcss logging: 
+# To turn off stdout logging, set logStdout to false
+# To turn off udp log, set logUdpHost or logUdpPort to an empty string.
+# To turn off log file, set logFilePattern or logFileSize or logFileMax to an empty string
+# logLevel can be OFF, SEVERE, WARNING, INFO, CONFIG, FINE, FINER, FINEST OR ALL.
+dcss.logStdout=true
+dcss.logUdpHost=
+dcss.logUdpPort=
+dcss.logFilePattern=./X4A_dcss_log_%g_%u.log
+#dcss.logFilePattern=
+dcss.logFileSize=31457280
+dcss.logFileMax=20
+dcss.logLevel=ALL
+dcss.logLibs=
+
+# Dumping database.dat to text file. Set dbDumpFlag=false to turn it off.
+dcss.dbDumpFlag=true
+dcss.dbDumpFile=/usr/local/dcs/dcsconfig/data/X4A.dump
+dcss.dbDumpRate=10000
+
+
+dcss.forcedDoor=closed
+
+# override the default config in default.config
+# authentication server
+#auth.host=localhost
+#auth.port=8088
+#auth.secureHost=localhost
+#auth.securePort=8443
+
+auth.host=localhost
+auth.port=8080
+auth.method=smb_config_database
+#auth.method=smb_pam
+auth.secureHost=localhost
+auth.securePort=8443
+#comment following to accept any certificates
+auth.trusted_ca_file=/usr/local/dcs/dcsconfig/data/X4A.crt
+
+bluice.useSsl=0
+bluice.useRobot=1
+#bluice.tabOrder=Hutch Collect Sample Screening Scan Rastering Users UserLog Staff 
+bluice.tabOrder=Hutch Collect Sample Screening Users UserLog Staff
+#bluice.deviceDefinitionFilename=
+#bluice.mirrorView=
+bluice.hutchView=DCS::HutchOverview
+bluice.monoView=DoubleCrystalMonoView
+#bluice.toroidView=ToroidView
+#bluice.beamlineView=goniometer detectorPosition
+bluice.beamlineView=detectorPosition goniometer table frontEndApertures mirrorView monoView mirrorApertureView monoApertureView focusingMirrorsView hutchOverview inlineMotorView slit1Aperture frontEndSlits frontEndApertures
+
+show.lvdt=1
+
+
+dcss.display=local dontcare dkong :0.0 #Beamline console
+dcss.display=local dontcare dkong :1.0 #Beamline console
+dcss.display=local dontcare dkong :2.0
+dcss.display=local 130.199.193.13 :0.0
+dcss.display=local 130.199.193.13 :1.0
+dcss.display=local x4hhmi4.nsls.bnl.gov :0.0    
+dcss.display=remote dontcare yangx.nsls.bnl.gov:0.0 #Beamline console
+dcss.display=remote dontcare yangx.nsls.bnl.gov:0.0 # Beamline console
+dcss.display=remote dontcare yangx.nsls.bnl.gov:1.0 # Beamline console
+ 
+
+#simdetector.name=detector
+#simdetector.imageDir=/d2/test
+#simdetector.imageFilter=*.img
+## File containing a list of screening result directories
+#simdetector.cassetteFile=/usr/local/dcs/simdetector/cassette_dirs.txt
+#simdetector.impHost=localhost
+#simdetector.impPort=61001
+
+dhs.logStdout=TRUE
+dhs.logFileSize=31457280
+dhs.logFileMax=10
+dhs.logLevel=INFO
+
+epicsgw.name=epics_gateway
+epicsgw.beamlineOpenState.stringTypeRead=1
+
+#### update rate is ticks; 1 tick is about 0.1 seconds
+#### 0 means immediately update up on epics
+#epicsgw.default.UpdateRate=0
+#class wide rate
+epicsgw.String.UpdateRate=10
+epicsgw.Motor.UpdateRate=10
+#epicsgw.Shutter.UpdateRate=10
+# object wide rate
+#epicsgw.epics_string1.UpdateRate=0
+#epicsgw.epics_motor1.UpdateRate=10
+#####string for EPICS array forced read rate per object#####
+#epicsgw.epics_string3.ForcedReadRate=10
+
+#the following lines are from chris-nelson's config
+epicsgw.defaultMotorType=ASGalilMotor
+#epicsgw.X17U1:OP:Mono:Soft_bragg=APSMotor
+#epicsgw.X17U1:ES:ATT:rotation=APSMotor
+
+pilatus.name=detector
+pilatus.host=localhost
+pilatus.port=41234
+pilatus.imageXSizePixels=2462
+pilatus.imageYSizePixels=2526
+pilatus.pixelXSizeUm=172
+pilatus.pixelYSizeUm=172
+pilatus.tmpDir=/home/nysbc/temp
+
+## quantum 4 detector
+#dhs.instance=detector quantum4 /usr/local/dcs/X4A/detector_%g_%u.log /usr/local/dcs/X4A/detector.dat 500 1000 200
+
+#quantum4.hostname=10.0.0.2
+#quantum4.commandPort=8041
+#quantum4.dataPort=8042
+#quantum4.beamCenter=94.0 94.0
+#quantum4.nonUniformitySlowFile=/usr/local/dcs/ccd_dist/tables_api_418/NONUNF_slow
+#quantum4.nonUniformityFastFile=/usr/local/dcs/ccd_dist/tables_api_418/NONUNF_fast
+#quantum4.nonUniformitySlowBinFile=/usr/local/dcs/ccd_dist/tables_api_418/NONUNF_2x2
+#quantum4.nonUniformityFastBinFile=/usr/local/dcs/ccd_dist/tables_api_418/NONUNF_2x2
+#quantum4.distortionSlowFile=/usr/local/dcs/ccd_dist/tables_api_418/CALFIL
+#quantum4.distortionFastFile=/usr/local/dcs/ccd_dist/tables_api_418/CALFIL
+#quantum4.distortionSlowBinFile=/usr/local/dcs/ccd_dist/tables_api_418/CALFIL_2x2
+#quantum4.distortionFastBinFile=/usr/local/dcs/ccd_dist/tables_api_418/CALFIL_2x2
+#quantum4.postNonUniformitySlowFile=/usr/local/dcs/ccd_dist/tables_api_418/POSTNUF_slow
+#quantum4.postNonUniformityFastFile=/usr/local/dcs/ccd_dist/tables_api_418/POSTNUF_fast
+#quantum4.postNonUniformitySlowBinFile=/usr/local/dcs/ccd_dist/tables_api_418/POSTNUF_2x2
+#quantum4.postNonUniformityFastBinFile=/usr/local/dcs/ccd_dist/tables_api_418/POSTNUF_2x2
+#quantum4.darkDirectory=/usr/local/dcs/ccd_dist/tables_api_418/darkimages
+#quantum4.darkRefreshTime=7200
+#quantum4.darkExposureTolerance=0.10
+#quantum4.writeRawImages=y
+#quantum4.serialNumber=418 
+
+# quantum 416 detector
+#dhs.instance=detector quantum210 /usr/local/dcs/X4A/detector_%g_%u.log /usr/local/dcs/X4A/detector.dat 500 1000 200
+##quantum4.hostname=10.10.192.96
+#quantum210.commandHostname=dkong
+#quantum210.commandPort=8041
+#quantum210.dataHostnameList=416-0 416-1 416-2 416-3 
+#quantum210.dataPortList=9042 9042 9042 9042 
+#quantum210.darkDirectory=/usr/local/dcs/ccd_dist/tables_api_418/darkimages
+#quantum210.beamCenter=94.0 94.0
+#quantum210.darkRefreshTime=7200
+#quantum210.darkExposureTolerance=0.10
+#quantum210.writeRawImages=n
+#quantum210.serialNumber=416
+
+# quantum 315 detector
+#dhs.instance=detector quantum315 /usr/local/dcs/X4/detector_%g_%u.log /usr/local/dcs/X4A/detector.dat 500 1000 200
+#quantum315.commandHostname=koala
+#quantum315.commandPort=8041
+#quantum315.dataHostnameList=916-0 916-1 916-2 916-3 916-4 916-5 916-6 916-7 916-8
+#quantum315.dataPortList=9042 9042 9042 9042 9042 9042 9042 9042 9042
+#quantum315.beamCenter=157.5 157.5
+#quantum315.darkRefreshTime=7200
+#quantum315.darkExposureTolerance=0.10
+#quantum315.writeRawImages=n
+#quantum315.serialNumber=916
+
+
+# imperson dhs
+impdhs.name=imperson
+impdhs.tmpDir=/tmp
+impdhs.choochBinDir=/usr/local/dcs/autochooch/bin
+impdhs.choochDatDir=/usr/local/dcs/autochooch/data
+impdhs.cameraHost=localhost
+impdhs.cameraPort=80
+impdhs.impHost=localhost
+impdhs.impPort=61001
+
+
+# image server
+imgsrv.host=localhost
+imgsrv.guiPort=14005
+imgsrv.webPort=14006
+imgsrv.httpPort=14007
+imgsrv.tmpDir=/usr/local/dcs/X4A/imgsrv-tmp/jpegscratch
+imgsrv.maxIdleTime=60
+imgsrv.logStdout=true
+imgsrv.logUdpHost=
+imgsrv.logUdpPort=
+imgsrv.logFilePattern=/usr/local/dcs/X4A/imgsrv_log_%d.log
+imgsrv.logFileSize=31457280
+imgsrv.logFileMax=1
+imgsrv.logLevel=ALL
+imgsrv.logLibs=
+
+# impersoanation server
+imperson.host=localhost
+imperson.port=61001
+imperson.readonlyHost=localhost
+imperson.readonlyPort=61002
+
+#attenuation.filterThickness=Al_32 800 Al_16 400 Al_8 200 Al_4 100 Al_2 50 Al_1 25
+#bluice.filterLabelMap=Al_0.5 Fe Al_1 1 Al_2 2 Al_4 4 Al_8 8 Al_16 16 Al_32 32 Se Se
+
+#video.scaling=0
+
+#For camera server
+dhs.instance=camera axis2400 /usr/local/dcs/X4A/camera_%g_%u.log /usr/local/dcs/X4A/camera.dat 500 5000 5000
+
+axis2400.hostname=130.199.193.14
+axis2400.port=80
+axis2400.passwordFile=/usr/local/dcs/X4A/axis2400Password.txt
+axis2400.url_path=/axis-cgi/jpg/image.cgi?camera=2&clock=0&date=0&text=0 HTTP/1.1\r\n
+
+# video urls
+#video1.imageUrl=http://bm8axis.nec.aps.anl.gov/view/indexFrame.shtml
+#video1.imageUrl=http://130.199.193.14/axis-cgi/jpg/image.cgi?resolution=704x408&camera=1
+video1.imageUrl=http://130.199.193.14/axis-cgi/jpg/image.cgi?resolution=352x240&camera=1
+video2.imageUrl=http://130.199.193.14/axis-cgi/jpg/image.cgi?resolution=352x240&camera=2
+video3.imageUrl=http://130.199.193.14/axis-cgi/jpg/image.cgi?resolution=352x240&camera=3
+video4.imageUrl=http://130.199.193.14/axis-cgi/jpg/image.cgi?resolution=352x240&camera=4
+
+# for DCSS sampleVideo snapshot
+video.snapshotUrl=http://130.199.193.14/axis-cgi/jpg/image.cgi?camera=1
+
+##presets, needs the channel arguments
+#video1.presetRequestUrl=
+#video2.presetRequestUrl=http://130.199.193.14/axis-cgi/com/ptz.cgi?query=presetposcam
+#video3.presetRequestUrl=http://130.199.193.14/axis-cgi/com/ptz.cgi?query=presetposcam
+#video4.presetRequestUrl=http://130.199.193.14/axis-cgi/com/ptz.cgi?query=presetposcam
+
+##url for requesting a move, needs the channel arguments
+#video1.moveRequestUrl=
+#video2.moveRequestUrl=http://130.199.193.14/axis-cgi/com/ptz.cgi
+#video3.moveRequestUrl=http://130.199.193.14/axis-cgi/com/ptz.cgi
+#video4.moveRequestUrl=http://130.199.193.14/axis-cgi/com/ptz.cgi
+
+#more arguments
+video1.args=&camera=1
+video2.args=&camera=2
+video3.args=&camera=3
+video4.args=&camera=4
+
+#Configuring the DHS to control DMC 2180 Motion Controller (copied from manaul)
+#dhs.instance=instanceName hardwareType logFilePattern memoryMapName autoflush watchdog devicepollTime
+dhs.instance=galil1 dmc2180 /usr/local/dcs/X4A/galil1_%g_%u.log /usr/local/dcs/X4A/galil1.dat 500 1000 200
+
+dhs.instance=galil2 dmc2180 /usr/local/dcs/X4A/galil2_%g_%u.log /usr/local/dcs/X4A/galil2.dat 500 1000 200
+
+#dmc2180.control=dhsIstanceName dmc2180hostname scriptname connectbackhostname
+dmc2180.control=galil1 x4a-galil-1 /usr/local/dcs/dhs/galil_scripts/script-x4a-galil1-new-trigger.txt 10.0.0.3 
+dmc2180.control=galil2 x4a-galil-2 /usr/local/dcs/dhs/galil_scripts/script-x4a-galil2-new.txt 10.0.0.3 
+
+#             =motor_name channel P I D
+galil1.stepper =tripot_1 a
+galil1.stepper =tripot_2 b
+galil1.stepper =tripot_3 c
+#galil1.servo  =gonio_omega e 3291 221 32
+#galil1.stepper =gonio_omega e
+galil1.stepper =gonio_phi e
+galil1.stepper =detector_vert f		#detector distance
+galil1.stepper =detector_z g
+#SSRL In order to make the Output comare work with the gonio_phi, it is necessary to configure the channel with the
+#encoder as a servo motor
+galil1.servo=phi_encoder h 3291 221 32 off
+
+
+galil1.shutter=shutter 2 open
+galil1.shutter=shutter2 1 open
+galil1.shutter=hslit_up_v 3 closed
+galil1.shutter=hslit_up_h 4 closed
+galil1.shutter=hslit_dn_v 5 closed
+galil1.shutter=hslit_dn_h 6 closed
+
+galil2.limitSwitchPolarity=-1
+#    channel scale ANALOG/RELATIVE/ABSOLUTE
+galil2.encoder=ion_chamber0 0 1.0 ANALOG
+galil2.encoder=ion_chamber1 2 1.0 ANALOG
+galil2.encoder=ion_chamber2 3 1.0 ANALOG
+galil2.encoder=ion_chamber3 4 1.0 ANALOG
+galil2.encoder=ion_chamber4 5 1.0 ANALOG
+
+galil2.stepper =slit_1 a
+galil2.stepper =slit_2 b
+galil2.stepper =gonio_kappa c
+galil2.stepper =beamstop_vert g
+galil2.stepper =beamstop_horz h
+
+###############################################
+# daqBoard 1000
+###############################################
+#daqBoard.board0.adc_mode=single_ended
+daqBoard.board0.adc_mode=differential
+#daqBoard.board0.dioPortA=input
+#daqBoard.board0.dioPortB=output
+#daqBoard.board0.dioPortCHigh=output
+#daqBoard.board0.dioPortCLow=input
+#daqBoard.board1.adc_mode=single_ended
+#daqBoard.board1.dioPortA=input
+#daqBoard.board1.dioPortB=output
+#daqBoard.board1.dioPortCHigh=output
+#daqBoard.board1.dioPortCLow=input
+
+                  
+# the ./dcss X4A -s will have segment fault if the following not commented out these three screening url.
+# But somehow impdhs will not work if these are commented out. need to find a solution.
+# I guess I need to set up web server for these screening staff.
+
+
+#screening.latestEventIdUrl=http://localhost:8080/crystals/getLatestEventId.do
+#screening.defaultSILUrl=http://localhost:8080/crystals/createDefaultSil.do
+#screening.uploadSILUrl=http://localhost:8080/crystals/uploadSil.do
+#screening.downloadSILUrl=http://localhost:8080/crystals/downloadSil.do
+
+#screening.lockSILUrl=http://localhost:8080/crystals/setSilLock.do
+#screening.unassignSILUrl=http://localhost:8080/crystals/unassignSil.do
+#screening.deleteSILUrl=http://localhost:8080/crystals/deleteSil.do
+#screening.moveCrystalUrl=http://localhost:8080/crystals/moveCrystal.do
+
+#screening.cassetteDataUrl=http://localhost:8080/crystals/getCassetteData.do
+#screening.cassetteInfoUrl=https://localhost:8443/crystals/CassetteInfo.jsp
+##screening.cassetteInfoUrl=http://localhost:8080/crystals/CassetteList.html
+
+#screening.crystalDataUrl=http://localhost:8080/crystals/getCrystalData.do
+#screening.crystalUpdateUrl=http://localhost:8080/crystals/updateCrystalData.do
+#screening.crystalEditUrl=http://localhost:8080/crystals/setCrystal.do
+#screening.crystalSetAttributeUrl=http://localhost:8080/crystals/setCrystalAttribute.do
+#screening.crystalGetChangesUrl=http://localhost:8080/crystals/getChangesSince.do
+#screening.crystalClearImagesUrl=http://localhost:8080/crystals/clearCrystalImages.do
+#screening.crystalClearResultsUrl=http://localhost:8080/crystals/clearCrystal.do
+#screening.crystalClearAllCrystalsUrl=http://localhost:8080/crystals/clearAllCrystals.do
+#screening.crystalAddImageUrl=http://localhost:8080/crystals/addCrystalImage.do
+#screening.SILRowDataUrl=http://localhost:8080/crystals/jsp/getRow.jsp
+
+#screening.silIdAndEventIdUrl=http://localhost:8080/crystals/getSilIdAndEventId.do
+
+robot.probeScaled=1
+
+#gonio x,y,z move sequencially due to crystal logical x,y,z, are combo motion
+sample_move_serial=1
+
+## show raster_run
+#rasterRun.show=1

@@ -1,0 +1,357 @@
+112d111
+< private variable m_currentBarcode ""
+132d130
+< private variable m_gridSampleLocationList "{} {} {} {} {}"
+195,196d192
+<     private variable m_BarcodeScannedIndex -1
+<     private variable m_GridSampleLocationIndex -1
+313a310,316
+> 
+> # constructor
+> constructor { args } {
+>     set m_counterFormat [::config getFrameCounterFormat]
+>     puts "counter format: %m_counterFormat"
+> }
+> 
+355,356d357
+< public method constructor
+< 
+501,525d501
+< public method takeSnapshotWithBeamBox { pathBox user SID } {
+<     set mySID $SID
+<     if {[string equal -length 7 $mySID "PRIVATE"]} {
+<         set mySID [string range $mySID 7 end]
+<     }
+< 
+<     set urlSOURCE [::config getSnapshotUrl]
+< 
+<     set urlTarget "http://[::config getImpDhsImpHost]"
+<     append urlTarget ":[::config getImpDhsImpPort]"
+<     append urlTarget "/writeFile?impUser=$user"
+<     append urlTarget "&impSessionID=$mySID"
+<     append urlTarget "&impWriteBinary=true"
+<     append urlTarget "&impBackupExist=true"
+<     append urlTarget "&impAppend=false"
+< 
+<     set urlTargetBox $urlTarget
+<     append urlTargetBox "&impFilePath=$pathBox"
+<     set cmd "java -Djava.awt.headless=true url $urlSOURCE [drawInfoOnVideoSnapshot] -o $urlTargetBox"
+< 
+<     #log_note cmd: $cmd
+<     set mm [eval exec $cmd]
+<     puts "saveRawAndBox result: $mm"
+< }
+< 
+538a515,519
+> 
+>     if {[isString user_collimator_status]} {
+>         ::nScripts::collimatorNormalIn
+>     }
+> 
+558,595d538
+< private method updateBarcodeScanned { barcode } {
+<     puts "updateBarcode: $barcode"
+< 
+<     if {$barcode == ""} {
+<         ###DEBUG: later we should update empty too
+<         puts "empty barcode"
+<         return
+<     }
+< 
+<     if {$m_BarcodeScannedIndex < 0} {
+<         puts "no BarcodeScanned field found"
+<         return
+<     }
+< 
+<     if {$m_currentCrystal < 0} {
+<         puts "no current crystal"
+<         return
+<     }
+<     if {![string is integer -strict $m_SILID]} {
+<         puts "no sil"
+<         return
+<     }
+<     if {[catch {
+<         regsub -all {[[:blank:]]} $barcode _ barcode
+<         set data [list BarcodeScanned $barcode]
+<         set data [eval http::formatQuery $data]
+< 
+<         set uniqueID [lindex $m_uniqueIDList $m_currentCrystal]
+< 
+<         puts "updating the SIL field"
+< 
+<         editSpreadsheet $m_lastUserName $m_lastSessionID \
+<         $m_SILID $m_currentCrystal $data $uniqueID
+<     } errmsg]} {
+<         log_error updateBarcode $errmsg
+<     }
+< }
+< 
+602,604d544
+<     set m_counterFormat [::config getFrameCounterFormat]
+<     puts "counter format: $m_counterFormat"
+< 
+677,678d616
+< 
+< ### in fact, not need
+706,708d643
+<     takeSnapshotWithBeamBox {
+<         eval takeSnapshotWithBeamBox $args
+<     }
+712a648
+>     
+715d650
+< ::nScripts::cleanupAfterAll
+1107,1109d1041
+<     global gMotorDistance
+<     global gMotorBeamStop
+< 
+1122,1123c1054,1055
+<         variable ::nScripts::$gMotorDistance
+<         set m_distance [set $gMotorDistance]
+---
+>         variable ::nScripts::detector_z
+>         set m_distance $detector_z
+1126,1127c1058,1059
+<         variable ::nScripts::$gMotorBeamStop
+<         set m_beamstop [set $gMotorBeamStop]
+---
+>         variable ::nScripts::beamstop_z
+>         set m_beamstop $beamstop_z
+1309,1312d1240
+< #### auto fix instead of failure
+< if {[checkUsernameInDirectory m_directory $m_lastUserName]} {
+<     updateScreeningParametersString
+< }
+1900,1906c1828
+<         set m_BarcodeScannedIndex \
+<         [lsearch -exact $m_currentHeaderNameOnly "BarcodeScanned"]
+< 
+<         set m_GridSampleLocationIndex \
+<         [lsearch -exact $m_currentHeaderNameOnly "GridSampleLocation"]
+< 
+<         puts "index: port $m_PortIndex ID $m_IDIndex dir $m_DirectoryIndex selected: $m_SelectedIndex reorient: $m_ReOrientableIndex $m_ReOrientInfoIndex $m_ReOrientPhiIndex uniqueID: $m_UniqueIDIndex BarcodeScanned: $m_BarcodeScannedIndex GridSampleLocation: $m_GridSampleLocationIndex"
+---
+>         puts "index: port $m_PortIndex ID $m_IDIndex dir $m_DirectoryIndex selected: $m_SelectedIndex reorient: $m_ReOrientableIndex $m_ReOrientInfoIndex $m_ReOrientPhiIndex uniqueID: $m_UniqueIDIndex"
+1918d1839
+<     set gridSampleLocationList {}
+1921,1922c1842,1843
+<         foreach {port id dir reorientable reorientinfo reorientphi uniqueID \
+<         gridSampleLocation} [parseOneRow $row] break
+---
+>         foreach {port id dir reorientable reorientinfo reorientphi uniqueID} \
+>         [parseOneRow $row] break
+1931d1851
+<         lappend gridSampleLocationList $gridSampleLocation
+1971d1890
+<     set m_gridSampleLocationList $gridSampleLocationList
+2082,2087d2000
+<     if {$m_GridSampleLocationIndex < 0} {
+<         set gridSampleLocation ""
+<     } else {
+<         set gridSampleLocation [lindex $contents $m_GridSampleLocationIndex]
+<     }
+< 
+2090d2002
+<     $gridSampleLocation \
+2204d2115
+<     updateBarcodeScanned $m_currentBarcode
+2239d2149
+< set m_currentBarcode ""
+2244,2277d2153
+< if {[isOperation scan3DSetup]} {
+<     if {[catch {
+<         ### now we need the scan3DSetup operation.  BluIce needs it.
+<         set h [start_waitable_operation scan3DSetup clear]
+<         wait_for_operation_to_finish $h
+<     } errMsg]} {
+<         puts "rastering clear failed: $errMsg"
+<     }
+< }
+< if {[isOperation rasterRunsConfig]} {
+<     if {[catch {
+<         set h [start_waitable_operation rasterRunsConfig deleteAllRasters]
+<         wait_for_operation_to_finish $h
+<     } errMsg]} {
+<         puts "rasterRun clear failed: $errMsg"
+<     }
+< }
+< if {[isOperation spectrometerWrap]} {
+<     if {[catch {
+<         set h [start_waitable_operation spectrometerWrap clear_result_files]
+<         wait_for_operation_to_finish $h
+<     } errMsg]} {
+<         puts "microspec clear failed: $errMsg"
+<     }
+< }
+< if {[isOperation gridGroupConfig]} {
+<     if {[catch {
+<         set h [start_waitable_operation gridGroupConfig cleanup_for_dismount]
+<         wait_for_operation_to_finish $h
+<     } errMsg]} {
+<         puts "gridGroup clear failed: $errMsg"
+<     }
+< }
+< 
+2280,2282d2155
+< checkCassettePermit $m_currentCassette
+< checkCassettePermit $cassette
+< 
+2409,2413d2281
+<                 if {[llength $errorText] > 8} {
+<                     set barcode [lindex $errorText 8]
+<                     puts "barcode: $barcode"
+<                     set m_currentBarcode $barcode
+<                 }
+2521,2525d2388
+<             if {[llength $errorText] > 4} {
+<                 set barcode [lindex $errorText 4]
+<                 puts "barcode $barcode"
+<                 set m_currentBarcode $barcode
+<             }
+2766a2630,2631
+>         #set cmd "java url $urlSOURCE [drawInfoOnVideoSnapshot] -o $urlTARGET -debug"
+>         set cmd "java -Djava.awt.headless=true url $urlSOURCE [drawInfoOnVideoSnapshot] -o $urlTARGET"
+2776,2778c2641,2642
+<             catch {
+<                 user_log_error screening \
+<                 "videoSnapshot with beam info error: $errMsg"
+---
+>             user_log_error screening \
+>             "videoSnapshot with beam info error: $errMsg"
+2780,2781c2644
+<                 log_error screening "videoSnapshot with beam info error: $errMsg"
+<             }
+---
+>             log_error screening "videoSnapshot with beam info error: $errMsg"
+3265,3266c3128
+<         set cur_gridSampleLocation \
+<         [lindex $m_gridSampleLocationList $m_currentCrystal]
+---
+> 
+3274d3135
+<         set cur_gridSampleLocation ""
+3279c3140
+<         set cur_gridSampleLocation ""
+---
+> 
+3292c3153
+<     set crystalStatus [list $cur_port $next_port $robotFlag $enable_dismount $cur_sub_dir $m_isSyncedWithRobot $m_sampleReOriented $cur_gridSampleLocation]
+---
+>     set crystalStatus [list $cur_port $next_port $robotFlag $enable_dismount $cur_sub_dir $m_isSyncedWithRobot $m_sampleReOriented]
+3323,3324d3183
+<     setConfig useRobot 1
+< 
+3350,3353d3208
+<     set m_lastUserName [get_operation_user]
+<     if {[string first $m_lastUserName $m_directory] < 0} {
+<         setConfig directory /data/$m_lastUserName $args
+<     }
+3646d3500
+<     variable ::nScripts::lc_error_threshold
+3671,3684d3524
+< 
+<     if {![info exists lc_error_threshold] \
+<     || [lindex $lc_error_threshold 0] != "0"} {
+<         ##### if loopCenter unselected, the Stop after it will
+<         ##### be selected automatically.
+<         set selectedLoopCenter   [lindex $m_actionListStates 1]
+<         set selectedStop         [lindex $m_actionListStates 2]
+<         if {!$selectedLoopCenter && !$selectedStop} {
+<             set m_actionListStates [lreplace $m_actionListStates 2 2 1]
+<             log_error Stop automatically selected \
+<             because Loop Alignment is not selected
+<         }
+<     }
+< 
+3780,3781d3619
+<     variable ::nScripts::lc_error_threshold
+< 
+3786,3803d3623
+<     set anyChange 0
+< 
+<     if {![info exists lc_error_threshold] \
+<     || [lindex $lc_error_threshold 0] != "0"} {
+<         set selectedLoopAlignment [lindex $result 1]
+<         set selectedStop           [lindex $result 2]
+<         set currentLoopAlignment    [lindex $m_actionListStates 1]
+<         set currentStop            [lindex $m_actionListStates 2]
+<         if {!$selectedLoopAlignment && $currentLoopAlignment && !$currentStop} {
+<             set result [lreplace $result 2 2 1]
+<             incr anyChange
+<         }
+<         if {!$selectedStop && $currentStop && !$currentLoopAlignment} {
+<             set result [lreplace $result 1 1 1]
+<             incr anyChange
+<         }
+<     }
+< 
+3806c3626
+<         return $anyChange
+---
+>         return 0
+4327d4146
+<     ### in fact, not need
+4370d4188
+<         updateBarcodeScanned $m_currentBarcode
+4613d4430
+<     set m_currentBarcode ""
+4624,4657d4440
+< 
+<     if {[isOperation scan3DSetup]} {
+<         if {[catch {
+<             ### now we need the scan3DSetup operation.  BluIce needs it.
+<             set h [start_waitable_operation scan3DSetup clear]
+<             wait_for_operation_to_finish $h
+<         } errMsg]} {
+<             puts "rastering clear failed: $errMsg"
+<         }
+<     }
+<     if {[isOperation rasterRunsConfig]} {
+<         if {[catch {
+<             set h [start_waitable_operation rasterRunsConfig deleteAllRasters]
+<             wait_for_operation_to_finish $h
+<         } errMsg]} {
+<             puts "rasterRun clear failed: $errMsg"
+<         }
+<     }
+<     if {[isOperation spectrometerWrap]} {
+<         if {[catch {
+<             set h [start_waitable_operation spectrometerWrap clear_result_files]
+<             wait_for_operation_to_finish $h
+<         } errMsg]} {
+<             puts "microspec clear failed: $errMsg"
+<         }
+<     }
+<     if {[isOperation gridGroupConfig]} {
+<         if {[catch {
+<             set h [start_waitable_operation gridGroupConfig cleanup_for_dismount]
+<             wait_for_operation_to_finish $h
+<         } errMsg]} {
+<             puts "gridGroup clear failed: $errMsg"
+<         }
+<     }
+4709,4712d4491
+<     if {$cassette == ""} {
+<         return
+<     }
+< 
+4729d4507
+<         b -
+4740,4745c4518
+< 
+<     if {$owner == ""} {
+<         return
+<     }
+< 
+<     if {[lsearch -exact $owner $m_lastUserName] < 0} {
+---
+>     if {$owner != "" && $owner != $m_lastUserName} {
+4815c4588
+<     log_note cmd: $cmd
+---
+>     #log_note cmd: $cmd
+5286c5059
+<         ::nScripts::correctPreCheckMotors
+---
+>         ::nScripts::correctPreCheckMotors 1

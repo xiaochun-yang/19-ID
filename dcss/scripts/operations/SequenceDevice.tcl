@@ -109,7 +109,6 @@ private variable m_manualMode 0
 private variable m_currentCassette n
 private variable m_currentColumn N
 private variable m_currentRow 0
-private variable m_currentBarcode ""
 
 # state for robot configuration
 private variable m_robotState 1
@@ -129,7 +128,6 @@ private variable m_reOrientableList "0 0 0 0 0"
 private variable m_reOrientInfoList "{} {} {} {} {}"
 private variable m_reOrientPhiList "{} {} {} {} {}"
 private variable m_uniqueIDList "{} {} {} {} {}"
-private variable m_gridSampleLocationList "{} {} {} {} {}"
 
 ##### if current cassette status change, we need to re-map the
 ### spreadsheet rows to position in robot_cassette
@@ -192,8 +190,6 @@ private variable m_numRowParsed 0
     private variable m_ReOrientInfoIndex -1
     private variable m_ReOrientPhiIndex  -1
     private variable m_UniqueIDIndex     -1
-    private variable m_BarcodeScannedIndex -1
-    private variable m_GridSampleLocationIndex -1
 
     ##to save jpeg images and send them to SIL server later with detector iamge
     private variable m_jpeg1 ""
@@ -311,6 +307,13 @@ private method refreshConfigOptions { } {
     }
 }
 
+
+# constructor
+constructor { args } {
+    set m_counterFormat [::config getFrameCounterFormat]
+    puts "counter format: %m_counterFormat"
+}
+
 private method clearImages { {newMount 1} } {
     set m_jpeg1 ""
     set m_jpeg2 ""
@@ -351,8 +354,6 @@ public method setConfig { args } {}
 public method getConfig { args } {}
 public method syncWithRobot { { try_sync 0 } args } {}
 public method reset { args } { }
-
-public method constructor
 
 ####for manual mode: single action per operation
 public method manual_operation { op args }
@@ -498,31 +499,6 @@ public method handleLastImageChangeEvent { args }
 
 public method handleCassetteListChangeEvent { args }
 
-public method takeSnapshotWithBeamBox { pathBox user SID } {
-    set mySID $SID
-    if {[string equal -length 7 $mySID "PRIVATE"]} {
-        set mySID [string range $mySID 7 end]
-    }
-
-    set urlSOURCE [::config getSnapshotUrl]
-
-    set urlTarget "http://[::config getImpDhsImpHost]"
-    append urlTarget ":[::config getImpDhsImpPort]"
-    append urlTarget "/writeFile?impUser=$user"
-    append urlTarget "&impSessionID=$mySID"
-    append urlTarget "&impWriteBinary=true"
-    append urlTarget "&impBackupExist=true"
-    append urlTarget "&impAppend=false"
-
-    set urlTargetBox $urlTarget
-    append urlTargetBox "&impFilePath=$pathBox"
-    set cmd "java -Djava.awt.headless=true url $urlSOURCE [drawInfoOnVideoSnapshot] -o $urlTargetBox"
-
-    #log_note cmd: $cmd
-    set mm [eval exec $cmd]
-    puts "saveRawAndBox result: $mm"
-}
-
 private method checkCassettePermit { cassette }
 
 private method moveMotorsToDesiredPosition { } {
@@ -536,6 +512,11 @@ private method moveMotorsToDesiredPosition { } {
         move attenuation to $m_attenuation
         wait_for_devices $gMotorBeamStop $gMotorDistance attenuation
     }
+
+    if {[isString user_collimator_status]} {
+        ::nScripts::collimatorNormalIn
+    }
+
 }
 
 private method waitForMotorsForVideo { }
@@ -555,53 +536,12 @@ private method getDirectory { } {
     return $dir
 }
 
-private method updateBarcodeScanned { barcode } {
-    puts "updateBarcode: $barcode"
-
-    if {$barcode == ""} {
-        ###DEBUG: later we should update empty too
-        puts "empty barcode"
-        return
-    }
-
-    if {$m_BarcodeScannedIndex < 0} {
-        puts "no BarcodeScanned field found"
-        return
-    }
-
-    if {$m_currentCrystal < 0} {
-        puts "no current crystal"
-        return
-    }
-    if {![string is integer -strict $m_SILID]} {
-        puts "no sil"
-        return
-    }
-    if {[catch {
-        regsub -all {[[:blank:]]} $barcode _ barcode
-        set data [list BarcodeScanned $barcode]
-        set data [eval http::formatQuery $data]
-
-        set uniqueID [lindex $m_uniqueIDList $m_currentCrystal]
-
-        puts "updating the SIL field"
-
-        editSpreadsheet $m_lastUserName $m_lastSessionID \
-        $m_SILID $m_currentCrystal $data $uniqueID
-    } errmsg]} {
-        log_error updateBarcode $errmsg
-    }
-}
-
 }
 
 # =======================================================================
 # =======================================================================
 
 ::itcl::body SequenceDevice::constructor { args } {
-    set m_counterFormat [::config getFrameCounterFormat]
-    puts "counter format: $m_counterFormat"
-
     global gMotorEnergy
     global gMotorBeamWidth
     global gMotorBeamHeight
@@ -674,8 +614,6 @@ if {$sessionID != ""} {
 
 set m_manualMode 0
 checkInitialization
-
-### in fact, not need
 checkCassettePermit $m_currentCassette
 set m_reOrientSample 0
 switch -exact -- $op {
@@ -703,16 +641,13 @@ switch -exact -- $op {
     clear_mounted {
         clearMounted
     }
-    takeSnapshotWithBeamBox {
-        eval takeSnapshotWithBeamBox $args
-    }
     default {
         log_error "Screening unknown operation $op"
         return -code error "SequenceDevice::operation unknown operation $op"
     }
+    
 }
 puts "SequenceDevice::operation OK"
-::nScripts::cleanupAfterAll
 return [list sequence $op OK]
 }
 
@@ -1104,9 +1039,6 @@ puts "SequenceDevice::initBeamlineParameters OK"
 # =======================================================================
 
 ::itcl::body SequenceDevice::initActionStates {} {
-    global gMotorDistance
-    global gMotorBeamStop
-
     puts "SequenceDevice::initActionStates"
     
     variable ::nScripts::screeningParameters
@@ -1119,12 +1051,12 @@ puts "SequenceDevice::initBeamlineParameters OK"
 
     #####remote in next version
     if {$m_distance == ""} {
-        variable ::nScripts::$gMotorDistance
-        set m_distance [set $gMotorDistance]
+        variable ::nScripts::detector_z
+        set m_distance $detector_z
     }
     if {$m_beamstop == ""} {
-        variable ::nScripts::$gMotorBeamStop
-        set m_beamstop [set $gMotorBeamStop]
+        variable ::nScripts::beamstop_z
+        set m_beamstop $beamstop_z
     }
     if {$m_attenuation == ""} {
         variable ::nScripts::attenuation
@@ -1306,10 +1238,6 @@ if {![actionSelectionOK]} {
 
 ################# check directory #####################
 
-#### auto fix instead of failure
-if {[checkUsernameInDirectory m_directory $m_lastUserName]} {
-    updateScreeningParametersString
-}
 
 impDirectoryWritable $m_lastUserName $m_lastSessionID $m_directory
 
@@ -1897,13 +1825,7 @@ return $counter
         set m_UniqueIDIndex \
         [lsearch -exact $m_currentHeaderNameOnly "UniqueID"]
 
-        set m_BarcodeScannedIndex \
-        [lsearch -exact $m_currentHeaderNameOnly "BarcodeScanned"]
-
-        set m_GridSampleLocationIndex \
-        [lsearch -exact $m_currentHeaderNameOnly "GridSampleLocation"]
-
-        puts "index: port $m_PortIndex ID $m_IDIndex dir $m_DirectoryIndex selected: $m_SelectedIndex reorient: $m_ReOrientableIndex $m_ReOrientInfoIndex $m_ReOrientPhiIndex uniqueID: $m_UniqueIDIndex BarcodeScanned: $m_BarcodeScannedIndex GridSampleLocation: $m_GridSampleLocationIndex"
+        puts "index: port $m_PortIndex ID $m_IDIndex dir $m_DirectoryIndex selected: $m_SelectedIndex reorient: $m_ReOrientableIndex $m_ReOrientInfoIndex $m_ReOrientPhiIndex uniqueID: $m_UniqueIDIndex"
     }
 
     # extract from $data the lists m_crystalPortList, m_crystalIDList, m_crystalDirList, m_crystalListStates
@@ -1915,11 +1837,10 @@ return $counter
     set reorientinfoList {}
     set reorientphiList {}
     set uniqueIDList {}
-    set gridSampleLocationList {}
     set m_numRowParsed 0
     foreach row $crystalList {
-        foreach {port id dir reorientable reorientinfo reorientphi uniqueID \
-        gridSampleLocation} [parseOneRow $row] break
+        foreach {port id dir reorientable reorientinfo reorientphi uniqueID} \
+        [parseOneRow $row] break
 
         lappend crystalPortList $port
         lappend crystalIDList $id
@@ -1928,7 +1849,6 @@ return $counter
         lappend reorientinfoList $reorientinfo
         lappend reorientphiList $reorientphi
         lappend uniqueIDList $uniqueID
-        lappend gridSampleLocationList $gridSampleLocation
         lappend crystalListStates 1
 
         incr m_numRowParsed
@@ -1968,7 +1888,6 @@ return $counter
     set m_reOrientInfoList $reorientinfoList
     set m_reOrientPhiList $reorientphiList
     set m_uniqueIDList $uniqueIDList
-    set m_gridSampleLocationList $gridSampleLocationList
     set m_crystalListStates $crystalListStates
     checkCrystalList m_crystalListStates
     set m_nextCrystal [getNextCrystal 0]
@@ -2079,15 +1998,8 @@ return $counter
         set uniqueID [lindex $contents $m_UniqueIDIndex]
     }
 
-    if {$m_GridSampleLocationIndex < 0} {
-        set gridSampleLocation ""
-    } else {
-        set gridSampleLocation [lindex $contents $m_GridSampleLocationIndex]
-    }
-
     return [list \
     $port $id $dir $re_orientable $re_orient_info $re_orient_phi $uniqueID \
-    $gridSampleLocation \
     ]
 }
 
@@ -2201,7 +2113,6 @@ if { $m_currentCrystal<0 } {
             }
         }
     }
-    updateBarcodeScanned $m_currentBarcode
 }
 
 set m_nextCrystal [getNextCrystal [expr $m_currentCrystal + 1]]
@@ -2236,49 +2147,11 @@ puts "SequenceDevice::doMountNextCrystal OK"
 ::itcl::body SequenceDevice::mountCrystal { cassette column row wash_cycle_ } {
 variable ::nScripts::screening_msg
 
-set m_currentBarcode ""
 set m_skipThisSample 0
 set m_sampleReOriented 0
 fillDefaultRunForAdjust
 
-if {[isOperation scan3DSetup]} {
-    if {[catch {
-        ### now we need the scan3DSetup operation.  BluIce needs it.
-        set h [start_waitable_operation scan3DSetup clear]
-        wait_for_operation_to_finish $h
-    } errMsg]} {
-        puts "rastering clear failed: $errMsg"
-    }
-}
-if {[isOperation rasterRunsConfig]} {
-    if {[catch {
-        set h [start_waitable_operation rasterRunsConfig deleteAllRasters]
-        wait_for_operation_to_finish $h
-    } errMsg]} {
-        puts "rasterRun clear failed: $errMsg"
-    }
-}
-if {[isOperation spectrometerWrap]} {
-    if {[catch {
-        set h [start_waitable_operation spectrometerWrap clear_result_files]
-        wait_for_operation_to_finish $h
-    } errMsg]} {
-        puts "microspec clear failed: $errMsg"
-    }
-}
-if {[isOperation gridGroupConfig]} {
-    if {[catch {
-        set h [start_waitable_operation gridGroupConfig cleanup_for_dismount]
-        wait_for_operation_to_finish $h
-    } errMsg]} {
-        puts "gridGroup clear failed: $errMsg"
-    }
-}
-
-puts "mountCrystal $cassette $column $row $wash_cycle_"
-
-checkCassettePermit $m_currentCassette
-checkCassettePermit $cassette
+puts "yangxx mountCrystal $cassette $column $row $wash_cycle_"
 
 #### check cryojet temperature for mounting a crystal
 if {$cassette != "n"} {
@@ -2351,16 +2224,6 @@ $row != 0} {
     set nextPortOK 0
 }
 
-#yangx the following is for warming up the grabber during mount/dismount
-#process. It tricks the process thinking it's the last sample so that it
-#will only do dismount and then warm the grabber.
-
-#if { $m_startWarmUp } {
-#        # no more sample
-#        set nextPortOK 0
-#        #set m_startWarmUp 0
-#}
-
 # decide if we have to call mountNextCrystal, dismountCrystal or mountCrystal
 if { $currentPortOK && $nextPortOK } {
     
@@ -2388,7 +2251,7 @@ if { $currentPortOK && $nextPortOK } {
 	# set the screening mode off. So it's added here to make sure it set.
 
     	    start_operation screening_mode "OFF" 
-        
+
 	    return -code error $errorText
         }
 #yangx I don't understand this. Changed to 4 to 0        set mt_status [lindex $errorText 4]
@@ -2406,19 +2269,20 @@ if { $currentPortOK && $nextPortOK } {
                 set screening_msg "skip empty port"
             } else {
                 set screening_msg "$cassette$column$row mounted"
-                if {[llength $errorText] > 8} {
-                    set barcode [lindex $errorText 8]
-                    puts "barcode: $barcode"
-                    set m_currentBarcode $barcode
-                }
             }
+            #yangx warm_up grabber
+    	    if { $m_startWarmUp } {
+       		start_operation warm_up_grabber
+       		set m_startWarmUp 0
+	    }
+
         } else {
             set m_currentCassette n
             set m_currentColumn N
             set m_currentRow 0
             set screening_msg "mount failed"
         }
-        checkIfRobotResetIsRequired
+        #yangx checkIfRobotResetIsRequired
     } else {
         puts "ROBOT simulation"
         sleep 800
@@ -2432,11 +2296,11 @@ if { $currentPortOK && $nextPortOK } {
 # set the screening mode off. So it's added here to make sure it set.
 #    start_operation screening_mode "OFF" 
 
-#warm_up grabber 
-    if { $m_startWarmUp } {
-	start_operation warm_up_grabber
-	set m_startWarmUp 0
-    }
+    #warm_up grabber 
+#    if { $m_startWarmUp } {
+#	start_operation warm_up_grabber
+#	set m_startWarmUp 0
+#    }
     spinMsgLoop
     
 } elseif { $currentPortOK && !$nextPortOK} {
@@ -2444,7 +2308,12 @@ if { $currentPortOK && $nextPortOK } {
     puts "ROBOT dismountCrystal $m_currentCassette$m_currentColumn$m_currentRow"
     set screening_msg "dismount $m_currentCassette$m_currentColumn$m_currentRow"
     set errorFlag 0
-    set errorText ""
+    set errorText "a"
+    
+    #yangx initalize  m_wcycle to 0 because only dismount for screening means the screening finined
+    #      no more warm cycle needed. so when next screening can start with the initail value.
+    set m_wcycle 0
+ 
     if { $useRobotFlag==1 } {
         puts "call  ISampleMountingDevice_start dismountCrystal $m_currentCassette $m_currentRow $m_currentColumn"
         set errorFlag [catch {
@@ -2518,11 +2387,6 @@ if { $currentPortOK && $nextPortOK } {
             set screening_msg "skip empty port"
         } else {
             set screening_msg "$cassette$column$row mounted"
-            if {[llength $errorText] > 4} {
-                set barcode [lindex $errorText 4]
-                puts "barcode $barcode"
-                set m_currentBarcode $barcode
-            }
         }
         checkIfRobotResetIsRequired
 #yangx add warm up grabber here for no wait
@@ -2764,6 +2628,8 @@ set screening_msg "snapshot $fileName"
         append urlTARGET "&impBackupExist=true"
         append urlTARGET "&impAppend=false"
 
+        #set cmd "java url $urlSOURCE [drawInfoOnVideoSnapshot] -o $urlTARGET -debug"
+        set cmd "java -Djava.awt.headless=true url $urlSOURCE [drawInfoOnVideoSnapshot] -o $urlTARGET"
         #log_note cmd: $cmd
         if { [catch {
             saveBoxSnapshot $filePath
@@ -2773,12 +2639,10 @@ set screening_msg "snapshot $fileName"
             #set status "ERROR $errMsg"
             #set ncode 0
             #set code_msg "get url failed for snapshot"
-            catch {
-                user_log_error screening \
-                "videoSnapshot with beam info error: $errMsg"
+            user_log_error screening \
+            "videoSnapshot with beam info error: $errMsg"
 
-                log_error screening "videoSnapshot with beam info error: $errMsg"
-            }
+            log_error screening "videoSnapshot with beam info error: $errMsg"
         }
     }
 
@@ -3262,8 +3126,7 @@ puts "SequenceDevice.tcl loaded successfully"
         set cur_port [getCurrentPortID]
         set enable_dismount 1
         set cur_sub_dir [lindex $m_crystalDirList $m_currentCrystal]
-        set cur_gridSampleLocation \
-        [lindex $m_gridSampleLocationList $m_currentCrystal]
+
     } elseif {$m_currentCassette != "n" && \
     $m_currentColumn != "N" && \
     $m_currentRow != "0"} {
@@ -3271,12 +3134,11 @@ puts "SequenceDevice.tcl loaded successfully"
         set cur_port $m_currentCassette$m_currentColumn$m_currentRow
         set enable_dismount 1
         set cur_sub_dir .
-        set cur_gridSampleLocation ""
     } else {
         set cur_port {}
         set enable_dismount 0
         set cur_sub_dir {}
-        set cur_gridSampleLocation ""
+
     }
 
     if { $m_nextCrystal < 0 } {
@@ -3289,7 +3151,7 @@ puts "SequenceDevice.tcl loaded successfully"
     } else {
         set robotFlag manual 
     }
-    set crystalStatus [list $cur_port $next_port $robotFlag $enable_dismount $cur_sub_dir $m_isSyncedWithRobot $m_sampleReOriented $cur_gridSampleLocation]
+    set crystalStatus [list $cur_port $next_port $robotFlag $enable_dismount $cur_sub_dir $m_isSyncedWithRobot $m_sampleReOriented]
 }
 ::itcl::body SequenceDevice::loadCrystalStatusString { } {
     variable ::nScripts::crystalStatus
@@ -3320,8 +3182,6 @@ puts "SequenceDevice.tcl loaded successfully"
         set collect_parameters [lrange $collect_default 0 1]
     }
 
-    setConfig useRobot 1
-
     setConfig detectorMode [::nScripts::getDetectorDefaultModeIndex] $args
     setConfig actionListParameters [list \
     {MountNextCrystal {}} \
@@ -3346,10 +3206,6 @@ puts "SequenceDevice.tcl loaded successfully"
     if {[llength $collect_default] > 2} {
         set att [lindex $collect_default 2]
         setConfig attenuation $att $args
-    }
-    set m_lastUserName [get_operation_user]
-    if {[string first $m_lastUserName $m_directory] < 0} {
-        setConfig directory /data/$m_lastUserName $args
     }
 }
 
@@ -3643,7 +3499,6 @@ puts "portIndex=$portIndex m_indexMap=$m_indexMap spreadsheet_index=$spreadsheet
 #must have at least one of "stop" or "mountnext"
 ::itcl::body SequenceDevice::actionSelectionOK {} {
     variable ::nScripts::scn_action_msg
-    variable ::nScripts::lc_error_threshold
 
     #mount must be first if no current sample
     if {$m_currentCrystal < 0 && $m_currentAction != 0} {
@@ -3668,20 +3523,6 @@ puts "portIndex=$portIndex m_indexMap=$m_indexMap spreadsheet_index=$spreadsheet
             return 0
         }
     }
-
-    if {![info exists lc_error_threshold] \
-    || [lindex $lc_error_threshold 0] != "0"} {
-        ##### if loopCenter unselected, the Stop after it will
-        ##### be selected automatically.
-        set selectedLoopCenter   [lindex $m_actionListStates 1]
-        set selectedStop         [lindex $m_actionListStates 2]
-        if {!$selectedLoopCenter && !$selectedStop} {
-            set m_actionListStates [lreplace $m_actionListStates 2 2 1]
-            log_error Stop automatically selected \
-            because Loop Alignment is not selected
-        }
-    }
-
     
     ##### may be TEMP
     set selectedReOrient     [lindex $m_actionListStates 13]
@@ -3777,33 +3618,13 @@ puts "portIndex=$portIndex m_indexMap=$m_indexMap spreadsheet_index=$spreadsheet
     return 1
 }
 ::itcl::body SequenceDevice::checkActionSelection { varName } {
-    variable ::nScripts::lc_error_threshold
-
     upvar $varName result
 
     puts "checkActionSelection $result"
 
-    set anyChange 0
-
-    if {![info exists lc_error_threshold] \
-    || [lindex $lc_error_threshold 0] != "0"} {
-        set selectedLoopAlignment [lindex $result 1]
-        set selectedStop           [lindex $result 2]
-        set currentLoopAlignment    [lindex $m_actionListStates 1]
-        set currentStop            [lindex $m_actionListStates 2]
-        if {!$selectedLoopAlignment && $currentLoopAlignment && !$currentStop} {
-            set result [lreplace $result 2 2 1]
-            incr anyChange
-        }
-        if {!$selectedStop && $currentStop && !$currentLoopAlignment} {
-            set result [lreplace $result 1 1 1]
-            incr anyChange
-        }
-    }
-
     set ll [llength $result]
     if {$ll < 15} {
-        return $anyChange
+        return 0
     }
 
     set selectedReOrient     [lindex $result 13]
@@ -4324,7 +4145,6 @@ puts "portIndex=$portIndex m_indexMap=$m_indexMap spreadsheet_index=$spreadsheet
     set column [string index $port 1]
     set row [string range $port 2 end]
 
-    ### in fact, not need
     checkCassettePermit $cassette
 
     ########## force use robot
@@ -4367,7 +4187,6 @@ puts "portIndex=$portIndex m_indexMap=$m_indexMap spreadsheet_index=$spreadsheet
             set m_currentCrystal -1
     } else {
         set m_currentCrystal [getCrystalIndex $m_currentRow $m_currentColumn]
-        updateBarcodeScanned $m_currentBarcode
     }
     #send_operation_update "setConfig currentCrystal $m_currentCrystal"
     syncWithRobot
@@ -4610,7 +4429,6 @@ puts "portIndex=$portIndex m_indexMap=$m_indexMap spreadsheet_index=$spreadsheet
         }
     }
     set m_currentCrystal -1
-    set m_currentBarcode ""
     set m_sampleReOriented 0
     fillDefaultRunForAdjust
     updateCrystalSelectionListString
@@ -4620,40 +4438,6 @@ puts "portIndex=$portIndex m_indexMap=$m_indexMap spreadsheet_index=$spreadsheet
         syncWithRobot
     } else {
         syncWithRobot $TRY_SYNC_WITH_ROBOT
-    }
-
-    if {[isOperation scan3DSetup]} {
-        if {[catch {
-            ### now we need the scan3DSetup operation.  BluIce needs it.
-            set h [start_waitable_operation scan3DSetup clear]
-            wait_for_operation_to_finish $h
-        } errMsg]} {
-            puts "rastering clear failed: $errMsg"
-        }
-    }
-    if {[isOperation rasterRunsConfig]} {
-        if {[catch {
-            set h [start_waitable_operation rasterRunsConfig deleteAllRasters]
-            wait_for_operation_to_finish $h
-        } errMsg]} {
-            puts "rasterRun clear failed: $errMsg"
-        }
-    }
-    if {[isOperation spectrometerWrap]} {
-        if {[catch {
-            set h [start_waitable_operation spectrometerWrap clear_result_files]
-            wait_for_operation_to_finish $h
-        } errMsg]} {
-            puts "microspec clear failed: $errMsg"
-        }
-    }
-    if {[isOperation gridGroupConfig]} {
-        if {[catch {
-            set h [start_waitable_operation gridGroupConfig cleanup_for_dismount]
-            wait_for_operation_to_finish $h
-        } errMsg]} {
-            puts "gridGroup clear failed: $errMsg"
-        }
     }
 }
 ::itcl::body SequenceDevice::getStrategyFileName { } {
@@ -4706,10 +4490,6 @@ puts "portIndex=$portIndex m_indexMap=$m_indexMap spreadsheet_index=$spreadsheet
 
     if {$isStaff} return
 
-    if {$cassette == ""} {
-        return
-    }
-
     switch -exact $cassette {
         0 -
         1 -
@@ -4726,7 +4506,6 @@ puts "portIndex=$portIndex m_indexMap=$m_indexMap spreadsheet_index=$spreadsheet
         r {
             set owner [lindex $cassette_owner 3]
         }
-        b -
         n {
             ### dismount is allowed
             return
@@ -4737,12 +4516,7 @@ puts "portIndex=$portIndex m_indexMap=$m_indexMap spreadsheet_index=$spreadsheet
     }
     puts "owner=$owner"
     puts "lastuser=$m_lastUserName"
-
-    if {$owner == ""} {
-        return
-    }
-
-    if {[lsearch -exact $owner $m_lastUserName] < 0} {
+    if {$owner != "" && $owner != $m_lastUserName} {
         log_error "cassette access denied: not owner"
         return -code error "cassette access denied, not owner"
     }
@@ -4812,7 +4586,7 @@ puts "portIndex=$portIndex m_indexMap=$m_indexMap spreadsheet_index=$spreadsheet
         append cmd " -oRaw $urlTargetRaw"
     }
 
-    log_note cmd: $cmd
+    #log_note cmd: $cmd
     set mm [eval exec $cmd]
     puts "saveRawAndBox result: $mm"
 }
@@ -5283,7 +5057,7 @@ puts "portIndex=$portIndex m_indexMap=$m_indexMap spreadsheet_index=$spreadsheet
     set m_imgFileExtension [getImgFileExt]
 
     if {[catch {
-        ::nScripts::correctPreCheckMotors
+        ::nScripts::correctPreCheckMotors 1
     } errMsg]} {
         log_error failed to correct motors $errMsg
         return -code error $errMsg

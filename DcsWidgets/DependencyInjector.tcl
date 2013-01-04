@@ -119,12 +119,10 @@ class DCS::DependencyInjector {
     }
 
     public method createObjectByName { name } {
-
         #return singleton if exists
         if { [info exists _singletonArray($name) ] } {
             return $_singletonArray($name)
         }
-
         set obj [onlyCreateObjectByName $name]
         configureAllProp $obj $name
         set singletonProp [array names _propArray -exact ${name}.$SINGLETON_PROP ]

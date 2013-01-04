@@ -1,5 +1,5 @@
 {
-  {20} {283} {load}
+  {20} {769} {load}
   {
     {Selected 4 {hide editable}}
     {Port 4 {show readonly}}
@@ -53,10 +53,9 @@
     {}
     {
       {
-        { {/storage/yangx/robot-test/24oct12/A1} {A1_0007.img} {A1_0deg_0007.jpg} {A1_0007_small.jpg} {A1_0007_medium.jpg} {A1_0007_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/home/nysbc/temp/A1} {A1_0027.img} {A1_0deg_0028.jpg} {A1_0027_small.jpg} {A1_0027_medium.jpg} {A1_0027_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/storage/yangx/robot-test/24oct12/A1} {A1_0008.img} {A1_90deg_0008.jpg} {A1_0008_small.jpg} {A1_0008_medium.jpg} {A1_0008_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -89,10 +88,9 @@
     {}
     {
       {
-        { {/storage/yangx/robot-test/24oct12/A2} {A2_0007.img} {A2_0deg_0007.jpg} {A2_0007_small.jpg} {A2_0007_medium.jpg} {A2_0007_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/home/nysbc/temp/A2} {A2_0012.img} {A2_0deg_0012.jpg} {A2_0012_small.jpg} {A2_0012_medium.jpg} {A2_0012_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/storage/yangx/robot-test/24oct12/A2} {A2_0008.img} {A2_90deg_0008.jpg} {A2_0008_small.jpg} {A2_0008_medium.jpg} {A2_0008_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -125,10 +123,9 @@
     {}
     {
       {
-        { {/storage/yangx/robot-test/24oct12/A3} {A3_0005.img} {A3_0deg_0005.jpg} {A3_0005_small.jpg} {A3_0005_medium.jpg} {A3_0005_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/home/nysbc/temp/A3} {A3_0010.img} {A3_0deg_0010.jpg} {A3_0010_small.jpg} {A3_0010_medium.jpg} {A3_0010_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/storage/yangx/robot-test/24oct12/A3} {A3_0006.img} {A3_90deg_0006.jpg} {A3_0006_small.jpg} {A3_0006_medium.jpg} {A3_0006_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -161,10 +158,9 @@
     {}
     {
       {
-        { {/storage/yangx/robot-test/24oct12/A4} {A4_0005.img} {A4_0deg_0005.jpg} {A4_0005_small.jpg} {A4_0005_medium.jpg} {A4_0005_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/home/nysbc/temp/A4} {A4_0009.img} {A4_0deg_0009.jpg} {A4_0009_small.jpg} {A4_0009_medium.jpg} {A4_0009_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/storage/yangx/robot-test/24oct12/A4} {A4_0006.img} {A4_90deg_0006.jpg} {A4_0006_small.jpg} {A4_0006_medium.jpg} {A4_0006_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -197,10 +193,9 @@
     {}
     {
       {
-        { {/storage/yangx/robot-test/24oct12/A5} {A5_0003.img} {A5_0deg_0003.jpg} {A5_0003_small.jpg} {A5_0003_medium.jpg} {A5_0003_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/home/nysbc/temp/A5} {A5_0007.img} {A5_0deg_0007.jpg} {A5_0007_small.jpg} {A5_0007_medium.jpg} {A5_0007_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/storage/yangx/robot-test/24oct12/A5} {A5_0004.img} {A5_90deg_0004.jpg} {A5_0004_small.jpg} {A5_0004_medium.jpg} {A5_0004_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -233,10 +228,9 @@
     {}
     {
       {
-        { {/storage/yangx/robot-test/24oct12/A6} {A6_0003.img} {A6_0deg_0003.jpg} {A6_0003_small.jpg} {A6_0003_medium.jpg} {A6_0003_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/home/nysbc/temp/A6} {A6_0006.img} {A6_0deg_0006.jpg} {A6_0006_small.jpg} {A6_0006_medium.jpg} {A6_0006_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/storage/yangx/robot-test/24oct12/A6} {A6_0004.img} {A6_90deg_0004.jpg} {A6_0004_small.jpg} {A6_0004_medium.jpg} {A6_0004_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -269,10 +263,9 @@
     {}
     {
       {
-        { {/storage/yangx/robot-test/24oct12/A7} {A7_0001.img} {A7_0deg_0001.jpg} {A7_0001_small.jpg} {A7_0001_medium.jpg} {A7_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/home/nysbc/temp/A7} {A7_0006.img} {A7_0deg_0006.jpg} {A7_0006_small.jpg} {A7_0006_medium.jpg} {A7_0006_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/storage/yangx/robot-test/24oct12/A7} {A7_0002.img} {A7_90deg_0002.jpg} {A7_0002_small.jpg} {A7_0002_medium.jpg} {A7_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -305,10 +298,9 @@
     {}
     {
       {
-        { {/storage/yangx/robot-test/24oct12/A8} {A8_0001.img} {A8_0deg_0001.jpg} {A8_0001_small.jpg} {A8_0001_medium.jpg} {A8_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/home/nysbc/temp/A8} {A8_0006.img} {A8_0deg_0006.jpg} {A8_0006_small.jpg} {A8_0006_medium.jpg} {A8_0006_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/storage/yangx/robot-test/24oct12/A8} {A8_0002.img} {A8_90deg_0002.jpg} {A8_0002_small.jpg} {A8_0002_medium.jpg} {A8_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -341,10 +333,9 @@
     {}
     {
       {
-        { {/storage/yangx/robot-test/24oct12/A9} {A9_0003.img} {A9_0deg_0003.jpg} {A9_0003_small.jpg} {A9_0003_medium.jpg} {A9_0003_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/home/nysbc/temp/A9} {A9_0006.img} {A9_0deg_0006.jpg} {A9_0006_small.jpg} {A9_0006_medium.jpg} {A9_0006_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/storage/yangx/robot-test/24oct12/A9} {A9_0004.img} {A9_90deg_0004.jpg} {A9_0004_small.jpg} {A9_0004_medium.jpg} {A9_0004_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -377,10 +368,9 @@
     {}
     {
       {
-        { {/storage/yangx/robot-test/24oct12/A10} {A10_0001.img} {A10_0deg_0001.jpg} {A10_0001_small.jpg} {A10_0001_medium.jpg} {A10_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/home/nysbc/temp/A10} {A10_0006.img} {A10_0deg_0006.jpg} {A10_0006_small.jpg} {A10_0006_medium.jpg} {A10_0006_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/storage/yangx/robot-test/24oct12/A10} {A10_0002.img} {A10_90deg_0002.jpg} {A10_0002_small.jpg} {A10_0002_medium.jpg} {A10_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -413,10 +403,9 @@
     {}
     {
       {
-        { {/storage/yangx/robot-test/24oct12/A11} {A11_0001.img} {A11_0deg_0001.jpg} {A11_0001_small.jpg} {A11_0001_medium.jpg} {A11_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/home/nysbc/temp/A11} {A11_0006.img} {A11_0deg_0006.jpg} {A11_0006_small.jpg} {A11_0006_medium.jpg} {A11_0006_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/storage/yangx/robot-test/24oct12/A11} {A11_0002.img} {A11_90deg_0002.jpg} {A11_0002_small.jpg} {A11_0002_medium.jpg} {A11_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -449,10 +438,9 @@
     {}
     {
       {
-        { {/storage/yangx/robot-test/24oct12/A12} {A12_0003.img} {A12_0deg_0003.jpg} {A12_0003_small.jpg} {A12_0003_medium.jpg} {A12_0003_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/home/nysbc/temp/A12} {A12_0006.img} {A12_0deg_0006.jpg} {A12_0006_small.jpg} {A12_0006_medium.jpg} {A12_0006_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/storage/yangx/robot-test/24oct12/A12} {A12_0004.img} {A12_90deg_0004.jpg} {A12_0004_small.jpg} {A12_0004_medium.jpg} {A12_0004_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -485,10 +473,9 @@
     {}
     {
       {
-        { {/storage/yangx/robot-test/24oct12/A13} {A13_0001.img} {A13_0deg_0001.jpg} {A13_0001_small.jpg} {A13_0001_medium.jpg} {A13_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/home/nysbc/temp/A13} {A13_0005.img} {A13_0deg_0005.jpg} {A13_0005_small.jpg} {A13_0005_medium.jpg} {A13_0005_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/storage/yangx/robot-test/24oct12/A13} {A13_0002.img} {A13_90deg_0002.jpg} {A13_0002_small.jpg} {A13_0002_medium.jpg} {A13_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -521,10 +508,9 @@
     {}
     {
       {
-        { {/storage/yangx/robot-test/24oct12/A14} {A14_0001.img} {A14_0deg_0001.jpg} {A14_0001_small.jpg} {A14_0001_medium.jpg} {A14_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/home/nysbc/temp/A14} {A14_0005.img} {A14_0deg_0005.jpg} {A14_0005_small.jpg} {A14_0005_medium.jpg} {A14_0005_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/storage/yangx/robot-test/24oct12/A14} {A14_0002.img} {A14_90deg_0002.jpg} {A14_0002_small.jpg} {A14_0002_medium.jpg} {A14_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -557,10 +543,9 @@
     {}
     {
       {
-        { {/storage/yangx/robot-test/24oct12/A15} {A15_0003.img} {A15_0deg_0003.jpg} {A15_0003_small.jpg} {A15_0003_medium.jpg} {A15_0003_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/home/nysbc/temp/A15} {A15_0004.img} {A15_0deg_0004.jpg} {A15_0004_small.jpg} {A15_0004_medium.jpg} {A15_0004_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/storage/yangx/robot-test/24oct12/A15} {A15_0004.img} {A15_90deg_0004.jpg} {A15_0004_small.jpg} {A15_0004_medium.jpg} {A15_0004_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -593,10 +578,9 @@
     {}
     {
       {
-        { {/storage/yangx/robot-test/24oct12/A16} {A16_0001.img} {A16_0deg_0001.jpg} {A16_0001_small.jpg} {A16_0001_medium.jpg} {A16_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/home/nysbc/temp/A16} {A16_0005.img} {A16_0deg_0005.jpg} {A16_0005_small.jpg} {A16_0005_medium.jpg} {A16_0005_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/storage/yangx/robot-test/24oct12/A16} {A16_0002.img} {A16_90deg_0002.jpg} {A16_0002_small.jpg} {A16_0002_medium.jpg} {A16_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -629,10 +613,9 @@
     {}
     {
       {
-        { {/storage/yangx/robot-test/24oct12/B1} {B1_0005.img} {B1_0deg_0005.jpg} {B1_0005_small.jpg} {B1_0005_medium.jpg} {B1_0005_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/home/nysbc/temp/B1} {B1_0002.img} {B1_0deg_0002.jpg} {B1_0002_small.jpg} {B1_0002_medium.jpg} {B1_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/storage/yangx/robot-test/24oct12/B1} {B1_0006.img} {B1_90deg_0006.jpg} {B1_0006_small.jpg} {B1_0006_medium.jpg} {B1_0006_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -665,10 +648,9 @@
     {}
     {
       {
-        { {/storage/yangx/robot-test/24oct12/B2} {B2_0007.img} {B2_0deg_0007.jpg} {B2_0007_small.jpg} {B2_0007_medium.jpg} {B2_0007_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/home/nysbc/temp/B2} {B2_0002.img} {B2_0deg_0002.jpg} {B2_0002_small.jpg} {B2_0002_medium.jpg} {B2_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/storage/yangx/robot-test/24oct12/B2} {B2_0008.img} {B2_90deg_0008.jpg} {B2_0008_small.jpg} {B2_0008_medium.jpg} {B2_0008_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -701,10 +683,9 @@
     {}
     {
       {
-        { {/storage/yangx/robot-test/24oct12/B3} {B3_0005.img} {B3_0deg_0005.jpg} {B3_0005_small.jpg} {B3_0005_medium.jpg} {B3_0005_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/home/nysbc/temp/B3} {B3_0002.img} {B3_0deg_0002.jpg} {B3_0002_small.jpg} {B3_0002_medium.jpg} {B3_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/storage/yangx/robot-test/24oct12/B3} {B3_0006.img} {B3_90deg_0006.jpg} {B3_0006_small.jpg} {B3_0006_medium.jpg} {B3_0006_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -737,10 +718,9 @@
     {}
     {
       {
-        { {/storage/yangx/robot-test/24oct12/B4} {B4_0003.img} {B4_0deg_0003.jpg} {B4_0003_small.jpg} {B4_0003_medium.jpg} {B4_0003_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/home/nysbc/temp/B4} {B4_0002.img} {B4_0deg_0002.jpg} {B4_0002_small.jpg} {B4_0002_medium.jpg} {B4_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/storage/yangx/robot-test/24oct12/B4} {B4_0004.img} {B4_90deg_0004.jpg} {B4_0004_small.jpg} {B4_0004_medium.jpg} {B4_0004_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -773,10 +753,9 @@
     {}
     {
       {
-        { {/storage/yangx/robot-test/24oct12/B5} {B5_0003.img} {B5_0deg_0003.jpg} {B5_0003_small.jpg} {B5_0003_medium.jpg} {B5_0003_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/home/nysbc/temp/B5} {B5_0002.img} {B5_0deg_0002.jpg} {B5_0002_small.jpg} {B5_0002_medium.jpg} {B5_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/storage/yangx/robot-test/24oct12/B5} {B5_0004.img} {B5_90deg_0004.jpg} {B5_0004_small.jpg} {B5_0004_medium.jpg} {B5_0004_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -809,10 +788,9 @@
     {}
     {
       {
-        { {/storage/yangx/robot-test/24oct12/B6} {B6_0001.img} {B6_0deg_0001.jpg} {B6_0001_small.jpg} {B6_0001_medium.jpg} {B6_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/home/nysbc/temp/B6} {B6_0002.img} {B6_0deg_0002.jpg} {B6_0002_small.jpg} {B6_0002_medium.jpg} {B6_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/storage/yangx/robot-test/24oct12/B6} {B6_0002.img} {B6_90deg_0002.jpg} {B6_0002_small.jpg} {B6_0002_medium.jpg} {B6_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -845,10 +823,9 @@
     {}
     {
       {
-        { {/storage/yangx/robot-test/24oct12/B7} {B7_0001.img} {B7_0deg_0001.jpg} {B7_0001_small.jpg} {B7_0001_medium.jpg} {B7_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/home/nysbc/temp/B7} {B7_0002.img} {B7_0deg_0002.jpg} {B7_0002_small.jpg} {B7_0002_medium.jpg} {B7_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/storage/yangx/robot-test/24oct12/B7} {B7_0002.img} {B7_90deg_0002.jpg} {B7_0002_small.jpg} {B7_0002_medium.jpg} {B7_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -881,10 +858,9 @@
     {}
     {
       {
-        { {/storage/yangx/robot-test/24oct12/B8} {B8_0001.img} {B8_0deg_0001.jpg} {B8_0001_small.jpg} {B8_0001_medium.jpg} {B8_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/home/nysbc/temp/B8} {B8_0002.img} {B8_0deg_0002.jpg} {B8_0002_small.jpg} {B8_0002_medium.jpg} {B8_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/storage/yangx/robot-test/24oct12/B8} {B8_0002.img} {B8_90deg_0002.jpg} {B8_0002_small.jpg} {B8_0002_medium.jpg} {B8_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -917,10 +893,9 @@
     {}
     {
       {
-        { {/storage/yangx/robot-test/24oct12/B9} {B9_0001.img} {B9_0deg_0001.jpg} {B9_0001_small.jpg} {B9_0001_medium.jpg} {B9_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/home/nysbc/temp/B9} {B9_0002.img} {B9_0deg_0002.jpg} {B9_0002_small.jpg} {B9_0002_medium.jpg} {B9_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/storage/yangx/robot-test/24oct12/B9} {B9_0002.img} {B9_90deg_0002.jpg} {B9_0002_small.jpg} {B9_0002_medium.jpg} {B9_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -953,10 +928,9 @@
     {}
     {
       {
-        { {/storage/yangx/robot-test/24oct12/B10} {B10_0001.img} {B10_0deg_0001.jpg} {B10_0001_small.jpg} {B10_0001_medium.jpg} {B10_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/home/nysbc/temp/B10} {B10_0002.img} {B10_0deg_0002.jpg} {B10_0002_small.jpg} {B10_0002_medium.jpg} {B10_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/storage/yangx/robot-test/24oct12/B10} {B10_0002.img} {B10_90deg_0002.jpg} {B10_0002_small.jpg} {B10_0002_medium.jpg} {B10_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -989,10 +963,9 @@
     {}
     {
       {
-        { {/storage/yangx/robot-test/24oct12/B11} {B11_0001.img} {B11_0deg_0001.jpg} {B11_0001_small.jpg} {B11_0001_medium.jpg} {B11_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/home/nysbc/temp/B11} {B11_0002.img} {B11_0deg_0002.jpg} {B11_0002_small.jpg} {B11_0002_medium.jpg} {B11_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/storage/yangx/robot-test/24oct12/B11} {B11_0002.img} {B11_90deg_0002.jpg} {B11_0002_small.jpg} {B11_0002_medium.jpg} {B11_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -1025,10 +998,9 @@
     {}
     {
       {
-        { {/storage/yangx/robot-test/24oct12/B12} {B12_0001.img} {B12_0deg_0001.jpg} {B12_0001_small.jpg} {B12_0001_medium.jpg} {B12_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/home/nysbc/temp/B12} {B12_0002.img} {B12_0deg_0002.jpg} {B12_0002_small.jpg} {B12_0002_medium.jpg} {B12_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/storage/yangx/robot-test/24oct12/B12} {B12_0002.img} {B12_90deg_0002.jpg} {B12_0002_small.jpg} {B12_0002_medium.jpg} {B12_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -1061,10 +1033,9 @@
     {}
     {
       {
-        { {/storage/yangx/robot-test/24oct12/B13} {B13_0001.img} {B13_0deg_0001.jpg} {B13_0001_small.jpg} {B13_0001_medium.jpg} {B13_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/home/nysbc/temp/B13} {B13_0002.img} {B13_0deg_0002.jpg} {B13_0002_small.jpg} {B13_0002_medium.jpg} {B13_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/storage/yangx/robot-test/24oct12/B13} {B13_0002.img} {B13_90deg_0002.jpg} {B13_0002_small.jpg} {B13_0002_medium.jpg} {B13_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -1097,10 +1068,9 @@
     {}
     {
       {
-        { {/storage/yangx/robot-test/24oct12/B14} {B14_0001.img} {B14_0deg_0001.jpg} {B14_0001_small.jpg} {B14_0001_medium.jpg} {B14_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/home/nysbc/temp/B14} {B14_0002.img} {B14_0deg_0002.jpg} {B14_0002_small.jpg} {B14_0002_medium.jpg} {B14_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/storage/yangx/robot-test/24oct12/B14} {B14_0002.img} {B14_90deg_0002.jpg} {B14_0002_small.jpg} {B14_0002_medium.jpg} {B14_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -1133,10 +1103,9 @@
     {}
     {
       {
-        { {/storage/yangx/robot-test/24oct12/B15} {B15_0001.img} {B15_0deg_0001.jpg} {B15_0001_small.jpg} {B15_0001_medium.jpg} {B15_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/home/nysbc/temp/B15} {B15_0001.img} {B15_0deg_0001.jpg} {B15_0001_small.jpg} {B15_0001_medium.jpg} {B15_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/storage/yangx/robot-test/24oct12/B15} {B15_0002.img} {B15_90deg_0002.jpg} {B15_0002_small.jpg} {B15_0002_medium.jpg} {B15_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -1169,10 +1138,9 @@
     {}
     {
       {
-        { {/storage/yangx/robot-test/24oct12/B16} {B16_0001.img} {B16_0deg_0001.jpg} {B16_0001_small.jpg} {B16_0001_medium.jpg} {B16_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/home/nysbc/temp/B16} {B16_0001.img} {B16_0deg_0001.jpg} {B16_0001_small.jpg} {B16_0001_medium.jpg} {B16_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/storage/yangx/robot-test/24oct12/B16} {B16_0002.img} {B16_90deg_0002.jpg} {B16_0002_small.jpg} {B16_0002_medium.jpg} {B16_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -1205,6 +1173,7 @@
     {}
     {
       {
+        { {/home/nysbc/temp/C1} {C1_0001.img} {C1_0deg_0001.jpg} {C1_0001_small.jpg} {C1_0001_medium.jpg} {C1_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -1239,6 +1208,7 @@
     {}
     {
       {
+        { {/home/nysbc/temp/C2} {C2_0001.img} {C2_0deg_0001.jpg} {C2_0001_small.jpg} {C2_0001_medium.jpg} {C2_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -1273,6 +1243,7 @@
     {}
     {
       {
+        { {/home/nysbc/temp/C3} {C3_0001.img} {C3_0deg_0001.jpg} {C3_0001_small.jpg} {C3_0001_medium.jpg} {C3_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -1307,6 +1278,7 @@
     {}
     {
       {
+        { {/home/nysbc/temp/C4} {C4_0001.img} {C4_0deg_0001.jpg} {C4_0001_small.jpg} {C4_0001_medium.jpg} {C4_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -1341,6 +1313,7 @@
     {}
     {
       {
+        { {/home/nysbc/temp/C5} {C5_0001.img} {C5_0deg_0001.jpg} {C5_0001_small.jpg} {C5_0001_medium.jpg} {C5_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -1375,6 +1348,7 @@
     {}
     {
       {
+        { {/home/nysbc/temp/C6} {C6_0001.img} {C6_0deg_0001.jpg} {C6_0001_small.jpg} {C6_0001_medium.jpg} {C6_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -1409,6 +1383,7 @@
     {}
     {
       {
+        { {/home/nysbc/temp/C7} {C7_0001.img} {C7_0deg_0001.jpg} {C7_0001_small.jpg} {C7_0001_medium.jpg} {C7_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -1443,6 +1418,7 @@
     {}
     {
       {
+        { {/home/nysbc/temp/C8} {C8_0001.img} {C8_0deg_0001.jpg} {C8_0001_small.jpg} {C8_0001_medium.jpg} {C8_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -1477,6 +1453,7 @@
     {}
     {
       {
+        { {/home/nysbc/temp/C9} {C9_0001.img} {C9_0deg_0001.jpg} {C9_0001_small.jpg} {C9_0001_medium.jpg} {C9_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -1511,6 +1488,7 @@
     {}
     {
       {
+        { {/home/nysbc/temp/C10} {C10_0001.img} {C10_0deg_0001.jpg} {C10_0001_small.jpg} {C10_0001_medium.jpg} {C10_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -1545,6 +1523,7 @@
     {}
     {
       {
+        { {/home/nysbc/temp/C11} {C11_0001.img} {C11_0deg_0001.jpg} {C11_0001_small.jpg} {C11_0001_medium.jpg} {C11_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -1579,6 +1558,7 @@
     {}
     {
       {
+        { {/home/nysbc/temp/C12} {C12_0001.img} {C12_0deg_0001.jpg} {C12_0001_small.jpg} {C12_0001_medium.jpg} {C12_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -1613,6 +1593,7 @@
     {}
     {
       {
+        { {/home/nysbc/temp/C13} {C13_0001.img} {C13_0deg_0001.jpg} {C13_0001_small.jpg} {C13_0001_medium.jpg} {C13_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -1647,6 +1628,7 @@
     {}
     {
       {
+        { {/home/nysbc/temp/C14} {C14_0001.img} {C14_0deg_0001.jpg} {C14_0001_small.jpg} {C14_0001_medium.jpg} {C14_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -1681,6 +1663,7 @@
     {}
     {
       {
+        { {/home/nysbc/temp/C15} {C15_0001.img} {C15_0deg_0001.jpg} {C15_0001_small.jpg} {C15_0001_medium.jpg} {C15_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -1715,6 +1698,7 @@
     {}
     {
       {
+        { {/home/nysbc/temp/C16} {C16_0001.img} {C16_0deg_0001.jpg} {C16_0001_small.jpg} {C16_0001_medium.jpg} {C16_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }

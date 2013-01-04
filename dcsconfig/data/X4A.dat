@@ -43,7 +43,7 @@ analogInStatus1
 galil2 analogInStatus1
 0 1 1 1 1
 0 1 1 1 1
-0.021700 -0.003700 0.026900 3.463500 2.596400 2.597400 2.596700 0.020100
+0.023800 -0.004600 0.033300 3.463200 2.596400 2.597700 2.597400 0.014300
 
 get_robotstate
 11
@@ -164,7 +164,7 @@ robot_status
 self standardString
 0 1 1 1 1
 0 1 1 1 1
-status: 0 need_reset: 0 need_cal: 0 state: idle warning: {} cal_msg: {Gonio Cal: Done} cal_step: {100 of 100} mounted: {} pin_lost: 0 pin_mounted: 213 manual_mode: 0 need_mag_cal: 0 need_cas_cal: 0 need_clear: 0
+status: 0 need_reset: 0 need_cal: 0 state: idle warning: {} cal_msg: {Gonio Cal: Done} cal_step: {100 of 100} mounted: {r 1 A} pin_lost: 0 pin_mounted: 213 manual_mode: 0 need_mag_cal: 0 need_cas_cal: 0 need_clear: 0
 
 robot_state
 13
@@ -178,7 +178,7 @@ robot_cassette
 self standardString
 0 1 1 1 1
 0 1 1 1 1
-3 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 u u u u u u u u u u u 1 1 1 1 1 1 3 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 u u u u u u u u u u 1 1 1 1 1 1 u u u u u u u u u u 1 1 1 1 1 1 u u 1 1 1 1 1 1 u u u u u u u u u u u u u u u u u u u 0 1 1 1 1
+3 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 u u u u u u u u u u u 1 1 1 1 1 1 3 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 u u u u u u u u u u 1 1 1 1 1 1 u u u u u u u u u u 1 1 1 1 1 1 u u 1 1 1 1 1 1 u u u u u u u u u u u u u u u u u u u 0 1 1 1 1
 
 robot_probe
 13
@@ -227,14 +227,14 @@ crystalStatus
 self standardString
 0 1 1 1 1
 0 1 1 1 1
-{} {} robot 0 {} yes 0 {}
+A1 A2 robot 1 A1 yes 0 {}
 
 screening_msg
 13
 self standardString
 0 1 1 1 1
 0 1 1 1 1
-
+collected A1_00001
 
 ISampleMountingDevice
 11
@@ -299,7 +299,7 @@ self collectFrame
 
 collectRun
 11
-self collectShutterless
+self collectRun
 0 0 1 1 1
 0 0 1 1 1
 
@@ -655,7 +655,7 @@ ConsoleDhs MFirst
 0 1 1 1 1
 0 1 1 1 1
 0
-12672.700200 16000.000000 5400.000000 1 1 0 0 eV
+12673.260740 16000.000000 5400.000000 1 1 0 0 eV
 0
 
 optimizedEnergyParameters
@@ -687,7 +687,7 @@ galil1 gonio_phi
 0 1 1 1 1
 0 1 1 1 1
 0
-10.012300 1000.000000 0.000000 10000.000000 900000 10 0 0 0 0 0 0 1 deg
+1.010600 1000.000000 0.000000 10000.000000 900000 10 0 0 0 0 0 0 1 deg
 
 mono_vert
 1
@@ -1211,7 +1211,7 @@ galil1 tripot_3
 0 1 1 1 1
 0 1 1 1 1
 0
--0.878057 10.000000 -10.000000 20157.000000 5000 20 0 0 0 0 0 0 0 mm
+0.073771 10.000000 -10.000000 20157.000000 5000 20 0 0 0 0 0 0 0 mm
 
 tripot_2
 1
@@ -1219,7 +1219,7 @@ galil1 tripot_2
 0 1 1 1 1
 0 1 1 1 1
 0
--0.707645 5.500000 -5.500000 20157.000000 5000 20 0 0 0 0 0 0 0 mm
+0.208464 5.500000 -5.500000 20157.000000 5000 20 0 0 0 0 0 0 0 mm
 
 tripot_1
 1
@@ -1227,7 +1227,7 @@ galil1 tripot_1
 0 1 1 1 1
 0 1 1 1 1
 0
--1.041673 10.000000 -10.000000 20157.000000 5000 20 0 0 0 0 0 0 0 mm
+0.370591 10.000000 -10.000000 20157.000000 5000 20 0 0 0 0 0 0 0 mm
 
 sample_x
 2
@@ -1235,7 +1235,7 @@ self sample_x
 0 1 1 1 1
 0 1 1 1 1
 1
-0.842671 10.000000 -10.000000 0 0 0 0 mm
+-0.409007 10.000000 -10.000000 0 0 0 0 mm
 tripot_1 tripot_2
 
 sample_y
@@ -1244,7 +1244,7 @@ self sample_y
 0 1 1 1 1
 0 1 1 1 1
 1
--0.009887 10.000000 -10.000000 0 0 0 0 mm
+-0.627773 10.000000 -10.000000 0 0 0 0 mm
 tripot_1 tripot_2 tripot_3
 
 sample_z
@@ -1253,7 +1253,7 @@ self sample_z
 0 1 1 1 1
 0 1 1 1 1
 1
--0.875792 10.000000 -10.000000 0 0 0 0 mm
+0.217609 10.000000 -10.000000 0 0 0 0 mm
 tripot_1 tripot_2 tripot_3
 
 sample_z_corr
@@ -1262,7 +1262,7 @@ self sample_z_corr
 0 1 1 1 1
 0 1 1 1 1
 1
--0.875792 4.950000 -28.100000 1 0 0 0 mm
+0.217609 4.950000 -28.100000 1 0 0 0 mm
 sample_z
 
 bend_x3
@@ -1394,7 +1394,7 @@ collect_msg
 self collectStatus
 0 1 1 1 1
 0 1 1 1 1
-0 {Data collection completed normally} 6 X4A nysbc {} 1
+0 {DCSS was reset.} 0 {} {} {} {}
 
 runs
 13
@@ -1415,7 +1415,7 @@ run1
 self runDefinition
 0 1 1 1 1
 0 1 1 1 1
-complete 10 1 test /home/nysbc/old-dhs 1 Phi 0.00 10.0 1.00 180.0 5.00 500.000000 50.000000 50 1 12672.419920 {} {} {} {} 1 0
+complete 5 1 test /home/nysbc/old-dhs 1 Phi 0.00 2.5 0.50 180.0 5.00 500.000000 50.000000 50 1 12673.541020 {} {} {} {} 1 0
 
 run2
 13
@@ -1897,7 +1897,7 @@ self attenuation
 0 1 1 1 1
 0 1 1 1 1
 0
-49.752927 100.000000 0.000000 0 0 0 0 %
+49.748568 100.000000 0.000000 0 0 0 0 %
 0
 
 acquireSpectrum
@@ -1973,7 +1973,7 @@ hutchDoorStatus
 simDhs standardString
 0 1 1 1 1
 0 1 1 1 1
-closed 1355777039
+closed 1356101998
 
 getPV
 11
@@ -2075,28 +2075,28 @@ crystalSelectionList
 self standardString
 0 1 1 1 1
 0 1 1 1 1
--1 -1 {0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0}
+0 1 {1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0}
 
 screeningActionList
 13
 self screeningActionList
 0 1 1 1 1
 0 1 1 1 1
-0 -1 0 {1 0 1 1 1 1 1 1 0 0 0 0 0 0 0 0 1}
+0 4 0 {1 0 1 1 1 1 1 1 0 0 0 0 0 0 0 0 1}
 
 screeningParameters
 13
 self standardString
 0 1 1 1 1
 0 1 1 1 1
-{{MountNextCrystal {}} {LoopAlignment {}} {Pause {}} {VideoSnapshot {1.000 0deg}} {CollectImage {1.000 10.000 1 {}}} {Rotate 90.000} {VideoSnapshot {1.000 90deg}} {CollectImage {1.000 10.000 1 {}}} {Pause {}} {Rotate -45.000} {VideoSnapshot {1.000 45deg}} {CollectImage {1.000 10.000 1 {}}} {ExcitationScan {10.000 test}} {ReOrient {}} {RunQueueTask {}} {Pause {}} {GrabberWarmCycle 3}} 1 /storage/yangx/robot-test/24oct12 550.000 50.000 99.793
+{{MountNextCrystal {}} {LoopAlignment {}} {Pause {}} {VideoSnapshot {1.000 0deg}} {CollectImage {1.000 3.000 1 {}}} {Rotate 90.000} {VideoSnapshot {1.000 90deg}} {CollectImage {1.000 3.000 1 {}}} {Pause {}} {Rotate -45.000} {VideoSnapshot {1.000 45deg}} {CollectImage {1.000 3.000 1 {}}} {ExcitationScan {10.000 test}} {ReOrient {}} {RunQueueTask {}} {Pause {}} {GrabberWarmCycle 3}} 0 /home/nysbc/temp 500.000 50.000 50
 
 detectorType
 13
 detector standardString
 0 1 1 1 1
 0 1 1 1 1
-PILATUS6
+{Q4CCD}
 
 robotResetStep
 13
@@ -2392,14 +2392,14 @@ scn_crystal_msg
 self standardString
 0 1 1 1 1
 0 1 1 1 1
-error: must select at least one crystal
+
 
 scn_action_msg
 13
 self standardString
 0 1 1 1 1
 0 1 1 1 1
-action selection OK
+error: must mount a sample first
 
 getEPICSPV
 11
@@ -2489,7 +2489,7 @@ sil_config
 self standardString
 0 1 1 1 1
 0 1 1 1 1
-1 1 1 1
+1 0 1 1
 
 sil_id
 13
@@ -2503,7 +2503,7 @@ sil_event_id
 imperson sil_event_id
 0 1 1 1 1
 0 1 1 1 1
-20 283
+20 286
 
 robot_force_left
 13
@@ -2659,7 +2659,7 @@ detector_status
 self standardString
 0 1 1 1 1
 0 1 1 1 1
-Detector Ready
+Reading Out Detector...
 
 cassette_owner
 13
@@ -2673,7 +2673,7 @@ system_status
 self systemStatus
 1 1 1 1 1
 0 0 0 0 0
-{Detector Ready} black #00a040
+{galil1 offline} black red
 
 scan_msg
 13
@@ -2754,7 +2754,7 @@ strategy_status
 imperson strategy_status
 0 1 1 1 1
 0 1 1 1 1
-ready X4A/20_B16_20121025_103203.tcl B16
+ready disMnted {}
 
 fillRun
 11
@@ -2793,7 +2793,7 @@ strategy_file
 imperson strategy_file
 0 1 1 1 1
 0 1 1 1 1
-X4A/20_B16_20121025_103203.tcl B16
+disMnted {}
 
 abortCollectWeb
 11
@@ -3008,6 +3008,25 @@ self standardString
 collectRasters
 11
 self collectRasters
+0 1 1 1 1
+0 1 1 1 1
+
+detectorStatus
+13
+detector detectorStatus
+0 1 1 1 1
+0 1 1 1 1
+TEMP0 35.6 TEMP1 27.4 TEMP2 28.7 HUMID0 24.0 HUMID1 36.8 HUMID2 0.7 GAPFILL -1 EXPOSUREMODE SHUTTER DISK_SIZE_KB 12582912 DISK_USED_KB 61596 DISK_USE_PERCENT 1 FREE_IMAGE_SPACE 1926 SUM_IMAGES false SUM_IMAGES_DELTA_DEG 0.1 N_FRAME_IMG 1 THRESHOLD 5300 GAIN midg THRESHOLD_SET true SETTING_THRESHOLD false
+
+detectorSetThreshold
+11
+detector detectorSetThreshold
+0 1 1 1 1
+0 0 0 0 0
+
+detectorCollectShutterless
+11
+detector detectorCollectShutterless
 0 1 1 1 1
 0 1 1 1 1
 

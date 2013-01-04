@@ -213,29 +213,24 @@ class Pilatus::DetectorControl {
 
 
     public method afterPropertiesSet {  } {
-
         set _buildingMsg ""
         set _abortOps ""
         set _detectorStatus [namespace current]::[Pilatus::DetectorStatus #auto true $_maxImageSizeKb]
-        
         #calculate center of center pixel
         if {$imageXSizePixels ==""} {return -code error "Error: must configure imageXSizePixels"}
         if {$imageYSizePixels ==""} {return -code error "Error: must configure imageYSizePixels"}
         set _detectorXCenterPixel [expr $imageXSizePixels / 2 + 0.5]
         set _detectorYCenterPixel [expr $imageYSizePixels / 2 + 0.5]
-
         if {$pixelXSizeUm ==""} {return -code error "Error: must configure pixelXSizeUm"}
         if {$pixelYSizeUm ==""} {return -code error "Error: must configure pixelYSizeUm"}
         if {$tmpDir ==""} {return -code error "Error: must configure tmpDir"}
-
         $_detectorStatus checkDiskSpace $tmpDir
-
         #convert mm to pixel with pixelSize 172 um/pixel
         set _detectorPixelSizeFactorX [expr 1000.0 / $pixelXSizeUm ]
         set _detectorPixelSizeFactorY [expr 1000.0 / $pixelYSizeUm ]
 
         if {$host == ""} {return -code error "Error: Must configure host property"}
-puts "host=$host"
+#puts "host=$host"
         set _multiImageParams [namespace current]::[MultiImageParams #auto]  
 
 
