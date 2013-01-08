@@ -310,7 +310,7 @@ proc getDetectorDefaultModeIndex { } {
     variable detectorType
     set type [lindex $detectorType 0]
 	switch -exact -- $type {
-		Q4CCD   { return 0 }
+		Q4CCD   { return 1 }
 		Q315CCD { return 2 }
 		MAR345  { return 2 }
 		MAR165  { return 0 }

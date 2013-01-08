@@ -2296,11 +2296,6 @@ if { $currentPortOK && $nextPortOK } {
 # set the screening mode off. So it's added here to make sure it set.
 #    start_operation screening_mode "OFF" 
 
-    #warm_up grabber 
-#    if { $m_startWarmUp } {
-#	start_operation warm_up_grabber
-#	set m_startWarmUp 0
-#    }
     spinMsgLoop
     
 } elseif { $currentPortOK && !$nextPortOK} {
@@ -2989,8 +2984,14 @@ puts "SequenceDevice::doRotate OK"
         set m_wcycle [expr $m_wcycle + 1]
         if { $m_wcycle >= $cycle } {
                 #start_operation warm_up_grabber
-                puts "yangx Warming cycle start"
+                #set screening_msg "yangx Warming cycle start"
+                #set handle [start_waitable_operation warm_up_grabber]
+		#set result [wait_for_operation_to_finish $handle]
+		#puts "yangxx result=$result"
+		#set screening_msg "yangx Warming cycle finished"
+
                 set m_startWarmUp 1
+
                 #reset the wcycle to 0
                 set m_wcycle 0
         }
@@ -3201,7 +3202,7 @@ puts "SequenceDevice.tcl loaded successfully"
     {RunQueueTask {}} \
     {Pause {}}] $args
 
-    setConfig actionListStates [list 1 1 0 1 1 1 1 1 0 0 0 0 0 0 0 0]
+    setConfig actionListStates [list 1 0 0 1 1 1 1 1 0 0 0 0 0 0 0 0]
 
     if {[llength $collect_default] > 2} {
         set att [lindex $collect_default 2]
