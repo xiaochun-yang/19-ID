@@ -117,7 +117,7 @@ xos_result_t Dmc2180::init_connection() {
                 xos_error_exit("");
                 return XOS_FAILURE;
         };
-        LOG_INFO1("yangxx %s\n",response);
+        //LOG_INFO1("yangxx %s\n",response);
 
 	if ((execute("XQ #ShutAll,1", response, &error_code, FALSE) == XOS_FAILURE)
 			|| (error_code != 0)) {
@@ -395,6 +395,7 @@ xos_result_t Dmc2180::send_message(char * message, xos_boolean_t silent) {
 	sprintf(buffer2, "%s%c%c", message, 13, 10);
 
 	if (xos_socket_write(&socket, buffer2, strlen(buffer2)) == XOS_SUCCESS) {
+//LOG_INFO1("yangx message is sent to galil %s", buffer2);
 		if (!silent) {
 			LOG_INFO2("%s-> %s",hostname.c_str(), buffer2);
 		}
@@ -405,8 +406,7 @@ xos_result_t Dmc2180::send_message(char * message, xos_boolean_t silent) {
 	}
 }
 
-xos_result_t Dmc2180::get_response(char * buffer, int *error_code,
-		xos_boolean_t silent) {
+xos_result_t Dmc2180::get_response(char * buffer, int *error_code, xos_boolean_t silent) {
 	int cnt = 0;
 	xos_boolean_t end_message = FALSE;
 	xos_boolean_t error = FALSE;
@@ -421,6 +421,7 @@ xos_result_t Dmc2180::get_response(char * buffer, int *error_code,
 
 	/* read a message from the dmc2180 */
 	while (cnt < 200 && end_message == FALSE) {
+
 		if (xos_socket_read(&socket, &buffer[cnt], 1) == XOS_FAILURE) {
 			LOG_WARNING("Error reading controller.");
 			break;
@@ -465,10 +466,19 @@ xos_result_t Dmc2180::get_response(char * buffer, int *error_code,
 }
 
 Dmc2180::Dmc2180() {
-	char AxisLabels[9] = "ABCDEFGH";
+	char AxisLabels[9] = "XYZWEFGH";
 
 	/* table mapping motor axis labels to an index*/
-	axisLabels["A"] = 0;
+        axisLabels["A"] = 0; axisLabels["a"] = 0; axisLabels["X"] = 0; axisLabels["x"] = 0;
+        axisLabels["B"] = 1;    axisLabels["b"] = 1;    axisLabels["Y"] = 1; axisLabels["y"] = 1;
+        axisLabels["C"] = 2;    axisLabels["c"] = 2;    axisLabels["Z"] = 2; axisLabels["z"] = 2;
+        axisLabels["D"] = 3;    axisLabels["d"] = 3;    axisLabels["W"] = 3; axisLabels["w"] = 3;
+        axisLabels["E"] = 4;    axisLabels["e"] = 4;
+        axisLabels["F"] = 5;    axisLabels["f"] = 5;
+        axisLabels["G"] = 6;    axisLabels["g"] = 6;
+        axisLabels["H"] = 7;    axisLabels["h"] = 7;
+
+/*	axisLabels["A"] = 0;
 	axisLabels["a"] = 0;
 	axisLabels["X"] = 0;
 	axisLabels["x"] = 0;
@@ -492,7 +502,7 @@ Dmc2180::Dmc2180() {
 	axisLabels["g"] = 6;
 	axisLabels["H"] = 7;
 	axisLabels["h"] = 7;
-
+*/
 	/* initialize usage array for axes */
 	for (int axis = 0; axis < DMC2180_MAX_AXES; axis++) {
 		motor[axis].axisUsed = FALSE;
@@ -1613,10 +1623,7 @@ xos_result_t Dmc2180_motor::abort_move_soft() {
 	handleStop();
 
 	sprintf(command, "ST%c", axisLabel);
-
-	/* construct and send message to dmc2180 */
 	controller_execute(command, &error_code, FALSE );
-
 	LOG_INFO2("Aborted device %c with %s\n", axisLabel, command );
 
     if ( isScriptParticipant ) {
@@ -1632,6 +1639,7 @@ xos_result_t Dmc2180_motor::abort_move_soft() {
 
 	return XOS_SUCCESS;
 }
+
 
 xos_result_t Dmc2180_motor::abort_move_hard() {
 	int error_code;

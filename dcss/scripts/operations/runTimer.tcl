@@ -97,7 +97,7 @@ if { $dType == "Q315CCD" } {
 } elseif {$dType == "MAR345" && $dMode == 2} {
   set image_overhead_time 54.1
 } else {
-  set image_overhead_time 8
+  set image_overhead_time 4.0
 }
 
 set temp_energies [list $e1 $e2 $e3 $e4 $e5]

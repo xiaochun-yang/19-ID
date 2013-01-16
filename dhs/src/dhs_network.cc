@@ -31,6 +31,7 @@ items for any purpose whatsoever.                       Notice 91 02 01
 #include <string>
 //using namespace std;
 
+//#include "XosStringUtil.h"
 #include "dhs_network.h"
 #include "dhs_dcs_messages.h"
 #include "dhs_database.h"
@@ -57,6 +58,7 @@ xos_result_t dhs_handle_dcs_connection ( string	  dcsServerHostName,
 	mServerHostName = dcsServerHostName;
 	dcs_message_t dcsMessage;
 	char initialMessage[200];
+// char logBuffer[9999] = {0};
 
 	xos_initialize_dcs_message( &dcsMessage,10,10);
 
@@ -104,6 +106,14 @@ xos_result_t dhs_handle_dcs_connection ( string	  dcsServerHostName,
 					}
 				
 				LOG_INFO1("in <- {%s}",dcsMessage.textInBuffer);
+/*
+                memset( logBuffer, 0, sizeof(logBuffer) );
+                strncpy( logBuffer, dcsMessage.textInBuffer,
+                    sizeof(logBuffer) - 1
+                );
+                XosStringUtil::maskSessionId( logBuffer );
+                LOG_INFO1("in <- {%s}",logBuffer);
+*/
 				
 				/* dispatch the message handler and return result */
 				if ( dhs_dcs_message_dispatch( dcsMessage.textInBuffer ) != XOS_SUCCESS) 
