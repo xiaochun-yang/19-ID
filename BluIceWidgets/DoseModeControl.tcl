@@ -208,7 +208,7 @@ class DCS::DoseControlView {
       } {}
 
 		itk_component add doseEnable {
-			DCS::Checkbutton $ring.inv -text "Enable" -state disabled
+			DCS::Checkbutton $ring.inv -text "Enable" -state normal
 		} {}
 
 		itk_component add normalizeButton {

@@ -2272,7 +2272,14 @@ if { $currentPortOK && $nextPortOK } {
             }
             #yangx warm_up grabber
     	    if { $m_startWarmUp } {
-       		start_operation warm_up_grabber
+       		#start_operation warm_up_grabber
+
+		#wait for the warm up operation to finished. without waiting may cause 
+		#problem. I don't really know at this point. 
+
+		set operationHandle [eval start_waitable_operation warm_up_grabber]
+		set result [wait_for_operation_to_finish $operationHandle]
+		after 500
        		set m_startWarmUp 0
 	    }
 

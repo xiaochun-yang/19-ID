@@ -119,7 +119,7 @@ class ScreeningControlBase {
         set SID PRIVATE[::dcss getSessionId]
     }
 
-    puts "xyangx m_sequenceOperation=$m_sequenceOperation gEncryptSID=$gEncryptSID  SID=$SID"
+    # puts "xyangx m_sequenceOperation=$m_sequenceOperation gEncryptSID=$gEncryptSID  SID=$SID"
     $m_sequenceOperation startOperation start $SID
 }
 

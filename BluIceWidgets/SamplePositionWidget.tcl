@@ -162,7 +162,7 @@ class SamplePositioningWidget {
 			# make the low zoom button
 			DCS::MoveMotorsToTargetButton $itk_component(zoomFrame).zoomLow \
 				 -text "Low" \
-				 -width 2  -background #c0c0ff -activebackground #c0c0ff
+				 -width 2  -state disabled -background #c0c0ff -activebackground #c0c0ff
 		} {}
 
 		
@@ -170,7 +170,7 @@ class SamplePositioningWidget {
 			# make the medium zoom button
 			DCS::MoveMotorsToTargetButton $itk_component(zoomFrame).zoomMed \
 				 -text "Med" \
-				 -width 2  -background #c0c0ff -activebackground #c0c0ff
+				 -width 2  -state disabled -background #c0c0ff -activebackground #c0c0ff
 		} {}
 		
 		itk_component add zoomHigh {
@@ -1186,17 +1186,16 @@ class ComboSamplePositioningWidget {
 			# make the low zoom button
 			DCS::MoveMotorsToTargetButton $itk_component(zoomFrame).zoomLow \
 				 -text "Low" \
-				 -width 2  -background #c0c0ff -activebackground #c0c0ff
+				 -width 2 -background #c0c0ff -activebackground #c0c0ff
 		} {}
-
 		
 		itk_component add zoomMed {
 			# make the medium zoom button
 			DCS::MoveMotorsToTargetButton $itk_component(zoomFrame).zoomMed \
 				 -text "Med" \
-				 -width 2  -background #c0c0ff -activebackground #c0c0ff
+				 -width 2  -state disabled -background #c0c0ff -activebackground #c0c0ff
 		} {}
-		
+
 		itk_component add zoomHigh {
 			# make the medium zoom button
 			DCS::MoveMotorsToTargetButton  $itk_component(zoomFrame).zoomHigh \

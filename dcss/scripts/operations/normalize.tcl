@@ -135,10 +135,12 @@ proc getStableIonCounts { breakOnZero {fail_on_stop 0} } {
     variable dose_data
 
     
-    set doseIonChamber i2
+    set doseIonChamber i0
+#yangx    set doseIonChamber i2
     set doseIntegrationPeriod 0.1
     set doseStabilityRatio 95
-    set doseThreshold 100
+    #yangx set doseThreshold 100
+    set doseThreshold 0.04	
 
 
     if {[llength $dose_const] < 5} {
@@ -174,10 +176,12 @@ proc getStableIonCounts { breakOnZero {fail_on_stop 0} } {
         # get the counts
         
         set counts [get_ion_chamber_counts $doseIonChamber]
-        
+#yangx add for testing
+log_note "yangx i0 counts = $counts doseThreshold=$doseThreshold"       
+ 
           if { $counts < $doseThreshold } {
 
-            log_warning "No beam."
+            log_warning "No beam. yangx"
 
             set counts 0
 

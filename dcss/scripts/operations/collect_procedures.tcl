@@ -619,12 +619,14 @@ proc collectRunWithShutter { runNumber userName reuseDark sessionID args } {
                 set flagSaveSystemSnapshotForEachRun 0
                 set needSaveSystemSnapshot 1
             }
-puts "yangx-b"
-          #  if {$needSaveSystemSnapshot} {
-          #      set snapshotPath [file join $directoryNew $filename.txt]
-          #      saveSystemSnapshot $userName $sessionID $snapshotPath
-          #  }
-puts "yangx-e"
+#puts "yangx-b" there's a problem in saveSystemSnapshot for reading ion &encoder
+#I have commented out both readings.
+
+            if {$needSaveSystemSnapshot} {
+                set snapshotPath [file join $directoryNew $filename.txt]
+                saveSystemSnapshot $userName $sessionID $snapshotPath
+            }
+#puts "yangx-e"
             ### beamGood check is in the requestExposureTime
             ### it will be called before start collectFrame
 			set operationHandle [eval start_waitable_operation collectFrame \

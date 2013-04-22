@@ -1829,8 +1829,8 @@ proc unitsForIonChamber {index value time} {
 
 proc saveSystemSnapshot { userName_ SID_ path_ } {
     if {[catch {
-        updateAllEncoders
-        updateCommonIonChambers
+#yangx?        updateAllEncoders
+#yangx?        updateCommonIonChambers
         set contents [brief_dump_database]
         impWriteFile $userName_ $SID_ $path_ $contents
     } errMsg]} {
