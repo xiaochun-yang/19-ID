@@ -6666,3 +6666,92 @@ java.lang.IllegalArgumentException: Cookie name "' or 1=1-- " is a reserved toke
 	at org.apache.tomcat.util.net.LeaderFollowerWorkerThread.runIt(LeaderFollowerWorkerThread.java:80)
 	at org.apache.tomcat.util.threads.ThreadPool$ControlRunnable.run(ThreadPool.java:684)
 	at java.lang.Thread.run(Thread.java:595)
+13/04/25 12:55:48 [TP-Processor3] ERROR org.apache.jk.common.MsgAjp - BAD packet signature 18245
+13/04/25 12:55:48 [TP-Processor3] ERROR org.apache.jk.common.ChannelSocket - Error, processing connection
+java.lang.IndexOutOfBoundsException
+	at java.io.BufferedInputStream.read(BufferedInputStream.java:306)
+	at org.apache.jk.common.ChannelSocket.read(ChannelSocket.java:620)
+	at org.apache.jk.common.ChannelSocket.receive(ChannelSocket.java:577)
+	at org.apache.jk.common.ChannelSocket.processConnection(ChannelSocket.java:685)
+	at org.apache.jk.common.ChannelSocket$SocketConnection.runIt(ChannelSocket.java:889)
+	at org.apache.tomcat.util.threads.ThreadPool$ControlRunnable.run(ThreadPool.java:684)
+	at java.lang.Thread.run(Thread.java:595)
+13/04/25 12:56:31 [TP-Processor3] ERROR org.apache.jk.common.MsgAjp - BAD packet signature 18245
+13/04/25 12:56:31 [TP-Processor3] ERROR org.apache.jk.common.ChannelSocket - Error, processing connection
+java.lang.IndexOutOfBoundsException
+	at java.io.BufferedInputStream.read(BufferedInputStream.java:306)
+	at org.apache.jk.common.ChannelSocket.read(ChannelSocket.java:620)
+	at org.apache.jk.common.ChannelSocket.receive(ChannelSocket.java:577)
+	at org.apache.jk.common.ChannelSocket.processConnection(ChannelSocket.java:685)
+	at org.apache.jk.common.ChannelSocket$SocketConnection.runIt(ChannelSocket.java:889)
+	at org.apache.tomcat.util.threads.ThreadPool$ControlRunnable.run(ThreadPool.java:684)
+	at java.lang.Thread.run(Thread.java:595)
+13/05/21 14:01:08 [Thread-37] ERROR org.apache.catalina.connector.Connector - Protocol handler pause failed
+java.net.SocketException: Network is unreachable
+	at java.net.PlainSocketImpl.socketConnect(Native Method)
+	at java.net.PlainSocketImpl.doConnect(PlainSocketImpl.java:333)
+	at java.net.PlainSocketImpl.connectToAddress(PlainSocketImpl.java:195)
+	at java.net.PlainSocketImpl.connect(PlainSocketImpl.java:182)
+	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:366)
+	at java.net.Socket.connect(Socket.java:507)
+	at java.net.Socket.connect(Socket.java:457)
+	at java.net.Socket.<init>(Socket.java:365)
+	at java.net.Socket.<init>(Socket.java:207)
+	at org.apache.jk.common.ChannelSocket.unLockSocket(ChannelSocket.java:486)
+	at org.apache.jk.common.ChannelSocket.pause(ChannelSocket.java:283)
+	at org.apache.jk.server.JkMain.pause(JkMain.java:680)
+	at org.apache.jk.server.JkCoyoteHandler.pause(JkCoyoteHandler.java:162)
+	at org.apache.catalina.connector.Connector.pause(Connector.java:1031)
+	at org.apache.catalina.core.StandardService.stop(StandardService.java:491)
+	at org.apache.catalina.core.StandardServer.stop(StandardServer.java:743)
+	at org.apache.catalina.startup.Catalina.stop(Catalina.java:601)
+	at org.apache.catalina.startup.Catalina$CatalinaShutdownHook.run(Catalina.java:644)
+last user id = 2
+last beamline id = 4
+last cassette id = 20
+13/05/22 10:14:16 [Thread-37] ERROR org.apache.catalina.connector.Connector - Protocol handler pause failed
+java.net.SocketException: Network is unreachable
+	at java.net.PlainSocketImpl.socketConnect(Native Method)
+	at java.net.PlainSocketImpl.doConnect(PlainSocketImpl.java:333)
+	at java.net.PlainSocketImpl.connectToAddress(PlainSocketImpl.java:195)
+	at java.net.PlainSocketImpl.connect(PlainSocketImpl.java:182)
+	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:366)
+	at java.net.Socket.connect(Socket.java:507)
+	at java.net.Socket.connect(Socket.java:457)
+	at java.net.Socket.<init>(Socket.java:365)
+	at java.net.Socket.<init>(Socket.java:207)
+	at org.apache.jk.common.ChannelSocket.unLockSocket(ChannelSocket.java:486)
+	at org.apache.jk.common.ChannelSocket.pause(ChannelSocket.java:283)
+	at org.apache.jk.server.JkMain.pause(JkMain.java:680)
+	at org.apache.jk.server.JkCoyoteHandler.pause(JkCoyoteHandler.java:162)
+	at org.apache.catalina.connector.Connector.pause(Connector.java:1031)
+	at org.apache.catalina.core.StandardService.stop(StandardService.java:491)
+	at org.apache.catalina.core.StandardServer.stop(StandardServer.java:743)
+	at org.apache.catalina.startup.Catalina.stop(Catalina.java:601)
+	at org.apache.catalina.startup.Catalina$CatalinaShutdownHook.run(Catalina.java:644)
+last user id = 2
+last beamline id = 4
+last cassette id = 20
+13/05/24 15:16:53 [Thread-37] ERROR org.apache.catalina.connector.Connector - Protocol handler pause failed
+java.net.SocketException: Network is unreachable
+	at java.net.PlainSocketImpl.socketConnect(Native Method)
+	at java.net.PlainSocketImpl.doConnect(PlainSocketImpl.java:333)
+	at java.net.PlainSocketImpl.connectToAddress(PlainSocketImpl.java:195)
+	at java.net.PlainSocketImpl.connect(PlainSocketImpl.java:182)
+	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:366)
+	at java.net.Socket.connect(Socket.java:507)
+	at java.net.Socket.connect(Socket.java:457)
+	at java.net.Socket.<init>(Socket.java:365)
+	at java.net.Socket.<init>(Socket.java:207)
+	at org.apache.jk.common.ChannelSocket.unLockSocket(ChannelSocket.java:486)
+	at org.apache.jk.common.ChannelSocket.pause(ChannelSocket.java:283)
+	at org.apache.jk.server.JkMain.pause(JkMain.java:680)
+	at org.apache.jk.server.JkCoyoteHandler.pause(JkCoyoteHandler.java:162)
+	at org.apache.catalina.connector.Connector.pause(Connector.java:1031)
+	at org.apache.catalina.core.StandardService.stop(StandardService.java:491)
+	at org.apache.catalina.core.StandardServer.stop(StandardServer.java:743)
+	at org.apache.catalina.startup.Catalina.stop(Catalina.java:601)
+	at org.apache.catalina.startup.Catalina$CatalinaShutdownHook.run(Catalina.java:644)
+last user id = 2
+last beamline id = 4
+last cassette id = 20

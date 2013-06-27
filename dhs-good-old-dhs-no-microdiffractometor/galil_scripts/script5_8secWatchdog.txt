@@ -1,0 +1,164 @@
+//
+//Galil Script for DMC2180
+//
+// WATCHDOG ROUTINE
+#W_Dog
+CW ,1
+Kick=0
+LastKic=0
+#WDog_ok
+//MG{EF} "WATCHDOG ok"
+AT 0
+AT 8000
+JP #WDogBad,Kick=LastKic
+LastKic=Kick
+TimeOut=0
+JP #WDog_ok
+#WDogBad
+ST ABCDEFGH
+ST S
+#close shutter
+CB 1
+TimeOut=1
+//DON'T Send an unsolicited message to DHS
+//MG{EF} "dtoh_watchdog_timeout"
+JP #WDog_ok
+//
+//
+//This routine closes all sockets after waiting for 1 second.
+//The 1 second wait is useful to allow the client to disconnect cleanly.
+//
+#ShutAll
+AT 0
+AT 1000
+IHA=>-2
+IHB=>-2
+IHC=>-2
+IHD=>-2
+IHE=>-2
+IHF=>-2
+EN
+//end of the routine
+//
+//
+//
+//OSCILLATION CODE
+#ShutREV
+JP #NoShutr,Shutter=0
+#Loop2A
+JP #LoopEnd,StopOsc>0
+//Get position
+JS #RP_axis
+JP #Loop2A,Pos>OscStart-1
+JS #OpenSh
+#Loop3A
+JP #LoopEnd,StopOsc>0
+//Get position
+JS #RP_axis
+JP #Loop3A,Pos>OscEnd
+JP #Finish
+//
+//Shutter handling for non-reversed motor
+#ShutFWD
+JP #NoShutr,Shutter=0
+#Loop2B
+JP #LoopEnd,StopOsc>0
+//Get position
+JS #RP_axis
+JP #Loop2B,Pos<OscStart+1
+JS #OpenSh
+#Loop3B
+JP #LoopEnd,StopOsc>0
+//Get position
+JS #RP_axis
+JP #Loop3B,Pos<OscEnd
+//
+#Finish
+JS #CloseSh
+EN
+//
+#LoopEnd
+AT 0
+AT 1000
+JP #Finish
+//
+#OpenSh
+SB FrontFil
+MG{EF} "dtoh_shutter_open",FrontFil
+EN
+//
+#CloseSh
+CB FrontFil
+MG{EF} "dtoh_shutter_closed",FrontFil
+#NoShutr
+EN
+//
+#RP_axis
+JP #POS_X,Axis=0
+JP #POS_Y,Axis=1
+JP #POS_Z,Axis=2
+JP #POS_W,Axis=3
+JP #POS_E,Axis=4
+JP #POS_F,Axis=5
+JP #POS_G,Axis=6
+JP #POS_H,Axis=7
+// Tell calling program that Axis not in range [0..7]*/
+MG{EF} "dtoh_axis_not_in_range"
+EN
+//
+#POS_X
+Pos=_RPX
+EN
+#POS_Y
+Pos=_RPY
+EN
+#POS_Z
+Pos=_RPZ
+EN
+#POS_W
+Pos=_RPW
+EN
+#POS_E
+Pos=_RPE
+EN
+#POS_F
+Pos=_RPF
+EN
+#POS_G
+Pos=_RPG
+EN
+#POS_H
+Pos=_RPH
+EN
+#LVDT
+A0=0
+A1=0
+A2=0
+A3=0
+A5=0
+A6=0
+A7=0
+CNT=5
+#anaLoop
+AT 0
+AT 500
+A0=A0+@AN[0]
+A1=A1+@AN[1]
+A2=A2+@AN[2]
+A3=A3+@AN[3]
+A4=A4+@AN[4]
+A5=A5+@AN[5]
+A6=A6+@AN[6]
+A7=A7+@AN[7]
+CNT=CNT-1
+JP #anaLoop,CNT>0
+A0=A0/5
+A1=A1/5
+A2=A2/5
+A3=A3/5
+A4=A4/5
+A5=A5/5
+A6=A6/5
+A7=A7/5
+MG{EF} "dtoh_analog_values",A0,A1,A2,A3,A4,A5,A6,A7
+JP #LVDT

@@ -185,9 +185,17 @@ log_note "yangx i0 counts = $counts doseThreshold=$doseThreshold"
 
             set counts 0
 
-            if { $breakOnZero == "TRUE"} {
+	#yangx comment out the "if" statement so that for the shutter closed case
+	#during a data collect, the exposure time will be remain unchanged even 
+	#the counts would be reading as zero. (breakOnZero is set to FALSE during
+	#data collection. see requestExposureTime.tcl and collect_procedures.tcl).
+	#this will solve the problem the exposure time will change to very large 
+	#during a shutter close time in a data collection process because the counts
+	#reading is very low.
+
+        #    if { $breakOnZero == "TRUE"} {
                return 0
-            }
+        #    } 
             
           } elseif { abs( double($lastCounts) / double($counts) - 1 ) < $doseStabilityRatio / 100.0 } {
 

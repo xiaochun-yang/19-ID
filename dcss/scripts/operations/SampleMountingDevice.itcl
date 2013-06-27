@@ -293,9 +293,9 @@ itcl::body SampleMountingDevice::constructor { } {
     set validrowList [ list 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 ]
 #yangx add
     array set moveToMountArray {
-        tripot_1 {0.28809}
-        tripot_2 {0.12705}
-        tripot_3 {-0.0260}
+        tripot_1 {0.70378}
+        tripot_2 {0.35898}
+        tripot_3 {0.36494}
 	gonio_phi {0}
 	gonio_kappa {0}
     }
@@ -1338,36 +1338,48 @@ variable ::nScripts::sil_config
 #start a timer
 set timeStart [clock clicks -milliseconds]
 
-        move tripot_1 to 0.28809
-        move tripot_2 to 0.12705
-        move tripot_3 to -0.02600
+        move tripot_1 to 0.70378
+        move tripot_2 to 0.35898
+        move tripot_3 to 0.36494
+
         move gonio_phi to 0
 	move gonio_kappa to 0
 #	move detector_z to 200
 
-set timeEnd [expr [clock clicks -milliseconds] - $timeStart]
-puts "yangx time for moving motors = $timeEnd"
+#set timeEnd [expr [clock clicks -milliseconds] - $timeStart]
+#puts "yangx time for moving motors = $timeEnd"
 
        wait_for_devices tripot_1 tripot_2 tripot_3 gonio_phi gonio_kappa 
 
-set timeEnd [expr [clock clicks -milliseconds] - $timeStart]
-puts "yangx time for waiting moving finished = $timeEnd"
+#set timeEnd [expr [clock clicks -milliseconds] - $timeStart]
+#puts "yangx time for waiting moving finished = $timeEnd"
 
-set timeStart [clock clicks -milliseconds]
+#set timeStart [clock clicks -milliseconds]
+
+#make sure the address is being set
              set argument "$column$row"
-             set operationHandle [eval start_waitable_operation set_sample_address $argument]
-             set result [wait_for_operation_to_finish $operationHandle]
+	     set val 1
+             while {$val !=0 } {
+		set operationHandle [eval start_waitable_operation set_sample_address $argument]
+              	set result [wait_for_operation_to_finish $operationHandle]
+                set res [lindex $result 1]
+                set val [string compare $res "sample_ok"]
+		puts "yangx set_sample_address = $argument the return result=$result"
+             }
+	
+             #set operationHandle [eval start_waitable_operation set_sample_address $argument]
+             #set result [wait_for_operation_to_finish $operationHandle]
 	    
-set timeEnd [expr [clock clicks -milliseconds] - $timeStart]
-puts "yangx time for changing address = $timeEnd"
+#set timeEnd [expr [clock clicks -milliseconds] - $timeStart]
+#puts "yangx set_sample_address = $argument the return result=$result"
 
-set timeStart [clock clicks -milliseconds]
+#set timeStart [clock clicks -milliseconds]
              set argument "$cassette $row $column"
              set operationHandle [eval start_waitable_operation mount_crystal $argument]
              set result [wait_for_operation_to_finish $operationHandle]
 
-set timeEnd [expr [clock clicks -milliseconds] - $timeStart]
-puts "yangx time for mounting crystal = $timeEnd"
+#set timeEnd [expr [clock clicks -milliseconds] - $timeStart]
+#puts "yangx time for mounting crystal = $timeEnd"
 
 
 #yangx    warm the grabber here so that it will not hold other bluice process
@@ -1511,9 +1523,9 @@ variable ::nScripts::robot_cassette
 #yang add
 #        moveToMountPosition  
 
-        move tripot_1 to 0.28809
-        move tripot_2 to 0.12705
-        move tripot_3 to -0.02600
+        move tripot_1 to 0.70378
+        move tripot_2 to 0.35898
+        move tripot_3 to 0.36494
         move gonio_phi to 0
 	move gonio_kappa to 0
 #	move detector_z to 200
@@ -1523,15 +1535,15 @@ variable ::nScripts::robot_cassette
 #        set operationHandle [eval start_waitable_operation set_sample_address $argument]
 #        set result [wait_for_operation_to_finish $operationHandle]
 
-set timeStart [clock clicks -milliseconds]
+#set timeStart [clock clicks -milliseconds]
 
         set argument "$cassette $row $column"     
         set operationHandle [eval start_waitable_operation dismount_crystal $cassette $row $column]
         set result [wait_for_operation_to_finish $operationHandle]
 #y        set need_goHome 0
 
-set timeEnd [expr [clock clicks -milliseconds] - $timeStart]
-puts "yangx time for dismount crystal only = $timeEnd"
+#set timeEnd [expr [clock clicks -milliseconds] - $timeStart]
+#puts "yangx time for dismount crystal only = $timeEnd"
 
 #yangx    warm the grabber here so that it will not hold other bluice process
 	  #start_operation warm_up_grabber 
@@ -1753,25 +1765,25 @@ itcl::body SampleMountingDevice::mountNextCrystal { cassette row column cassette
         set operationHandle1 [eval start_waitable_operation screening_mode "ON"]
         set result1 [wait_for_operation_to_finish $operationHandle1]
 
-set timeStart1 [clock clicks -milliseconds]
+#set timeStart1 [clock clicks -milliseconds]
 	#dismount first
         set result [dismountCrystal $cassette $row $column] 
  
-set timeEnd [expr [clock clicks -milliseconds] - $timeStart1]
-puts "yangx time for dismount crystal = $timeEnd"
+#set timeEnd [expr [clock clicks -milliseconds] - $timeStart1]
+#puts "yangx time for dismount crystal = $timeEnd"
 
 	#wait for 500 ms before mount
         #after 100  
 
-set timeStart [clock clicks -milliseconds]
+#set timeStart [clock clicks -milliseconds]
 	#Then mount
 	set result [mountCrystal $cassette_nxt $row_nxt $column_nxt 0]
 
-set timeEnd [expr [clock clicks -milliseconds] - $timeStart]
-puts "yangx time for remount a crystal = $timeEnd"
+#set timeEnd [expr [clock clicks -milliseconds] - $timeStart]
+#puts "yangx time for remount a crystal = $timeEnd"
 
-set timeEnd [expr [clock clicks -milliseconds] - $timeStart1]
-puts "yangx time for dismount and remount a crystal = $timeEnd"
+#set timeEnd [expr [clock clicks -milliseconds] - $timeStart1]
+#puts "yangx time for dismount and remount a crystal = $timeEnd"
 
 	#yangx the result need to be include both mounting and dismount parameter.
         #so it need to reconstructed to satify this. This result is being used

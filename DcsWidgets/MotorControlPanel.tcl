@@ -297,7 +297,7 @@ class DCS::MotorMoveView {
 	if { $dname  == "gonio_phi" } {
 		set value 110
 	} elseif { [namespace tail $devObj] == "gonio_kappa" } {
-		set value -148.0
+		set value -146.9
 	} else {
 		set value 0.0
 	}

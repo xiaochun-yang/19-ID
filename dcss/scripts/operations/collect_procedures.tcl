@@ -564,6 +564,10 @@ proc collectRunWithShutter { runNumber userName reuseDark sessionID args } {
     set collect_msg [lreplace $collect_msg 0 2 \
     1 {collecting} 6]
 
+    #yangx the modification here is to avoid making energy move for every exposure even it's in the same energy.
+    #add a 0. Initially always change the energy and then compare them
+
+	set a 0
 	#loop over all remaining frames until this run is complete
 	if { [catch {
 		while { $nextFrame < $totalFrames } {
@@ -595,14 +599,35 @@ proc collectRunWithShutter { runNumber userName reuseDark sessionID args } {
             #set directoryNew [file join $directory $sub_dir]
             set directoryNew $directory
 
-			move $axisMotor to $phiPosition
-			move $gMotorEnergy to $energyPosition
-			
-			wait_for_devices \
-            $axisMotor \
-            $gMotorEnergy \
-			$gMotorDistance \
-			$gMotorBeamStop
+	   #yangx always move energy for the first frame. 
+	   if { $a==0} {
+
+		move $axisMotor to $phiPosition
+		move $gMotorEnergy to $energyPosition
+
+		wait_for_devices \
+            	$axisMotor \
+		$gMotorEnergy \
+		$gMotorDistance \
+		$gMotorBeamStop
+		set currEnergy $energyPosition
+		set a 1
+	    } else {
+		if { [expr abs([expr $currEnergy-$energyPosition])] < 0.05}  {
+
+			# yangx In this case energy doesn't need to be moved if the difference is less than 0.05 ev
+                       	move $axisMotor to $phiPosition
+                       	wait_for_devices $axisMotor $gMotorDistance $gMotorBeamStop
+                } else {
+                       move $axisMotor to $phiPosition
+                       move $gMotorEnergy to $energyPosition
+
+                       wait_for_devices $axisMotor $gMotorEnergy $gMotorDistance $gMotorBeamStop
+                       set currEnergy  $energyPosition
+               }
+            }
+
+
             move attenuation to $attenuationSetting
             wait_for_devices attenuation
             set needSaveSystemSnapshot 0
@@ -626,7 +651,6 @@ proc collectRunWithShutter { runNumber userName reuseDark sessionID args } {
                 set snapshotPath [file join $directoryNew $filename.txt]
                 saveSystemSnapshot $userName $sessionID $snapshotPath
             }
-#puts "yangx-e"
             ### beamGood check is in the requestExposureTime
             ### it will be called before start collectFrame
 			set operationHandle [eval start_waitable_operation collectFrame \
@@ -666,7 +690,6 @@ proc collectRunWithShutter { runNumber userName reuseDark sessionID args } {
 				incr nextFrame
 			}
 		}
-puts "yangx-5"
         set gWaitForGoodBeamMsg ""
 		#run is complete, flush the last image out
 		start_operation detector_stop

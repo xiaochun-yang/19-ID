@@ -448,9 +448,9 @@ class SimpleRobotWidget {
     public method handleMountpos { } {
         ::device::gonio_phi move to 0 deg
 	::device::gonio_kappa move to 0 deg
-	::device::tripot_1 move to 0.28809
-       	::device::tripot_2 move to 0.12705
-       	::device::tripot_3 move to -0.02600
+	::device::tripot_1 move to 0.70378
+       	::device::tripot_2 move to 0.35898
+       	::device::tripot_3 move to 0.36494
     }
 
     public method handleOpenlid { } {
