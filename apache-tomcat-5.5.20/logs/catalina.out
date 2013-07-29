@@ -6755,3 +6755,26 @@ java.net.SocketException: Network is unreachable
 last user id = 2
 last beamline id = 4
 last cassette id = 20
+last user id = 2
+last beamline id = 4
+last cassette id = 25
+13/07/08 02:37:08 [TP-Processor3] ERROR org.apache.jk.common.MsgAjp - BAD packet signature 18245
+13/07/08 02:37:08 [TP-Processor3] ERROR org.apache.jk.common.ChannelSocket - Error, processing connection
+java.lang.IndexOutOfBoundsException
+	at java.io.BufferedInputStream.read(BufferedInputStream.java:306)
+	at org.apache.jk.common.ChannelSocket.read(ChannelSocket.java:620)
+	at org.apache.jk.common.ChannelSocket.receive(ChannelSocket.java:577)
+	at org.apache.jk.common.ChannelSocket.processConnection(ChannelSocket.java:685)
+	at org.apache.jk.common.ChannelSocket$SocketConnection.runIt(ChannelSocket.java:889)
+	at org.apache.tomcat.util.threads.ThreadPool$ControlRunnable.run(ThreadPool.java:684)
+	at java.lang.Thread.run(Thread.java:595)
+13/07/08 02:37:54 [TP-Processor3] ERROR org.apache.jk.common.MsgAjp - BAD packet signature 18245
+13/07/08 02:37:54 [TP-Processor3] ERROR org.apache.jk.common.ChannelSocket - Error, processing connection
+java.lang.IndexOutOfBoundsException
+	at java.io.BufferedInputStream.read(BufferedInputStream.java:306)
+	at org.apache.jk.common.ChannelSocket.read(ChannelSocket.java:620)
+	at org.apache.jk.common.ChannelSocket.receive(ChannelSocket.java:577)
+	at org.apache.jk.common.ChannelSocket.processConnection(ChannelSocket.java:685)
+	at org.apache.jk.common.ChannelSocket$SocketConnection.runIt(ChannelSocket.java:889)
+	at org.apache.tomcat.util.threads.ThreadPool$ControlRunnable.run(ThreadPool.java:684)
+	at java.lang.Thread.run(Thread.java:595)

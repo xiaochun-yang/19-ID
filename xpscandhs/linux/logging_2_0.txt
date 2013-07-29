@@ -1,257 +1,1246 @@
-06/26/13 11:36:11 3086780112   FINEST    DcsMessageManager constructor enter {src/DcsMessageManager.cxx 18  }
-06/26/13 11:36:11 3086780112   FINEST    DcsMessageManager constructor exit {src/DcsMessageManager.cxx 33  }
-06/26/13 11:36:11 3086780112   FINEST    DcsMessageService constructor enter {src/DcsMessageService.cxx 9  }
-06/26/13 11:36:11 3086780112   FINEST    DcsMessageService constructor exit {src/DcsMessageService.cxx 13  }
-06/26/13 11:36:11 3086780112   FINEST    run from front, not as a service  {src/ConsoleDhs.cxx 28  }
-06/26/13 11:36:11 3086780112     INFO    m_ServerName points to: 'localhost' {src/DcsMessageHandler.cxx 43  }
-06/26/13 11:36:11 3086780112     INFO    m_DHSName points to: 'ConsoleDhs' {src/DcsMessageHandler.cxx 62  }
-06/26/13 11:36:11 3086777232   FINEST    SENDER wait for socket lock 11111 {src/DcsMessageService.cxx 87  }
-06/26/13 11:36:11 3086777232   FINEST    SENDER got socket lock 111111 {src/DcsMessageService.cxx 89  }
-06/26/13 11:36:11 3086777232   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-06/26/13 11:36:11 3086777232   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-06/26/13 11:36:11 3086777232     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-06/26/13 11:36:11 3086777232   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-06/26/13 11:36:11 3076287376   FINEST    receiver is waiting sender done for start {src/DcsMessageService.cxx 151  }
-06/26/13 11:36:11 3065797520   FINEST    ConsoleSim::Initialize called {src/ConsoleSim.cxx 24  }
-06/26/13 11:36:11 3086777232   FINEST    Sending: 'htos_client_is_hardware ConsoleDhs' {src/DcsMessageHandler.cxx 188  }
-06/26/13 11:36:11 3086777232   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-06/26/13 11:36:11 3086777232   FINEST    SENDER unlock socket lock 11111111111 {src/DcsMessageService.cxx 102  }
-06/26/13 11:36:11 3086777232     INFO    connected to DCSS with DCS protocol, sender ready {src/DcsMessageService.cxx 104  }
-06/26/13 11:36:11 3086777232   FINEST    SENDER enter loop {src/DcsMessageService.cxx 109  }
-06/26/13 11:36:11 3076287376   FINEST    receiver waiting done {src/DcsMessageService.cxx 153  }
-06/26/13 11:36:11 3076287376     INFO    receiver ready: whole DcsMessageService Ready {src/DcsMessageService.cxx 167  }
-06/26/13 11:36:11 3076287376   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/26/13 11:36:11 3076287376   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/26/13 11:36:11 3076287376   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x8f8f188 {src/DcsMessageManager.cxx 168  }
-06/26/13 11:36:11 3076287376   FINEST    DcsMessageManager::NewDcsMessage: new MAX TEXT SIZE 64 {src/DcsMessageManager.cxx 174  }
-06/26/13 11:36:11 3076287376   FINEST    Receiving: 'stoh_register_operation get_current_energy get_current_energy
+07/24/13 12:35:40 3086046928   FINEST    DcsMessageManager constructor enter {src/DcsMessageManager.cxx 18  }
+07/24/13 12:35:40 3086046928   FINEST    DcsMessageManager constructor exit {src/DcsMessageManager.cxx 33  }
+07/24/13 12:35:40 3086046928   FINEST    DcsMessageService constructor enter {src/DcsMessageService.cxx 9  }
+07/24/13 12:35:40 3086046928   FINEST    DcsMessageService constructor exit {src/DcsMessageService.cxx 13  }
+07/24/13 12:35:40 3086046928   FINEST    run from front, not as a service  {src/ConsoleDhs.cxx 28  }
+07/24/13 12:35:40 3086046928     INFO    m_ServerName points to: 'localhost' {src/DcsMessageHandler.cxx 43  }
+07/24/13 12:35:40 3086046928     INFO    m_DHSName points to: 'ConsoleDhs' {src/DcsMessageHandler.cxx 62  }
+07/24/13 12:35:40 3086044048   FINEST    SENDER wait for socket lock 11111 {src/DcsMessageService.cxx 87  }
+07/24/13 12:35:40 3086044048   FINEST    SENDER got socket lock 111111 {src/DcsMessageService.cxx 89  }
+07/24/13 12:35:40 3086044048   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
+07/24/13 12:35:40 3086044048   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
+07/24/13 12:35:40 3086044048     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
+07/24/13 12:35:40 3086044048   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
+07/24/13 12:35:40 3086044048   FINEST    Sending: 'htos_client_is_hardware ConsoleDhs' {src/DcsMessageHandler.cxx 188  }
+07/24/13 12:35:40 3065064336   FINEST    ConsoleSim::Initialize called {src/ConsoleSim.cxx 24  }
+07/24/13 12:35:40 3086044048   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
+07/24/13 12:35:40 3086044048   FINEST    SENDER unlock socket lock 11111111111 {src/DcsMessageService.cxx 102  }
+07/24/13 12:35:40 3086044048     INFO    connected to DCSS with DCS protocol, sender ready {src/DcsMessageService.cxx 104  }
+07/24/13 12:35:40 3086044048   FINEST    SENDER enter loop {src/DcsMessageService.cxx 109  }
+07/24/13 12:35:40 3075554192   FINEST    receiver is waiting sender done for start {src/DcsMessageService.cxx 151  }
+07/24/13 12:35:40 3075554192   FINEST    receiver waiting done {src/DcsMessageService.cxx 153  }
+07/24/13 12:35:40 3075554192     INFO    receiver ready: whole DcsMessageService Ready {src/DcsMessageService.cxx 167  }
+07/24/13 12:35:40 3075554192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+07/24/13 12:35:40 3075554192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+07/24/13 12:35:40 3075554192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98ba188 {src/DcsMessageManager.cxx 168  }
+07/24/13 12:35:40 3075554192   FINEST    DcsMessageManager::NewDcsMessage: new MAX TEXT SIZE 64 {src/DcsMessageManager.cxx 174  }
+07/24/13 12:35:40 3075554192   FINEST    Receiving: 'stoh_register_operation get_current_energy get_current_energy
 ' {src/DcsMessageHandler.cxx 250  }
-06/26/13 11:36:11 3076287376   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-06/26/13 11:36:11 3076287376   FINEST    ConsoleDhs::ConsumeDcsMessage: not a message for that can be handled, pass on {src/ConsoleService.cxx 165  }
-06/26/13 11:36:11 3076287376  WARNING    no one takes this message: stoh_register_operation get_current_energy get_current_energy {src/DcsMessageService.cxx 238  }
-06/26/13 11:36:11 3076287376   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x8f8f188) {src/DcsMessageManager.cxx 191  }
-06/26/13 11:36:11 3076287376   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/26/13 11:36:11 3076287376   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/26/13 11:36:11 3076287376   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/26/13 11:36:11 3076287376   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x8f8f188 {src/DcsMessageManager.cxx 168  }
-06/26/13 11:36:11 3076287376   FINEST    Receiving: 'stoh_register_operation move_to_new_energy move_to_new_energy
+07/24/13 12:35:40 3075554192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
+07/24/13 12:35:40 3075554192   FINEST    ConsoleDhs::ConsumeDcsMessage: not a message for that can be handled, pass on {src/ConsoleService.cxx 165  }
+07/24/13 12:35:40 3075554192  WARNING    no one takes this message: stoh_register_operation get_current_energy get_current_energy {src/DcsMessageService.cxx 238  }
+07/24/13 12:35:40 3075554192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98ba188) {src/DcsMessageManager.cxx 191  }
+07/24/13 12:35:40 3075554192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+07/24/13 12:35:40 3075554192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+07/24/13 12:35:40 3075554192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+07/24/13 12:35:40 3075554192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98ba188 {src/DcsMessageManager.cxx 168  }
+07/24/13 12:35:40 3075554192   FINEST    Receiving: 'stoh_register_operation move_to_new_energy move_to_new_energy
 ' {src/DcsMessageHandler.cxx 250  }
-06/26/13 11:36:11 3076287376   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-06/26/13 11:36:11 3076287376   FINEST    ConsoleDhs::ConsumeDcsMessage: not a message for that can be handled, pass on {src/ConsoleService.cxx 165  }
-06/26/13 11:36:11 3076287376  WARNING    no one takes this message: stoh_register_operation move_to_new_energy move_to_new_energy {src/DcsMessageService.cxx 238  }
-06/26/13 11:36:11 3076287376   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x8f8f188) {src/DcsMessageManager.cxx 191  }
-06/26/13 11:36:11 3076287376   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/26/13 11:36:11 3076287376   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/26/13 11:36:11 3076287376   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/26/13 11:36:11 3076287376   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x8f8f188 {src/DcsMessageManager.cxx 168  }
-06/26/13 11:36:11 3076287376   FINEST    Receiving: 'stoh_register_pseudo_motor energy MFirst' {src/DcsMessageHandler.cxx 250  }
-06/26/13 11:36:11 3076287376   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-06/26/13 11:36:11 3076287376     INFO    register motor energy for MFirst {src/ConsoleService.cxx 293  }
-06/26/13 11:36:11 3076287376   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x8f8f188) {src/DcsMessageManager.cxx 191  }
-06/26/13 11:36:11 3076287376   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/26/13 11:36:21 3065797520     INFO    Console Thread ready {src/ConsoleService.cxx 388  }
-06/26/13 11:36:21 3086780112     INFO    Console System start OK {src/ConsoleSystem.cxx 84  }
-06/26/13 11:36:21 3086780112   FINEST    x4a server is being connected sucessfully {src/ConsoleService.cxx 666  }
-06/26/13 11:36:21 3086780112   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x8f8f188 {src/DcsMessageManager.cxx 168  }
-06/26/13 11:36:21 3086780112   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 5982.00635 normal ) {src/ConsoleService.cxx 366  }
-06/26/13 11:36:21 3086780112   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
-06/26/13 11:36:21 3086780112   FINEST    Get current energy is done. The current Energy is 5982.006348 {src/ConsoleService.cxx 677  }
-06/26/13 11:36:21 3086777232   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
-06/26/13 11:36:21 3086777232   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
-06/26/13 11:36:21 3086777232   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
-06/26/13 11:36:21 3086777232   FINEST    send message done {src/DcsMessageHandler.cxx 323  }
-06/26/13 11:36:21 3086777232   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x8f8f188) {src/DcsMessageManager.cxx 191  }
-06/26/13 11:36:21 3086777232   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
-06/26/13 11:38:12 3076287376   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/26/13 11:38:12 3076287376   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/26/13 11:38:12 3076287376   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x8f8f188 {src/DcsMessageManager.cxx 168  }
-06/26/13 11:38:12 3076287376   FINEST    Receiving: 'stoh_start_motor_move energy 5982.006350' {src/DcsMessageHandler.cxx 250  }
-06/26/13 11:38:12 3076287376   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-06/26/13 11:38:12 3076287376   FINEST    match motor0 {src/ConsoleService.cxx 256  }
-06/26/13 11:38:12 3076287376   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
-06/26/13 11:38:12 3076287376   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/26/13 11:38:12 3065797520   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
-06/26/13 11:38:12 3065797520   FINEST    x4a energy GetMotorPosition(): 5982.006350 {src/ConsoleService.cxx 449  }
-06/26/13 11:38:12 3065797520   FINEST    x4a energy moved to 5982.006350  {src/ConsoleService.cxx 464  }
-06/26/13 11:38:12 3065797520   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x8f8e7c8 {src/DcsMessageManager.cxx 168  }
-06/26/13 11:38:12 3065797520   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 5982.00635 normal ) {src/ConsoleService.cxx 366  }
-06/26/13 11:38:12 3065797520   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
-06/26/13 11:38:12 3065797520   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
-06/26/13 11:38:12 3065797520   FINEST    x4a currentEnergy = 5982.006348  {src/ConsoleService.cxx 485  }
-06/26/13 11:38:12 3065797520   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x8f8f188) {src/DcsMessageManager.cxx 191  }
-06/26/13 11:38:12 3086777232   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
-06/26/13 11:38:12 3086777232   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
-06/26/13 11:38:12 3086777232   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
-06/26/13 11:38:12 3086777232   FINEST    send message done {src/DcsMessageHandler.cxx 323  }
-06/26/13 11:38:12 3086777232   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x8f8e7c8) {src/DcsMessageManager.cxx 191  }
-06/26/13 11:38:12 3086777232   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
-06/26/13 11:38:13 3076287376   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/26/13 11:38:13 3076287376   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/26/13 11:38:13 3076287376   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x8f8e7c8 {src/DcsMessageManager.cxx 168  }
-06/26/13 11:38:13 3076287376   FINEST    Receiving: 'stoh_start_motor_move energy 5979.860000' {src/DcsMessageHandler.cxx 250  }
-06/26/13 11:38:13 3076287376   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-06/26/13 11:38:13 3076287376   FINEST    match motor0 {src/ConsoleService.cxx 256  }
-06/26/13 11:38:13 3076287376   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
-06/26/13 11:38:13 3076287376   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/26/13 11:38:13 3065797520   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
-06/26/13 11:38:13 3065797520   FINEST    x4a energy GetMotorPosition(): 5979.860000 {src/ConsoleService.cxx 449  }
-06/26/13 11:38:14 3065797520   FINEST    x4a energy moved to 5979.860000  {src/ConsoleService.cxx 464  }
-06/26/13 11:38:14 3065797520   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x8f8f188 {src/DcsMessageManager.cxx 168  }
-06/26/13 11:38:14 3065797520   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 5979.83105 normal ) {src/ConsoleService.cxx 366  }
-06/26/13 11:38:14 3065797520   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
-06/26/13 11:38:14 3065797520   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
-06/26/13 11:38:14 3065797520   FINEST    x4a currentEnergy = 5979.831055  {src/ConsoleService.cxx 485  }
-06/26/13 11:38:14 3065797520   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x8f8e7c8) {src/DcsMessageManager.cxx 191  }
-06/26/13 11:38:14 3086777232   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
-06/26/13 11:38:14 3086777232   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
-06/26/13 11:38:14 3086777232   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
-06/26/13 11:38:14 3086777232   FINEST    send message done {src/DcsMessageHandler.cxx 323  }
-06/26/13 11:38:14 3086777232   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x8f8f188) {src/DcsMessageManager.cxx 191  }
-06/26/13 11:38:14 3086777232   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
-06/26/13 11:38:50 3076287376   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/26/13 11:38:50 3076287376   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/26/13 11:38:50 3076287376   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x8f8f188 {src/DcsMessageManager.cxx 168  }
-06/26/13 11:38:50 3076287376   FINEST    Receiving: 'stoh_start_motor_move energy 5982.000000' {src/DcsMessageHandler.cxx 250  }
-06/26/13 11:38:50 3076287376   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-06/26/13 11:38:50 3076287376   FINEST    match motor0 {src/ConsoleService.cxx 256  }
-06/26/13 11:38:50 3076287376   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
-06/26/13 11:38:50 3076287376   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/26/13 11:38:50 3065797520   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
-06/26/13 11:38:50 3065797520   FINEST    x4a energy GetMotorPosition(): 5982.000000 {src/ConsoleService.cxx 449  }
-06/26/13 11:38:51 3065797520   FINEST    x4a energy moved to 5982.000000  {src/ConsoleService.cxx 464  }
-06/26/13 11:38:51 3065797520   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x8f8e7c8 {src/DcsMessageManager.cxx 168  }
-06/26/13 11:38:51 3065797520   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 5982.00635 normal ) {src/ConsoleService.cxx 366  }
-06/26/13 11:38:51 3065797520   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
-06/26/13 11:38:51 3065797520   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
-06/26/13 11:38:51 3065797520   FINEST    x4a currentEnergy = 5982.006348  {src/ConsoleService.cxx 485  }
-06/26/13 11:38:51 3065797520   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x8f8f188) {src/DcsMessageManager.cxx 191  }
-06/26/13 11:38:51 3086777232   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
-06/26/13 11:38:51 3086777232   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
-06/26/13 11:38:51 3086777232   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
-06/26/13 11:38:51 3086777232   FINEST    send message done {src/DcsMessageHandler.cxx 323  }
-06/26/13 11:38:51 3086777232   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x8f8e7c8) {src/DcsMessageManager.cxx 191  }
-06/26/13 11:38:51 3086777232   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
-06/26/13 11:39:46 3076287376   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/26/13 11:39:46 3076287376   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/26/13 11:39:46 3076287376   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x8f8e7c8 {src/DcsMessageManager.cxx 168  }
-06/26/13 11:39:46 3076287376   FINEST    Receiving: 'stoh_start_motor_move energy 5982.006350' {src/DcsMessageHandler.cxx 250  }
-06/26/13 11:39:46 3076287376   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-06/26/13 11:39:46 3076287376   FINEST    match motor0 {src/ConsoleService.cxx 256  }
-06/26/13 11:39:46 3076287376   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
-06/26/13 11:39:46 3076287376   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/26/13 11:39:46 3065797520   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
-06/26/13 11:39:46 3065797520   FINEST    x4a energy GetMotorPosition(): 5982.006350 {src/ConsoleService.cxx 449  }
-06/26/13 11:39:47 3065797520   FINEST    x4a energy moved to 5982.006350  {src/ConsoleService.cxx 464  }
-06/26/13 11:39:47 3065797520   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x8f8f188 {src/DcsMessageManager.cxx 168  }
-06/26/13 11:39:47 3065797520   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 5982.00635 normal ) {src/ConsoleService.cxx 366  }
-06/26/13 11:39:47 3065797520   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
-06/26/13 11:39:47 3065797520   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
-06/26/13 11:39:47 3065797520   FINEST    x4a currentEnergy = 5982.006348  {src/ConsoleService.cxx 485  }
-06/26/13 11:39:47 3065797520   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x8f8e7c8) {src/DcsMessageManager.cxx 191  }
-06/26/13 11:39:47 3086777232   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
-06/26/13 11:39:47 3086777232   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
-06/26/13 11:39:47 3086777232   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
-06/26/13 11:39:47 3086777232   FINEST    send message done {src/DcsMessageHandler.cxx 323  }
-06/26/13 11:39:47 3086777232   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x8f8f188) {src/DcsMessageManager.cxx 191  }
-06/26/13 11:39:47 3086777232   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
-06/26/13 11:40:06 3076287376   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/26/13 11:40:06 3076287376   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/26/13 11:40:06 3076287376   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x8f8f188 {src/DcsMessageManager.cxx 168  }
-06/26/13 11:40:06 3076287376   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 250  }
-06/26/13 11:40:06 3076287376   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/26/13 11:40:06 3076287376   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-06/26/13 11:40:06 3076287376   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-06/26/13 11:40:06 3076287376   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x8f8f188) {src/DcsMessageManager.cxx 191  }
-06/26/13 11:40:06 3076287376   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/26/13 11:40:31 3076287376   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/26/13 11:40:31 3076287376   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/26/13 11:40:31 3076287376   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x8f8f188 {src/DcsMessageManager.cxx 168  }
-06/26/13 11:40:31 3076287376   FINEST    Receiving: 'stoh_start_motor_move energy 5982.006350' {src/DcsMessageHandler.cxx 250  }
-06/26/13 11:40:31 3076287376   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-06/26/13 11:40:31 3076287376   FINEST    match motor0 {src/ConsoleService.cxx 256  }
-06/26/13 11:40:31 3076287376   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
-06/26/13 11:40:31 3076287376   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/26/13 11:40:31 3065797520   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
-06/26/13 11:40:31 3065797520   FINEST    x4a energy GetMotorPosition(): 5982.006350 {src/ConsoleService.cxx 449  }
-06/26/13 11:40:31 3065797520   FINEST    x4a energy moved to 5982.006350  {src/ConsoleService.cxx 464  }
-06/26/13 11:40:31 3065797520   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x8f8e7c8 {src/DcsMessageManager.cxx 168  }
-06/26/13 11:40:31 3065797520   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 5982.03613 normal ) {src/ConsoleService.cxx 366  }
-06/26/13 11:40:31 3065797520   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
-06/26/13 11:40:31 3065797520   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
-06/26/13 11:40:31 3065797520   FINEST    x4a currentEnergy = 5982.036133  {src/ConsoleService.cxx 485  }
-06/26/13 11:40:31 3065797520   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x8f8f188) {src/DcsMessageManager.cxx 191  }
-06/26/13 11:40:31 3086777232   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
-06/26/13 11:40:31 3086777232   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
-06/26/13 11:40:31 3086777232   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
-06/26/13 11:40:31 3086777232   FINEST    send message done {src/DcsMessageHandler.cxx 323  }
-06/26/13 11:40:31 3086777232   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x8f8e7c8) {src/DcsMessageManager.cxx 191  }
-06/26/13 11:40:31 3086777232   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
-06/26/13 11:40:51 3076287376   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/26/13 11:40:51 3076287376   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/26/13 11:40:51 3076287376   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x8f8e7c8 {src/DcsMessageManager.cxx 168  }
-06/26/13 11:40:51 3076287376   FINEST    Receiving: 'stoh_start_motor_move energy 5980.010000' {src/DcsMessageHandler.cxx 250  }
-06/26/13 11:40:51 3076287376   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-06/26/13 11:40:51 3076287376   FINEST    match motor0 {src/ConsoleService.cxx 256  }
-06/26/13 11:40:51 3076287376   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
-06/26/13 11:40:51 3076287376   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/26/13 11:40:51 3065797520   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
-06/26/13 11:40:51 3065797520   FINEST    x4a energy GetMotorPosition(): 5980.010000 {src/ConsoleService.cxx 449  }
-06/26/13 11:40:52 3065797520   FINEST    x4a energy moved to 5980.010000  {src/ConsoleService.cxx 464  }
-06/26/13 11:40:52 3065797520   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x8f8f188 {src/DcsMessageManager.cxx 168  }
-06/26/13 11:40:52 3065797520   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 5979.97998 normal ) {src/ConsoleService.cxx 366  }
-06/26/13 11:40:52 3065797520   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
-06/26/13 11:40:52 3065797520   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
-06/26/13 11:40:52 3065797520   FINEST    x4a currentEnergy = 5979.979980  {src/ConsoleService.cxx 485  }
-06/26/13 11:40:52 3065797520   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x8f8e7c8) {src/DcsMessageManager.cxx 191  }
-06/26/13 11:40:52 3086777232   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
-06/26/13 11:40:52 3086777232   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
-06/26/13 11:40:52 3086777232   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
-06/26/13 11:40:52 3086777232   FINEST    send message done {src/DcsMessageHandler.cxx 323  }
-06/26/13 11:40:52 3086777232   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x8f8f188) {src/DcsMessageManager.cxx 191  }
-06/26/13 11:40:52 3086777232   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
-06/26/13 11:41:34 3076287376   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/26/13 11:41:34 3076287376   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/26/13 11:41:34 3076287376   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x8f8f188 {src/DcsMessageManager.cxx 168  }
-06/26/13 11:41:34 3076287376   FINEST    Receiving: 'stoh_start_motor_move energy 5979.979980' {src/DcsMessageHandler.cxx 250  }
-06/26/13 11:41:34 3076287376   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-06/26/13 11:41:34 3076287376   FINEST    match motor0 {src/ConsoleService.cxx 256  }
-06/26/13 11:41:34 3076287376   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
-06/26/13 11:41:34 3076287376   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/26/13 11:41:34 3065797520   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
-06/26/13 11:41:34 3065797520   FINEST    x4a energy GetMotorPosition(): 5979.979980 {src/ConsoleService.cxx 449  }
-06/26/13 11:41:34 3065797520   FINEST    x4a energy moved to 5979.979980  {src/ConsoleService.cxx 464  }
-06/26/13 11:41:35 3065797520   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x8f8e7c8 {src/DcsMessageManager.cxx 168  }
-06/26/13 11:41:35 3065797520   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 5979.92041 normal ) {src/ConsoleService.cxx 366  }
-06/26/13 11:41:35 3065797520   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
-06/26/13 11:41:35 3065797520   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
-06/26/13 11:41:35 3065797520   FINEST    x4a currentEnergy = 5979.920410  {src/ConsoleService.cxx 485  }
-06/26/13 11:41:35 3065797520   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x8f8f188) {src/DcsMessageManager.cxx 191  }
-06/26/13 11:41:35 3086777232   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
-06/26/13 11:41:35 3086777232   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
-06/26/13 11:41:35 3086777232   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
-06/26/13 11:41:35 3086777232   FINEST    send message done {src/DcsMessageHandler.cxx 323  }
-06/26/13 11:41:35 3086777232   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x8f8e7c8) {src/DcsMessageManager.cxx 191  }
-06/26/13 11:41:35 3086777232   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
-06/26/13 11:41:35 3076287376   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/26/13 11:41:35 3076287376   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/26/13 11:41:35 3076287376   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x8f8e7c8 {src/DcsMessageManager.cxx 168  }
-06/26/13 11:41:35 3076287376   FINEST    Receiving: 'stoh_start_motor_move energy 5981.010000' {src/DcsMessageHandler.cxx 250  }
-06/26/13 11:41:35 3076287376   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-06/26/13 11:41:35 3076287376   FINEST    match motor0 {src/ConsoleService.cxx 256  }
-06/26/13 11:41:35 3076287376   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
-06/26/13 11:41:35 3076287376   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/26/13 11:41:35 3065797520   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
-06/26/13 11:41:35 3065797520   FINEST    x4a energy GetMotorPosition(): 5981.010000 {src/ConsoleService.cxx 449  }
-06/26/13 11:41:35 3065797520   FINEST    x4a energy moved to 5981.010000  {src/ConsoleService.cxx 464  }
-06/26/13 11:41:35 3065797520   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x8f8f188 {src/DcsMessageManager.cxx 168  }
-06/26/13 11:41:35 3065797520   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 5980.96338 normal ) {src/ConsoleService.cxx 366  }
-06/26/13 11:41:35 3065797520   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
-06/26/13 11:41:35 3065797520   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
-06/26/13 11:41:35 3065797520   FINEST    x4a currentEnergy = 5980.963379  {src/ConsoleService.cxx 485  }
-06/26/13 11:41:35 3065797520   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x8f8e7c8) {src/DcsMessageManager.cxx 191  }
-06/26/13 11:41:35 3086777232   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
-06/26/13 11:41:35 3086777232   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
-06/26/13 11:41:35 3086777232   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
-06/26/13 11:41:35 3086777232   FINEST    send message done {src/DcsMessageHandler.cxx 323  }
-06/26/13 11:41:35 3086777232   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x8f8f188) {src/DcsMessageManager.cxx 191  }
-06/26/13 11:41:35 3086777232   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+07/24/13 12:35:40 3075554192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
+07/24/13 12:35:40 3075554192   FINEST    ConsoleDhs::ConsumeDcsMessage: not a message for that can be handled, pass on {src/ConsoleService.cxx 165  }
+07/24/13 12:35:40 3075554192  WARNING    no one takes this message: stoh_register_operation move_to_new_energy move_to_new_energy {src/DcsMessageService.cxx 238  }
+07/24/13 12:35:40 3075554192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98ba188) {src/DcsMessageManager.cxx 191  }
+07/24/13 12:35:40 3075554192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+07/24/13 12:35:40 3075554192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+07/24/13 12:35:40 3075554192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+07/24/13 12:35:40 3075554192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98ba188 {src/DcsMessageManager.cxx 168  }
+07/24/13 12:35:40 3075554192   FINEST    Receiving: 'stoh_register_pseudo_motor energy MFirst' {src/DcsMessageHandler.cxx 250  }
+07/24/13 12:35:40 3075554192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
+07/24/13 12:35:40 3075554192     INFO    register motor energy for MFirst {src/ConsoleService.cxx 293  }
+07/24/13 12:35:40 3075554192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98ba188) {src/DcsMessageManager.cxx 191  }
+07/24/13 12:35:40 3075554192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+07/24/13 12:35:50 3065064336     INFO    Console Thread ready {src/ConsoleService.cxx 388  }
+07/24/13 12:35:50 3086046928     INFO    Console System start OK {src/ConsoleSystem.cxx 84  }
+07/24/13 12:35:50 3086046928   FINEST    x4a server is being connected sucessfully {src/ConsoleService.cxx 666  }
+07/24/13 12:35:50 3086046928   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98ba188 {src/DcsMessageManager.cxx 168  }
+07/24/13 12:35:50 3086046928   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 12661.78809 normal ) {src/ConsoleService.cxx 366  }
+07/24/13 12:35:50 3086046928   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+07/24/13 12:35:50 3086044048   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+07/24/13 12:35:50 3086044048   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+07/24/13 12:35:50 3086044048   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+07/24/13 12:35:50 3086046928   FINEST    Get current energy is done. The current Energy is 12661.788086 {src/ConsoleService.cxx 677  }
+07/24/13 12:35:50 3086044048   FINEST    send message done {src/DcsMessageHandler.cxx 323  }
+07/24/13 12:35:50 3086044048   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98ba188) {src/DcsMessageManager.cxx 191  }
+07/24/13 12:35:50 3086044048   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+07/24/13 12:36:46 3075554192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+07/24/13 12:36:46 3075554192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+07/24/13 12:36:46 3075554192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98ba188 {src/DcsMessageManager.cxx 168  }
+07/24/13 12:36:46 3075554192   FINEST    Receiving: 'stoh_start_motor_move energy 12661.788090' {src/DcsMessageHandler.cxx 250  }
+07/24/13 12:36:46 3075554192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
+07/24/13 12:36:46 3075554192   FINEST    match motor0 {src/ConsoleService.cxx 256  }
+07/24/13 12:36:46 3075554192   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
+07/24/13 12:36:46 3075554192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+07/24/13 12:36:46 3065064336   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
+07/24/13 12:36:46 3065064336   FINEST    x4a energy GetMotorPosition(): 12661.788090 {src/ConsoleService.cxx 449  }
+07/24/13 12:36:46 3065064336   FINEST    x4a energy moved to 12661.788090  {src/ConsoleService.cxx 464  }
+07/24/13 12:36:46 3065064336   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98b97c8 {src/DcsMessageManager.cxx 168  }
+07/24/13 12:36:46 3065064336   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 12661.78809 normal ) {src/ConsoleService.cxx 366  }
+07/24/13 12:36:46 3065064336   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+07/24/13 12:36:46 3065064336   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
+07/24/13 12:36:46 3065064336   FINEST    x4a currentEnergy = 12661.788086  {src/ConsoleService.cxx 485  }
+07/24/13 12:36:46 3065064336   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98ba188) {src/DcsMessageManager.cxx 191  }
+07/24/13 12:36:46 3086044048   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+07/24/13 12:36:46 3086044048   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+07/24/13 12:36:46 3086044048   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+07/24/13 12:36:46 3086044048   FINEST    send message done {src/DcsMessageHandler.cxx 323  }
+07/24/13 12:36:46 3086044048   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98b97c8) {src/DcsMessageManager.cxx 191  }
+07/24/13 12:36:46 3086044048   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+07/24/13 12:36:47 3075554192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+07/24/13 12:36:47 3075554192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+07/24/13 12:36:47 3075554192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98b97c8 {src/DcsMessageManager.cxx 168  }
+07/24/13 12:36:47 3075554192   FINEST    Receiving: 'stoh_start_motor_move energy 12661.790000' {src/DcsMessageHandler.cxx 250  }
+07/24/13 12:36:47 3075554192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
+07/24/13 12:36:47 3075554192   FINEST    match motor0 {src/ConsoleService.cxx 256  }
+07/24/13 12:36:47 3075554192   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
+07/24/13 12:36:47 3075554192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+07/24/13 12:36:47 3065064336   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
+07/24/13 12:36:47 3065064336   FINEST    x4a energy GetMotorPosition(): 12661.790000 {src/ConsoleService.cxx 449  }
+07/24/13 12:36:47 3065064336   FINEST    x4a energy moved to 12661.790000  {src/ConsoleService.cxx 464  }
+07/24/13 12:36:47 3065064336   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98ba188 {src/DcsMessageManager.cxx 168  }
+07/24/13 12:36:47 3065064336   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 12661.78809 normal ) {src/ConsoleService.cxx 366  }
+07/24/13 12:36:47 3065064336   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+07/24/13 12:36:47 3065064336   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
+07/24/13 12:36:47 3065064336   FINEST    x4a currentEnergy = 12661.788086  {src/ConsoleService.cxx 485  }
+07/24/13 12:36:47 3065064336   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98b97c8) {src/DcsMessageManager.cxx 191  }
+07/24/13 12:36:47 3086044048   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+07/24/13 12:36:47 3086044048   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+07/24/13 12:36:47 3086044048   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+07/24/13 12:36:47 3086044048   FINEST    send message done {src/DcsMessageHandler.cxx 323  }
+07/24/13 12:36:47 3086044048   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98ba188) {src/DcsMessageManager.cxx 191  }
+07/24/13 12:36:47 3086044048   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+07/24/13 12:44:01 3075554192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+07/24/13 12:44:01 3075554192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+07/24/13 12:44:01 3075554192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98ba188 {src/DcsMessageManager.cxx 168  }
+07/24/13 12:44:01 3075554192   FINEST    Receiving: 'stoh_start_motor_move energy 12661.788090' {src/DcsMessageHandler.cxx 250  }
+07/24/13 12:44:01 3075554192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
+07/24/13 12:44:01 3075554192   FINEST    match motor0 {src/ConsoleService.cxx 256  }
+07/24/13 12:44:01 3075554192   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
+07/24/13 12:44:01 3075554192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+07/24/13 12:44:01 3065064336   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
+07/24/13 12:44:01 3065064336   FINEST    x4a energy GetMotorPosition(): 12661.788090 {src/ConsoleService.cxx 449  }
+07/24/13 12:44:02 3065064336   FINEST    x4a energy moved to 12661.788090  {src/ConsoleService.cxx 464  }
+07/24/13 12:44:02 3065064336   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98b97c8 {src/DcsMessageManager.cxx 168  }
+07/24/13 12:44:02 3065064336   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 12661.78809 normal ) {src/ConsoleService.cxx 366  }
+07/24/13 12:44:02 3065064336   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+07/24/13 12:44:02 3065064336   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
+07/24/13 12:44:02 3065064336   FINEST    x4a currentEnergy = 12661.788086  {src/ConsoleService.cxx 485  }
+07/24/13 12:44:02 3065064336   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98ba188) {src/DcsMessageManager.cxx 191  }
+07/24/13 12:44:02 3086044048   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+07/24/13 12:44:02 3086044048   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+07/24/13 12:44:02 3086044048   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+07/24/13 12:44:02 3086044048   FINEST    send message done {src/DcsMessageHandler.cxx 323  }
+07/24/13 12:44:02 3086044048   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98b97c8) {src/DcsMessageManager.cxx 191  }
+07/24/13 12:44:02 3086044048   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+07/24/13 12:44:02 3075554192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+07/24/13 12:44:02 3075554192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+07/24/13 12:44:02 3075554192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98b97c8 {src/DcsMessageManager.cxx 168  }
+07/24/13 12:44:02 3075554192   FINEST    Receiving: 'stoh_start_motor_move energy 12661.790000' {src/DcsMessageHandler.cxx 250  }
+07/24/13 12:44:02 3075554192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
+07/24/13 12:44:02 3075554192   FINEST    match motor0 {src/ConsoleService.cxx 256  }
+07/24/13 12:44:02 3075554192   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
+07/24/13 12:44:02 3075554192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+07/24/13 12:44:02 3065064336   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
+07/24/13 12:44:02 3065064336   FINEST    x4a energy GetMotorPosition(): 12661.790000 {src/ConsoleService.cxx 449  }
+07/24/13 12:44:03 3065064336   FINEST    x4a energy moved to 12661.790000  {src/ConsoleService.cxx 464  }
+07/24/13 12:44:03 3065064336   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98ba188 {src/DcsMessageManager.cxx 168  }
+07/24/13 12:44:03 3065064336   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 12661.78809 normal ) {src/ConsoleService.cxx 366  }
+07/24/13 12:44:03 3065064336   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+07/24/13 12:44:03 3065064336   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
+07/24/13 12:44:03 3065064336   FINEST    x4a currentEnergy = 12661.788086  {src/ConsoleService.cxx 485  }
+07/24/13 12:44:03 3065064336   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98b97c8) {src/DcsMessageManager.cxx 191  }
+07/24/13 12:44:03 3086044048   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+07/24/13 12:44:03 3086044048   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+07/24/13 12:44:03 3086044048   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+07/24/13 12:44:03 3086044048   FINEST    send message done {src/DcsMessageHandler.cxx 323  }
+07/24/13 12:44:03 3086044048   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98ba188) {src/DcsMessageManager.cxx 191  }
+07/24/13 12:44:03 3086044048   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+07/24/13 12:49:38 3075554192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+07/24/13 12:49:38 3075554192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+07/24/13 12:49:38 3075554192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98ba188 {src/DcsMessageManager.cxx 168  }
+07/24/13 12:49:38 3075554192   FINEST    Receiving: 'stoh_start_motor_move energy 12661.788090' {src/DcsMessageHandler.cxx 250  }
+07/24/13 12:49:38 3075554192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
+07/24/13 12:49:38 3075554192   FINEST    match motor0 {src/ConsoleService.cxx 256  }
+07/24/13 12:49:38 3075554192   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
+07/24/13 12:49:38 3075554192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+07/24/13 12:49:38 3065064336   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
+07/24/13 12:49:38 3065064336   FINEST    x4a energy GetMotorPosition(): 12661.788090 {src/ConsoleService.cxx 449  }
+07/24/13 12:49:38 3065064336   FINEST    x4a energy moved to 12661.788090  {src/ConsoleService.cxx 464  }
+07/24/13 12:49:38 3065064336   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98b97c8 {src/DcsMessageManager.cxx 168  }
+07/24/13 12:49:38 3065064336   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 12661.78809 normal ) {src/ConsoleService.cxx 366  }
+07/24/13 12:49:38 3065064336   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+07/24/13 12:49:38 3065064336   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
+07/24/13 12:49:38 3065064336   FINEST    x4a currentEnergy = 12661.788086  {src/ConsoleService.cxx 485  }
+07/24/13 12:49:38 3065064336   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98ba188) {src/DcsMessageManager.cxx 191  }
+07/24/13 12:49:38 3086044048   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+07/24/13 12:49:38 3086044048   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+07/24/13 12:49:38 3086044048   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+07/24/13 12:49:38 3086044048   FINEST    send message done {src/DcsMessageHandler.cxx 323  }
+07/24/13 12:49:38 3086044048   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98b97c8) {src/DcsMessageManager.cxx 191  }
+07/24/13 12:49:38 3086044048   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+07/24/13 12:49:38 3075554192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+07/24/13 12:49:38 3075554192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+07/24/13 12:49:38 3075554192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98b97c8 {src/DcsMessageManager.cxx 168  }
+07/24/13 12:49:38 3075554192   FINEST    Receiving: 'stoh_start_motor_move energy 12661.790000' {src/DcsMessageHandler.cxx 250  }
+07/24/13 12:49:38 3075554192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
+07/24/13 12:49:38 3075554192   FINEST    match motor0 {src/ConsoleService.cxx 256  }
+07/24/13 12:49:38 3075554192   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
+07/24/13 12:49:38 3075554192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+07/24/13 12:49:38 3065064336   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
+07/24/13 12:49:38 3065064336   FINEST    x4a energy GetMotorPosition(): 12661.790000 {src/ConsoleService.cxx 449  }
+07/24/13 12:49:39 3065064336   FINEST    x4a energy moved to 12661.790000  {src/ConsoleService.cxx 464  }
+07/24/13 12:49:39 3065064336   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98ba188 {src/DcsMessageManager.cxx 168  }
+07/24/13 12:49:39 3065064336   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 12661.78809 normal ) {src/ConsoleService.cxx 366  }
+07/24/13 12:49:39 3065064336   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+07/24/13 12:49:39 3065064336   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
+07/24/13 12:49:39 3065064336   FINEST    x4a currentEnergy = 12661.788086  {src/ConsoleService.cxx 485  }
+07/24/13 12:49:39 3065064336   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98b97c8) {src/DcsMessageManager.cxx 191  }
+07/24/13 12:49:39 3086044048   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+07/24/13 12:49:39 3086044048   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+07/24/13 12:49:39 3086044048   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+07/24/13 12:49:39 3086044048   FINEST    send message done {src/DcsMessageHandler.cxx 323  }
+07/24/13 12:49:39 3086044048   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98ba188) {src/DcsMessageManager.cxx 191  }
+07/24/13 12:49:39 3086044048   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+07/24/13 12:52:23 3075554192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+07/24/13 12:52:23 3075554192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+07/24/13 12:52:23 3075554192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98ba188 {src/DcsMessageManager.cxx 168  }
+07/24/13 12:52:23 3075554192   FINEST    Receiving: 'stoh_start_motor_move energy 12661.788090' {src/DcsMessageHandler.cxx 250  }
+07/24/13 12:52:23 3075554192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
+07/24/13 12:52:23 3075554192   FINEST    match motor0 {src/ConsoleService.cxx 256  }
+07/24/13 12:52:23 3075554192   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
+07/24/13 12:52:23 3075554192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+07/24/13 12:52:23 3065064336   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
+07/24/13 12:52:23 3065064336   FINEST    x4a energy GetMotorPosition(): 12661.788090 {src/ConsoleService.cxx 449  }
+07/24/13 12:52:24 3065064336   FINEST    x4a energy moved to 12661.788090  {src/ConsoleService.cxx 464  }
+07/24/13 12:52:24 3065064336   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98b97c8 {src/DcsMessageManager.cxx 168  }
+07/24/13 12:52:24 3065064336   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 12661.78809 normal ) {src/ConsoleService.cxx 366  }
+07/24/13 12:52:24 3065064336   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+07/24/13 12:52:24 3065064336   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
+07/24/13 12:52:24 3065064336   FINEST    x4a currentEnergy = 12661.788086  {src/ConsoleService.cxx 485  }
+07/24/13 12:52:24 3065064336   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98ba188) {src/DcsMessageManager.cxx 191  }
+07/24/13 12:52:24 3086044048   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+07/24/13 12:52:24 3086044048   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+07/24/13 12:52:24 3086044048   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+07/24/13 12:52:24 3086044048   FINEST    send message done {src/DcsMessageHandler.cxx 323  }
+07/24/13 12:52:24 3086044048   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98b97c8) {src/DcsMessageManager.cxx 191  }
+07/24/13 12:52:24 3086044048   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+07/24/13 12:52:24 3075554192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+07/24/13 12:52:24 3075554192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+07/24/13 12:52:24 3075554192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98b97c8 {src/DcsMessageManager.cxx 168  }
+07/24/13 12:52:24 3075554192   FINEST    Receiving: 'stoh_start_motor_move energy 12661.790000' {src/DcsMessageHandler.cxx 250  }
+07/24/13 12:52:24 3075554192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
+07/24/13 12:52:24 3075554192   FINEST    match motor0 {src/ConsoleService.cxx 256  }
+07/24/13 12:52:24 3075554192   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
+07/24/13 12:52:24 3075554192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+07/24/13 12:52:24 3065064336   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
+07/24/13 12:52:24 3065064336   FINEST    x4a energy GetMotorPosition(): 12661.790000 {src/ConsoleService.cxx 449  }
+07/24/13 12:52:24 3065064336   FINEST    x4a energy moved to 12661.790000  {src/ConsoleService.cxx 464  }
+07/24/13 12:52:25 3065064336   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98ba188 {src/DcsMessageManager.cxx 168  }
+07/24/13 12:52:25 3065064336   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 12661.78809 normal ) {src/ConsoleService.cxx 366  }
+07/24/13 12:52:25 3065064336   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+07/24/13 12:52:25 3065064336   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
+07/24/13 12:52:25 3065064336   FINEST    x4a currentEnergy = 12661.788086  {src/ConsoleService.cxx 485  }
+07/24/13 12:52:25 3065064336   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98b97c8) {src/DcsMessageManager.cxx 191  }
+07/24/13 12:52:25 3086044048   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+07/24/13 12:52:25 3086044048   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+07/24/13 12:52:25 3086044048   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+07/24/13 12:52:25 3086044048   FINEST    send message done {src/DcsMessageHandler.cxx 323  }
+07/24/13 12:52:25 3086044048   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98ba188) {src/DcsMessageManager.cxx 191  }
+07/24/13 12:52:25 3086044048   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+07/24/13 12:58:46 3075554192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+07/24/13 12:58:46 3075554192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+07/24/13 12:58:46 3075554192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98ba188 {src/DcsMessageManager.cxx 168  }
+07/24/13 12:58:46 3075554192   FINEST    Receiving: 'stoh_start_motor_move energy 12661.788090' {src/DcsMessageHandler.cxx 250  }
+07/24/13 12:58:46 3075554192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
+07/24/13 12:58:46 3075554192   FINEST    match motor0 {src/ConsoleService.cxx 256  }
+07/24/13 12:58:46 3075554192   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
+07/24/13 12:58:46 3075554192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+07/24/13 12:58:46 3065064336   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
+07/24/13 12:58:46 3065064336   FINEST    x4a energy GetMotorPosition(): 12661.788090 {src/ConsoleService.cxx 449  }
+07/24/13 12:58:46 3065064336   FINEST    x4a energy moved to 12661.788090  {src/ConsoleService.cxx 464  }
+07/24/13 12:58:47 3065064336   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98b97c8 {src/DcsMessageManager.cxx 168  }
+07/24/13 12:58:47 3065064336   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 12661.92773 normal ) {src/ConsoleService.cxx 366  }
+07/24/13 12:58:47 3065064336   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+07/24/13 12:58:47 3065064336   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
+07/24/13 12:58:47 3065064336   FINEST    x4a currentEnergy = 12661.927734  {src/ConsoleService.cxx 485  }
+07/24/13 12:58:47 3065064336   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98ba188) {src/DcsMessageManager.cxx 191  }
+07/24/13 12:58:47 3086044048   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+07/24/13 12:58:47 3086044048   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+07/24/13 12:58:47 3086044048   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+07/24/13 12:58:47 3086044048   FINEST    send message done {src/DcsMessageHandler.cxx 323  }
+07/24/13 12:58:47 3086044048   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98b97c8) {src/DcsMessageManager.cxx 191  }
+07/24/13 12:58:47 3086044048   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+07/24/13 12:58:47 3075554192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+07/24/13 12:58:47 3075554192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+07/24/13 12:58:47 3075554192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98b97c8 {src/DcsMessageManager.cxx 168  }
+07/24/13 12:58:47 3075554192   FINEST    Receiving: 'stoh_start_motor_move energy 12661.790000' {src/DcsMessageHandler.cxx 250  }
+07/24/13 12:58:47 3075554192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
+07/24/13 12:58:47 3075554192   FINEST    match motor0 {src/ConsoleService.cxx 256  }
+07/24/13 12:58:47 3075554192   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
+07/24/13 12:58:47 3075554192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+07/24/13 12:58:47 3065064336   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
+07/24/13 12:58:47 3065064336   FINEST    x4a energy GetMotorPosition(): 12661.790000 {src/ConsoleService.cxx 449  }
+07/24/13 12:58:47 3065064336   FINEST    x4a energy moved to 12661.790000  {src/ConsoleService.cxx 464  }
+07/24/13 12:58:47 3065064336   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98ba188 {src/DcsMessageManager.cxx 168  }
+07/24/13 12:58:47 3065064336   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 12661.92773 normal ) {src/ConsoleService.cxx 366  }
+07/24/13 12:58:47 3065064336   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+07/24/13 12:58:47 3065064336   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
+07/24/13 12:58:47 3065064336   FINEST    x4a currentEnergy = 12661.927734  {src/ConsoleService.cxx 485  }
+07/24/13 12:58:47 3065064336   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98b97c8) {src/DcsMessageManager.cxx 191  }
+07/24/13 12:58:47 3086044048   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+07/24/13 12:58:47 3086044048   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+07/24/13 12:58:47 3086044048   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+07/24/13 12:58:47 3086044048   FINEST    send message done {src/DcsMessageHandler.cxx 323  }
+07/24/13 12:58:47 3086044048   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98ba188) {src/DcsMessageManager.cxx 191  }
+07/24/13 12:58:47 3086044048   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+07/24/13 12:59:15 3075554192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+07/24/13 12:59:15 3075554192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+07/24/13 12:59:15 3075554192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98ba188 {src/DcsMessageManager.cxx 168  }
+07/24/13 12:59:15 3075554192   FINEST    Receiving: 'stoh_start_motor_move energy 12661.927730' {src/DcsMessageHandler.cxx 250  }
+07/24/13 12:59:15 3075554192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
+07/24/13 12:59:15 3075554192   FINEST    match motor0 {src/ConsoleService.cxx 256  }
+07/24/13 12:59:15 3075554192   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
+07/24/13 12:59:15 3075554192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+07/24/13 12:59:15 3065064336   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
+07/24/13 12:59:15 3065064336   FINEST    x4a energy GetMotorPosition(): 12661.927730 {src/ConsoleService.cxx 449  }
+07/24/13 12:59:15 3065064336   FINEST    x4a energy moved to 12661.927730  {src/ConsoleService.cxx 464  }
+07/24/13 12:59:15 3065064336   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98b97c8 {src/DcsMessageManager.cxx 168  }
+07/24/13 12:59:15 3065064336   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 12661.92773 normal ) {src/ConsoleService.cxx 366  }
+07/24/13 12:59:15 3065064336   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+07/24/13 12:59:15 3065064336   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
+07/24/13 12:59:15 3065064336   FINEST    x4a currentEnergy = 12661.927734  {src/ConsoleService.cxx 485  }
+07/24/13 12:59:15 3065064336   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98ba188) {src/DcsMessageManager.cxx 191  }
+07/24/13 12:59:15 3086044048   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+07/24/13 12:59:15 3086044048   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+07/24/13 12:59:15 3086044048   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+07/24/13 12:59:15 3086044048   FINEST    send message done {src/DcsMessageHandler.cxx 323  }
+07/24/13 12:59:15 3086044048   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98b97c8) {src/DcsMessageManager.cxx 191  }
+07/24/13 12:59:15 3086044048   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+07/24/13 12:59:15 3075554192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+07/24/13 12:59:15 3075554192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+07/24/13 12:59:15 3075554192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98b97c8 {src/DcsMessageManager.cxx 168  }
+07/24/13 12:59:15 3075554192   FINEST    Receiving: 'stoh_start_motor_move energy 12661.790000' {src/DcsMessageHandler.cxx 250  }
+07/24/13 12:59:15 3075554192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
+07/24/13 12:59:15 3075554192   FINEST    match motor0 {src/ConsoleService.cxx 256  }
+07/24/13 12:59:15 3075554192   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
+07/24/13 12:59:15 3075554192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+07/24/13 12:59:15 3065064336   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
+07/24/13 12:59:15 3065064336   FINEST    x4a energy GetMotorPosition(): 12661.790000 {src/ConsoleService.cxx 449  }
+07/24/13 12:59:16 3065064336   FINEST    x4a energy moved to 12661.790000  {src/ConsoleService.cxx 464  }
+07/24/13 12:59:16 3065064336   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98ba188 {src/DcsMessageManager.cxx 168  }
+07/24/13 12:59:16 3065064336   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 12661.78809 normal ) {src/ConsoleService.cxx 366  }
+07/24/13 12:59:16 3065064336   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+07/24/13 12:59:16 3065064336   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
+07/24/13 12:59:16 3065064336   FINEST    x4a currentEnergy = 12661.788086  {src/ConsoleService.cxx 485  }
+07/24/13 12:59:16 3065064336   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98b97c8) {src/DcsMessageManager.cxx 191  }
+07/24/13 12:59:16 3086044048   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+07/24/13 12:59:16 3086044048   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+07/24/13 12:59:16 3086044048   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+07/24/13 12:59:16 3086044048   FINEST    send message done {src/DcsMessageHandler.cxx 323  }
+07/24/13 12:59:16 3086044048   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98ba188) {src/DcsMessageManager.cxx 191  }
+07/24/13 12:59:16 3086044048   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+07/24/13 13:04:50 3075554192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+07/24/13 13:04:50 3075554192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+07/24/13 13:04:50 3075554192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98ba188 {src/DcsMessageManager.cxx 168  }
+07/24/13 13:04:50 3075554192   FINEST    Receiving: 'stoh_start_motor_move energy 12661.788090' {src/DcsMessageHandler.cxx 250  }
+07/24/13 13:04:50 3075554192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
+07/24/13 13:04:50 3075554192   FINEST    match motor0 {src/ConsoleService.cxx 256  }
+07/24/13 13:04:50 3075554192   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
+07/24/13 13:04:50 3075554192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+07/24/13 13:04:50 3065064336   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
+07/24/13 13:04:50 3065064336   FINEST    x4a energy GetMotorPosition(): 12661.788090 {src/ConsoleService.cxx 449  }
+07/24/13 13:04:51 3065064336   FINEST    x4a energy moved to 12661.788090  {src/ConsoleService.cxx 464  }
+07/24/13 13:04:51 3065064336   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98b97c8 {src/DcsMessageManager.cxx 168  }
+07/24/13 13:04:51 3065064336   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 12661.78809 normal ) {src/ConsoleService.cxx 366  }
+07/24/13 13:04:51 3065064336   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+07/24/13 13:04:51 3065064336   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
+07/24/13 13:04:51 3065064336   FINEST    x4a currentEnergy = 12661.788086  {src/ConsoleService.cxx 485  }
+07/24/13 13:04:51 3065064336   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98ba188) {src/DcsMessageManager.cxx 191  }
+07/24/13 13:04:51 3086044048   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+07/24/13 13:04:51 3086044048   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+07/24/13 13:04:51 3086044048   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+07/24/13 13:04:51 3086044048   FINEST    send message done {src/DcsMessageHandler.cxx 323  }
+07/24/13 13:04:51 3086044048   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98b97c8) {src/DcsMessageManager.cxx 191  }
+07/24/13 13:04:51 3086044048   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+07/24/13 13:04:51 3075554192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+07/24/13 13:04:51 3075554192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+07/24/13 13:04:51 3075554192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98b97c8 {src/DcsMessageManager.cxx 168  }
+07/24/13 13:04:51 3075554192   FINEST    Receiving: 'stoh_start_motor_move energy 12661.790000' {src/DcsMessageHandler.cxx 250  }
+07/24/13 13:04:51 3075554192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
+07/24/13 13:04:51 3075554192   FINEST    match motor0 {src/ConsoleService.cxx 256  }
+07/24/13 13:04:51 3075554192   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
+07/24/13 13:04:51 3075554192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+07/24/13 13:04:51 3065064336   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
+07/24/13 13:04:51 3065064336   FINEST    x4a energy GetMotorPosition(): 12661.790000 {src/ConsoleService.cxx 449  }
+07/24/13 13:04:52 3065064336   FINEST    x4a energy moved to 12661.790000  {src/ConsoleService.cxx 464  }
+07/24/13 13:04:52 3065064336   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98ba188 {src/DcsMessageManager.cxx 168  }
+07/24/13 13:04:52 3065064336   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 12661.92773 normal ) {src/ConsoleService.cxx 366  }
+07/24/13 13:04:52 3065064336   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+07/24/13 13:04:52 3065064336   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
+07/24/13 13:04:52 3065064336   FINEST    x4a currentEnergy = 12661.927734  {src/ConsoleService.cxx 485  }
+07/24/13 13:04:52 3065064336   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98b97c8) {src/DcsMessageManager.cxx 191  }
+07/24/13 13:04:52 3086044048   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+07/24/13 13:04:52 3086044048   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+07/24/13 13:04:52 3086044048   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+07/24/13 13:04:52 3086044048   FINEST    send message done {src/DcsMessageHandler.cxx 323  }
+07/24/13 13:04:52 3086044048   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98ba188) {src/DcsMessageManager.cxx 191  }
+07/24/13 13:04:52 3086044048   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+07/24/13 13:07:29 3075554192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+07/24/13 13:07:29 3075554192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+07/24/13 13:07:29 3075554192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98ba188 {src/DcsMessageManager.cxx 168  }
+07/24/13 13:07:29 3075554192   FINEST    Receiving: 'stoh_start_motor_move energy 12661.927730' {src/DcsMessageHandler.cxx 250  }
+07/24/13 13:07:29 3075554192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
+07/24/13 13:07:29 3075554192   FINEST    match motor0 {src/ConsoleService.cxx 256  }
+07/24/13 13:07:29 3075554192   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
+07/24/13 13:07:29 3075554192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+07/24/13 13:07:29 3065064336   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
+07/24/13 13:07:29 3065064336   FINEST    x4a energy GetMotorPosition(): 12661.927730 {src/ConsoleService.cxx 449  }
+07/24/13 13:07:29 3065064336   FINEST    x4a energy moved to 12661.927730  {src/ConsoleService.cxx 464  }
+07/24/13 13:07:29 3065064336   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98b97c8 {src/DcsMessageManager.cxx 168  }
+07/24/13 13:07:29 3065064336   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 12661.92773 normal ) {src/ConsoleService.cxx 366  }
+07/24/13 13:07:29 3065064336   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+07/24/13 13:07:29 3065064336   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
+07/24/13 13:07:29 3065064336   FINEST    x4a currentEnergy = 12661.927734  {src/ConsoleService.cxx 485  }
+07/24/13 13:07:29 3065064336   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98ba188) {src/DcsMessageManager.cxx 191  }
+07/24/13 13:07:29 3086044048   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+07/24/13 13:07:29 3086044048   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+07/24/13 13:07:29 3086044048   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+07/24/13 13:07:29 3086044048   FINEST    send message done {src/DcsMessageHandler.cxx 323  }
+07/24/13 13:07:29 3086044048   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98b97c8) {src/DcsMessageManager.cxx 191  }
+07/24/13 13:07:29 3086044048   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+07/24/13 13:07:30 3075554192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+07/24/13 13:07:30 3075554192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+07/24/13 13:07:30 3075554192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98b97c8 {src/DcsMessageManager.cxx 168  }
+07/24/13 13:07:30 3075554192   FINEST    Receiving: 'stoh_start_motor_move energy 12661.790000' {src/DcsMessageHandler.cxx 250  }
+07/24/13 13:07:30 3075554192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
+07/24/13 13:07:30 3075554192   FINEST    match motor0 {src/ConsoleService.cxx 256  }
+07/24/13 13:07:30 3075554192   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
+07/24/13 13:07:30 3075554192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+07/24/13 13:07:30 3065064336   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
+07/24/13 13:07:30 3065064336   FINEST    x4a energy GetMotorPosition(): 12661.790000 {src/ConsoleService.cxx 449  }
+07/24/13 13:07:30 3065064336   FINEST    x4a energy moved to 12661.790000  {src/ConsoleService.cxx 464  }
+07/24/13 13:07:30 3065064336   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98ba188 {src/DcsMessageManager.cxx 168  }
+07/24/13 13:07:30 3065064336   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 12661.92773 normal ) {src/ConsoleService.cxx 366  }
+07/24/13 13:07:30 3065064336   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+07/24/13 13:07:30 3065064336   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
+07/24/13 13:07:30 3065064336   FINEST    x4a currentEnergy = 12661.927734  {src/ConsoleService.cxx 485  }
+07/24/13 13:07:30 3065064336   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98b97c8) {src/DcsMessageManager.cxx 191  }
+07/24/13 13:07:30 3086044048   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+07/24/13 13:07:30 3086044048   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+07/24/13 13:07:30 3086044048   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+07/24/13 13:07:30 3086044048   FINEST    send message done {src/DcsMessageHandler.cxx 323  }
+07/24/13 13:07:30 3086044048   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98ba188) {src/DcsMessageManager.cxx 191  }
+07/24/13 13:07:30 3086044048   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+07/24/13 13:09:16 3075554192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+07/24/13 13:09:16 3075554192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+07/24/13 13:09:16 3075554192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98ba188 {src/DcsMessageManager.cxx 168  }
+07/24/13 13:09:16 3075554192   FINEST    Receiving: 'stoh_start_motor_move energy 12661.927730' {src/DcsMessageHandler.cxx 250  }
+07/24/13 13:09:16 3075554192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
+07/24/13 13:09:16 3075554192   FINEST    match motor0 {src/ConsoleService.cxx 256  }
+07/24/13 13:09:16 3075554192   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
+07/24/13 13:09:16 3075554192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+07/24/13 13:09:16 3065064336   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
+07/24/13 13:09:16 3065064336   FINEST    x4a energy GetMotorPosition(): 12661.927730 {src/ConsoleService.cxx 449  }
+07/24/13 13:09:17 3065064336   FINEST    x4a energy moved to 12661.927730  {src/ConsoleService.cxx 464  }
+07/24/13 13:09:17 3065064336   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98b97c8 {src/DcsMessageManager.cxx 168  }
+07/24/13 13:09:17 3065064336   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 12661.92773 normal ) {src/ConsoleService.cxx 366  }
+07/24/13 13:09:17 3065064336   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+07/24/13 13:09:17 3065064336   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
+07/24/13 13:09:17 3065064336   FINEST    x4a currentEnergy = 12661.927734  {src/ConsoleService.cxx 485  }
+07/24/13 13:09:17 3065064336   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98ba188) {src/DcsMessageManager.cxx 191  }
+07/24/13 13:09:17 3086044048   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+07/24/13 13:09:17 3086044048   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+07/24/13 13:09:17 3086044048   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+07/24/13 13:09:17 3086044048   FINEST    send message done {src/DcsMessageHandler.cxx 323  }
+07/24/13 13:09:17 3086044048   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98b97c8) {src/DcsMessageManager.cxx 191  }
+07/24/13 13:09:17 3086044048   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+07/24/13 13:09:17 3075554192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+07/24/13 13:09:17 3075554192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+07/24/13 13:09:17 3075554192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98b97c8 {src/DcsMessageManager.cxx 168  }
+07/24/13 13:09:17 3075554192   FINEST    Receiving: 'stoh_start_motor_move energy 12661.790000' {src/DcsMessageHandler.cxx 250  }
+07/24/13 13:09:17 3075554192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
+07/24/13 13:09:17 3075554192   FINEST    match motor0 {src/ConsoleService.cxx 256  }
+07/24/13 13:09:17 3075554192   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
+07/24/13 13:09:17 3075554192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+07/24/13 13:09:17 3065064336   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
+07/24/13 13:09:17 3065064336   FINEST    x4a energy GetMotorPosition(): 12661.790000 {src/ConsoleService.cxx 449  }
+07/24/13 13:09:17 3065064336   FINEST    x4a energy moved to 12661.790000  {src/ConsoleService.cxx 464  }
+07/24/13 13:09:18 3065064336   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98ba188 {src/DcsMessageManager.cxx 168  }
+07/24/13 13:09:18 3065064336   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 12661.92773 normal ) {src/ConsoleService.cxx 366  }
+07/24/13 13:09:18 3065064336   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+07/24/13 13:09:18 3065064336   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
+07/24/13 13:09:18 3065064336   FINEST    x4a currentEnergy = 12661.927734  {src/ConsoleService.cxx 485  }
+07/24/13 13:09:18 3065064336   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98b97c8) {src/DcsMessageManager.cxx 191  }
+07/24/13 13:09:18 3086044048   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+07/24/13 13:09:18 3086044048   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+07/24/13 13:09:18 3086044048   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+07/24/13 13:09:18 3086044048   FINEST    send message done {src/DcsMessageHandler.cxx 323  }
+07/24/13 13:09:18 3086044048   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98ba188) {src/DcsMessageManager.cxx 191  }
+07/24/13 13:09:18 3086044048   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+07/24/13 13:10:49 3075554192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+07/24/13 13:10:49 3075554192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+07/24/13 13:10:49 3075554192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98ba188 {src/DcsMessageManager.cxx 168  }
+07/24/13 13:10:49 3075554192   FINEST    Receiving: 'stoh_start_motor_move energy 12661.927730' {src/DcsMessageHandler.cxx 250  }
+07/24/13 13:10:49 3075554192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
+07/24/13 13:10:49 3075554192   FINEST    match motor0 {src/ConsoleService.cxx 256  }
+07/24/13 13:10:49 3075554192   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
+07/24/13 13:10:49 3075554192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+07/24/13 13:10:49 3065064336   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
+07/24/13 13:10:49 3065064336   FINEST    x4a energy GetMotorPosition(): 12661.927730 {src/ConsoleService.cxx 449  }
+07/24/13 13:10:50 3065064336   FINEST    x4a energy moved to 12661.927730  {src/ConsoleService.cxx 464  }
+07/24/13 13:10:50 3065064336   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98b97c8 {src/DcsMessageManager.cxx 168  }
+07/24/13 13:10:50 3065064336   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 12661.92773 normal ) {src/ConsoleService.cxx 366  }
+07/24/13 13:10:50 3065064336   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+07/24/13 13:10:50 3065064336   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
+07/24/13 13:10:50 3065064336   FINEST    x4a currentEnergy = 12661.927734  {src/ConsoleService.cxx 485  }
+07/24/13 13:10:50 3065064336   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98ba188) {src/DcsMessageManager.cxx 191  }
+07/24/13 13:10:50 3086044048   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+07/24/13 13:10:50 3086044048   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+07/24/13 13:10:50 3086044048   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+07/24/13 13:10:50 3086044048   FINEST    send message done {src/DcsMessageHandler.cxx 323  }
+07/24/13 13:10:50 3086044048   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98b97c8) {src/DcsMessageManager.cxx 191  }
+07/24/13 13:10:50 3086044048   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+07/24/13 13:10:50 3075554192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+07/24/13 13:10:50 3075554192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+07/24/13 13:10:50 3075554192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98b97c8 {src/DcsMessageManager.cxx 168  }
+07/24/13 13:10:50 3075554192   FINEST    Receiving: 'stoh_start_motor_move energy 12661.790000' {src/DcsMessageHandler.cxx 250  }
+07/24/13 13:10:50 3075554192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
+07/24/13 13:10:50 3075554192   FINEST    match motor0 {src/ConsoleService.cxx 256  }
+07/24/13 13:10:50 3075554192   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
+07/24/13 13:10:50 3075554192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+07/24/13 13:10:50 3065064336   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
+07/24/13 13:10:50 3065064336   FINEST    x4a energy GetMotorPosition(): 12661.790000 {src/ConsoleService.cxx 449  }
+07/24/13 13:10:51 3065064336   FINEST    x4a energy moved to 12661.790000  {src/ConsoleService.cxx 464  }
+07/24/13 13:10:51 3065064336   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98ba188 {src/DcsMessageManager.cxx 168  }
+07/24/13 13:10:51 3065064336   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 12661.92773 normal ) {src/ConsoleService.cxx 366  }
+07/24/13 13:10:51 3065064336   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+07/24/13 13:10:51 3065064336   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
+07/24/13 13:10:51 3065064336   FINEST    x4a currentEnergy = 12661.927734  {src/ConsoleService.cxx 485  }
+07/24/13 13:10:51 3065064336   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98b97c8) {src/DcsMessageManager.cxx 191  }
+07/24/13 13:10:51 3086044048   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+07/24/13 13:10:51 3086044048   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+07/24/13 13:10:51 3086044048   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+07/24/13 13:10:51 3086044048   FINEST    send message done {src/DcsMessageHandler.cxx 323  }
+07/24/13 13:10:51 3086044048   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98ba188) {src/DcsMessageManager.cxx 191  }
+07/24/13 13:10:51 3086044048   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+07/24/13 13:12:14 3075554192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+07/24/13 13:12:14 3075554192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+07/24/13 13:12:14 3075554192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98ba188 {src/DcsMessageManager.cxx 168  }
+07/24/13 13:12:14 3075554192   FINEST    Receiving: 'stoh_start_motor_move energy 12661.927730' {src/DcsMessageHandler.cxx 250  }
+07/24/13 13:12:14 3075554192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
+07/24/13 13:12:14 3075554192   FINEST    match motor0 {src/ConsoleService.cxx 256  }
+07/24/13 13:12:14 3075554192   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
+07/24/13 13:12:14 3075554192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+07/24/13 13:12:14 3065064336   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
+07/24/13 13:12:14 3065064336   FINEST    x4a energy GetMotorPosition(): 12661.927730 {src/ConsoleService.cxx 449  }
+07/24/13 13:12:14 3065064336   FINEST    x4a energy moved to 12661.927730  {src/ConsoleService.cxx 464  }
+07/24/13 13:12:15 3065064336   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98b97c8 {src/DcsMessageManager.cxx 168  }
+07/24/13 13:12:15 3065064336   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 12661.92773 normal ) {src/ConsoleService.cxx 366  }
+07/24/13 13:12:15 3065064336   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+07/24/13 13:12:15 3065064336   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
+07/24/13 13:12:15 3065064336   FINEST    x4a currentEnergy = 12661.927734  {src/ConsoleService.cxx 485  }
+07/24/13 13:12:15 3065064336   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98ba188) {src/DcsMessageManager.cxx 191  }
+07/24/13 13:12:15 3086044048   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+07/24/13 13:12:15 3086044048   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+07/24/13 13:12:15 3086044048   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+07/24/13 13:12:15 3086044048   FINEST    send message done {src/DcsMessageHandler.cxx 323  }
+07/24/13 13:12:15 3086044048   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98b97c8) {src/DcsMessageManager.cxx 191  }
+07/24/13 13:12:15 3086044048   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+07/24/13 13:12:15 3075554192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+07/24/13 13:12:15 3075554192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+07/24/13 13:12:15 3075554192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98b97c8 {src/DcsMessageManager.cxx 168  }
+07/24/13 13:12:15 3075554192   FINEST    Receiving: 'stoh_start_motor_move energy 12661.790000' {src/DcsMessageHandler.cxx 250  }
+07/24/13 13:12:15 3075554192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
+07/24/13 13:12:15 3075554192   FINEST    match motor0 {src/ConsoleService.cxx 256  }
+07/24/13 13:12:15 3065064336   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
+07/24/13 13:12:15 3065064336   FINEST    x4a energy GetMotorPosition(): 12661.790000 {src/ConsoleService.cxx 449  }
+07/24/13 13:12:15 3075554192   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
+07/24/13 13:12:15 3075554192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+07/24/13 13:12:15 3065064336   FINEST    x4a energy moved to 12661.790000  {src/ConsoleService.cxx 464  }
+07/24/13 13:12:15 3065064336   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98ba188 {src/DcsMessageManager.cxx 168  }
+07/24/13 13:12:15 3065064336   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 12661.92773 normal ) {src/ConsoleService.cxx 366  }
+07/24/13 13:12:15 3065064336   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+07/24/13 13:12:15 3065064336   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
+07/24/13 13:12:15 3065064336   FINEST    x4a currentEnergy = 12661.927734  {src/ConsoleService.cxx 485  }
+07/24/13 13:12:15 3065064336   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98b97c8) {src/DcsMessageManager.cxx 191  }
+07/24/13 13:12:15 3086044048   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+07/24/13 13:12:15 3086044048   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+07/24/13 13:12:15 3086044048   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+07/24/13 13:12:15 3086044048   FINEST    send message done {src/DcsMessageHandler.cxx 323  }
+07/24/13 13:12:15 3086044048   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98ba188) {src/DcsMessageManager.cxx 191  }
+07/24/13 13:12:15 3086044048   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+07/24/13 13:15:40 3075554192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+07/24/13 13:15:40 3075554192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+07/24/13 13:15:40 3075554192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98ba188 {src/DcsMessageManager.cxx 168  }
+07/24/13 13:15:40 3075554192   FINEST    Receiving: 'stoh_start_motor_move energy 12661.927730' {src/DcsMessageHandler.cxx 250  }
+07/24/13 13:15:40 3075554192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
+07/24/13 13:15:40 3075554192   FINEST    match motor0 {src/ConsoleService.cxx 256  }
+07/24/13 13:15:40 3075554192   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
+07/24/13 13:15:40 3075554192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+07/24/13 13:15:40 3065064336   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
+07/24/13 13:15:40 3065064336   FINEST    x4a energy GetMotorPosition(): 12661.927730 {src/ConsoleService.cxx 449  }
+07/24/13 13:15:41 3065064336   FINEST    x4a energy moved to 12661.927730  {src/ConsoleService.cxx 464  }
+07/24/13 13:15:41 3065064336   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98b97c8 {src/DcsMessageManager.cxx 168  }
+07/24/13 13:15:41 3065064336   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 12662.06738 normal ) {src/ConsoleService.cxx 366  }
+07/24/13 13:15:41 3065064336   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+07/24/13 13:15:41 3065064336   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
+07/24/13 13:15:41 3065064336   FINEST    x4a currentEnergy = 12662.067383  {src/ConsoleService.cxx 485  }
+07/24/13 13:15:41 3065064336   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98ba188) {src/DcsMessageManager.cxx 191  }
+07/24/13 13:15:41 3086044048   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+07/24/13 13:15:41 3086044048   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+07/24/13 13:15:41 3086044048   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+07/24/13 13:15:41 3086044048   FINEST    send message done {src/DcsMessageHandler.cxx 323  }
+07/24/13 13:15:41 3086044048   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98b97c8) {src/DcsMessageManager.cxx 191  }
+07/24/13 13:15:41 3086044048   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+07/24/13 13:15:41 3075554192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+07/24/13 13:15:41 3075554192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+07/24/13 13:15:41 3075554192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98b97c8 {src/DcsMessageManager.cxx 168  }
+07/24/13 13:15:41 3075554192   FINEST    Receiving: 'stoh_start_motor_move energy 12661.790000' {src/DcsMessageHandler.cxx 250  }
+07/24/13 13:15:41 3075554192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
+07/24/13 13:15:41 3075554192   FINEST    match motor0 {src/ConsoleService.cxx 256  }
+07/24/13 13:15:41 3075554192   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
+07/24/13 13:15:41 3075554192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+07/24/13 13:15:41 3065064336   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
+07/24/13 13:15:41 3065064336   FINEST    x4a energy GetMotorPosition(): 12661.790000 {src/ConsoleService.cxx 449  }
+07/24/13 13:15:41 3065064336   FINEST    x4a energy moved to 12661.790000  {src/ConsoleService.cxx 464  }
+07/24/13 13:15:42 3065064336   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98ba188 {src/DcsMessageManager.cxx 168  }
+07/24/13 13:15:42 3065064336   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 12661.92773 normal ) {src/ConsoleService.cxx 366  }
+07/24/13 13:15:42 3065064336   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+07/24/13 13:15:42 3065064336   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
+07/24/13 13:15:42 3065064336   FINEST    x4a currentEnergy = 12661.927734  {src/ConsoleService.cxx 485  }
+07/24/13 13:15:42 3065064336   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98b97c8) {src/DcsMessageManager.cxx 191  }
+07/24/13 13:15:42 3086044048   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+07/24/13 13:15:42 3086044048   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+07/24/13 13:15:42 3086044048   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+07/24/13 13:15:42 3086044048   FINEST    send message done {src/DcsMessageHandler.cxx 323  }
+07/24/13 13:15:42 3086044048   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98ba188) {src/DcsMessageManager.cxx 191  }
+07/24/13 13:15:42 3086044048   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+07/24/13 13:17:46 3075554192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+07/24/13 13:17:46 3075554192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+07/24/13 13:17:46 3075554192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98ba188 {src/DcsMessageManager.cxx 168  }
+07/24/13 13:17:46 3075554192   FINEST    Receiving: 'stoh_start_motor_move energy 12661.927730' {src/DcsMessageHandler.cxx 250  }
+07/24/13 13:17:46 3075554192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
+07/24/13 13:17:46 3075554192   FINEST    match motor0 {src/ConsoleService.cxx 256  }
+07/24/13 13:17:46 3075554192   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
+07/24/13 13:17:46 3075554192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+07/24/13 13:17:46 3065064336   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
+07/24/13 13:17:46 3065064336   FINEST    x4a energy GetMotorPosition(): 12661.927730 {src/ConsoleService.cxx 449  }
+07/24/13 13:17:46 3065064336   FINEST    x4a energy moved to 12661.927730  {src/ConsoleService.cxx 464  }
+07/24/13 13:17:46 3065064336   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98b97c8 {src/DcsMessageManager.cxx 168  }
+07/24/13 13:17:46 3065064336   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 12662.06738 normal ) {src/ConsoleService.cxx 366  }
+07/24/13 13:17:46 3065064336   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+07/24/13 13:17:46 3065064336   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
+07/24/13 13:17:46 3065064336   FINEST    x4a currentEnergy = 12662.067383  {src/ConsoleService.cxx 485  }
+07/24/13 13:17:46 3065064336   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98ba188) {src/DcsMessageManager.cxx 191  }
+07/24/13 13:17:46 3086044048   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+07/24/13 13:17:46 3086044048   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+07/24/13 13:17:46 3086044048   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+07/24/13 13:17:46 3086044048   FINEST    send message done {src/DcsMessageHandler.cxx 323  }
+07/24/13 13:17:46 3086044048   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98b97c8) {src/DcsMessageManager.cxx 191  }
+07/24/13 13:17:46 3086044048   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+07/24/13 13:17:47 3075554192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+07/24/13 13:17:47 3075554192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+07/24/13 13:17:47 3075554192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98b97c8 {src/DcsMessageManager.cxx 168  }
+07/24/13 13:17:47 3075554192   FINEST    Receiving: 'stoh_start_motor_move energy 12661.790000' {src/DcsMessageHandler.cxx 250  }
+07/24/13 13:17:47 3075554192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
+07/24/13 13:17:47 3075554192   FINEST    match motor0 {src/ConsoleService.cxx 256  }
+07/24/13 13:17:47 3075554192   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
+07/24/13 13:17:47 3075554192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+07/24/13 13:17:47 3065064336   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
+07/24/13 13:17:47 3065064336   FINEST    x4a energy GetMotorPosition(): 12661.790000 {src/ConsoleService.cxx 449  }
+07/24/13 13:17:47 3065064336   FINEST    x4a energy moved to 12661.790000  {src/ConsoleService.cxx 464  }
+07/24/13 13:17:47 3065064336   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98ba188 {src/DcsMessageManager.cxx 168  }
+07/24/13 13:17:47 3065064336   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 12661.92773 normal ) {src/ConsoleService.cxx 366  }
+07/24/13 13:17:47 3065064336   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+07/24/13 13:17:47 3065064336   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
+07/24/13 13:17:47 3065064336   FINEST    x4a currentEnergy = 12661.927734  {src/ConsoleService.cxx 485  }
+07/24/13 13:17:47 3065064336   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98b97c8) {src/DcsMessageManager.cxx 191  }
+07/24/13 13:17:47 3086044048   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+07/24/13 13:17:47 3086044048   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+07/24/13 13:17:47 3086044048   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+07/24/13 13:17:47 3086044048   FINEST    send message done {src/DcsMessageHandler.cxx 323  }
+07/24/13 13:17:47 3086044048   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98ba188) {src/DcsMessageManager.cxx 191  }
+07/24/13 13:17:47 3086044048   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+07/24/13 13:20:28 3075554192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+07/24/13 13:20:28 3075554192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+07/24/13 13:20:28 3075554192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98ba188 {src/DcsMessageManager.cxx 168  }
+07/24/13 13:20:28 3075554192   FINEST    Receiving: 'stoh_start_motor_move energy 12661.927730' {src/DcsMessageHandler.cxx 250  }
+07/24/13 13:20:28 3075554192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
+07/24/13 13:20:28 3075554192   FINEST    match motor0 {src/ConsoleService.cxx 256  }
+07/24/13 13:20:28 3075554192   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
+07/24/13 13:20:28 3075554192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+07/24/13 13:20:28 3065064336   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
+07/24/13 13:20:28 3065064336   FINEST    x4a energy GetMotorPosition(): 12661.927730 {src/ConsoleService.cxx 449  }
+07/24/13 13:20:29 3065064336   FINEST    x4a energy moved to 12661.927730  {src/ConsoleService.cxx 464  }
+07/24/13 13:20:29 3065064336   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98b97c8 {src/DcsMessageManager.cxx 168  }
+07/24/13 13:20:29 3065064336   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 12662.06738 normal ) {src/ConsoleService.cxx 366  }
+07/24/13 13:20:29 3065064336   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+07/24/13 13:20:29 3065064336   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
+07/24/13 13:20:29 3065064336   FINEST    x4a currentEnergy = 12662.067383  {src/ConsoleService.cxx 485  }
+07/24/13 13:20:29 3065064336   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98ba188) {src/DcsMessageManager.cxx 191  }
+07/24/13 13:20:29 3086044048   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+07/24/13 13:20:29 3086044048   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+07/24/13 13:20:29 3086044048   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+07/24/13 13:20:29 3086044048   FINEST    send message done {src/DcsMessageHandler.cxx 323  }
+07/24/13 13:20:29 3086044048   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98b97c8) {src/DcsMessageManager.cxx 191  }
+07/24/13 13:20:29 3086044048   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+07/24/13 13:20:29 3075554192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+07/24/13 13:20:29 3075554192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+07/24/13 13:20:29 3075554192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98b97c8 {src/DcsMessageManager.cxx 168  }
+07/24/13 13:20:29 3075554192   FINEST    Receiving: 'stoh_start_motor_move energy 12661.790000' {src/DcsMessageHandler.cxx 250  }
+07/24/13 13:20:29 3075554192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
+07/24/13 13:20:29 3075554192   FINEST    match motor0 {src/ConsoleService.cxx 256  }
+07/24/13 13:20:29 3065064336   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
+07/24/13 13:20:29 3065064336   FINEST    x4a energy GetMotorPosition(): 12661.790000 {src/ConsoleService.cxx 449  }
+07/24/13 13:20:29 3075554192   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
+07/24/13 13:20:29 3075554192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+07/24/13 13:20:30 3065064336   FINEST    x4a energy moved to 12661.790000  {src/ConsoleService.cxx 464  }
+07/24/13 13:20:30 3065064336   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98ba188 {src/DcsMessageManager.cxx 168  }
+07/24/13 13:20:30 3065064336   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 12661.92773 normal ) {src/ConsoleService.cxx 366  }
+07/24/13 13:20:30 3065064336   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+07/24/13 13:20:30 3065064336   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
+07/24/13 13:20:30 3065064336   FINEST    x4a currentEnergy = 12661.927734  {src/ConsoleService.cxx 485  }
+07/24/13 13:20:30 3065064336   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98b97c8) {src/DcsMessageManager.cxx 191  }
+07/24/13 13:20:30 3086044048   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+07/24/13 13:20:30 3086044048   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+07/24/13 13:20:30 3086044048   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+07/24/13 13:20:30 3086044048   FINEST    send message done {src/DcsMessageHandler.cxx 323  }
+07/24/13 13:20:30 3086044048   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98ba188) {src/DcsMessageManager.cxx 191  }
+07/24/13 13:20:30 3086044048   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+07/24/13 14:53:16 3075554192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+07/24/13 14:53:16 3075554192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+07/24/13 14:53:16 3075554192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98ba188 {src/DcsMessageManager.cxx 168  }
+07/24/13 14:53:16 3075554192   FINEST    Receiving: 'stoh_start_motor_move energy 12661.927730' {src/DcsMessageHandler.cxx 250  }
+07/24/13 14:53:16 3075554192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
+07/24/13 14:53:16 3075554192   FINEST    match motor0 {src/ConsoleService.cxx 256  }
+07/24/13 14:53:16 3075554192   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
+07/24/13 14:53:16 3075554192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+07/24/13 14:53:16 3065064336   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
+07/24/13 14:53:16 3065064336   FINEST    x4a energy GetMotorPosition(): 12661.927730 {src/ConsoleService.cxx 449  }
+07/24/13 14:53:16 3065064336   FINEST    x4a energy moved to 12661.927730  {src/ConsoleService.cxx 464  }
+07/24/13 14:53:16 3065064336   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98b97c8 {src/DcsMessageManager.cxx 168  }
+07/24/13 14:53:16 3065064336   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 12662.06738 normal ) {src/ConsoleService.cxx 366  }
+07/24/13 14:53:16 3065064336   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+07/24/13 14:53:16 3065064336   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
+07/24/13 14:53:16 3065064336   FINEST    x4a currentEnergy = 12662.067383  {src/ConsoleService.cxx 485  }
+07/24/13 14:53:16 3065064336   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98ba188) {src/DcsMessageManager.cxx 191  }
+07/24/13 14:53:16 3086044048   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+07/24/13 14:53:16 3086044048   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+07/24/13 14:53:16 3086044048   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+07/24/13 14:53:16 3086044048   FINEST    send message done {src/DcsMessageHandler.cxx 323  }
+07/24/13 14:53:16 3086044048   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98b97c8) {src/DcsMessageManager.cxx 191  }
+07/24/13 14:53:16 3086044048   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+07/24/13 14:53:17 3075554192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+07/24/13 14:53:17 3075554192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+07/24/13 14:53:17 3075554192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98b97c8 {src/DcsMessageManager.cxx 168  }
+07/24/13 14:53:17 3075554192   FINEST    Receiving: 'stoh_start_motor_move energy 12661.930000' {src/DcsMessageHandler.cxx 250  }
+07/24/13 14:53:17 3075554192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
+07/24/13 14:53:17 3075554192   FINEST    match motor0 {src/ConsoleService.cxx 256  }
+07/24/13 14:53:17 3075554192   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
+07/24/13 14:53:17 3075554192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+07/24/13 14:53:17 3065064336   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
+07/24/13 14:53:17 3065064336   FINEST    x4a energy GetMotorPosition(): 12661.930000 {src/ConsoleService.cxx 449  }
+07/24/13 14:53:17 3065064336   FINEST    x4a energy moved to 12661.930000  {src/ConsoleService.cxx 464  }
+07/24/13 14:53:17 3065064336   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98ba188 {src/DcsMessageManager.cxx 168  }
+07/24/13 14:53:17 3065064336   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 12662.06738 normal ) {src/ConsoleService.cxx 366  }
+07/24/13 14:53:17 3065064336   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+07/24/13 14:53:17 3065064336   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
+07/24/13 14:53:17 3065064336   FINEST    x4a currentEnergy = 12662.067383  {src/ConsoleService.cxx 485  }
+07/24/13 14:53:17 3065064336   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98b97c8) {src/DcsMessageManager.cxx 191  }
+07/24/13 14:53:17 3086044048   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+07/24/13 14:53:17 3086044048   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+07/24/13 14:53:17 3086044048   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+07/24/13 14:53:17 3086044048   FINEST    send message done {src/DcsMessageHandler.cxx 323  }
+07/24/13 14:53:17 3086044048   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98ba188) {src/DcsMessageManager.cxx 191  }
+07/24/13 14:53:17 3086044048   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+07/24/13 14:55:01 3075554192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+07/24/13 14:55:01 3075554192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+07/24/13 14:55:01 3075554192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98ba188 {src/DcsMessageManager.cxx 168  }
+07/24/13 14:55:01 3075554192   FINEST    Receiving: 'stoh_start_motor_move energy 12662.067380' {src/DcsMessageHandler.cxx 250  }
+07/24/13 14:55:01 3075554192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
+07/24/13 14:55:01 3075554192   FINEST    match motor0 {src/ConsoleService.cxx 256  }
+07/24/13 14:55:01 3075554192   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
+07/24/13 14:55:01 3075554192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+07/24/13 14:55:01 3065064336   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
+07/24/13 14:55:01 3065064336   FINEST    x4a energy GetMotorPosition(): 12662.067380 {src/ConsoleService.cxx 449  }
+07/24/13 14:55:02 3065064336   FINEST    x4a energy moved to 12662.067380  {src/ConsoleService.cxx 464  }
+07/24/13 14:55:02 3065064336   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98b97c8 {src/DcsMessageManager.cxx 168  }
+07/24/13 14:55:02 3065064336   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 12662.20703 normal ) {src/ConsoleService.cxx 366  }
+07/24/13 14:55:02 3065064336   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+07/24/13 14:55:02 3065064336   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
+07/24/13 14:55:02 3065064336   FINEST    x4a currentEnergy = 12662.207031  {src/ConsoleService.cxx 485  }
+07/24/13 14:55:02 3065064336   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98ba188) {src/DcsMessageManager.cxx 191  }
+07/24/13 14:55:02 3086044048   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+07/24/13 14:55:02 3086044048   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+07/24/13 14:55:02 3086044048   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+07/24/13 14:55:02 3086044048   FINEST    send message done {src/DcsMessageHandler.cxx 323  }
+07/24/13 14:55:02 3086044048   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98b97c8) {src/DcsMessageManager.cxx 191  }
+07/24/13 14:55:02 3086044048   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+07/24/13 14:55:02 3075554192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+07/24/13 14:55:02 3075554192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+07/24/13 14:55:02 3075554192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98b97c8 {src/DcsMessageManager.cxx 168  }
+07/24/13 14:55:02 3075554192   FINEST    Receiving: 'stoh_start_motor_move energy 12661.930000' {src/DcsMessageHandler.cxx 250  }
+07/24/13 14:55:02 3075554192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
+07/24/13 14:55:02 3075554192   FINEST    match motor0 {src/ConsoleService.cxx 256  }
+07/24/13 14:55:02 3075554192   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
+07/24/13 14:55:02 3075554192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+07/24/13 14:55:02 3065064336   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
+07/24/13 14:55:02 3065064336   FINEST    x4a energy GetMotorPosition(): 12661.930000 {src/ConsoleService.cxx 449  }
+07/24/13 14:55:03 3065064336   FINEST    x4a energy moved to 12661.930000  {src/ConsoleService.cxx 464  }
+07/24/13 14:55:03 3065064336   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98ba188 {src/DcsMessageManager.cxx 168  }
+07/24/13 14:55:03 3065064336   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 12662.06738 normal ) {src/ConsoleService.cxx 366  }
+07/24/13 14:55:03 3065064336   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+07/24/13 14:55:03 3065064336   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
+07/24/13 14:55:03 3065064336   FINEST    x4a currentEnergy = 12662.067383  {src/ConsoleService.cxx 485  }
+07/24/13 14:55:03 3065064336   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98b97c8) {src/DcsMessageManager.cxx 191  }
+07/24/13 14:55:03 3086044048   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+07/24/13 14:55:03 3086044048   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+07/24/13 14:55:03 3086044048   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+07/24/13 14:55:03 3086044048   FINEST    send message done {src/DcsMessageHandler.cxx 323  }
+07/24/13 14:55:03 3086044048   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98ba188) {src/DcsMessageManager.cxx 191  }
+07/24/13 14:55:03 3086044048   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+07/24/13 14:55:56 3075554192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+07/24/13 14:55:56 3075554192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+07/24/13 14:55:56 3075554192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98ba188 {src/DcsMessageManager.cxx 168  }
+07/24/13 14:55:56 3075554192   FINEST    Receiving: 'stoh_start_motor_move energy 12662.067380' {src/DcsMessageHandler.cxx 250  }
+07/24/13 14:55:56 3075554192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
+07/24/13 14:55:56 3075554192   FINEST    match motor0 {src/ConsoleService.cxx 256  }
+07/24/13 14:55:56 3075554192   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
+07/24/13 14:55:56 3075554192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+07/24/13 14:55:56 3065064336   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
+07/24/13 14:55:56 3065064336   FINEST    x4a energy GetMotorPosition(): 12662.067380 {src/ConsoleService.cxx 449  }
+07/24/13 14:55:57 3065064336   FINEST    x4a energy moved to 12662.067380  {src/ConsoleService.cxx 464  }
+07/24/13 14:55:57 3065064336   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98b97c8 {src/DcsMessageManager.cxx 168  }
+07/24/13 14:55:57 3065064336   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 12662.20703 normal ) {src/ConsoleService.cxx 366  }
+07/24/13 14:55:57 3065064336   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+07/24/13 14:55:57 3065064336   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
+07/24/13 14:55:57 3065064336   FINEST    x4a currentEnergy = 12662.207031  {src/ConsoleService.cxx 485  }
+07/24/13 14:55:57 3065064336   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98ba188) {src/DcsMessageManager.cxx 191  }
+07/24/13 14:55:57 3086044048   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+07/24/13 14:55:57 3086044048   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+07/24/13 14:55:57 3086044048   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+07/24/13 14:55:57 3086044048   FINEST    send message done {src/DcsMessageHandler.cxx 323  }
+07/24/13 14:55:57 3086044048   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98b97c8) {src/DcsMessageManager.cxx 191  }
+07/24/13 14:55:57 3086044048   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+07/24/13 14:55:57 3075554192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+07/24/13 14:55:57 3075554192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+07/24/13 14:55:57 3075554192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98b97c8 {src/DcsMessageManager.cxx 168  }
+07/24/13 14:55:57 3075554192   FINEST    Receiving: 'stoh_start_motor_move energy 12661.930000' {src/DcsMessageHandler.cxx 250  }
+07/24/13 14:55:57 3075554192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
+07/24/13 14:55:57 3075554192   FINEST    match motor0 {src/ConsoleService.cxx 256  }
+07/24/13 14:55:57 3075554192   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
+07/24/13 14:55:57 3075554192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+07/24/13 14:55:57 3065064336   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
+07/24/13 14:55:57 3065064336   FINEST    x4a energy GetMotorPosition(): 12661.930000 {src/ConsoleService.cxx 449  }
+07/24/13 14:55:57 3065064336   FINEST    x4a energy moved to 12661.930000  {src/ConsoleService.cxx 464  }
+07/24/13 14:55:58 3065064336   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98ba188 {src/DcsMessageManager.cxx 168  }
+07/24/13 14:55:58 3065064336   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 12662.06738 normal ) {src/ConsoleService.cxx 366  }
+07/24/13 14:55:58 3065064336   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+07/24/13 14:55:58 3065064336   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
+07/24/13 14:55:58 3065064336   FINEST    x4a currentEnergy = 12662.067383  {src/ConsoleService.cxx 485  }
+07/24/13 14:55:58 3065064336   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98b97c8) {src/DcsMessageManager.cxx 191  }
+07/24/13 14:55:58 3086044048   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+07/24/13 14:55:58 3086044048   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+07/24/13 14:55:58 3086044048   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+07/24/13 14:55:58 3086044048   FINEST    send message done {src/DcsMessageHandler.cxx 323  }
+07/24/13 14:55:58 3086044048   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98ba188) {src/DcsMessageManager.cxx 191  }
+07/24/13 14:55:58 3086044048   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+07/24/13 14:56:30 3075554192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+07/24/13 14:56:30 3075554192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+07/24/13 14:56:30 3075554192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98ba188 {src/DcsMessageManager.cxx 168  }
+07/24/13 14:56:30 3075554192   FINEST    Receiving: 'stoh_start_motor_move energy 12662.067380' {src/DcsMessageHandler.cxx 250  }
+07/24/13 14:56:30 3075554192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
+07/24/13 14:56:30 3075554192   FINEST    match motor0 {src/ConsoleService.cxx 256  }
+07/24/13 14:56:30 3075554192   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
+07/24/13 14:56:30 3075554192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+07/24/13 14:56:30 3065064336   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
+07/24/13 14:56:30 3065064336   FINEST    x4a energy GetMotorPosition(): 12662.067380 {src/ConsoleService.cxx 449  }
+07/24/13 14:56:31 3065064336   FINEST    x4a energy moved to 12662.067380  {src/ConsoleService.cxx 464  }
+07/24/13 14:56:31 3065064336   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98b97c8 {src/DcsMessageManager.cxx 168  }
+07/24/13 14:56:31 3065064336   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 12662.06738 normal ) {src/ConsoleService.cxx 366  }
+07/24/13 14:56:31 3065064336   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+07/24/13 14:56:31 3065064336   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
+07/24/13 14:56:31 3065064336   FINEST    x4a currentEnergy = 12662.067383  {src/ConsoleService.cxx 485  }
+07/24/13 14:56:31 3065064336   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98ba188) {src/DcsMessageManager.cxx 191  }
+07/24/13 14:56:31 3086044048   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+07/24/13 14:56:31 3086044048   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+07/24/13 14:56:31 3086044048   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+07/24/13 14:56:31 3086044048   FINEST    send message done {src/DcsMessageHandler.cxx 323  }
+07/24/13 14:56:31 3086044048   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98b97c8) {src/DcsMessageManager.cxx 191  }
+07/24/13 14:56:31 3086044048   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+07/24/13 14:56:31 3075554192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+07/24/13 14:56:31 3075554192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+07/24/13 14:56:31 3075554192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98b97c8 {src/DcsMessageManager.cxx 168  }
+07/24/13 14:56:31 3075554192   FINEST    Receiving: 'stoh_start_motor_move energy 12661.930000' {src/DcsMessageHandler.cxx 250  }
+07/24/13 14:56:31 3075554192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
+07/24/13 14:56:31 3075554192   FINEST    match motor0 {src/ConsoleService.cxx 256  }
+07/24/13 14:56:31 3075554192   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
+07/24/13 14:56:31 3075554192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+07/24/13 14:56:31 3065064336   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
+07/24/13 14:56:31 3065064336   FINEST    x4a energy GetMotorPosition(): 12661.930000 {src/ConsoleService.cxx 449  }
+07/24/13 14:56:32 3065064336   FINEST    x4a energy moved to 12661.930000  {src/ConsoleService.cxx 464  }
+07/24/13 14:56:32 3065064336   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98ba188 {src/DcsMessageManager.cxx 168  }
+07/24/13 14:56:32 3065064336   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 12662.06738 normal ) {src/ConsoleService.cxx 366  }
+07/24/13 14:56:32 3065064336   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+07/24/13 14:56:32 3065064336   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
+07/24/13 14:56:32 3065064336   FINEST    x4a currentEnergy = 12662.067383  {src/ConsoleService.cxx 485  }
+07/24/13 14:56:32 3065064336   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98b97c8) {src/DcsMessageManager.cxx 191  }
+07/24/13 14:56:32 3086044048   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+07/24/13 14:56:32 3086044048   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+07/24/13 14:56:32 3086044048   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+07/24/13 14:56:32 3086044048   FINEST    send message done {src/DcsMessageHandler.cxx 323  }
+07/24/13 14:56:32 3086044048   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98ba188) {src/DcsMessageManager.cxx 191  }
+07/24/13 14:56:32 3086044048   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+07/24/13 14:57:06 3075554192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+07/24/13 14:57:06 3075554192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+07/24/13 14:57:06 3075554192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98ba188 {src/DcsMessageManager.cxx 168  }
+07/24/13 14:57:06 3075554192   FINEST    Receiving: 'stoh_start_motor_move energy 12662.067380' {src/DcsMessageHandler.cxx 250  }
+07/24/13 14:57:06 3075554192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
+07/24/13 14:57:06 3075554192   FINEST    match motor0 {src/ConsoleService.cxx 256  }
+07/24/13 14:57:06 3075554192   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
+07/24/13 14:57:06 3075554192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+07/24/13 14:57:06 3065064336   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
+07/24/13 14:57:06 3065064336   FINEST    x4a energy GetMotorPosition(): 12662.067380 {src/ConsoleService.cxx 449  }
+07/24/13 14:57:07 3065064336   FINEST    x4a energy moved to 12662.067380  {src/ConsoleService.cxx 464  }
+07/24/13 14:57:07 3065064336   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98b97c8 {src/DcsMessageManager.cxx 168  }
+07/24/13 14:57:07 3065064336   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 12662.20703 normal ) {src/ConsoleService.cxx 366  }
+07/24/13 14:57:07 3065064336   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+07/24/13 14:57:07 3065064336   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
+07/24/13 14:57:07 3065064336   FINEST    x4a currentEnergy = 12662.207031  {src/ConsoleService.cxx 485  }
+07/24/13 14:57:07 3065064336   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98ba188) {src/DcsMessageManager.cxx 191  }
+07/24/13 14:57:07 3086044048   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+07/24/13 14:57:07 3086044048   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+07/24/13 14:57:07 3086044048   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+07/24/13 14:57:07 3086044048   FINEST    send message done {src/DcsMessageHandler.cxx 323  }
+07/24/13 14:57:07 3086044048   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98b97c8) {src/DcsMessageManager.cxx 191  }
+07/24/13 14:57:07 3086044048   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+07/24/13 14:57:07 3075554192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+07/24/13 14:57:07 3075554192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+07/24/13 14:57:07 3075554192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98b97c8 {src/DcsMessageManager.cxx 168  }
+07/24/13 14:57:07 3075554192   FINEST    Receiving: 'stoh_start_motor_move energy 12661.930000' {src/DcsMessageHandler.cxx 250  }
+07/24/13 14:57:07 3075554192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
+07/24/13 14:57:07 3075554192   FINEST    match motor0 {src/ConsoleService.cxx 256  }
+07/24/13 14:57:07 3075554192   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
+07/24/13 14:57:07 3075554192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+07/24/13 14:57:07 3065064336   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
+07/24/13 14:57:07 3065064336   FINEST    x4a energy GetMotorPosition(): 12661.930000 {src/ConsoleService.cxx 449  }
+07/24/13 14:57:08 3065064336   FINEST    x4a energy moved to 12661.930000  {src/ConsoleService.cxx 464  }
+07/24/13 14:57:08 3065064336   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98ba188 {src/DcsMessageManager.cxx 168  }
+07/24/13 14:57:08 3065064336   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 12662.06738 normal ) {src/ConsoleService.cxx 366  }
+07/24/13 14:57:08 3065064336   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+07/24/13 14:57:08 3065064336   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
+07/24/13 14:57:08 3065064336   FINEST    x4a currentEnergy = 12662.067383  {src/ConsoleService.cxx 485  }
+07/24/13 14:57:08 3065064336   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98b97c8) {src/DcsMessageManager.cxx 191  }
+07/24/13 14:57:08 3086044048   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+07/24/13 14:57:08 3086044048   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+07/24/13 14:57:08 3086044048   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+07/24/13 14:57:08 3086044048   FINEST    send message done {src/DcsMessageHandler.cxx 323  }
+07/24/13 14:57:08 3086044048   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98ba188) {src/DcsMessageManager.cxx 191  }
+07/24/13 14:57:08 3086044048   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+07/24/13 15:05:18 3075554192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+07/24/13 15:05:18 3075554192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+07/24/13 15:05:18 3075554192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98ba188 {src/DcsMessageManager.cxx 168  }
+07/24/13 15:05:18 3075554192   FINEST    Receiving: 'stoh_start_motor_move energy 12659.300000' {src/DcsMessageHandler.cxx 250  }
+07/24/13 15:05:18 3075554192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
+07/24/13 15:05:18 3075554192   FINEST    match motor0 {src/ConsoleService.cxx 256  }
+07/24/13 15:05:18 3075554192   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
+07/24/13 15:05:18 3075554192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+07/24/13 15:05:18 3065064336   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
+07/24/13 15:05:18 3065064336   FINEST    x4a energy GetMotorPosition(): 12659.300000 {src/ConsoleService.cxx 449  }
+07/24/13 15:05:20 3065064336   FINEST    x4a energy moved to 12659.300000  {src/ConsoleService.cxx 464  }
+07/24/13 15:05:20 3065064336   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98b97c8 {src/DcsMessageManager.cxx 168  }
+07/24/13 15:05:20 3065064336   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 12659.69141 normal ) {src/ConsoleService.cxx 366  }
+07/24/13 15:05:20 3065064336   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+07/24/13 15:05:20 3086044048   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+07/24/13 15:05:20 3086044048   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+07/24/13 15:05:20 3086044048   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+07/24/13 15:05:20 3086044048   FINEST    send message done {src/DcsMessageHandler.cxx 323  }
+07/24/13 15:05:20 3086044048   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98b97c8) {src/DcsMessageManager.cxx 191  }
+07/24/13 15:05:20 3086044048   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+07/24/13 15:05:20 3065064336   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
+07/24/13 15:05:20 3065064336   FINEST    x4a currentEnergy = 12659.691406  {src/ConsoleService.cxx 485  }
+07/24/13 15:05:20 3065064336   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98ba188) {src/DcsMessageManager.cxx 191  }
+07/24/13 15:06:11 3075554192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+07/24/13 15:06:11 3075554192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+07/24/13 15:06:11 3075554192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98ba188 {src/DcsMessageManager.cxx 168  }
+07/24/13 15:06:11 3075554192   FINEST    Receiving: 'stoh_start_motor_move energy 12659.691410' {src/DcsMessageHandler.cxx 250  }
+07/24/13 15:06:11 3075554192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
+07/24/13 15:06:11 3075554192   FINEST    match motor0 {src/ConsoleService.cxx 256  }
+07/24/13 15:06:11 3075554192   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
+07/24/13 15:06:11 3075554192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+07/24/13 15:06:11 3065064336   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
+07/24/13 15:06:11 3065064336   FINEST    x4a energy GetMotorPosition(): 12659.691410 {src/ConsoleService.cxx 449  }
+07/24/13 15:06:11 3065064336   FINEST    x4a energy moved to 12659.691410  {src/ConsoleService.cxx 464  }
+07/24/13 15:06:12 3065064336   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98b97c8 {src/DcsMessageManager.cxx 168  }
+07/24/13 15:06:12 3065064336   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 12659.97168 normal ) {src/ConsoleService.cxx 366  }
+07/24/13 15:06:12 3065064336   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+07/24/13 15:06:12 3065064336   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
+07/24/13 15:06:12 3065064336   FINEST    x4a currentEnergy = 12659.971680  {src/ConsoleService.cxx 485  }
+07/24/13 15:06:12 3065064336   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98ba188) {src/DcsMessageManager.cxx 191  }
+07/24/13 15:06:12 3086044048   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+07/24/13 15:06:12 3086044048   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+07/24/13 15:06:12 3086044048   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+07/24/13 15:06:12 3086044048   FINEST    send message done {src/DcsMessageHandler.cxx 323  }
+07/24/13 15:06:12 3086044048   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98b97c8) {src/DcsMessageManager.cxx 191  }
+07/24/13 15:06:12 3086044048   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+07/24/13 15:06:12 3075554192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+07/24/13 15:06:12 3075554192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+07/24/13 15:06:12 3075554192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98b97c8 {src/DcsMessageManager.cxx 168  }
+07/24/13 15:06:12 3075554192   FINEST    Receiving: 'stoh_start_motor_move energy 12661.930000' {src/DcsMessageHandler.cxx 250  }
+07/24/13 15:06:12 3075554192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
+07/24/13 15:06:12 3075554192   FINEST    match motor0 {src/ConsoleService.cxx 256  }
+07/24/13 15:06:12 3075554192   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
+07/24/13 15:06:12 3075554192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+07/24/13 15:06:12 3065064336   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
+07/24/13 15:06:12 3065064336   FINEST    x4a energy GetMotorPosition(): 12661.930000 {src/ConsoleService.cxx 449  }
+07/24/13 15:06:12 3065064336   FINEST    x4a energy moved to 12661.930000  {src/ConsoleService.cxx 464  }
+07/24/13 15:06:12 3065064336   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98ba188 {src/DcsMessageManager.cxx 168  }
+07/24/13 15:06:12 3065064336   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 12661.78809 normal ) {src/ConsoleService.cxx 366  }
+07/24/13 15:06:12 3065064336   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+07/24/13 15:06:12 3065064336   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
+07/24/13 15:06:12 3065064336   FINEST    x4a currentEnergy = 12661.788086  {src/ConsoleService.cxx 485  }
+07/24/13 15:06:12 3065064336   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98b97c8) {src/DcsMessageManager.cxx 191  }
+07/24/13 15:06:12 3086044048   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+07/24/13 15:06:12 3086044048   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+07/24/13 15:06:12 3086044048   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+07/24/13 15:06:12 3086044048   FINEST    send message done {src/DcsMessageHandler.cxx 323  }
+07/24/13 15:06:12 3086044048   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98ba188) {src/DcsMessageManager.cxx 191  }
+07/24/13 15:06:12 3086044048   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+07/24/13 15:07:28 3075554192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+07/24/13 15:07:28 3075554192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+07/24/13 15:07:28 3075554192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98ba188 {src/DcsMessageManager.cxx 168  }
+07/24/13 15:07:28 3075554192   FINEST    Receiving: 'stoh_start_motor_move energy 12661.788090' {src/DcsMessageHandler.cxx 250  }
+07/24/13 15:07:28 3075554192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
+07/24/13 15:07:28 3075554192   FINEST    match motor0 {src/ConsoleService.cxx 256  }
+07/24/13 15:07:28 3075554192   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
+07/24/13 15:07:28 3075554192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+07/24/13 15:07:28 3065064336   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
+07/24/13 15:07:28 3065064336   FINEST    x4a energy GetMotorPosition(): 12661.788090 {src/ConsoleService.cxx 449  }
+07/24/13 15:07:29 3065064336   FINEST    x4a energy moved to 12661.788090  {src/ConsoleService.cxx 464  }
+07/24/13 15:07:29 3065064336   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98b97c8 {src/DcsMessageManager.cxx 168  }
+07/24/13 15:07:29 3065064336   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 12661.64844 normal ) {src/ConsoleService.cxx 366  }
+07/24/13 15:07:29 3065064336   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+07/24/13 15:07:29 3065064336   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
+07/24/13 15:07:29 3065064336   FINEST    x4a currentEnergy = 12661.648438  {src/ConsoleService.cxx 485  }
+07/24/13 15:07:29 3065064336   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98ba188) {src/DcsMessageManager.cxx 191  }
+07/24/13 15:07:29 3086044048   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+07/24/13 15:07:29 3086044048   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+07/24/13 15:07:29 3086044048   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+07/24/13 15:07:29 3086044048   FINEST    send message done {src/DcsMessageHandler.cxx 323  }
+07/24/13 15:07:29 3086044048   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98b97c8) {src/DcsMessageManager.cxx 191  }
+07/24/13 15:07:29 3086044048   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+07/24/13 15:07:29 3075554192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+07/24/13 15:07:29 3075554192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+07/24/13 15:07:29 3075554192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98b97c8 {src/DcsMessageManager.cxx 168  }
+07/24/13 15:07:29 3075554192   FINEST    Receiving: 'stoh_start_motor_move energy 12661.930000' {src/DcsMessageHandler.cxx 250  }
+07/24/13 15:07:29 3075554192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
+07/24/13 15:07:29 3075554192   FINEST    match motor0 {src/ConsoleService.cxx 256  }
+07/24/13 15:07:29 3075554192   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
+07/24/13 15:07:29 3075554192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+07/24/13 15:07:29 3065064336   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
+07/24/13 15:07:29 3065064336   FINEST    x4a energy GetMotorPosition(): 12661.930000 {src/ConsoleService.cxx 449  }
+07/24/13 15:07:30 3065064336   FINEST    x4a energy moved to 12661.930000  {src/ConsoleService.cxx 464  }
+07/24/13 15:07:30 3065064336   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98ba188 {src/DcsMessageManager.cxx 168  }
+07/24/13 15:07:30 3065064336   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 12661.78809 normal ) {src/ConsoleService.cxx 366  }
+07/24/13 15:07:30 3065064336   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+07/24/13 15:07:30 3065064336   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
+07/24/13 15:07:30 3065064336   FINEST    x4a currentEnergy = 12661.788086  {src/ConsoleService.cxx 485  }
+07/24/13 15:07:30 3065064336   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98b97c8) {src/DcsMessageManager.cxx 191  }
+07/24/13 15:07:30 3086044048   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+07/24/13 15:07:30 3086044048   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+07/24/13 15:07:30 3086044048   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+07/24/13 15:07:30 3086044048   FINEST    send message done {src/DcsMessageHandler.cxx 323  }
+07/24/13 15:07:30 3086044048   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98ba188) {src/DcsMessageManager.cxx 191  }
+07/24/13 15:07:30 3086044048   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+07/24/13 15:11:07 3075554192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+07/24/13 15:11:07 3075554192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+07/24/13 15:11:07 3075554192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98ba188 {src/DcsMessageManager.cxx 168  }
+07/24/13 15:11:07 3075554192   FINEST    Receiving: 'stoh_start_motor_move energy 12661.788090' {src/DcsMessageHandler.cxx 250  }
+07/24/13 15:11:07 3075554192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
+07/24/13 15:11:07 3075554192   FINEST    match motor0 {src/ConsoleService.cxx 256  }
+07/24/13 15:11:07 3075554192   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
+07/24/13 15:11:07 3075554192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+07/24/13 15:11:07 3065064336   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
+07/24/13 15:11:07 3065064336   FINEST    x4a energy GetMotorPosition(): 12661.788090 {src/ConsoleService.cxx 449  }
+07/24/13 15:11:08 3065064336   FINEST    x4a energy moved to 12661.788090  {src/ConsoleService.cxx 464  }
+07/24/13 15:11:08 3065064336   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98b97c8 {src/DcsMessageManager.cxx 168  }
+07/24/13 15:11:08 3065064336   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 12661.78809 normal ) {src/ConsoleService.cxx 366  }
+07/24/13 15:11:08 3065064336   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+07/24/13 15:11:08 3065064336   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
+07/24/13 15:11:08 3065064336   FINEST    x4a currentEnergy = 12661.788086  {src/ConsoleService.cxx 485  }
+07/24/13 15:11:08 3065064336   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98ba188) {src/DcsMessageManager.cxx 191  }
+07/24/13 15:11:08 3086044048   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+07/24/13 15:11:08 3086044048   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+07/24/13 15:11:08 3086044048   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+07/24/13 15:11:08 3086044048   FINEST    send message done {src/DcsMessageHandler.cxx 323  }
+07/24/13 15:11:08 3086044048   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98b97c8) {src/DcsMessageManager.cxx 191  }
+07/24/13 15:11:08 3086044048   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+07/24/13 15:11:08 3075554192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+07/24/13 15:11:08 3075554192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+07/24/13 15:11:08 3075554192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98b97c8 {src/DcsMessageManager.cxx 168  }
+07/24/13 15:11:08 3075554192   FINEST    Receiving: 'stoh_start_motor_move energy 12661.930000' {src/DcsMessageHandler.cxx 250  }
+07/24/13 15:11:08 3075554192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
+07/24/13 15:11:08 3075554192   FINEST    match motor0 {src/ConsoleService.cxx 256  }
+07/24/13 15:11:08 3075554192   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
+07/24/13 15:11:08 3075554192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+07/24/13 15:11:08 3065064336   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
+07/24/13 15:11:08 3065064336   FINEST    x4a energy GetMotorPosition(): 12661.930000 {src/ConsoleService.cxx 449  }
+07/24/13 15:11:08 3065064336   FINEST    x4a energy moved to 12661.930000  {src/ConsoleService.cxx 464  }
+07/24/13 15:11:09 3065064336   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98ba188 {src/DcsMessageManager.cxx 168  }
+07/24/13 15:11:09 3065064336   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 12661.78809 normal ) {src/ConsoleService.cxx 366  }
+07/24/13 15:11:09 3065064336   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+07/24/13 15:11:09 3065064336   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
+07/24/13 15:11:09 3065064336   FINEST    x4a currentEnergy = 12661.788086  {src/ConsoleService.cxx 485  }
+07/24/13 15:11:09 3065064336   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98b97c8) {src/DcsMessageManager.cxx 191  }
+07/24/13 15:11:09 3086044048   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+07/24/13 15:11:09 3086044048   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+07/24/13 15:11:09 3086044048   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+07/24/13 15:11:09 3086044048   FINEST    send message done {src/DcsMessageHandler.cxx 323  }
+07/24/13 15:11:09 3086044048   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98ba188) {src/DcsMessageManager.cxx 191  }
+07/24/13 15:11:09 3086044048   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+07/24/13 15:11:31 3075554192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+07/24/13 15:11:31 3075554192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+07/24/13 15:11:31 3075554192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98ba188 {src/DcsMessageManager.cxx 168  }
+07/24/13 15:11:31 3075554192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 250  }
+07/24/13 15:11:31 3075554192   FINEST    abort all message {src/DcsMessage.cxx 100  }
+07/24/13 15:11:31 3075554192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
+07/24/13 15:11:31 3075554192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
+07/24/13 15:11:31 3075554192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98ba188) {src/DcsMessageManager.cxx 191  }
+07/24/13 15:11:31 3075554192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+07/24/13 15:12:11 3075554192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+07/24/13 15:12:11 3075554192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+07/24/13 15:12:11 3075554192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98ba188 {src/DcsMessageManager.cxx 168  }
+07/24/13 15:12:11 3075554192   FINEST    Receiving: 'stoh_start_motor_move energy 12661.788090' {src/DcsMessageHandler.cxx 250  }
+07/24/13 15:12:11 3075554192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
+07/24/13 15:12:11 3075554192   FINEST    match motor0 {src/ConsoleService.cxx 256  }
+07/24/13 15:12:11 3075554192   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
+07/24/13 15:12:11 3075554192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+07/24/13 15:12:11 3065064336   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
+07/24/13 15:12:11 3065064336   FINEST    x4a energy GetMotorPosition(): 12661.788090 {src/ConsoleService.cxx 449  }
+07/24/13 15:12:11 3065064336   FINEST    x4a energy moved to 12661.788090  {src/ConsoleService.cxx 464  }
+07/24/13 15:12:11 3065064336   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98b97c8 {src/DcsMessageManager.cxx 168  }
+07/24/13 15:12:11 3065064336   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 12661.78809 normal ) {src/ConsoleService.cxx 366  }
+07/24/13 15:12:11 3065064336   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+07/24/13 15:12:11 3065064336   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
+07/24/13 15:12:11 3065064336   FINEST    x4a currentEnergy = 12661.788086  {src/ConsoleService.cxx 485  }
+07/24/13 15:12:11 3065064336   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98ba188) {src/DcsMessageManager.cxx 191  }
+07/24/13 15:12:11 3086044048   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+07/24/13 15:12:11 3086044048   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+07/24/13 15:12:11 3086044048   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+07/24/13 15:12:11 3086044048   FINEST    send message done {src/DcsMessageHandler.cxx 323  }
+07/24/13 15:12:11 3086044048   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98b97c8) {src/DcsMessageManager.cxx 191  }
+07/24/13 15:12:11 3086044048   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+07/24/13 15:12:11 3075554192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+07/24/13 15:12:11 3075554192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+07/24/13 15:12:11 3075554192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98b97c8 {src/DcsMessageManager.cxx 168  }
+07/24/13 15:12:11 3075554192   FINEST    Receiving: 'stoh_start_motor_move energy 12666.300000' {src/DcsMessageHandler.cxx 250  }
+07/24/13 15:12:11 3075554192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
+07/24/13 15:12:11 3075554192   FINEST    match motor0 {src/ConsoleService.cxx 256  }
+07/24/13 15:12:11 3075554192   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
+07/24/13 15:12:11 3075554192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+07/24/13 15:12:11 3065064336   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
+07/24/13 15:12:11 3065064336   FINEST    x4a energy GetMotorPosition(): 12666.300000 {src/ConsoleService.cxx 449  }
+07/24/13 15:12:12 3065064336   FINEST    x4a energy moved to 12666.300000  {src/ConsoleService.cxx 464  }
+07/24/13 15:12:12 3065064336   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98ba188 {src/DcsMessageManager.cxx 168  }
+07/24/13 15:12:12 3065064336   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 12665.70312 normal ) {src/ConsoleService.cxx 366  }
+07/24/13 15:12:12 3065064336   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+07/24/13 15:12:12 3065064336   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
+07/24/13 15:12:12 3065064336   FINEST    x4a currentEnergy = 12665.703125  {src/ConsoleService.cxx 485  }
+07/24/13 15:12:12 3065064336   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98b97c8) {src/DcsMessageManager.cxx 191  }
+07/24/13 15:12:12 3086044048   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+07/24/13 15:12:12 3086044048   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+07/24/13 15:12:12 3086044048   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+07/24/13 15:12:12 3086044048   FINEST    send message done {src/DcsMessageHandler.cxx 323  }
+07/24/13 15:12:12 3086044048   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98ba188) {src/DcsMessageManager.cxx 191  }
+07/24/13 15:12:12 3086044048   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+07/24/13 20:19:02 3075554192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+07/24/13 20:19:02 3075554192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+07/24/13 20:19:02 3075554192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98ba188 {src/DcsMessageManager.cxx 168  }
+07/24/13 20:19:02 3075554192   FINEST    Receiving: 'stoh_start_motor_move energy 12665.703120' {src/DcsMessageHandler.cxx 250  }
+07/24/13 20:19:02 3075554192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
+07/24/13 20:19:02 3075554192   FINEST    match motor0 {src/ConsoleService.cxx 256  }
+07/24/13 20:19:02 3075554192   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
+07/24/13 20:19:02 3075554192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+07/24/13 20:19:02 3065064336   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
+07/24/13 20:19:02 3065064336   FINEST    x4a energy GetMotorPosition(): 12665.703120 {src/ConsoleService.cxx 449  }
+07/24/13 20:19:03 3065064336   FINEST    x4a energy moved to 12665.703120  {src/ConsoleService.cxx 464  }
+07/24/13 20:19:03 3065064336   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98b97c8 {src/DcsMessageManager.cxx 168  }
+07/24/13 20:19:03 3065064336   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 12665.28320 normal ) {src/ConsoleService.cxx 366  }
+07/24/13 20:19:03 3065064336   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+07/24/13 20:19:03 3065064336   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
+07/24/13 20:19:03 3065064336   FINEST    x4a currentEnergy = 12665.283203  {src/ConsoleService.cxx 485  }
+07/24/13 20:19:03 3065064336   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98ba188) {src/DcsMessageManager.cxx 191  }
+07/24/13 20:19:03 3086044048   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+07/24/13 20:19:03 3086044048   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+07/24/13 20:19:03 3086044048   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+07/24/13 20:19:03 3086044048   FINEST    send message done {src/DcsMessageHandler.cxx 323  }
+07/24/13 20:19:03 3086044048   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98b97c8) {src/DcsMessageManager.cxx 191  }
+07/24/13 20:19:03 3086044048   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+07/24/13 20:19:03 3075554192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+07/24/13 20:19:03 3075554192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+07/24/13 20:19:03 3075554192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98b97c8 {src/DcsMessageManager.cxx 168  }
+07/24/13 20:19:03 3075554192   FINEST    Receiving: 'stoh_start_motor_move energy 12665.700000' {src/DcsMessageHandler.cxx 250  }
+07/24/13 20:19:03 3075554192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
+07/24/13 20:19:03 3075554192   FINEST    match motor0 {src/ConsoleService.cxx 256  }
+07/24/13 20:19:03 3075554192   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
+07/24/13 20:19:03 3075554192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+07/24/13 20:19:03 3065064336   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
+07/24/13 20:19:03 3065064336   FINEST    x4a energy GetMotorPosition(): 12665.700000 {src/ConsoleService.cxx 449  }
+07/24/13 20:19:04 3065064336   FINEST    x4a energy moved to 12665.700000  {src/ConsoleService.cxx 464  }
+07/24/13 20:19:04 3065064336   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98ba188 {src/DcsMessageManager.cxx 168  }
+07/24/13 20:19:04 3065064336   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 12665.28320 normal ) {src/ConsoleService.cxx 366  }
+07/24/13 20:19:04 3065064336   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+07/24/13 20:19:04 3065064336   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
+07/24/13 20:19:04 3065064336   FINEST    x4a currentEnergy = 12665.283203  {src/ConsoleService.cxx 485  }
+07/24/13 20:19:04 3065064336   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98b97c8) {src/DcsMessageManager.cxx 191  }
+07/24/13 20:19:04 3086044048   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+07/24/13 20:19:04 3086044048   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+07/24/13 20:19:04 3086044048   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+07/24/13 20:19:04 3086044048   FINEST    send message done {src/DcsMessageHandler.cxx 323  }
+07/24/13 20:19:04 3086044048   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98ba188) {src/DcsMessageManager.cxx 191  }
+07/24/13 20:19:04 3086044048   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+07/25/13 14:10:54 3075554192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+07/25/13 14:10:54 3075554192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+07/25/13 14:10:54 3075554192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98ba188 {src/DcsMessageManager.cxx 168  }
+07/25/13 14:10:54 3075554192   FINEST    Receiving: 'stoh_start_motor_move energy 12665.283200' {src/DcsMessageHandler.cxx 250  }
+07/25/13 14:10:54 3075554192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
+07/25/13 14:10:54 3075554192   FINEST    match motor0 {src/ConsoleService.cxx 256  }
+07/25/13 14:10:54 3075554192   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
+07/25/13 14:10:54 3075554192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+07/25/13 14:10:54 3065064336   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
+07/25/13 14:10:54 3065064336   FINEST    x4a energy GetMotorPosition(): 12665.283200 {src/ConsoleService.cxx 449  }
+07/25/13 14:10:55 3065064336   FINEST    x4a energy moved to 12665.283200  {src/ConsoleService.cxx 464  }
+07/25/13 14:10:55 3065064336   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98b97c8 {src/DcsMessageManager.cxx 168  }
+07/25/13 14:10:55 3065064336   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 12665.14355 normal ) {src/ConsoleService.cxx 366  }
+07/25/13 14:10:55 3065064336   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+07/25/13 14:10:55 3065064336   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
+07/25/13 14:10:55 3065064336   FINEST    x4a currentEnergy = 12665.143555  {src/ConsoleService.cxx 485  }
+07/25/13 14:10:55 3065064336   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98ba188) {src/DcsMessageManager.cxx 191  }
+07/25/13 14:10:55 3086044048   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+07/25/13 14:10:55 3086044048   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+07/25/13 14:10:55 3086044048   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+07/25/13 14:10:55 3086044048   FINEST    send message done {src/DcsMessageHandler.cxx 323  }
+07/25/13 14:10:55 3086044048   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98b97c8) {src/DcsMessageManager.cxx 191  }
+07/25/13 14:10:55 3086044048   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+07/25/13 14:10:55 3075554192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+07/25/13 14:10:55 3075554192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+07/25/13 14:10:55 3075554192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98b97c8 {src/DcsMessageManager.cxx 168  }
+07/25/13 14:10:55 3075554192   FINEST    Receiving: 'stoh_start_motor_move energy 12665.280000' {src/DcsMessageHandler.cxx 250  }
+07/25/13 14:10:55 3075554192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
+07/25/13 14:10:55 3075554192   FINEST    match motor0 {src/ConsoleService.cxx 256  }
+07/25/13 14:10:55 3075554192   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
+07/25/13 14:10:55 3075554192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+07/25/13 14:10:55 3065064336   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
+07/25/13 14:10:55 3065064336   FINEST    x4a energy GetMotorPosition(): 12665.280000 {src/ConsoleService.cxx 449  }
+07/25/13 14:10:56 3065064336   FINEST    x4a energy moved to 12665.280000  {src/ConsoleService.cxx 464  }
+07/25/13 14:10:56 3065064336   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x98ba188 {src/DcsMessageManager.cxx 168  }
+07/25/13 14:10:56 3065064336   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 12665.14355 normal ) {src/ConsoleService.cxx 366  }
+07/25/13 14:10:56 3065064336   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+07/25/13 14:10:56 3065064336   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
+07/25/13 14:10:56 3065064336   FINEST    x4a currentEnergy = 12665.143555  {src/ConsoleService.cxx 485  }
+07/25/13 14:10:56 3065064336   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98b97c8) {src/DcsMessageManager.cxx 191  }
+07/25/13 14:10:56 3086044048   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+07/25/13 14:10:56 3086044048   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+07/25/13 14:10:56 3086044048   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+07/25/13 14:10:56 3086044048   FINEST    send message done {src/DcsMessageHandler.cxx 323  }
+07/25/13 14:10:56 3086044048   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x98ba188) {src/DcsMessageManager.cxx 191  }
+07/25/13 14:10:56 3086044048   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }

@@ -445,7 +445,7 @@ body DCS::HutchOverview::constructGoniometer { x y } {
 		rename -device gonioPhiDevice gonioPhiDevice GonioPhiDevice
 	}
 
-	place $itk_component(phi) -x [expr $x + 190]  -y [expr $y - 185]
+	place $itk_component(phi) -x [expr $x + 190]  -y [expr $y - 195]
 	
 	
 	# create motor view for gonio_omega
@@ -818,7 +818,7 @@ body DCS::HutchOverview::constructBeamstop { x y } {
         }
 
 #y      place $itk_component(beamstop) -x 530 -y 225
-        place $itk_component(beamstop_horz) -x 610 -y 160
+        place $itk_component(beamstop_horz) -x 610 -y 180
         place $itk_component(beamstop_vert) -x 530 -y 225
 
 	# For vertical beamstop

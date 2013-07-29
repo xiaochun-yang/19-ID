@@ -246,7 +246,7 @@ class Pilatus::Dhs {
                             reuseDark sessionID numImages nextFrame] == 18} {
 
             set imageParams [namespace current]::[local MultiImageParams #auto]
-puts "yangx imageParams = $imageParams"
+#puts "yangx imageParams = $imageParams"
             $imageParams configure -operationHandle $operationHandle -runIndex $runIndex -filename $filename -directory $directory \
                 -userName $userName -axisName $axisName \
                 -exposureTime $exposureTime -oscillationStart $oscillationStart -oscillationRange $oscillationRange -distance $distance \
