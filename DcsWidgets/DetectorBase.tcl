@@ -219,7 +219,7 @@ resolution_ energy_ mode_ offsetH_ offsetV_ } {
 		}
 		
         PILATUS6 {
-            return [list normal]
+            return [list ramp pluse]
         }
 
 		default {
@@ -261,7 +261,7 @@ resolution_ energy_ mode_ offsetH_ offsetV_ } {
 		}
 		
         PILATUS6 {
-            return [list normal]
+            return [list ramp pluse]
         }
 
 		default {

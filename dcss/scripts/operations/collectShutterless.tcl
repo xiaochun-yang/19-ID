@@ -354,8 +354,8 @@ proc collectRun_start { runNumber userName reuseDark sessionID args } {
 										$wavelength \
 										[set $gMotorHorz] \
 										[set $gMotorVert] \
-										0 \
-										0 \
+										$modeIndex \
+										$reuseDark \
                                         $sessionID \
                                         $numImages \
                                         $frameLabel ]

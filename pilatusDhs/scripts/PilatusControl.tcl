@@ -420,6 +420,7 @@ class Pilatus::DetectorControl {
         set numImages [expr [$_multiImageParams cget -numImages] * $nFrameImg]
         putsDet "nimages [$_multiImageParams cget -numImages]"
         putsDet "nframeimg $nFrameImg"
+        putsDet "detectorMode [$_multiImageParams cget -detectorMode]"
 
         set userName [$_multiImageParams cget -userName]
         set destinationRootName [$_multiImageParams cget -filename]

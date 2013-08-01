@@ -1,5 +1,5 @@
 {
-  {20} {15597} {load}
+  {20} {15825} {load}
   {
     {Selected 4 {hide editable}}
     {Port 4 {show readonly}}
@@ -53,10 +53,9 @@
     {}
     {
       {
-        { {/home/nysbc/temp/A1} {A1_0148.img} {A1_0deg_0152.jpg} {A1_0148_small.jpg} {A1_0148_medium.jpg} {A1_0148_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/home/nysbc/temp/A1} {A1_0150.img} {A1_0deg_0154.jpg} {A1_0150_small.jpg} {A1_0150_medium.jpg} {A1_0150_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/home/nysbc/temp/A1} {A1_0149.img} {A1_90deg_0153.jpg} {A1_0149_small.jpg} {A1_0149_medium.jpg} {A1_0149_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -89,10 +88,9 @@
     {}
     {
       {
-        { {/home/nysbc/temp/A2} {A2_0128.img} {A2_0deg_0128.jpg} {A2_0128_small.jpg} {A2_0128_medium.jpg} {A2_0128_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/home/nysbc/temp/A2} {A2_0130.img} {A2_0deg_0130.jpg} {A2_0130_small.jpg} {A2_0130_medium.jpg} {A2_0130_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/home/nysbc/temp/A2} {A2_0129.img} {A2_90deg_0129.jpg} {A2_0129_small.jpg} {A2_0129_medium.jpg} {A2_0129_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -125,10 +123,9 @@
     {}
     {
       {
-        { {/home/nysbc/temp/A3} {A3_0124.img} {A3_0deg_0124.jpg} {A3_0124_small.jpg} {A3_0124_medium.jpg} {A3_0124_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/home/nysbc/temp/A3} {A3_0126.img} {A3_0deg_0126.jpg} {A3_0126_small.jpg} {A3_0126_medium.jpg} {A3_0126_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/home/nysbc/temp/A3} {A3_0125.img} {A3_90deg_0125.jpg} {A3_0125_small.jpg} {A3_0125_medium.jpg} {A3_0125_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -161,10 +158,9 @@
     {}
     {
       {
-        { {/home/nysbc/temp/A4} {A4_0126.img} {A4_0deg_0126.jpg} {A4_0126_small.jpg} {A4_0126_medium.jpg} {A4_0126_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/home/nysbc/temp/A4} {A4_0128.img} {A4_0deg_0128.jpg} {A4_0128_small.jpg} {A4_0128_medium.jpg} {A4_0128_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/home/nysbc/temp/A4} {A4_0127.img} {A4_90deg_0127.jpg} {A4_0127_small.jpg} {A4_0127_medium.jpg} {A4_0127_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -197,10 +193,9 @@
     {}
     {
       {
-        { {/home/nysbc/temp/A5} {A5_0115.img} {A5_0deg_0115.jpg} {A5_0115_small.jpg} {A5_0115_medium.jpg} {A5_0115_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/home/nysbc/temp/A5} {A5_0117.img} {A5_0deg_0117.jpg} {A5_0117_small.jpg} {A5_0117_medium.jpg} {A5_0117_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/home/nysbc/temp/A5} {A5_0116.img} {A5_90deg_0116.jpg} {A5_0116_small.jpg} {A5_0116_medium.jpg} {A5_0116_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -233,10 +228,9 @@
     {}
     {
       {
-        { {/home/nysbc/temp/A6} {A6_0120.img} {A6_0deg_0120.jpg} {A6_0120_small.jpg} {A6_0120_medium.jpg} {A6_0120_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/home/nysbc/temp/A6} {A6_0122.img} {A6_0deg_0122.jpg} {A6_0122_small.jpg} {A6_0122_medium.jpg} {A6_0122_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/home/nysbc/temp/A6} {A6_0121.img} {A6_90deg_0121.jpg} {A6_0121_small.jpg} {A6_0121_medium.jpg} {A6_0121_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -316,7 +310,7 @@
     {}
   }
   {
-    {1}
+    {0}
     {A9}
     {UNKOWN}
     {A9}
@@ -341,10 +335,9 @@
     {}
     {
       {
-        { {/home/nysbc/temp/A9} {A9_0117.img} {A9_0deg_0117.jpg} {A9_0117_small.jpg} {A9_0117_medium.jpg} {A9_0117_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/home/nysbc/temp/A9} {A9_0119.img} {A9_0deg_0119.jpg} {A9_0119_small.jpg} {A9_0119_medium.jpg} {A9_0119_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/home/nysbc/temp/A9} {A9_0118.img} {A9_90deg_0118.jpg} {A9_0118_small.jpg} {A9_0118_medium.jpg} {A9_0118_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -352,7 +345,7 @@
     {}
   }
   {
-    {1}
+    {0}
     {A10}
     {UNKOWN}
     {A10}
@@ -625,10 +618,10 @@
     {}
     {
       {
-        { {/home/nysbc/temp/B1} {B1_0104.img} {B1_0deg_0104.jpg} {B1_0104_small.jpg} {B1_0104_medium.jpg} {B1_0104_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/B1} {B1_0001.img} {B1_0deg_0001.jpg} {B1_0001_small.jpg} {B1_0001_medium.jpg} {B1_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/home/nysbc/temp/B1} {B1_0105.img} {B1_90deg_0105.jpg} {B1_0105_small.jpg} {B1_0105_medium.jpg} {B1_0105_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/B1} {B1_0002.img} {B1_90deg_0002.jpg} {B1_0002_small.jpg} {B1_0002_medium.jpg} {B1_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -661,10 +654,10 @@
     {}
     {
       {
-        { {/home/nysbc/temp/B2} {B2_0101.img} {B2_0deg_0101.jpg} {B2_0101_small.jpg} {B2_0101_medium.jpg} {B2_0101_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/B2} {B2_0001.img} {B2_0deg_0001.jpg} {B2_0001_small.jpg} {B2_0001_medium.jpg} {B2_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/home/nysbc/temp/B2} {B2_0102.img} {B2_90deg_0102.jpg} {B2_0102_small.jpg} {B2_0102_medium.jpg} {B2_0102_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/B2} {B2_0002.img} {B2_90deg_0002.jpg} {B2_0002_small.jpg} {B2_0002_medium.jpg} {B2_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -697,10 +690,10 @@
     {}
     {
       {
-        { {/home/nysbc/temp/B3} {B3_0096.img} {B3_0deg_0096.jpg} {B3_0096_small.jpg} {B3_0096_medium.jpg} {B3_0096_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/B3} {B3_0001.img} {B3_0deg_0001.jpg} {B3_0001_small.jpg} {B3_0001_medium.jpg} {B3_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/home/nysbc/temp/B3} {B3_0097.img} {B3_90deg_0097.jpg} {B3_0097_small.jpg} {B3_0097_medium.jpg} {B3_0097_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/B3} {B3_0002.img} {B3_90deg_0002.jpg} {B3_0002_small.jpg} {B3_0002_medium.jpg} {B3_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -733,10 +726,10 @@
     {}
     {
       {
-        { {/home/nysbc/temp/B4} {B4_0101.img} {B4_0deg_0101.jpg} {B4_0101_small.jpg} {B4_0101_medium.jpg} {B4_0101_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/B4} {B4_0001.img} {B4_0deg_0001.jpg} {B4_0001_small.jpg} {B4_0001_medium.jpg} {B4_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/home/nysbc/temp/B4} {B4_0102.img} {B4_90deg_0102.jpg} {B4_0102_small.jpg} {B4_0102_medium.jpg} {B4_0102_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/B4} {B4_0002.img} {B4_90deg_0002.jpg} {B4_0002_small.jpg} {B4_0002_medium.jpg} {B4_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -769,10 +762,10 @@
     {}
     {
       {
-        { {/home/nysbc/temp/B5} {B5_0094.img} {B5_0deg_0094.jpg} {B5_0094_small.jpg} {B5_0094_medium.jpg} {B5_0094_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/B5} {B5_0001.img} {B5_0deg_0001.jpg} {B5_0001_small.jpg} {B5_0001_medium.jpg} {B5_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/home/nysbc/temp/B5} {B5_0095.img} {B5_90deg_0095.jpg} {B5_0095_small.jpg} {B5_0095_medium.jpg} {B5_0095_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/B5} {B5_0002.img} {B5_90deg_0002.jpg} {B5_0002_small.jpg} {B5_0002_medium.jpg} {B5_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -805,10 +798,10 @@
     {}
     {
       {
-        { {/home/nysbc/temp/B6} {B6_0098.img} {B6_0deg_0098.jpg} {B6_0098_small.jpg} {B6_0098_medium.jpg} {B6_0098_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/B6} {B6_0001.img} {B6_0deg_0001.jpg} {B6_0001_small.jpg} {B6_0001_medium.jpg} {B6_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/home/nysbc/temp/B6} {B6_0099.img} {B6_90deg_0099.jpg} {B6_0099_small.jpg} {B6_0099_medium.jpg} {B6_0099_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/B6} {B6_0002.img} {B6_90deg_0002.jpg} {B6_0002_small.jpg} {B6_0002_medium.jpg} {B6_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -841,10 +834,10 @@
     {}
     {
       {
-        { {/home/nysbc/temp/B7} {B7_0092.img} {B7_0deg_0092.jpg} {B7_0092_small.jpg} {B7_0092_medium.jpg} {B7_0092_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/B7} {B7_0001.img} {B7_0deg_0001.jpg} {B7_0001_small.jpg} {B7_0001_medium.jpg} {B7_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/home/nysbc/temp/B7} {B7_0093.img} {B7_90deg_0093.jpg} {B7_0093_small.jpg} {B7_0093_medium.jpg} {B7_0093_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/B7} {B7_0002.img} {B7_90deg_0002.jpg} {B7_0002_small.jpg} {B7_0002_medium.jpg} {B7_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -877,10 +870,10 @@
     {}
     {
       {
-        { {/home/nysbc/temp/B8} {B8_0092.img} {B8_0deg_0092.jpg} {B8_0092_small.jpg} {B8_0092_medium.jpg} {B8_0092_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/B8} {B8_0001.img} {B8_0deg_0001.jpg} {B8_0001_small.jpg} {B8_0001_medium.jpg} {B8_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/home/nysbc/temp/B8} {B8_0093.img} {B8_90deg_0093.jpg} {B8_0093_small.jpg} {B8_0093_medium.jpg} {B8_0093_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/B8} {B8_0002.img} {B8_90deg_0002.jpg} {B8_0002_small.jpg} {B8_0002_medium.jpg} {B8_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -913,10 +906,10 @@
     {}
     {
       {
-        { {/home/nysbc/temp/B9} {B9_0095.img} {B9_0deg_0095.jpg} {B9_0095_small.jpg} {B9_0095_medium.jpg} {B9_0095_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/B9} {B9_0001.img} {B9_0deg_0001.jpg} {B9_0001_small.jpg} {B9_0001_medium.jpg} {B9_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/home/nysbc/temp/B9} {B9_0096.img} {B9_90deg_0096.jpg} {B9_0096_small.jpg} {B9_0096_medium.jpg} {B9_0096_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/B9} {B9_0002.img} {B9_90deg_0002.jpg} {B9_0002_small.jpg} {B9_0002_medium.jpg} {B9_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -949,10 +942,10 @@
     {}
     {
       {
-        { {/home/nysbc/temp/B10} {B10_0090.img} {B10_0deg_0090.jpg} {B10_0090_small.jpg} {B10_0090_medium.jpg} {B10_0090_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/B10} {B10_0001.img} {B10_0deg_0001.jpg} {B10_0001_small.jpg} {B10_0001_medium.jpg} {B10_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/home/nysbc/temp/B10} {B10_0091.img} {B10_90deg_0091.jpg} {B10_0091_small.jpg} {B10_0091_medium.jpg} {B10_0091_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/B10} {B10_0002.img} {B10_90deg_0002.jpg} {B10_0002_small.jpg} {B10_0002_medium.jpg} {B10_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -985,10 +978,10 @@
     {}
     {
       {
-        { {/home/nysbc/temp/B11} {B11_0085.img} {B11_0deg_0085.jpg} {B11_0085_small.jpg} {B11_0085_medium.jpg} {B11_0085_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/B11} {B11_0001.img} {B11_0deg_0001.jpg} {B11_0001_small.jpg} {B11_0001_medium.jpg} {B11_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/home/nysbc/temp/B11} {B11_0086.img} {B11_90deg_0086.jpg} {B11_0086_small.jpg} {B11_0086_medium.jpg} {B11_0086_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/B11} {B11_0002.img} {B11_90deg_0002.jpg} {B11_0002_small.jpg} {B11_0002_medium.jpg} {B11_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -1021,10 +1014,10 @@
     {}
     {
       {
-        { {/home/nysbc/temp/B12} {B12_0087.img} {B12_0deg_0087.jpg} {B12_0087_small.jpg} {B12_0087_medium.jpg} {B12_0087_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/B12} {B12_0001.img} {B12_0deg_0001.jpg} {B12_0001_small.jpg} {B12_0001_medium.jpg} {B12_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/home/nysbc/temp/B12} {B12_0088.img} {B12_90deg_0088.jpg} {B12_0088_small.jpg} {B12_0088_medium.jpg} {B12_0088_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/B12} {B12_0002.img} {B12_90deg_0002.jpg} {B12_0002_small.jpg} {B12_0002_medium.jpg} {B12_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -1057,10 +1050,10 @@
     {}
     {
       {
-        { {/home/nysbc/temp/B13} {B13_0087.img} {B13_0deg_0087.jpg} {B13_0087_small.jpg} {B13_0087_medium.jpg} {B13_0087_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/B13} {B13_0001.img} {B13_0deg_0001.jpg} {B13_0001_small.jpg} {B13_0001_medium.jpg} {B13_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/home/nysbc/temp/B13} {B13_0088.img} {B13_90deg_0088.jpg} {B13_0088_small.jpg} {B13_0088_medium.jpg} {B13_0088_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/B13} {B13_0002.img} {B13_90deg_0002.jpg} {B13_0002_small.jpg} {B13_0002_medium.jpg} {B13_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -1093,10 +1086,10 @@
     {}
     {
       {
-        { {/home/nysbc/temp/B14} {B14_0086.img} {B14_0deg_0086.jpg} {B14_0086_small.jpg} {B14_0086_medium.jpg} {B14_0086_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/B14} {B14_0001.img} {B14_0deg_0001.jpg} {B14_0001_small.jpg} {B14_0001_medium.jpg} {B14_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/home/nysbc/temp/B14} {B14_0087.img} {B14_90deg_0087.jpg} {B14_0087_small.jpg} {B14_0087_medium.jpg} {B14_0087_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/B14} {B14_0002.img} {B14_90deg_0002.jpg} {B14_0002_small.jpg} {B14_0002_medium.jpg} {B14_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -1129,10 +1122,10 @@
     {}
     {
       {
-        { {/home/nysbc/temp/B15} {B15_0083.img} {B15_0deg_0083.jpg} {B15_0083_small.jpg} {B15_0083_medium.jpg} {B15_0083_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/B15} {B15_0001.img} {B15_0deg_0001.jpg} {B15_0001_small.jpg} {B15_0001_medium.jpg} {B15_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/home/nysbc/temp/B15} {B15_0084.img} {B15_90deg_0084.jpg} {B15_0084_small.jpg} {B15_0084_medium.jpg} {B15_0084_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/B15} {B15_0002.img} {B15_90deg_0002.jpg} {B15_0002_small.jpg} {B15_0002_medium.jpg} {B15_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -1165,10 +1158,10 @@
     {}
     {
       {
-        { {/home/nysbc/temp/B16} {B16_0086.img} {B16_0deg_0086.jpg} {B16_0086_small.jpg} {B16_0086_medium.jpg} {B16_0086_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/B16} {B16_0001.img} {B16_0deg_0001.jpg} {B16_0001_small.jpg} {B16_0001_medium.jpg} {B16_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/home/nysbc/temp/B16} {B16_0087.img} {B16_90deg_0087.jpg} {B16_0087_small.jpg} {B16_0087_medium.jpg} {B16_0087_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/B16} {B16_0002.img} {B16_90deg_0002.jpg} {B16_0002_small.jpg} {B16_0002_medium.jpg} {B16_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -1201,10 +1194,10 @@
     {}
     {
       {
-        { {/home/nysbc/temp/C1} {C1_0088.img} {C1_0deg_0088.jpg} {C1_0088_small.jpg} {C1_0088_medium.jpg} {C1_0088_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/C1} {C1_0002.img} {C1_0deg_0002.jpg} {C1_0002_small.jpg} {C1_0002_medium.jpg} {C1_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/home/nysbc/temp/C1} {C1_0089.img} {C1_90deg_0089.jpg} {C1_0089_small.jpg} {C1_0089_medium.jpg} {C1_0089_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/C1} {C1_0003.img} {C1_90deg_0003.jpg} {C1_0003_small.jpg} {C1_0003_medium.jpg} {C1_0003_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -1237,10 +1230,10 @@
     {}
     {
       {
-        { {/home/nysbc/temp/C2} {C2_0083.img} {C2_0deg_0083.jpg} {C2_0083_small.jpg} {C2_0083_medium.jpg} {C2_0083_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/C2} {C2_0001.img} {C2_0deg_0001.jpg} {C2_0001_small.jpg} {C2_0001_medium.jpg} {C2_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/home/nysbc/temp/C2} {C2_0084.img} {C2_90deg_0084.jpg} {C2_0084_small.jpg} {C2_0084_medium.jpg} {C2_0084_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/C2} {C2_0002.img} {C2_90deg_0002.jpg} {C2_0002_small.jpg} {C2_0002_medium.jpg} {C2_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -1273,10 +1266,10 @@
     {}
     {
       {
-        { {/home/nysbc/temp/C3} {C3_0086.img} {C3_0deg_0086.jpg} {C3_0086_small.jpg} {C3_0086_medium.jpg} {C3_0086_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/C3} {C3_0001.img} {C3_0deg_0001.jpg} {C3_0001_small.jpg} {C3_0001_medium.jpg} {C3_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/home/nysbc/temp/C3} {C3_0087.img} {C3_90deg_0087.jpg} {C3_0087_small.jpg} {C3_0087_medium.jpg} {C3_0087_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/C3} {C3_0002.img} {C3_90deg_0002.jpg} {C3_0002_small.jpg} {C3_0002_medium.jpg} {C3_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -1309,10 +1302,10 @@
     {}
     {
       {
-        { {/home/nysbc/temp/C4} {C4_0082.img} {C4_0deg_0082.jpg} {C4_0082_small.jpg} {C4_0082_medium.jpg} {C4_0082_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/C4} {C4_0001.img} {C4_0deg_0001.jpg} {C4_0001_small.jpg} {C4_0001_medium.jpg} {C4_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/home/nysbc/temp/C4} {C4_0083.img} {C4_90deg_0083.jpg} {C4_0083_small.jpg} {C4_0083_medium.jpg} {C4_0083_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/C4} {C4_0002.img} {C4_90deg_0002.jpg} {C4_0002_small.jpg} {C4_0002_medium.jpg} {C4_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -1345,10 +1338,10 @@
     {}
     {
       {
-        { {/home/nysbc/temp/C5} {C5_0084.img} {C5_0deg_0084.jpg} {C5_0084_small.jpg} {C5_0084_medium.jpg} {C5_0084_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/C5} {C5_0003.img} {C5_0deg_0003.jpg} {C5_0003_small.jpg} {C5_0003_medium.jpg} {C5_0003_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/home/nysbc/temp/C5} {C5_0085.img} {C5_90deg_0085.jpg} {C5_0085_small.jpg} {C5_0085_medium.jpg} {C5_0085_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/C5} {C5_0004.img} {C5_90deg_0004.jpg} {C5_0004_small.jpg} {C5_0004_medium.jpg} {C5_0004_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -1381,10 +1374,10 @@
     {}
     {
       {
-        { {/home/nysbc/temp/C6} {C6_0080.img} {C6_0deg_0080.jpg} {C6_0080_small.jpg} {C6_0080_medium.jpg} {C6_0080_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/C6} {C6_0001.img} {C6_0deg_0001.jpg} {C6_0001_small.jpg} {C6_0001_medium.jpg} {C6_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/home/nysbc/temp/C6} {C6_0081.img} {C6_90deg_0081.jpg} {C6_0081_small.jpg} {C6_0081_medium.jpg} {C6_0081_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/C6} {C6_0002.img} {C6_90deg_0002.jpg} {C6_0002_small.jpg} {C6_0002_medium.jpg} {C6_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -1417,8 +1410,10 @@
     {}
     {
       {
+        { {/storage/nesg/raman/2013a/jul-31/C7} {C7_0001.img} {C7_0deg_0001.jpg} {C7_0001_small.jpg} {C7_0001_medium.jpg} {C7_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
+        { {/storage/nesg/raman/2013a/jul-31/C7} {C7_0002.img} {C7_90deg_0002.jpg} {C7_0002_small.jpg} {C7_0002_medium.jpg} {C7_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -1451,10 +1446,10 @@
     {}
     {
       {
-        { {/home/nysbc/temp/C8} {C8_0081.img} {C8_0deg_0081.jpg} {C8_0081_small.jpg} {C8_0081_medium.jpg} {C8_0081_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/C8} {C8_0001.img} {C8_0deg_0001.jpg} {C8_0001_small.jpg} {C8_0001_medium.jpg} {C8_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/home/nysbc/temp/C8} {C8_0082.img} {C8_90deg_0082.jpg} {C8_0082_small.jpg} {C8_0082_medium.jpg} {C8_0082_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/C8} {C8_0002.img} {C8_90deg_0002.jpg} {C8_0002_small.jpg} {C8_0002_medium.jpg} {C8_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -1487,10 +1482,10 @@
     {}
     {
       {
-        { {/home/nysbc/temp/C9} {C9_0081.img} {C9_0deg_0081.jpg} {C9_0081_small.jpg} {C9_0081_medium.jpg} {C9_0081_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/C9} {C9_0001.img} {C9_0deg_0001.jpg} {C9_0001_small.jpg} {C9_0001_medium.jpg} {C9_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/home/nysbc/temp/C9} {C9_0082.img} {C9_90deg_0082.jpg} {C9_0082_small.jpg} {C9_0082_medium.jpg} {C9_0082_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/C9} {C9_0002.img} {C9_90deg_0002.jpg} {C9_0002_small.jpg} {C9_0002_medium.jpg} {C9_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -1523,10 +1518,10 @@
     {}
     {
       {
-        { {/home/nysbc/temp/C10} {C10_0079.img} {C10_0deg_0079.jpg} {C10_0079_small.jpg} {C10_0079_medium.jpg} {C10_0079_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/C10} {C10_0001.img} {C10_0deg_0001.jpg} {C10_0001_small.jpg} {C10_0001_medium.jpg} {C10_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/home/nysbc/temp/C10} {C10_0080.img} {C10_90deg_0080.jpg} {C10_0080_small.jpg} {C10_0080_medium.jpg} {C10_0080_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/C10} {C10_0002.img} {C10_90deg_0002.jpg} {C10_0002_small.jpg} {C10_0002_medium.jpg} {C10_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -1559,10 +1554,10 @@
     {}
     {
       {
-        { {/home/nysbc/temp/C11} {C11_0082.img} {C11_0deg_0082.jpg} {C11_0082_small.jpg} {C11_0082_medium.jpg} {C11_0082_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/C11} {C11_0001.img} {C11_0deg_0001.jpg} {C11_0001_small.jpg} {C11_0001_medium.jpg} {C11_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/home/nysbc/temp/C11} {C11_0083.img} {C11_90deg_0083.jpg} {C11_0083_small.jpg} {C11_0083_medium.jpg} {C11_0083_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/C11} {C11_0002.img} {C11_90deg_0002.jpg} {C11_0002_small.jpg} {C11_0002_medium.jpg} {C11_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -1595,10 +1590,10 @@
     {}
     {
       {
-        { {/home/nysbc/temp/C12} {C12_0081.img} {C12_0deg_0081.jpg} {C12_0081_small.jpg} {C12_0081_medium.jpg} {C12_0081_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/C12} {C12_0001.img} {C12_0deg_0001.jpg} {C12_0001_small.jpg} {C12_0001_medium.jpg} {C12_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/home/nysbc/temp/C12} {C12_0082.img} {C12_90deg_0082.jpg} {C12_0082_small.jpg} {C12_0082_medium.jpg} {C12_0082_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/C12} {C12_0002.img} {C12_90deg_0002.jpg} {C12_0002_small.jpg} {C12_0002_medium.jpg} {C12_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -1631,10 +1626,10 @@
     {}
     {
       {
-        { {/home/nysbc/temp/C13} {C13_0079.img} {C13_0deg_0079.jpg} {C13_0079_small.jpg} {C13_0079_medium.jpg} {C13_0079_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/C13} {C13_0001.img} {C13_0deg_0001.jpg} {C13_0001_small.jpg} {C13_0001_medium.jpg} {C13_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/home/nysbc/temp/C13} {C13_0080.img} {C13_90deg_0080.jpg} {C13_0080_small.jpg} {C13_0080_medium.jpg} {C13_0080_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/C13} {C13_0002.img} {C13_90deg_0002.jpg} {C13_0002_small.jpg} {C13_0002_medium.jpg} {C13_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -1667,10 +1662,10 @@
     {}
     {
       {
-        { {/home/nysbc/temp/C14} {C14_0080.img} {C14_0deg_0080.jpg} {C14_0080_small.jpg} {C14_0080_medium.jpg} {C14_0080_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/C14} {C14_0001.img} {C14_0deg_0001.jpg} {C14_0001_small.jpg} {C14_0001_medium.jpg} {C14_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/home/nysbc/temp/C14} {C14_0081.img} {C14_90deg_0081.jpg} {C14_0081_small.jpg} {C14_0081_medium.jpg} {C14_0081_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/C14} {C14_0002.img} {C14_90deg_0002.jpg} {C14_0002_small.jpg} {C14_0002_medium.jpg} {C14_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -1703,10 +1698,10 @@
     {}
     {
       {
-        { {/home/nysbc/temp/C15} {C15_0080.img} {C15_0deg_0080.jpg} {C15_0080_small.jpg} {C15_0080_medium.jpg} {C15_0080_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/C15} {C15_0001.img} {C15_0deg_0001.jpg} {C15_0001_small.jpg} {C15_0001_medium.jpg} {C15_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/home/nysbc/temp/C15} {C15_0081.img} {C15_90deg_0081.jpg} {C15_0081_small.jpg} {C15_0081_medium.jpg} {C15_0081_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/C15} {C15_0002.img} {C15_90deg_0002.jpg} {C15_0002_small.jpg} {C15_0002_medium.jpg} {C15_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -1739,10 +1734,10 @@
     {}
     {
       {
-        { {/home/nysbc/temp/C16} {C16_0078.img} {C16_0deg_0078.jpg} {C16_0078_small.jpg} {C16_0078_medium.jpg} {C16_0078_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/C16} {C16_0001.img} {C16_0deg_0001.jpg} {C16_0001_small.jpg} {C16_0001_medium.jpg} {C16_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/home/nysbc/temp/C16} {C16_0079.img} {C16_90deg_0079.jpg} {C16_0079_small.jpg} {C16_0079_medium.jpg} {C16_0079_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/C16} {C16_0002.img} {C16_90deg_0002.jpg} {C16_0002_small.jpg} {C16_0002_medium.jpg} {C16_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -1775,10 +1770,10 @@
     {}
     {
       {
-        { {/home/nysbc/temp/D1} {D1_0076.img} {D1_0deg_0076.jpg} {D1_0076_small.jpg} {D1_0076_medium.jpg} {D1_0076_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/D1} {D1_0001.img} {D1_0deg_0001.jpg} {D1_0001_small.jpg} {D1_0001_medium.jpg} {D1_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/home/nysbc/temp/D1} {D1_0077.img} {D1_90deg_0077.jpg} {D1_0077_small.jpg} {D1_0077_medium.jpg} {D1_0077_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/D1} {D1_0002.img} {D1_90deg_0002.jpg} {D1_0002_small.jpg} {D1_0002_medium.jpg} {D1_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -1811,10 +1806,10 @@
     {}
     {
       {
-        { {/home/nysbc/temp/D2} {D2_0075.img} {D2_0deg_0075.jpg} {D2_0075_small.jpg} {D2_0075_medium.jpg} {D2_0075_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/D2} {D2_0001.img} {D2_0deg_0001.jpg} {D2_0001_small.jpg} {D2_0001_medium.jpg} {D2_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/home/nysbc/temp/D2} {D2_0076.img} {D2_90deg_0076.jpg} {D2_0076_small.jpg} {D2_0076_medium.jpg} {D2_0076_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/D2} {D2_0002.img} {D2_90deg_0002.jpg} {D2_0002_small.jpg} {D2_0002_medium.jpg} {D2_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -1847,10 +1842,10 @@
     {}
     {
       {
-        { {/home/nysbc/temp/D3} {D3_0075.img} {D3_0deg_0075.jpg} {D3_0075_small.jpg} {D3_0075_medium.jpg} {D3_0075_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/D3} {D3_0001.img} {D3_0deg_0001.jpg} {D3_0001_small.jpg} {D3_0001_medium.jpg} {D3_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/home/nysbc/temp/D3} {D3_0076.img} {D3_90deg_0076.jpg} {D3_0076_small.jpg} {D3_0076_medium.jpg} {D3_0076_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/D3} {D3_0002.img} {D3_90deg_0002.jpg} {D3_0002_small.jpg} {D3_0002_medium.jpg} {D3_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -1883,10 +1878,10 @@
     {}
     {
       {
-        { {/home/nysbc/temp/D4} {D4_0074.img} {D4_0deg_0074.jpg} {D4_0074_small.jpg} {D4_0074_medium.jpg} {D4_0074_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/D4} {D4_0001.img} {D4_0deg_0001.jpg} {D4_0001_small.jpg} {D4_0001_medium.jpg} {D4_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/home/nysbc/temp/D4} {D4_0075.img} {D4_90deg_0075.jpg} {D4_0075_small.jpg} {D4_0075_medium.jpg} {D4_0075_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/D4} {D4_0002.img} {D4_90deg_0002.jpg} {D4_0002_small.jpg} {D4_0002_medium.jpg} {D4_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -1919,10 +1914,8 @@
     {}
     {
       {
-        { {/home/nysbc/temp/D5} {D5_0072.img} {D5_0deg_0072.jpg} {D5_0072_small.jpg} {D5_0072_medium.jpg} {D5_0072_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/home/nysbc/temp/D5} {D5_0073.img} {D5_90deg_0073.jpg} {D5_0073_small.jpg} {D5_0073_medium.jpg} {D5_0073_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -1955,10 +1948,10 @@
     {}
     {
       {
-        { {/home/nysbc/temp/D6} {D6_0077.img} {D6_0deg_0077.jpg} {D6_0077_small.jpg} {D6_0077_medium.jpg} {D6_0077_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/D6} {D6_0001.img} {D6_0deg_0001.jpg} {D6_0001_small.jpg} {D6_0001_medium.jpg} {D6_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/home/nysbc/temp/D6} {D6_0078.img} {D6_90deg_0078.jpg} {D6_0078_small.jpg} {D6_0078_medium.jpg} {D6_0078_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/D6} {D6_0002.img} {D6_90deg_0002.jpg} {D6_0002_small.jpg} {D6_0002_medium.jpg} {D6_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -1991,10 +1984,10 @@
     {}
     {
       {
-        { {/home/nysbc/temp/D7} {D7_0069.img} {D7_0deg_0069.jpg} {D7_0069_small.jpg} {D7_0069_medium.jpg} {D7_0069_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/D7} {D7_0001.img} {D7_0deg_0001.jpg} {D7_0001_small.jpg} {D7_0001_medium.jpg} {D7_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/home/nysbc/temp/D7} {D7_0070.img} {D7_90deg_0070.jpg} {D7_0070_small.jpg} {D7_0070_medium.jpg} {D7_0070_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/D7} {D7_0002.img} {D7_90deg_0002.jpg} {D7_0002_small.jpg} {D7_0002_medium.jpg} {D7_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -2027,10 +2020,10 @@
     {}
     {
       {
-        { {/home/nysbc/temp/D8} {D8_0074.img} {D8_0deg_0074.jpg} {D8_0074_small.jpg} {D8_0074_medium.jpg} {D8_0074_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/D8} {D8_0001.img} {D8_0deg_0001.jpg} {D8_0001_small.jpg} {D8_0001_medium.jpg} {D8_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/home/nysbc/temp/D8} {D8_0075.img} {D8_90deg_0075.jpg} {D8_0075_small.jpg} {D8_0075_medium.jpg} {D8_0075_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/nesg/raman/2013a/jul-31/D8} {D8_0002.img} {D8_90deg_0002.jpg} {D8_0002_small.jpg} {D8_0002_medium.jpg} {D8_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
