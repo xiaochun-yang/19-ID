@@ -111,6 +111,7 @@ itcl::class SampleMountingDevice {
         variable moveToAccessArray
 #yangx add
         variable moveToMountArray
+	variable mount_ok 1
 
         variable moveBackArray
         variable validcassetteList
@@ -1450,9 +1451,11 @@ set timeStart [clock clicks -milliseconds]
 #y        log_error $e
 #y    }
 #y    unblock_all_motors
-      set robot_status [lreplace $robot_status 15 15 "$cassette $row $column"]
-      set index [SequenceDevice::getPortIndexInCassette $cassette $row $column]
-#      puts "yangx mount index=$index"
+      if {([lindex $result 1] != "n" || [lindex $result 2] != "0" || [lindex $result 3] != "N")} {	
+	set mount_ok 1
+      	set robot_status [lreplace $robot_status 15 15 "$cassette $row $column"]
+      	set index [SequenceDevice::getPortIndexInCassette $cassette $row $column]
+#      	puts "yangx mount index=$index"
       # 193+128=322 97+64=161 getPortIndexInCassette function add 64 more on  middle
       # 128 more on the right cassette. It should be get corrected in that function.
 
@@ -1464,7 +1467,10 @@ set timeStart [clock clicks -milliseconds]
 #y      }	else {
 #y		set ind $index	
 #y      }
-      set robot_cassette [lreplace $robot_cassette $index $index 0]
+      	set robot_cassette [lreplace $robot_cassette $index $index 0]
+      } else {
+	set mount_ok 0
+      }		
       return $result
 }
 
@@ -1767,8 +1773,12 @@ itcl::body SampleMountingDevice::mountNextCrystal { cassette row column cassette
 
 #set timeStart1 [clock clicks -milliseconds]
 	#dismount first
-        set result [dismountCrystal $cassette $row $column] 
- 
+
+	if {$mount_ok == 1} {
+        	set result [dismountCrystal $cassette $row $column] 
+		puts "yangx-dismount-result = $result" 
+	}
+
 #set timeEnd [expr [clock clicks -milliseconds] - $timeStart1]
 #puts "yangx time for dismount crystal = $timeEnd"
 
@@ -1788,7 +1798,9 @@ itcl::body SampleMountingDevice::mountNextCrystal { cassette row column cassette
 	#yangx the result need to be include both mounting and dismount parameter.
         #so it need to reconstructed to satify this. This result is being used
         # in the doMountNextCrystal checking in SequenceDevice.tcl
-        set result [linsert $result 1 $cassette $row $column]
+	set aa "normal"
+        set result [linsert $result 1 $cassette $row $column "normal"]
+	puts "yangx-doMountNextCrystal-result = $result"
 
 	# set the screening mode to off
         #start_operation screening_mode "OFF"

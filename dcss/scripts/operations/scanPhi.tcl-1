@@ -1,0 +1,42 @@
+#scan phi with ion chamber
+
+proc scanPhi_initialize {} {
+
+}
+
+#proc scanPhi_start { fileName myDirectory delta time } {
+proc scanPhi_start { } {
+#       set myDirectory /home/yangx/data;
+       set delta 0.005;
+#       set time 2;
+	log_note "start the phi scan"
+	set i 0
+	while { $i < 5 } {
+                # move back to original position
+                move gonio_phi by $delta deg
+		#move gonio_phi by $delta unscaled
+                wait_for_devices gonio_phi
+
+                # wait for 100 mill-seconds
+                after 1000
+		
+                # read ion chamber 
+		read_ion_chambers 1 i1
+		wait_for_devices i1
+		log_note [get_ion_chamber_counts i1]
+		incr i
+	}
+}
+
+#if [catch {open /home/yangx/auto-adxv w} fileId] {
+#	puts stderr "Cannot open /home/yangx/auto-adxv: $fileId"
+#} else {
+
+#	puts $fileId "1 auto-adxv image file"
+#	puts $fileId "0 auto-adxv image file"
+
+#	puts stdout  "The following info saved in the /home/yangx/auto-adxv file"
+#        puts stdout "1 auto-adxv image file"
+#        puts stdout "0 auto-adxv image file"
+#	close $fileId
+#}

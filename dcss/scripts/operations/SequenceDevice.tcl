@@ -1267,6 +1267,7 @@ set isAborted 0
 
 while { $m_keepRunning==1 } {
     set m_currentAction [getNextAction $m_nextAction]
+
     if { $m_currentAction<0 } {
         ########### all done #############
         set m_nextAction 0
@@ -1429,6 +1430,7 @@ if {!$m_skipThisSample} {
         test { sleep 5000 }
         default { puts "ERROR SequenceDevice::runAction actionClass $actionClass not supported" }
     }
+    puts "yangx-skipThis=$m_skipThisSample paras=$params"
 }
 return
 }
@@ -2035,13 +2037,13 @@ if {$next_cassette == 0} {
     if {$m_useRobot} {
         log_error "Screening mountNextCrystal wrong dewar position (No cassette)"
         set screening_msg "error: wrong cassette"
+	puts "yangx-1"
         set m_keepRunning 0
         return
     }
 }
 
 set next [getNextCrystal $m_nextCrystal]
-puts "doMountNext: next=$next"
 
 if { $next>=0 } { 
     set next_port [lindex $m_crystalPortList $next]
@@ -2054,6 +2056,7 @@ if { $next>=0 } {
         if { $useRobotFlag!=0 } {
             log_error "Screening mountNextCrystal wrong next_port=$next_port"
             set screening_msg "error: wrong port"
+	puts "yangx-2"
             set m_keepRunning 0
             return
         }
@@ -2091,6 +2094,7 @@ if { $m_currentCrystal<0 } {
     # stop since there are no more crystals to analyze
     # request all system resets as if a dismount was pressed
     set m_dismountRequested 1
+	puts "yangx-3"
     set m_keepRunning 0
 } else {
     set reOrientSelected  [lindex $m_actionListStates 13]
@@ -2124,6 +2128,7 @@ if {!$m_useRobot}  {
     syncWithRobot
 } else {
     if {![syncWithRobot $TRY_SYNC_WITH_ROBOT]}  {
+	puts "yangx-4"
         set m_keepRunning 0
         set screening_msg "error: lost sync with robot"
         log_error "screening aborted: lost sync with robot"
@@ -2131,6 +2136,7 @@ if {!$m_useRobot}  {
 }
 
 if {!$m_useRobot} {
+	puts "yangx-5"
     set m_keepRunning 0
     if {$m_currentCrystal < 0} {
         set screening_msg "manual dismount"
@@ -2198,6 +2204,7 @@ $m_currentRow == 0} {
         puts "ERROR SequenceDevice::doMountNextCrystal() $errorText"
         log_error "Screening mountNextCrystal $errorText"
         set screening_msg "error: $errorText"
+	puts "yangx-6"
         set m_keepRunning 0
         syncWithRobot $TRY_SYNC_WITH_ROBOT
         return -code error $errorText
@@ -2242,6 +2249,7 @@ if { $currentPortOK && $nextPortOK } {
             puts "ERROR SequenceDevice::doMountNextCrystal() $errorText"
             log_error "Screening mountNextCrystal $errorText"
             set screening_msg "error: $errorText"
+	puts "yangx-7"
             set m_keepRunning 0
             syncWithRobot $TRY_SYNC_WITH_ROBOT
 
@@ -2328,6 +2336,7 @@ if { $currentPortOK && $nextPortOK } {
             puts "ERROR SequenceDevice::doMountNextCrystal() $errorText"
             log_error "Screening mountNextCrystal $errorText"
             set screening_msg "error: $errorText"
+	puts "yangx-8"
             set m_keepRunning 0
             syncWithRobot $TRY_SYNC_WITH_ROBOT
             return -code error $errorText
@@ -2378,6 +2387,7 @@ if { $currentPortOK && $nextPortOK } {
             puts "ERROR SequenceDevice::doMountNextCrystal() $errorText"
             log_error "Screening mountNextCrystal $errorText"
             set screening_msg "error: $errorText"
+	puts "yangx-9"
             set m_keepRunning 0
             syncWithRobot $TRY_SYNC_WITH_ROBOT
             return -code error $errorText

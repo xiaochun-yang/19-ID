@@ -65,6 +65,7 @@ EN
 //yangx The secondard shutter must be open (ssrl doesn't have the 2nd shutter)
 //I manually open the second shutter which is channel 1
 //CB 1
+CB 11
 KS~a=KSVal
 // OcDir..Output compare direction
 //MotErr is some extra counts to give a minimum counts for rollback
@@ -118,11 +119,15 @@ MG{EF} "log_info Forward motor"
 JP #WtFw1, _TD~a < ShutOpen 
 //yangx original SB ShutCh
 CB ShutCh
+//wait 10 millsec and trigger detector
+SB 11
 JP #Cont1
 #WtRv1    //reverse direction
 JP #WtRv1, _TD~a > ShutOpen 
 //yangx original SB ShutCh
 CB ShutCh
+//trigger the shutter
+SB 11
 #Cont1
 //tell the dhs that the shutter is open
 MG{EF} "dtoh_shutter_open", ShutCh
@@ -133,11 +138,14 @@ JP #WtFw2, _TD~a < ExpEnd
 //tell the dhs that the shutter is closed
 //yangx original CB ShutCh
 SB ShutCh
+//trigger detector to stop
+CB 11
 JP #Cont2
 #WtRv2
 JP #WtRv2, _TD~a > ExpEnd
 //yangx original CB ShutCh
 SB ShutCh
+//trigger detector to stop
 #Cont2
 MG{EF} "dtoh_shutter_closed ", ShutCh
 //stop the motor

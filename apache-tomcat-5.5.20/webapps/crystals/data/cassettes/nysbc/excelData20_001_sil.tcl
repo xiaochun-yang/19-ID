@@ -1,5 +1,5 @@
 {
-  {20} {15825} {load}
+  {20} {15921} {load}
   {
     {Selected 4 {hide editable}}
     {Port 4 {show readonly}}
@@ -53,7 +53,7 @@
     {}
     {
       {
-        { {/home/nysbc/temp/A1} {A1_0150.img} {A1_0deg_0154.jpg} {A1_0150_small.jpg} {A1_0150_medium.jpg} {A1_0150_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/test/A1} {A1_0015.img} {A1_0deg_0015.jpg} {A1_0015_small.jpg} {A1_0015_medium.jpg} {A1_0015_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -88,7 +88,7 @@
     {}
     {
       {
-        { {/home/nysbc/temp/A2} {A2_0130.img} {A2_0deg_0130.jpg} {A2_0130_small.jpg} {A2_0130_medium.jpg} {A2_0130_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/test/A2} {A2_0007.img} {A2_0deg_0007.jpg} {A2_0007_small.jpg} {A2_0007_medium.jpg} {A2_0007_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -618,10 +618,8 @@
     {}
     {
       {
-        { {/storage/nesg/raman/2013a/jul-31/B1} {B1_0001.img} {B1_0deg_0001.jpg} {B1_0001_small.jpg} {B1_0001_medium.jpg} {B1_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/storage/nesg/raman/2013a/jul-31/B1} {B1_0002.img} {B1_90deg_0002.jpg} {B1_0002_small.jpg} {B1_0002_medium.jpg} {B1_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -1194,10 +1192,9 @@
     {}
     {
       {
-        { {/storage/nesg/raman/2013a/jul-31/C1} {C1_0002.img} {C1_0deg_0002.jpg} {C1_0002_small.jpg} {C1_0002_medium.jpg} {C1_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/test/C1} {C1_0001.img} {C1_0deg_0001.jpg} {C1_0001_small.jpg} {C1_0001_medium.jpg} {C1_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/storage/nesg/raman/2013a/jul-31/C1} {C1_0003.img} {C1_90deg_0003.jpg} {C1_0003_small.jpg} {C1_0003_medium.jpg} {C1_0003_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
@@ -1230,10 +1227,9 @@
     {}
     {
       {
-        { {/storage/nesg/raman/2013a/jul-31/C2} {C2_0001.img} {C2_0deg_0001.jpg} {C2_0001_small.jpg} {C2_0001_medium.jpg} {C2_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
+        { {/storage/test/C2} {C2_0001.img} {C2_0deg_0001.jpg} {C2_0001_small.jpg} {C2_0001_medium.jpg} {C2_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
-        { {/storage/nesg/raman/2013a/jul-31/C2} {C2_0002.img} {C2_90deg_0002.jpg} {C2_0002_small.jpg} {C2_0002_medium.jpg} {C2_0002_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }
