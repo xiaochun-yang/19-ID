@@ -2,6 +2,7 @@
 #define _decimalnum_h
 
 #include <string>
+#include <cstdlib>
 
 using namespace std;
 

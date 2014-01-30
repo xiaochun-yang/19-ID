@@ -599,7 +599,7 @@ XOS_THREAD_ROUTINE gui_client_handler( xos_socket_t * socket )
         
         LOG_INFO2("HANDLE-GUI-CLIENT %.7s: in <- %s\n", user.sessionId, dcsMessage.textInBuffer);
         foundBadChar = 0;
-        while ( (badCharacterPtr = strpbrk((const char *)dcsMessage.textInBuffer, DCS_BAD_CHARACTERS )) != NULL)
+        while ( (badCharacterPtr = strpbrk((char *)dcsMessage.textInBuffer, DCS_BAD_CHARACTERS )) != NULL)
             {
             *badCharacterPtr = ' ';
             ++foundBadChar;
@@ -2356,7 +2356,7 @@ xos_result_t gtos_log( char *message, client_profile_t * user )
     if (!strncmp(message+9, "location", 8))
     {
         /* gtos_log location jsong This is Jinhu Song */
-        const char* pLocation = strchr(message+18, ' ');
+        char* pLocation = strchr(message+18, ' ');
         if (pLocation)
         {
             //more strict than the DCS_BAD_CHARACTERS
@@ -2397,8 +2397,8 @@ xos_result_t gtos_log( char *message, client_profile_t * user )
 
         //find the sender field
         //point to before sender
-        const char* pSender = strchr( message + 14, ' ' );
-        const char* pContents = NULL;
+        char* pSender = strchr( message + 14, ' ' );
+        char* pContents = NULL;
         //point to after sender
         if (pSender) {
             ++pSender; //skip space
@@ -2709,7 +2709,7 @@ XOS_THREAD_ROUTINE gui_SSLclient_handler( BIO* bio ) {
         
         LOG_INFO2("HANDLE-GUI-CLIENT %.7s: in <- %s\n", user.sessionId, dcsMessage.textInBuffer);
         foundBadChar = 0;
-        while ( (badCharacterPtr = strpbrk((const char *)dcsMessage.textInBuffer, DCS_BAD_CHARACTERS )) != NULL)
+        while ( (badCharacterPtr = strpbrk((char *)dcsMessage.textInBuffer, DCS_BAD_CHARACTERS )) != NULL)
             {
             *badCharacterPtr = ' ';
             ++foundBadChar;

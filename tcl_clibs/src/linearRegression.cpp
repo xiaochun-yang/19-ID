@@ -1,5 +1,6 @@
 #include "linearRegression.h"
 
+#include <stdio.h>
 #include <math.h>
 
 bool LinearRegression::Regress(

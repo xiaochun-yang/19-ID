@@ -505,7 +505,7 @@ DcsMessage* FileAccessThread::doWriteExcitationScanFile()
 	const char* pArgs = m_pMsg->GetOperationArgument();
 
     //msgHeader and data are separated by '{'
-	char* str = strrchr( pArgs, '{');
+	char* str = (char *) strrchr( pArgs, '{');
 	if (str == NULL) {
 		throw XosException("Missing datapoint list");
 	}

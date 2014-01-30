@@ -162,7 +162,7 @@ void AutochoochThread::exec()
 		dcssSessionId = dcssSessionId.substr(7);
 		
 	
-	char* str = strchr(m_pMsg->GetOperationArgument(), '{');
+	char* str = (char *) strchr(m_pMsg->GetOperationArgument(), '{');
 	if (str == NULL) {
 		throw XosException("Missing datapoint list");
 	}

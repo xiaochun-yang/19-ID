@@ -53,14 +53,27 @@ endif
 ifeq ($(OS),Windows_NT)
 MACHINE = nt
 else
-ifeq ($(OSTYPE),osf1)
+# Assuming that we now must be using some UNIX/Linux flavour
+os := $(shell uname)
+ 
+ifeq ($(os),osf1)
 MACHINE = decunix
 else
-ifeq ($(OSTYPE),irix)
+ifeq ($(os),irix)
 MACHINE = irix
 else
-ifeq ($(OSTYPE),linux)
+ifeq ($(os),Linux)
+# Check what flavour of hardware we are running Linux on
+mach := $(shell uname -m)
+
+ifeq ($(mach),i686)
 MACHINE = linux
+else
+ifeq ($(mach),x86_64)
+MACHINE = linux64
+
+endif
+endif
 endif
 endif
 endif
@@ -217,10 +230,10 @@ INC 	+= -I/usr/include/CC \
 endif
 
 
-ifeq ($(MACHINE),linux)
+ifeq ($(MACHINE),linux64)
 
 ########################################################
-# linux 
+# linux64 
 ########################################################
 
 ifeq ($(PURIFY),TRUE)
@@ -251,9 +264,9 @@ TCL_INCLUDE = -I/usr/local/include
 TCL_LIB =
 
 
-STD_LIBS += -ltk -ltcl /usr/lib/itcl3.3/libitcl3.3.so
+STD_LIBS += -ltk -ltcl /usr/lib64/libitcl3.4.so
 
-# endif linux
+# endif linux64
 endif
 
 #endif any unix
@@ -334,7 +347,7 @@ LIBS += $(DCSMSG_LIB) \
 # Object files
 ########################################################
 	
-ifeq ($(MACHINE),linux)
+ifeq ($(MACHINE),linux64)
 objs += $(MACHINE)/ConsoleDhs.o \
 	$(MACHINE)/ConsoleSystem.o \
        	$(MACHINE)/ConsoleService.o \
@@ -390,13 +403,12 @@ showinfo:
 	@echo   
 	-@gmake -version
 	@echo ...
-	@echo ...  
+	@echo ... 
 
 # Create the target directory
 
 makedir:
 	-@$(MKDIR) $(MACHINE)
-
 
 
 # Cleaning the output files. Can be used before re-build all.
@@ -416,10 +428,10 @@ clean:
 
 
 ConsoleDhs: showinfo makedir $(objs)
-ifeq ($(MACHINE),linux)
+ifeq ($(MACHINE),linux64)
 	$(LINK) -o $(MACHINE)$(SLASH)$@$(EXEEXT) $(LDFLAGS) $(objs) $(LIBS)
 else
-	@echo ConsoleDhs is currently available only on linux.
+	@echo ConsoleDhs is currently available only on linux64.
 endif
 
 

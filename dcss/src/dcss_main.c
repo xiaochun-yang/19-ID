@@ -315,17 +315,14 @@ int main( int argc, char *argv[] )
             sigaction( SIGTTIN, &sa, NULL );
         }
     }
-
     try {
         initLogging();
-
         // Must be called before reading or writing the database 
         // memory map file.
         if (!initConfig()) {
             LOG_SEVERE("Failed to initialize config\n");
             exit(1);
         }
-
         if (serverMode)
         {
             Tcl_FindExecutable( argv[0] );
@@ -361,7 +358,6 @@ int main( int argc, char *argv[] )
         LOG_SEVERE("Caught unknown error");
         exit(1);
     }
-    
     /* report success if called functions return */
     return 0;
 }
@@ -410,7 +406,6 @@ bool updateLogging()
     int numFiles = 3;
     bool append = false;
     
-    
     std::string tmp;
     if (!gDcssConfig.get("dcss.logStdout", tmp)) {
         LOG_WARNING("Could not find dcss.logStdout in config file\n");
@@ -425,7 +420,6 @@ bool updateLogging()
         LOG_WARNING("Could not find dcss.logUdpHost in config file\n");
         return false;
     }
-        
     if (!gDcssConfig.get("dcss.logUdpPort", tmp)) {
         LOG_WARNING("Could not find dcss.logUdpPort in config file\n");
         return false;
@@ -433,7 +427,6 @@ bool updateLogging()
         
     if (!tmp.empty())
         udpPort = XosStringUtil::toInt(tmp, udpPort);
-        
     
     if (!gDcssConfig.get("dcss.logFilePattern", filePattern)) {
         LOG_WARNING("Could not find dcss.logFilePattern in config file\n");
@@ -462,7 +455,6 @@ bool updateLogging()
         return false;
     }
     
-
     log_level_t* logLevel = log_level_parse(level.c_str());
     
     if (logLevel == NULL)
@@ -475,7 +467,6 @@ bool updateLogging()
         printf("Turning off stdout log\n");
         logger_remove_handler(gpDefaultLogger, stdout_handler);
     }
-        
     if (!udpHost.empty() && (udpPort > 0)) {
         udp_handler = log_udp_handler_new(udpHost.c_str(), udpPort);
         if (udp_handler != NULL) {
@@ -485,19 +476,16 @@ bool updateLogging()
         }
     }
         
-    
     if (!filePattern.empty()) {
         file_handler = g_create_log_file_handler(filePattern.c_str(), append, fileSize, numFiles);
-        if (file_handler != NULL) {
+       if (file_handler != NULL) {
             log_handler_set_level(file_handler, logLevel);
             log_handler_set_formatter(file_handler, trace_formatter);
             logger_add_handler(gpDefaultLogger, file_handler);
         }
     }
-
 //        log_include_modules(LOG_AUTH_CLIENT_LIB | LOG_HTTP_CPP_LIB);
         log_include_modules(LOG_AUTH_CLIENT_LIB);
-
     return true;
     
 }
@@ -533,22 +521,18 @@ void cleanupLogging()
  ****************************************************************/
 bool initConfig()
 {
-    
     // Assume that the we are running dcss in dcs/dcss/$MACHINE dir
     gDcssConfig.setConfigRootName(gRequestedBeamlineId);
-    
     
     if (!gDcssConfig.load()) {
         LOG_SEVERE1("Failed to load config from %s\n", gDcssConfig.getConfigFile().c_str());
         return false;
     }
-        
     
     if (!updateLogging()) {
         LOG_WARNING("Invalid log config for dcss. Use default setting.\n");
         return false;
     }
-
     gCircularMotorRange = gDcssConfig.getInt( "motor.circular.reset_range", 0 );
     
     return true;

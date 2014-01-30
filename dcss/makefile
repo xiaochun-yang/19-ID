@@ -300,7 +300,7 @@ TCL_DIR =
 TCL_INCLUDE = 
 TCL_LIB =
 
-STD_LIBS += -ltk -ltcl -litcl3.3
+STD_LIBS += -ltk -ltcl -litcl3.4
 
 endif
 

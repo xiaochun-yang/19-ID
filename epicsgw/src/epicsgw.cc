@@ -42,7 +42,6 @@ int main( int argc, char** argv )
         printf( "Please kill the previous one before restart\n" );
         xos_error_exit( "exit" );
     }
-
     char logFilePattern[256] = "epicsgw_";
     strcat( logFilePattern, argv[1] );
     strcat( logFilePattern, "_%g_%u.txt" );
@@ -54,7 +53,6 @@ int main( int argc, char** argv )
         LOG_FINEST( "run from front, not as a daemon");
     }
     
-
     LOG_FINEST1( "context=%p", ca_current_context( ));
 
 

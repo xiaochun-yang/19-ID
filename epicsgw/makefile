@@ -313,12 +313,12 @@ CPPFLAGS = -Wall
 LDFLAGS =
 SUPPORT_EPICS = TRUE
 
-<<<<<<< makefile
-STD_LIBS += -lm -lrt -lpthread -lc -lz -lreadline -lhistory -lncurses
-=======
+#<<<<<<< makefile
+#STD_LIBS += -lm -lrt -lpthread -lc -lz -lreadline -lhistory -lncurses
+#=======
 #STD_LIBS += -lm -lrt -lpthread -lc -lz
 STD_LIBS += -lm -lrt -lpthread -lc -lz -lreadline -lhistory -lncurses -ldl
->>>>>>> 1.9
+#>>>>>>> 1.9
 
 
 # TK

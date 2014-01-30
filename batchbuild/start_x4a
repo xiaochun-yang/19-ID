@@ -29,7 +29,7 @@ then
 	BEAMLINE=$1
 else
 case $HOSTNAME in 
-   dkong ) BEAMLINE="X4A";;
+   yangxc ) BEAMLINE="X4A";;
    blctlsim.slac.stanford.edu ) BEAMLINE="BL0-0";;
    blctl15.slac.stanford.edu ) BEAMLINE="BL1-5";;
    blctl71.slac.stanford.edu ) BEAMLINE="BL7-1";;
@@ -48,13 +48,16 @@ esac
 fi
 
 echo $BEAMLINE
+echo $MACHINE
 
 #dump database file
 cd ${DCS_ROOT}/dcss/$MACHINE
 DUMP_FILE="${BEAMLINE}_restart_dump`date +%F-%T`"
+echo $DUMP_FILE
+
 ./dcss $BEAMLINE -d $DUMP_FILE
 
-echo -e `date` start_dcs called on $BEAMLINE \\ndumpfile: $DUMP_FILE |mail -s "$BEAMLINE restart_dcs start" jsong@slac.stanford.edu scottm@slac.stanford.edu
+echo -e `date` start_dcs called on $BEAMLINE \\ndumpfile: $DUMP_FILE |mail -s "$BEAMLINE restart_dcs start" yangx@bnl.gov
 
 case $BEAMLINE in
     X4A)

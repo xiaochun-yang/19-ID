@@ -252,85 +252,11 @@
 # Version string
 VERSION = 0.8.1
 
-######################################################################
-# Set the compiler and flags
-######################################################################
-
-ifeq ($(OS),Windows_NT)
-MACHINE = nt
-else
-
-# Assuming that we now must be using some UNIX/Linux flavour
-os := $(shell uname)
-
-ifeq ($(os),OSF1)
-MACHINE = decunix
-CC = cc
-C++ = cxx
-CFLAGS += -w0 -pthread -O5
-STD_LIB += -lm -lrt -lpthread -lc
-
-RANLIB  = /usr/bin/ranlib
-
-else
-
-ifeq ($(os),IRIX64)
-MACHINE = irix
-CC	= cc 
-C++ = CC
-CFLAGS  += -O
-STD_LIB += -lm lrt -lpthread -lc
-
-else
-
-ifeq ($(os),Linux)
-RANLIB  = /usr/bin/ranlib
-
-# Check what flavour of hardware we are running Linux on
-mach := $(shell uname -m)
-
-ifeq ($(mach),i686)
-MACHINE = linux
-CC	= gcc
-C++ = g++
-CFLAGS  += -O -Wall 
-STD_LIB += -lm -lrt -lpthread -lc
-
-else
-
-ifeq ($(mach),x86_64)
-MACHINE = linux64
-#CC	= g++
-CC	= gcc -m64
-#C++ = g++
-C++	= g++ -m64
-#CFLAGS  += -O -Wall 
-CFLAGS  = -g -O2 -Wall -D_USE_XOPEN_EXTENDED -fno-strict-aliasing
-STD_LIB += -lm -lrt -lpthread -lc
-
-else
-
-ifeq ($(mach),ia64)
-MACHINE = ia64
-CC	= g++
-C++	= g++
-CFLAGS  += -O -Wall 
-STD_LIB += -lm -lrt -lpthread -lc
-
-RANLIB  = /usr/bin/ranlib
-endif
-endif
-endif
-endif
-endif
-endif
-endif
-
 
 #
 # Definitions to get gnu version of getopt or system version of getopt
 #
-GETOPT		=	SYSTEM
+#GETOPT		=	SYSTEM
 ifeq ($(GETOPT),)
   GETOPT 	=	getopt-1.1.4_cbf
 endif
@@ -357,7 +283,7 @@ AR	= /usr/bin/ar
 #
 # Program to use to add an index to an archive
 #
-#RANLIB  = /usr/bin/ranlib
+RANLIB  = /usr/bin/ranlib
 
 #
 # Program to use to decompress a data file
@@ -430,18 +356,23 @@ endif
 
 #########################################################
 #
-#  Appropriate compiler definitions for default (Linux)
+#  Appropriate compiler definitions for Linux x86_64
+#  with gcc version 4.2
 #
 #########################################################
-F90C =
-F90FLAGS = -g
-F90LDFLAGS = 
+CC	= gcc -m64
+C++	= g++ -m64
+CFLAGS  = -g -O2 -Wall -D_USE_XOPEN_EXTENDED -fno-strict-aliasing
+F90C = gfortran -m64
+F90FLAGS = -g -fno-range-check
+F90LDFLAGS =
 SOCFLAGS = -fPIC
 SOLDFLAGS = -shared -Wl,-rpath,$(INSTALLDIR)/lib
 JAVAINCLUDES = -I$(JDKDIR)/include -I$(JDKDIR)/include/linux
 LDPREFIX = LD_LIBRARY_PATH=$(SOLIB)
 M4FLAGS = -Dfcb_bytes_in_rec=131072
 TIME = time
+DOWNLOAD = /sw/bin/wget
 
 ifneq ($(NOFORTRAN),)
 F90C =
@@ -465,7 +396,7 @@ GRAPHICS = $(ROOT)/html_graphics
 DATADIRI  = $(ROOT)/../CBFlib_$(VERSION)_Data_Files_Input
 DATADIRO  = $(ROOT)/../CBFlib_$(VERSION)_Data_Files_Output
 DATADIRS  = $(ROOT)/../CBFlib_$(VERSION)_Data_Files_Output_Sigs_Only
-INSTALLDIR  = $(ROOT)/..
+INSTALLDIR  = $(HOME)
 
 #
 # URLs from which to retrieve the data directories
@@ -532,7 +463,6 @@ SOURCE   =  $(SRC)/cbf.c               \
 		    $(SRC)/cbf_write_binary.c  \
 		    $(SRC)/md5c.c
  
-ifneq ($(F90C),)
 F90SOURCE = $(SRC)/fcb_atol_wcnt.f90     \
 		    $(SRC)/fcb_ci_strncmparr.f90 \
 		    $(SRC)/fcb_exit_binary.f90   \
@@ -548,9 +478,7 @@ F90SOURCE = $(SRC)/fcb_atol_wcnt.f90     \
 		    $(SRC)/fcb_skip_whitespace.f90
 #		    $(EXAMPLES)/test_fcb_read_image.f90 \
 #		    $(EXAMPLES)/test_xds_binary.f90
-else
-F90SOURCE =
-endif
+		    
 		   
 #
 # Header files
@@ -775,35 +703,51 @@ symlinksdone:
 	./.symlinks $(SLFLAGS)
 	touch symlinksdone
 
-install:  all $(INSTALLDIR) $(INSTALLDIR)/lib/$(MACHINE) $(INSTALLDIR)/$(MACHINE) \
-		    $(INSTALLDIR)/include
-		-chmod -R 755 $(INSTALLDIR)/include
+install:  all $(INSTALLDIR) $(INSTALLDIR)/lib $(INSTALLDIR)/bin \
+		    $(INSTALLDIR)/include $(INSTALLDIR)/include/cbflib
+		-chmod -R 755 $(INSTALLDIR)/include/cbflib
 		-chmod 755 $(INSTALLDIR)/lib/libcbf.a
-		cp $(LIB)/libcbf.a $(INSTALLDIR)/lib/$(MACHINE)/libcbf.a
-		cp $(LIB)/libimg.a $(INSTALLDIR)/lib/$(MACHINE)/libimg.a
-		cp $(BIN)/adscimg2cbf $(INSTALLDIR)/$(MACHINE)/adscimg2cbf
-		cp $(BIN)/cbf2adscimg $(INSTALLDIR)/$(MACHINE)/cbf2adscimg
-		cp $(BIN)/convert_image $(INSTALLDIR)/$(MACHINE)/convert_image
-		cp $(BIN)/convert_minicbf $(INSTALLDIR)/$(MACHINE)/convert_minicbf
-		cp $(BIN)/makecbf $(INSTALLDIR)/$(MACHINE)/makecbf
-		cp $(BIN)/img2cif $(INSTALLDIR)/$(MACHINE)/img2cif
-		cp $(BIN)/cif2cbf $(INSTALLDIR)/$(MACHINE)/cif2cbf
-		cp $(BIN)/cif2c $(INSTALLDIR)/$(MACHINE)/cif2c
-		cp $(BIN)/testreals $(INSTALLDIR)/$(MACHINE)/testreals
-		cp $(BIN)/testflat $(INSTALLDIR)/$(MACHINE)/testflat
-		cp $(BIN)/testflatpacked $(INSTALLDIR)/$(MACHINE)/testflatpacked
-		cp $(INCLUDE)/* $(INSTALLDIR)/include
-		chmod 644 $(INSTALLDIR)/lib/$(MACHINE)/libcbf.a
-		chmod 755 $(INSTALLDIR)/$(MACHINE)/convert_image
-		chmod 755 $(INSTALLDIR)/$(MACHINE)/convert_minicbf
-		chmod 755 $(INSTALLDIR)/$(MACHINE)/makecbf
-		chmod 755 $(INSTALLDIR)/$(MACHINE)/img2cif
-		chmod 755 $(INSTALLDIR)/$(MACHINE)/cif2cbf
-		chmod 755 $(INSTALLDIR)/$(MACHINE)/cif2c
-		chmod 755 $(INSTALLDIR)/$(MACHINE)/testreals
-		chmod 755 $(INSTALLDIR)/$(MACHINE)/testflat
-		chmod 755 $(INSTALLDIR)/$(MACHINE)/testflatpacked
-		chmod -R 644 $(INSTALLDIR)/include/*
+		-cp $(INSTALLDIR)/lib/libcbf.a $(INSTALLDIR)/lib/libcbf_old.a
+		cp $(LIB)/libcbf.a $(INSTALLDIR)/lib/libcbf.a
+		-cp $(INSTALLDIR)/lib/libimg.a $(INSTALLDIR)/lib/libimg_old.a
+		cp $(LIB)/libimg.a $(INSTALLDIR)/lib/libimg.a
+		-cp $(INSTALLDIR)/bin/adscimg2cbf $(INSTALLDIR)/bin/adscimg2cbf_old
+		cp $(BIN)/adscimg2cbf $(INSTALLDIR)/bin/adscimg2cbf
+		-cp $(INSTALLDIR)/bin/cbf2adscimg $(INSTALLDIR)/bin/cbf2adscimg_old
+		cp $(BIN)/cbf2adscimg $(INSTALLDIR)/bin/cbf2adscimg
+		-cp $(INSTALLDIR)/bin/convert_image $(INSTALLDIR)/bin/convert_image_old
+		cp $(BIN)/convert_image $(INSTALLDIR)/bin/convert_image
+		-cp $(INSTALLDIR)/bin/convert_minicbf $(INSTALLDIR)/bin/convert_minicbf_old
+		cp $(BIN)/convert_minicbf $(INSTALLDIR)/bin/convert_minicbf
+		-cp $(INSTALLDIR)/bin/makecbf $(INSTALLDIR)/bin/makecbf_old
+		cp $(BIN)/makecbf $(INSTALLDIR)/bin/makecbf
+		-cp $(INSTALLDIR)/bin/img2cif $(INSTALLDIR)/bin/img2cif_old
+		cp $(BIN)/img2cif $(INSTALLDIR)/bin/img2cif
+		-cp $(INSTALLDIR)/bin/cif2cbf $(INSTALLDIR)/bin/cif2cbf_old
+		cp $(BIN)/cif2cbf $(INSTALLDIR)/bin/cif2cbf
+		-cp $(INSTALLDIR)/bin/cif2c $(INSTALLDIR)/bin/cif2c_old
+		cp $(BIN)/cif2c $(INSTALLDIR)/bin/cif2c
+		-cp $(INSTALLDIR)/bin/testreals $(INSTALLDIR)/bin/testreals_old
+		cp $(BIN)/testreals $(INSTALLDIR)/bin/testreals
+		-cp $(INSTALLDIR)/bin/testflat $(INSTALLDIR)/bin/testflat_old
+		cp $(BIN)/testflat $(INSTALLDIR)/bin/testflat
+		-cp $(INSTALLDIR)/bin/testflatpacked $(INSTALLDIR)/bin/testflatpacked_old
+		cp $(BIN)/testflatpacked $(INSTALLDIR)/bin/testflatpacked
+		-rm -rf $(INSTALLDIR)/include/cbflib_old
+		-cp -r $(INSTALLDIR)/include/cbflib $(INSTALLDIR)/include/cbflib_old
+		-rm -rf $(INSTALLDIR)/include/cbflib
+		cp -r $(INCLUDE) $(INSTALLDIR)/include/cbflib
+		chmod 644 $(INSTALLDIR)/lib/libcbf.a
+		chmod 755 $(INSTALLDIR)/bin/convert_image
+		chmod 755 $(INSTALLDIR)/bin/convert_minicbf
+		chmod 755 $(INSTALLDIR)/bin/makecbf
+		chmod 755 $(INSTALLDIR)/bin/img2cif
+		chmod 755 $(INSTALLDIR)/bin/cif2cbf
+		chmod 755 $(INSTALLDIR)/bin/cif2c
+		chmod 755 $(INSTALLDIR)/bin/testreals
+		chmod 755 $(INSTALLDIR)/bin/testflat
+		chmod 755 $(INSTALLDIR)/bin/testflatpacked
+		chmod -R 644 $(INSTALLDIR)/include/cbflib/*
 		
 		
 #
@@ -857,15 +801,16 @@ $(INSTALLDIR):
 $(INSTALLDIR)/lib:  $(INSTALLDIR)
 	mkdir -p $(INSTALLDIR)/lib
 
-$(INSTALLDIR)/lib/$(MACHINE):  $(INSTALLDIR)/lib
-	mkdir -p $(INSTALLDIR)/lib/$(MACHINE)
-
-$(INSTALLDIR)/$(MACHINE):  $(INSTALLDIR)
-	mkdir -p $(INSTALLDIR)/$(MACHINE)
+$(INSTALLDIR)/bin:  $(INSTALLDIR)
+	mkdir -p $(INSTALLDIR)/bin
 
 $(INSTALLDIR)/include:  $(INSTALLDIR)
 	mkdir -p $(INSTALLDIR)/include
 	
+$(INSTALLDIR)/include/cbflib: $(INSTALLDIR)/include
+	mkdir -p $(INSTALLDIR)/include/cbflib
+
+
 
 $(LIB):
 	mkdir $@

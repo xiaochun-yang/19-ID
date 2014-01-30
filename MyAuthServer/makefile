@@ -194,6 +194,29 @@ INC 	+= -I/usr/include/CC \
 
 endif
 
+ifeq ($(MACHINE),linux64)
+
+########################################################
+# linux64
+########################################################
+
+ifeq ($(PURIFY),TRUE)
+CC      = g++
+CXX     = g++
+LINK    = purify g++
+else
+CC      = g++
+CXX     = g++
+LINK    = g++
+endif
+CFLAGS  += -c -DLINUX -fexceptions -pthread -D_REENTRANT
+CPPFLAGS =
+LDFLAGS =
+STD_LIBS += -lm -lrt -lpthread -lc
+
+# endif linux64
+endif
+
 
 ifeq ($(MACHINE),linux)
 

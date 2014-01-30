@@ -5,7 +5,7 @@ static void MedianFilter( unsigned short *pBuffer, int width, int height,
 int size );
 static int PGM16Format_fileMatch(
 Tcl_Channel chan,
-CONST char *fileName,
+const char *fileName,
 Tcl_Obj *format,
 int *widthPtr,
 int *heightPtr,
@@ -15,7 +15,7 @@ Tcl_Interp *interp
 static int PGM16Format_fileRead(
 Tcl_Interp *interp,
 Tcl_Channel chan,
-CONST char *fileName,
+const char *fileName,
 Tcl_Obj *format,
 Tk_PhotoHandle imageHandle,
 int destX,
@@ -45,7 +45,7 @@ typedef struct GrayscaleHistogram_t {
 
 static int PGM16Format_fileMatch(
 Tcl_Channel chan,
-CONST char *fileName,
+const char *fileName,
 Tcl_Obj *format,
 int *widthPtr,
 int *heightPtr,
@@ -284,7 +284,7 @@ int srcX, int srcY, Tk_PhotoImageBlock *dstBlock ) {
 static int PGM16Format_fileRead(
 Tcl_Interp *interp,
 Tcl_Channel chan,
-CONST char *fileName,
+const char *fileName,
 Tcl_Obj *format,
 Tk_PhotoHandle imageHandle,
 int destX,

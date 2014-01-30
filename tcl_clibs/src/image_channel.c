@@ -27,7 +27,7 @@ items for any purpose whatsoever.                       Notice 91 02 01
 
 /* image_channel.c */
 
-#include <iostream.h>
+#include <iostream>
 
 extern "C" {
 #include <xos_socket.h>

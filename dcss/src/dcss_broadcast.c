@@ -212,7 +212,7 @@ XOS_THREAD_ROUTINE gui_broadcast_handler( void *arg )
         LOG_INFO1("broadcasting -> %s\n",logBuffer);
 
         foundBadChar = 0;
-        while ( (badCharacterPtr = strpbrk((const char *)dcsMessage.textInBuffer,DCS_BAD_CHARACTERS)) != NULL)
+        while ( (badCharacterPtr = strpbrk((char *)dcsMessage.textInBuffer,DCS_BAD_CHARACTERS)) != NULL)
             {
             *badCharacterPtr = ' ';
             ++foundBadChar;
@@ -229,7 +229,7 @@ XOS_THREAD_ROUTINE gui_broadcast_handler( void *arg )
             char* str = dcsMessage.textInBuffer;
             char* privateStr = NULL;
 
-            while ((privateStr=strstr((const char *)str, "PRIVATE")) != NULL) {
+            while ((privateStr=strstr((char *)str, "PRIVATE")) != NULL) {
                 privateStr += 7;
                 while ((*privateStr != ' ') && (*privateStr != '\0')) {
                     *privateStr = 'X';

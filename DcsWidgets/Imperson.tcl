@@ -34,6 +34,7 @@ proc impDirectoryWritable { username_ sessionId_ dir_ \
     append url "/writableDirectory?impUser=$username_"
     append url "&impSessionID=$mySID"
     append url "&impDirectory=[file nativename $dir_]"
+puts "yangxxx url=$url"
 
     ### also get next file counter if exists
     if {$prefix_ != ""} {
@@ -50,7 +51,7 @@ proc impDirectoryWritable { username_ sessionId_ dir_ \
     array set meta $state(meta)
     http::cleanup $token
 
-    #puts "writable result: $result"
+    puts "writable result: $result"
     if {![info exist meta(impFileExists)]} {
         log_note $dir_ created
         ### no need to parse impFileCounter

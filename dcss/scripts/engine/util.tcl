@@ -46,6 +46,7 @@ proc trimPRIVATE { sessionID } {
 
 proc checkCollectDirectoryAllowed { dir } {
     set prefixList [::config getList collect.allowedDirectory]
+
     if {$prefixList == ""} {
         set prefixList "/data"
     }

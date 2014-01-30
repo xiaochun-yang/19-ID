@@ -145,7 +145,7 @@ xos_result_t createWritableDirectory( const char * userName,
 	complete = FALSE;
 	while ( !complete )
 		{
-		nextSlash = strstr( searchDirectory,"/");
+		nextSlash = (char *) (strstr( searchDirectory, "/"));
 		if (nextSlash != NULL)
 			{
 			//found a directory slash
