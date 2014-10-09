@@ -310,7 +310,6 @@ class RobotStatusWidget {
         itk_component add $name {
             label $parent.l$bitNum -text $text
         } {
-            rename -activebackground warningBackground warningBackground WarningBackground
         }
         set mask [expr "1 << $bitNum"]
         lappend m_ExtraComNameList $name
@@ -479,7 +478,7 @@ class RobotStatusWidget {
         } {
         }
 
-        itk_component add in_ln2 {
+        itk_component add has_ln2 {
             DCS::Label $frame_state.ln \
             -width 30 \
             -anchor w \
@@ -626,7 +625,7 @@ class RobotStatusWidget {
         add_bit $frame_reason r_casst 20 "cassette seating"
         add_bit $frame_reason r_pinls 21 "pin lost"
         add_bit $frame_reason r_state 22 "wrong state"
-        add_bit $frame_reason r_badag 23 "bad argument"
+        add_bit $frame_reason r_tmout 23 "timeout in LN2"
         add_bit $frame_reason r_inprt 24 "port occupied"
         add_bit $frame_reason r_abort 25 "internal abort"
         add_bit $frame_reason r_unrch 26 "gonio unreachable"
@@ -637,6 +636,8 @@ class RobotStatusWidget {
         add_bit       $frame_in in_btl 30 "manual alignment-pin CAL"
         add_bit       $frame_in in_mnl 31 "manual gonio CAL"
         add_extra_bit $frame_in in_bcr  0 "manual barcode reader"
+        add_extra_bit $frame_in in_ln2  2 "ln2 standby"
+        add_extra_bit $frame_in in_rht  3 "reheating tongs"
 
         itk_component add zero_label {
             label $frame_in.in_nml -text "Normal"
@@ -661,12 +662,14 @@ class RobotStatusWidget {
 
         #puts "configure items"
         $itk_component(zero_label) configure -activebackground green
+        $itk_component(in_ln2)     configure -activebackground green
 
         $itk_component(in_rst) configure -activebackground yellow
         $itk_component(in_cal) configure -activebackground yellow
         $itk_component(in_btl) configure -activebackground yellow
         $itk_component(in_mnl) configure -activebackground yellow
         $itk_component(in_bcr) configure -activebackground yellow
+        $itk_component(in_rht) configure -activebackground yellow
         $itk_component(dhs_dwn) configure -activebackground red
 
         #rgeometry management
@@ -697,19 +700,22 @@ class RobotStatusWidget {
         grid $itk_component(r_casst) -row 0 -column 3 -sticky w
         grid $itk_component(r_pinls) -row 1 -column 3 -sticky w
         grid $itk_component(r_state) -row 2 -column 3 -sticky w
-        grid $itk_component(r_badag) -row 3 -column 3 -sticky w
+        grid $itk_component(r_tmout) -row 3 -column 3 -sticky w
         grid $itk_component(r_inprt) -row 0 -column 4 -sticky w
         grid $itk_component(r_abort) -row 1 -column 4 -sticky w
         grid $itk_component(r_unrch) -row 2 -column 4 -sticky w
         grid $itk_component(r_extnl) -row 3 -column 4 -sticky w
 
         grid $itk_component(zero_label) -row 0 -column 0 -sticky w
-        grid $itk_component(dhs_dwn)    -row 1 -column 0 -sticky w
-        grid $itk_component(in_rst)     -row 2 -column 0 -sticky w
+        grid $itk_component(in_ln2)     -row 1 -column 0 -sticky w
+        grid $itk_component(dhs_dwn)    -row 2 -column 0 -sticky w
+        grid $itk_component(in_rst)     -row 3 -column 0 -sticky w
+
         grid $itk_component(in_cal)     -row 0 -column 1 -sticky w
         grid $itk_component(in_btl)     -row 1 -column 1 -sticky w
         grid $itk_component(in_mnl)     -row 2 -column 1 -sticky w
         grid $itk_component(in_bcr)     -row 3 -column 1 -sticky w
+        grid $itk_component(in_rht)     -row 4 -column 1 -sticky w
 
         pack $itk_component(counter_frame) -anchor w
         pack $itk_component(stripped_frame) -anchor w
@@ -718,7 +724,7 @@ class RobotStatusWidget {
         pack $itk_component(sample_state) -anchor w
         pack $itk_component(magnet_state) -anchor w
         pack $itk_component(current_point) -anchor w
-        pack $itk_component(in_ln2) -anchor w
+        pack $itk_component(has_ln2) -anchor w
         pack $itk_component(current_port) -anchor w
         pack $itk_component(sample_msg) -anchor w
 
@@ -875,10 +881,23 @@ class RobotStatusLabel {
         } elseif {[regexp {^[0-9]+$} $value]} {
             if {[regexp {^[0]+$} $value]} {
                 if {$extra != 0} {
-                    ### this is the only one for now
-                    $itk_component(label) configure \
-                    -text "In barcode CAL" \
-                    -activebackground $itk_option(-warningBackground)
+                    if {[expr $extra & 3]} { 
+                        $itk_component(label) configure \
+                        -text "In barcode CAL" \
+                        -activebackground $itk_option(-warningBackground)
+                    } elseif {[expr $extra & [expr "1 << 3"]]} { 
+                        $itk_component(label) configure \
+                        -text "Busy" \
+                        -activebackground yellow
+                    } elseif {[expr $extra & [expr "1 << 2"]]} { 
+                        $itk_component(label) configure \
+                        -text "Standby" \
+                        -activebackground $itk_option(-normalBackground)
+                    } else {
+                        $itk_component(label) configure \
+                        -text "Busy unknown extra state" \
+                        -activebackground yellow
+                    }
                 } else {
                     if {$m_busy} {
                         $itk_component(label) configure \
@@ -1012,9 +1031,41 @@ body RobotStatusLabel::handleStringStatus { stringName_ targetReady_ alias_ stat
 class RobotControlWidget {
     inherit RobotBaseWidget
 
+    public method handleSilConfigUpdate { - ready_ - contents_ - } {
+        if {!$ready_} {
+            return
+        }
+        set enableFastMode [lindex $contents_ 4]
+        set lastIndex [$itk_component(notebook) index end]
+        puts "fastModeEnabled=$enableFastMode, lastTabIndex=$lastIndex"
+        if {$enableFastMode == "1"} {
+            if {$lastIndex < 7} {
+                set fastSite [$itk_component(notebook) add -label "Fast_Mode"]
+                itk_component add fast_info {
+                    RobotFastModeWidget $fastSite.info
+                } {
+                }
+                pack $itk_component(fast_info) -side top
+            }
+        } else {
+            if {$lastIndex >= 7} {
+                set curIndex [$itk_component(notebook) index select]
+                $itk_component(notebook) delete $lastIndex
+                if {$curIndex < 0 || $curIndex >= $lastIndex} {
+                    $itk_component(notebook) view 0
+                }
+            }
+        }
+    }
+
+    private variable m_strSilConfig ""
+
     constructor { args } {
         eval RobotBaseWidget::constructor $args
     } {
+        set deviceFactory [DCS::DeviceFactory::getObject]
+        set m_strSilConfig [$deviceFactory createString sil_config]
+
         itk_component add notebook {
             iwidgets::Tabnotebook $itk_interior.nb -tabpos n -height 400
         } {
@@ -1041,8 +1092,6 @@ class RobotControlWidget {
             -foreground Red
         } {
         }
-
-
 
         #create all of the pages
         set StatusSite [$itk_component(notebook) add -label "Status"]
@@ -1107,10 +1156,13 @@ class RobotControlWidget {
         pack $itk_component(rstate)
         pack $itk_component(warning_msg)
         pack $itk_interior -expand yes -fill both
+
+        $m_strSilConfig register $this contents handleSilConfigUpdate
     }
 
 
     destructor {
+        $m_strSilConfig unregister $this contents handleSilConfigUpdate
     }
 }
 
@@ -1459,9 +1511,15 @@ class RobotCalibrationWidget {
         $m_objStrTS createAttributeFromField right 3
         $m_objStrTS createAttributeFromField gonio 4
         $m_objStrTS createAttributeFromField align 5
-        $m_objStrTS createAttributeFromField barcode 6
+        $m_objStrTS createAttributeFromField alignII 6
+        $m_objStrTS createAttributeFromField barcode 7
 
-        set ring $itk_interior
+        itk_component add sf {
+            iwidgets::scrolledframe $itk_interior.sf \
+            -vscrollmode static
+        } {
+        }
+        set ring [$itk_component(sf) childsite]
 
         #compose command site
         itk_component add detailed_msg {
@@ -1548,7 +1606,7 @@ class RobotCalibrationWidget {
 
         itk_component add bt_do {
             DCS::HotButton $ring.bt_do     \
-            -text "Alignment Pin" \
+            -text "Alignment Pin A" \
             -confirmText "Confirm Pin REMOVED" \
             -width 20 \
             -command "$this start calibrateBeamLineTool"
@@ -1592,6 +1650,53 @@ class RobotCalibrationWidget {
         pack $itk_component(bt_home) -side top -anchor w
 
         lappend m_ButtonList bt_do bt_move bt_save bt_home
+
+        itk_component add btII_do {
+            DCS::HotButton $ring.btII_do     \
+            -text "Alignment Pin B" \
+            -confirmText "Confirm Pin REMOVED" \
+            -width 20 \
+            -command "$this start calibrateBeamLineToolII"
+        } {
+        }
+
+        ###################################################
+        itk_component add btII_manual {
+            iwidgets::Labeledframe $ring.fr_btII_manual \
+            -labelpos nw \
+            -labeltext "manual calibration"
+        } {
+        }
+        set frame_btIImanual [$itk_component(btII_manual) childsite ]
+	    pack propagate $frame_btIImanual 1
+
+        itk_component add btII_move {
+            DCS::Button $frame_btIImanual.move     \
+            -text "Move To Standby" \
+            -width 22 \
+            -command "$this start moveToBeamlineToolII"
+        } {
+        }
+        itk_component add btII_save {
+            DCS::Button $frame_btIImanual.save     \
+            -text "Save Current Position" \
+            -background red \
+            -width 22 \
+            -command "$this start teachBeamlineToolII"
+        } {
+        }
+        itk_component add btII_home {
+            DCS::Button $frame_btIImanual.home     \
+            -text "Go Home" \
+            -width 22 \
+            -command "$this start jumpHome"
+        } {
+        }
+        pack $itk_component(btII_move) -side top -anchor w
+        pack $itk_component(btII_save) -side top -anchor w
+        pack $itk_component(btII_home) -side top -anchor w
+
+        lappend m_ButtonList btII_do btII_move btII_save btII_home
 
         ###################################################
         itk_component add bc_manual {
@@ -1648,7 +1753,7 @@ class RobotCalibrationWidget {
         }
 
         itk_component add ts_toolset {
-            DCS::Label $itk_interior.ts_toolset \
+            DCS::Label $ring.ts_toolset \
             -component $m_objStrTS \
             -attribute toolset \
             -promptWidth 10 \
@@ -1658,7 +1763,7 @@ class RobotCalibrationWidget {
         }
 
         itk_component add ts_cassetteF {
-            frame $itk_interior.ts_cassette_frame
+            frame $ring.ts_cassette_frame
         } {
         }
 
@@ -1696,7 +1801,7 @@ class RobotCalibrationWidget {
         grid $itk_component(ts_right_cassette)  -column 0 -row 2 -sticky w
 
         itk_component add ts_goniometer {
-            DCS::Label $itk_interior.ts_gonio \
+            DCS::Label $ring.ts_gonio \
             -component $m_objStrTS \
             -attribute gonio \
             -promptWidth 10 \
@@ -1706,17 +1811,27 @@ class RobotCalibrationWidget {
         }
 
         itk_component add ts_alignmentPin {
-            DCS::Label $itk_interior.ts_align \
+            DCS::Label $ring.ts_align \
             -component $m_objStrTS \
             -attribute align \
             -promptWidth 10 \
             -promptAnchor w \
-            -promptText "TS Align:"
+            -promptText "TS Align A:"
+        } {
+        }
+
+        itk_component add ts_alignmentPinII {
+            DCS::Label $ring.ts_alignII \
+            -component $m_objStrTS \
+            -attribute alignII \
+            -promptWidth 10 \
+            -promptAnchor w \
+            -promptText "TS Align B:"
         } {
         }
 
         itk_component add ts_barcode {
-            DCS::Label $itk_interior.ts_barcode \
+            DCS::Label $ring.ts_barcode \
             -component $m_objStrTS \
             -attribute barcode \
             -promptWidth 10 \
@@ -1726,7 +1841,7 @@ class RobotCalibrationWidget {
         }
 
         itk_component add oneFrame {
-            frame $itk_interior.oneFrame
+            frame $ring.oneFrame
         } {
         }
         itk_component add oneButton {
@@ -1763,10 +1878,19 @@ class RobotCalibrationWidget {
                     $itk_component($buttonComponent) addInput \
                     "$m_statusObj in_manual 1 {only valid after Move To Gonio Standby}"
                 }
+                btII_save -
+                btII_home {
+                    $itk_component($buttonComponent) addInput \
+                    "$m_statusObj in_tool 1 {only valid after Move To Alignment Pin Standby}"
+                    $itk_component($buttonComponent) addInput \
+                    "$m_stateObj OKForPinB 1 {only valid for Alignment Pin B}"
+                }
                 bt_save -
                 bt_home {
                     $itk_component($buttonComponent) addInput \
                     "$m_statusObj in_tool 1 {only valid after Move To Alignment Pin Standby}"
+                    $itk_component($buttonComponent) addInput \
+                    "$m_stateObj OKForPinA 1 {only valid for Alignment Pin A}"
                 }
                 bc_save -
                 bc_home {
@@ -1811,27 +1935,33 @@ class RobotCalibrationWidget {
         grid $itk_component(cas_do)         -column 0 -row 2 -sticky w
         grid $itk_component(gonio_do)       -column 0 -row 3 -sticky w
         grid $itk_component(bt_do)          -column 0 -row 4 -sticky w
+        grid $itk_component(btII_do)        -column 0 -row 5 -sticky w
         #####
-        grid $itk_component(cal_msg)        -column 0 -row 6 -columnspan 3 \
-        -sticky w
-        grid $itk_component(feedback)       -column 0 -row 7 -columnspan 3 \
-        -sticky news
 
         grid $itk_component(cas_cfg)        -column 1 -row 2 -sticky w
         grid $itk_component(gonio_manual)   -column 1 -row 3 -sticky w
         grid $itk_component(bt_manual)      -column 1 -row 4 -sticky w
-        grid $itk_component(bc_manual)      -column 1 -row 5 -sticky w
+        grid $itk_component(btII_manual)    -column 1 -row 5 -sticky w
+        grid $itk_component(bc_manual)      -column 1 -row 6 -sticky w
 
         grid $itk_component(oneFrame)           -column 2 -row 0 -sticky w
         grid $itk_component(ts_toolset)         -column 2 -row 1 -sticky w
         grid $itk_component(ts_cassetteF)       -column 2 -row 2 -sticky w
         grid $itk_component(ts_goniometer)      -column 2 -row 3 -sticky w
         grid $itk_component(ts_alignmentPin)    -column 2 -row 4 -sticky w
-        grid $itk_component(ts_barcode)         -column 2 -row 5 -sticky w
+        grid $itk_component(ts_alignmentPinII)  -column 2 -row 5 -sticky w
+        grid $itk_component(ts_barcode)         -column 2 -row 6 -sticky w
 
         grid columnconfigure $ring 2 -weight 1
 
-        grid $itk_interior -sticky news
+        grid $itk_component(sf)             -column 0 -row 0 -sticky news
+        grid $itk_component(cal_msg)        -column 0 -row 6 -sticky w
+        grid $itk_component(feedback)       -column 0 -row 7 -sticky news
+
+        grid rowconfigure $itk_interior    0 -weight 1
+        grid columnconfigure $itk_interior 0 -weight 1
+
+        #grid $itk_interior -sticky news
     }
 
 
@@ -1880,20 +2010,33 @@ body RobotCalibrationWidget::start { operation } {
                 startOperation $operation $cas 0]
             }
         }
-        calibrateGoniometer -
-        calibrateBeamLineTool {
+        calibrateGoniometer {
             set opID [eval $m_opISample startOperation $operation 0]
+        }
+        calibrateBeamLineTool {
+            set opID [eval $m_opISample startOperation $operation 0 0]
+        }
+        calibrateBeamLineToolII {
+            set opID [eval $m_opISample startOperation calibrateBeamLineTool 0 1]
         }
         oneCalibrate -
         moveToGoniometer -
         teachGoniometer -
-        moveToBeamlineTool -
-        teachBeamlineTool -
         jumpHome -
         moveHome -
         moveToBarcodeReader -
         teachBarcodeReader {
             set opID [eval $m_opISample startOperation $operation]
+        }
+        moveToBeamlineTool -
+        teachBeamlineTool {
+            set opID [eval $m_opISample startOperation $operation 0]
+        }
+        moveToBeamlineToolII {
+            set opID [eval $m_opISample startOperation moveToBeamlineTool 1]
+        }
+        teachBeamlineToolII {
+            set opID [eval $m_opISample startOperation teachBeamlineTool 1]
         }
     }
 }
@@ -3198,4 +3341,504 @@ class SampleZAdjustWidget {
         bind $m_parent_id <Configure> "$this handleResize %W %w %h"
     }
 }
+
+
+#### string will be robot_attribute,
+#### display robot_reheat_info
+#### one check box mapped to sil_config.
+class RobotFastModeWidget {
+    inherit ::DCS::StringFieldViewBase
+
+    public method setDisplayLabel { name value } {
+        $itk_component($name) configure \
+        -text $value
+
+        switch -exact -- $name {
+            td_reheat -
+            td_reset {
+                if {[string first overdue $value] >= 0} {
+                    $itk_component($name) configure \
+                    -background red
+                } else {
+                    $itk_component($name) configure \
+                    -background #00a040
+                }
+            }
+        }
+    }
+    public method setDisplayState { name s } {
+        $itk_component($name) configure \
+        -state $s
+
+        ### add some special code upon change
+    }
+
+    public method setTopEnable { s } {
+        set contents [$m_objSilConfig getContents]
+        set newContents [setStringFieldWithPadding $contents 4 $s]
+        $m_objSilConfig sendContentsToServer $newContents
+    }
+
+    public method refresh { } {
+        $m_opRobotSoftSet startOperation sync_time_now [clock seconds]
+    }
+
+    public method goHome { } {
+        $m_opRobotStandby startOperation
+    }
+    public method forceReheat { } {
+        $m_opRobotStandby startOperation reheat_tong forced now=[clock seconds]
+    }
+
+    private variable m_deviceFactory ""
+    private variable m_objSilConfig ""
+    private variable m_objInfo ""
+
+    private variable m_attributeDisplay ""
+
+    private variable m_opRobotSoftSet ""
+    private variable m_opRobotStandby ""
+
+    constructor { args } {
+        set m_entryList [list \
+        spanReheat 14 \
+        cntMax 15 \
+        spanHeating 16 \
+        spanHome 17 \
+        ]
+
+        set m_labelList [list \
+        ti_spanReheat 14 \
+        ti_spanHeating 16 \
+        ti_spanHome 17 \
+        ]
+
+        set m_deviceFactory [DCS::DeviceFactory::getObject]
+        set m_objSilConfig  [$m_deviceFactory createString sil_config]
+        $m_objSilConfig createAttributeFromField robot_fast_mode 4
+
+        set m_objInfo  [$m_deviceFactory createString robot_reheat_info]
+        $m_objInfo createAttributeFromKey standby
+
+        set m_opRobotSoftSet [$m_deviceFactory createOperation robot_soft_set]
+        set m_opRobotStandby [$m_deviceFactory createOperation robot_standby]
+
+        set statusObj [$m_deviceFactory createString robot_status]
+        $statusObj createAttributeFromField need_reset 3
+        $statusObj createAttributeFromField robot_state 7
+        $statusObj createAttributeFromField need_clear 27
+
+        itk_component add fastEnable {
+			DCS::Checkbutton $m_site.topEnable \
+            -text "Enable LN2 Standby" \
+            -command "$this setTopEnable %s" \
+            -shadowReference 1 \
+            -reference "$m_objSilConfig robot_fast_mode" \
+            -activeClientOnly 0 \
+            -systemIdleOnly 0 \
+        } {
+        }
+
+        itk_component add statusFrame {
+            iwidgets::Labeledframe $m_site.statusF \
+            -labelpos nw \
+            -labeltext "Status" \
+        } {
+        }
+        set statusSite [$itk_component(statusFrame) childsite]
+        itk_component add stateStandby {
+            label $statusSite.standby \
+            -text "In LN2 Standby" \
+            -activebackground green \
+        } {
+        }
+        itk_component add stateTimer {
+            label $statusSite.timer \
+            -text "Timer Running" \
+            -activebackground green \
+        } {
+        }
+        itk_component add stateReheating {
+            label $statusSite.reheat \
+            -text "Reheating Tongs" \
+            -activebackground yellow \
+        } {
+        }
+        grid $itk_component(stateStandby) $itk_component(stateTimer) \
+        $itk_component(stateReheating) -sticky news
+
+        itk_component add countFrame {
+            iwidgets::Labeledframe $m_site.cntF \
+            -labelpos nw \
+            -labeltext "Sample Count Before Reheat Tongs" \
+        } {
+        }
+        set cntSite [$itk_component(countFrame) childsite]
+
+        label $cntSite.l0 -text "Max Count"
+        label $cntSite.l1 -text "Current Count"
+        label $cntSite.l2 -text "Remain Count"
+
+        set cmd [list $this updateEntryColor cntMax 15 %P]
+        itk_component add cntMax {
+            entry $cntSite.max \
+            -justify right \
+            -width 6 \
+            -background white \
+            -validate all \
+            -vcmd $cmd
+        } {
+        }
+
+        itk_component add cntCur {
+            label $cntSite.cur \
+            -relief sunken \
+            -width 6\
+            -anchor e \
+            -background #00a040 \
+            -text cntCur
+        } {
+        }
+
+        itk_component add cntRmn {
+            label $cntSite.remain \
+            -relief sunken \
+            -width 6\
+            -anchor e \
+            -background #00a040 \
+            -text cntCur
+        } {
+        }
+        grid $cntSite.l0 $cntSite.l1 $cntSite.l2 -sticky news
+        grid $itk_component(cntMax) $itk_component(cntCur) $itk_component(cntRmn) -sticky news
+
+        itk_component add spanFrame {
+            iwidgets::Labeledframe $m_site.spanF \
+            -labelpos nw \
+            -labeltext "Time Span (seconds)" \
+        } {
+        }
+        set spanSite [$itk_component(spanFrame) childsite]
+        label $spanSite.l0 -text "Reheat Tong"
+        label $spanSite.l1 -text "Go Home"
+        label $spanSite.l2 -text "Reset"
+        label $spanSite.l3 -text "Heating"
+
+        set cmd [list $this updateEntryColor spanReheat 14 %P]
+        itk_component add spanReheat {
+            entry $spanSite.reheat \
+            -justify right \
+            -width 8 \
+            -background white \
+            -validate all \
+            -vcmd $cmd
+        } {
+        }
+
+        itk_component add ti_spanReheat {
+            label $spanSite.txtReheat \
+            -relief sunken \
+            -width 8 \
+            -anchor e \
+            -background #00a040 \
+            -text spanReheat
+        } {
+        }
+
+        set cmd [list $this updateEntryColor spanHome 17 %P]
+        itk_component add spanHome {
+            entry $spanSite.home \
+            -justify right \
+            -width 8 \
+            -background white \
+            -validate all \
+            -vcmd $cmd
+        } {
+        }
+
+        itk_component add ti_spanHome {
+            label $spanSite.txtHome \
+            -relief sunken \
+            -width 8 \
+            -anchor e \
+            -background #00a040 \
+            -text spanHome
+        } {
+        }
+
+        itk_component add spanReset {
+            label $spanSite.reset \
+            -relief sunken \
+            -width 8 \
+            -anchor e \
+            -background tan \
+            -text spanReset
+        } {
+        }
+
+        itk_component add ti_spanReset {
+            label $spanSite.txtReset \
+            -relief sunken \
+            -width 8 \
+            -anchor e \
+            -background #00a040 \
+            -text spanReset
+        } {
+        }
+
+        set cmd [list $this updateEntryColor spanHeating 15 %P]
+        itk_component add spanHeating {
+            entry $spanSite.heating \
+            -justify right \
+            -width 8 \
+            -background white \
+            -validate all \
+            -vcmd $cmd
+        } {
+        }
+
+        itk_component add ti_spanHeating {
+            label $spanSite.txtHeating \
+            -relief sunken \
+            -width 8 \
+            -anchor e \
+            -background #00a040 \
+            -text spanHeating
+        } {
+        }
+
+        grid $spanSite.l0 $spanSite.l1 $spanSite.l2 $spanSite.l3
+        grid $itk_component(spanReheat) $itk_component(spanHome) \
+        $itk_component(spanReset) $itk_component(spanHeating) -sticky news
+
+        grid $itk_component(ti_spanReheat) $itk_component(ti_spanHome) \
+        $itk_component(ti_spanReset) $itk_component(ti_spanHeating) -sticky news
+
+        itk_component add lastFrame {
+            iwidgets::Labeledframe $m_site.lastF \
+            -labelpos nw \
+            -labeltext "TimeStamp for Latest Action" \
+        } {
+        }
+        set lastSite [$itk_component(lastFrame) childsite]
+        label $lastSite.l0 -text "Heat Tong"
+        label $lastSite.l1 -text "Go in LN2"
+        label $lastSite.l2 -text "System Idle"
+        itk_component add ts_lastHeat {
+            label $lastSite.heat \
+            -relief sunken \
+            -width 17 \
+            -anchor e \
+            -background #00a040 \
+            -text lastheat
+        } {
+        }
+
+        itk_component add ts_lastInLN2 {
+            label $lastSite.ln2 \
+            -relief sunken \
+            -width 17 \
+            -anchor e \
+            -background #00a040 \
+            -text lastinln2
+        } {
+        }
+
+        itk_component add ts_lastIdle {
+            label $lastSite.idle \
+            -relief sunken \
+            -width 17 \
+            -anchor e \
+            -background #00a040 \
+            -text lastIdle
+        } {
+        }
+
+        grid $lastSite.l0 $lastSite.l1 $lastSite.l2 -sticky news
+
+        grid $itk_component(ts_lastHeat) \
+        $itk_component(ts_lastInLN2) \
+        $itk_component(ts_lastIdle) \
+        -sticky news
+
+        itk_component add triggerFrame {
+            iwidgets::Labeledframe $m_site.triggerF \
+            -labelpos nw \
+            -labeltext "Trigger Time" \
+        } {
+        }
+        set triggerSite [$itk_component(triggerFrame) childsite]
+
+        label $triggerSite.l0 -text "Reheat"
+        label $triggerSite.l1 -text "Go Home"
+        label $triggerSite.l2 -text "Reset"
+        label $triggerSite.l3 -text "Time"
+        label $triggerSite.l4 -text "Remain"
+
+        itk_component add ts_triggerReheat {
+            label $triggerSite.trgReheat \
+            -relief sunken \
+            -width 17 \
+            -anchor e \
+            -background #00a040 \
+            -text nextHeat
+        } {
+        }
+
+        itk_component add ts_triggerHome {
+            label $triggerSite.trgHome \
+            -relief sunken \
+            -width 17 \
+            -anchor e \
+            -background #00a040 \
+            -text nextHome
+        } {
+        }
+
+        itk_component add ts_triggerReset {
+            label $triggerSite.trgReset \
+            -relief sunken \
+            -width 17 \
+            -anchor e \
+            -background #00a040 \
+            -text nextReset
+        } {
+        }
+
+        itk_component add td_reheat {
+            label $triggerSite.tdReheat \
+            -relief sunken \
+            -width 17 \
+            -anchor e \
+            -background #00a040 \
+            -text reheatLeft
+        } {
+        }
+
+        itk_component add td_home {
+            label $triggerSite.tdHome \
+            -relief sunken \
+            -width 17 \
+            -anchor e \
+            -background #00a040 \
+            -text homeLeft
+        } {
+        }
+
+        itk_component add td_reset {
+            label $triggerSite.tdReset \
+            -relief sunken \
+            -width 17 \
+            -anchor e \
+            -background #00a040 \
+            -text resetLeft
+        } {
+        }
+
+        itk_component add bReheat {
+            ::DCS::Button $triggerSite.bReheat \
+            -systemIdleOnly 0 \
+            -text "Force Reheat" \
+            -width 12 \
+            -command "$this forceReheat" \
+        } {
+        }
+
+        itk_component add bGoHome {
+            ::DCS::Button $triggerSite.bGoHome \
+            -systemIdleOnly 0 \
+            -text "Go Home" \
+            -width 12 \
+            -command "$this goHome" \
+        } {
+        }
+
+        itk_component add bRefresh {
+            button $triggerSite.bRefresh \
+            -background #00a040 \
+            -text "Refresh" \
+            -command "$this refresh" \
+        } {
+        }
+
+        grid $itk_component(bRefresh) \
+        $triggerSite.l0 $triggerSite.l1 $triggerSite.l2 -sticky news
+
+        grid $triggerSite.l3 \
+        $itk_component(ts_triggerReheat) \
+        $itk_component(ts_triggerHome) \
+        $itk_component(ts_triggerReset) -sticky ews
+
+        grid x $itk_component(bReheat) \
+        $itk_component(bGoHome)
+
+        grid $triggerSite.l4 $itk_component(td_reheat) $itk_component(td_home) \
+        $itk_component(td_reset) -sticky news
+
+
+        ############## TOP level #############
+        grid $itk_component(fastEnable) -sticky w
+        grid $itk_component(statusFrame) -sticky w
+        grid $itk_component(countFrame) -sticky w
+        grid $itk_component(spanFrame) -sticky w
+        grid $itk_component(lastFrame) -sticky w
+        grid $itk_component(triggerFrame) -sticky w
+
+
+        set displayLabelList [list \
+        spanReset           reset_span \
+        ti_spanReset        reset_span \
+        ts_lastHeat         tm_heat \
+        ts_lastInLN2        tm_ln2 \
+        ts_lastIdle         tm_idle \
+        ts_triggerReheat    trigger_reheat \
+        ts_triggerHome      trigger_go_home \
+        ts_triggerReset     trigger_reset \
+        td_reheat           reheat_time_left \
+        td_home             go_home_time_left \
+        td_reset            reset_time_left \
+        cntRmn              sample_count_left \
+        cntCur              sample_count \
+        ]
+
+        set displayStateList [list \
+        stateStandby    standby \
+        stateTimer      timer \
+        stateReheating  reheat \
+        ]
+
+        set m_attributeDisplay [DCS::StringDictDisplayBase ::\#auto $this]
+        $m_attributeDisplay setLabelList $displayLabelList
+        $m_attributeDisplay setStateList $displayStateList
+
+        $m_attributeDisplay configure -stringName $m_objInfo
+
+        foreach bb {bReheat bGoHome} {
+            $itk_component($bb) addInput \
+            "$m_objInfo standby 1 {Only When Robot Standby in LN2}"
+
+            $itk_component($bb) addInput \
+            "$statusObj robot_state idle {supporting device}"
+
+            $itk_component($bb) addInput \
+            "$statusObj need_reset 0 {need reset}"
+
+            $itk_component($bb) addInput \
+            "$statusObj need_clear 0 {need staff inspection}"
+        }
+
+        eval itk_initialize $args
+		announceExist
+
+        configure \
+        -systemIdleOnly 0 \
+        -activeClientOnly 0 \
+        -stringName ::device::robot_attribute
+    }
+    destructor {
+        delete object $m_attributeDisplay
+    }
+}
+
+
 RobotBaseWidget::initCassetteLabelList

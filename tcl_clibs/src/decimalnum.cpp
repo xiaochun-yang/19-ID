@@ -3,7 +3,7 @@
 #include <assert.h>
 #include <math.h>
 #include <string>
-#include <stdio.h>
+#include <cstdio>
 
 using namespace std;
 

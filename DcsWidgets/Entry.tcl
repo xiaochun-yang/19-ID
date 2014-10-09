@@ -117,7 +117,7 @@ class DCS::Entry {
 	itk_option define -nullAllowed nullAllowed NullAllowed "0"
 	itk_option define -entryWidth entryWidth EntryWidth 8
 	itk_option define -entryMaxLength entrymax EntryMax	""
-	itk_option define -precision precision Precision 0.01
+	itk_option define -precision precision Precision 0.001
 	itk_option define -decimalPlaces decimalplaces DecimalPlaces "3"
 	itk_option define -zeroPadDigits zeropad Zeropad 0
 	itk_option define -escapeToDefault escapeToDefault EscapeToDefault 1
@@ -1747,7 +1747,12 @@ body DCS::MenuEntry::updateEntryWidget {} {
    }
 
    #the menubutton shows the current selection, and cannot be edited	
-   $itk_component(dropdown) configure -text [get] -relief sunken \
+    set txt [get]
+    set ll [llength $txt]
+	if {$itk_option(-units) != "" && $itk_option(-showUnits) && $ll == 2} {
+        set txt [lindex $txt 0]
+    }
+   $itk_component(dropdown) configure -text $txt -relief sunken \
       -background white -borderwidth 2
 }
 
@@ -1768,7 +1773,14 @@ body DCS::MenuEntry::updateState {} {
             $itk_component(dropdown) configure -background white
          }
 		}
-        labeled -
+        labeled {
+			$itk_component(dropdown) configure -state disabled
+			$itk_component(arrowButton) configure -background $itk_option(-disabledbackground)
+			$itk_component(arrowButton) configure -state disabled 
+         if { !$itk_option(-showEntry) && $itk_option(-fixedEntry) ==""} {
+            $itk_component(dropdown) configure -background $itk_option(-labeledbackground)
+		   }
+        }
 		disabled {
 			$itk_component(dropdown) configure -state disabled
 			$itk_component(arrowButton) configure -background $itk_option(-disabledbackground)

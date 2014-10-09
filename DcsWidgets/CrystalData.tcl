@@ -230,7 +230,7 @@ proc getSpreadsheetFromWeb { beamline_ username_ sessionID_ cassette_index_ cass
             return {}
         }
         ## fake header
-        set data [linsert $data 0 0 0 load]
+        set data [linsert $data 0 csv 0 load]
         return $data
     }
 
@@ -588,7 +588,7 @@ proc autoindexCrystal { username_ sessionID_ SILID_ row_ sN_ image1_ image2_ \
 beamline_ uniqueID_  strategy_ strategyFileName_ \
 {expType {}} {laueGroup {}} {unitCell {}} {workDir {}} \
 {edge {}} {inflection {}} {peak {}} {remote {}} {numHeavyAtoms {}} {numResidues {}} \
-{strategyMethod {}}
+{strategyMethod {}} {phiRange {}}
 } {
     if {[string equal -length 7 $sessionID_ "PRIVATE"]} {
         set mySID [string range $sessionID_ 7 end]
@@ -647,6 +647,9 @@ beamline_ uniqueID_  strategy_ strategyFileName_ \
     }
     if {$strategyMethod != ""} {
         append url "&strategyMethod=$strategyMethod"
+    }
+    if {$phiRange != ""} {
+        append url "&phiRange=$phiRange"
     }
 
     puts "autoindex url: [SIDFilter $url]"

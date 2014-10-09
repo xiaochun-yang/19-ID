@@ -667,13 +667,35 @@ body DCS::Contour::redraw { } {
 }
 
 body DCS::Contour::print { } {
-    set filename [file nativename "~/.bluice_print.ps"]
+    set types [list [list PDF .pdf]]
+    set outFile [tk_getSaveFile \
+    -defaultextension ".pdf" \
+    -filetypes $types \
+    ]
+
+    if {$outFile == ""} {
+        ## user aborted
+        return
+    }
+
+	set tmpGraphFile "/tmp/graph_[clock clicks].ps"
+
     $itk_component(s_canvas) postscript \
-    -file $filename \
+    -file $tmpGraphFile \
     -colormode color \
     -rotate 1
 
-    exec lp $filename
+    puts [exec ps2pdf \
+    -dPDFSETTINGS=/printer \
+    -dEmbedAllFonts=true \
+    -sPAPERSIZE=letter \
+    -dUseCIEColor=true \
+    $tmpGraphFile $outFile \
+    ]
+
+    log_warning print saved to $outFile
+
+	puts [exec rm $tmpGraphFile]
 }
 
 body DCS::Contour::zoomIn { } {

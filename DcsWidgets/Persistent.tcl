@@ -19,7 +19,7 @@ package require DCSUtil
 #########################
 #### Customize:
 ####  1. You can define DCSPERSISTENT_MANIFEST
-####  2. You can define you own "toHuddle" interface and "fromHuddle" interface.
+####  2. You can define you own "toYaml" interface and "fromHuddle" interface.
 
 #################################################################
 # derived class should have a constructor with no argument.
@@ -68,6 +68,7 @@ body DCSPersistentBaseTop::unregisterSelfPersistentObject { obj_ } {
         [lreplace $_registeredObjectList $index $index]
     }
     puts "$obj_ unregisterdSELF to $this: queue=$_registeredObjectList"
+
 }
 body DCSPersistentBaseTop::checkRegisteredSelfPersistentObjects { {forced 0} } {
     foreach obj $_registeredObjectList {
@@ -108,7 +109,7 @@ class DCSPersistentBase {
     protected variable DCSPERSISTENT_MANIFEST ""
     ## set to NULL if no need to save.
 
-    ### used in toHuddle
+    ### used in toYaml
     protected variable _preferredClassName ""
 
     ### used in fromHuddle
@@ -137,9 +138,11 @@ class DCSPersistentBase {
     protected variable _handle ""
     protected variable _path_tmSync      0
 
+    protected variable _name4Dict ""
+    protected variable _name4List ""
+
     ## used by objectFromFile
     protected common s_handle ""
-
 
     protected method needLoad { }
     protected method needWrite { } { return $_needWrite }
@@ -173,7 +176,7 @@ class DCSPersistentBase {
 
     protected method autoFillSaveList { }
 
-    public method toHuddle { }
+    public method toYaml { fh level }
     public method fromHuddle { h }
     public method removePersistent { }
     #### for really want to permenantly remove the object.
@@ -185,6 +188,47 @@ class DCSPersistentBase {
 
     public proc objectFromHuddle { parent_ h }
     public proc objectFromFile { parent_ path_ mapClassName_ {silent_ 0} }
+
+    public proc putsBasicList { fh level list } {
+        set prefix [string repeat "    " $level]
+        foreach e $list {
+            puts $fh "${prefix}- $e"
+        }
+    }
+
+    public method dictName2Type { name } {
+        if {[lsearch -exact $_name4Dict $name] >= 0} {
+            return DICT
+        }
+        if {[lsearch -exact $_name4List $name] >= 0} {
+            return LIST
+        }
+        return STRING
+    }
+
+    ## changed from proc to method:
+    ## so the derived class can define some pattern
+    ## for name in sub dict nodes.
+    public method putsDict { fh level dict } {
+        set dicthead [string repeat "    " $level]
+
+        dict for {name value} $dict {
+            set type [dictName2Type $name]
+            switch -exact -- $type {
+                DICT {
+                    puts $fh "${dicthead}$name:"
+                    putsDict $fh [expr $level + 1] $value
+                }
+                LIST {
+                    puts $fh "${dicthead}$name:"
+                    putsBasicList $fh [expr $level + 1] $value
+                }
+                default {
+                    puts $fh "${dicthead}$name: $value"
+                }
+            }
+        }
+    }
 
     constructor { } {
         set m_myTag [namespace tail $this]
@@ -248,7 +292,7 @@ body DCSPersistentBase::autoFillSaveList { } {
         set DCSPERSISTENT_MANIFEST NULL
     }
 }
-body DCSPersistentBase::toHuddle { } {
+body DCSPersistentBase::toYaml { fh level } {
     if {$DCSPERSISTENT_MANIFEST == ""} {
         autoFillSaveList
     }
@@ -259,78 +303,49 @@ body DCSPersistentBase::toHuddle { } {
     if {$_preferredClassName == ""} {
         set _preferredClassName [$this info class]
     }
-    set result [huddle create DCSCLASSNAME $_preferredClassName]
+
+    set prehead [string repeat "    " $level]
+    puts $fh "${prehead}DCSCLASSNAME: $_preferredClassName"
+
     foreach v $DCSPERSISTENT_MANIFEST {
         foreach {name type} $v {
             set vContents [$this info variable $name -value]
 
             switch -exact -- $type {
                 DICT {
-                    huddle set result $name [eval huddle create $vContents]
-                }
-                OBJECT {
-                    set objName $vContents
-                    if {[catch {
-                        if {[$objName isa DCSPersistentBase]} {
-                            set objHH   [$objName toHuddle]
-                            huddle set result $name $objHH
-                        }
-                    } errMsg]} {
-                        puts "failed to save $name as OBJECT: $errMsg"
-                        continue
-                    }
-                }
-                LIST_DICT {
-                    set dList $vContents
-                    set hhList [huddle list]
-                    foreach d $dList {
-                        if {[catch {
-                            set dHH [eval huddle create $d]
-                        } errMsg]} {
-                            set dHH ""
-                        }
-                        huddle append hhList $dHH
-                    }
-                    huddle set result $name $hhList
+                    puts $fh "${prehead}$name:"
+                    putsDict $fh [expr $level + 1] $vContents
+                    set ddResult [huddle create]
                 }
                 LIST_OBJECT {
+                    puts $fh "${prehead}$name:"
                     #### we save "" if not supported to preserve list position.
                     set objList $vContents
                     puts "LIST_OBJECT got {$objList} for $name"
-                    set hList [huddle list]
                     foreach obj $objList {
+                        puts $fh "${prehead}-"
                         if {[catch {
                             if {[$obj isa DCSPersistentBase]} {
                                 puts "obj=$obj is [$obj info class]"
-                                puts "calling $obj toHuddle"
-                                set objHH [$obj toHuddle]
-                                puts "got hh=$objHH"
-                            } else {
-                                set objHH ""
+                                puts "calling $obj toYaml"
+                                $obj toYaml $fh [expr $level + 1]
                             }
                         } errMsg]} {
                             puts "got error in isa PER: $errMsg"
-                            set objHH ""
                         }
-                        huddle append hList $objHH
                     }
-                    huddle set result $name $hList
                 }
                 LIST_STRING {
-                    set ddList [eval huddle list $vContents]
-                    huddle set result $name $ddList
+                    puts $fh "${prehead}$name:"
+                    putsBasicList $fh [expr $level + 1] $vContents
                 }
                 STRING -
                 default {
-                    huddle set result $name $vContents
+                    puts $fh "${prehead}$name: $vContents"
                 }
             }
         }
     }
-    #puts "========HUDDLE==================="
-    #puts $result
-    #puts "===========endof HUDDLE==================="
-    return $result
 }
 body DCSPersistentBase::fromHuddle { h } {
     set manifest [huddle gets $h DCSPERSISTENT_MANIFEST]
@@ -413,7 +428,11 @@ body DCSPersistentBase::fromHuddle { h } {
                         }
                         set ee [$className ::\#auto]
                         setupTopAndTagsForChild $ee
-                        $ee fromHuddle $hh
+                        if {[catch {$ee fromHuddle $hh} errMsg]} {
+                            ## skip adding this object to the list.
+                            puts "failed to populate object $errMsg , skip"
+                            continue
+                        }
                     }
                     lappend value $ee
                 }
@@ -435,7 +454,10 @@ body DCSPersistentBase::fromHuddle { h } {
                 }
                 set value [$className ::\#auto]
                 setupTopAndTagsForChild $value
-                $value fromHuddle $vh
+                if {[catch {$value fromHuddle $vh} errMsg]} {
+                    puts "failed to populate object $value"
+                    continue
+                }
             }
             STRING -
             LIST_STRING -
@@ -541,15 +563,17 @@ body DCSPersistentBase::objectFromFile { parent_ path_ mapClassName_ {silent_ 0}
         }
         return -code error $errMsg
     }
-    set tmSync [clock seconds]
-    set yyy [read -nonewline $s_handle]
+    set hhh [read -nonewline $s_handle]
     close $s_handle
     set s_handle ""
 
-    ### only str to prevent yaml convert "N" to "0".
-    set hh [::yaml::yaml2huddle -types str $yyy ]
+    set ext [file extenstion $path_]
+    if {$ext == ".yaml"} {
+        ### only str to prevent yaml convert "N" to "0".
+        set hhh [::yaml::yaml2huddle -types str $hhh ]
+    }
 
-    if {[catch {huddle gets $hh DCSCLASSNAME} className]} {
+    if {[catch {huddle gets $hhh DCSCLASSNAME} className]} {
         puts "NO DCSCLASSNAME defined for $this self class: $className"
         return ""
     }
@@ -563,7 +587,7 @@ body DCSPersistentBase::objectFromFile { parent_ path_ mapClassName_ {silent_ 0}
         $obj _setTopAndTags $obj ""
     }
 
-    $obj fromHuddle $hh
+    $obj fromHuddle $hhh
 
     return $obj
 }
@@ -575,17 +599,19 @@ body DCSPersistentBase::setupTopAndTagsForChild { obj } {
 }
 body DCSPersistentBase::needLoad { } {
     set top_dir [$_topObject getTopDirectory]
-    set path [file join $top_dir ${m_rPathFromTop}.yaml]
-    if {$path ==".yaml"} {
+    set path [file join $top_dir ${m_rPathFromTop}]
+    if {$path ==""} {
         puts "$this needLoad path=={}"
         return 1
     }
-    if {[catch {file mtime $path} mTime]} {
+    append path .yaml
+    if {[catch {get_file_mtime $path} mTime]} {
         puts "$this needLoad mtime failed"
         return 1
     }
-    if {$mTime >= $_path_tmSync} {
+    if {$mTime > $_path_tmSync} {
         puts "$this needLoad new"
+        puts "mTime=$mTime tmSyc=$_path_tmSync"
         return 1
     }
     return 0
@@ -604,13 +630,13 @@ body DCSPersistentBase::_loadFromFile { path_ {silent_ 0} } {
         }
         return -code error $errMsg
     }
-    set _path_tmSync [clock seconds]
-    set yyy [read -nonewline $_handle]
+    set _path_tmSync [get_timeofday]
+    set hhh [read -nonewline $_handle]
     close $_handle
     set _handle ""
 
     ### only str to prevent yaml convert "N" to "0".
-    set hhh [::yaml::yaml2huddle -types str $yyy ]
+    set hhh [::yaml::yaml2huddle -types str $hhh ]
 
     DCSPersistentBase::fromHuddle $hhh
 
@@ -631,11 +657,10 @@ body DCSPersistentBase::_writeToFile { path_ } {
         log_error canont write to File, path not set yet.
         return -code error NO_PATH
     }
-    set hh [DCSPersistentBase::toHuddle]
-    set yy [::yaml::huddle2yaml $hh 4 80]
 
     if {![catch {open $path_ w} _handle]} {
-        puts $_handle $yy
+        puts $_handle "---"
+        DCSPersistentBase::toYaml $_handle 0
         close $_handle
         set _handle ""
     } else {
@@ -644,7 +669,7 @@ body DCSPersistentBase::_writeToFile { path_ } {
         log_error failed to write to $path_: $errMsg
         return -code error $errMsg
     }
-    set _path_tmSync [clock seconds]
+    set _path_tmSync [get_timeofday]
 
     if {$_clearNeedAfterWrite} {
         puts "clear _needWrite for $this by _writeToFile"
@@ -662,12 +687,12 @@ class DCSSelfPersistent {
     #### access to these does not need to load the self file.
     #### for now, we only support STRING: direct set.
     #### If you need to include other types, you need to rewrite the code
-    #### changing element to  "name TYPE" and copy the code from toHuddle.
+    #### changing element to  "name TYPE" and copy the code from toYaml.
     protected variable _alwaysAvailableVariableList ""
     protected variable _allLoaded 0
 
     ##override base class:
-    public method toHuddle { }
+    public method toYaml { fh level }
     public method fromHuddle { h }
     public method removePersistent { }
     protected method _setTopAndTags { top tagList } {
@@ -680,7 +705,9 @@ class DCSSelfPersistent {
     ####self:
     public method reload { {forced 0} }
     public method flush { {forced 0} }
-    public method getRPath { } { return ${m_rPathFromTop}.yaml }
+    public method getRPath { } {
+        return ${m_rPathFromTop}.yaml
+    }
 
     destructor {
         if {$_topObject != "" && $_topObject != $this} {
@@ -688,41 +715,41 @@ class DCSSelfPersistent {
         }
     }
 }
-body DCSSelfPersistent::toHuddle { } {
-    puts "self toHuddle for $this"
+body DCSSelfPersistent::toYaml { fh level } {
+    puts "self toYaml for $this"
     ### this part is the same as base class
     if {$_preferredClassName == ""} {
         set _preferredClassName [$this info class]
     }
-    set toResult [huddle create DCSCLASSNAME $_preferredClassName]
 
+    set selfheader [string repeat "    " $level]
+    puts $fh "${selfheader}DCSCLASSNAME: $_preferredClassName"
     foreach name $_alwaysAvailableVariableList {
         if {[catch {
             set vContents [$this info variable $name -value]
-            huddle set toResult $name $vContents
+            puts $fh "${selfheader}$name: $vContents"
         } errMsg]} {
-            puts "failed to save header $name for $this"
+            puts "failed to save header $name for $this: $errMsg"
         }
     }
 
     ####################################
     set relativePath ${m_rPathFromTop}.yaml
-    huddle set toResult $TAG_SELF_RPATH $relativePath
-    ##### end of generating toHuddle
+    puts $fh "${selfheader}$TAG_SELF_RPATH: $relativePath"
+    ##### end of generating toYaml
     if {!$_needWrite} {
         puts "$this no _needWrite, skip"
-        return $toResult
+        return
     }
     if {!$_allLoaded} {
         puts "$this not loaded, skip write"
-        return $toResult
+        return
     }
     #### now write out own file.
     set top_dir [$_topObject getTopDirectory]
     set path [file join $top_dir $relativePath]
     _writeToFile $path
     puts "$this self saved to $path"
-    return $toResult
 }
 body DCSSelfPersistent::fromHuddle { h } {
     puts "calling fromHuddle for $this class: [$this info class]"
@@ -812,46 +839,3 @@ class DCSPersistentCCC1 {
         puts "destructor $this"
     }
 }
-
-class DCSPersistentTest {
-    inherit DCSPersistentBase DCSPersistentBaseTop
-
-    public method getTopDirectory { } { return "." }
-
-    public variable m_pv1 "public variable 1"
-    #protected variable m_pv2 "protected variable 2"
-    public variable m_pv2 "protected variable 2"
-    private variable m_pv3 "private variable 3"
-    private common s_ssss "common "
-    protected variable o_ptrObj ""
-
-    protected variable d_ptrDict ""
-
-    constructor { } {
-        set _topObject $this
-
-        set o_ptrObj [DCSPersistentCCC1 ::\#auto]
-        setupTopAndTagsForChild $o_ptrObj
-        $o_ptrObj _generateRPath
-
-        set d_ptrDict [dict create k1 v1 k2 v2]
-    }
-
-}
-proc DCSPersistentBaseTest { } {
-    DCSPersistentTest aaa
-    aaa configure -m_pv1 "changed from outside"
-
-    puts "calling toHuddle"
-    set dddd [aaa toHuddle]
-    set yyyy [::yaml::huddle2yaml $dddd 4 80]
-    puts "===================yyyyyyyyy========"
-    puts $yyyy
-    puts "===================end yyyyyyyyy========"
-
-    set hhhout [::yaml::yaml2huddle $yyyy]
-    puts "callin fromHuddle :{$hhhout}"
-    set value [DCSPersistentBase::objectFromHuddle "" $hhhout]
-    $value removePersistent
-}
-#DCSPersistentBaseTest

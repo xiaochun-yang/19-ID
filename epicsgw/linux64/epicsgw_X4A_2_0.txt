@@ -1,716 +1,708 @@
-01/29/14 14:17:43 648501024   FINEST    run from front, not as a daemon {src/epicsgw.cc 53  }
-01/29/14 14:17:43 648501024   FINEST    context=(nil) {src/epicsgw.cc 56  }
-01/29/14 14:17:43 648501024   FINEST    DcsMessageManager constructor enter {src/DcsMessageManager.cxx 18  }
-01/29/14 14:17:43 648501024   FINEST    DcsMessageManager constructor exit {src/DcsMessageManager.cxx 33  }
-01/29/14 14:17:43 648501024   FINEST    +GatewayDeviceManager constructor {src/gw_device_mgr.cc 30  }
-01/29/14 14:17:43 648501024   FINEST    -GatewayDeviceManager constructor {src/gw_device_mgr.cc 43  }
-01/29/14 14:17:43 648501024   FINEST    +ChidManager constructor {src/chid_mgr.cc 96  }
-01/29/14 14:17:43 648501024   FINEST    -ChidManager constructor {src/chid_mgr.cc 106  }
-01/29/14 14:17:43 648501024   FINEST    DcsMessageService constructor enter {src/DcsMessageService.cxx 9  }
-01/29/14 14:17:43 648501024   FINEST    DcsMessageService constructor exit {src/DcsMessageService.cxx 13  }
-01/29/14 14:17:43 648501024   FINEST    +GatewayService constructor {src/gw_service.cc 20  }
-01/29/14 14:17:43 648501024   FINEST    -GatewayService constructor {src/gw_service.cc 37  }
-01/29/14 14:17:43 648501024   FINEST    +GatewaySystem constructor {src/gw_system.cc 16  }
-01/29/14 14:17:43 648501024   FINEST    -GatewaySystem constructor {src/gw_system.cc 19  }
-01/29/14 14:17:43 648501024     INFO    m_ServerName points to: 'localhost' {src/DcsMessageHandler.cxx 43  }
-01/29/14 14:17:43 648501024     INFO    m_DHSName points to: 'epics_gateway' {src/DcsMessageHandler.cxx 62  }
-01/29/14 14:17:43 648492800   FINEST    SENDER wait for socket lock 11111 {src/DcsMessageService.cxx 87  }
-01/29/14 14:17:43 648492800   FINEST    SENDER got socket lock 111111 {src/DcsMessageService.cxx 89  }
-01/29/14 14:17:43 648492800   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-01/29/14 14:17:43 648492800   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-01/29/14 14:17:43 638002944   FINEST    receiver is waiting sender done for start {src/DcsMessageService.cxx 151  }
-01/29/14 14:17:43 648492800  WARNING    Unable to connect to server: localhost {src/DcsMessageHandler.cxx 143  }
-01/29/14 14:17:43 648492800  WARNING    WINSOCK ERROR--xos_socket_make_connection failed {src/DcsMessageHandler.cxx 144  }
-01/29/14 14:17:43 624359168   FINEST    enter DcsScanThread {src/gw_service.cc 128  }
-01/29/14 14:17:43 624359168   FINEST    Dcs scan thread looping {src/gw_service.cc 132  }
-01/29/14 14:17:43 536868608   FINEST    enter EpicsMonitorThread {src/gw_service.cc 50  }
-01/29/14 14:17:43 536868608   FINEST    mark object ready {src/gw_service.cc 69  }
-01/29/14 14:17:48 648492800   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-01/29/14 14:17:48 648492800  WARNING    MakeSocketConnection failed {src/DcsMessageHandler.cxx 105  }
-01/29/14 14:17:48 648492800   FINEST    -DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 106  }
-01/29/14 14:17:53 648492800   FINEST    trying to connect to DCSS {src/DcsMessageService.cxx 93  }
-01/29/14 14:17:53 648492800   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-01/29/14 14:17:53 648492800   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-01/29/14 14:17:53 648492800     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-01/29/14 14:17:53 648492800   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-01/29/14 14:17:53 648492800   FINEST    Sending: 'htos_client_is_hardware epics_gateway' {src/DcsMessageHandler.cxx 188  }
-01/29/14 14:17:53 648492800   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-01/29/14 14:17:53 648492800   FINEST    SENDER unlock socket lock 11111111111 {src/DcsMessageService.cxx 102  }
-01/29/14 14:17:53 648492800     INFO    connected to DCSS with DCS protocol, sender ready {src/DcsMessageService.cxx 104  }
-01/29/14 14:17:53 648492800   FINEST    SENDER enter loop {src/DcsMessageService.cxx 109  }
-01/29/14 14:17:53 638002944   FINEST    receiver waiting done {src/DcsMessageService.cxx 153  }
-01/29/14 14:17:53 638002944     INFO    receiver ready: whole DcsMessageService Ready {src/DcsMessageService.cxx 167  }
-01/29/14 14:17:53 638002944   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-01/29/14 14:17:53 638002944   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-01/29/14 14:17:53 638002944   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2220530 {src/DcsMessageManager.cxx 170  }
-01/29/14 14:17:53 638002944   FINEST    DcsMessageManager::NewDcsMessage: new MAX TEXT SIZE 44 {src/DcsMessageManager.cxx 176  }
-01/29/14 14:17:53 638002944   FINEST    Receiving: 'stoh_register_string spear_current xrcurr
+10/09/14 11:37:25 686896928   FINEST    run from front, not as a daemon {src/epicsgw.cc 53  }
+10/09/14 11:37:25 686896928   FINEST    context=(nil) {src/epicsgw.cc 56  }
+10/09/14 11:37:25 686896928   FINEST    DcsMessageManager constructor enter {src/DcsMessageManager.cxx 18  }
+10/09/14 11:37:25 686896928   FINEST    DcsMessageManager constructor exit {src/DcsMessageManager.cxx 33  }
+10/09/14 11:37:25 686896928   FINEST    +GatewayDeviceManager constructor {src/gw_device_mgr.cc 30  }
+10/09/14 11:37:25 686896928   FINEST    -GatewayDeviceManager constructor {src/gw_device_mgr.cc 43  }
+10/09/14 11:37:25 686896928   FINEST    +ChidManager constructor {src/chid_mgr.cc 96  }
+10/09/14 11:37:25 686896928   FINEST    -ChidManager constructor {src/chid_mgr.cc 106  }
+10/09/14 11:37:25 686896928   FINEST    DcsMessageService constructor enter {src/DcsMessageService.cxx 9  }
+10/09/14 11:37:25 686896928   FINEST    DcsMessageService constructor exit {src/DcsMessageService.cxx 13  }
+10/09/14 11:37:25 686896928   FINEST    +GatewayService constructor {src/gw_service.cc 20  }
+10/09/14 11:37:25 686896928   FINEST    -GatewayService constructor {src/gw_service.cc 37  }
+10/09/14 11:37:25 686896928   FINEST    +GatewaySystem constructor {src/gw_system.cc 16  }
+10/09/14 11:37:25 686896928   FINEST    -GatewaySystem constructor {src/gw_system.cc 19  }
+10/09/14 11:37:25 686896928     INFO    m_ServerName points to: 'localhost' {src/DcsMessageHandler.cxx 43  }
+10/09/14 11:37:25 686896928     INFO    m_DHSName points to: 'epics_gateway' {src/DcsMessageHandler.cxx 62  }
+10/09/14 11:37:25 686888704   FINEST    SENDER wait for socket lock 11111 {src/DcsMessageService.cxx 87  }
+10/09/14 11:37:25 686888704   FINEST    SENDER got socket lock 111111 {src/DcsMessageService.cxx 89  }
+10/09/14 11:37:25 686888704   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
+10/09/14 11:37:25 686888704   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
+10/09/14 11:37:25 686888704     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
+10/09/14 11:37:25 686888704   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
+10/09/14 11:37:25 686888704   FINEST    Sending: 'htos_client_is_hardware epics_gateway' {src/DcsMessageHandler.cxx 188  }
+10/09/14 11:37:25 686888704   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
+10/09/14 11:37:25 686888704   FINEST    SENDER unlock socket lock 11111111111 {src/DcsMessageService.cxx 102  }
+10/09/14 11:37:25 686888704     INFO    connected to DCSS with DCS protocol, sender ready {src/DcsMessageService.cxx 104  }
+10/09/14 11:37:25 686888704   FINEST    SENDER enter loop {src/DcsMessageService.cxx 109  }
+10/09/14 11:37:25 662755072   FINEST    enter DcsScanThread {src/gw_service.cc 128  }
+10/09/14 11:37:25 662755072   FINEST    Dcs scan thread looping {src/gw_service.cc 132  }
+10/09/14 11:37:25 652265216   FINEST    enter EpicsMonitorThread {src/gw_service.cc 50  }
+10/09/14 11:37:25 652265216   FINEST    mark object ready {src/gw_service.cc 69  }
+10/09/14 11:37:25 676398848   FINEST    receiver is waiting sender done for start {src/DcsMessageService.cxx 151  }
+10/09/14 11:37:25 676398848   FINEST    receiver waiting done {src/DcsMessageService.cxx 153  }
+10/09/14 11:37:25 676398848     INFO    receiver ready: whole DcsMessageService Ready {src/DcsMessageService.cxx 167  }
+10/09/14 11:37:25 676398848   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+10/09/14 11:37:25 676398848   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+10/09/14 11:37:25 676398848   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x24ee530 {src/DcsMessageManager.cxx 170  }
+10/09/14 11:37:25 676398848   FINEST    DcsMessageManager::NewDcsMessage: new MAX TEXT SIZE 44 {src/DcsMessageManager.cxx 176  }
+10/09/14 11:37:25 676398848   FINEST    Receiving: 'stoh_register_string spear_current xrcurr
 ' {src/DcsMessageHandler.cxx 249  }
-01/29/14 14:17:53 638002944   FINEST    +GatewayService::ConsumeDcsMessage {src/gw_service.cc 696  }
-01/29/14 14:17:53 638002944   FINEST    -GatewayService::ConsumeDcsMessage {src/gw_service.cc 715  }
-01/29/14 14:17:53 638002944   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-01/29/14 14:17:53 536868608   FINEST    epics thread out of waiting {src/gw_service.cc 77  }
-01/29/14 14:17:53 536868608     INFO    queue length before dequeue: 1 {src/gw_service.cc 93  }
-01/29/14 14:17:53 638002944   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-01/29/14 14:17:53 638002944   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-01/29/14 14:17:53 536868608     INFO    queue length after dequeue: 0 {src/gw_service.cc 95  }
-01/29/14 14:17:53 638002944   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x221fb30 {src/DcsMessageManager.cxx 170  }
-01/29/14 14:17:53 638002944   FINEST    DcsMessageManager::NewDcsMessage: new MAX TEXT SIZE 49 {src/DcsMessageManager.cxx 176  }
-01/29/14 14:17:53 638002944   FINEST    Receiving: 'stoh_register_real_motor detector_zz C1:DETDIST' {src/DcsMessageHandler.cxx 249  }
-01/29/14 14:17:53 536868608   FINEST    +GatewayService::doTask {src/gw_service.cc 440  }
-01/29/14 14:17:53 536868608   FINEST    do task:{stoh_register_string spear_current xrcurr
+10/09/14 11:37:25 676398848   FINEST    +GatewayService::ConsumeDcsMessage {src/gw_service.cc 696  }
+10/09/14 11:37:25 676398848   FINEST    -GatewayService::ConsumeDcsMessage {src/gw_service.cc 715  }
+10/09/14 11:37:25 676398848   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+10/09/14 11:37:25 652265216   FINEST    epics thread out of waiting {src/gw_service.cc 77  }
+10/09/14 11:37:25 652265216     INFO    queue length before dequeue: 1 {src/gw_service.cc 93  }
+10/09/14 11:37:25 676398848   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+10/09/14 11:37:25 676398848   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+10/09/14 11:37:25 676398848   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x24edb30 {src/DcsMessageManager.cxx 170  }
+10/09/14 11:37:25 676398848   FINEST    DcsMessageManager::NewDcsMessage: new MAX TEXT SIZE 49 {src/DcsMessageManager.cxx 176  }
+10/09/14 11:37:25 676398848   FINEST    Receiving: 'stoh_register_real_motor detector_zz C1:DETDIST' {src/DcsMessageHandler.cxx 249  }
+10/09/14 11:37:25 676398848   FINEST    +GatewayService::ConsumeDcsMessage {src/gw_service.cc 696  }
+10/09/14 11:37:25 676398848   FINEST    -GatewayService::ConsumeDcsMessage {src/gw_service.cc 715  }
+10/09/14 11:37:25 676398848   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+10/09/14 11:37:25 676398848   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+10/09/14 11:37:25 676398848   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+10/09/14 11:37:25 676398848   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x24ed130 {src/DcsMessageManager.cxx 170  }
+10/09/14 11:37:25 676398848   FINEST    DcsMessageManager::NewDcsMessage: new MAX TEXT SIZE 54 {src/DcsMessageManager.cxx 176  }
+10/09/14 11:37:25 652265216     INFO    queue length after dequeue: 0 {src/gw_service.cc 95  }
+10/09/14 11:37:25 676398848   FINEST    Receiving: 'stoh_register_real_motor dettable_us_cleg C1:US_CLEG' {src/DcsMessageHandler.cxx 249  }
+10/09/14 11:37:25 676398848   FINEST    +GatewayService::ConsumeDcsMessage {src/gw_service.cc 696  }
+10/09/14 11:37:25 676398848   FINEST    -GatewayService::ConsumeDcsMessage {src/gw_service.cc 715  }
+10/09/14 11:37:25 676398848   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+10/09/14 11:37:25 652265216   FINEST    +GatewayService::doTask {src/gw_service.cc 440  }
+10/09/14 11:37:25 652265216   FINEST    do task:{stoh_register_string spear_current xrcurr
 } {src/gw_service.cc 448  }
-01/29/14 14:17:53 638002944   FINEST    +GatewayService::ConsumeDcsMessage {src/gw_service.cc 696  }
-01/29/14 14:17:53 638002944   FINEST    -GatewayService::ConsumeDcsMessage {src/gw_service.cc 715  }
-01/29/14 14:17:53 638002944   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-01/29/14 14:17:53 638002944   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-01/29/14 14:17:53 638002944   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-01/29/14 14:17:53 638002944   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x221f130 {src/DcsMessageManager.cxx 170  }
-01/29/14 14:17:53 638002944   FINEST    DcsMessageManager::NewDcsMessage: new MAX TEXT SIZE 54 {src/DcsMessageManager.cxx 176  }
-01/29/14 14:17:53 536868608   FINEST    +GwDeviceMgr::addString spear_current {src/gw_device_mgr.cc 57  }
-01/29/14 14:17:53 638002944   FINEST    Receiving: 'stoh_register_real_motor dettable_us_cleg C1:US_CLEG' {src/DcsMessageHandler.cxx 249  }
-01/29/14 14:17:53 638002944   FINEST    +GatewayService::ConsumeDcsMessage {src/gw_service.cc 696  }
-01/29/14 14:17:53 638002944   FINEST    -GatewayService::ConsumeDcsMessage {src/gw_service.cc 715  }
-01/29/14 14:17:53 638002944   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-01/29/14 14:17:53 638002944   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-01/29/14 14:17:53 638002944   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-01/29/14 14:17:53 638002944   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x221e730 {src/DcsMessageManager.cxx 170  }
-01/29/14 14:17:53 536868608   FINEST    hold lock {src/gw_device_mgr.cc 61  }
-01/29/14 14:17:53 536868608   FINEST    find string {src/gw_device_mgr.cc 63  }
-01/29/14 14:17:53 536868608   FINEST    +makeSureDeviceNotExits spear_current {src/gw_device_mgr.cc 490  }
-01/29/14 14:17:53 536868608   FINEST    +findDevice spear_current {src/gw_device_mgr.cc 389  }
-01/29/14 14:17:53 536868608   FINEST    -findDevice not found {src/gw_device_mgr.cc 405  }
-01/29/14 14:17:53 536868608   FINEST    -makeSureDeviceNotExits OK {src/gw_device_mgr.cc 495  }
-01/29/14 14:17:53 536868608   FINEST    before new string {src/gw_device_mgr.cc 94  }
-01/29/14 14:17:53 638002944   FINEST    Receiving: 'stoh_register_real_motor dettable_ds_lleg C1:DS_LLEG' {src/DcsMessageHandler.cxx 249  }
-01/29/14 14:17:53 536868608   FINEST    calling ca_attach_context {src/GwBaseDevice.cc 618  }
-01/29/14 14:17:53 638002944   FINEST    +GatewayService::ConsumeDcsMessage {src/gw_service.cc 696  }
-01/29/14 14:17:53 638002944   FINEST    -GatewayService::ConsumeDcsMessage {src/gw_service.cc 715  }
-01/29/14 14:17:53 536868608   FINEST    String spear_current fill PV[0] xrcurr {src/GwString.cc 54  }
-01/29/14 14:17:53 536868608   FINEST    String spear_current read as NATIVE {src/GwString.cc 67  }
-01/29/14 14:17:53 638002944   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-01/29/14 14:17:53 638002944   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-01/29/14 14:17:53 638002944   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-01/29/14 14:17:53 638002944   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x221dd30 {src/DcsMessageManager.cxx 170  }
-01/29/14 14:17:53 638002944   FINEST    Receiving: 'stoh_register_real_motor dettable_ds_rleg C1:DS_RLEG' {src/DcsMessageHandler.cxx 249  }
-01/29/14 14:17:53 638002944   FINEST    +GatewayService::ConsumeDcsMessage {src/gw_service.cc 696  }
-01/29/14 14:17:53 638002944   FINEST    -GatewayService::ConsumeDcsMessage {src/gw_service.cc 715  }
-01/29/14 14:17:53 638002944   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-01/29/14 14:17:53 638002944   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-01/29/14 14:17:53 638002944   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-01/29/14 14:17:53 638002944   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x221d330 {src/DcsMessageManager.cxx 170  }
-01/29/14 14:17:53 638002944   FINEST    Receiving: 'stoh_register_real_motor dettable_us_horz C1:US_HORZ' {src/DcsMessageHandler.cxx 249  }
-01/29/14 14:17:53 638002944   FINEST    +GatewayService::ConsumeDcsMessage {src/gw_service.cc 696  }
-01/29/14 14:17:53 638002944   FINEST    -GatewayService::ConsumeDcsMessage {src/gw_service.cc 715  }
-01/29/14 14:17:53 638002944   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-01/29/14 14:17:53 638002944   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-01/29/14 14:17:53 638002944   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-01/29/14 14:17:53 638002944   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x221c930 {src/DcsMessageManager.cxx 170  }
-01/29/14 14:17:53 638002944   FINEST    Receiving: 'stoh_register_real_motor dettable_ds_horz C1:DS_HORZ' {src/DcsMessageHandler.cxx 249  }
-01/29/14 14:17:53 638002944   FINEST    +GatewayService::ConsumeDcsMessage {src/gw_service.cc 696  }
-01/29/14 14:17:53 638002944   FINEST    -GatewayService::ConsumeDcsMessage {src/gw_service.cc 715  }
-01/29/14 14:17:53 638002944   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-01/29/14 14:17:53 638002944   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-01/29/14 14:17:53 638002944   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-01/29/14 14:17:53 638002944   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x221bf30 {src/DcsMessageManager.cxx 170  }
-01/29/14 14:17:53 638002944   FINEST    Receiving: 'stoh_register_string injectState xrmsg
+10/09/14 11:37:25 676398848   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+10/09/14 11:37:25 676398848   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+10/09/14 11:37:25 652265216   FINEST    +GwDeviceMgr::addString spear_current {src/gw_device_mgr.cc 57  }
+10/09/14 11:37:25 676398848   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x24ec730 {src/DcsMessageManager.cxx 170  }
+10/09/14 11:37:25 652265216   FINEST    hold lock {src/gw_device_mgr.cc 61  }
+10/09/14 11:37:25 652265216   FINEST    find string {src/gw_device_mgr.cc 63  }
+10/09/14 11:37:25 652265216   FINEST    +makeSureDeviceNotExits spear_current {src/gw_device_mgr.cc 490  }
+10/09/14 11:37:25 652265216   FINEST    +findDevice spear_current {src/gw_device_mgr.cc 389  }
+10/09/14 11:37:25 652265216   FINEST    -findDevice not found {src/gw_device_mgr.cc 405  }
+10/09/14 11:37:25 652265216   FINEST    -makeSureDeviceNotExits OK {src/gw_device_mgr.cc 495  }
+10/09/14 11:37:25 652265216   FINEST    before new string {src/gw_device_mgr.cc 94  }
+10/09/14 11:37:25 676398848   FINEST    Receiving: 'stoh_register_real_motor dettable_ds_lleg C1:DS_LLEG' {src/DcsMessageHandler.cxx 249  }
+10/09/14 11:37:25 652265216   FINEST    calling ca_attach_context {src/GwBaseDevice.cc 618  }
+10/09/14 11:37:25 676398848   FINEST    +GatewayService::ConsumeDcsMessage {src/gw_service.cc 696  }
+10/09/14 11:37:25 676398848   FINEST    -GatewayService::ConsumeDcsMessage {src/gw_service.cc 715  }
+10/09/14 11:37:25 652265216   FINEST    String spear_current fill PV[0] xrcurr {src/GwString.cc 54  }
+10/09/14 11:37:25 652265216   FINEST    String spear_current read as NATIVE {src/GwString.cc 67  }
+10/09/14 11:37:25 676398848   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+10/09/14 11:37:25 676398848   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+10/09/14 11:37:25 676398848   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+10/09/14 11:37:25 676398848   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x24ebd30 {src/DcsMessageManager.cxx 170  }
+10/09/14 11:37:25 676398848   FINEST    Receiving: 'stoh_register_real_motor dettable_ds_rleg C1:DS_RLEG' {src/DcsMessageHandler.cxx 249  }
+10/09/14 11:37:25 676398848   FINEST    +GatewayService::ConsumeDcsMessage {src/gw_service.cc 696  }
+10/09/14 11:37:25 676398848   FINEST    -GatewayService::ConsumeDcsMessage {src/gw_service.cc 715  }
+10/09/14 11:37:25 676398848   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+10/09/14 11:37:25 676398848   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+10/09/14 11:37:25 676398848   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+10/09/14 11:37:25 676398848   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x24eb330 {src/DcsMessageManager.cxx 170  }
+10/09/14 11:37:25 676398848   FINEST    Receiving: 'stoh_register_real_motor dettable_us_horz C1:US_HORZ' {src/DcsMessageHandler.cxx 249  }
+10/09/14 11:37:25 676398848   FINEST    +GatewayService::ConsumeDcsMessage {src/gw_service.cc 696  }
+10/09/14 11:37:25 676398848   FINEST    -GatewayService::ConsumeDcsMessage {src/gw_service.cc 715  }
+10/09/14 11:37:25 676398848   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+10/09/14 11:37:25 676398848   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+10/09/14 11:37:25 676398848   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+10/09/14 11:37:25 676398848   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x24ea930 {src/DcsMessageManager.cxx 170  }
+10/09/14 11:37:25 676398848   FINEST    Receiving: 'stoh_register_real_motor dettable_ds_horz C1:DS_HORZ' {src/DcsMessageHandler.cxx 249  }
+10/09/14 11:37:25 676398848   FINEST    +GatewayService::ConsumeDcsMessage {src/gw_service.cc 696  }
+10/09/14 11:37:25 676398848   FINEST    -GatewayService::ConsumeDcsMessage {src/gw_service.cc 715  }
+10/09/14 11:37:25 676398848   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+10/09/14 11:37:25 676398848   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+10/09/14 11:37:25 676398848   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+10/09/14 11:37:25 676398848   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x24e9f30 {src/DcsMessageManager.cxx 170  }
+10/09/14 11:37:25 676398848   FINEST    Receiving: 'stoh_register_string injectState xrmsg
 ' {src/DcsMessageHandler.cxx 249  }
-01/29/14 14:17:53 638002944   FINEST    +GatewayService::ConsumeDcsMessage {src/gw_service.cc 696  }
-01/29/14 14:17:53 638002944   FINEST    -GatewayService::ConsumeDcsMessage {src/gw_service.cc 715  }
-01/29/14 14:17:53 638002944   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-01/29/14 14:17:53 638002944   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-01/29/14 14:17:53 638002944   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-01/29/14 14:17:53 638002944   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x221b530 {src/DcsMessageManager.cxx 170  }
-01/29/14 14:17:53 638002944   FINEST    Receiving: 'stoh_register_string spearState xbeamavail
+10/09/14 11:37:25 676398848   FINEST    +GatewayService::ConsumeDcsMessage {src/gw_service.cc 696  }
+10/09/14 11:37:25 676398848   FINEST    -GatewayService::ConsumeDcsMessage {src/gw_service.cc 715  }
+10/09/14 11:37:25 676398848   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+10/09/14 11:37:25 652265216   FINEST    create channel for spear_current PV[0] xrcurr {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    -GwDeviceMgr::addString OK {src/gw_device_mgr.cc 104  }
+10/09/14 11:37:25 652265216   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x24ee530) {src/DcsMessageManager.cxx 193  }
+10/09/14 11:37:25 652265216   FINEST    epics thread out of waiting {src/gw_service.cc 77  }
+10/09/14 11:37:25 652265216     INFO    queue length before dequeue: 7 {src/gw_service.cc 93  }
+10/09/14 11:37:25 652265216     INFO    queue length after dequeue: 6 {src/gw_service.cc 95  }
+10/09/14 11:37:25 652265216   FINEST    +GatewayService::doTask {src/gw_service.cc 440  }
+10/09/14 11:37:25 652265216   FINEST    do task:{stoh_register_real_motor detector_zz C1:DETDIST} {src/gw_service.cc 448  }
+10/09/14 11:37:25 652265216   FINEST    +addRMotor: detector_zz {src/gw_device_mgr.cc 299  }
+10/09/14 11:37:25 652265216   FINEST    +makeSureDeviceNotExits detector_zz {src/gw_device_mgr.cc 490  }
+10/09/14 11:37:25 652265216   FINEST    +findDevice detector_zz {src/gw_device_mgr.cc 389  }
+10/09/14 11:37:25 652265216   FINEST    -findDevice not found {src/gw_device_mgr.cc 405  }
+10/09/14 11:37:25 652265216   FINEST    -makeSureDeviceNotExits OK {src/gw_device_mgr.cc 495  }
+10/09/14 11:37:25 652265216   FINEST    ASGalilMotor detector_zz got DEVICE: {C1} MRN: {DETDIST} {src/GwASGalilMotor.cc 80  }
+10/09/14 11:37:25 652265216   FINEST    create channel for detector_zz PV[0] C1:DETDIST_MTRSTOP_CMD {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for detector_zz PV[1] C1:DETDIST_MOVN_STATUS {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for detector_zz PV[2] C1:DETDIST.VAL {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for detector_zz PV[3] C1:DETDIST.RBV {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for detector_zz PV[4] C1:DETDIST_FL_STATUS {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for detector_zz PV[5] C1:DETDIST_RL_STATUS {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for detector_zz PV[6] C1:DETDIST_PROB_STATUS {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for detector_zz PV[7] C1:DETDIST.DHLM {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for detector_zz PV[8] C1:DETDIST.DLLM {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for detector_zz PV[9] C1:DETDIST_MSTA_MONITOR {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for detector_zz PV[10] C1:DETDIST_ESTALL_MONITOR {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for detector_zz PV[11] C1:DETDIST.MRES {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for detector_zz PV[12] C1:DETDIST.VELO {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for detector_zz PV[13] C1:DETDIST_DIR_STATUS {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    -addPMotor: OK {src/gw_device_mgr.cc 355  }
+10/09/14 11:37:25 652265216   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x24edb30) {src/DcsMessageManager.cxx 193  }
+10/09/14 11:37:25 652265216   FINEST    epics thread out of waiting {src/gw_service.cc 77  }
+10/09/14 11:37:25 652265216     INFO    queue length before dequeue: 6 {src/gw_service.cc 93  }
+10/09/14 11:37:25 652265216     INFO    queue length after dequeue: 5 {src/gw_service.cc 95  }
+10/09/14 11:37:25 652265216   FINEST    +GatewayService::doTask {src/gw_service.cc 440  }
+10/09/14 11:37:25 652265216   FINEST    do task:{stoh_register_real_motor dettable_us_cleg C1:US_CLEG} {src/gw_service.cc 448  }
+10/09/14 11:37:25 652265216   FINEST    +addRMotor: dettable_us_cleg {src/gw_device_mgr.cc 299  }
+10/09/14 11:37:25 652265216   FINEST    +makeSureDeviceNotExits dettable_us_cleg {src/gw_device_mgr.cc 490  }
+10/09/14 11:37:25 652265216   FINEST    +findDevice dettable_us_cleg {src/gw_device_mgr.cc 389  }
+10/09/14 11:37:25 652265216   FINEST    -findDevice not found {src/gw_device_mgr.cc 405  }
+10/09/14 11:37:25 652265216   FINEST    -makeSureDeviceNotExits OK {src/gw_device_mgr.cc 495  }
+10/09/14 11:37:25 652265216   FINEST    ASGalilMotor dettable_us_cleg got DEVICE: {C1} MRN: {US_CLEG} {src/GwASGalilMotor.cc 80  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_us_cleg PV[0] C1:US_CLEG_MTRSTOP_CMD {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_us_cleg PV[1] C1:US_CLEG_MOVN_STATUS {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 676398848   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+10/09/14 11:37:25 676398848   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_us_cleg PV[2] C1:US_CLEG.VAL {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_us_cleg PV[3] C1:US_CLEG.RBV {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_us_cleg PV[4] C1:US_CLEG_FL_STATUS {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_us_cleg PV[5] C1:US_CLEG_RL_STATUS {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 676398848   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x24edb30 {src/DcsMessageManager.cxx 170  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_us_cleg PV[6] C1:US_CLEG_PROB_STATUS {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 676398848   FINEST    Receiving: 'stoh_register_string spearState xbeamavail
 ' {src/DcsMessageHandler.cxx 249  }
-01/29/14 14:17:53 638002944   FINEST    +GatewayService::ConsumeDcsMessage {src/gw_service.cc 696  }
-01/29/14 14:17:53 638002944   FINEST    -GatewayService::ConsumeDcsMessage {src/gw_service.cc 715  }
-01/29/14 14:17:53 638002944   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-01/29/14 14:17:53 638002944   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-01/29/14 14:17:53 638002944   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-01/29/14 14:17:53 638002944   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x221ab30 {src/DcsMessageManager.cxx 170  }
-01/29/14 14:17:53 638002944   FINEST    Receiving: 'stoh_register_operation getEPICSPV getPV
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_us_cleg PV[7] C1:US_CLEG.DHLM {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 676398848   FINEST    +GatewayService::ConsumeDcsMessage {src/gw_service.cc 696  }
+10/09/14 11:37:25 676398848   FINEST    -GatewayService::ConsumeDcsMessage {src/gw_service.cc 715  }
+10/09/14 11:37:25 676398848   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_us_cleg PV[8] C1:US_CLEG.DLLM {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 676398848   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+10/09/14 11:37:25 676398848   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_us_cleg PV[9] C1:US_CLEG_MSTA_MONITOR {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 676398848   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x24ee530 {src/DcsMessageManager.cxx 170  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_us_cleg PV[10] C1:US_CLEG_ESTALL_MONITOR {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 676398848   FINEST    Receiving: 'stoh_register_operation getEPICSPV getPV
 ' {src/DcsMessageHandler.cxx 249  }
-01/29/14 14:17:53 638002944   FINEST    +GatewayService::ConsumeDcsMessage {src/gw_service.cc 696  }
-01/29/14 14:17:53 638002944   FINEST    -GatewayService::ConsumeDcsMessage {src/gw_service.cc 715  }
-01/29/14 14:17:53 638002944   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-01/29/14 14:17:53 638002944   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-01/29/14 14:17:53 638002944   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-01/29/14 14:17:53 638002944   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x7fa5180008c0 {src/DcsMessageManager.cxx 170  }
-01/29/14 14:17:53 638002944   FINEST    Receiving: 'stoh_register_operation putEPICSPV putPV
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_us_cleg PV[11] C1:US_CLEG.MRES {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_us_cleg PV[12] C1:US_CLEG.VELO {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_us_cleg PV[13] C1:US_CLEG_DIR_STATUS {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 676398848   FINEST    +GatewayService::ConsumeDcsMessage {src/gw_service.cc 696  }
+10/09/14 11:37:25 676398848   FINEST    -GatewayService::ConsumeDcsMessage {src/gw_service.cc 715  }
+10/09/14 11:37:25 676398848   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+10/09/14 11:37:25 652265216   FINEST    -addPMotor: OK {src/gw_device_mgr.cc 355  }
+10/09/14 11:37:25 652265216   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x24ed130) {src/DcsMessageManager.cxx 193  }
+10/09/14 11:37:25 652265216   FINEST    epics thread out of waiting {src/gw_service.cc 77  }
+10/09/14 11:37:25 652265216     INFO    queue length before dequeue: 7 {src/gw_service.cc 93  }
+10/09/14 11:37:25 652265216     INFO    queue length after dequeue: 6 {src/gw_service.cc 95  }
+10/09/14 11:37:25 652265216   FINEST    +GatewayService::doTask {src/gw_service.cc 440  }
+10/09/14 11:37:25 652265216   FINEST    do task:{stoh_register_real_motor dettable_ds_lleg C1:DS_LLEG} {src/gw_service.cc 448  }
+10/09/14 11:37:25 676398848   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+10/09/14 11:37:25 676398848   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+10/09/14 11:37:25 652265216   FINEST    +addRMotor: dettable_ds_lleg {src/gw_device_mgr.cc 299  }
+10/09/14 11:37:25 652265216   FINEST    +makeSureDeviceNotExits dettable_ds_lleg {src/gw_device_mgr.cc 490  }
+10/09/14 11:37:25 652265216   FINEST    +findDevice dettable_ds_lleg {src/gw_device_mgr.cc 389  }
+10/09/14 11:37:25 652265216   FINEST    -findDevice not found {src/gw_device_mgr.cc 405  }
+10/09/14 11:37:25 652265216   FINEST    -makeSureDeviceNotExits OK {src/gw_device_mgr.cc 495  }
+10/09/14 11:37:25 676398848   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x24ed130 {src/DcsMessageManager.cxx 170  }
+10/09/14 11:37:25 652265216   FINEST    ASGalilMotor dettable_ds_lleg got DEVICE: {C1} MRN: {DS_LLEG} {src/GwASGalilMotor.cc 80  }
+10/09/14 11:37:25 676398848   FINEST    Receiving: 'stoh_register_operation putEPICSPV putPV
 ' {src/DcsMessageHandler.cxx 249  }
-01/29/14 14:17:53 638002944   FINEST    +GatewayService::ConsumeDcsMessage {src/gw_service.cc 696  }
-01/29/14 14:17:53 638002944   FINEST    -GatewayService::ConsumeDcsMessage {src/gw_service.cc 715  }
-01/29/14 14:17:53 638002944   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-01/29/14 14:17:53 638002944   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-01/29/14 14:17:53 638002944   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-01/29/14 14:17:53 638002944   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x7fa5180012c0 {src/DcsMessageManager.cxx 170  }
-01/29/14 14:17:53 638002944   FINEST    DcsMessageManager::NewDcsMessage: new MAX TEXT SIZE 58 {src/DcsMessageManager.cxx 176  }
-01/29/14 14:17:53 638002944   FINEST    Receiving: 'stoh_register_operation forceReadString forceReadString
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_ds_lleg PV[0] C1:DS_LLEG_MTRSTOP_CMD {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_ds_lleg PV[1] C1:DS_LLEG_MOVN_STATUS {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_ds_lleg PV[2] C1:DS_LLEG.VAL {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_ds_lleg PV[3] C1:DS_LLEG.RBV {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_ds_lleg PV[4] C1:DS_LLEG_FL_STATUS {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_ds_lleg PV[5] C1:DS_LLEG_RL_STATUS {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_ds_lleg PV[6] C1:DS_LLEG_PROB_STATUS {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_ds_lleg PV[7] C1:DS_LLEG.DHLM {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_ds_lleg PV[8] C1:DS_LLEG.DLLM {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_ds_lleg PV[9] C1:DS_LLEG_MSTA_MONITOR {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_ds_lleg PV[10] C1:DS_LLEG_ESTALL_MONITOR {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_ds_lleg PV[11] C1:DS_LLEG.MRES {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_ds_lleg PV[12] C1:DS_LLEG.VELO {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_ds_lleg PV[13] C1:DS_LLEG_DIR_STATUS {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 676398848   FINEST    +GatewayService::ConsumeDcsMessage {src/gw_service.cc 696  }
+10/09/14 11:37:25 676398848   FINEST    -GatewayService::ConsumeDcsMessage {src/gw_service.cc 715  }
+10/09/14 11:37:25 676398848   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+10/09/14 11:37:25 652265216   FINEST    -addPMotor: OK {src/gw_device_mgr.cc 355  }
+10/09/14 11:37:25 652265216   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x24ec730) {src/DcsMessageManager.cxx 193  }
+10/09/14 11:37:25 652265216   FINEST    epics thread out of waiting {src/gw_service.cc 77  }
+10/09/14 11:37:25 652265216     INFO    queue length before dequeue: 7 {src/gw_service.cc 93  }
+10/09/14 11:37:25 652265216     INFO    queue length after dequeue: 6 {src/gw_service.cc 95  }
+10/09/14 11:37:25 652265216   FINEST    +GatewayService::doTask {src/gw_service.cc 440  }
+10/09/14 11:37:25 652265216   FINEST    do task:{stoh_register_real_motor dettable_ds_rleg C1:DS_RLEG} {src/gw_service.cc 448  }
+10/09/14 11:37:25 676398848   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+10/09/14 11:37:25 676398848   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+10/09/14 11:37:25 652265216   FINEST    +addRMotor: dettable_ds_rleg {src/gw_device_mgr.cc 299  }
+10/09/14 11:37:25 652265216   FINEST    +makeSureDeviceNotExits dettable_ds_rleg {src/gw_device_mgr.cc 490  }
+10/09/14 11:37:25 652265216   FINEST    +findDevice dettable_ds_rleg {src/gw_device_mgr.cc 389  }
+10/09/14 11:37:25 652265216   FINEST    -findDevice not found {src/gw_device_mgr.cc 405  }
+10/09/14 11:37:25 652265216   FINEST    -makeSureDeviceNotExits OK {src/gw_device_mgr.cc 495  }
+10/09/14 11:37:25 676398848   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x24ec730 {src/DcsMessageManager.cxx 170  }
+10/09/14 11:37:25 676398848   FINEST    DcsMessageManager::NewDcsMessage: new MAX TEXT SIZE 58 {src/DcsMessageManager.cxx 176  }
+10/09/14 11:37:25 652265216   FINEST    ASGalilMotor dettable_ds_rleg got DEVICE: {C1} MRN: {DS_RLEG} {src/GwASGalilMotor.cc 80  }
+10/09/14 11:37:25 676398848   FINEST    Receiving: 'stoh_register_operation forceReadString forceReadString
 ' {src/DcsMessageHandler.cxx 249  }
-01/29/14 14:17:53 638002944   FINEST    +GatewayService::ConsumeDcsMessage {src/gw_service.cc 696  }
-01/29/14 14:17:53 638002944   FINEST    -GatewayService::ConsumeDcsMessage {src/gw_service.cc 715  }
-01/29/14 14:17:53 638002944   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-01/29/14 14:17:53 638002944   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-01/29/14 14:17:53 638002944   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-01/29/14 14:17:53 638002944   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x7fa518001cc0 {src/DcsMessageManager.cxx 170  }
-01/29/14 14:17:53 638002944   FINEST    Receiving: 'stoh_register_string beamlineOpenState xbeamavail
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_ds_rleg PV[0] C1:DS_RLEG_MTRSTOP_CMD {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_ds_rleg PV[1] C1:DS_RLEG_MOVN_STATUS {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_ds_rleg PV[2] C1:DS_RLEG.VAL {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_ds_rleg PV[3] C1:DS_RLEG.RBV {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_ds_rleg PV[4] C1:DS_RLEG_FL_STATUS {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_ds_rleg PV[5] C1:DS_RLEG_RL_STATUS {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_ds_rleg PV[6] C1:DS_RLEG_PROB_STATUS {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_ds_rleg PV[7] C1:DS_RLEG.DHLM {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_ds_rleg PV[8] C1:DS_RLEG.DLLM {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_ds_rleg PV[9] C1:DS_RLEG_MSTA_MONITOR {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 676398848   FINEST    +GatewayService::ConsumeDcsMessage {src/gw_service.cc 696  }
+10/09/14 11:37:25 676398848   FINEST    -GatewayService::ConsumeDcsMessage {src/gw_service.cc 715  }
+10/09/14 11:37:25 676398848   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_ds_rleg PV[10] C1:DS_RLEG_ESTALL_MONITOR {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_ds_rleg PV[11] C1:DS_RLEG.MRES {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_ds_rleg PV[12] C1:DS_RLEG.VELO {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_ds_rleg PV[13] C1:DS_RLEG_DIR_STATUS {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    -addPMotor: OK {src/gw_device_mgr.cc 355  }
+10/09/14 11:37:25 676398848   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+10/09/14 11:37:25 676398848   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+10/09/14 11:37:25 652265216   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x24ebd30) {src/DcsMessageManager.cxx 193  }
+10/09/14 11:37:25 676398848   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x24e9530 {src/DcsMessageManager.cxx 170  }
+10/09/14 11:37:25 652265216   FINEST    epics thread out of waiting {src/gw_service.cc 77  }
+10/09/14 11:37:25 652265216     INFO    queue length before dequeue: 7 {src/gw_service.cc 93  }
+10/09/14 11:37:25 652265216     INFO    queue length after dequeue: 6 {src/gw_service.cc 95  }
+10/09/14 11:37:25 652265216   FINEST    +GatewayService::doTask {src/gw_service.cc 440  }
+10/09/14 11:37:25 652265216   FINEST    do task:{stoh_register_real_motor dettable_us_horz C1:US_HORZ} {src/gw_service.cc 448  }
+10/09/14 11:37:25 652265216   FINEST    +addRMotor: dettable_us_horz {src/gw_device_mgr.cc 299  }
+10/09/14 11:37:25 652265216   FINEST    +makeSureDeviceNotExits dettable_us_horz {src/gw_device_mgr.cc 490  }
+10/09/14 11:37:25 652265216   FINEST    +findDevice dettable_us_horz {src/gw_device_mgr.cc 389  }
+10/09/14 11:37:25 652265216   FINEST    -findDevice not found {src/gw_device_mgr.cc 405  }
+10/09/14 11:37:25 652265216   FINEST    -makeSureDeviceNotExits OK {src/gw_device_mgr.cc 495  }
+10/09/14 11:37:25 676398848   FINEST    Receiving: 'stoh_register_string beamlineOpenState xbeamavail
 ' {src/DcsMessageHandler.cxx 249  }
-01/29/14 14:17:53 638002944   FINEST    +GatewayService::ConsumeDcsMessage {src/gw_service.cc 696  }
-01/29/14 14:17:53 638002944   FINEST    -GatewayService::ConsumeDcsMessage {src/gw_service.cc 715  }
-01/29/14 14:17:53 638002944   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-01/29/14 14:17:53 536868608   FINEST    create channel for spear_current PV[0] xrcurr {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    -GwDeviceMgr::addString OK {src/gw_device_mgr.cc 104  }
-01/29/14 14:17:53 536868608   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2220530) {src/DcsMessageManager.cxx 193  }
-01/29/14 14:17:53 536868608   FINEST    epics thread out of waiting {src/gw_service.cc 77  }
-01/29/14 14:17:53 536868608     INFO    queue length before dequeue: 12 {src/gw_service.cc 93  }
-01/29/14 14:17:53 536868608     INFO    queue length after dequeue: 11 {src/gw_service.cc 95  }
-01/29/14 14:17:53 536868608   FINEST    +GatewayService::doTask {src/gw_service.cc 440  }
-01/29/14 14:17:53 536868608   FINEST    do task:{stoh_register_real_motor detector_zz C1:DETDIST} {src/gw_service.cc 448  }
-01/29/14 14:17:53 536868608   FINEST    +addRMotor: detector_zz {src/gw_device_mgr.cc 299  }
-01/29/14 14:17:53 536868608   FINEST    +makeSureDeviceNotExits detector_zz {src/gw_device_mgr.cc 490  }
-01/29/14 14:17:53 536868608   FINEST    +findDevice detector_zz {src/gw_device_mgr.cc 389  }
-01/29/14 14:17:53 536868608   FINEST    -findDevice not found {src/gw_device_mgr.cc 405  }
-01/29/14 14:17:53 536868608   FINEST    -makeSureDeviceNotExits OK {src/gw_device_mgr.cc 495  }
-01/29/14 14:17:53 536868608   FINEST    ASGalilMotor detector_zz got DEVICE: {C1} MRN: {DETDIST} {src/GwASGalilMotor.cc 80  }
-01/29/14 14:17:53 536868608   FINEST    create channel for detector_zz PV[0] C1:DETDIST_MTRSTOP_CMD {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for detector_zz PV[1] C1:DETDIST_MOVN_STATUS {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for detector_zz PV[2] C1:DETDIST.VAL {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for detector_zz PV[3] C1:DETDIST.RBV {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for detector_zz PV[4] C1:DETDIST_FL_STATUS {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for detector_zz PV[5] C1:DETDIST_RL_STATUS {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for detector_zz PV[6] C1:DETDIST_PROB_STATUS {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for detector_zz PV[7] C1:DETDIST.DHLM {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for detector_zz PV[8] C1:DETDIST.DLLM {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for detector_zz PV[9] C1:DETDIST_MSTA_MONITOR {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for detector_zz PV[10] C1:DETDIST_ESTALL_MONITOR {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for detector_zz PV[11] C1:DETDIST.MRES {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for detector_zz PV[12] C1:DETDIST.VELO {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for detector_zz PV[13] C1:DETDIST_DIR_STATUS {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    -addPMotor: OK {src/gw_device_mgr.cc 355  }
-01/29/14 14:17:53 536868608   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x221fb30) {src/DcsMessageManager.cxx 193  }
-01/29/14 14:17:53 536868608   FINEST    epics thread out of waiting {src/gw_service.cc 77  }
-01/29/14 14:17:53 536868608     INFO    queue length before dequeue: 11 {src/gw_service.cc 93  }
-01/29/14 14:17:53 536868608     INFO    queue length after dequeue: 10 {src/gw_service.cc 95  }
-01/29/14 14:17:53 536868608   FINEST    +GatewayService::doTask {src/gw_service.cc 440  }
-01/29/14 14:17:53 536868608   FINEST    do task:{stoh_register_real_motor dettable_us_cleg C1:US_CLEG} {src/gw_service.cc 448  }
-01/29/14 14:17:53 536868608   FINEST    +addRMotor: dettable_us_cleg {src/gw_device_mgr.cc 299  }
-01/29/14 14:17:53 536868608   FINEST    +makeSureDeviceNotExits dettable_us_cleg {src/gw_device_mgr.cc 490  }
-01/29/14 14:17:53 536868608   FINEST    +findDevice dettable_us_cleg {src/gw_device_mgr.cc 389  }
-01/29/14 14:17:53 536868608   FINEST    -findDevice not found {src/gw_device_mgr.cc 405  }
-01/29/14 14:17:53 536868608   FINEST    -makeSureDeviceNotExits OK {src/gw_device_mgr.cc 495  }
-01/29/14 14:17:53 536868608   FINEST    ASGalilMotor dettable_us_cleg got DEVICE: {C1} MRN: {US_CLEG} {src/GwASGalilMotor.cc 80  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_us_cleg PV[0] C1:US_CLEG_MTRSTOP_CMD {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_us_cleg PV[1] C1:US_CLEG_MOVN_STATUS {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_us_cleg PV[2] C1:US_CLEG.VAL {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_us_cleg PV[3] C1:US_CLEG.RBV {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_us_cleg PV[4] C1:US_CLEG_FL_STATUS {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_us_cleg PV[5] C1:US_CLEG_RL_STATUS {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_us_cleg PV[6] C1:US_CLEG_PROB_STATUS {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_us_cleg PV[7] C1:US_CLEG.DHLM {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_us_cleg PV[8] C1:US_CLEG.DLLM {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_us_cleg PV[9] C1:US_CLEG_MSTA_MONITOR {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_us_cleg PV[10] C1:US_CLEG_ESTALL_MONITOR {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_us_cleg PV[11] C1:US_CLEG.MRES {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_us_cleg PV[12] C1:US_CLEG.VELO {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_us_cleg PV[13] C1:US_CLEG_DIR_STATUS {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    -addPMotor: OK {src/gw_device_mgr.cc 355  }
-01/29/14 14:17:53 536868608   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x221f130) {src/DcsMessageManager.cxx 193  }
-01/29/14 14:17:53 536868608   FINEST    epics thread out of waiting {src/gw_service.cc 77  }
-01/29/14 14:17:53 536868608     INFO    queue length before dequeue: 10 {src/gw_service.cc 93  }
-01/29/14 14:17:53 536868608     INFO    queue length after dequeue: 9 {src/gw_service.cc 95  }
-01/29/14 14:17:53 536868608   FINEST    +GatewayService::doTask {src/gw_service.cc 440  }
-01/29/14 14:17:53 536868608   FINEST    do task:{stoh_register_real_motor dettable_ds_lleg C1:DS_LLEG} {src/gw_service.cc 448  }
-01/29/14 14:17:53 536868608   FINEST    +addRMotor: dettable_ds_lleg {src/gw_device_mgr.cc 299  }
-01/29/14 14:17:53 536868608   FINEST    +makeSureDeviceNotExits dettable_ds_lleg {src/gw_device_mgr.cc 490  }
-01/29/14 14:17:53 536868608   FINEST    +findDevice dettable_ds_lleg {src/gw_device_mgr.cc 389  }
-01/29/14 14:17:53 536868608   FINEST    -findDevice not found {src/gw_device_mgr.cc 405  }
-01/29/14 14:17:53 536868608   FINEST    -makeSureDeviceNotExits OK {src/gw_device_mgr.cc 495  }
-01/29/14 14:17:53 536868608   FINEST    ASGalilMotor dettable_ds_lleg got DEVICE: {C1} MRN: {DS_LLEG} {src/GwASGalilMotor.cc 80  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_ds_lleg PV[0] C1:DS_LLEG_MTRSTOP_CMD {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_ds_lleg PV[1] C1:DS_LLEG_MOVN_STATUS {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_ds_lleg PV[2] C1:DS_LLEG.VAL {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_ds_lleg PV[3] C1:DS_LLEG.RBV {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_ds_lleg PV[4] C1:DS_LLEG_FL_STATUS {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_ds_lleg PV[5] C1:DS_LLEG_RL_STATUS {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_ds_lleg PV[6] C1:DS_LLEG_PROB_STATUS {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_ds_lleg PV[7] C1:DS_LLEG.DHLM {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_ds_lleg PV[8] C1:DS_LLEG.DLLM {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_ds_lleg PV[9] C1:DS_LLEG_MSTA_MONITOR {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_ds_lleg PV[10] C1:DS_LLEG_ESTALL_MONITOR {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_ds_lleg PV[11] C1:DS_LLEG.MRES {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_ds_lleg PV[12] C1:DS_LLEG.VELO {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_ds_lleg PV[13] C1:DS_LLEG_DIR_STATUS {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    -addPMotor: OK {src/gw_device_mgr.cc 355  }
-01/29/14 14:17:53 536868608   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x221e730) {src/DcsMessageManager.cxx 193  }
-01/29/14 14:17:53 536868608   FINEST    epics thread out of waiting {src/gw_service.cc 77  }
-01/29/14 14:17:53 536868608     INFO    queue length before dequeue: 9 {src/gw_service.cc 93  }
-01/29/14 14:17:53 536868608     INFO    queue length after dequeue: 8 {src/gw_service.cc 95  }
-01/29/14 14:17:53 536868608   FINEST    +GatewayService::doTask {src/gw_service.cc 440  }
-01/29/14 14:17:53 536868608   FINEST    do task:{stoh_register_real_motor dettable_ds_rleg C1:DS_RLEG} {src/gw_service.cc 448  }
-01/29/14 14:17:53 536868608   FINEST    +addRMotor: dettable_ds_rleg {src/gw_device_mgr.cc 299  }
-01/29/14 14:17:53 536868608   FINEST    +makeSureDeviceNotExits dettable_ds_rleg {src/gw_device_mgr.cc 490  }
-01/29/14 14:17:53 536868608   FINEST    +findDevice dettable_ds_rleg {src/gw_device_mgr.cc 389  }
-01/29/14 14:17:53 536868608   FINEST    -findDevice not found {src/gw_device_mgr.cc 405  }
-01/29/14 14:17:53 536868608   FINEST    -makeSureDeviceNotExits OK {src/gw_device_mgr.cc 495  }
-01/29/14 14:17:53 536868608   FINEST    ASGalilMotor dettable_ds_rleg got DEVICE: {C1} MRN: {DS_RLEG} {src/GwASGalilMotor.cc 80  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_ds_rleg PV[0] C1:DS_RLEG_MTRSTOP_CMD {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_ds_rleg PV[1] C1:DS_RLEG_MOVN_STATUS {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_ds_rleg PV[2] C1:DS_RLEG.VAL {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_ds_rleg PV[3] C1:DS_RLEG.RBV {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_ds_rleg PV[4] C1:DS_RLEG_FL_STATUS {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_ds_rleg PV[5] C1:DS_RLEG_RL_STATUS {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_ds_rleg PV[6] C1:DS_RLEG_PROB_STATUS {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_ds_rleg PV[7] C1:DS_RLEG.DHLM {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_ds_rleg PV[8] C1:DS_RLEG.DLLM {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_ds_rleg PV[9] C1:DS_RLEG_MSTA_MONITOR {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_ds_rleg PV[10] C1:DS_RLEG_ESTALL_MONITOR {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_ds_rleg PV[11] C1:DS_RLEG.MRES {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_ds_rleg PV[12] C1:DS_RLEG.VELO {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_ds_rleg PV[13] C1:DS_RLEG_DIR_STATUS {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    -addPMotor: OK {src/gw_device_mgr.cc 355  }
-01/29/14 14:17:53 536868608   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x221dd30) {src/DcsMessageManager.cxx 193  }
-01/29/14 14:17:53 536868608   FINEST    epics thread out of waiting {src/gw_service.cc 77  }
-01/29/14 14:17:53 536868608     INFO    queue length before dequeue: 8 {src/gw_service.cc 93  }
-01/29/14 14:17:53 536868608     INFO    queue length after dequeue: 7 {src/gw_service.cc 95  }
-01/29/14 14:17:53 536868608   FINEST    +GatewayService::doTask {src/gw_service.cc 440  }
-01/29/14 14:17:53 536868608   FINEST    do task:{stoh_register_real_motor dettable_us_horz C1:US_HORZ} {src/gw_service.cc 448  }
-01/29/14 14:17:53 536868608   FINEST    +addRMotor: dettable_us_horz {src/gw_device_mgr.cc 299  }
-01/29/14 14:17:53 536868608   FINEST    +makeSureDeviceNotExits dettable_us_horz {src/gw_device_mgr.cc 490  }
-01/29/14 14:17:53 536868608   FINEST    +findDevice dettable_us_horz {src/gw_device_mgr.cc 389  }
-01/29/14 14:17:53 536868608   FINEST    -findDevice not found {src/gw_device_mgr.cc 405  }
-01/29/14 14:17:53 536868608   FINEST    -makeSureDeviceNotExits OK {src/gw_device_mgr.cc 495  }
-01/29/14 14:17:53 536868608   FINEST    ASGalilMotor dettable_us_horz got DEVICE: {C1} MRN: {US_HORZ} {src/GwASGalilMotor.cc 80  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_us_horz PV[0] C1:US_HORZ_MTRSTOP_CMD {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_us_horz PV[1] C1:US_HORZ_MOVN_STATUS {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_us_horz PV[2] C1:US_HORZ.VAL {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_us_horz PV[3] C1:US_HORZ.RBV {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_us_horz PV[4] C1:US_HORZ_FL_STATUS {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_us_horz PV[5] C1:US_HORZ_RL_STATUS {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_us_horz PV[6] C1:US_HORZ_PROB_STATUS {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_us_horz PV[7] C1:US_HORZ.DHLM {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_us_horz PV[8] C1:US_HORZ.DLLM {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_us_horz PV[9] C1:US_HORZ_MSTA_MONITOR {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_us_horz PV[10] C1:US_HORZ_ESTALL_MONITOR {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_us_horz PV[11] C1:US_HORZ.MRES {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_us_horz PV[12] C1:US_HORZ.VELO {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_us_horz PV[13] C1:US_HORZ_DIR_STATUS {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    -addPMotor: OK {src/gw_device_mgr.cc 355  }
-01/29/14 14:17:53 536868608   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x221d330) {src/DcsMessageManager.cxx 193  }
-01/29/14 14:17:53 536868608   FINEST    epics thread out of waiting {src/gw_service.cc 77  }
-01/29/14 14:17:53 536868608     INFO    queue length before dequeue: 7 {src/gw_service.cc 93  }
-01/29/14 14:17:53 536868608     INFO    queue length after dequeue: 6 {src/gw_service.cc 95  }
-01/29/14 14:17:53 536868608   FINEST    +GatewayService::doTask {src/gw_service.cc 440  }
-01/29/14 14:17:53 536868608   FINEST    do task:{stoh_register_real_motor dettable_ds_horz C1:DS_HORZ} {src/gw_service.cc 448  }
-01/29/14 14:17:53 536868608   FINEST    +addRMotor: dettable_ds_horz {src/gw_device_mgr.cc 299  }
-01/29/14 14:17:53 536868608   FINEST    +makeSureDeviceNotExits dettable_ds_horz {src/gw_device_mgr.cc 490  }
-01/29/14 14:17:53 536868608   FINEST    +findDevice dettable_ds_horz {src/gw_device_mgr.cc 389  }
-01/29/14 14:17:53 536868608   FINEST    -findDevice not found {src/gw_device_mgr.cc 405  }
-01/29/14 14:17:53 536868608   FINEST    -makeSureDeviceNotExits OK {src/gw_device_mgr.cc 495  }
-01/29/14 14:17:53 536868608   FINEST    ASGalilMotor dettable_ds_horz got DEVICE: {C1} MRN: {DS_HORZ} {src/GwASGalilMotor.cc 80  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_ds_horz PV[0] C1:DS_HORZ_MTRSTOP_CMD {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_ds_horz PV[1] C1:DS_HORZ_MOVN_STATUS {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_ds_horz PV[2] C1:DS_HORZ.VAL {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_ds_horz PV[3] C1:DS_HORZ.RBV {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_ds_horz PV[4] C1:DS_HORZ_FL_STATUS {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_ds_horz PV[5] C1:DS_HORZ_RL_STATUS {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_ds_horz PV[6] C1:DS_HORZ_PROB_STATUS {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_ds_horz PV[7] C1:DS_HORZ.DHLM {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_ds_horz PV[8] C1:DS_HORZ.DLLM {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_ds_horz PV[9] C1:DS_HORZ_MSTA_MONITOR {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_ds_horz PV[10] C1:DS_HORZ_ESTALL_MONITOR {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_ds_horz PV[11] C1:DS_HORZ.MRES {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_ds_horz PV[12] C1:DS_HORZ.VELO {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    create channel for dettable_ds_horz PV[13] C1:DS_HORZ_DIR_STATUS {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    -addPMotor: OK {src/gw_device_mgr.cc 355  }
-01/29/14 14:17:53 536868608   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x221c930) {src/DcsMessageManager.cxx 193  }
-01/29/14 14:17:53 536868608   FINEST    epics thread out of waiting {src/gw_service.cc 77  }
-01/29/14 14:17:53 536868608     INFO    queue length before dequeue: 6 {src/gw_service.cc 93  }
-01/29/14 14:17:53 536868608     INFO    queue length after dequeue: 5 {src/gw_service.cc 95  }
-01/29/14 14:17:53 536868608   FINEST    +GatewayService::doTask {src/gw_service.cc 440  }
-01/29/14 14:17:53 536868608   FINEST    do task:{stoh_register_string injectState xrmsg
+10/09/14 11:37:25 652265216   FINEST    ASGalilMotor dettable_us_horz got DEVICE: {C1} MRN: {US_HORZ} {src/GwASGalilMotor.cc 80  }
+10/09/14 11:37:25 676398848   FINEST    +GatewayService::ConsumeDcsMessage {src/gw_service.cc 696  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_us_horz PV[0] C1:US_HORZ_MTRSTOP_CMD {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_us_horz PV[1] C1:US_HORZ_MOVN_STATUS {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_us_horz PV[2] C1:US_HORZ.VAL {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_us_horz PV[3] C1:US_HORZ.RBV {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_us_horz PV[4] C1:US_HORZ_FL_STATUS {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_us_horz PV[5] C1:US_HORZ_RL_STATUS {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_us_horz PV[6] C1:US_HORZ_PROB_STATUS {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_us_horz PV[7] C1:US_HORZ.DHLM {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_us_horz PV[8] C1:US_HORZ.DLLM {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_us_horz PV[9] C1:US_HORZ_MSTA_MONITOR {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_us_horz PV[10] C1:US_HORZ_ESTALL_MONITOR {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 676398848   FINEST    -GatewayService::ConsumeDcsMessage {src/gw_service.cc 715  }
+10/09/14 11:37:25 676398848   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_us_horz PV[11] C1:US_HORZ.MRES {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_us_horz PV[12] C1:US_HORZ.VELO {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_us_horz PV[13] C1:US_HORZ_DIR_STATUS {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    -addPMotor: OK {src/gw_device_mgr.cc 355  }
+10/09/14 11:37:25 652265216   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x24eb330) {src/DcsMessageManager.cxx 193  }
+10/09/14 11:37:25 652265216   FINEST    epics thread out of waiting {src/gw_service.cc 77  }
+10/09/14 11:37:25 652265216     INFO    queue length before dequeue: 7 {src/gw_service.cc 93  }
+10/09/14 11:37:25 652265216     INFO    queue length after dequeue: 6 {src/gw_service.cc 95  }
+10/09/14 11:37:25 652265216   FINEST    +GatewayService::doTask {src/gw_service.cc 440  }
+10/09/14 11:37:25 652265216   FINEST    do task:{stoh_register_real_motor dettable_ds_horz C1:DS_HORZ} {src/gw_service.cc 448  }
+10/09/14 11:37:25 652265216   FINEST    +addRMotor: dettable_ds_horz {src/gw_device_mgr.cc 299  }
+10/09/14 11:37:25 652265216   FINEST    +makeSureDeviceNotExits dettable_ds_horz {src/gw_device_mgr.cc 490  }
+10/09/14 11:37:25 652265216   FINEST    +findDevice dettable_ds_horz {src/gw_device_mgr.cc 389  }
+10/09/14 11:37:25 652265216   FINEST    -findDevice not found {src/gw_device_mgr.cc 405  }
+10/09/14 11:37:25 652265216   FINEST    -makeSureDeviceNotExits OK {src/gw_device_mgr.cc 495  }
+10/09/14 11:37:25 652265216   FINEST    ASGalilMotor dettable_ds_horz got DEVICE: {C1} MRN: {DS_HORZ} {src/GwASGalilMotor.cc 80  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_ds_horz PV[0] C1:DS_HORZ_MTRSTOP_CMD {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_ds_horz PV[1] C1:DS_HORZ_MOVN_STATUS {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_ds_horz PV[2] C1:DS_HORZ.VAL {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_ds_horz PV[3] C1:DS_HORZ.RBV {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_ds_horz PV[4] C1:DS_HORZ_FL_STATUS {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_ds_horz PV[5] C1:DS_HORZ_RL_STATUS {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_ds_horz PV[6] C1:DS_HORZ_PROB_STATUS {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_ds_horz PV[7] C1:DS_HORZ.DHLM {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_ds_horz PV[8] C1:DS_HORZ.DLLM {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_ds_horz PV[9] C1:DS_HORZ_MSTA_MONITOR {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_ds_horz PV[10] C1:DS_HORZ_ESTALL_MONITOR {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_ds_horz PV[11] C1:DS_HORZ.MRES {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_ds_horz PV[12] C1:DS_HORZ.VELO {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    create channel for dettable_ds_horz PV[13] C1:DS_HORZ_DIR_STATUS {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    -addPMotor: OK {src/gw_device_mgr.cc 355  }
+10/09/14 11:37:25 652265216   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x24ea930) {src/DcsMessageManager.cxx 193  }
+10/09/14 11:37:25 652265216   FINEST    epics thread out of waiting {src/gw_service.cc 77  }
+10/09/14 11:37:25 652265216     INFO    queue length before dequeue: 6 {src/gw_service.cc 93  }
+10/09/14 11:37:25 652265216     INFO    queue length after dequeue: 5 {src/gw_service.cc 95  }
+10/09/14 11:37:25 652265216   FINEST    +GatewayService::doTask {src/gw_service.cc 440  }
+10/09/14 11:37:25 652265216   FINEST    do task:{stoh_register_string injectState xrmsg
 } {src/gw_service.cc 448  }
-01/29/14 14:17:53 536868608   FINEST    +GwDeviceMgr::addString injectState {src/gw_device_mgr.cc 57  }
-01/29/14 14:17:53 536868608   FINEST    hold lock {src/gw_device_mgr.cc 61  }
-01/29/14 14:17:53 536868608   FINEST    find string {src/gw_device_mgr.cc 63  }
-01/29/14 14:17:53 536868608   FINEST    +makeSureDeviceNotExits injectState {src/gw_device_mgr.cc 490  }
-01/29/14 14:17:53 536868608   FINEST    +findDevice injectState {src/gw_device_mgr.cc 389  }
-01/29/14 14:17:53 536868608   FINEST    -findDevice not found {src/gw_device_mgr.cc 405  }
-01/29/14 14:17:53 536868608   FINEST    -makeSureDeviceNotExits OK {src/gw_device_mgr.cc 495  }
-01/29/14 14:17:53 536868608   FINEST    before new string {src/gw_device_mgr.cc 94  }
-01/29/14 14:17:53 536868608   FINEST    String injectState fill PV[0] xrmsg {src/GwString.cc 54  }
-01/29/14 14:17:53 536868608   FINEST    String injectState read as NATIVE {src/GwString.cc 67  }
-01/29/14 14:17:53 536868608   FINEST    create channel for injectState PV[0] xrmsg {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    -GwDeviceMgr::addString OK {src/gw_device_mgr.cc 104  }
-01/29/14 14:17:53 536868608   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x221bf30) {src/DcsMessageManager.cxx 193  }
-01/29/14 14:17:53 536868608   FINEST    epics thread out of waiting {src/gw_service.cc 77  }
-01/29/14 14:17:53 536868608     INFO    queue length before dequeue: 5 {src/gw_service.cc 93  }
-01/29/14 14:17:53 536868608     INFO    queue length after dequeue: 4 {src/gw_service.cc 95  }
-01/29/14 14:17:53 536868608   FINEST    +GatewayService::doTask {src/gw_service.cc 440  }
-01/29/14 14:17:53 536868608   FINEST    do task:{stoh_register_string spearState xbeamavail
+10/09/14 11:37:25 652265216   FINEST    +GwDeviceMgr::addString injectState {src/gw_device_mgr.cc 57  }
+10/09/14 11:37:25 652265216   FINEST    hold lock {src/gw_device_mgr.cc 61  }
+10/09/14 11:37:25 652265216   FINEST    find string {src/gw_device_mgr.cc 63  }
+10/09/14 11:37:25 652265216   FINEST    +makeSureDeviceNotExits injectState {src/gw_device_mgr.cc 490  }
+10/09/14 11:37:25 652265216   FINEST    +findDevice injectState {src/gw_device_mgr.cc 389  }
+10/09/14 11:37:25 652265216   FINEST    -findDevice not found {src/gw_device_mgr.cc 405  }
+10/09/14 11:37:25 652265216   FINEST    -makeSureDeviceNotExits OK {src/gw_device_mgr.cc 495  }
+10/09/14 11:37:25 652265216   FINEST    before new string {src/gw_device_mgr.cc 94  }
+10/09/14 11:37:25 652265216   FINEST    String injectState fill PV[0] xrmsg {src/GwString.cc 54  }
+10/09/14 11:37:25 652265216   FINEST    String injectState read as NATIVE {src/GwString.cc 67  }
+10/09/14 11:37:25 652265216   FINEST    create channel for injectState PV[0] xrmsg {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    -GwDeviceMgr::addString OK {src/gw_device_mgr.cc 104  }
+10/09/14 11:37:25 652265216   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x24e9f30) {src/DcsMessageManager.cxx 193  }
+10/09/14 11:37:25 652265216   FINEST    epics thread out of waiting {src/gw_service.cc 77  }
+10/09/14 11:37:25 652265216     INFO    queue length before dequeue: 5 {src/gw_service.cc 93  }
+10/09/14 11:37:25 652265216     INFO    queue length after dequeue: 4 {src/gw_service.cc 95  }
+10/09/14 11:37:25 652265216   FINEST    +GatewayService::doTask {src/gw_service.cc 440  }
+10/09/14 11:37:25 652265216   FINEST    do task:{stoh_register_string spearState xbeamavail
 } {src/gw_service.cc 448  }
-01/29/14 14:17:53 536868608   FINEST    +GwDeviceMgr::addString spearState {src/gw_device_mgr.cc 57  }
-01/29/14 14:17:53 536868608   FINEST    hold lock {src/gw_device_mgr.cc 61  }
-01/29/14 14:17:53 536868608   FINEST    find string {src/gw_device_mgr.cc 63  }
-01/29/14 14:17:53 536868608   FINEST    +makeSureDeviceNotExits spearState {src/gw_device_mgr.cc 490  }
-01/29/14 14:17:53 536868608   FINEST    +findDevice spearState {src/gw_device_mgr.cc 389  }
-01/29/14 14:17:53 536868608   FINEST    -findDevice not found {src/gw_device_mgr.cc 405  }
-01/29/14 14:17:53 536868608   FINEST    -makeSureDeviceNotExits OK {src/gw_device_mgr.cc 495  }
-01/29/14 14:17:53 536868608   FINEST    before new string {src/gw_device_mgr.cc 94  }
-01/29/14 14:17:53 536868608   FINEST    String spearState fill PV[0] xbeamavail {src/GwString.cc 54  }
-01/29/14 14:17:53 536868608   FINEST    String spearState read as NATIVE {src/GwString.cc 67  }
-01/29/14 14:17:53 536868608   FINEST    create channel for spearState PV[0] xbeamavail {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    -GwDeviceMgr::addString OK {src/gw_device_mgr.cc 104  }
-01/29/14 14:17:53 536868608   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x221b530) {src/DcsMessageManager.cxx 193  }
-01/29/14 14:17:53 536868608   FINEST    epics thread out of waiting {src/gw_service.cc 77  }
-01/29/14 14:17:53 536868608     INFO    queue length before dequeue: 4 {src/gw_service.cc 93  }
-01/29/14 14:17:53 536868608     INFO    queue length after dequeue: 3 {src/gw_service.cc 95  }
-01/29/14 14:17:53 536868608   FINEST    +GatewayService::doTask {src/gw_service.cc 440  }
-01/29/14 14:17:53 536868608   FINEST    do task:{stoh_register_operation getEPICSPV getPV
+10/09/14 11:37:25 652265216   FINEST    +GwDeviceMgr::addString spearState {src/gw_device_mgr.cc 57  }
+10/09/14 11:37:25 652265216   FINEST    hold lock {src/gw_device_mgr.cc 61  }
+10/09/14 11:37:25 652265216   FINEST    find string {src/gw_device_mgr.cc 63  }
+10/09/14 11:37:25 652265216   FINEST    +makeSureDeviceNotExits spearState {src/gw_device_mgr.cc 490  }
+10/09/14 11:37:25 652265216   FINEST    +findDevice spearState {src/gw_device_mgr.cc 389  }
+10/09/14 11:37:25 652265216   FINEST    -findDevice not found {src/gw_device_mgr.cc 405  }
+10/09/14 11:37:25 652265216   FINEST    -makeSureDeviceNotExits OK {src/gw_device_mgr.cc 495  }
+10/09/14 11:37:25 652265216   FINEST    before new string {src/gw_device_mgr.cc 94  }
+10/09/14 11:37:25 652265216   FINEST    String spearState fill PV[0] xbeamavail {src/GwString.cc 54  }
+10/09/14 11:37:25 652265216   FINEST    String spearState read as NATIVE {src/GwString.cc 67  }
+10/09/14 11:37:25 652265216   FINEST    create channel for spearState PV[0] xbeamavail {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    -GwDeviceMgr::addString OK {src/gw_device_mgr.cc 104  }
+10/09/14 11:37:25 652265216   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x24edb30) {src/DcsMessageManager.cxx 193  }
+10/09/14 11:37:25 652265216   FINEST    epics thread out of waiting {src/gw_service.cc 77  }
+10/09/14 11:37:25 652265216     INFO    queue length before dequeue: 4 {src/gw_service.cc 93  }
+10/09/14 11:37:25 652265216     INFO    queue length after dequeue: 3 {src/gw_service.cc 95  }
+10/09/14 11:37:25 652265216   FINEST    +GatewayService::doTask {src/gw_service.cc 440  }
+10/09/14 11:37:25 652265216   FINEST    do task:{stoh_register_operation getEPICSPV getPV
 } {src/gw_service.cc 448  }
-01/29/14 14:17:53 536868608   FINEST    -GatewayService::doTask no match pass on {src/gw_service.cc 689  }
-01/29/14 14:17:53 536868608   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x221ab30) {src/DcsMessageManager.cxx 193  }
-01/29/14 14:17:53 536868608   FINEST    epics thread out of waiting {src/gw_service.cc 77  }
-01/29/14 14:17:53 536868608     INFO    queue length before dequeue: 3 {src/gw_service.cc 93  }
-01/29/14 14:17:53 536868608     INFO    queue length after dequeue: 2 {src/gw_service.cc 95  }
-01/29/14 14:17:53 536868608   FINEST    +GatewayService::doTask {src/gw_service.cc 440  }
-01/29/14 14:17:53 536868608   FINEST    do task:{stoh_register_operation putEPICSPV putPV
+10/09/14 11:37:25 652265216   FINEST    -GatewayService::doTask no match pass on {src/gw_service.cc 689  }
+10/09/14 11:37:25 652265216   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x24ee530) {src/DcsMessageManager.cxx 193  }
+10/09/14 11:37:25 652265216   FINEST    epics thread out of waiting {src/gw_service.cc 77  }
+10/09/14 11:37:25 652265216     INFO    queue length before dequeue: 3 {src/gw_service.cc 93  }
+10/09/14 11:37:25 652265216     INFO    queue length after dequeue: 2 {src/gw_service.cc 95  }
+10/09/14 11:37:25 652265216   FINEST    +GatewayService::doTask {src/gw_service.cc 440  }
+10/09/14 11:37:25 652265216   FINEST    do task:{stoh_register_operation putEPICSPV putPV
 } {src/gw_service.cc 448  }
-01/29/14 14:17:53 536868608   FINEST    -GatewayService::doTask no match pass on {src/gw_service.cc 689  }
-01/29/14 14:17:53 536868608   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x7fa5180008c0) {src/DcsMessageManager.cxx 193  }
-01/29/14 14:17:53 536868608   FINEST    epics thread out of waiting {src/gw_service.cc 77  }
-01/29/14 14:17:53 536868608     INFO    queue length before dequeue: 2 {src/gw_service.cc 93  }
-01/29/14 14:17:53 536868608     INFO    queue length after dequeue: 1 {src/gw_service.cc 95  }
-01/29/14 14:17:53 536868608   FINEST    +GatewayService::doTask {src/gw_service.cc 440  }
-01/29/14 14:17:53 536868608   FINEST    do task:{stoh_register_operation forceReadString forceReadString
+10/09/14 11:37:25 652265216   FINEST    -GatewayService::doTask no match pass on {src/gw_service.cc 689  }
+10/09/14 11:37:25 652265216   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x24ed130) {src/DcsMessageManager.cxx 193  }
+10/09/14 11:37:25 652265216   FINEST    epics thread out of waiting {src/gw_service.cc 77  }
+10/09/14 11:37:25 652265216     INFO    queue length before dequeue: 2 {src/gw_service.cc 93  }
+10/09/14 11:37:25 652265216     INFO    queue length after dequeue: 1 {src/gw_service.cc 95  }
+10/09/14 11:37:25 652265216   FINEST    +GatewayService::doTask {src/gw_service.cc 440  }
+10/09/14 11:37:25 652265216   FINEST    do task:{stoh_register_operation forceReadString forceReadString
 } {src/gw_service.cc 448  }
-01/29/14 14:17:53 536868608   FINEST    -GatewayService::doTask no match pass on {src/gw_service.cc 689  }
-01/29/14 14:17:53 536868608   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x7fa5180012c0) {src/DcsMessageManager.cxx 193  }
-01/29/14 14:17:53 536868608   FINEST    epics thread out of waiting {src/gw_service.cc 77  }
-01/29/14 14:17:53 536868608     INFO    queue length before dequeue: 1 {src/gw_service.cc 93  }
-01/29/14 14:17:53 536868608     INFO    queue length after dequeue: 0 {src/gw_service.cc 95  }
-01/29/14 14:17:53 536868608   FINEST    +GatewayService::doTask {src/gw_service.cc 440  }
-01/29/14 14:17:53 536868608   FINEST    do task:{stoh_register_string beamlineOpenState xbeamavail
+10/09/14 11:37:25 652265216   FINEST    -GatewayService::doTask no match pass on {src/gw_service.cc 689  }
+10/09/14 11:37:25 652265216   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x24ec730) {src/DcsMessageManager.cxx 193  }
+10/09/14 11:37:25 652265216   FINEST    epics thread out of waiting {src/gw_service.cc 77  }
+10/09/14 11:37:25 652265216     INFO    queue length before dequeue: 1 {src/gw_service.cc 93  }
+10/09/14 11:37:25 652265216     INFO    queue length after dequeue: 0 {src/gw_service.cc 95  }
+10/09/14 11:37:25 652265216   FINEST    +GatewayService::doTask {src/gw_service.cc 440  }
+10/09/14 11:37:25 652265216   FINEST    do task:{stoh_register_string beamlineOpenState xbeamavail
 } {src/gw_service.cc 448  }
-01/29/14 14:17:53 536868608   FINEST    +GwDeviceMgr::addString beamlineOpenState {src/gw_device_mgr.cc 57  }
-01/29/14 14:17:53 536868608   FINEST    hold lock {src/gw_device_mgr.cc 61  }
-01/29/14 14:17:53 536868608   FINEST    find string {src/gw_device_mgr.cc 63  }
-01/29/14 14:17:53 536868608   FINEST    +makeSureDeviceNotExits beamlineOpenState {src/gw_device_mgr.cc 490  }
-01/29/14 14:17:53 536868608   FINEST    +findDevice beamlineOpenState {src/gw_device_mgr.cc 389  }
-01/29/14 14:17:53 536868608   FINEST    -findDevice not found {src/gw_device_mgr.cc 405  }
-01/29/14 14:17:53 536868608   FINEST    -makeSureDeviceNotExits OK {src/gw_device_mgr.cc 495  }
-01/29/14 14:17:53 536868608   FINEST    before new string {src/gw_device_mgr.cc 94  }
-01/29/14 14:17:53 536868608   FINEST    String beamlineOpenState fill PV[0] xbeamavail {src/GwString.cc 54  }
-01/29/14 14:17:53 536868608   FINEST    String beamlineOpenState read as DBR_STRING {src/GwString.cc 61  }
-01/29/14 14:17:53 536868608   FINEST    create channel for beamlineOpenState PV[0] xbeamavail {src/GwBaseDevice.cc 335  }
-01/29/14 14:17:53 536868608   FINEST    -GwDeviceMgr::addString OK {src/gw_device_mgr.cc 104  }
-01/29/14 14:17:53 536868608   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x7fa518001cc0) {src/DcsMessageManager.cxx 193  }
-01/29/14 14:17:54 612665088   FINEST    connect state callback for xrcurr state=2 {src/GwBaseDevice.cc 648  }
-01/29/14 14:17:54 612665088   FINEST    onFirstTimeConnect for spear_current PV[0] {src/GwBaseDevice.cc 226  }
-01/29/14 14:17:54 612665088   FINEST    NATIVE type for spear_current PV[0] is DBR_DOUBLE {src/GwBaseDevice.cc 235  }
-01/29/14 14:17:54 612665088     INFO    array count=1, esize=8 {src/GwBaseDevice.cc 250  }
-01/29/14 14:17:54 612665088     INFO    allocated put buffer for spear_current PV[0] xrcurr at 0x7fa5080008c0 {src/GwBaseDevice.cc 257  }
-01/29/14 14:17:54 612665088     INFO    allocated monitor buffer for spear_current PV[0] xrcurr at 0x7fa5080008e0 {src/GwBaseDevice.cc 271  }
-01/29/14 14:17:54 612665088   FINEST    mid=0x7fa508000900 {src/GwBaseDevice.cc 295  }
-01/29/14 14:17:54 612665088   FINEST    setup monitor for spear_current PV[0] {src/GwBaseDevice.cc 296  }
-01/29/14 14:17:54 612665088   FINEST    onEPICSConnectStateChange for spear_current PV[0] {src/GwBaseDevice.cc 129  }
-01/29/14 14:17:54 612665088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x7fa518001cc0 {src/DcsMessageManager.cxx 170  }
-01/29/14 14:17:54 612665088   FINEST    sending out {htos_log note epicsgw spear_current fully connected} {src/GwBaseDevice.cc 535  }
-01/29/14 14:17:54 612665088   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
-01/29/14 14:17:54 612665088  WARNING    string spear_current connected but data not ready {src/GwString.cc 88  }
-01/29/14 14:17:54 648492800   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
-01/29/14 14:17:54 648492800   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
-01/29/14 14:17:54 648492800   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
-01/29/14 14:17:54 648492800   FINEST    send message done {src/DcsMessageHandler.cxx 321  }
-01/29/14 14:17:54 648492800   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x7fa518001cc0) {src/DcsMessageManager.cxx 193  }
-01/29/14 14:17:54 648492800   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
-01/29/14 14:17:55 612665088   FINEST    converted new contents: {0} {src/GwString.cc 145  }
-01/29/14 14:17:55 612665088   FINEST    connect state callback for xrmsg state=2 {src/GwBaseDevice.cc 648  }
-01/29/14 14:17:55 612665088   FINEST    onFirstTimeConnect for injectState PV[0] {src/GwBaseDevice.cc 226  }
-01/29/14 14:17:55 612665088   FINEST    NATIVE type for injectState PV[0] is DBR_LONG {src/GwBaseDevice.cc 235  }
-01/29/14 14:17:55 612665088     INFO    array count=1, esize=4 {src/GwBaseDevice.cc 250  }
-01/29/14 14:17:55 612665088     INFO    allocated put buffer for injectState PV[0] xrmsg at 0x7fa508020930 {src/GwBaseDevice.cc 257  }
-01/29/14 14:17:55 612665088     INFO    allocated monitor buffer for injectState PV[0] xrmsg at 0x7fa508020950 {src/GwBaseDevice.cc 271  }
-01/29/14 14:17:55 612665088   FINEST    mid=0x7fa508000928 {src/GwBaseDevice.cc 295  }
-01/29/14 14:17:55 612665088   FINEST    setup monitor for injectState PV[0] {src/GwBaseDevice.cc 296  }
-01/29/14 14:17:55 612665088   FINEST    onEPICSConnectStateChange for injectState PV[0] {src/GwBaseDevice.cc 129  }
-01/29/14 14:17:55 612665088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x7fa518001cc0 {src/DcsMessageManager.cxx 170  }
-01/29/14 14:17:55 612665088   FINEST    sending out {htos_log note epicsgw injectState fully connected} {src/GwBaseDevice.cc 535  }
-01/29/14 14:17:55 612665088   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
-01/29/14 14:17:55 612665088  WARNING    string injectState connected but data not ready {src/GwString.cc 88  }
-01/29/14 14:17:55 612665088   FINEST    connect state callback for xbeamavail state=2 {src/GwBaseDevice.cc 648  }
-01/29/14 14:17:55 612665088   FINEST    onFirstTimeConnect for spearState PV[0] {src/GwBaseDevice.cc 226  }
-01/29/14 14:17:55 612665088   FINEST    NATIVE type for spearState PV[0] is DBR_LONG {src/GwBaseDevice.cc 235  }
-01/29/14 14:17:55 612665088     INFO    array count=1, esize=4 {src/GwBaseDevice.cc 250  }
-01/29/14 14:17:55 612665088     INFO    allocated put buffer for spearState PV[0] xbeamavail at 0x7fa508020970 {src/GwBaseDevice.cc 257  }
-01/29/14 14:17:55 612665088     INFO    allocated monitor buffer for spearState PV[0] xbeamavail at 0x7fa508020990 {src/GwBaseDevice.cc 271  }
-01/29/14 14:17:55 612665088   FINEST    mid=0x7fa508000950 {src/GwBaseDevice.cc 295  }
-01/29/14 14:17:55 612665088   FINEST    setup monitor for spearState PV[0] {src/GwBaseDevice.cc 296  }
-01/29/14 14:17:55 612665088   FINEST    onEPICSConnectStateChange for spearState PV[0] {src/GwBaseDevice.cc 129  }
-01/29/14 14:17:55 612665088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x7fa5180012c0 {src/DcsMessageManager.cxx 170  }
-01/29/14 14:17:55 612665088   FINEST    sending out {htos_log note epicsgw spearState fully connected} {src/GwBaseDevice.cc 535  }
-01/29/14 14:17:55 612665088   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=2 {src/DcsMessageService.cxx 291  }
-01/29/14 14:17:55 612665088  WARNING    string spearState connected but data not ready {src/GwString.cc 88  }
-01/29/14 14:17:55 612665088   FINEST    connect state callback for xbeamavail state=2 {src/GwBaseDevice.cc 648  }
-01/29/14 14:17:55 612665088   FINEST    onFirstTimeConnect for beamlineOpenState PV[0] {src/GwBaseDevice.cc 226  }
-01/29/14 14:17:55 612665088   FINEST    mid=0x7fa508000978 {src/GwBaseDevice.cc 295  }
-01/29/14 14:17:55 612665088   FINEST    setup monitor for beamlineOpenState PV[0] {src/GwBaseDevice.cc 296  }
-01/29/14 14:17:55 612665088   FINEST    onEPICSConnectStateChange for beamlineOpenState PV[0] {src/GwBaseDevice.cc 129  }
-01/29/14 14:17:55 612665088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x7fa5180008c0 {src/DcsMessageManager.cxx 170  }
-01/29/14 14:17:55 612665088   FINEST    sending out {htos_log note epicsgw beamlineOpenState fully connected} {src/GwBaseDevice.cc 535  }
-01/29/14 14:17:55 612665088   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=3 {src/DcsMessageService.cxx 291  }
-01/29/14 14:17:55 612665088  WARNING    string beamlineOpenState connected but data not ready {src/GwString.cc 88  }
-01/29/14 14:17:55 648492800   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
-01/29/14 14:17:55 648492800   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
-01/29/14 14:17:55 648492800   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
-01/29/14 14:17:55 648492800   FINEST    send message done {src/DcsMessageHandler.cxx 321  }
-01/29/14 14:17:55 648492800   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x7fa518001cc0) {src/DcsMessageManager.cxx 193  }
-01/29/14 14:17:55 648492800   FINEST    send message done {src/DcsMessageHandler.cxx 321  }
-01/29/14 14:17:55 648492800   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x7fa5180012c0) {src/DcsMessageManager.cxx 193  }
-01/29/14 14:17:55 648492800   FINEST    send message done {src/DcsMessageHandler.cxx 321  }
-01/29/14 14:17:55 648492800   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x7fa5180008c0) {src/DcsMessageManager.cxx 193  }
-01/29/14 14:17:55 648492800   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
-01/29/14 14:17:55 648492800   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
-01/29/14 14:17:55 648492800   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
-01/29/14 14:17:55 648492800   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
-01/29/14 14:17:55 648492800   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
-01/29/14 14:17:55 648492800   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
-01/29/14 14:17:55 648492800   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
-01/29/14 14:17:55 648492800   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
-01/29/14 14:17:55 648492800   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
-01/29/14 14:17:55 612665088   FINEST    converted new contents: {0} {src/GwString.cc 145  }
-01/29/14 14:17:55 612665088   FINEST    converted new contents: {0} {src/GwString.cc 145  }
-01/29/14 14:17:55 624359168   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x7fa5180008c0 {src/DcsMessageManager.cxx 170  }
-01/29/14 14:17:55 624359168   FINEST    sending out {htos_set_string_completed spear_current normal 0} {src/GwBaseDevice.cc 535  }
-01/29/14 14:17:55 624359168   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
-01/29/14 14:17:55 624359168   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x7fa5180012c0 {src/DcsMessageManager.cxx 170  }
-01/29/14 14:17:55 624359168   FINEST    sending out {htos_set_string_completed injectState normal 0} {src/GwBaseDevice.cc 535  }
-01/29/14 14:17:55 624359168   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=2 {src/DcsMessageService.cxx 291  }
-01/29/14 14:17:55 624359168   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x7fa518001cc0 {src/DcsMessageManager.cxx 170  }
-01/29/14 14:17:55 624359168   FINEST    sending out {htos_set_string_completed spearState normal 0} {src/GwBaseDevice.cc 535  }
-01/29/14 14:17:55 624359168   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=3 {src/DcsMessageService.cxx 291  }
-01/29/14 14:17:55 624359168   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x221ab30 {src/DcsMessageManager.cxx 170  }
-01/29/14 14:17:55 624359168   FINEST    sending out {htos_set_string_completed beamlineOpenState normal 0} {src/GwBaseDevice.cc 535  }
-01/29/14 14:17:55 624359168   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=4 {src/DcsMessageService.cxx 291  }
-01/29/14 14:17:55 648492800   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
-01/29/14 14:17:55 648492800   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
-01/29/14 14:17:55 648492800   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
-01/29/14 14:17:55 648492800   FINEST    send message done {src/DcsMessageHandler.cxx 321  }
-01/29/14 14:17:55 648492800   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x7fa5180008c0) {src/DcsMessageManager.cxx 193  }
-01/29/14 14:17:55 648492800   FINEST    send message done {src/DcsMessageHandler.cxx 321  }
-01/29/14 14:17:55 648492800   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x7fa5180012c0) {src/DcsMessageManager.cxx 193  }
-01/29/14 14:17:55 648492800   FINEST    send message done {src/DcsMessageHandler.cxx 321  }
-01/29/14 14:17:55 648492800   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x7fa518001cc0) {src/DcsMessageManager.cxx 193  }
-01/29/14 14:17:55 648492800   FINEST    send message done {src/DcsMessageHandler.cxx 321  }
-01/29/14 14:17:55 648492800   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x221ab30) {src/DcsMessageManager.cxx 193  }
-01/29/14 14:17:55 648492800   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
-01/29/14 14:17:55 648492800   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
-01/29/14 14:17:55 648492800   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
-01/29/14 14:17:55 648492800   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
-01/29/14 14:17:55 648492800   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
-01/29/14 14:17:55 648492800   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
-01/29/14 14:17:55 648492800   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
-01/29/14 14:17:55 648492800   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
-01/29/14 14:17:55 648492800   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
-01/29/14 14:17:55 648492800   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
-01/29/14 14:17:55 648492800   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
-01/29/14 14:17:55 648492800   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
-01/29/14 14:17:55 648492800   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
-01/29/14 17:40:15 638002944   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-01/29/14 17:40:15 638002944   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-01/29/14 17:40:15 638002944   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x221ab30 {src/DcsMessageManager.cxx 170  }
-01/29/14 17:40:15 638002944   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-01/29/14 17:40:15 638002944   FINEST    abort all message {src/DcsMessage.cxx 100  }
-01/29/14 17:40:15 638002944   FINEST    +GatewayService::ConsumeDcsMessage {src/gw_service.cc 696  }
-01/29/14 17:40:15 638002944   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x7fa518001cc0 {src/DcsMessageManager.cxx 170  }
-01/29/14 17:40:15 638002944   FINEST    abort all message {src/DcsMessage.cxx 100  }
-01/29/14 17:40:15 638002944   FINEST    -GatewayService::ConsumeDcsMessage abort all {src/gw_service.cc 709  }
-01/29/14 17:40:15 638002944   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x221ab30) {src/DcsMessageManager.cxx 193  }
-01/29/14 17:40:15 638002944   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-01/29/14 17:40:15 536868608   FINEST    epics thread out of waiting {src/gw_service.cc 77  }
-01/29/14 17:40:15 536868608     INFO    queue length before dequeue: 1 {src/gw_service.cc 93  }
-01/29/14 17:40:15 536868608     INFO    queue length after dequeue: 0 {src/gw_service.cc 95  }
-01/29/14 17:40:15 536868608   FINEST    +GatewayService::doTask {src/gw_service.cc 440  }
-01/29/14 17:40:15 536868608   FINEST    do task:{stoh_abort_all soft} {src/gw_service.cc 448  }
-01/29/14 17:40:15 536868608   FINEST    -GatewayService::doTask abort all {src/gw_service.cc 456  }
-01/29/14 17:40:15 536868608   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x7fa518001cc0) {src/DcsMessageManager.cxx 193  }
-01/29/14 17:40:15 638002944   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-01/29/14 17:40:15 638002944   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-01/29/14 17:40:15 638002944   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x7fa518001cc0 {src/DcsMessageManager.cxx 170  }
-01/29/14 17:40:15 638002944   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-01/29/14 17:40:15 638002944   FINEST    abort all message {src/DcsMessage.cxx 100  }
-01/29/14 17:40:15 638002944   FINEST    +GatewayService::ConsumeDcsMessage {src/gw_service.cc 696  }
-01/29/14 17:40:15 638002944   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x221ab30 {src/DcsMessageManager.cxx 170  }
-01/29/14 17:40:15 638002944   FINEST    abort all message {src/DcsMessage.cxx 100  }
-01/29/14 17:40:15 638002944   FINEST    -GatewayService::ConsumeDcsMessage abort all {src/gw_service.cc 709  }
-01/29/14 17:40:15 638002944   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x7fa518001cc0) {src/DcsMessageManager.cxx 193  }
-01/29/14 17:40:15 638002944   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-01/29/14 17:40:15 536868608   FINEST    epics thread out of waiting {src/gw_service.cc 77  }
-01/29/14 17:40:15 536868608     INFO    queue length before dequeue: 1 {src/gw_service.cc 93  }
-01/29/14 17:40:15 536868608     INFO    queue length after dequeue: 0 {src/gw_service.cc 95  }
-01/29/14 17:40:15 536868608   FINEST    +GatewayService::doTask {src/gw_service.cc 440  }
-01/29/14 17:40:15 536868608   FINEST    do task:{stoh_abort_all soft} {src/gw_service.cc 448  }
-01/29/14 17:40:15 536868608   FINEST    -GatewayService::doTask abort all {src/gw_service.cc 456  }
-01/29/14 17:40:15 536868608   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x221ab30) {src/DcsMessageManager.cxx 193  }
-01/29/14 17:40:15 638002944   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-01/29/14 17:40:15 638002944   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-01/29/14 17:40:15 638002944   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x221ab30 {src/DcsMessageManager.cxx 170  }
-01/29/14 17:40:15 638002944   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-01/29/14 17:40:15 638002944   FINEST    abort all message {src/DcsMessage.cxx 100  }
-01/29/14 17:40:15 638002944   FINEST    +GatewayService::ConsumeDcsMessage {src/gw_service.cc 696  }
-01/29/14 17:40:15 638002944   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x7fa518001cc0 {src/DcsMessageManager.cxx 170  }
-01/29/14 17:40:15 638002944   FINEST    abort all message {src/DcsMessage.cxx 100  }
-01/29/14 17:40:15 638002944   FINEST    -GatewayService::ConsumeDcsMessage abort all {src/gw_service.cc 709  }
-01/29/14 17:40:15 638002944   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x221ab30) {src/DcsMessageManager.cxx 193  }
-01/29/14 17:40:15 638002944   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-01/29/14 17:40:15 536868608   FINEST    epics thread out of waiting {src/gw_service.cc 77  }
-01/29/14 17:40:15 536868608     INFO    queue length before dequeue: 1 {src/gw_service.cc 93  }
-01/29/14 17:40:15 536868608     INFO    queue length after dequeue: 0 {src/gw_service.cc 95  }
-01/29/14 17:40:15 536868608   FINEST    +GatewayService::doTask {src/gw_service.cc 440  }
-01/29/14 17:40:15 536868608   FINEST    do task:{stoh_abort_all soft} {src/gw_service.cc 448  }
-01/29/14 17:40:15 536868608   FINEST    -GatewayService::doTask abort all {src/gw_service.cc 456  }
-01/29/14 17:40:15 536868608   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x7fa518001cc0) {src/DcsMessageManager.cxx 193  }
-01/29/14 17:40:15 638002944   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-01/29/14 17:40:15 638002944   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-01/29/14 17:40:15 638002944   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x7fa518001cc0 {src/DcsMessageManager.cxx 170  }
-01/29/14 17:40:15 638002944   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-01/29/14 17:40:15 638002944   FINEST    abort all message {src/DcsMessage.cxx 100  }
-01/29/14 17:40:15 638002944   FINEST    +GatewayService::ConsumeDcsMessage {src/gw_service.cc 696  }
-01/29/14 17:40:15 638002944   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x221ab30 {src/DcsMessageManager.cxx 170  }
-01/29/14 17:40:15 638002944   FINEST    abort all message {src/DcsMessage.cxx 100  }
-01/29/14 17:40:15 638002944   FINEST    -GatewayService::ConsumeDcsMessage abort all {src/gw_service.cc 709  }
-01/29/14 17:40:15 638002944   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x7fa518001cc0) {src/DcsMessageManager.cxx 193  }
-01/29/14 17:40:15 638002944   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-01/29/14 17:40:15 536868608   FINEST    epics thread out of waiting {src/gw_service.cc 77  }
-01/29/14 17:40:15 536868608     INFO    queue length before dequeue: 1 {src/gw_service.cc 93  }
-01/29/14 17:40:15 536868608     INFO    queue length after dequeue: 0 {src/gw_service.cc 95  }
-01/29/14 17:40:15 536868608   FINEST    +GatewayService::doTask {src/gw_service.cc 440  }
-01/29/14 17:40:15 536868608   FINEST    do task:{stoh_abort_all soft} {src/gw_service.cc 448  }
-01/29/14 17:40:15 536868608   FINEST    -GatewayService::doTask abort all {src/gw_service.cc 456  }
-01/29/14 17:40:15 536868608   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x221ab30) {src/DcsMessageManager.cxx 193  }
-01/29/14 17:40:15 638002944   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-01/29/14 17:40:15 638002944   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-01/29/14 17:40:15 638002944   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x221ab30 {src/DcsMessageManager.cxx 170  }
-01/29/14 17:40:15 638002944   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-01/29/14 17:40:15 638002944   FINEST    abort all message {src/DcsMessage.cxx 100  }
-01/29/14 17:40:15 638002944   FINEST    +GatewayService::ConsumeDcsMessage {src/gw_service.cc 696  }
-01/29/14 17:40:15 638002944   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x7fa518001cc0 {src/DcsMessageManager.cxx 170  }
-01/29/14 17:40:15 638002944   FINEST    abort all message {src/DcsMessage.cxx 100  }
-01/29/14 17:40:15 638002944   FINEST    -GatewayService::ConsumeDcsMessage abort all {src/gw_service.cc 709  }
-01/29/14 17:40:15 638002944   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x221ab30) {src/DcsMessageManager.cxx 193  }
-01/29/14 17:40:15 638002944   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-01/29/14 17:40:15 536868608   FINEST    epics thread out of waiting {src/gw_service.cc 77  }
-01/29/14 17:40:15 536868608     INFO    queue length before dequeue: 1 {src/gw_service.cc 93  }
-01/29/14 17:40:15 536868608     INFO    queue length after dequeue: 0 {src/gw_service.cc 95  }
-01/29/14 17:40:15 536868608   FINEST    +GatewayService::doTask {src/gw_service.cc 440  }
-01/29/14 17:40:15 536868608   FINEST    do task:{stoh_abort_all soft} {src/gw_service.cc 448  }
-01/29/14 17:40:15 536868608   FINEST    -GatewayService::doTask abort all {src/gw_service.cc 456  }
-01/29/14 17:40:15 536868608   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x7fa518001cc0) {src/DcsMessageManager.cxx 193  }
-01/29/14 17:40:15 638002944   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-01/29/14 17:40:15 638002944   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-01/29/14 17:40:15 638002944   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x7fa518001cc0 {src/DcsMessageManager.cxx 170  }
-01/29/14 17:40:15 638002944   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-01/29/14 17:40:15 638002944   FINEST    abort all message {src/DcsMessage.cxx 100  }
-01/29/14 17:40:15 638002944   FINEST    +GatewayService::ConsumeDcsMessage {src/gw_service.cc 696  }
-01/29/14 17:40:15 638002944   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x221ab30 {src/DcsMessageManager.cxx 170  }
-01/29/14 17:40:15 638002944   FINEST    abort all message {src/DcsMessage.cxx 100  }
-01/29/14 17:40:15 638002944   FINEST    -GatewayService::ConsumeDcsMessage abort all {src/gw_service.cc 709  }
-01/29/14 17:40:15 638002944   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x7fa518001cc0) {src/DcsMessageManager.cxx 193  }
-01/29/14 17:40:15 638002944   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-01/29/14 17:40:15 536868608   FINEST    epics thread out of waiting {src/gw_service.cc 77  }
-01/29/14 17:40:15 536868608     INFO    queue length before dequeue: 1 {src/gw_service.cc 93  }
-01/29/14 17:40:15 536868608     INFO    queue length after dequeue: 0 {src/gw_service.cc 95  }
-01/29/14 17:40:15 536868608   FINEST    +GatewayService::doTask {src/gw_service.cc 440  }
-01/29/14 17:40:15 536868608   FINEST    do task:{stoh_abort_all soft} {src/gw_service.cc 448  }
-01/29/14 17:40:15 536868608   FINEST    -GatewayService::doTask abort all {src/gw_service.cc 456  }
-01/29/14 17:40:15 536868608   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x221ab30) {src/DcsMessageManager.cxx 193  }
-01/29/14 17:40:15 638002944   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-01/29/14 17:40:15 638002944   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-01/29/14 17:40:15 638002944   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x221ab30 {src/DcsMessageManager.cxx 170  }
-01/29/14 17:40:15 638002944   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-01/29/14 17:40:15 638002944   FINEST    abort all message {src/DcsMessage.cxx 100  }
-01/29/14 17:40:15 638002944   FINEST    +GatewayService::ConsumeDcsMessage {src/gw_service.cc 696  }
-01/29/14 17:40:15 638002944   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x7fa518001cc0 {src/DcsMessageManager.cxx 170  }
-01/29/14 17:40:15 638002944   FINEST    abort all message {src/DcsMessage.cxx 100  }
-01/29/14 17:40:15 638002944   FINEST    -GatewayService::ConsumeDcsMessage abort all {src/gw_service.cc 709  }
-01/29/14 17:40:15 638002944   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x221ab30) {src/DcsMessageManager.cxx 193  }
-01/29/14 17:40:15 638002944   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-01/29/14 17:40:15 536868608   FINEST    epics thread out of waiting {src/gw_service.cc 77  }
-01/29/14 17:40:15 536868608     INFO    queue length before dequeue: 1 {src/gw_service.cc 93  }
-01/29/14 17:40:15 536868608     INFO    queue length after dequeue: 0 {src/gw_service.cc 95  }
-01/29/14 17:40:15 536868608   FINEST    +GatewayService::doTask {src/gw_service.cc 440  }
-01/29/14 17:40:15 536868608   FINEST    do task:{stoh_abort_all soft} {src/gw_service.cc 448  }
-01/29/14 17:40:15 536868608   FINEST    -GatewayService::doTask abort all {src/gw_service.cc 456  }
-01/29/14 17:40:15 536868608   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x7fa518001cc0) {src/DcsMessageManager.cxx 193  }
-01/29/14 17:40:15 638002944   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-01/29/14 17:40:15 638002944   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-01/29/14 17:40:15 638002944   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x7fa518001cc0 {src/DcsMessageManager.cxx 170  }
-01/29/14 17:40:15 638002944   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-01/29/14 17:40:15 638002944   FINEST    abort all message {src/DcsMessage.cxx 100  }
-01/29/14 17:40:15 638002944   FINEST    +GatewayService::ConsumeDcsMessage {src/gw_service.cc 696  }
-01/29/14 17:40:15 638002944   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x221ab30 {src/DcsMessageManager.cxx 170  }
-01/29/14 17:40:15 638002944   FINEST    abort all message {src/DcsMessage.cxx 100  }
-01/29/14 17:40:15 638002944   FINEST    -GatewayService::ConsumeDcsMessage abort all {src/gw_service.cc 709  }
-01/29/14 17:40:15 638002944   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x7fa518001cc0) {src/DcsMessageManager.cxx 193  }
-01/29/14 17:40:15 638002944   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-01/29/14 17:40:15 536868608   FINEST    epics thread out of waiting {src/gw_service.cc 77  }
-01/29/14 17:40:15 536868608     INFO    queue length before dequeue: 1 {src/gw_service.cc 93  }
-01/29/14 17:40:15 536868608     INFO    queue length after dequeue: 0 {src/gw_service.cc 95  }
-01/29/14 17:40:15 536868608   FINEST    +GatewayService::doTask {src/gw_service.cc 440  }
-01/29/14 17:40:15 536868608   FINEST    do task:{stoh_abort_all soft} {src/gw_service.cc 448  }
-01/29/14 17:40:15 536868608   FINEST    -GatewayService::doTask abort all {src/gw_service.cc 456  }
-01/29/14 17:40:15 536868608   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x221ab30) {src/DcsMessageManager.cxx 193  }
-01/29/14 17:40:15 638002944   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-01/29/14 17:40:15 638002944   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-01/29/14 17:40:15 638002944   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x221ab30 {src/DcsMessageManager.cxx 170  }
-01/29/14 17:40:15 638002944   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-01/29/14 17:40:15 638002944   FINEST    abort all message {src/DcsMessage.cxx 100  }
-01/29/14 17:40:15 638002944   FINEST    +GatewayService::ConsumeDcsMessage {src/gw_service.cc 696  }
-01/29/14 17:40:15 638002944   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x7fa518001cc0 {src/DcsMessageManager.cxx 170  }
-01/29/14 17:40:15 638002944   FINEST    abort all message {src/DcsMessage.cxx 100  }
-01/29/14 17:40:15 638002944   FINEST    -GatewayService::ConsumeDcsMessage abort all {src/gw_service.cc 709  }
-01/29/14 17:40:15 638002944   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x221ab30) {src/DcsMessageManager.cxx 193  }
-01/29/14 17:40:15 638002944   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-01/29/14 17:40:15 536868608   FINEST    epics thread out of waiting {src/gw_service.cc 77  }
-01/29/14 17:40:15 536868608     INFO    queue length before dequeue: 1 {src/gw_service.cc 93  }
-01/29/14 17:40:15 536868608     INFO    queue length after dequeue: 0 {src/gw_service.cc 95  }
-01/29/14 17:40:15 536868608   FINEST    +GatewayService::doTask {src/gw_service.cc 440  }
-01/29/14 17:40:15 536868608   FINEST    do task:{stoh_abort_all soft} {src/gw_service.cc 448  }
-01/29/14 17:40:15 536868608   FINEST    -GatewayService::doTask abort all {src/gw_service.cc 456  }
-01/29/14 17:40:15 536868608   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x7fa518001cc0) {src/DcsMessageManager.cxx 193  }
-01/29/14 17:40:15 638002944   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-01/29/14 17:40:15 638002944   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-01/29/14 17:40:15 638002944   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x7fa518001cc0 {src/DcsMessageManager.cxx 170  }
-01/29/14 17:40:15 638002944   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-01/29/14 17:40:15 638002944   FINEST    abort all message {src/DcsMessage.cxx 100  }
-01/29/14 17:40:15 638002944   FINEST    +GatewayService::ConsumeDcsMessage {src/gw_service.cc 696  }
-01/29/14 17:40:15 638002944   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x221ab30 {src/DcsMessageManager.cxx 170  }
-01/29/14 17:40:15 638002944   FINEST    abort all message {src/DcsMessage.cxx 100  }
-01/29/14 17:40:15 638002944   FINEST    -GatewayService::ConsumeDcsMessage abort all {src/gw_service.cc 709  }
-01/29/14 17:40:15 638002944   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x7fa518001cc0) {src/DcsMessageManager.cxx 193  }
-01/29/14 17:40:15 638002944   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-01/29/14 17:40:15 536868608   FINEST    epics thread out of waiting {src/gw_service.cc 77  }
-01/29/14 17:40:15 536868608     INFO    queue length before dequeue: 1 {src/gw_service.cc 93  }
-01/29/14 17:40:15 536868608     INFO    queue length after dequeue: 0 {src/gw_service.cc 95  }
-01/29/14 17:40:15 536868608   FINEST    +GatewayService::doTask {src/gw_service.cc 440  }
-01/29/14 17:40:15 536868608   FINEST    do task:{stoh_abort_all soft} {src/gw_service.cc 448  }
-01/29/14 17:40:15 536868608   FINEST    -GatewayService::doTask abort all {src/gw_service.cc 456  }
-01/29/14 17:40:15 536868608   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x221ab30) {src/DcsMessageManager.cxx 193  }
-01/29/14 17:40:15 638002944   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-01/29/14 17:40:15 638002944   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-01/29/14 17:40:15 638002944   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x221ab30 {src/DcsMessageManager.cxx 170  }
-01/29/14 17:40:15 638002944   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-01/29/14 17:40:15 638002944   FINEST    abort all message {src/DcsMessage.cxx 100  }
-01/29/14 17:40:15 638002944   FINEST    +GatewayService::ConsumeDcsMessage {src/gw_service.cc 696  }
-01/29/14 17:40:15 638002944   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x7fa518001cc0 {src/DcsMessageManager.cxx 170  }
-01/29/14 17:40:15 638002944   FINEST    abort all message {src/DcsMessage.cxx 100  }
-01/29/14 17:40:15 638002944   FINEST    -GatewayService::ConsumeDcsMessage abort all {src/gw_service.cc 709  }
-01/29/14 17:40:15 638002944   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x221ab30) {src/DcsMessageManager.cxx 193  }
-01/29/14 17:40:15 638002944   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-01/29/14 17:40:15 536868608   FINEST    epics thread out of waiting {src/gw_service.cc 77  }
-01/29/14 17:40:15 536868608     INFO    queue length before dequeue: 1 {src/gw_service.cc 93  }
-01/29/14 17:40:15 536868608     INFO    queue length after dequeue: 0 {src/gw_service.cc 95  }
-01/29/14 17:40:15 536868608   FINEST    +GatewayService::doTask {src/gw_service.cc 440  }
-01/29/14 17:40:15 536868608   FINEST    do task:{stoh_abort_all soft} {src/gw_service.cc 448  }
-01/29/14 17:40:15 536868608   FINEST    -GatewayService::doTask abort all {src/gw_service.cc 456  }
-01/29/14 17:40:15 536868608   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x7fa518001cc0) {src/DcsMessageManager.cxx 193  }
+10/09/14 11:37:25 652265216   FINEST    +GwDeviceMgr::addString beamlineOpenState {src/gw_device_mgr.cc 57  }
+10/09/14 11:37:25 652265216   FINEST    hold lock {src/gw_device_mgr.cc 61  }
+10/09/14 11:37:25 652265216   FINEST    find string {src/gw_device_mgr.cc 63  }
+10/09/14 11:37:25 652265216   FINEST    +makeSureDeviceNotExits beamlineOpenState {src/gw_device_mgr.cc 490  }
+10/09/14 11:37:25 652265216   FINEST    +findDevice beamlineOpenState {src/gw_device_mgr.cc 389  }
+10/09/14 11:37:25 652265216   FINEST    -findDevice not found {src/gw_device_mgr.cc 405  }
+10/09/14 11:37:25 652265216   FINEST    -makeSureDeviceNotExits OK {src/gw_device_mgr.cc 495  }
+10/09/14 11:37:25 652265216   FINEST    before new string {src/gw_device_mgr.cc 94  }
+10/09/14 11:37:25 652265216   FINEST    String beamlineOpenState fill PV[0] xbeamavail {src/GwString.cc 54  }
+10/09/14 11:37:25 652265216   FINEST    String beamlineOpenState read as DBR_STRING {src/GwString.cc 61  }
+10/09/14 11:37:25 652265216   FINEST    create channel for beamlineOpenState PV[0] xbeamavail {src/GwBaseDevice.cc 335  }
+10/09/14 11:37:25 652265216   FINEST    -GwDeviceMgr::addString OK {src/gw_device_mgr.cc 104  }
+10/09/14 11:37:25 652265216   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x24e9530) {src/DcsMessageManager.cxx 193  }
+10/09/14 11:37:27 640571136   FINEST    connect state callback for xrcurr state=2 {src/GwBaseDevice.cc 648  }
+10/09/14 11:37:27 640571136   FINEST    onFirstTimeConnect for spear_current PV[0] {src/GwBaseDevice.cc 226  }
+10/09/14 11:37:27 640571136   FINEST    NATIVE type for spear_current PV[0] is DBR_DOUBLE {src/GwBaseDevice.cc 235  }
+10/09/14 11:37:27 640571136     INFO    array count=1, esize=8 {src/GwBaseDevice.cc 250  }
+10/09/14 11:37:27 640571136     INFO    allocated put buffer for spear_current PV[0] xrcurr at 0x7fbb0c0008c0 {src/GwBaseDevice.cc 257  }
+10/09/14 11:37:27 640571136     INFO    allocated monitor buffer for spear_current PV[0] xrcurr at 0x7fbb0c0008e0 {src/GwBaseDevice.cc 271  }
+10/09/14 11:37:27 640571136   FINEST    mid=0x7fbb0c000900 {src/GwBaseDevice.cc 295  }
+10/09/14 11:37:27 640571136   FINEST    setup monitor for spear_current PV[0] {src/GwBaseDevice.cc 296  }
+10/09/14 11:37:27 640571136   FINEST    onEPICSConnectStateChange for spear_current PV[0] {src/GwBaseDevice.cc 129  }
+10/09/14 11:37:27 640571136   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x24e9530 {src/DcsMessageManager.cxx 170  }
+10/09/14 11:37:27 640571136   FINEST    sending out {htos_log note epicsgw spear_current fully connected} {src/GwBaseDevice.cc 535  }
+10/09/14 11:37:27 640571136   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+10/09/14 11:37:27 640571136  WARNING    string spear_current connected but data not ready {src/GwString.cc 88  }
+10/09/14 11:37:27 686888704   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+10/09/14 11:37:27 686888704   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+10/09/14 11:37:27 686888704   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+10/09/14 11:37:27 686888704   FINEST    send message done {src/DcsMessageHandler.cxx 321  }
+10/09/14 11:37:27 686888704   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x24e9530) {src/DcsMessageManager.cxx 193  }
+10/09/14 11:37:27 686888704   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+10/09/14 11:37:33 640571136   FINEST    converted new contents: {0} {src/GwString.cc 145  }
+10/09/14 11:37:33 640571136   FINEST    connect state callback for xrmsg state=2 {src/GwBaseDevice.cc 648  }
+10/09/14 11:37:33 640571136   FINEST    onFirstTimeConnect for injectState PV[0] {src/GwBaseDevice.cc 226  }
+10/09/14 11:37:33 640571136   FINEST    NATIVE type for injectState PV[0] is DBR_LONG {src/GwBaseDevice.cc 235  }
+10/09/14 11:37:33 640571136     INFO    array count=1, esize=4 {src/GwBaseDevice.cc 250  }
+10/09/14 11:37:33 640571136     INFO    allocated put buffer for injectState PV[0] xrmsg at 0x7fbb0c020930 {src/GwBaseDevice.cc 257  }
+10/09/14 11:37:33 640571136     INFO    allocated monitor buffer for injectState PV[0] xrmsg at 0x7fbb0c020950 {src/GwBaseDevice.cc 271  }
+10/09/14 11:37:33 640571136   FINEST    mid=0x7fbb0c000928 {src/GwBaseDevice.cc 295  }
+10/09/14 11:37:33 640571136   FINEST    setup monitor for injectState PV[0] {src/GwBaseDevice.cc 296  }
+10/09/14 11:37:33 640571136   FINEST    onEPICSConnectStateChange for injectState PV[0] {src/GwBaseDevice.cc 129  }
+10/09/14 11:37:33 640571136   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x24e9530 {src/DcsMessageManager.cxx 170  }
+10/09/14 11:37:33 640571136   FINEST    sending out {htos_log note epicsgw injectState fully connected} {src/GwBaseDevice.cc 535  }
+10/09/14 11:37:33 640571136   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+10/09/14 11:37:33 640571136  WARNING    string injectState connected but data not ready {src/GwString.cc 88  }
+10/09/14 11:37:33 640571136   FINEST    connect state callback for xbeamavail state=2 {src/GwBaseDevice.cc 648  }
+10/09/14 11:37:33 640571136   FINEST    onFirstTimeConnect for spearState PV[0] {src/GwBaseDevice.cc 226  }
+10/09/14 11:37:33 640571136   FINEST    NATIVE type for spearState PV[0] is DBR_LONG {src/GwBaseDevice.cc 235  }
+10/09/14 11:37:33 640571136     INFO    array count=1, esize=4 {src/GwBaseDevice.cc 250  }
+10/09/14 11:37:33 640571136     INFO    allocated put buffer for spearState PV[0] xbeamavail at 0x7fbb0c020970 {src/GwBaseDevice.cc 257  }
+10/09/14 11:37:33 640571136     INFO    allocated monitor buffer for spearState PV[0] xbeamavail at 0x7fbb0c020990 {src/GwBaseDevice.cc 271  }
+10/09/14 11:37:33 640571136   FINEST    mid=0x7fbb0c000950 {src/GwBaseDevice.cc 295  }
+10/09/14 11:37:33 640571136   FINEST    setup monitor for spearState PV[0] {src/GwBaseDevice.cc 296  }
+10/09/14 11:37:33 640571136   FINEST    onEPICSConnectStateChange for spearState PV[0] {src/GwBaseDevice.cc 129  }
+10/09/14 11:37:33 640571136   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x24ec730 {src/DcsMessageManager.cxx 170  }
+10/09/14 11:37:33 640571136   FINEST    sending out {htos_log note epicsgw spearState fully connected} {src/GwBaseDevice.cc 535  }
+10/09/14 11:37:33 640571136   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=2 {src/DcsMessageService.cxx 291  }
+10/09/14 11:37:33 640571136  WARNING    string spearState connected but data not ready {src/GwString.cc 88  }
+10/09/14 11:37:33 640571136   FINEST    connect state callback for xbeamavail state=2 {src/GwBaseDevice.cc 648  }
+10/09/14 11:37:33 640571136   FINEST    onFirstTimeConnect for beamlineOpenState PV[0] {src/GwBaseDevice.cc 226  }
+10/09/14 11:37:33 640571136   FINEST    mid=0x7fbb0c000978 {src/GwBaseDevice.cc 295  }
+10/09/14 11:37:33 640571136   FINEST    setup monitor for beamlineOpenState PV[0] {src/GwBaseDevice.cc 296  }
+10/09/14 11:37:33 640571136   FINEST    onEPICSConnectStateChange for beamlineOpenState PV[0] {src/GwBaseDevice.cc 129  }
+10/09/14 11:37:33 640571136   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x24ed130 {src/DcsMessageManager.cxx 170  }
+10/09/14 11:37:33 640571136   FINEST    sending out {htos_log note epicsgw beamlineOpenState fully connected} {src/GwBaseDevice.cc 535  }
+10/09/14 11:37:33 640571136   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=3 {src/DcsMessageService.cxx 291  }
+10/09/14 11:37:33 640571136  WARNING    string beamlineOpenState connected but data not ready {src/GwString.cc 88  }
+10/09/14 11:37:33 686888704   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+10/09/14 11:37:33 686888704   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+10/09/14 11:37:33 686888704   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+10/09/14 11:37:33 686888704   FINEST    send message done {src/DcsMessageHandler.cxx 321  }
+10/09/14 11:37:33 686888704   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x24e9530) {src/DcsMessageManager.cxx 193  }
+10/09/14 11:37:33 686888704   FINEST    send message done {src/DcsMessageHandler.cxx 321  }
+10/09/14 11:37:33 686888704   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x24ec730) {src/DcsMessageManager.cxx 193  }
+10/09/14 11:37:33 686888704   FINEST    send message done {src/DcsMessageHandler.cxx 321  }
+10/09/14 11:37:33 686888704   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x24ed130) {src/DcsMessageManager.cxx 193  }
+10/09/14 11:37:33 686888704   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+10/09/14 11:37:33 686888704   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+10/09/14 11:37:33 686888704   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+10/09/14 11:37:33 686888704   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+10/09/14 11:37:33 686888704   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+10/09/14 11:37:33 686888704   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+10/09/14 11:37:33 686888704   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+10/09/14 11:37:33 686888704   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+10/09/14 11:37:33 686888704   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+10/09/14 11:37:34 662755072   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x24ed130 {src/DcsMessageManager.cxx 170  }
+10/09/14 11:37:34 662755072   FINEST    sending out {htos_set_string_completed spear_current normal 0} {src/GwBaseDevice.cc 535  }
+10/09/14 11:37:34 662755072   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+10/09/14 11:37:34 686888704   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+10/09/14 11:37:34 686888704   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+10/09/14 11:37:34 686888704   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+10/09/14 11:37:34 686888704   FINEST    send message done {src/DcsMessageHandler.cxx 321  }
+10/09/14 11:37:34 686888704   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x24ed130) {src/DcsMessageManager.cxx 193  }
+10/09/14 11:37:34 686888704   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+10/09/14 11:37:43 640571136   FINEST    converted new contents: {0} {src/GwString.cc 145  }
+10/09/14 11:37:43 640571136   FINEST    converted new contents: {1} {src/GwString.cc 145  }
+10/09/14 11:37:43 662755072   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x24ed130 {src/DcsMessageManager.cxx 170  }
+10/09/14 11:37:43 662755072   FINEST    sending out {htos_set_string_completed injectState normal 0} {src/GwBaseDevice.cc 535  }
+10/09/14 11:37:43 662755072   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+10/09/14 11:37:43 662755072   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x24ec730 {src/DcsMessageManager.cxx 170  }
+10/09/14 11:37:43 662755072   FINEST    sending out {htos_set_string_completed spearState normal 1} {src/GwBaseDevice.cc 535  }
+10/09/14 11:37:43 662755072   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=2 {src/DcsMessageService.cxx 291  }
+10/09/14 11:37:43 662755072   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x24e9530 {src/DcsMessageManager.cxx 170  }
+10/09/14 11:37:43 662755072   FINEST    sending out {htos_set_string_completed beamlineOpenState normal 1} {src/GwBaseDevice.cc 535  }
+10/09/14 11:37:43 662755072   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=3 {src/DcsMessageService.cxx 291  }
+10/09/14 11:37:43 686888704   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+10/09/14 11:37:43 686888704   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+10/09/14 11:37:43 686888704   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+10/09/14 11:37:43 686888704   FINEST    send message done {src/DcsMessageHandler.cxx 321  }
+10/09/14 11:37:43 686888704   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x24ed130) {src/DcsMessageManager.cxx 193  }
+10/09/14 11:37:43 686888704   FINEST    send message done {src/DcsMessageHandler.cxx 321  }
+10/09/14 11:37:43 686888704   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x24ec730) {src/DcsMessageManager.cxx 193  }
+10/09/14 11:37:43 686888704   FINEST    send message done {src/DcsMessageHandler.cxx 321  }
+10/09/14 11:37:43 686888704   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x24e9530) {src/DcsMessageManager.cxx 193  }
+10/09/14 11:37:43 686888704   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+10/09/14 11:37:43 686888704   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+10/09/14 11:37:43 686888704   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+10/09/14 11:37:43 686888704   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+10/09/14 11:37:43 686888704   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+10/09/14 11:37:43 686888704   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+10/09/14 11:37:43 686888704   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+10/09/14 11:37:43 686888704   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+10/09/14 11:37:43 686888704   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+10/09/14 14:46:53 676398848   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+10/09/14 14:46:53 676398848   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+10/09/14 14:46:53 676398848   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x24e9530 {src/DcsMessageManager.cxx 170  }
+10/09/14 14:46:53 676398848   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+10/09/14 14:46:53 676398848   FINEST    abort all message {src/DcsMessage.cxx 100  }
+10/09/14 14:46:53 676398848   FINEST    +GatewayService::ConsumeDcsMessage {src/gw_service.cc 696  }
+10/09/14 14:46:53 676398848   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x24ec730 {src/DcsMessageManager.cxx 170  }
+10/09/14 14:46:53 676398848   FINEST    abort all message {src/DcsMessage.cxx 100  }
+10/09/14 14:46:53 676398848   FINEST    -GatewayService::ConsumeDcsMessage abort all {src/gw_service.cc 709  }
+10/09/14 14:46:53 676398848   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x24e9530) {src/DcsMessageManager.cxx 193  }
+10/09/14 14:46:53 676398848   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+10/09/14 14:46:53 652265216   FINEST    epics thread out of waiting {src/gw_service.cc 77  }
+10/09/14 14:46:53 652265216     INFO    queue length before dequeue: 1 {src/gw_service.cc 93  }
+10/09/14 14:46:53 652265216     INFO    queue length after dequeue: 0 {src/gw_service.cc 95  }
+10/09/14 14:46:53 652265216   FINEST    +GatewayService::doTask {src/gw_service.cc 440  }
+10/09/14 14:46:53 652265216   FINEST    do task:{stoh_abort_all soft} {src/gw_service.cc 448  }
+10/09/14 14:46:53 652265216   FINEST    -GatewayService::doTask abort all {src/gw_service.cc 456  }
+10/09/14 14:46:53 652265216   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x24ec730) {src/DcsMessageManager.cxx 193  }
+10/09/14 14:46:53 676398848   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+10/09/14 14:46:53 676398848   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+10/09/14 14:46:53 676398848   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x24ec730 {src/DcsMessageManager.cxx 170  }
+10/09/14 14:46:53 676398848   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+10/09/14 14:46:53 676398848   FINEST    abort all message {src/DcsMessage.cxx 100  }
+10/09/14 14:46:53 676398848   FINEST    +GatewayService::ConsumeDcsMessage {src/gw_service.cc 696  }
+10/09/14 14:46:53 676398848   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x24e9530 {src/DcsMessageManager.cxx 170  }
+10/09/14 14:46:53 676398848   FINEST    abort all message {src/DcsMessage.cxx 100  }
+10/09/14 14:46:53 676398848   FINEST    -GatewayService::ConsumeDcsMessage abort all {src/gw_service.cc 709  }
+10/09/14 14:46:53 676398848   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x24ec730) {src/DcsMessageManager.cxx 193  }
+10/09/14 14:46:53 676398848   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+10/09/14 14:46:53 652265216   FINEST    epics thread out of waiting {src/gw_service.cc 77  }
+10/09/14 14:46:53 652265216     INFO    queue length before dequeue: 1 {src/gw_service.cc 93  }
+10/09/14 14:46:53 652265216     INFO    queue length after dequeue: 0 {src/gw_service.cc 95  }
+10/09/14 14:46:53 652265216   FINEST    +GatewayService::doTask {src/gw_service.cc 440  }
+10/09/14 14:46:53 652265216   FINEST    do task:{stoh_abort_all soft} {src/gw_service.cc 448  }
+10/09/14 14:46:53 652265216   FINEST    -GatewayService::doTask abort all {src/gw_service.cc 456  }
+10/09/14 14:46:53 652265216   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x24e9530) {src/DcsMessageManager.cxx 193  }
+10/09/14 14:46:53 676398848   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+10/09/14 14:46:53 676398848   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+10/09/14 14:46:53 676398848   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x24e9530 {src/DcsMessageManager.cxx 170  }
+10/09/14 14:46:53 676398848   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+10/09/14 14:46:53 676398848   FINEST    abort all message {src/DcsMessage.cxx 100  }
+10/09/14 14:46:53 676398848   FINEST    +GatewayService::ConsumeDcsMessage {src/gw_service.cc 696  }
+10/09/14 14:46:53 676398848   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x24ec730 {src/DcsMessageManager.cxx 170  }
+10/09/14 14:46:53 676398848   FINEST    abort all message {src/DcsMessage.cxx 100  }
+10/09/14 14:46:53 676398848   FINEST    -GatewayService::ConsumeDcsMessage abort all {src/gw_service.cc 709  }
+10/09/14 14:46:53 676398848   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x24e9530) {src/DcsMessageManager.cxx 193  }
+10/09/14 14:46:53 676398848   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+10/09/14 14:46:53 652265216   FINEST    epics thread out of waiting {src/gw_service.cc 77  }
+10/09/14 14:46:53 652265216     INFO    queue length before dequeue: 1 {src/gw_service.cc 93  }
+10/09/14 14:46:53 652265216     INFO    queue length after dequeue: 0 {src/gw_service.cc 95  }
+10/09/14 14:46:53 652265216   FINEST    +GatewayService::doTask {src/gw_service.cc 440  }
+10/09/14 14:46:53 652265216   FINEST    do task:{stoh_abort_all soft} {src/gw_service.cc 448  }
+10/09/14 14:46:53 652265216   FINEST    -GatewayService::doTask abort all {src/gw_service.cc 456  }
+10/09/14 14:46:53 652265216   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x24ec730) {src/DcsMessageManager.cxx 193  }
+10/09/14 14:46:53 676398848   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+10/09/14 14:46:53 676398848   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+10/09/14 14:46:53 676398848   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x24ec730 {src/DcsMessageManager.cxx 170  }
+10/09/14 14:46:53 676398848   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+10/09/14 14:46:53 676398848   FINEST    abort all message {src/DcsMessage.cxx 100  }
+10/09/14 14:46:53 676398848   FINEST    +GatewayService::ConsumeDcsMessage {src/gw_service.cc 696  }
+10/09/14 14:46:53 676398848   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x24e9530 {src/DcsMessageManager.cxx 170  }
+10/09/14 14:46:53 676398848   FINEST    abort all message {src/DcsMessage.cxx 100  }
+10/09/14 14:46:53 676398848   FINEST    -GatewayService::ConsumeDcsMessage abort all {src/gw_service.cc 709  }
+10/09/14 14:46:53 676398848   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x24ec730) {src/DcsMessageManager.cxx 193  }
+10/09/14 14:46:53 676398848   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+10/09/14 14:46:53 652265216   FINEST    epics thread out of waiting {src/gw_service.cc 77  }
+10/09/14 14:46:53 652265216     INFO    queue length before dequeue: 1 {src/gw_service.cc 93  }
+10/09/14 14:46:53 652265216     INFO    queue length after dequeue: 0 {src/gw_service.cc 95  }
+10/09/14 14:46:53 652265216   FINEST    +GatewayService::doTask {src/gw_service.cc 440  }
+10/09/14 14:46:53 652265216   FINEST    do task:{stoh_abort_all soft} {src/gw_service.cc 448  }
+10/09/14 14:46:53 652265216   FINEST    -GatewayService::doTask abort all {src/gw_service.cc 456  }
+10/09/14 14:46:53 652265216   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x24e9530) {src/DcsMessageManager.cxx 193  }
+10/09/14 14:46:53 676398848   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+10/09/14 14:46:53 676398848   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+10/09/14 14:46:53 676398848   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x24e9530 {src/DcsMessageManager.cxx 170  }
+10/09/14 14:46:53 676398848   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+10/09/14 14:46:53 676398848   FINEST    abort all message {src/DcsMessage.cxx 100  }
+10/09/14 14:46:53 676398848   FINEST    +GatewayService::ConsumeDcsMessage {src/gw_service.cc 696  }
+10/09/14 14:46:53 676398848   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x24ec730 {src/DcsMessageManager.cxx 170  }
+10/09/14 14:46:53 676398848   FINEST    abort all message {src/DcsMessage.cxx 100  }
+10/09/14 14:46:53 676398848   FINEST    -GatewayService::ConsumeDcsMessage abort all {src/gw_service.cc 709  }
+10/09/14 14:46:53 676398848   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x24e9530) {src/DcsMessageManager.cxx 193  }
+10/09/14 14:46:53 676398848   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+10/09/14 14:46:53 652265216   FINEST    epics thread out of waiting {src/gw_service.cc 77  }
+10/09/14 14:46:53 652265216     INFO    queue length before dequeue: 1 {src/gw_service.cc 93  }
+10/09/14 14:46:53 652265216     INFO    queue length after dequeue: 0 {src/gw_service.cc 95  }
+10/09/14 14:46:53 652265216   FINEST    +GatewayService::doTask {src/gw_service.cc 440  }
+10/09/14 14:46:53 652265216   FINEST    do task:{stoh_abort_all soft} {src/gw_service.cc 448  }
+10/09/14 14:46:53 652265216   FINEST    -GatewayService::doTask abort all {src/gw_service.cc 456  }
+10/09/14 14:46:53 652265216   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x24ec730) {src/DcsMessageManager.cxx 193  }
+10/09/14 14:46:53 676398848   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+10/09/14 14:46:53 676398848   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+10/09/14 14:46:53 676398848   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x24ec730 {src/DcsMessageManager.cxx 170  }
+10/09/14 14:46:53 676398848   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+10/09/14 14:46:53 676398848   FINEST    abort all message {src/DcsMessage.cxx 100  }
+10/09/14 14:46:53 676398848   FINEST    +GatewayService::ConsumeDcsMessage {src/gw_service.cc 696  }
+10/09/14 14:46:53 676398848   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x24e9530 {src/DcsMessageManager.cxx 170  }
+10/09/14 14:46:53 676398848   FINEST    abort all message {src/DcsMessage.cxx 100  }
+10/09/14 14:46:53 676398848   FINEST    -GatewayService::ConsumeDcsMessage abort all {src/gw_service.cc 709  }
+10/09/14 14:46:53 676398848   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x24ec730) {src/DcsMessageManager.cxx 193  }
+10/09/14 14:46:53 676398848   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+10/09/14 14:46:53 652265216   FINEST    epics thread out of waiting {src/gw_service.cc 77  }
+10/09/14 14:46:53 652265216     INFO    queue length before dequeue: 1 {src/gw_service.cc 93  }
+10/09/14 14:46:53 652265216     INFO    queue length after dequeue: 0 {src/gw_service.cc 95  }
+10/09/14 14:46:53 652265216   FINEST    +GatewayService::doTask {src/gw_service.cc 440  }
+10/09/14 14:46:53 652265216   FINEST    do task:{stoh_abort_all soft} {src/gw_service.cc 448  }
+10/09/14 14:46:53 652265216   FINEST    -GatewayService::doTask abort all {src/gw_service.cc 456  }
+10/09/14 14:46:53 652265216   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x24e9530) {src/DcsMessageManager.cxx 193  }
+10/09/14 14:46:53 676398848   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+10/09/14 14:46:53 676398848   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+10/09/14 14:46:53 676398848   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x24e9530 {src/DcsMessageManager.cxx 170  }
+10/09/14 14:46:53 676398848   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+10/09/14 14:46:53 676398848   FINEST    abort all message {src/DcsMessage.cxx 100  }
+10/09/14 14:46:53 676398848   FINEST    +GatewayService::ConsumeDcsMessage {src/gw_service.cc 696  }
+10/09/14 14:46:53 676398848   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x24ec730 {src/DcsMessageManager.cxx 170  }
+10/09/14 14:46:53 676398848   FINEST    abort all message {src/DcsMessage.cxx 100  }
+10/09/14 14:46:53 676398848   FINEST    -GatewayService::ConsumeDcsMessage abort all {src/gw_service.cc 709  }
+10/09/14 14:46:53 676398848   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x24e9530) {src/DcsMessageManager.cxx 193  }
+10/09/14 14:46:53 676398848   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+10/09/14 14:46:53 676398848   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+10/09/14 14:46:53 676398848   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+10/09/14 14:46:53 652265216   FINEST    epics thread out of waiting {src/gw_service.cc 77  }
+10/09/14 14:46:53 652265216     INFO    queue length before dequeue: 1 {src/gw_service.cc 93  }
+10/09/14 14:46:53 652265216     INFO    queue length after dequeue: 0 {src/gw_service.cc 95  }
+10/09/14 14:46:53 652265216   FINEST    +GatewayService::doTask {src/gw_service.cc 440  }
+10/09/14 14:46:53 652265216   FINEST    do task:{stoh_abort_all soft} {src/gw_service.cc 448  }
+10/09/14 14:46:53 652265216   FINEST    -GatewayService::doTask abort all {src/gw_service.cc 456  }
+10/09/14 14:46:53 652265216   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x24ec730) {src/DcsMessageManager.cxx 193  }
+10/09/14 14:46:53 676398848   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x24e9530 {src/DcsMessageManager.cxx 170  }
+10/09/14 14:46:53 676398848   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+10/09/14 14:46:53 676398848   FINEST    abort all message {src/DcsMessage.cxx 100  }
+10/09/14 14:46:53 676398848   FINEST    +GatewayService::ConsumeDcsMessage {src/gw_service.cc 696  }
+10/09/14 14:46:53 676398848   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x24ed130 {src/DcsMessageManager.cxx 170  }
+10/09/14 14:46:53 676398848   FINEST    abort all message {src/DcsMessage.cxx 100  }
+10/09/14 14:46:53 676398848   FINEST    -GatewayService::ConsumeDcsMessage abort all {src/gw_service.cc 709  }
+10/09/14 14:46:53 676398848   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x24e9530) {src/DcsMessageManager.cxx 193  }
+10/09/14 14:46:53 676398848   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+10/09/14 14:46:53 676398848   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+10/09/14 14:46:53 676398848   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+10/09/14 14:46:53 676398848   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x24e9530 {src/DcsMessageManager.cxx 170  }
+10/09/14 14:46:53 652265216   FINEST    epics thread out of waiting {src/gw_service.cc 77  }
+10/09/14 14:46:53 652265216     INFO    queue length before dequeue: 1 {src/gw_service.cc 93  }
+10/09/14 14:46:53 652265216     INFO    queue length after dequeue: 0 {src/gw_service.cc 95  }
+10/09/14 14:46:53 652265216   FINEST    +GatewayService::doTask {src/gw_service.cc 440  }
+10/09/14 14:46:53 652265216   FINEST    do task:{stoh_abort_all soft} {src/gw_service.cc 448  }
+10/09/14 14:46:53 652265216   FINEST    -GatewayService::doTask abort all {src/gw_service.cc 456  }
+10/09/14 14:46:53 652265216   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x24ed130) {src/DcsMessageManager.cxx 193  }
+10/09/14 14:46:53 676398848   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+10/09/14 14:46:53 676398848   FINEST    abort all message {src/DcsMessage.cxx 100  }
+10/09/14 14:46:53 676398848   FINEST    +GatewayService::ConsumeDcsMessage {src/gw_service.cc 696  }
+10/09/14 14:46:53 676398848   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x24ed130 {src/DcsMessageManager.cxx 170  }
+10/09/14 14:46:53 676398848   FINEST    abort all message {src/DcsMessage.cxx 100  }
+10/09/14 14:46:53 676398848   FINEST    -GatewayService::ConsumeDcsMessage abort all {src/gw_service.cc 709  }
+10/09/14 14:46:53 676398848   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x24e9530) {src/DcsMessageManager.cxx 193  }
+10/09/14 14:46:53 676398848   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+10/09/14 14:46:53 652265216   FINEST    epics thread out of waiting {src/gw_service.cc 77  }
+10/09/14 14:46:53 652265216     INFO    queue length before dequeue: 1 {src/gw_service.cc 93  }
+10/09/14 14:46:53 652265216     INFO    queue length after dequeue: 0 {src/gw_service.cc 95  }
+10/09/14 14:46:53 652265216   FINEST    +GatewayService::doTask {src/gw_service.cc 440  }
+10/09/14 14:46:53 652265216   FINEST    do task:{stoh_abort_all soft} {src/gw_service.cc 448  }
+10/09/14 14:46:53 652265216   FINEST    -GatewayService::doTask abort all {src/gw_service.cc 456  }
+10/09/14 14:46:53 652265216   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x24ed130) {src/DcsMessageManager.cxx 193  }
+10/09/14 14:46:53 676398848   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+10/09/14 14:46:53 676398848   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+10/09/14 14:46:53 676398848   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x24ed130 {src/DcsMessageManager.cxx 170  }
+10/09/14 14:46:53 676398848   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+10/09/14 14:46:53 676398848   FINEST    abort all message {src/DcsMessage.cxx 100  }
+10/09/14 14:46:53 676398848   FINEST    +GatewayService::ConsumeDcsMessage {src/gw_service.cc 696  }
+10/09/14 14:46:53 676398848   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x24e9530 {src/DcsMessageManager.cxx 170  }
+10/09/14 14:46:53 676398848   FINEST    abort all message {src/DcsMessage.cxx 100  }
+10/09/14 14:46:53 676398848   FINEST    -GatewayService::ConsumeDcsMessage abort all {src/gw_service.cc 709  }
+10/09/14 14:46:53 676398848   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x24ed130) {src/DcsMessageManager.cxx 193  }
+10/09/14 14:46:53 676398848   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+10/09/14 14:46:53 676398848   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+10/09/14 14:46:53 676398848   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+10/09/14 14:46:53 676398848   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x24ed130 {src/DcsMessageManager.cxx 170  }
+10/09/14 14:46:53 676398848   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+10/09/14 14:46:53 676398848   FINEST    abort all message {src/DcsMessage.cxx 100  }
+10/09/14 14:46:53 676398848   FINEST    +GatewayService::ConsumeDcsMessage {src/gw_service.cc 696  }
+10/09/14 14:46:53 676398848   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x24ec730 {src/DcsMessageManager.cxx 170  }
+10/09/14 14:46:53 676398848   FINEST    abort all message {src/DcsMessage.cxx 100  }
+10/09/14 14:46:53 676398848   FINEST    -GatewayService::ConsumeDcsMessage abort all {src/gw_service.cc 709  }
+10/09/14 14:46:53 676398848   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x24ed130) {src/DcsMessageManager.cxx 193  }
+10/09/14 14:46:53 676398848   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+10/09/14 14:46:53 652265216   FINEST    epics thread out of waiting {src/gw_service.cc 77  }
+10/09/14 14:46:53 652265216     INFO    queue length before dequeue: 2 {src/gw_service.cc 93  }
+10/09/14 14:46:53 652265216     INFO    queue length after dequeue: 1 {src/gw_service.cc 95  }
+10/09/14 14:46:53 652265216   FINEST    +GatewayService::doTask {src/gw_service.cc 440  }
+10/09/14 14:46:53 652265216   FINEST    do task:{stoh_abort_all soft} {src/gw_service.cc 448  }
+10/09/14 14:46:53 652265216   FINEST    -GatewayService::doTask abort all {src/gw_service.cc 456  }
+10/09/14 14:46:53 652265216   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x24e9530) {src/DcsMessageManager.cxx 193  }
+10/09/14 14:46:53 652265216   FINEST    epics thread out of waiting {src/gw_service.cc 77  }
+10/09/14 14:46:53 652265216     INFO    queue length before dequeue: 1 {src/gw_service.cc 93  }
+10/09/14 14:46:53 652265216     INFO    queue length after dequeue: 0 {src/gw_service.cc 95  }
+10/09/14 14:46:53 652265216   FINEST    +GatewayService::doTask {src/gw_service.cc 440  }
+10/09/14 14:46:53 652265216   FINEST    do task:{stoh_abort_all soft} {src/gw_service.cc 448  }
+10/09/14 14:46:53 652265216   FINEST    -GatewayService::doTask abort all {src/gw_service.cc 456  }
+10/09/14 14:46:53 652265216   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x24ec730) {src/DcsMessageManager.cxx 193  }

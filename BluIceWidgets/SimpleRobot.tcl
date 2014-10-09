@@ -35,6 +35,12 @@ class RobotMountedLabel {
     public method getRobotReady { } {
         return $m_robotReady
     }
+    public method getLn2Standby { } {
+        if {!$m_robotReady} {
+            return 0
+        }
+        return $m_ln2Standby
+    }
 
     public method canDismount { } {
         if {!$m_robotReady} {
@@ -48,9 +54,15 @@ class RobotMountedLabel {
     protected variable m_statusStr ""
     protected variable m_value ""
     protected variable m_robotReady 0
+    protected variable m_ln2Standby 0
 
     constructor { args } {
-        DCS::Component::constructor {value getValue robotReady getRobotReady dismount canDismount}
+        DCS::Component::constructor {
+            value       getValue
+            robotReady  getRobotReady
+            dismount    canDismount
+            ln2Standby  getLn2Standby
+        }
     } {
         set m_deviceFactory [DCS::DeviceFactory::getObject]
 
@@ -95,6 +107,13 @@ body RobotMountedLabel::handleUpdate { stringName_ targetReady_ alias_ contents_
         set m_robotReady 0
     }
 
+    set extra [lindex $m_statusStr 31]
+    if {[string is integer -strict $extra] && ($extra & 4)} {
+        set m_ln2Standby 1
+    } else {
+        set m_ln2Standby 0
+    }
+
     set mountedValue [lindex $m_statusStr 15]
     if {[llength $mountedValue] < 3} {
         set m_value ""
@@ -114,6 +133,7 @@ body RobotMountedLabel::handleUpdate { stringName_ targetReady_ alias_ contents_
     updateRegisteredComponents value
     updateRegisteredComponents robotReady
     updateRegisteredComponents dismount
+    updateRegisteredComponents ln2Standby
 }
 
 class RobotPortWidget {
@@ -137,6 +157,8 @@ class RobotPortWidget {
     private variable m_cnxCassetteStatus {u u u u}
     private variable m_casStatusIndex {0 97 194}
 
+    private variable m_allowBeamlineTool 0
+
     private common s_casNameList
     private common s_casLabelList
 
@@ -147,6 +169,12 @@ class RobotPortWidget {
     public method handleCassetteValueChange { - targetReady_ - contents_ - } {
         if {!$targetReady_} return
         #puts "cassette: {$contents_}"
+
+        if {$contents_ == "align"} {
+            $itk_component(port) configure -cassette $contents_
+            updateColor 0
+            return
+        }
 
         set index [lsearch -exact $s_casLabelList $contents_]
 
@@ -179,6 +207,8 @@ class RobotPortWidget {
     } {
         set s_casNameList  [RobotBaseWidget::getCassetteNameList]
         set s_casLabelList [RobotBaseWidget::getCassetteLabelList]
+
+        set m_allowBeamlineTool [::config getInt "allowUserMountBeamlineTool" 0]
 
         itk_component add cassette {
             DCS::MenuButton $itk_interior.cas \
@@ -288,7 +318,7 @@ class RobotPortWidget {
     }
 
     public proc letter2word { cas } {
-        switch -exact $cas {
+        switch -exact -- $cas {
             l { return [lindex $s_casLabelList 1] }
             m { return [lindex $s_casLabelList 2] }
             r { return [lindex $s_casLabelList 3] }
@@ -347,6 +377,9 @@ body RobotPortWidget::handleRobotCassetteChange { - ready_ - contents_ - } {
 
 body RobotPortWidget::rebuildCassetteMenuChoices { } {
     set choices [list]
+    if {$m_allowBeamlineTool} {
+        set choices [list align]
+    }
 
     set location $s_casLabelList
 
@@ -382,6 +415,9 @@ class SimpleRobotWidget {
     protected variable m_opSeqManual
     protected variable m_objOpWashSample
     protected variable m_statusObj ""
+    protected variable m_objISample ""
+
+    protected variable m_objSilConfig ""
 
     protected variable red #c04080
     protected variable green #00a040 
@@ -389,6 +425,7 @@ class SimpleRobotWidget {
     protected variable m_wrap4Port
     protected variable m_wrap4RawMounted
     protected variable m_wrap4RobotReady
+    protected variable m_wrap4LN2Standby
 
     protected variable m_oprobotinit
     protected variable m_opcloselid
@@ -423,6 +460,9 @@ class SimpleRobotWidget {
             set SID PRIVATE[$itk_option(-controlSystem) getSessionId]
         }
         $m_opSeqManual startOperation mount nN0 $SID
+    }
+    public method handleHomeClick { } {
+        $m_objISample startOperation backToHeater
     }
     public method handleWashClick { } {
         set num_cycle [$itk_component(num_cycle) get]
@@ -469,13 +509,39 @@ class SimpleRobotWidget {
          $m_opRMS startOperation
     }
 
+    public method handleSilConfigUpdate { - ready_ - value_ -} {
+        if {!$ready_} {
+            set value_ ""
+        }
+        set skipEnabled [lindex $value_ 4]
+        if {$skipEnabled == "1"} {
+            if {$itk_option(-orientation) == "vert"} {
+                pack $itk_component(home) \
+                -side top \
+                -after $itk_component(dismount)
+            } else {
+                grid $itk_component(home)
+            }
+        } else {
+            if {$itk_option(-orientation) == "vert"} {
+                pack forget $itk_component(home)
+            } else {
+                grid remove $itk_component(home)
+            }
+        }
+    }
+
     constructor { args  } {
         set m_deviceFactory [DCS::DeviceFactory::getObject]
         set m_opSeqManual [$m_deviceFactory createOperation sequenceManual]
         set m_objOpWashSample [$m_deviceFactory createOperation washCrystal]
+        set m_objISample \
+        [$m_deviceFactory createOperation ISampleMountingDevice]
 
         set m_statusObj [$m_deviceFactory createString robot_status]
         $m_statusObj createAttributeFromField status_num 1
+
+        set m_objSilConfig [$m_deviceFactory createString sil_config]
 
         set noSampleWash [::config getStr bluice.noSampleWash]
 
@@ -543,6 +609,13 @@ class SimpleRobotWidget {
             -text "Dismount" \
             -width 8 \
             -command "$this handleDismountClick"
+        } {
+        }
+
+        itk_component add home {
+            DCS::Button $site.hm \
+            -text "Go Back to Heater" \
+            -command "$this handleHomeClick"
         } {
         }
 
@@ -658,6 +731,7 @@ class SimpleRobotWidget {
             pack $itk_component(raw_mounted) -side top
             pack $itk_component(mount) -side top
             pack $itk_component(dismount) -side top
+            #pack $itk_component(home) -side top
             if {$noSampleWash != "1"} {
                 pack $itk_component(num_cycle) -side top
                 pack $itk_component(wash) -side top
@@ -674,6 +748,7 @@ class SimpleRobotWidget {
 
             grid $itk_component(mount)    -row 0 -column 1 -sticky w
             grid $itk_component(dismount) -row 1 -column 1 -sticky w
+            #grid $itk_component(home)     -row 1 -column 2 -sticky w
             if {$noSampleWash != "1"} {
                 grid $itk_component(wash)     -row 2 -column 1 -sticky w -columnspan 2
             }
@@ -727,6 +802,7 @@ class SimpleRobotWidget {
         set m_wrap4Port [DCS::ItkWigetWrapper ::#auto $itk_component(port) need_mount]
         set m_wrap4RawMounted [DCS::ItkWigetWrapper ::#auto $itk_component(raw_mounted) dismount]
         set m_wrap4RobotReady [DCS::ItkWigetWrapper ::#auto $itk_component(raw_mounted) robotReady]
+        set m_wrap4LN2Standby [DCS::ItkWigetWrapper ::#auto $itk_component(raw_mounted) ln2Standby]
 
         $itk_component(raw_mounted) register $itk_component(port) value handleReferenceUpdate
 
@@ -744,6 +820,11 @@ class SimpleRobotWidget {
         $itk_component(dismount) addInput \
         "$m_wrap4RawMounted dismount 1 {no crystal on goniometer}"
 
+        $itk_component(home) addInput \
+        "$m_wrap4RobotReady robotReady 1 {robot not ready}"
+        $itk_component(home) addInput \
+        "$m_wrap4LN2Standby ln2Standby 1 {Robot not in LN2 standby}"
+
         $itk_component(wash) addInput \
         "$m_objOpWashSample status inactive {supporting device}"
         $itk_component(wash) addInput \
@@ -752,9 +833,17 @@ class SimpleRobotWidget {
         "$m_statusObj status_num 0 {robot not ready}"
         $itk_component(wash) addInput \
         "$m_wrap4RawMounted dismount 1 {no crystal on goniometer}"
+
+        #$m_objSilConfig register $this contents handleSilConfigUpdate
     }
     destructor {
-        delete object $m_wrap4Port $m_wrap4RawMounted
+        #$m_objSilConfig unregister $this contents handleSilConfigUpdate
+
+        delete object \
+        $m_wrap4Port \
+        $m_wrap4RawMounted \
+        $m_wrap4RobotReady \
+        $m_wrap4LN2Standby \
     }
 }
 

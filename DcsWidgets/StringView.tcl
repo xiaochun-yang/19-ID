@@ -189,8 +189,12 @@ class DCS::StringFieldViewBase {
     #### the widget name starts with:
     #### ts_XXXX:     timestamp
     #### ti_XXXX:     timespan time interval
+    #### td_XXXX:     display "overdue" if less than 0
     #### other:       text
     protected variable m_labelList ""
+
+    #### 1: active state 0: disabled state
+    protected variable m_stateList ""
 
     protected variable m_origEntryBG white
     protected variable m_origCheckButtonFG black
@@ -282,10 +286,17 @@ body DCS::StringFieldViewBase::setContents { contents_ } {
         set prefix [string range $name 0 2]
         switch -exact -- $prefix {
             ts_ {
-                set displayValue [clock format $value -format "%D %T"]
+                if {![string is integer -strict $value]} {
+                    set displayValue $value
+                } else {
+                    set displayValue [clock format $value -format "%D %T"]
+                }
             }
             ti_ {
                 set displayValue [secondToTimespan $value]
+            }
+            td_ {
+                set displayValue [secondToDue $value]
             }
             default {
                 set displayValue $value
@@ -295,6 +306,29 @@ body DCS::StringFieldViewBase::setContents { contents_ } {
         $itk_component($name) configure \
         -text $displayValue
 
+        if {[catch {
+            onFieldChange $name $index $value
+        } errMsg]} {
+            puts "Error onFieldChange $name: $errMsg"
+        }
+    }
+    foreach {name index } $m_stateList {
+        set value [lindex $contents_ $index]
+        set firstChar [string index $value 0]
+        switch -exact -- $firstChar {
+            1 -
+            Y -
+            y -
+            T -
+            t {
+                $itk_component($name) configure \
+                -state active
+            }
+            default {
+                $itk_component($name) configure \
+                -state disabled
+            }
+        }
         if {[catch {
             onFieldChange $name $index $value
         } errMsg]} {
@@ -331,6 +365,8 @@ class DCS::StringFieldLevel2ViewBase {
     protected variable m_entryList ""
     protected variable m_checkbuttonList ""
     protected variable m_labelList ""
+    protected variable m_stateList ""
+
 
     protected variable m_origEntryBG white
     protected variable m_origCheckButtonFG black
@@ -428,10 +464,17 @@ body DCS::StringFieldLevel2ViewBase::setContents { contents_ } {
         set prefix [string range $name 0 2]
         switch -exact -- $prefix {
             ts_ {
-                set displayValue [clock format $value -format "%D %T"]
+                if {![string is integer -strict $value]} {
+                    set displayValue $value
+                } else {
+                    set displayValue [clock format $value -format "%D %T"]
+                }
             }
             ti_ {
                 set displayValue [secondToTimespan $value]
+            }
+            td_ {
+                set displayValue [secondToDue $value]
             }
             default {
                 set displayValue $value
@@ -447,6 +490,29 @@ body DCS::StringFieldLevel2ViewBase::setContents { contents_ } {
             puts "Error onFieldChange $name: $errMsg"
         }
     }
+    foreach {name index1 index2} $m_stateList {
+        set value [lindex $contents_ $index1 $index2]
+        set firstChar [string index $value 0]
+        switch -exact -- $firstChar {
+            1 -
+            Y -
+            y -
+            T -
+            t {
+                $itk_component($name) configure \
+                -state active
+            }
+            default {
+                $itk_component($name) configure \
+                -state disabled
+            }
+        }
+        if {[catch {
+            onFieldChange $name $index1 $index2 $value
+        } errMsg]} {
+            puts "Error onFieldChange $name: $errMsg"
+        }
+    }
 }
 body DCS::StringFieldLevel2ViewBase::getNewContents { } {
     if {$m_allFieldDisplayed} {
@@ -454,7 +520,6 @@ body DCS::StringFieldLevel2ViewBase::getNewContents { } {
     } else {
         set contents [$_lastStringName getContents]
     }
-    set ll1 [llength $contents]
     foreach {name index1 index2} $m_entryList {
         set old_f [lindex $contents $index1]
         set value [$itk_component($name) get]
@@ -470,6 +535,179 @@ body DCS::StringFieldLevel2ViewBase::getNewContents { } {
     return $contents
 }
 
+class DCS::StringFieldMixLevelViewBase {
+	inherit ::DCS::StringViewBase
+
+    ## set this to 1 to support delete field.
+    ## getNewContents will create contents only from GUI, not the 
+    ## string contents.
+    protected variable m_allFieldDisplayed 0
+
+    protected variable m_entryList ""
+    protected variable m_checkbuttonList ""
+    protected variable m_labelList ""
+    protected variable m_stateList ""
+
+    protected variable m_origEntryBG white
+    protected variable m_origCheckButtonFG black
+
+	protected method setContents
+	protected method getNewContents
+
+    ###derived classes may put a callback here
+    protected method onFieldChange { name indexList value } {
+    }
+
+    protected common gCheckButtonVar
+
+    public method updateEntryColor { name indexList newValue } {
+        set bg red
+        if {$_lastStringName != ""} {
+            set contents [$_lastStringName getContents]
+            set refValue [getMultiLevelListElement $contents $indexList]
+            if {$refValue == $newValue} {
+                set bg $m_origEntryBG
+            }
+        }
+        $itk_component($name) configure \
+        -background $bg
+
+        if {[catch {
+            onFieldChange $name $indexList $newValue
+        } errMsg]} {
+            puts "Error onFieldChange $name: $errMsg"
+        }
+        return 1
+    }
+    public method updateCheckButtonColor { name indexList } {
+        set fg red
+        if {$_lastStringName != ""} {
+            set contents [$_lastStringName getContents]
+            set refValue [getMultiLevelListElement $contents $indexList]
+            set newValue $gCheckButtonVar($this,$name)
+            if {$refValue == $newValue} {
+                set fg $m_origCheckButtonFG
+            }
+        }
+        $itk_component($name) configure \
+        -foreground $fg \
+        -disabledforeground $fg \
+        -activeforeground $fg
+
+        if {[catch {
+            onFieldChange $name $indexList $newValue
+        } errMsg]} {
+            puts "Error onFieldChange $name: $errMsg"
+        }
+    }
+
+	constructor { args } {
+		eval itk_initialize $args
+		announceExist
+    }
+}
+body DCS::StringFieldMixLevelViewBase::setContents { contents_ } {
+    #puts "level2 setContents: $contents_"
+
+    foreach {name indexList} $m_entryList {
+        set value [getMultiLevelListElement $contents_ $indexList]
+        #puts "for name=$name index =$index1,$index2 value=$value"
+
+        $itk_component($name) delete 0 end
+        $itk_component($name) insert 0 $value
+        $itk_component($name) configure \
+        -background $m_origEntryBG
+
+        if {[catch {
+            onFieldChange $name $indexList $value
+        } errMsg]} {
+            puts "Error onFieldChange $name: $errMsg"
+        }
+    }
+    foreach {name indexList } $m_checkbuttonList {
+        set value [getMultiLevelListElement $contents_ $indexList]
+        set gCheckButtonVar($this,$name) $value
+        #puts "set $name to $value"
+        $itk_component($name) configure \
+        -foreground $m_origCheckButtonFG
+
+        if {[catch {
+            onFieldChange $name $indexList $value
+        } errMsg]} {
+            puts "Error onFieldChange $name: $errMsg"
+        }
+    }
+    foreach {name indexList} $m_labelList {
+        set value [getMultiLevelListElement $contents_ $indexList]
+        set prefix [string range $name 0 2]
+        switch -exact -- $prefix {
+            ts_ {
+                if {![string is integer -strict $value]} {
+                    set displayValue $value
+                } else {
+                    set displayValue [clock format $value -format "%D %T"]
+                }
+            }
+            ti_ {
+                set displayValue [secondToTimespan $value]
+            }
+            td_ {
+                set displayValue [secondToDue $value]
+            }
+            default {
+                set displayValue $value
+            }
+        }
+
+        $itk_component($name) configure \
+        -text $displayValue
+
+        if {[catch {
+            onFieldChange $name $indexList $value
+        } errMsg]} {
+            puts "Error onFieldChange $name: $errMsg"
+        }
+    }
+    foreach {name indexList} $m_stateList {
+        set value [getMultiLevelListElement $contents_ $indexList]
+        set firstChar [string index $value 0]
+        switch -exact -- $firstChar {
+            1 -
+            Y -
+            y -
+            T -
+            t {
+                $itk_component($name) configure \
+                -state active
+            }
+            default {
+                $itk_component($name) configure \
+                -state disabled
+            }
+        }
+        if {[catch {
+            onFieldChange $name $indexList $value
+        } errMsg]} {
+            puts "Error onFieldChange $name: $errMsg"
+        }
+    }
+}
+body DCS::StringFieldMixLevelViewBase::getNewContents { } {
+    if {$m_allFieldDisplayed} {
+        set contents ""
+    } else {
+        set contents [$_lastStringName getContents]
+    }
+    foreach {name indexList} $m_entryList {
+        set value [$itk_component($name) get]
+        set contents [setMultiLevelListElement $contents $indexList $value]
+    }
+    foreach {name indexList} $m_checkbuttonList {
+        set value $gCheckButtonVar($this,$name)
+        set contents [setMultiLevelListElement $contents $indexList $value]
+    }
+    return $contents
+}
 #### instead of using index, we use key here
 class DCS::StringDictViewBase {
 	inherit ::DCS::StringViewBase
@@ -481,11 +719,13 @@ class DCS::StringDictViewBase {
     #### ti_XXXX:     timespan time interval
     #### other:       text
     protected variable m_labelList ""
+    protected variable m_stateList ""
     protected variable m_entryList ""
     protected variable m_checkbuttonList ""
 
     protected variable m_origEntryBG white
     protected variable m_origCheckButtonFG black
+    protected variable m_origCheckButtonBG gray
 
 	protected method setContents
 	protected method getNewContents
@@ -523,7 +763,7 @@ class DCS::StringDictViewBase {
         return 1
     }
     public method updateCheckButtonColor { name key } {
-        set fg red
+        set bg red
         if {$_lastStringName != ""} {
             set contents [$_lastStringName getContents]
             set ll [llength $contents]
@@ -535,13 +775,12 @@ class DCS::StringDictViewBase {
             }
             set newValue $gCheckButtonVar($this,$name)
             if {$refValue == $newValue} {
-                set fg $m_origCheckButtonFG
+                set bg $m_origCheckButtonBG
             }
         }
         $itk_component($name) configure \
-        -foreground $fg \
-        -disabledforeground $fg \
-        -activeforeground $fg
+        -background $bg \
+        -activebackground $bg
 
         if {[catch {
             onFieldChange $name $key $newValue
@@ -556,6 +795,7 @@ class DCS::StringDictViewBase {
     }
 }
 body DCS::StringDictViewBase::setContents { contents_ } {
+    puts "$this setContents $contents_"
     set ll [llength $contents_]
     if {$ll % 2} {
         lappend contents_ {}
@@ -583,10 +823,11 @@ body DCS::StringDictViewBase::setContents { contents_ } {
         set gCheckButtonVar($this,$name) $value
         #puts "set $name to $value"
         $itk_component($name) configure \
-        -foreground $m_origCheckButtonFG
+        -background $m_origCheckButtonBG \
+        -activebackground $m_origCheckButtonBG \
 
         if {[catch {
-            onFieldChange $name $index $value
+            onFieldChange $name $key $value
         } errMsg]} {
             puts "Error onFieldChange $name: $errMsg"
         }
@@ -598,10 +839,17 @@ body DCS::StringDictViewBase::setContents { contents_ } {
         set prefix [string range $name 0 2]
         switch -exact -- $prefix {
             ts_ {
-                set displayValue [clock format $value -format "%D %T"]
+                if {![string is integer -strict $value]} {
+                    set displayValue $value
+                } else {
+                    set displayValue [clock format $value -format "%D %T"]
+                }
             }
             ti_ {
                 set displayValue [secondToTimespan $value]
+            }
+            td_ {
+                set displayValue [secondToDue $value]
             }
             default {
                 set displayValue $value
@@ -611,6 +859,31 @@ body DCS::StringDictViewBase::setContents { contents_ } {
         $itk_component($name) configure \
         -text $displayValue
 
+        if {[catch {
+            onFieldChange $name $key $value
+        } errMsg]} {
+            puts "Error onFieldChange $name: $errMsg"
+        }
+    }
+    foreach {name key} $m_stateList {
+        if {[catch {dict get $contents_ $key} value]} {
+            set value ""
+        }
+        set firstChar [string index $value 0]
+        switch -exact -- $firstChar {
+            1 -
+            Y -
+            y -
+            T -
+            t {
+                $itk_component($name) configure \
+                -state active
+            }
+            default {
+                $itk_component($name) configure \
+                -state disabled
+            }
+        }
         if {[catch {
             onFieldChange $name $key $value
         } errMsg]} {
@@ -636,6 +909,220 @@ body DCS::StringDictViewBase::getNewContents { } {
     return $contents
 }
 
+### 2 level string, first is dict, then a list of field.
+class DCS::StringDictFieldViewBase {
+	inherit ::DCS::StringViewBase
+
+    ## set this to 1 to support delete field.
+    ## getNewContents will create contents only from GUI, not the 
+    ## string contents.
+    protected variable m_allFieldDisplayed 0
+
+    protected variable m_entryList ""
+    protected variable m_checkbuttonList ""
+    protected variable m_labelList ""
+    protected variable m_stateList ""
+
+    protected variable m_origEntryBG white
+    protected variable m_origCheckButtonFG black
+
+	protected method setContents
+	protected method getNewContents
+
+    ###derived classes may put a callback here
+    protected method onFieldChange { name key1 index2 value } {
+    }
+
+    protected common gCheckButtonVar
+
+    public method updateEntryColor { name key1 index2 newValue } {
+        set bg red
+        if {$_lastStringName != ""} {
+            set contents [$_lastStringName getContents]
+            if {[catch {
+                lindex [dict get $contents $key1] $index2
+            } refValue]} {
+                puts "failed in updateEntryColor: $refValue"
+                set refValue ""
+            }
+            if {$refValue == $newValue} {
+                set bg $m_origEntryBG
+            }
+        }
+        $itk_component($name) configure \
+        -background $bg
+
+        if {[catch {
+            onFieldChange $name $key1 $index2 $newValue
+        } errMsg]} {
+            puts "Error onFieldChange $name: $errMsg"
+        }
+        return 1
+    }
+    public method updateCheckButtonColor { name key1 index2 } {
+        set fg red
+        if {$_lastStringName != ""} {
+            set contents [$_lastStringName getContents]
+            if {[catch {
+                lindex [dict get $contents $key1] $index2
+            } refValue]} {
+                puts "failed in updateCheckButtonColor: $refValue"
+                set refValue ""
+            }
+            set newValue $gCheckButtonVar($this,$name)
+            if {$refValue == $newValue} {
+                set fg $m_origCheckButtonFG
+            }
+            puts "updateCheckButtonColor $name $key1 $index2"
+            puts "ref=$refValue newValue=$newValue"
+        }
+        $itk_component($name) configure \
+        -foreground $fg \
+        -disabledforeground $fg \
+        -activeforeground $fg
+
+        if {[catch {
+            onFieldChange $name $key1 $index2 $newValue
+        } errMsg]} {
+            puts "Error onFieldChange $name: $errMsg"
+        }
+    }
+
+	constructor { args } {
+		eval itk_initialize $args
+		announceExist
+    }
+}
+body DCS::StringDictFieldViewBase::setContents { contents_ } {
+    #puts "level2 setContents: $contents_"
+
+    foreach {name key1 index2} $m_entryList {
+        if {[catch {
+            lindex [dict get $contents_ $key1] $index2
+        } value]} {
+                puts "failed entry for {$name $key1 $index2}: $value"
+            set value ""
+        }
+        #puts "for name=$name index =$key1,$index2 value=$value"
+
+        $itk_component($name) delete 0 end
+        $itk_component($name) insert 0 $value
+        $itk_component($name) configure \
+        -background $m_origEntryBG
+
+        if {[catch {
+            onFieldChange $name $key1 $index2 $value
+        } errMsg]} {
+            puts "Error onFieldChange $name: $errMsg"
+        }
+    }
+    foreach {name key1 index2 } $m_checkbuttonList {
+        if {[catch {
+            lindex [dict get $contents_ $key1] $index2
+        } value]} {
+                puts "failed chkbtn for {$name $key1 $index2}: $value"
+            set value ""
+        }
+        set gCheckButtonVar($this,$name) $value
+        #puts "set $name to $value"
+        $itk_component($name) configure \
+        -foreground $m_origCheckButtonFG
+
+        if {[catch {
+            onFieldChange $name $key1 $index2 $value
+        } errMsg]} {
+            puts "Error onFieldChange $name: $errMsg"
+        }
+    }
+    foreach {name key1 index2 } $m_labelList {
+        if {[catch {
+            lindex [dict get $contents_ $key1] $index2
+        } value]} {
+                puts "failed label for {$name $key1 $index2}: $value"
+            set value ""
+        }
+        set prefix [string range $name 0 2]
+        switch -exact -- $prefix {
+            ts_ {
+                if {![string is integer -strict $value]} {
+                    set displayValue $value
+                } else {
+                    set displayValue [clock format $value -format "%D %T"]
+                }
+            }
+            ti_ {
+                set displayValue [secondToTimespan $value]
+            }
+            td_ {
+                set displayValue [secondToDue $value]
+            }
+            default {
+                set displayValue $value
+            }
+        }
+
+        $itk_component($name) configure \
+        -text $displayValue
+
+        if {[catch {
+            onFieldChange $name $key1 $index2 $value
+        } errMsg]} {
+            puts "Error onFieldChange $name: $errMsg"
+        }
+    }
+    foreach {name key1 index2} $m_stateList {
+        if {[catch {
+            lindex [dict get $contents_ $key1] $index2
+        } value]} {
+                puts "failed label for {$name $key1 $index2}: $value"
+            set value ""
+        }
+        set firstChar [string index $value 0]
+        switch -exact -- $firstChar {
+            1 -
+            Y -
+            y -
+            T -
+            t {
+                $itk_component($name) configure \
+                -state active
+            }
+            default {
+                $itk_component($name) configure \
+                -state disabled
+            }
+        }
+        if {[catch {
+            onFieldChange $name $key1 $index2 $value
+        } errMsg]} {
+            puts "Error onFieldChange $name: $errMsg"
+        }
+    }
+}
+body DCS::StringDictFieldViewBase::getNewContents { } {
+    if {$m_allFieldDisplayed} {
+        set contents ""
+    } else {
+        set contents [$_lastStringName getContents]
+    }
+    foreach {name key1 index2} $m_entryList {
+        if {[catch {dict get $contents $key1} old_f]} {
+            set old_f ""
+        }
+        set value [$itk_component($name) get]
+        set new_f [setStringFieldWithPadding $old_f $index2 $value]
+        dict set contents $key1 $new_f
+    }
+    foreach {name key1 index2} $m_checkbuttonList {
+        if {[catch {dict get $contents $key1} old_f]} {
+            set old_f ""
+        }
+        set value $gCheckButtonVar($this,$name)
+        set new_f [setStringFieldWithPadding $old_f $index2 $value]
+        dict set contents $key1 $new_f
+    }
+    return $contents
+}
 
 class DCS::StringView {
 	inherit ::DCS::StringViewBase
@@ -820,12 +1307,14 @@ body DCS::StringDictView::autoFields { } {
             foreach key [dict keys $dd] {
                 lappend m_checkbuttonList $key $key
             }
+            set m_checkbuttonList [lsort $m_checkbuttonList]
         }
         entry -
         default {
             foreach key [dict keys $dd] {
                 lappend m_entryList $key $key
             }
+            set m_entryList [lsort $m_entryList]
         }
     }
 }
@@ -1688,9 +2177,9 @@ class DCS::DoseDetailView {
         label $rightSite.l14 \
         -text "energy"
         label $rightSite.l15 \
-        -text "slit width"
+        -text "beam width"
         label $rightSite.l16 \
-        -text "slit height"
+        -text "beam height"
         label $rightSite.l17 \
         -text "attenuation"
 
@@ -2634,12 +3123,13 @@ class DCS::EnergyOffsetLevel2View {
         ## change to config later for both harmonic names and
         ## offset field motor names
         set ROWHEADER [list 11th 9th 7th 5th]
-        set deviceFactory [DCS::DeviceFactory::getObject]
-        set objFieldName [$deviceFactory createString energy_offset_namelist]
-        set COLUMNHEADER [$objFieldName getContents]
+        set COLUMNHEADER [::config getStr energyOffsetNameList]
 
         set numRow [llength $ROWHEADER]
         set numCol [llength $COLUMNHEADER]
+
+        set idxTrigger   [lsearch -exact $COLUMNHEADER trigger_time]
+        set idxTimestamp [lsearch -exact $COLUMNHEADER timestamp]
 
         ######### header labels ###############
         set i 0
@@ -2661,26 +3151,55 @@ class DCS::EnergyOffsetLevel2View {
         set m_entryList ""
         for {set row 0} {$row < $numRow} {incr row} {
             for {set col 0} {$col < $numCol} {incr col} {
-                set name f${row}${col}
-                set cmd [list $this updateEntryColor $name $row $col %P]
-                itk_component add $name {
-                    entry $m_site.$name \
-                    -validate all \
-                    -background white \
-                    -vcmd $cmd
-                } {
+                if {$col == $idxTimestamp || $col == $idxTrigger} {
+                    set name ts_${row}${col}
+                    itk_component add $name {
+                        label $m_site.$name \
+                        -anchor e \
+                        -background #00a040 \
+                        -width 17 \
+                    } {
+                    }
+                    lappend m_labelList $name $row $col
+                } else {
+                    set name f${row}${col}
+                    set cmd [list $this updateEntryColor $name $row $col %P]
+                    itk_component add $name {
+                        entry $m_site.$name \
+                        -validate all \
+                        -background white \
+                        -vcmd $cmd
+                    } {
+                    }
+                    lappend m_entryList $name $row $col
                 }
                 grid $m_site.$name -row [expr $row + 1] -column [expr $col + 1]
-                lappend m_entryList $name $row $col
             }
         }
+
+        set hideIdxList [list]
+        foreach name {focusing_mirror_2_vert_1 focusing_mirror_2_vert_2} {
+            set idx [lsearch -exact $COLUMNHEADER $name]
+            if {$idx >= 0} {
+                lappend hideIdxList $idx
+            }
+        }
+        foreach idx $hideIdxList {
+            set col [expr $idx + 1]
+            set oneCol [grid slaves $m_site -column $col]
+            if {$oneCol != ""} {
+                eval grid remove $oneCol
+            }
+        }
+
+
         #puts "level2 entryList: $m_entryList"
 		eval itk_initialize $args
 		announceExist
     }
 }
 class DCS::AlignCollimatorConfigView {
-	inherit ::DCS::StringFieldViewBase
+	inherit ::DCS::StringFieldMixLevelViewBase
 
     public method setSignal { name } {
         $itk_component(signal) delete 0 end
@@ -2702,9 +3221,11 @@ class DCS::AlignCollimatorConfigView {
                     return 0
                 }
             } elseif {$name != ""} {
-                if {![string is double -strict $value]} {
-                    log_error $name=$value is not a number
-                    return 0
+                foreach vv $value {
+                    if {![string is double -strict $vv]} {
+                        log_error one of $name=$vv is not a number
+                        return 0
+                    }
                 }
             } else {
                 log_warning extra field $value
@@ -2720,7 +3241,10 @@ class DCS::AlignCollimatorConfigView {
 
     ###itk_component name to parameter name
     protected variable m_entryMap [list \
-        at          attenuation \
+        at11        {attenuation 0} \
+        at9         {attenuation 1} \
+        at7         {attenuation 2} \
+        at5         {attenuation 3} \
         fl          fluorescence_z \
         signal      signal \
         mp          min_signal \
@@ -2735,6 +3259,10 @@ class DCS::AlignCollimatorConfigView {
         vs          vert_scan_wait \
         mv          max_vert_move \
         mh          max_horz_move \
+        shw         staff_horz_scan_width \
+        shp         staff_horz_scan_points \
+        svw         staff_vert_scan_width \
+        svp         staff_vert_scan_points \
     ]
 
     protected method addEntries { site width args } {
@@ -2782,18 +3310,24 @@ class DCS::AlignCollimatorConfigView {
         }
         set topSite [$itk_component(top_frame) childsite]
 
-        label $topSite.l3 -anchor e -width $LABEL_WIDTH -text "Attenuation:"
-        label $topSite.l4 -anchor e -width $LABEL_WIDTH -text "Fluor. Z:"
-        label $topSite.l5 -anchor e -width $LABEL_WIDTH -text "Signal:"
-        label $topSite.l6 -anchor e -width $LABEL_WIDTH -text "Min Peak:"
-        label $topSite.l7 -anchor e -width $LABEL_WIDTH -text "Good Peak:"
-        label $topSite.l10 -anchor e -width $LABEL_WIDTH -text "Max Vert Move:"
-        label $topSite.l11 -anchor e -width $LABEL_WIDTH -text "Max Horz Move:"
+        label $topSite.l3 -anchor e -width $LABEL_WIDTH -text "Attenuation 11th:"
+        label $topSite.l4 -anchor e -width $LABEL_WIDTH -text "9th:"
+        label $topSite.l5 -anchor e -width $LABEL_WIDTH -text "7th:"
+        label $topSite.l6 -anchor e -width $LABEL_WIDTH -text "5th:"
+        label $topSite.l7 -anchor e -width $LABEL_WIDTH -text "Fluor. Z:"
+        label $topSite.l8 -anchor e -width $LABEL_WIDTH -text "Signal:"
+        label $topSite.l9 -anchor e -width $LABEL_WIDTH -text "Min Peak:"
+        label $topSite.l10 -anchor e -width $LABEL_WIDTH -text "Good Peak:"
+        label $topSite.l13 -anchor e -width $LABEL_WIDTH -text "Max Vert Move:"
+        label $topSite.l14 -anchor e -width $LABEL_WIDTH -text "Max Horz Move:"
 
         label $topSite.u3 -anchor w -width $UNITS_WIDTH -text %
-        label $topSite.u4 -anchor w -width $UNITS_WIDTH -text mm
-        label $topSite.u10 -anchor w -width $UNITS_WIDTH -text mm
-        label $topSite.u11 -anchor w -width $UNITS_WIDTH -text mm
+        label $topSite.u4 -anchor w -width $UNITS_WIDTH -text %
+        label $topSite.u5 -anchor w -width $UNITS_WIDTH -text %
+        label $topSite.u6 -anchor w -width $UNITS_WIDTH -text %
+        label $topSite.u7 -anchor w -width $UNITS_WIDTH -text mm
+        label $topSite.u13 -anchor w -width $UNITS_WIDTH -text mm
+        label $topSite.u14 -anchor w -width $UNITS_WIDTH -text mm
 
         itk_component add sigmb {
             menubutton $topSite.sigmb \
@@ -2819,29 +3353,38 @@ class DCS::AlignCollimatorConfigView {
         }
 
         addEntries $topSite $ENTRY_WIDTH \
-        at fl signal mp gp mv mh
+        at11 at9 at7 at5 fl signal mp gp mv mh
 
         grid $topSite.l3 -column 0 -row 3 -sticky e
         grid $topSite.l4 -column 0 -row 4 -sticky e
         grid $topSite.l5 -column 0 -row 5 -sticky e
         grid $topSite.l6 -column 0 -row 6 -sticky e
         grid $topSite.l7 -column 0 -row 7 -sticky e
+        grid $topSite.l8 -column 0 -row 8 -sticky e
+        grid $topSite.l9 -column 0 -row 9 -sticky e
         grid $topSite.l10 -column 0 -row 10 -sticky e
-        grid $topSite.l11 -column 0 -row 11 -sticky e
+        grid $topSite.l13 -column 0 -row 13 -sticky e
+        grid $topSite.l14 -column 0 -row 14 -sticky e
 
-        grid $itk_component(at) -column 1 -row 3 -sticky we
-        grid $itk_component(fl) -column 1 -row 4 -sticky we
-        grid $itk_component(signal) -column 1 -row 5 -sticky we
-        grid $itk_component(mp) -column 1 -row 6 -sticky we
-        grid $itk_component(gp) -column 1 -row 7 -sticky we
-        grid $itk_component(mv) -column 1 -row 10 -sticky we
-        grid $itk_component(mh) -column 1 -row 11 -sticky we
+        grid $itk_component(at11) -column 1 -row 3 -sticky we
+        grid $itk_component(at9) -column 1 -row 4 -sticky we
+        grid $itk_component(at7) -column 1 -row 5 -sticky we
+        grid $itk_component(at5) -column 1 -row 6 -sticky we
+        grid $itk_component(fl) -column 1 -row 7 -sticky we
+        grid $itk_component(signal) -column 1 -row 8 -sticky we
+        grid $itk_component(mp) -column 1 -row 9 -sticky we
+        grid $itk_component(gp) -column 1 -row 10 -sticky we
+        grid $itk_component(mv) -column 1 -row 13 -sticky we
+        grid $itk_component(mh) -column 1 -row 14 -sticky we
 
         grid $topSite.u3 -column 2 -row 3 -sticky w
         grid $topSite.u4 -column 2 -row 4 -sticky w
-        grid $itk_component(sigmb) -column 2 -row 5 -sticky w
-        grid $topSite.u10 -column 2 -row 10 -sticky w
-        grid $topSite.u11 -column 2 -row 11 -sticky w
+        grid $topSite.u5 -column 2 -row 5 -sticky w
+        grid $topSite.u6 -column 2 -row 6 -sticky w
+        grid $topSite.u7 -column 2 -row 7 -sticky w
+        grid $itk_component(sigmb) -column 2 -row 8 -sticky w
+        grid $topSite.u13 -column 2 -row 13 -sticky w
+        grid $topSite.u14 -column 2 -row 14 -sticky w
 
         itk_component add horz_frame {
             iwidgets::Labeledframe $m_site.horz \
@@ -2853,30 +3396,38 @@ class DCS::AlignCollimatorConfigView {
         }
         set horzSite [$itk_component(horz_frame) childsite]
 
-        label $horzSite.l0 -anchor e -width $LABEL_WIDTH -text "Width"
-        label $horzSite.l1 -anchor e -width $LABEL_WIDTH -text "Points"
-        label $horzSite.l2 -anchor e -width $LABEL_WIDTH -text "Integrating Time"
-        label $horzSite.l3 -anchor e -width $LABEL_WIDTH -text "Settling Time"
+        label $horzSite.l01 -text "USER"
+        label $horzSite.l02 -text "STAFF"
+        label $horzSite.l1 -anchor e -width $LABEL_WIDTH -text "Width"
+        label $horzSite.l2 -anchor e -width $LABEL_WIDTH -text "Points"
+        label $horzSite.l3 -anchor e -width $LABEL_WIDTH -text "Integrating Time"
+        label $horzSite.l4 -anchor e -width $LABEL_WIDTH -text "Settling Time"
 
-        label $horzSite.u0 -anchor w -width $UNITS_WIDTH -text "mm"
-        label $horzSite.u2 -anchor w -width $UNITS_WIDTH -text "s"
+        label $horzSite.u1 -anchor w -width $UNITS_WIDTH -text "mm"
         label $horzSite.u3 -anchor w -width $UNITS_WIDTH -text "s"
+        label $horzSite.u4 -anchor w -width $UNITS_WIDTH -text "s"
 
-        addEntries $horzSite $ENTRY_WIDTH hw hp hi hs
+        addEntries $horzSite $ENTRY_WIDTH hw hp hi hs shw shp
 
-        grid $horzSite.l0 -column 0 -row 0 -sticky e
+        grid $horzSite.l01 -column 1 -row 0 -sticky w
+        grid $horzSite.l02 -column 2 -row 0 -sticky w
+
         grid $horzSite.l1 -column 0 -row 1 -sticky e
         grid $horzSite.l2 -column 0 -row 2 -sticky e
         grid $horzSite.l3 -column 0 -row 3 -sticky e
+        grid $horzSite.l4 -column 0 -row 4 -sticky e
 
-        grid $itk_component(hw) -column 1 -row 0 -sticky we
-        grid $itk_component(hp) -column 1 -row 1 -sticky we
-        grid $itk_component(hi) -column 1 -row 2 -sticky we
-        grid $itk_component(hs) -column 1 -row 3 -sticky we
+        grid $itk_component(hw) -column 1 -row 1 -sticky we
+        grid $itk_component(hp) -column 1 -row 2 -sticky we
+        grid $itk_component(hi) -column 1 -row 3 -sticky we
+        grid $itk_component(hs) -column 1 -row 4 -sticky we
 
-        grid $horzSite.u0 -column 2 -row 0 -sticky w
-        grid $horzSite.u2 -column 2 -row 2 -sticky w
+        grid $itk_component(shw) -column 2 -row 1 -sticky we
+        grid $itk_component(shp) -column 2 -row 2 -sticky we
+
+        grid $horzSite.u1 -column 3 -row 1 -sticky w
         grid $horzSite.u3 -column 2 -row 3 -sticky w
+        grid $horzSite.u4 -column 2 -row 4 -sticky w
 
         itk_component add vert_frame {
             iwidgets::Labeledframe $m_site.vert \
@@ -2888,30 +3439,38 @@ class DCS::AlignCollimatorConfigView {
         }
         set vertSite [$itk_component(vert_frame) childsite]
 
-        label $vertSite.l0 -anchor e -width $LABEL_WIDTH -text "Width"
-        label $vertSite.l1 -anchor e -width $LABEL_WIDTH -text "Points"
-        label $vertSite.l2 -anchor e -width $LABEL_WIDTH -text "Integrating Time"
-        label $vertSite.l3 -anchor e -width $LABEL_WIDTH -text "Settling Time"
+        label $vertSite.l01 -text "USER"
+        label $vertSite.l02 -text "STAFF"
+        label $vertSite.l1 -anchor e -width $LABEL_WIDTH -text "Width"
+        label $vertSite.l2 -anchor e -width $LABEL_WIDTH -text "Points"
+        label $vertSite.l3 -anchor e -width $LABEL_WIDTH -text "Integrating Time"
+        label $vertSite.l4 -anchor e -width $LABEL_WIDTH -text "Settling Time"
 
-        label $vertSite.u0 -anchor w -width $UNITS_WIDTH -text "mm"
-        label $vertSite.u2 -anchor w -width $UNITS_WIDTH -text "s"
+        label $vertSite.u1 -anchor w -width $UNITS_WIDTH -text "mm"
         label $vertSite.u3 -anchor w -width $UNITS_WIDTH -text "s"
+        label $vertSite.u4 -anchor w -width $UNITS_WIDTH -text "s"
 
-        addEntries $vertSite $ENTRY_WIDTH vw vp vi vs
+        addEntries $vertSite $ENTRY_WIDTH vw vp vi vs svw svp
 
-        grid $vertSite.l0 -column 0 -row 0 -sticky e
+        grid $vertSite.l01 -column 1 -row 0 -sticky w
+        grid $vertSite.l02 -column 2 -row 0 -sticky w
+
         grid $vertSite.l1 -column 0 -row 1 -sticky e
         grid $vertSite.l2 -column 0 -row 2 -sticky e
         grid $vertSite.l3 -column 0 -row 3 -sticky e
+        grid $vertSite.l4 -column 0 -row 4 -sticky e
 
-        grid $itk_component(vw) -column 1 -row 0 -sticky we
-        grid $itk_component(vp) -column 1 -row 1 -sticky we
-        grid $itk_component(vi) -column 1 -row 2 -sticky we
-        grid $itk_component(vs) -column 1 -row 3 -sticky we
+        grid $itk_component(vw) -column 1 -row 1 -sticky we
+        grid $itk_component(vp) -column 1 -row 2 -sticky we
+        grid $itk_component(vi) -column 1 -row 3 -sticky we
+        grid $itk_component(vs) -column 1 -row 4 -sticky we
 
-        grid $vertSite.u0 -column 2 -row 0 -sticky w
-        grid $vertSite.u2 -column 2 -row 2 -sticky w
+        grid $itk_component(svw) -column 2 -row 1 -sticky we
+        grid $itk_component(svp) -column 2 -row 2 -sticky we
+
+        grid $vertSite.u1 -column 3 -row 1 -sticky w
         grid $vertSite.u3 -column 2 -row 3 -sticky w
+        grid $vertSite.u4 -column 2 -row 4 -sticky w
 
         grid $itk_component(top_frame) -row 0 -column 0 -rowspan 2 -sticky news
         grid $itk_component(horz_frame) -row 0 -column 1 -sticky news
@@ -2919,8 +3478,7 @@ class DCS::AlignCollimatorConfigView {
 
         grid rowconfigure $m_site 0 -weight 5
         grid rowconfigure $m_site 1 -weight 5
-        grid columnconfigure $m_site 0 -weight 5
-        grid columnconfigure $m_site 1 -weight 5
+        grid columnconfigure $m_site 2 -weight 5
 
 		eval itk_initialize $args
 
@@ -2933,7 +3491,8 @@ class DCS::AlignCollimatorConfigView {
 body DCS::AlignCollimatorConfigView::fillComponentList { } {
     set m_entryList ""
 
-    foreach {name keyword} $m_entryMap {
+    foreach {name mm} $m_entryMap {
+        set keyword [lindex $mm 0]
         set index [lsearch -exact $m_cntsNameString $keyword]
         if {$index < 0} {
             puts "cannot find $keyword for $name"
@@ -2941,6 +3500,7 @@ body DCS::AlignCollimatorConfigView::fillComponentList { } {
             $itk_component($name) configure \
             -validate none
         } else {
+            set index [lreplace $mm 0 0 $index]
             puts "map $name to $index"
             set cmd [list $this updateEntryColor $name $index %P]
             lappend m_entryList $name $index
@@ -2951,37 +3511,50 @@ body DCS::AlignCollimatorConfigView::fillComponentList { } {
     }
 }
 #### it will adjust rows according to how many items in the string
+#### It was replaced by TabView.
+#### Then, it is used by staff view to display some information related
+#### to staff scan:
+###  width
+###  height
+###  user_scan width
+###  user_scan_points
+###  staff_scan_width
+###  staff_scan_points
+###  selected for each harmonic.
+#######
+###  It only display the collimators that user can see.
 class DCS::CollimatorPresetLevel2View {
-	inherit ::DCS::StringFieldLevel2ViewBase
+	inherit ::DCS::StringFieldMixLevelViewBase
 
-    public method updatePosition { index } {
-        if {$index < 0 || $index >= $m_numColumnDisplayed} {
-            log_warning wrong index $index
-            return
-        }
-        foreach name $POSITION_LIST ni $m_positionIndexList {
-            if {$ni < 0} {
-                log_error $name not found the preset field name list
-                continue
-            }
-            set guiName $name$index
-            if {[string range $name end-6 end] == "encoder"} {
-                set deviceName ::device::collimator_${name}_motor
-            } else {
-                set deviceName ::device::collimator_${name}
-            }
-            set value [lindex [$deviceName getScaledPosition] 0]
-            $itk_component($guiName) delete 0 end
-            $itk_component($guiName) insert 0 $value
-        }
+    public method staffStart { } {
+        $m_opStaffAlignBeam startOperation
     }
 
-    public method moveTo { index } {
-        if {$index < 0 || $index >= $m_numColumnDisplayed} {
-            log_warning wrong index $index
-            return
+    public method updateShowAll { } {
+        set oneColumn ""
+        for {set col 0} {$col < $m_numColumnDisplayed} {incr col} {
+            regsub -all COLUMN $m_oneColumnList $col oneColumn
+
+            set h0 $gCheckButtonVar($this,harm0$col)
+            set h1 $gCheckButtonVar($this,harm1$col)
+            set h2 $gCheckButtonVar($this,harm2$col)
+            set h3 $gCheckButtonVar($this,harm3$col)
+
+            set shouldShow 0
+            if {$h0 == "1" || $h1 == "1" || $h2 == "1" || $h3 == "1"} {
+                set shouldShow 1
+            }
+
+            if {$gCheckButtonVar($this,showAll) || $shouldShow} {
+                foreach com $oneColumn {
+                    grid $itk_component($com)
+                }
+            } else {
+                foreach com $oneColumn {
+                    grid remove $itk_component($com)
+                }
+            }
         }
-        $m_opCollimatorMove startOperation $index
     }
 
     public method handleStatusChange { - targetReady_ - contents_ - } {
@@ -3000,7 +3573,28 @@ class DCS::CollimatorPresetLevel2View {
             } else {
                 set bg $m_colorBG
             }
-            $itk_component(move$i) configure \
+            $itk_component(name$i) configure \
+            -background $bg
+        }
+    }
+    public method handleCurrentHarmonic { - ready_ - contents_ - } {
+        if {!$ready_} {
+            return
+        }
+
+        if {![string is integer -strict $contents_]} {
+            set currentRow -1
+        } else {
+            set currentRow [expr $contents_ + 9]
+        }
+        set headerSite  [$itk_component(scrolledFrame) hfreezesite]
+        for {set i 9} {$i < 13} {incr i} {
+            if {$i == $currentRow} {
+                set bg "light green"
+            } else {
+                set bg $m_origLabelBG
+            }
+            $headerSite.rh$i configure \
             -background $bg
         }
     }
@@ -3015,51 +3609,81 @@ class DCS::CollimatorPresetLevel2View {
     private method addColumns { num } {
         for {set i 0} {$i < $num} {incr i} {
             set index1 $m_numColumnCreated
-            set index2  -1
-            foreach name $m_cfgNameList {
-                incr index2 
-                set wName $name$m_numColumnCreated
+            foreach {comp -} $LABEL_MAP subIdxList $m_labelSubIndexList {
+                set wName $comp$m_numColumnCreated
+                set indexList [linsert $subIdxList 0 $index1]
+
+                if {$comp == "width" || $comp == "height"} {
+                    set bg tan
+                } else {
+                    set bg gray
+                }
                 itk_component add $wName {
-                    if {[lsearch -exact $CHECKBUTTON_LIST $name] < 0} {
-                        set cmd [list $this updateEntryColor $wName $index1 $index2 %P]
-                        entry $m_tableSite.$wName \
-                        -validate all \
-                        -vcmd $cmd \
-                        -width 15 \
-                        -background white \
-                    } else {
-                        set cmd [list $this updateCheckButtonColor $wName $index1 $index2]
-                        checkbutton $m_tableSite.$wName \
-                        -command $cmd \
-                        -background darkgray \
-                        -anchor w \
-                        -variable [scope gCheckButtonVar($this,$wName)] \
-                        -text "yes"
-                    }
+                    label $m_tableSite.$wName \
+                    -relief sunken \
+                    -anchor w \
+                    -background $bg \
+                } {
+                }
+                if {$m_colorBG == ""} {
+                    set m_colorBG [$itk_component($wName) cget -background]
+                }
+            }
+
+            foreach \
+            {comp - -} $LABEL_ENTRY_MAP \
+            {lSubIdxList eSubIdxList} $m_labelEntryIndexList {
+                set wName $comp$m_numColumnCreated
+                itk_component add $wName {
+                    frame $m_tableSite.$wName
+                } {
+                }
+                set mySite $m_tableSite.$wName
+
+                set lName ${comp}l$m_numColumnCreated
+                set indexList [linsert $lSubIdxList 0 $index1]
+                
+                itk_component add $lName {
+                    label $mySite.label \
+                    -relief sunken \
+                    -anchor w \
+                    -background #00a040 \
+                } {
+                }
+
+                set eName ${comp}e$m_numColumnCreated
+                set indexList [linsert $eSubIdxList 0 $index1]
+                set cmd [list $this updateEntryColor $eName $indexList %P]
+                itk_component add $eName {
+                    entry $mySite.entry \
+                    -validate all \
+                    -vcmd $cmd \
+                    -width 7 \
+                    -background white \
+                } {
+                }
+                grid $itk_component($lName) -row 0 -column 0 -sticky news
+                grid $itk_component($eName) -row 0 -column 1 -sticky news
+                grid columnconfigure $mySite 0 -weight 10
+                #grid columnconfigure $mySite 1 -weight 10
+            }
+
+            foreach {comp -} $CHECKBUTTON_MAP \
+            subIdxList $m_checkbuttonSubIndexList {
+                set wName $comp$m_numColumnCreated
+                set indexList [linsert $subIdxList 0 $index1]
+                set cmd [list $this updateCheckButtonColor $wName $indexList]
+                itk_component add $wName {
+                    checkbutton $m_tableSite.$wName \
+                    -command $cmd \
+                    -background darkgray \
+                    -anchor w \
+                    -variable [scope gCheckButtonVar($this,$wName)] \
+                    -text "yes"
                 } {
                 }
             }
-            set wName move$m_numColumnCreated
-            itk_component add $wName {
-                DCS::Button $m_tableSite.$wName \
-                -width 15 \
-                -text "Unknown" \
-                -command "$this moveTo $m_numColumnCreated"
-            } {
-                keep -activeClientOnly
-                keep -systemIdleOnly
-            }
-            if {$m_colorBG == ""} {
-                set m_colorBG [$itk_component($wName) cget -background]
-            }
 
-            set wName update$m_numColumnCreated
-            itk_component add $wName {
-                button $m_tableSite.$wName \
-                -text "update" \
-                -command "$this updatePosition $index1"
-            } {
-            }
             incr m_numColumnCreated
         }
         pack $itk_component(scrolledFrame) -side left -fill both -expand true
@@ -3073,29 +3697,56 @@ class DCS::CollimatorPresetLevel2View {
         }
 
         while {$m_numColumnDisplayed < $num} {
-            set wName move$m_numColumnDisplayed
             set col $m_numColumnDisplayed
-            grid $itk_component($wName) -column [expr $col + 1] -row 0
-            set row  -1
-            foreach name $m_cfgNameList {
-                incr row 
-                set wName $name$m_numColumnDisplayed
-                set col $m_numColumnDisplayed
-                if {[lsearch -exact $CHECKBUTTON_LIST $name] < 0} {
-                    lappend m_entryList $wName $col $row
-                } else {
-                    lappend m_checkbuttonList $wName $col $row
-                }
+
+            foreach \
+            {comp -}   $LABEL_MAP \
+            subIdxList $m_labelSubIndexList \
+            row        $LABEL_ROW {
+                set wName $comp$m_numColumnDisplayed
+                set indexList [linsert $subIdxList 0 $col]
+                lappend m_labelList $wName $indexList
+
+                grid $itk_component($wName) \
+                -ipady 1 \
+                -column [expr $col + 1] \
+                -row $row \
+                -sticky news
+            }
+
+            foreach \
+            {comp - -}   $LABEL_ENTRY_MAP \
+            {lSubIdxList eSubIdxList} $m_labelEntryIndexList \
+            row        $LABEL_ENTRY_ROW {
+                set wName ${comp}$m_numColumnDisplayed
+                set lName ${comp}l$m_numColumnDisplayed
+                set eName ${comp}e$m_numColumnDisplayed
+
+                set indexList [linsert $lSubIdxList 0 $col]
+                lappend m_labelList $lName $indexList
+
+                set indexList [linsert $eSubIdxList 0 $col]
+                lappend m_entryList $eName $indexList
 
                 grid $itk_component($wName) \
                 -column [expr $col + 1] \
-                -row [expr $row + 1] \
+                -row $row \
                 -sticky news
             }
-            incr row 2
-            set wName update$m_numColumnDisplayed
-            set col $m_numColumnDisplayed
-            grid $itk_component($wName) -column [expr $col + 1] -row $row
+            foreach \
+            {comp -}   $CHECKBUTTON_MAP \
+            subIdxList $m_checkbuttonSubIndexList \
+            row        $CHECKBUTTON_ROW {
+                set wName $comp$m_numColumnDisplayed
+                set indexList [linsert $subIdxList 0 $col]
+                lappend m_checkbuttonList $wName $indexList
+
+                grid $itk_component($wName) \
+                -column [expr $col + 1] \
+                -row $row \
+                -sticky news
+            }
+
             incr m_numColumnDisplayed
         }
 
@@ -3106,25 +3757,37 @@ class DCS::CollimatorPresetLevel2View {
         while {$m_numColumnDisplayed > $num} {
             set col $m_numColumnDisplayed
             set slaves [grid slaves $m_tableSite -column $col]
-            eval grid forget $slaves
+            if {$slaves != ""} {
+                eval grid forget $slaves
+            }
             incr m_numColumnDisplayed -1
         }
         if {$need_cleanList} {
             ### clean up list (not efficient)
-            set old $m_entryList
-            set m_entryList ""
-            foreach item $old {
-                set col [lindex $item 2]
+            set old $m_labelList
+            set m_labelList [list]
+            foreach {name idxList} $old {
+                set col [lindex $idxList 1]
                 if {$col < $num} {
-                    lappend m_entryList $item
+                    lappend m_labelList $name $idxList
                 }
             }
-            set old $m_checkbuttonList
-            set m_checkbuttonList ""
-            foreach item $old {
-                set col [lindex $item 2]
+
+            set old $m_entryList
+            set m_entryList [list]
+            foreach {name idxList} $old {
+                set col [lindex $idxList 1]
                 if {$col < $num} {
-                    lappend m_checkbuttonList $item
+                    lappend m_entryList $name $idxList
+                }
+            }
+
+            set old $m_checkbuttonList
+            set m_checkbuttonList [list]
+            foreach {name idxList} $old {
+                set col [lindex $idxList 1]
+                if {$col < $num} {
+                    lappend m_checkbuttonList $name $idxList
                 }
             }
         }
@@ -3137,42 +3800,137 @@ class DCS::CollimatorPresetLevel2View {
 
         adjustColumns $ll
 
-        ### update moveTo button labels
-        set i -1
-        foreach preset $contents_ {
-            incr i
-            set name [lindex $preset 0]
-            $itk_component(move$i) configure \
-            -text $name
-        }
+	    DCS::StringFieldMixLevelViewBase::setContents $contents_
 
-	    DCS::StringFieldLevel2ViewBase::setContents $contents_
+        updateShowAll
     }
 
-    ## must be a subset of cfg name list
-    private common CHECKBUTTON_LIST [list display is_micron_beam adjust]
-    private common POSITION_LIST \
-    [list horz vert horz_encoder vert_encoder]
+    private common HEAD_LABEL [list \
+    Name \
+    "Display to User" \
+    "Is Micro-Pinhole" \
+    Width \
+    "Scan Width" \
+    "Scan Horz Points" \
+    Height \
+    "Scan Height" \
+    "Scan Vert Points" \
+    "Enable Harmonic 11th" \
+    "Enable Harmonic 9th" \
+    "Enable Harmonic 7th" \
+    "Enable Harmonic 5th" \
+    ]
 
-    private variable m_positionIndexList [list -1 -1 -1 -1]
+    private common LABEL_MAP [list \
+        name            name \
+        display         display \
+        is_micro_beam   is_micron_beam \
+        width           width \
+        height          height \
+    ]
+    private common LABEL_ROW [list 0 1 2 3 6]
+
+    private common LABEL_ENTRY_MAP [list \
+        scanWidth   horz_scan_width \
+                    staff_horz_scan_width \
+        scanWPoints horz_scan_points \
+                    staff_horz_scan_points \
+        scanHeight  vert_scan_width \
+                    staff_vert_scan_width \
+        scanHPoints vert_scan_points \
+                    staff_vert_scan_points \
+    ]
+    private common LABEL_ENTRY_ROW [list 4 5 7 8]
+
+    private common CHECKBUTTON_MAP [list \
+        harm0           {staff_scan_enable 0} \
+        harm1           {staff_scan_enable 1} \
+        harm2           {staff_scan_enable 2} \
+        harm3           {staff_scan_enable 3} \
+    ]
+    private common CHECKBUTTON_ROW [list 9 10 11 12]
+
     private variable m_numColumnCreated 0
     private variable m_numColumnDisplayed 0
     private variable m_cfgNameList ""
+    private variable m_cfgScanNameList ""
 
+    private variable m_oneColumnList ""
+
+    private variable m_opStaffAlignBeam ""
     private variable m_opCollimatorMove ""
     private variable m_strCollimatorStatus ""
     private variable m_colorBG ""
+    private variable m_origLabelBG gray
 
     private variable m_tableSite ""
 
+    private variable m_labelSubIndexList ""
+    private variable m_labelEntryIndexList ""
+    private variable m_checkbuttonSubIndexList ""
+
     constructor { args } {
     } {
+        set m_cfgNameList [::config getStr collimatorPresetNameList]
+        set m_cfgScanNameList [::config getStr alignCollimatorConstantsNameList]
+
+        array set fName2index [list]
+        array set sName2index [list]
+        foreach {comp name} $LABEL_MAP {
+            set fName [lindex $name 0]
+            if {![info exists fName2index($fName)]} {
+                set fName2index($fName) [lsearch -exact $m_cfgNameList $fName]
+            }
+            set idxList $fName2index($fName)
+            if {$fName == "scan_parameter"} {
+                set sName [lindex $name 1]
+                if {![info exists sName2index($sName)]} {
+                    set sName2index($sName) \
+                    [lsearch -exact $m_cfgScanNameList $sName]
+                }
+                lappend idxList $sName2index($sName)
+            }
+
+            lappend m_labelSubIndexList $idxList
+
+            lappend m_oneColumnList ${comp}COLUMN
+        }
+        set idxScan [lsearch -exact $m_cfgNameList scan_parameter]
+        foreach {comp lName eName} $LABEL_ENTRY_MAP {
+            if {![info exists sName2index($lName)]} {
+                set sName2index($lName) \
+                [lsearch -exact $m_cfgScanNameList $lName]
+            }
+            if {![info exists sName2index($eName)]} {
+                set sName2index($eName) \
+                [lsearch -exact $m_cfgScanNameList $eName]
+            }
+
+            lappend m_labelEntryIndexList [list $idxScan $sName2index($lName)]
+            lappend m_labelEntryIndexList [list $idxScan $sName2index($eName)]
+
+            lappend m_oneColumnList ${comp}COLUMN
+        }
+        foreach {comp name } $CHECKBUTTON_MAP {
+            set fName [lindex $name 0]
+            if {![info exists fName2index($fName)]} {
+                set fName2index($fName) [lsearch -exact $m_cfgNameList $fName]
+            }
+            set idxList $fName2index($fName)
+            lappend idxList [lindex $name 1]
+
+            lappend m_checkbuttonSubIndexList $idxList
+
+            lappend m_oneColumnList ${comp}COLUMN
+        }
+
         set deviceFactory [DCS::DeviceFactory::getObject]
+        set m_opStaffAlignBeam [$deviceFactory createOperation staffAlignBeam]
         set m_opCollimatorMove [$deviceFactory createOperation collimatorMove]
         set m_strCollimatorStatus \
         [$deviceFactory getObjectName collimator_status]
 
-        set m_cfgNameList [::config getStr collimatorPresetNameList]
+        set strCurrentHarmonic  [$deviceFactory getObjectName currentHarmonic]
 
         itk_component add scrolledFrame {
             DCS::ScrolledFrame $m_site.canvas \
@@ -3184,30 +3942,26 @@ class DCS::CollimatorPresetLevel2View {
         set m_tableSite [$itk_component(scrolledFrame) childsite]
         set headerSite  [$itk_component(scrolledFrame) hfreezesite]
 
-        ### search the position index
-        set m_positionIndexList ""
-        foreach name $POSITION_LIST {
-            set index [lsearch -exact $m_cfgNameList $name]
-            lappend m_positionIndexList $index
-            if {$index < 0} {
-                puts "position tag $name not found"
-                log_warning position tag $name not found in the config list
-                log_warning update button will not work
-            }
-        }
-
-        label $headerSite.ch0 -anchor e -text "move to"
-        grid $headerSite.ch0 -row 0 -column 0 -stick news -ipady 4
-        set i 1
-        foreach ch $m_cfgNameList {
-            label $headerSite.ch$i -anchor e -text $ch
-            grid $headerSite.ch$i -row $i -column 0 -sticky e -ipady 1
-
+        set i -1
+        foreach txt $HEAD_LABEL {
             incr i
+
+            label $headerSite.rh$i \
+            -anchor e \
+            -text $txt
+
+            grid $headerSite.rh$i -row $i -column 0 -sticky e -ipady 1
         }
-        ##extra button
-        label $headerSite.ch$i -anchor e -text "copy cur. pos."
-        grid $headerSite.ch$i -row $i -column 0 -stick e -ipady 4
+        set m_origLabelBG [$headerSite.rh0 cget -background]
+
+        incr i
+        set gCheckButtonVar($this,showAll) 0
+        checkbutton $headerSite.showAll \
+        -text "Show All" \
+        -variable [scope gCheckButtonVar($this,showAll)] \
+        -command "$this updateShowAll"
+        grid $headerSite.showAll -row $i -column 0 -stick e -ipady 4
+
 
         grid columnconfigure $headerSite 0 -weight 1
 
@@ -3215,10 +3969,25 @@ class DCS::CollimatorPresetLevel2View {
         $itk_component(scrolledFrame) xview moveto 0
         $itk_component(scrolledFrame) yview moveto 0
 
+        itk_component add staffStart {
+            DCS::Button $itk_interior.staffStart \
+            -text "Start Staff Align Beam" \
+            -command "$this staffStart" \
+        } {
+        }
+
+        grid $itk_component(staffStart) -row 2 -column 0 -columnspan 2
+
 		eval itk_initialize $args
 		announceExist
 
-        ::mediator register $this $m_strCollimatorStatus contents handleStatusChange
+        ::mediator register $this $m_strCollimatorStatus contents \
+        handleStatusChange
+
+        ::mediator register $this $strCurrentHarmonic    contents \
+        handleCurrentHarmonic
+
+        updateShowAll
     }
 }
 class DCS::UserAlignBeamStatusView {
@@ -3284,8 +4053,6 @@ class DCS::UserAlignBeamStatusView {
         set m_labelList [list \
         ti_t 2 \
         ti_c 3 \
-        ts_t 4 \
-        ts_c 5 \
         ]
 
         ######create entries
@@ -3329,21 +4096,28 @@ class DCS::UserAlignBeamStatusView {
             }
         }
 
+        itk_component add triggerTime {
+            DCS::TriggerTimeForUserAlignBeam $m_site.triggerTime \
+            -stringName ::device::collimator_preset \
+        } {
+            keep -mdiHelper
+        }
+
         label $m_site.ll01 -text Tungsten
         label $m_site.ll02 -text "Tungsten+Collimator"
 
         label $m_site.ll20 -anchor e -text "Time Span (seconds)"
         label $m_site.ll30 -anchor e -text "Time Span"
-        label $m_site.ll40 -anchor e -text "Trigger Time"
 
         grid $itk_component(startAll) $m_site.ll01 $m_site.ll02
         grid ^            $itk_component(enable_t) $itk_component(enable_c)
         grid $m_site.ll20 $itk_component(span_t)   $itk_component(span_c) -sticky news -padx 2 -pady 2
         grid $m_site.ll30 $itk_component(ti_t)     $itk_component(ti_c) -sticky news -padx 2 -pady 2
-        grid $m_site.ll40 $itk_component(ts_t)     $itk_component(ts_c) -sticky news -padx 2 -pady 2
+        grid $itk_component(triggerTime) -sticky news -padx 1 -pady 2 \
+        -columnspan 5
 
         grid columnconfigure $m_site 4 -weight 10
-        grid rowconfigure    $m_site 6 -weight 10
+        #grid rowconfigure    $m_site 6 -weight 10
 
 		eval itk_initialize $args
 		announceExist
@@ -3755,7 +4529,9 @@ class DCS::InlineCameraPresetLevel2View {
         while {$m_numColumnDisplayed > $num} {
             set col $m_numColumnDisplayed
             set slaves [grid slaves $m_site -column $col]
-            eval grid forget $slaves
+            if {$slaves != ""} {
+                eval grid forget $slaves
+            }
             incr m_numColumnDisplayed -1
         }
         if {$need_cleanList} {
@@ -4761,7 +5537,7 @@ body DCS::AutofocusConfigView::fillComponentList { } {
     }
 }
 class DCS::AlignTungstenConfigView {
-	inherit ::DCS::StringFieldViewBase
+	inherit ::DCS::StringFieldMixLevelViewBase
 
     public method setSignal { name } {
         $itk_component(signal) delete 0 end
@@ -4783,9 +5559,11 @@ class DCS::AlignTungstenConfigView {
                     return 0
                 }
             } elseif {$name != ""} {
-                if {![string is double -strict $value]} {
-                    log_error $name=$value is not a number
-                    return 0
+                foreach vv $value {
+                    if {![string is double -strict $vv]} {
+                        log_error one of $name=$vv is not a number
+                        return 0
+                    }
                 }
             } else {
                 log_warning extra field $value
@@ -4804,7 +5582,10 @@ class DCS::AlignTungstenConfigView {
         bw          beam_width \
         bh          beam_height \
         en          energy \
-        at          attenuation \
+        at11        {attenuation 0} \
+        at9         {attenuation 1} \
+        at7         {attenuation 2} \
+        at5         {attenuation 3} \
         fl          fluorescence_z \
         signal      signal \
         mp          min_signal \
@@ -4821,6 +5602,10 @@ class DCS::AlignTungstenConfigView {
         td          tungsten_delta \
         mv          max_vert_move \
         mh          max_horz_move \
+        shw         staff_horz_scan_width \
+        shp         staff_horz_scan_points \
+        svw         staff_vert_scan_width \
+        svp         staff_vert_scan_points \
     ]
 
     protected method addEntries { site width args } {
@@ -4871,26 +5656,32 @@ class DCS::AlignTungstenConfigView {
         label $topSite.l0 -anchor e -width $LABEL_WIDTH -text "Beam Width:"
         label $topSite.l1 -anchor e -width $LABEL_WIDTH -text "Beam Height:"
         label $topSite.l2 -anchor e -width $LABEL_WIDTH -text "Min Energy:"
-        label $topSite.l3 -anchor e -width $LABEL_WIDTH -text "Attenuation:"
-        label $topSite.l4 -anchor e -width $LABEL_WIDTH -text "Fluor. Z:"
-        label $topSite.l5 -anchor e -width $LABEL_WIDTH -text "Signal:"
-        label $topSite.l6 -anchor e -width $LABEL_WIDTH -text "Min Peak:"
-        label $topSite.l7 -anchor e -width $LABEL_WIDTH -text "Good Peak:"
-        label $topSite.l8 -anchor e -width $LABEL_WIDTH \
+        label $topSite.l3 -anchor e -width $LABEL_WIDTH -text "Attenuation 11th:"
+        label $topSite.l4 -anchor e -width $LABEL_WIDTH -text "9th:"
+        label $topSite.l5 -anchor e -width $LABEL_WIDTH -text "7th:"
+        label $topSite.l6 -anchor e -width $LABEL_WIDTH -text "5th:"
+        label $topSite.l7 -anchor e -width $LABEL_WIDTH -text "Fluor. Z:"
+        label $topSite.l8 -anchor e -width $LABEL_WIDTH -text "Signal:"
+        label $topSite.l9 -anchor e -width $LABEL_WIDTH -text "Min Peak:"
+        label $topSite.l10 -anchor e -width $LABEL_WIDTH -text "Good Peak:"
+        label $topSite.l11 -anchor e -width $LABEL_WIDTH \
         -text "Beam sample_z_encoder:"
-        label $topSite.l9 -anchor e -width $LABEL_WIDTH -text "Tungsten Pos.:"
-        label $topSite.l10 -anchor e -width $LABEL_WIDTH -text "Max Vert Move:"
-        label $topSite.l11 -anchor e -width $LABEL_WIDTH -text "Max Horz Move:"
+        label $topSite.l12 -anchor e -width $LABEL_WIDTH -text "Tungsten Pos.:"
+        label $topSite.l13 -anchor e -width $LABEL_WIDTH -text "Max Vert Move:"
+        label $topSite.l14 -anchor e -width $LABEL_WIDTH -text "Max Horz Move:"
 
         label $topSite.u0 -anchor w -width $UNITS_WIDTH -text mm
         label $topSite.u1 -anchor w -width $UNITS_WIDTH -text mm
         label $topSite.u2 -anchor w -width $UNITS_WIDTH -text eV
         label $topSite.u3 -anchor w -width $UNITS_WIDTH -text %
-        label $topSite.u4 -anchor w -width $UNITS_WIDTH -text mm
-        label $topSite.u8 -anchor w -width $UNITS_WIDTH -text mm
-        label $topSite.u9 -anchor w -width $UNITS_WIDTH -text mm
-        label $topSite.u10 -anchor w -width $UNITS_WIDTH -text mm
+        label $topSite.u4 -anchor w -width $UNITS_WIDTH -text %
+        label $topSite.u5 -anchor w -width $UNITS_WIDTH -text %
+        label $topSite.u6 -anchor w -width $UNITS_WIDTH -text %
+        label $topSite.u7 -anchor w -width $UNITS_WIDTH -text mm
         label $topSite.u11 -anchor w -width $UNITS_WIDTH -text mm
+        label $topSite.u12 -anchor w -width $UNITS_WIDTH -text mm
+        label $topSite.u13 -anchor w -width $UNITS_WIDTH -text mm
+        label $topSite.u14 -anchor w -width $UNITS_WIDTH -text mm
 
         itk_component add sigmb {
             menubutton $topSite.sigmb \
@@ -4916,7 +5707,7 @@ class DCS::AlignTungstenConfigView {
         }
 
         addEntries $topSite $ENTRY_WIDTH \
-        bw bh en at fl signal mp gp sz td mv mh
+        bw bh en at11 at9 at7 at5 fl signal mp gp sz td mv mh
 
         grid $topSite.l0 -column 0 -row 0 -sticky e
         grid $topSite.l1 -column 0 -row 1 -sticky e
@@ -4930,30 +5721,39 @@ class DCS::AlignTungstenConfigView {
         grid $topSite.l9 -column 0 -row 9 -sticky e
         grid $topSite.l10 -column 0 -row 10 -sticky e
         grid $topSite.l11 -column 0 -row 11 -sticky e
+        grid $topSite.l12 -column 0 -row 12 -sticky e
+        grid $topSite.l13 -column 0 -row 13 -sticky e
+        grid $topSite.l14 -column 0 -row 14 -sticky e
 
         grid $itk_component(bw) -column 1 -row 0 -sticky we
         grid $itk_component(bh) -column 1 -row 1 -sticky we
         grid $itk_component(en) -column 1 -row 2 -sticky we
-        grid $itk_component(at) -column 1 -row 3 -sticky we
-        grid $itk_component(fl) -column 1 -row 4 -sticky we
-        grid $itk_component(signal) -column 1 -row 5 -sticky we
-        grid $itk_component(mp) -column 1 -row 6 -sticky we
-        grid $itk_component(gp) -column 1 -row 7 -sticky we
-        grid $itk_component(sz) -column 1 -row 8 -sticky we
-        grid $itk_component(td) -column 1 -row 9 -sticky we
-        grid $itk_component(mv) -column 1 -row 10 -sticky we
-        grid $itk_component(mh) -column 1 -row 11 -sticky we
+        grid $itk_component(at11) -column 1 -row 3 -sticky we
+        grid $itk_component(at9) -column 1 -row 4 -sticky we
+        grid $itk_component(at7) -column 1 -row 5 -sticky we
+        grid $itk_component(at5) -column 1 -row 6 -sticky we
+        grid $itk_component(fl) -column 1 -row 7 -sticky we
+        grid $itk_component(signal) -column 1 -row 8 -sticky we
+        grid $itk_component(mp) -column 1 -row 9 -sticky we
+        grid $itk_component(gp) -column 1 -row 10 -sticky we
+        grid $itk_component(sz) -column 1 -row 11 -sticky we
+        grid $itk_component(td) -column 1 -row 12 -sticky we
+        grid $itk_component(mv) -column 1 -row 13 -sticky we
+        grid $itk_component(mh) -column 1 -row 14 -sticky we
 
         grid $topSite.u0 -column 2 -row 0 -sticky w
         grid $topSite.u1 -column 2 -row 1 -sticky w
         grid $topSite.u2 -column 2 -row 2 -sticky w
         grid $topSite.u3 -column 2 -row 3 -sticky w
         grid $topSite.u4 -column 2 -row 4 -sticky w
-        grid $itk_component(sigmb) -column 2 -row 5 -sticky w
-        grid $topSite.u8 -column 2 -row 8 -sticky w
-        grid $topSite.u9 -column 2 -row 9 -sticky w
-        grid $topSite.u10 -column 2 -row 10 -sticky w
+        grid $topSite.u5 -column 2 -row 5 -sticky w
+        grid $topSite.u6 -column 2 -row 6 -sticky w
+        grid $topSite.u7 -column 2 -row 7 -sticky w
+        grid $itk_component(sigmb) -column 2 -row 8 -sticky w
         grid $topSite.u11 -column 2 -row 11 -sticky w
+        grid $topSite.u12 -column 2 -row 12 -sticky w
+        grid $topSite.u13 -column 2 -row 13 -sticky w
+        grid $topSite.u14 -column 2 -row 14 -sticky w
 
         itk_component add horz_frame {
             iwidgets::Labeledframe $m_site.horz \
@@ -4965,30 +5765,38 @@ class DCS::AlignTungstenConfigView {
         }
         set horzSite [$itk_component(horz_frame) childsite]
 
-        label $horzSite.l0 -anchor e -width $LABEL_WIDTH -text "Width"
-        label $horzSite.l1 -anchor e -width $LABEL_WIDTH -text "Points"
-        label $horzSite.l2 -anchor e -width $LABEL_WIDTH -text "Integrating Time"
-        label $horzSite.l3 -anchor e -width $LABEL_WIDTH -text "Settling Time"
+        label $horzSite.l01 -text "USER"
+        label $horzSite.l02 -text "STAFF"
+        label $horzSite.l1 -anchor e -width $LABEL_WIDTH -text "Width"
+        label $horzSite.l2 -anchor e -width $LABEL_WIDTH -text "Points"
+        label $horzSite.l3 -anchor e -width $LABEL_WIDTH -text "Integrating Time"
+        label $horzSite.l4 -anchor e -width $LABEL_WIDTH -text "Settling Time"
 
-        label $horzSite.u0 -anchor w -width $UNITS_WIDTH -text "mm"
-        label $horzSite.u2 -anchor w -width $UNITS_WIDTH -text "s"
+        label $horzSite.u1 -anchor w -width $UNITS_WIDTH -text "mm"
         label $horzSite.u3 -anchor w -width $UNITS_WIDTH -text "s"
+        label $horzSite.u4 -anchor w -width $UNITS_WIDTH -text "s"
 
-        addEntries $horzSite $ENTRY_WIDTH hw hp hi hs
+        addEntries $horzSite $ENTRY_WIDTH hw hp hi hs shw shp
 
-        grid $horzSite.l0 -column 0 -row 0 -sticky e
+        grid $horzSite.l01 -column 1 -row 0 -sticky w
+        grid $horzSite.l02 -column 2 -row 0 -sticky w
+
         grid $horzSite.l1 -column 0 -row 1 -sticky e
         grid $horzSite.l2 -column 0 -row 2 -sticky e
         grid $horzSite.l3 -column 0 -row 3 -sticky e
+        grid $horzSite.l4 -column 0 -row 4 -sticky e
 
-        grid $itk_component(hw) -column 1 -row 0 -sticky we
-        grid $itk_component(hp) -column 1 -row 1 -sticky we
-        grid $itk_component(hi) -column 1 -row 2 -sticky we
-        grid $itk_component(hs) -column 1 -row 3 -sticky we
+        grid $itk_component(hw) -column 1 -row 1 -sticky we
+        grid $itk_component(hp) -column 1 -row 2 -sticky we
+        grid $itk_component(hi) -column 1 -row 3 -sticky we
+        grid $itk_component(hs) -column 1 -row 4 -sticky we
 
-        grid $horzSite.u0 -column 2 -row 0 -sticky w
-        grid $horzSite.u2 -column 2 -row 2 -sticky w
+        grid $itk_component(shw) -column 2 -row 1 -sticky we
+        grid $itk_component(shp) -column 2 -row 2 -sticky we
+
+        grid $horzSite.u1 -column 3 -row 1 -sticky w
         grid $horzSite.u3 -column 2 -row 3 -sticky w
+        grid $horzSite.u4 -column 2 -row 4 -sticky w
 
         itk_component add vert_frame {
             iwidgets::Labeledframe $m_site.vert \
@@ -5000,30 +5808,38 @@ class DCS::AlignTungstenConfigView {
         }
         set vertSite [$itk_component(vert_frame) childsite]
 
-        label $vertSite.l0 -anchor e -width $LABEL_WIDTH -text "Width"
-        label $vertSite.l1 -anchor e -width $LABEL_WIDTH -text "Points"
-        label $vertSite.l2 -anchor e -width $LABEL_WIDTH -text "Integrating Time"
-        label $vertSite.l3 -anchor e -width $LABEL_WIDTH -text "Settling Time"
+        label $vertSite.l01 -text "USER"
+        label $vertSite.l02 -text "STAFF"
+        label $vertSite.l1 -anchor e -width $LABEL_WIDTH -text "Width"
+        label $vertSite.l2 -anchor e -width $LABEL_WIDTH -text "Points"
+        label $vertSite.l3 -anchor e -width $LABEL_WIDTH -text "Integrating Time"
+        label $vertSite.l4 -anchor e -width $LABEL_WIDTH -text "Settling Time"
 
-        label $vertSite.u0 -anchor w -width $UNITS_WIDTH -text "mm"
-        label $vertSite.u2 -anchor w -width $UNITS_WIDTH -text "s"
+        label $vertSite.u1 -anchor w -width $UNITS_WIDTH -text "mm"
         label $vertSite.u3 -anchor w -width $UNITS_WIDTH -text "s"
+        label $vertSite.u4 -anchor w -width $UNITS_WIDTH -text "s"
 
-        addEntries $vertSite $ENTRY_WIDTH vw vp vi vs
+        addEntries $vertSite $ENTRY_WIDTH vw vp vi vs svw svp
 
-        grid $vertSite.l0 -column 0 -row 0 -sticky e
+        grid $vertSite.l01 -column 1 -row 0 -sticky w
+        grid $vertSite.l02 -column 2 -row 0 -sticky w
+
         grid $vertSite.l1 -column 0 -row 1 -sticky e
         grid $vertSite.l2 -column 0 -row 2 -sticky e
         grid $vertSite.l3 -column 0 -row 3 -sticky e
+        grid $vertSite.l4 -column 0 -row 4 -sticky e
 
-        grid $itk_component(vw) -column 1 -row 0 -sticky we
-        grid $itk_component(vp) -column 1 -row 1 -sticky we
-        grid $itk_component(vi) -column 1 -row 2 -sticky we
-        grid $itk_component(vs) -column 1 -row 3 -sticky we
+        grid $itk_component(vw) -column 1 -row 1 -sticky we
+        grid $itk_component(vp) -column 1 -row 2 -sticky we
+        grid $itk_component(vi) -column 1 -row 3 -sticky we
+        grid $itk_component(vs) -column 1 -row 4 -sticky we
 
-        grid $vertSite.u0 -column 2 -row 0 -sticky w
-        grid $vertSite.u2 -column 2 -row 2 -sticky w
+        grid $itk_component(svw) -column 2 -row 1 -sticky we
+        grid $itk_component(svp) -column 2 -row 2 -sticky we
+
+        grid $vertSite.u1 -column 3 -row 1 -sticky w
         grid $vertSite.u3 -column 2 -row 3 -sticky w
+        grid $vertSite.u4 -column 2 -row 4 -sticky w
 
         grid $itk_component(top_frame) -row 0 -column 0 -rowspan 2 -sticky news
         grid $itk_component(horz_frame) -row 0 -column 1 -sticky news
@@ -5031,8 +5847,7 @@ class DCS::AlignTungstenConfigView {
 
         grid rowconfigure $m_site 0 -weight 5
         grid rowconfigure $m_site 1 -weight 5
-        grid columnconfigure $m_site 0 -weight 5
-        grid columnconfigure $m_site 1 -weight 5
+        grid columnconfigure $m_site 2 -weight 5
 
 		eval itk_initialize $args
 
@@ -5045,7 +5860,8 @@ class DCS::AlignTungstenConfigView {
 body DCS::AlignTungstenConfigView::fillComponentList { } {
     set m_entryList ""
 
-    foreach {name keyword} $m_entryMap {
+    foreach {name mm} $m_entryMap {
+        set keyword [lindex $mm 0]
         set index [lsearch -exact $m_cntsNameString $keyword]
         if {$index < 0} {
             puts "cannot find $keyword for $name"
@@ -5053,6 +5869,7 @@ body DCS::AlignTungstenConfigView::fillComponentList { } {
             $itk_component($name) configure \
             -validate none
         } else {
+            set index [lreplace $mm 0 0 $index]
             puts "map $name to $index"
             set cmd [list $this updateEntryColor $name $index %P]
             lappend m_entryList $name $index
@@ -5067,11 +5884,13 @@ body DCS::AlignTungstenConfigView::fillComponentList { } {
 ####### StringXXXXView to display contents of another string in one GUI.
 ####### The host GUI must have:
 ####### public method setDisplayLabel { name value }
+####### public method setDisplayState { name state }
 class DCS::StringDisplayBase {
 	public variable stringName ""
 
 	public method handleStringConfigure
     public method setLabelList { ll } { set m_labelList $ll }
+    public method setStateList { ll } { set m_stateList $ll }
 
     ###derived classes need to implement following methods
 	protected method setContents { contents_ } {
@@ -5089,6 +5908,7 @@ class DCS::StringDisplayBase {
     #### ti_XXXX:     timespan time interval
     #### other:       text
     protected variable m_labelList ""
+    protected variable m_stateList ""
 
 
 	# call base class constructor
@@ -5097,6 +5917,13 @@ class DCS::StringDisplayBase {
         set m_host $host
 		eval configure $args
 	}
+    destructor {
+        if {$_lastStringName != ""} {
+			#unregister
+			#::mediator unregister $this $_lastStringName contents
+			$_lastStringName unregister $this contents handleStringConfigure
+        }
+    }
 }
 
 configbody DCS::StringDisplayBase::stringName {
@@ -5104,7 +5931,7 @@ configbody DCS::StringDisplayBase::stringName {
         if {$_lastStringName != ""} {
 			#unregister
 			#::mediator unregister $this $_lastStringName contents
-			$_lastStringName unregister $this contents
+			$_lastStringName unregister $this contents handleStringConfigure
         }
         set _lastStringName $stringName
         if {$stringName != ""} {
@@ -5148,10 +5975,17 @@ body DCS::StringDictDisplayBase::setContents { contents_ } {
         set prefix [string range $name 0 2]
         switch -exact -- $prefix {
             ts_ {
-                set displayValue [clock format $value -format "%D %T"]
+                if {![string is integer -strict $value]} {
+                    set displayValue $value
+                } else {
+                    set displayValue [clock format $value -format "%D %T"]
+                }
             }
             ti_ {
                 set displayValue [secondToTimespan $value]
+            }
+            td_ {
+                set displayValue [secondToDue $value]
             }
             default {
                 set displayValue $value
@@ -5166,11 +6000,35 @@ body DCS::StringDictDisplayBase::setContents { contents_ } {
             puts "Error onFieldChange $name: $errMsg"
         }
     }
+    foreach {name key} $m_stateList {
+        if {[catch {dict get $contents_ $key} value]} {
+            set value ""
+        }
+        set firstChar [string index $value 0]
+        switch -exact -- $firstChar {
+            1 -
+            Y -
+            y -
+            T -
+            t {
+                $m_host setDisplayState $name active
+            }
+            default {
+                $m_host setDisplayState $name disabled
+            }
+        }
+        if {[catch {
+            onFieldChange $name $key $value
+        } errMsg]} {
+            puts "Error onFieldChange $name: $errMsg"
+        }
+    }
 }
 class DCS::StringFieldDisplayBase {
 	inherit ::DCS::StringDisplayBase
 
     public method setLabelList { ll } { set m_labelList $ll }
+    public method setStateList { ll } { set m_StateList $ll }
 
     #### only display, no change no submit
     #### support: text, timestamp, timespan
@@ -5179,6 +6037,7 @@ class DCS::StringFieldDisplayBase {
     #### ti_XXXX:     timespan time interval
     #### other:       text
     protected variable m_labelList ""
+    protected variable m_StateList ""
 
 	protected method setContents
     ###derived classes may put a callback here
@@ -5196,10 +6055,17 @@ body DCS::StringFieldDisplayBase::setContents { contents_ } {
         set prefix [string range $name 0 2]
         switch -exact -- $prefix {
             ts_ {
-                set displayValue [clock format $value -format "%D %T"]
+                if {![string is integer -strict $value]} {
+                    set displayValue $value
+                } else {
+                    set displayValue [clock format $value -format "%D %T"]
+                }
             }
             ti_ {
                 set displayValue [secondToTimespan $value]
+            }
+            td_ {
+                set displayValue [secondToDue $value]
             }
             default {
                 set displayValue $value
@@ -5208,6 +6074,27 @@ body DCS::StringFieldDisplayBase::setContents { contents_ } {
 
         $m_host setDisplayLabel $name $displayValue
 
+        if {[catch {
+            onFieldChange $name $index $value
+        } errMsg]} {
+            puts "Error onFieldChange $name: $errMsg"
+        }
+    }
+    foreach {name index} $m_stateList {
+        set value [lindex $contents_ $index]
+        set firstChar [string index $value 0]
+        switch -exact -- $firstChar {
+            1 -
+            Y -
+            y -
+            T -
+            t {
+                $m_host setDisplayState $name active
+            }
+            default {
+                $m_host setDisplayState $name disabled
+            }
+        }
         if {[catch {
             onFieldChange $name $index $value
         } errMsg]} {
@@ -5453,7 +6340,9 @@ class DCS::MicroSpecSystemBatchLevel2View {
         }
         while {$m_numRowDisplayed > $num} {
             set slaves [grid slaves $m_tableSite -row $m_numRowDisplayed]
-            eval grid forget $slaves
+            if {$slaves != ""} {
+                eval grid forget $slaves
+            }
             incr m_numRowDisplayed -1
         }
         if {$need_cleanList} {
@@ -5549,5 +6438,1529 @@ class DCS::MicroSpecSystemBatchLevel2View {
 		announceExist
         configure \
         -stringName ::device::microspec_setup_batch
+    }
+}
+class DCS::MicroSpecIonChamberLevel2View {
+	inherit ::DCS::StringFieldLevel2ViewBase
+
+    protected method checkContentsBeforeSend { contentsREF } {
+        upvar $contentsREF contents
+
+        set anyError 0
+        foreach cfg $contents {
+            foreach {a b} $cfg break
+            if {![string is integer -strict $a] \
+            ||  ![string is integer -strict $b] \
+            } {
+                log_error config "{$cfg}" wrong
+                incr anyError
+            }
+        }
+        if {$anyError} {
+            return 0
+        }
+
+        return 1
+
+    }
+
+    private method addRows { num } {
+        for {set i 0} {$i < $num} {incr i} {
+            label $m_tableSite.ll$m_numRowCreated \
+            -text "i_microSpect_$m_numRowCreated"
+
+            set index1 $m_numRowCreated
+            set index2  -1
+            foreach name $m_cfgNameList {
+                incr index2 
+                set wName $name$m_numRowCreated
+                itk_component add $wName {
+                    set cmd [list $this updateEntryColor $wName $index1 $index2 %P]
+                    entry $m_tableSite.$wName \
+                    -justify right \
+                    -validate all \
+                    -vcmd $cmd \
+                    -width 15 \
+                    -background white \
+                } {
+                }
+            }
+            incr m_numRowCreated
+        }
+    }
+    private method adjustRows { num } {
+        puts "adjustRows: $num current=$m_numRowDisplayed"
+
+        if {$num == $m_numRowDisplayed} {
+            return
+        }
+        if {$num > $m_numRowCreated} {
+            addRows [expr $num - $m_numRowCreated]
+        }
+
+        while {$m_numRowDisplayed < $num} {
+            set col 0
+            grid $m_tableSite.ll$m_numRowDisplayed \
+            -row [expr $m_numRowDisplayed + 1] \
+            -column $col \
+            -sticky news
+
+            foreach name $m_cfgNameList {
+                incr col 
+                set wName $name$m_numRowDisplayed
+                lappend m_entryList $wName $m_numRowDisplayed [expr $col - 1]
+
+                grid $itk_component($wName) \
+                -row [expr $m_numRowDisplayed + 1] \
+                -column $col \
+                -sticky news
+            }
+
+            incr m_numRowDisplayed
+        }
+
+        set need_cleanList 0
+        if {$m_numRowDisplayed > $num} {
+            set need_cleanList 1
+        }
+        while {$m_numRowDisplayed > $num} {
+            set slaves [grid slaves $m_tableSite -row $m_numRowDisplayed]
+            if {$slaves != ""} {
+                eval grid forget $slaves
+            }
+            incr m_numRowDisplayed -1
+        }
+        if {$need_cleanList} {
+            ### clean up list (not efficient)
+            set old $m_entryList
+            set m_entryList ""
+            foreach {name index1 index2} $old {
+                if {$index1 < $num} {
+                    lappend m_entryList $name $index1 $index2
+                }
+            }
+            #puts "old entryList: $old"
+            #puts "new entryList: $m_entryList"
+        }
+    }
+
+    ##override base class
+    protected method setContents { contents_ } {
+        set ll [llength $contents_]
+
+        puts "setContents ll=$ll"
+        adjustRows $ll
+
+	    DCS::StringFieldLevel2ViewBase::setContents $contents_
+    }
+
+    private variable m_numRowCreated 0
+    private variable m_numRowDisplayed 0
+    private variable m_cfgNameList [list \
+    "start_wavelength" \
+    "end_wavelength" \
+    ]
+
+    private variable m_tableSite ""
+
+    constructor { args } {
+    } {
+        ## we support remove field.
+        set m_allFieldDisplayed 1
+
+        set m_tableSite $m_site
+        set headerSite  $m_site
+
+        set i 0
+        label $headerSite.ch$i \
+        -text "name" \
+        -relief groove
+        grid $headerSite.ch$i  -row 0 -column $i -sticky news
+        foreach ch $m_cfgNameList {
+            incr i
+
+            label $headerSite.ch$i \
+            -text $ch \
+            -relief groove
+
+            grid $headerSite.ch$i      -row 0 -column $i -sticky news
+        }
+
+		eval itk_initialize $args
+		announceExist
+        configure \
+        -stringName ::device::microSpectIon_const
+    }
+}
+
+#### each field will be a tab.
+#### each tab is the same GUI.
+#### It should be use for strings with no less than 2 levels.
+
+class DCS::StringFieldTabViewBase {
+	inherit ::DCS::StringViewBase
+
+    #### the field to use a the tab name.
+    #### -1 means it will just use field index 0, 1, 2,....
+    itk_option define -nameField nameField NameField -1
+
+    protected variable m_tabIndex 0
+    protected variable m_baseSite ""
+
+    ### these are per tab.
+    protected variable m_entryList ""
+    protected variable m_checkbuttonList ""
+
+    #### only display, no change no submit
+    #### support: text, timestamp, timespan
+    #### the widget name starts with:
+    #### ts_XXXX:     timestamp
+    #### ti_XXXX:     timespan time interval
+    #### other:       text
+    protected variable m_labelList ""
+    protected variable m_stateList ""
+
+    ### to support hide some tabs.
+    protected variable m_tabMap ""
+
+    protected variable m_origEntryBG white
+    protected variable m_origCheckButtonFG black
+    protected variable m_origTabBG gray
+
+	protected method setContents
+	protected method getNewContents
+
+    protected method updatePage { pageContents_ }
+
+    ### must use this, not directly use string
+    protected method getFieldContents { } {
+        set contents [$_lastStringName getContents]
+        set fIndex [lindex $m_tabMap $m_tabIndex]
+        return [lindex $contents $fIndex]
+    }
+
+    ###derived classes may put a callback here
+    protected method onFieldChange { name indexList value } {
+    }
+
+    ### derived classess need to override this if need.
+    protected method shouldDisplay { fIndex fContents } { return 1}
+
+    protected common gCheckButtonVar
+
+    public method updateEntryColor { name indexList newValue } {
+        set bg red
+        if {$_lastStringName != ""} {
+            set contents [getFieldContents]
+            set refValue [getMultiLevelListElement $contents $indexList]
+            if {$refValue == $newValue} {
+                set bg $m_origEntryBG
+            }
+        }
+        $itk_component($name) configure \
+        -background $bg
+
+        if {[catch {
+            onFieldChange $name $indexList $newValue
+        } errMsg]} {
+            puts "Error onFieldChange $name: $errMsg"
+        }
+        return 1
+    }
+    public method updateCheckButtonColor { name indexList } {
+        set fg red
+        if {$_lastStringName != ""} {
+            set contents [getFieldContents]
+            set refValue [getMultiLevelListElement $contents $indexList]
+            set newValue $gCheckButtonVar($this,$name)
+            if {$refValue == $newValue} {
+                set fg $m_origCheckButtonFG
+            }
+        }
+        $itk_component($name) configure \
+        -foreground $fg \
+        -disabledforeground $fg \
+        -activeforeground $fg
+
+        if {[catch {
+            onFieldChange $name $indexList $newValue
+        } errMsg]} {
+            puts "Error onFieldChange $name: $errMsg"
+        }
+    }
+
+    public method onTabSwitch { index } {
+        set m_tabIndex $index
+        if {$_lastStringName != ""} {
+            set pContents [getFieldContents]
+            updatePage $pContents
+        }
+    }
+
+	constructor { args } {
+        itk_component add rootTab {
+            iwidgets::tabnotebook $m_site.roottab \
+        } {
+            keep -tabpos
+        }
+        $itk_component(rootTab) add \
+        -label "0" \
+        -command "$this onTabSwitch 0"
+
+        set tabs [$itk_component(rootTab) component tabset]
+        set m_origTabBG [$tabs cget -background]
+
+
+        set childsite [$itk_component(rootTab) childsite 0]
+        $itk_component(rootTab) select 0
+        set m_tabIndex 0
+        $itk_component(rootTab) configure \
+        -auto 0
+
+        #### replace m_site so that derived class can use it.
+        set m_baseSite $m_site
+        set m_site $childsite
+
+        pack $itk_component(rootTab) -expand 1 -fill both
+
+		eval itk_initialize $args
+		announceExist
+    }
+}
+body DCS::StringFieldTabViewBase::setContents { contents_ } {
+    set oldFIndex [lindex $m_tabMap $m_tabIndex]
+
+    #### update tab labels
+    set lStr [llength $contents_]
+
+    set tabLabelList [list]
+    if {$itk_option(-nameField) < 0} {
+        for {set i 0} {$i < $lStr} {incr i} {
+            lappend tabLabelList $i
+        }
+    } else {
+        for {set i 0} {$i < $lStr} {incr i} {
+            lappend tabLabelList [lindex $contents_ $i $itk_option(-nameField)]
+        }
+    }
+
+    set lTab [$itk_component(rootTab) index end]
+    incr lTab
+    puts "setContents, tabLabelList=$tabLabelList lTab=$lTab lStr=$lStr"
+
+    set m_tabMap [list]
+    set numTab -1
+    for {set i 0} {$i < $lStr} {incr i} {
+        set fContents [lindex $contents_ $i]
+        if {![shouldDisplay $i $fContents]} {
+            continue
+        }
+
+        incr numTab
+        set tLabel [lindex $tabLabelList $i]
+        if {$numTab < $lTab} {
+            $itk_component(rootTab) pageconfigure $numTab \
+            -label $tLabel \
+            -command "$this onTabSwitch $numTab"
+        } else {
+            $itk_component(rootTab) add \
+            -label $tLabel \
+            -command "$this onTabSwitch $numTab"
+        }
+        lappend m_tabMap $i
+    }
+    incr numTab
+    if {$lTab > $numTab} {
+        $itk_component(rootTab) delete $numTab end
+    }
+
+    ## try to show current page
+    puts "try to display current page tabMap=$m_tabMap, oldFIndex={$oldFIndex}"
+    set tabIndex 0
+    set i -1
+    foreach fIndex $m_tabMap {
+        incr i
+        if {$fIndex == $oldFIndex} {
+            set tabIndex $i
+            puts "set tabIndex to $i"
+            break
+        }
+    }
+    
+    puts "select $tabIndex"
+    $itk_component(rootTab) select $tabIndex
+    onTabSwitch $tabIndex
+}
+body DCS::StringFieldTabViewBase::updatePage { contents_ } {
+    puts "updatePage :$contents_"
+    foreach {name indexList } $m_entryList {
+        set value [getMultiLevelListElement $contents_ $indexList]
+        $itk_component($name) delete 0 end
+        $itk_component($name) insert 0 $value
+        $itk_component($name) configure \
+        -background $m_origEntryBG
+
+        if {[catch {
+            onFieldChange $name $indexList $value
+        } errMsg]} {
+            puts "Error onFieldChange $name: $errMsg"
+        }
+    }
+    foreach {name indexList } $m_checkbuttonList {
+        set value [getMultiLevelListElement $contents_ $indexList]
+        set gCheckButtonVar($this,$name) $value
+        #puts "set $name to $value"
+        $itk_component($name) configure \
+        -foreground $m_origCheckButtonFG
+
+        if {[catch {
+            onFieldChange $name $indexList $value
+        } errMsg]} {
+            puts "Error onFieldChange $name: $errMsg"
+        }
+    }
+    foreach {name indexList } $m_labelList {
+        set value [getMultiLevelListElement $contents_ $indexList]
+        set prefix [string range $name 0 2]
+        switch -exact -- $prefix {
+            ts_ {
+                if {![string is integer -strict $value]} {
+                    set displayValue $value
+                } else {
+                    set displayValue [clock format $value -format "%D %T"]
+                }
+            }
+            ti_ {
+                set displayValue [secondToTimespan $value]
+            }
+            td_ {
+                set displayValue [secondToDue $value]
+            }
+            default {
+                set displayValue $value
+            }
+        }
+
+        $itk_component($name) configure \
+        -text $displayValue
+
+        if {[catch {
+            onFieldChange $name $indexList $value
+        } errMsg]} {
+            puts "Error onFieldChange $name: $errMsg"
+        }
+    }
+    foreach {name indexList} $m_stateList {
+        set value [getMultiLevelListElement $contents_ $indexList]
+        set firstChar [string index $value 0]
+        switch -exact -- $firstChar {
+            1 -
+            Y -
+            y -
+            T -
+            t {
+                $itk_component($name) configure \
+                -state active
+            }
+            default {
+                $itk_component($name) configure \
+                -state disabled
+            }
+        }
+        if {[catch {
+            onFieldChange $name $indexList $value
+        } errMsg]} {
+            puts "Error onFieldChange $name: $errMsg"
+        }
+    }
+}
+body DCS::StringFieldTabViewBase::getNewContents { } {
+    set wholeContents [$_lastStringName getContents]
+    set contents [getFieldContents]
+    # same as set contents [lindex $wholeContents $m_tabIndex]
+
+    foreach {name indexList} $m_entryList {
+        set value [$itk_component($name) get]
+        set contents [setMultiLevelListElement $contents $indexList $value]
+    }
+    foreach {name indexList} $m_checkbuttonList {
+        set value $gCheckButtonVar($this,$name)
+        set contents [setMultiLevelListElement $contents $indexList $value]
+    }
+    set fIndex [lindex $m_tabMap $m_tabIndex]
+    return [lreplace $wholeContents $fIndex $fIndex $contents]
+}
+
+class DCS::CollimatorPresetTabView {
+	inherit ::DCS::StringFieldTabViewBase
+
+    public method handleCurrentHarmonic { - ready_ - contents_ - }
+    public method handleCollimatorStatus { - ready_ - contents_ - }
+
+    public method refresh { } {
+	    setContents [$_lastStringName getContents]
+        updateTabColor
+    }
+
+    ## button
+    public method updatePosition { {all 0} }
+    public method moveTo { } {
+        set fIndex [lindex $m_tabMap $m_tabIndex]
+        $m_opCollimatorMove startOperation $fIndex
+    }
+    public method staffStart { } {
+        $m_opStaffAlignBeam startOperation
+    }
+
+    private method createPropertySection { site }
+    private method createScanSection { site }
+    private method createResultSection { site }
+    private method createControlSection { site }
+
+    ###override
+    protected method shouldDisplay { fIndex fContents } {
+        if {$m_idxShow < 0} {
+            return 1
+        }
+        if {!$gCheckButtonVar($this,onlyShowDisplay)} {
+            return 1
+        }
+        return [lindex $fContents $m_idxShow]
+    }
+
+    protected method updateTabColor { }
+
+    private variable m_cfgNameList [::config getStr collimatorPresetNameList]
+    private variable m_idxShow ""
+
+    private variable m_resultSite ""
+    private variable m_origLabelBG gray
+
+    private variable m_opCollimatorMove ""
+    private variable m_ctsCollimatorStatus "0 -1 2.0 2.0"
+    private variable m_ctsCurrentHarmonic 0
+    private variable m_strUserAlignBeamStatus ""
+
+    constructor { args } {
+    } {
+        set m_idxShow [lsearch -exact $m_cfgNameList display]
+
+        set deviceFactory [DCS::DeviceFactory::getObject]
+        set strCurrentHarmonic  [$deviceFactory getObjectName currentHarmonic]
+        set strCollimatorStatus [$deviceFactory getObjectName collimator_status]
+        set m_strUserAlignBeamStatus \
+        [$deviceFactory getObjectName user_align_beam_status]
+
+        set m_opCollimatorMove  [$deviceFactory createOperation collimatorMove]
+
+        itk_component add propertyFrame {
+            iwidgets::labeledframe $m_site.propertyF \
+            -labeltext "Properties"
+        } {
+        }
+        itk_component add scanFrame {
+            iwidgets::labeledframe $m_site.scanF \
+            -labeltext "Scan Parameters"
+        } {
+        }
+        itk_component add resultFrame {
+            iwidgets::labeledframe $m_site.resultF \
+            -labeltext "Collimator Positions"
+        } {
+        }
+        set pSite [$itk_component(propertyFrame) childsite]
+        set sSite [$itk_component(scanFrame) childsite]
+        set rSite [$itk_component(resultFrame) childsite]
+        set cSite [frame $m_site.controlF]
+
+        createPropertySection $pSite
+        createScanSection     $sSite
+        createResultSection   $rSite
+        createControlSection  $cSite
+        set m_resultSite $rSite
+
+        itk_component add onlyShowDisplay {
+            checkbutton $m_site.onlyShowDisplay \
+            -command "$this refresh" \
+            -anchor w \
+            -variable [scope gCheckButtonVar($this,onlyShowDisplay)] \
+            -text "Only Show Presets That users can see" \
+        } {
+        }
+
+        set idxName [lsearch -exact $m_cfgNameList name]
+        itk_component add fieldName {
+            label $m_site.fieldName \
+            -text "field name" \
+            -font "helvetica -16 bold" \
+        } {
+        }
+        lappend m_labelList fieldName $idxName
+
+        grid $itk_component(onlyShowDisplay) -row 0 -column 0 -columnspan 2 \
+        -sticky w
+
+        grid $itk_component(fieldName)       -row 1 -column 0 -columnspan 2 \
+        -sticky w
+
+        grid $itk_component(propertyFrame)   -row 2 -column 0 -sticky news
+        grid $itk_component(scanFrame)       -row 2 -column 1 -sticky news
+        grid $itk_component(resultFrame)     -row 3 -column 0 -columnspan 2
+
+        grid $cSite                          -row 4 -column 0 -columnspan 2 \
+        -sticky wn
+
+        grid rowconfigure $m_site 4 -weight 10
+
+		eval itk_initialize $args
+		announceExist
+
+        ::mediator register $this $strCurrentHarmonic contents \
+        handleCurrentHarmonic
+
+        ::mediator register $this $strCollimatorStatus contents \
+        handleCollimatorStatus
+    }
+}
+body DCS::CollimatorPresetTabView::createPropertySection { site } {
+    set entryMap [list \
+    name \
+    width \
+    height \
+    focus_beam_width \
+    focus_beam_height \
+    tolerance_horz \
+    tolerance_vert \
+    flux_table \
+    ]
+    set entryRow [list 0 3 4 5 6 7 8 9]
+
+    set checkbuttonMap   [list display is_micron_beam]
+    set checkbuttonRow   [list 1        2]
+
+    set entryWidth 20
+    foreach fName $entryMap {
+        set index [lsearch -exact $m_cfgNameList $fName]
+        if {$index < 0} {
+            puts "$fName not found in collimator preset name list"
+            continue
+        }
+        set cmd [list $this updateEntryColor $fName $index %P]
+        itk_component add $fName {
+            entry $site.$fName \
+            -background white \
+            -width $entryWidth \
+            -validate all \
+            -vcmd $cmd \
+        } {
+        }
+		registerComponent $itk_component($fName)
+        set m_origEntryBG [$itk_component($fName) cget -background]
+
+        lappend m_entryList $fName $index
+    }
+
+    foreach fName $checkbuttonMap {
+        set index [lsearch -exact $m_cfgNameList $fName]
+        if {$index < 0} {
+            puts "$fName not found in collimator preset name list"
+            continue
+        }
+        set cmd [list $this updateCheckButtonColor $fName $index]
+        itk_component add $fName {
+            checkbutton $site.$fName \
+            -background darkgray \
+            -command $cmd \
+            -anchor w \
+            -variable [scope gCheckButtonVar($this,$fName)] \
+            -text Yes \
+        } {
+        }
+		registerComponent $itk_component($fName)
+        set m_origCheckButtonFG [$itk_component($fName) cget -foreground]
+        lappend m_checkbuttonList $fName $index
+    }
+
+    label $site.l00 -text "Name"
+    label $site.l10 -text "Display to User"
+    label $site.l20 -text "Is Micro-Pinhole"
+    label $site.l30 -text "Width"
+    label $site.l40 -text "Height"
+    label $site.l50 -text "Focus Beam Width"
+    label $site.l60 -text "Focus Beam Height"
+    label $site.l70 -text "Horz Tolerance"
+    label $site.l80 -text "Vert Tolerance"
+    label $site.l90 -text "Flux Table Name"
+
+    label $site.l32 -text "mm"
+    label $site.l42 -text "mm"
+    label $site.l52 -text "mm"
+    label $site.l62 -text "mm"
+    label $site.l72 -text "mm"
+    label $site.l82 -text "mm"
+
+    for {set i 0} {$i < 10} {incr i} {
+        grid $site.l${i}0 -row $i -column 0 -sticky e
+    }
+    foreach fName $entryMap row $entryRow {
+        grid $itk_component($fName) \
+        -row $row -column 1 -sticky news
+    }
+    foreach fName $checkbuttonMap row $checkbuttonRow {
+        grid $itk_component($fName) \
+        -row $row -column 1 -sticky news
+    }
+    for {set i 3} {$i < 9} {incr i} {
+        grid $site.l${i}2 -row $i -column 2 -sticky w
+    }
+}
+body DCS::CollimatorPresetTabView::createScanSection { site } {
+    set entryWidth 15
+    ### first level index
+    set scanParameterIndex [lsearch -exact $m_cfgNameList scan_parameter]
+
+    set scanParameterFieldNameList \
+    [::config getStr "alignCollimatorConstantsNameList"]
+
+    set hvMap [list \
+    horz_scan_width \
+    horz_scan_points \
+    horz_scan_time \
+    horz_scan_wait \
+    vert_scan_width \
+    vert_scan_points \
+    vert_scan_time \
+    vert_scan_wait \
+    staff_horz_scan_width \
+    staff_horz_scan_points \
+    staff_vert_scan_width \
+    staff_vert_scan_points \
+    ]
+
+    set hvSite [frame $site.hvF]
+
+    label $hvSite.l10 -text "User Horz"
+    label $hvSite.l20 -text "User Vert"
+    label $hvSite.l30 -text "Staff Horz" 
+    label $hvSite.l40 -text "Staff Vert"
+
+    label $hvSite.l01 -text "Width(mm)"
+    label $hvSite.l02 -text "Points"
+    label $hvSite.l03 -text "Integat. Time(s)"
+    label $hvSite.l04 -text "Settling Time(s)"
+
+    foreach fName $hvMap {
+        set index2 [lsearch -exact $scanParameterFieldNameList $fName]
+        if {$index2 < 0} {
+            puts "$fName not found in scan collimator parameter name list"
+            continue
+        }
+        set comName sp_$fName
+        set indexList [list $scanParameterIndex $index2]
+        set cmd [list $this updateEntryColor $comName $indexList %P]
+        itk_component add $comName {
+            entry $hvSite.$comName \
+            -background white \
+            -width $entryWidth \
+            -validate all \
+            -vcmd $cmd \
+        } {
+        }
+		registerComponent $itk_component($comName)
+        lappend m_entryList $comName $indexList
+    }
+    grid \
+    x \
+    $hvSite.l01 \
+    $hvSite.l02 \
+    $hvSite.l03 \
+    $hvSite.l04
+
+    grid \
+    $hvSite.l10 \
+    $itk_component(sp_horz_scan_width) \
+    $itk_component(sp_horz_scan_points) \
+    $itk_component(sp_horz_scan_time) \
+    $itk_component(sp_horz_scan_wait) \
+
+    grid \
+    $hvSite.l20 \
+    $itk_component(sp_vert_scan_width) \
+    $itk_component(sp_vert_scan_points) \
+    $itk_component(sp_vert_scan_time) \
+    $itk_component(sp_vert_scan_wait) \
+
+    grid \
+    $hvSite.l30 \
+    $itk_component(sp_staff_horz_scan_width) \
+    $itk_component(sp_staff_horz_scan_points)
+
+    grid \
+    $hvSite.l40 \
+    $itk_component(sp_staff_vert_scan_width) \
+    $itk_component(sp_staff_vert_scan_points)
+
+    label $site.separate \
+    -anchor w \
+    -text "-------------------------------------------------"
+
+    ##global site
+    set gSite [frame $site.gFrame]
+
+    set gMap [list fluorescence_z signal min_signal good_signal \
+    max_horz_move max_vert_move] 
+    foreach fName $gMap {
+        set index2 [lsearch -exact $scanParameterFieldNameList $fName]
+        if {$index2 < 0} {
+            puts "$fName not found in scan collimator parameter name list"
+            continue
+        }
+        set comName sp_$fName
+        set indexList [list $scanParameterIndex $index2]
+        set cmd [list $this updateEntryColor $comName $indexList %P]
+        itk_component add $comName {
+            entry $gSite.$comName \
+            -background white \
+            -width $entryWidth \
+            -validate all \
+            -vcmd $cmd \
+        } {
+        }
+		registerComponent $itk_component($comName)
+        lappend m_entryList $comName $indexList
+    }
+
+    set i -1
+    set index2 [lsearch -exact $scanParameterFieldNameList attenuation]
+    foreach harmonic [list 11 9 7 5] {
+        incr i
+        set comName sp_att$harmonic
+        set indexList [list $scanParameterIndex $index2 $i]
+        set cmd [list $this updateEntryColor $comName $indexList %P]
+        itk_component add $comName {
+            entry $gSite.$comName \
+            -background white \
+            -width $entryWidth \
+            -validate all \
+            -vcmd $cmd \
+        } {
+        }
+		registerComponent $itk_component($comName)
+        lappend m_entryList $comName $indexList
+    }
+
+    label $gSite.l00 -text "Fluor.Z"
+    label $gSite.l10 -text "Signal"
+    label $gSite.l20 -text "Min Peak"
+    label $gSite.l30 -text "Good Peak"
+    label $gSite.l40 -text "Max Horz Move"
+    label $gSite.l50 -text "Max Vert Move"
+
+    label $gSite.l02 -text "mm"
+    label $gSite.l42 -text "mm"
+    label $gSite.l52 -text "mm"
+
+    label $gSite.l03 -text "Attenuation"
+    label $gSite.l13 -text "11th Harmonic"
+    label $gSite.l23 -text "9th Harmonic"
+    label $gSite.l33 -text "7th Harmonic"
+    label $gSite.l43 -text "5th Harmonic"
+
+    label $gSite.l15 -text "%"
+    label $gSite.l25 -text "%"
+    label $gSite.l35 -text "%"
+    label $gSite.l45 -text "%"
+
+    for {set i 0} {$i < 6} {incr i} {
+        grid $gSite.l${i}0 -row $i -column 0 -sticky e
+    }
+    grid $itk_component(sp_fluorescence_z) -column 1 -row 0 -sticky news
+    grid $itk_component(sp_signal)         -column 1 -row 1 -sticky news
+    grid $itk_component(sp_min_signal)     -column 1 -row 2 -sticky news
+    grid $itk_component(sp_good_signal)    -column 1 -row 3 -sticky news
+    grid $itk_component(sp_max_horz_move)  -column 1 -row 4 -sticky news
+    grid $itk_component(sp_max_vert_move)  -column 1 -row 5 -sticky news
+    
+    grid $gSite.l02 -column 2 -row 0 -sticky w
+    grid $gSite.l42 -column 2 -row 4 -sticky w
+    grid $gSite.l52 -column 2 -row 5 -sticky w
+
+    for {set i 0} {$i < 5} {incr i} {
+        grid $gSite.l${i}3 -row $i -column 3 -sticky e
+    }
+    for {set i 1} {$i < 5} {incr i} {
+        grid $gSite.l${i}5 -row $i -column 5 -sticky e
+    }
+    grid $itk_component(sp_att11) -column 4 -row 1 -sticky news
+    grid $itk_component(sp_att9)  -column 4 -row 2 -sticky news
+    grid $itk_component(sp_att7)  -column 4 -row 3 -sticky news
+    grid $itk_component(sp_att5)  -column 4 -row 4 -sticky news
+
+    grid columnconfigure $gSite 2 -weight 10
+
+    pack $hvSite -side top
+    pack $site.separate -side top -fill x
+    pack $gSite -side bottom -fill x
+}
+body DCS::CollimatorPresetTabView::createResultSection { site } {
+    set entryWidth 18
+
+    set idxStaffScan [lsearch -exact $m_cfgNameList staff_scan_enable]
+    for {set i 0} {$i < 4} {incr i} {
+        set indexList [list $idxStaffScan $i]
+        set comName staff_$i
+        set cmd [list $this updateCheckButtonColor $comName $indexList]
+        itk_component add $comName {
+            checkbutton $site.$comName \
+            -background darkgray \
+            -command $cmd \
+            -anchor w \
+            -variable [scope gCheckButtonVar($this,$comName)] \
+            -text "Yes" \
+        } {
+        }
+        registerComponent $itk_component($comName)
+        lappend m_checkbuttonList $comName $indexList
+
+        grid $itk_component($comName) -column 1 -row [expr $i + 1]
+    }
+
+    set idxTrigger [lsearch -exact $m_cfgNameList trigger_time]
+    for {set i 0} {$i < 4} {incr i} {
+        set indexList [list $idxTrigger $i]
+        set comName ts_trigger_$i
+        itk_component add $comName {
+            label $site.$comName \
+            -anchor e \
+            -background #00a040 \
+            -width 17 \
+            -text $comName \
+        } {
+        }
+
+        lappend m_labelList $comName $indexList
+
+        grid $itk_component($comName) -column 2 -row [expr $i + 1]
+
+        ### hidden, will use them to update trigger_time with
+        ### "Update Position" button
+        set comName trigger_time$i
+        itk_component add $comName {
+            entry $site.$comName \
+            -width 40 \
+        } {
+        }
+        lappend m_entryList $comName $indexList
+    }
+
+    set timestampIndex [lsearch -exact $m_cfgNameList timestamp]
+    if {$timestampIndex >= 0} {
+        for {set i 0} {$i < 4} {incr i} {
+            set indexList [list $timestampIndex $i]
+            set comName ts_$i
+            itk_component add $comName {
+                label $site.$comName \
+                -anchor e \
+                -background #00a040 \
+                -width 17 \
+                -text $comName \
+            } {
+            }
+
+            lappend m_labelList $comName $indexList
+
+            grid $itk_component($comName) -column 3 -row [expr $i + 1]
+
+            ### hidden, will use them to update timestamp with
+            ### "Update Position" button
+            set comName timestamp$i
+            itk_component add $comName {
+                entry $site.$comName \
+                -width 40 \
+            } {
+            }
+            lappend m_entryList $comName $indexList
+        }
+    }
+
+    ### first level index
+    set firstMap [list horz_encoder vert_encoder horz vert]
+    set col 3
+    foreach fName $firstMap {
+        incr col
+        set firstIndex [lsearch -exact $m_cfgNameList $fName]
+        if {$firstIndex < 0} {
+            puts "$fName not found in collimator preset name list"
+            continue
+        }
+        for {set i 0} {$i < 4} {incr i} {
+            set indexList [list $firstIndex $i]
+            set comName ${fName}$i
+            set cmd [list $this updateEntryColor $comName $indexList %P]
+            itk_component add $comName {
+                entry $site.$comName \
+                -background white \
+                -width $entryWidth \
+                -validate all \
+                -vcmd $cmd \
+            } {
+            }
+            grid $itk_component($comName) -column $col -row [expr $i + 1]
+		    registerComponent $itk_component($comName)
+            lappend m_entryList $comName $indexList
+        }
+    }
+
+    label $site.l01 -text "Staff Scan"
+    label $site.l02 -text "Trigger Time"
+    label $site.l03 -text "TimeStamp"
+    label $site.l04 -text "Horz Encoder(mm)"
+    label $site.l05 -text "Vert Encoder(mm)"
+    label $site.l06 -text "Horz Motor(mm)"
+    label $site.l07 -text "Vert Motor(mm)"
+    for {set i 1} {$i < 8} {incr i} {
+        grid $site.l0$i -column $i -row 0 -sticky wes
+    }
+
+    label $site.l10 -text "Harmonic 11th"
+    label $site.l20 -text "Harmonic 9th"
+    label $site.l30 -text "Harmonic 7th"
+    label $site.l40 -text "Harmonic 5th"
+    set m_origLabelBG [$site.l10 cget -background]
+
+    for {set i 1} {$i < 5} {incr i} {
+        grid $site.l${i}0 -column 0 -row $i -sticky e
+    }
+}
+body DCS::CollimatorPresetTabView::createControlSection { site } {
+    itk_component add move {
+        button $site.moveButton \
+        -text "Insert" \
+        -command "$this moveTo"
+    } {
+    }
+    itk_component add update {
+        button $site.updateButton \
+        -text "Update Position" \
+        -command "$this updatePosition"
+    } {
+    }
+    itk_component add updateAll {
+        button $site.updateAllButton \
+        -background red \
+        -text "Update All Harmonic Position" \
+        -command "$this updatePosition 1"
+    } {
+    }
+    set index [lsearch -exact $m_cfgNameList adjust]
+    set cmd [list $this updateCheckButtonColor adjust $index]
+    itk_component add adjust {
+        checkbutton $site.adjust \
+        -background darkgray \
+        -command $cmd \
+        -anchor w \
+        -variable [scope gCheckButtonVar($this,adjust)] \
+        -text "Auto adjust position with first micro collimator" \
+    } {
+    }
+    registerComponent $itk_component(adjust)
+    lappend m_checkbuttonList adjust $index
+
+    pack $itk_component(move) -side left
+    pack $itk_component(update) -side left
+    pack $itk_component(updateAll) -side left
+    pack $itk_component(adjust) -side right
+}
+body DCS::CollimatorPresetTabView::handleCurrentHarmonic { - ready_ - contents_ - } {
+    if {!$ready_} {
+        return
+    }
+    set m_ctsCurrentHarmonic $contents_
+
+    if {![string is integer -strict $contents_]} {
+        set currentRow -1
+    } else {
+        set currentRow [expr $contents_ + 1]
+    }
+    for {set i 1} {$i < 5} {incr i} {
+        if {$i == $currentRow} {
+            set bg "light green"
+        } else {
+            set bg $m_origLabelBG
+        }
+        $m_resultSite.l${i}0 configure \
+        -background $bg
+    }
+}
+body DCS::CollimatorPresetTabView::handleCollimatorStatus { - ready_ - contents_ - } {
+    if {!$ready_} {
+        set m_ctsCollimatorStatus "0 -1 2.0 2.0"
+    } else {
+        set m_ctsCollimatorStatus $contents_
+    }
+    updateTabColor
+}
+
+body DCS::CollimatorPresetTabView::updateTabColor { } {
+    set indexMatched [lindex $m_ctsCollimatorStatus 1]
+    if {![string is integer -strict $indexMatched]} {
+        set indexMatched -1
+    }
+
+    set tabs [$itk_component(rootTab) component tabset]
+
+    set lTab [$itk_component(rootTab) index end]
+    incr lTab
+    for {set i 0} {$i < $lTab} {incr i} {
+        set fIndex [lindex $m_tabMap $i]
+        if {$fIndex == $indexMatched} {
+            set bg "light green"
+        } else {
+            set bg $m_origTabBG
+        }
+        $tabs tabconfigure $i \
+        -selectbackground $bg \
+        -background $bg
+    }
+}
+body DCS::CollimatorPresetTabView::updatePosition { {all 0} } {
+    if {$all == 0} {
+        if {![string is integer -strict $m_ctsCurrentHarmonic]} {
+            log_error wrong harmonic: not an integer $m_ctsCurrentHarmonic
+            return
+        }
+        if {$m_ctsCurrentHarmonic < 0 || $m_ctsCurrentHarmonic > 3} {
+            log_error wrong harmonic: $m_ctsCurrentHarmonic
+            return
+        }
+    }
+
+    set motorList [list \
+    collimator_horz_encoder_motor \
+    collimator_vert_encoder_motor \
+    collimator_horz \
+    collimator_vert]
+
+    set comList [list \
+    horz_encoder \
+    vert_encoder \
+    horz \
+    vert]
+
+    set tNow [clock seconds]
+    set ctsUser [$m_strUserAlignBeamStatus getContents]
+    set span [lindex $ctsUser 3]
+    set tTrigger [expr $tNow + $span]
+    foreach cName $comList motor $motorList {
+        set value [lindex [::device::$motor getScaledPosition] 0]
+        for {set i 0} {$i < 4} {incr i} {
+            if {!$all && $i != $m_ctsCurrentHarmonic} {
+                continue
+            }
+            $itk_component($cName$i) delete 0 end
+            $itk_component($cName$i) insert 0 $value
+
+            $itk_component(timestamp$i) delete 0 end
+            $itk_component(timestamp$i) insert 0 $tNow
+
+            $itk_component(trigger_time$i) delete 0 end
+            $itk_component(trigger_time$i) insert 0 $tTrigger
+        }
+    }
+}
+class DCS::TriggerTimeForUserAlignBeam {
+	inherit ::DCS::StringFieldMixLevelViewBase
+
+    public method updateShowAll { } {
+        set oneColumn ""
+        for {set col 0} {$col < $m_numColumnDisplayed} {incr col} {
+            regsub -all COLUMN $m_oneColumnList $col oneColumn
+
+            set show2user [$itk_component(display$col) cget -text]
+            set isMicro   [$itk_component(is_micro_beam$col) cget -text]
+
+            if {$gCheckButtonVar($this,showAll) \
+            || ($show2user == "1" && $isMicro == "1")} {
+                foreach com $oneColumn {
+                    grid $itk_component($com)
+                }
+            } else {
+                foreach com $oneColumn {
+                    grid remove $itk_component($com)
+                }
+            }
+        }
+    }
+
+    public method handleStatusChange { - targetReady_ - contents_ - } {
+        if {!$targetReady_} {
+            ### no match
+            set contents_ "-1 -1 0 0"
+        }
+
+        set m_currentCol [lindex $contents_ 1]
+        if {![string is integer -strict $m_currentCol]} {
+            set m_currentCol -1
+        }
+        updateTableCellBackground
+    }
+    private method updateTableCellBackground { } {
+        for {set i 0} {$i < $m_numColumnCreated} {incr i} {
+            if {$i == $m_currentCol} {
+                set bg "light green"
+            } else {
+                set bg $m_colorBG
+            }
+            $itk_component(name$i) configure \
+            -background $bg
+
+            for {set j 0} {$j < 4} {incr j} {
+                set row [expr $j + 1]
+                if {$row == $m_currentRow} {
+                    if {$i == $m_currentCol} {
+                        set bg #00a040
+                    } else {
+                        set bg "light green"
+                    }
+                } else {
+                    if {$i == $m_currentCol} {
+                        set bg "light green"
+                    } else {
+                        set bg $m_colorBG
+                    }
+                }
+                $itk_component(ts_trigger${j}$i) configure \
+                -background $bg
+            }
+        }
+    }
+    public method handleCurrentHarmonic { - ready_ - contents_ - } {
+        if {!$ready_} {
+            return
+        }
+
+        if {![string is integer -strict $contents_]} {
+            set m_currentRow -1
+        } else {
+            set m_currentRow [expr $contents_ + 1]
+        }
+        set headerSite  [$itk_component(scrolledFrame) hfreezesite]
+        for {set i 1} {$i < 5} {incr i} {
+            if {$i == $m_currentRow} {
+                set bg "light green"
+            } else {
+                set bg $m_origLabelBG
+            }
+            $headerSite.rh$i configure \
+            -background $bg
+
+            $itk_component(ts_tungsten$i) configure \
+            -background $bg
+
+        }
+        updateTableCellBackground
+    }
+    public method handleEnergyOffsetUpdate { - ready_ - contents_ - } {
+        if {!$ready_} {
+            return
+        }
+        if {[llength $contents_] != 4} {
+            log_error energy_offset not match harmonics
+            return
+        }
+        set i 0
+        foreach offset $contents_ {
+            incr i
+            set triggerTime [lindex $offset $m_idxTriggerEnergy]
+            if {$triggerTime == ""} {
+                $itk_component(ts_tungsten$i) configure \
+                -text ""
+            } else {
+                $itk_component(ts_tungsten$i) configure \
+                -text [clock format $triggerTime -format "%D %T"]
+            }
+        }
+    }
+
+    protected method checkContentsBeforeSend { contentsREF } {
+        upvar $contentsREF contents
+
+        return 1
+
+    }
+
+    private method addColumns { num } {
+        for {set i 0} {$i < $num} {incr i} {
+            set index1 $m_numColumnCreated
+            foreach {comp -} $LABEL_MAP subIdxList $m_labelSubIndexList {
+                set wName $comp$m_numColumnCreated
+                set indexList [linsert $subIdxList 0 $index1]
+                if {$comp == "name"} {
+                    itk_component add $wName {
+                        label $m_tableSite.$wName \
+                        -anchor w \
+                    } {
+                    }
+                    if {$m_colorBG == ""} {
+                        set m_colorBG [$itk_component($wName) cget -background]
+                    }
+                } else {
+                    itk_component add $wName {
+                        label $m_tableSite.$wName \
+                        -relief sunken \
+                        -anchor w \
+                        -background #00a040 \
+                    } {
+                    }
+                }
+            }
+            foreach {comp -} $HIDE_MAP subIdxList $m_hideSubIndexList {
+                set wName $comp$m_numColumnCreated
+                set indexList [linsert $subIdxList 0 $index1]
+                itk_component add $wName {
+                    label $m_tableSite.$wName \
+                    -anchor w \
+                } {
+                }
+            }
+            incr m_numColumnCreated
+        }
+        pack $itk_component(scrolledFrame) -side left -fill both -expand true
+    }
+    private method adjustColumns { num } {
+        if {$num == $m_numColumnDisplayed} {
+            return
+        }
+        if {$num > $m_numColumnCreated} {
+            addColumns [expr $num - $m_numColumnCreated]
+        }
+
+        while {$m_numColumnDisplayed < $num} {
+            set col $m_numColumnDisplayed
+
+            foreach \
+            {comp -}   $LABEL_MAP \
+            subIdxList $m_labelSubIndexList \
+            row        $LABEL_ROW {
+                set wName $comp$m_numColumnDisplayed
+                set indexList [linsert $subIdxList 0 $col]
+                lappend m_labelList $wName $indexList
+
+                grid $itk_component($wName) \
+                -ipady 1 \
+                -column [expr $col + 1] \
+                -row $row \
+                -sticky news
+            }
+            foreach \
+            {comp -}   $HIDE_MAP \
+            subIdxList $m_hideSubIndexList {
+                set wName $comp$m_numColumnDisplayed
+                set indexList [linsert $subIdxList 0 $col]
+                lappend m_labelList $wName $indexList
+            }
+            incr m_numColumnDisplayed
+        }
+
+        set need_cleanList 0
+        if {$m_numColumnDisplayed > $num} {
+            set need_cleanList 1
+        }
+        while {$m_numColumnDisplayed > $num} {
+            set col $m_numColumnDisplayed
+            set slaves [grid slaves $m_tableSite -column $col]
+            if {$slaves != ""} {
+                eval grid forget $slaves
+            }
+            incr m_numColumnDisplayed -1
+        }
+        if {$need_cleanList} {
+            ### clean up list (not efficient)
+            set old $m_labelList
+            set m_labelList [list]
+            foreach {name idxList} $old {
+                set col [lindex $idxList 1]
+                if {$col < $num} {
+                    lappend m_labelList $name $idxList
+                }
+            }
+        }
+        pack $itk_component(scrolledFrame) -side left -fill both -expand true
+    }
+
+    ##override base class
+    protected method setContents { contents_ } {
+        set ll [llength $contents_]
+
+        adjustColumns $ll
+
+	    DCS::StringFieldMixLevelViewBase::setContents $contents_
+    }
+
+    private common HEAD_LABEL [list \
+    "Trigger Time" \
+    "Harmonic 11th" \
+    "Harmonic 9th" \
+    "Harmonic 7th" \
+    "Harmonic 5th" \
+    ]
+
+    private common LABEL_MAP [list \
+        name               name \
+        ts_trigger0        {trigger_time 0} \
+        ts_trigger1        {trigger_time 1} \
+        ts_trigger2        {trigger_time 2} \
+        ts_trigger3        {trigger_time 3} \
+    ]
+    private common LABEL_ROW [list 0 1 2 3 4]
+
+    ### we need these to decide display or not
+    private common HIDE_MAP [list \
+        display         display \
+        is_micro_beam   is_micron_beam \
+    ]
+
+    private variable m_numColumnCreated 0
+    private variable m_numColumnDisplayed 0
+    private variable m_cfgNameList ""
+    private variable m_cfgScanNameList ""
+
+    private variable m_oneColumnList ""
+
+    private variable m_opCollimatorMove ""
+    private variable m_strCollimatorStatus ""
+    private variable m_colorBG ""
+    private variable m_origLabelBG gray
+
+    private variable m_tableSite ""
+
+    private variable m_labelSubIndexList ""
+    private variable m_hideSubIndexList ""
+
+    private variable m_idxTriggerEnergy -1
+
+    ### changing background color
+    private variable m_currentRow -1
+    private variable m_currentCol -1
+
+    constructor { args } {
+    } {
+        set m_cfgNameList [::config getStr collimatorPresetNameList]
+        set m_cfgScanNameList [::config getStr alignCollimatorConstantsNameList]
+
+        set cfgEnergyOffsetNameList [::config getStr energyOffsetNameList]
+        set m_idxTriggerEnergy \
+        [lsearch -exact $cfgEnergyOffsetNameList trigger_time]
+        if {$m_idxTriggerEnergy < 0} {
+            set m_idxTriggerEnergy 0
+        }
+
+        array set fName2index [list]
+        array set sName2index [list]
+        foreach {comp name} $LABEL_MAP {
+            set fName [lindex $name 0]
+            if {![info exists fName2index($fName)]} {
+                set fName2index($fName) [lsearch -exact $m_cfgNameList $fName]
+            }
+            set idxList $fName2index($fName)
+            if {$fName == "trigger_time"} {
+                lappend idxList [lindex $name 1]
+            }
+
+            lappend m_labelSubIndexList $idxList
+
+            lappend m_oneColumnList ${comp}COLUMN
+
+            puts "$comp: $idxList"
+        }
+        foreach {comp name} $HIDE_MAP {
+            set fName [lindex $name 0]
+            if {![info exists fName2index($fName)]} {
+                set fName2index($fName) [lsearch -exact $m_cfgNameList $fName]
+            }
+            set idxList $fName2index($fName)
+
+            lappend m_hideSubIndexList $idxList
+            puts "$comp: $idxList"
+        }
+
+        set deviceFactory [DCS::DeviceFactory::getObject]
+        set m_strCollimatorStatus \
+        [$deviceFactory getObjectName collimator_status]
+
+        set strCurrentHarmonic  [$deviceFactory getObjectName currentHarmonic]
+        set strEnergyOffset     [$deviceFactory getObjectName energy_offset]
+
+        itk_component add scrolledFrame {
+            DCS::ScrolledFrame $m_site.canvas \
+            -height 160 \
+        } {
+        }
+
+        set m_tableSite [$itk_component(scrolledFrame) childsite]
+        set headerSite  [$itk_component(scrolledFrame) hfreezesite]
+
+        set i -1
+        foreach txt $HEAD_LABEL {
+            incr i
+
+            label $headerSite.rh$i \
+            -anchor e \
+            -text $txt
+
+            grid $headerSite.rh$i -row $i -column 0 -sticky e -ipady 1
+
+            if {$i == 0} {
+                label $headerSite.tttt \
+                -text "Tungsten"
+
+                grid $headerSite.tttt -row 0 -column 1 -sticky news
+
+                continue
+            }
+
+            itk_component add ts_tungsten$i {
+                label $headerSite.ts$i \
+                -relief sunken \
+                -anchor e \
+                -background #00a040 \
+                -width 17 \
+            } {
+            }
+
+            grid $headerSite.ts$i -row $i -column 1 -sticky news
+        }
+        set m_origLabelBG [$headerSite.rh0 cget -background]
+
+        incr i
+        checkbutton $headerSite.onlyShowDisplayed \
+        -text "Show All Collimators" \
+        -variable [scope gCheckButtonVar($this,showAll)] \
+        -command "$this updateShowAll"
+        grid $headerSite.onlyShowDisplayed -row $i -column 0 -stick e \
+        -columnspan 2
+
+
+        grid columnconfigure $headerSite 0 -weight 1
+
+        pack $itk_component(scrolledFrame) -side left -fill both -expand true
+        $itk_component(scrolledFrame) xview moveto 0
+        $itk_component(scrolledFrame) yview moveto 0
+
+        grid forget $itk_component(apply) $itk_component(cancel)
+
+		eval itk_initialize $args
+		announceExist
+
+        ::mediator register $this $m_strCollimatorStatus contents \
+        handleStatusChange
+
+        ::mediator register $this $strCurrentHarmonic    contents \
+        handleCurrentHarmonic
+
+        ::mediator register $this $strEnergyOffset    contents \
+        handleEnergyOffsetUpdate
+
+        updateShowAll
     }
 }

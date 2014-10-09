@@ -408,12 +408,13 @@ class DCS::RunView {
    private variable m_deviceFactory
    private variable m_detectorObj
 
-    private variable m_slitWidth
-    private variable m_slitHeight
+    private variable m_beamWidth
+    private variable m_beamHeight
 
     private variable m_runDefList ""
 
     private variable m_showCalculator 0
+    private variable m_showXPPPulse 0
 
     constructor { args} {
          ::DCS::Component::constructor { runDefinition getRunDefinition \
@@ -427,14 +428,17 @@ class DCS::RunView {
         global gMotorEnergy
         global gMotorVert
         global gMotorHorz
+        global gMotorBeamWidth
+        global gMotorBeamHeight
 
         set m_showCalculator [::config getInt attenuation_calculator.show 0]
+        set m_showXPPPulse [::config getInt bluice.showXPPPulse 0]
 
       set m_deviceFactory [DCS::DeviceFactory::getObject]
       set m_detectorObj [DCS::Detector::getObject]
         
-        set m_slitWidth  [$m_deviceFactory getObjectName beam_size_x]
-        set m_slitHeight [$m_deviceFactory getObjectName beam_size_y]
+        set m_beamWidth  [$m_deviceFactory getObjectName $gMotorBeamWidth]
+        set m_beamHeight [$m_deviceFactory getObjectName $gMotorBeamHeight]
 
         set ring $itk_interior
         
@@ -648,6 +652,20 @@ class DCS::RunView {
                  -activeClientOnly 1
         } {}
 
+        itk_component add pulse {
+            DCS::Entry $ring.pulse -promptText "Num Pulses: " \
+                 -leaveSubmit 1 \
+                 -promptWidth 12 \
+                 -entryWidth 10     \
+                 -entryType positiveInt \
+                 -entryJustify right \
+                 -decimalPlaces 0 \
+                 -shadowReference 0 \
+                 -systemIdleOnly 0 \
+                 -activeClientOnly 1
+        } {}
+
+
         # make the exposure time frame
         itk_component add exposureTimeFrame {
             frame $ring.et
@@ -860,8 +878,8 @@ class DCS::RunView {
       ::mediator register $this [$m_deviceFactory getObjectName $gMotorOmega] lockOn handleAxisMotorLocked
       ::mediator register $this $itk_option(-runListDefinition) doseMode handleDoseModeChange 
       ::mediator register $this $m_detectorObj type handleDetectorTypeChange 
-      ::mediator register $this $m_slitWidth  inMotion handleSlitMoveCompleted
-      ::mediator register $this $m_slitHeight inMotion handleSlitMoveCompleted
+      ::mediator register $this $m_beamWidth  inMotion handleSlitMoveCompleted
+      ::mediator register $this $m_beamHeight inMotion handleSlitMoveCompleted
 
       #handleDetectorTypeChange will call repack
       #repack
@@ -911,12 +929,15 @@ body DCS::RunView::repack { } {
     pack $itk_component(distance) -padx 4 -pady 4 -anchor w
 #yang    pack $itk_component(beam_stop) -padx 4 -pady 4 -anchor w
    
-   pack $itk_component(axis) -pady 4 -padx 4 -anchor w
+    pack $itk_component(axis) -pady 4 -padx 4 -anchor w
     pack $itk_component(delta) -padx 5 -pady 4 -anchor w
     pack $itk_component(att_frame) -padx 4 -pady 4 -anchor w
+    if {$m_showXPPPulse} {
+        pack $itk_component(pulse) -padx 5 -pady 4 -anchor w
+    }
     pack $itk_component(exposureTimeFrame) -pady 2 -side top -anchor w
    
-   repackExposureTime
+    repackExposureTime
 
     pack $itk_component(spacer2) -pady 5
 
@@ -1006,8 +1027,8 @@ body DCS::RunView::updateDoseExposureTime { } {
     if {$m_doseMode} {
         set runSituation [clock seconds]
         lappend runSituation [lindex [$itk_component(energy0) get] 0]
-        lappend runSituation [lindex [$m_slitWidth getScaledPosition] 0]
-        lappend runSituation [lindex [$m_slitHeight getScaledPosition] 0]
+        lappend runSituation [lindex [$m_beamWidth getScaledPosition] 0]
+        lappend runSituation [lindex [$m_beamHeight getScaledPosition] 0]
         lappend runSituation [lindex [$itk_component(attenuation) get] 0]
 
         set doseFactor \
@@ -1084,6 +1105,14 @@ body DCS::RunView::handleRunDefinitionChange { run_ targetReady_ alias_ runDefin
     setEntryComponentDirectly delta $delta
     $itk_component(inverse) setValue $inverse
     setEntryComponentDirectly exposureTime $exposureTime 
+
+    if {$exposureTime == 0} {
+        set np 1
+    } else {
+        set np [expr int(round($exposureTime * 120))] 
+    }
+    setEntryComponentDirectly pulse $np
+
     setEntryComponentDirectly startFrame $startFrame
     setEntryComponentDirectly startAngle $startAngle
     setEntryComponentDirectly startAngleRun0 $startAngle
@@ -1256,6 +1285,10 @@ configbody DCS::RunView::runDefinition {
       -onSubmit "$itk_option(-runDefinition) setExposureTime %s" \
       -reference "$itk_option(-runDefinition) exposureTime"
 
+   $itk_component(pulse) configure \
+      -onSubmit "$itk_option(-runDefinition) setXppPulse %s" \
+      -reference "$itk_option(-runDefinition) pulse"
+
    $itk_component(startFrame) configure \
       -onSubmit "$itk_option(-runDefinition) setStartFrame %s" \
       -reference "$itk_option(-runDefinition) startFrame"
@@ -1296,6 +1329,7 @@ configbody DCS::RunView::runDefinition {
       $itk_component(axis) deleteInput [list $m_lastRunDef state "inactive"]
       $itk_component(delta) deleteInput [list $m_lastRunDef state "inactive"]
       $itk_component(exposureTime) deleteInput [list $m_lastRunDef state "inactive"]
+      $itk_component(pulse) deleteInput [list $m_lastRunDef state "inactive"]
       $itk_component(startFrame) deleteInput [list $m_lastRunDef state "inactive"]
       $itk_component(endFrame) deleteInput [list $m_lastRunDef state "inactive"]
       $itk_component(startAngle) deleteInput [list $m_lastRunDef state "inactive"]
@@ -1325,6 +1359,7 @@ configbody DCS::RunView::runDefinition {
    $itk_component(axis) addInput [list $itk_option(-runDefinition) state "inactive" "Run must be reset before using."]
    $itk_component(delta) addInput [list $itk_option(-runDefinition) state "inactive" "Run must be reset before using."]
    $itk_component(exposureTime) addInput [list $itk_option(-runDefinition) state "inactive" "Run must be reset before using."]
+   $itk_component(pulse) addInput [list $itk_option(-runDefinition) state "inactive" "Run must be reset before using."]
    $itk_component(startFrame) addInput [list $itk_option(-runDefinition) state "inactive" "Run must be reset before using."]
    $itk_component(endFrame) addInput [list $itk_option(-runDefinition) state "inactive" "Run must be reset before using."]
    $itk_component(startAngle) addInput [list $itk_option(-runDefinition) state "inactive" "Run must be reset before using."]
@@ -1383,7 +1418,7 @@ body DCS::RunView::handleDoseFactorChange { object_ targetReady_ alias_ doseFact
 body DCS::RunView::handleSlitMoveCompleted { - targetReady_ - - - } {
    if { !$targetReady_} return
 
-    if {[$m_slitWidth cget -inMotion] || [$m_slitHeight cget -inMotion]} {
+    if {[$m_beamWidth cget -inMotion] || [$m_beamHeight cget -inMotion]} {
         puts "DEBUG still moving"
         return
     }
@@ -2016,7 +2051,7 @@ class DCS::CollectView {
 
         set cfgShowCollimator [::config getInt bluice.showCollimator 1]
         if {$cfgShowCollimator \
-        && [$m_deviceFactory motorExists collimator_horz]} {
+        && [$m_deviceFactory operationExists collimatorMove]} {
             set m_showCenterMicro 1
         }
         $itk_component(crystal) configure -command "$this centerCrystal 0"

@@ -61,6 +61,7 @@ package require DCSCassetteOwner
 package require DCSRobotMoveList
 package require DCSSpreadsheet
 package require DCSRobotStatus
+package require DCSRobotState
 package require DCSCollimatorPreset
 package require DCSUserAlignBeamStatus
 package require DCSScreeningParameters
@@ -153,6 +154,7 @@ class DCS::DeviceFactory {
 	public method createCassetteOwnerString
 	public method createRobotMoveListString
 	public method createRobotStatusString
+	public method createRobotStateString
 	public method createVirtualRunString
 	public method createVirtualString
 	public method createRunStringForQueue
@@ -379,6 +381,9 @@ body DCS::DeviceFactory::createString { name args} {
         robot_status {
             return [eval createRobotStatusString $name $args] 
         }
+        robot_state {
+            return [eval createRobotStateString $name $args] 
+        }
         collimator_preset {
             return [eval createCollimatorPresetString $name $args]
         }
@@ -484,6 +489,17 @@ body DCS::DeviceFactory::createRobotStatusString { name args} {
 	if { [info commands ${_namespace}::$name] == "" } {
 
 		namespace eval $_namespace [list DCS::RobotStatus $name -status offline] $args
+		
+		lappend _stringList  $name
+	}
+	
+	return [getObjectName $name]
+}
+body DCS::DeviceFactory::createRobotStateString { name args} {
+	
+	if { [info commands ${_namespace}::$name] == "" } {
+
+		namespace eval $_namespace [list DCS::RobotState $name -status offline] $args
 		
 		lappend _stringList  $name
 	}
@@ -630,7 +646,6 @@ class DCS::DeviceDefinitionFile {
    ####for one section of the file
    private variable m_lineList ""
    private variable m_numLine 0
-   private variable MAX_NUM_LINE 20
  
    constructor { deviceFactory_ args} {
 
@@ -690,6 +705,7 @@ body DCS::DeviceDefinitionFile::read { filename_ } {
          11 {parseOperation $deviceName}
          12 {parseEncoder $deviceName}
          13 {parseString $deviceName}
+         15 {parseString $deviceName}
       }
 
       incr cnt
@@ -698,7 +714,7 @@ body DCS::DeviceDefinitionFile::read { filename_ } {
 }
 
 body DCS::DeviceDefinitionFile::parseRealMotor { deviceName_ } {
-    if {$m_numLine != 7} {
+    if {$m_numLine != 7 && $m_numLine != 9 && $m_numLine != 11} {
         puts "realmotor {$deviceName_} wrong lines: $m_numLine != 7"
         exit
     }
@@ -748,8 +764,8 @@ body DCS::DeviceDefinitionFile::parseRealMotor { deviceName_ } {
 
 
 body DCS::DeviceDefinitionFile::parsePseudoMotor { deviceName_ } {
-    if {$m_numLine != 8} {
-        puts "pseudo motor {$deviceName_} wrong lines: $m_numLine != 8"
+    if {$m_numLine != 8 && $m_numLine != 10 && $m_numLine != 12} {
+        puts "pseudo motor {$deviceName_} wrong lines: $m_numLine"
         exit
     }
 
@@ -912,21 +928,20 @@ body DCS::DeviceDefinitionFile::parseEncoder {deviceName_ } {
 
 body DCS::DeviceDefinitionFile::parseString { deviceName_ } {
     switch -exact -- $m_numLine {
+        2 {
+            puts "string {$deviceName_} wrong lines: $m_numLine"
+            exit
+        }
         3 -
         4 {
             $m_deviceFactory createString $deviceName_
         }
-        5 -
-        6 {
+        default {
             set staffPermissions [lindex $m_lineList 3]
             set userPermissions  [lindex $m_lineList 4]
             $m_deviceFactory createString $deviceName_ \
             -staffPermissions $staffPermissions \
             -userPermissions $userPermissions
-        }
-        default {
-            puts "string {$deviceName_} wrong lines: $m_numLine != 3,4,5,6"
-            exit
         }
     }
 }
@@ -954,11 +969,6 @@ body DCS::DeviceDefinitionFile::readOneSectionFromDumpFile { } {
         set ll [string length $line]
         if {$ll > 0} {
             incr m_numLine
-            if {$m_numLine > $MAX_NUM_LINE} {
-                puts "exceed max number of lines $MAX_NUM_LINE per section"
-                puts "for [lindex $m_lineList 0]"
-                exit
-            }
             lappend m_lineList $line
         } else {
             if {$m_numLine > 0} {

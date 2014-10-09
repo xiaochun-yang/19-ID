@@ -89,6 +89,16 @@ class DCS::Operation {
 
 	public method startWaitableOperation
 	public proc waitForOperation
+
+    public proc waitForOperationToFinish { h } {
+        while {1} {
+            set status [lindex [waitForOperation $h] 0]
+            if {$status != "update"} {
+                break
+            }
+        }
+    }
+
 	private common _uniqueResult
 	private common _uniqueUpdate
 	private common _uniqueUpdateInIndex
@@ -165,7 +175,7 @@ body DCS::Operation::handleOperationUpdate { message_ } {
 	    updateRegisteredComponents status
 	    updateRegisteredComponentsNow -newOperation
 
-        puts "DEBUG OPERATION++++++++++++: set to active by update $message_"
+        #puts "DEBUG OPERATION++++++++++++: set to active by update $message_"
     }
 
 	set operationHandle [lindex $message_ 2]

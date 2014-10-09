@@ -147,6 +147,8 @@ class DCS::MicrodiffractometerView {
 
     itk_option define -mdiHelper mdiHelper MdiHelper ""
 
+    public variable phiHoming ""
+
     public proc getMotorList { } {
         return [list \
         gonio_phi \
@@ -170,6 +172,8 @@ class DCS::MicrodiffractometerView {
 
 
         set deviceFactory [DCS::DeviceFactory::getObject]
+        set phiHoming [$deviceFactory createOperation phiHoming]
+
         if {[$deviceFactory motorExists sample_z_corr]} {
             set sampleZ sample_z_corr
             #only add encoder button if the sample_z_corr motor exists on this beam line.
@@ -185,6 +189,14 @@ class DCS::MicrodiffractometerView {
 
         # construct the goniometer widgets
         motorView gonio_phi 41 18 nw 
+
+
+        itk_component add home {
+           DCS::Button $itk_component(canvas).home -text "Home Phi" \
+                 -width 9 -activeClientOnly 1
+        } {}
+        $itk_component(home) configure -command "$this phiHoming"
+
         motorView gonio_vert 3 145 nw 
         motorView sample_x 316 102 sw um 
         motorView sample_y 316 203 sw um
@@ -200,6 +212,7 @@ class DCS::MicrodiffractometerView {
         moveHotSpot $sampleZ 268 298 negative false
 
         place $itk_component(control) -x 60 -y 310
+        place $itk_component(home) -x 41 -y 93
 
         eval itk_initialize $args
 
@@ -212,6 +225,10 @@ class DCS::MicrodiffractometerView {
 
         eval itk_initialize $args
         $itk_component(canvas) configure -width 770 -height 350
+    }
+
+    public method phiHoming {} {
+        $phiHoming startOperation gonio_phi
     }
 
 }

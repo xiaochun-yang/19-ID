@@ -83,6 +83,9 @@ class ::DCS::RunSequenceCalculator {
 
     public method calculateCompletedLevelsInWedge { index } 
 
+    ### temperary to do something for each wedge
+	public method getWedgeCompletedAtIndex { index }
+
 	private method calculateOffsetsAtIndex { index }
 }
 
@@ -113,7 +116,12 @@ body ::DCS::RunSequenceCalculator::updateRunDefinition { message_ } {
     puts "$wedgeSize $delta $inverseOn $numEnergies $startAngle $endAngle $startFrame"
 
 	#calculate the number of phi-slices in a wedge
-	set _framesPerPhiWedge [expr int ( ($wedgeSize + 0.0000001) / double( $delta)) ]
+    if {$delta == 0} {
+	    set _framesPerPhiWedge 1
+    } else {
+	    set _framesPerPhiWedge \
+        [expr int ( ($wedgeSize + 0.0000001) / double( $delta)) ]
+    }
 
 	#define the data collection sequence while inside a complete wedge
 	set _fullWedgePattern [list $_framesPerPhiWedge [expr $inverseOn + 1 ] $numEnergies] 
@@ -131,7 +139,11 @@ body ::DCS::RunSequenceCalculator::updateRunDefinition { message_ } {
 	}
 
 	#define the data collection sequence while within a wedge fragment
-	set framesPerPhiRun [expr int( ( $endAngle - $startAngle +0.000001)/ double($delta) + 0.00001 ) ]
+    if {$delta == 0} {
+	    set framesPerPhiRun 1
+    } else {
+	    set framesPerPhiRun [expr int( ( $endAngle - $startAngle +0.000001)/ double($delta) + 0.00001 ) ]
+    }
 	#log_note "int (  $endAngle - $startAngle ) / double($delta) ) = $framesPerPhiRun "
 
 	#log_note "framesPerPhiRun $framesPerPhiRun"
@@ -160,8 +172,11 @@ body ::DCS::RunSequenceCalculator::updateRunDefinition { message_ } {
 	#calculate the total number of frames in the run
 	set _totalFrames [expr $_framesPerWedge * $_numCompleteWedges + $_fragmentWedgeFramesPerLevel($_numComponents) ]
 
-
-	set framesPer180 [expr int (180.00001 / double($delta) ) ]
+    if {$delta == 0} {
+	    set framesPer180 1
+    } else {
+	    set framesPer180 [expr int (180.00001 / double($delta) ) ]
+    }
 	#puts " framesPer180: $framesPer180         framesPerPhiRun: $framesPerPhiRun" 
 	set framesPer360 [expr $framesPer180 * 2 ]
 	set inverseJumpFrameIndex [expr int( ( double($framesPerPhiRun + $framesPer180 - 0.9999999) ) / double($framesPer360) + 0.000001 ) + 1]
@@ -270,6 +285,18 @@ body ::DCS::RunSequenceCalculator::getMotorPositionsAtIndex { index } {
     $filename $phi $energy $fileRootNoIndex $frameLabel $numConsPhi $sub_dir]
 }
 
+body ::DCS::RunSequenceCalculator::getWedgeCompletedAtIndex { index } {
+
+	set result [calculateOffsetsAtIndex $index ]
+
+	#if we are not in a wedge fragment
+	if { $index < $_fragmentStartIndex } {
+		set completedWedges [lindex $result 0]
+	} else {
+		set completedWedges $_numCompleteWedges
+	}
+    return $completedWedges
+}
 #Returns a list of all frames in a defined run.
 body ::DCS::RunSequenceCalculator::listAllFrames { } {
 	set allFrames ""
@@ -395,7 +422,11 @@ body ::DCS::RunSequenceCalculatorForQueue::updateRunDefinition { message_ } {
     puts "$wedgeSize $delta $inverseOn $numEnergies $startAngle $endAngle $startFrame"
 
 	#calculate the number of phi-slices in a wedge
-	set _framesPerPhiWedge [expr int ( ($wedgeSize + 0.0000001) / double( $delta)) ]
+    if {$delta == 0} {
+	    set _framesPerPhiWedge 1
+    } else {
+	    set _framesPerPhiWedge [expr int ( ($wedgeSize + 0.0000001) / double( $delta)) ]
+    }
 
 	#define the data collection sequence while inside a complete wedge
 	set _fullWedgePattern [list $_framesPerPhiWedge [expr $inverseOn + 1 ] $numEnergies] 
@@ -413,7 +444,11 @@ body ::DCS::RunSequenceCalculatorForQueue::updateRunDefinition { message_ } {
 	}
 
 	#define the data collection sequence while within a wedge fragment
-	set framesPerPhiRun [expr int( ( $endAngle - $startAngle +0.000001)/ double($delta) + 0.00001 ) ]
+    if {$delta == 0} {
+	    set framesPerPhiRun 1
+    } else {
+	    set framesPerPhiRun [expr int( ( $endAngle - $startAngle +0.000001)/ double($delta) + 0.00001 ) ]
+    }
 	#log_note "int (  $endAngle - $startAngle ) / double($delta) ) = $framesPerPhiRun "
 
 	#log_note "framesPerPhiRun $framesPerPhiRun"
@@ -442,8 +477,11 @@ body ::DCS::RunSequenceCalculatorForQueue::updateRunDefinition { message_ } {
 	#calculate the total number of frames in the run
 	set _totalFrames [expr $_framesPerWedge * $_numCompleteWedges + $_fragmentWedgeFramesPerLevel($_numComponents) ]
 
-
-	set framesPer180 [expr int (180.00001 / double($delta) ) ]
+    if {$delta == 0} {
+	    set framesPer180 1
+    } else {
+	    set framesPer180 [expr int (180.00001 / double($delta) ) ]
+    }
 	#puts " framesPer180: $framesPer180         framesPerPhiRun: $framesPerPhiRun" 
 	set framesPer360 [expr $framesPer180 * 2 ]
 	set inverseJumpFrameIndex [expr int( ( double($framesPerPhiRun + $framesPer180 - 0.9999999) ) / double($framesPer360) + 0.000001 ) + 1]

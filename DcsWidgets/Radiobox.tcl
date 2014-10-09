@@ -61,7 +61,7 @@ package require DCSComponent
 package require DCSDeviceFactory
 package require ComponentGateExtension
 
-class DCS::Radiobox {
+class DCSRadiobox {
 
     inherit ::DCS::ComponentGateExtension
 
@@ -108,7 +108,6 @@ class DCS::Radiobox {
 
     private variable m_skipCommand 0
 
-
     constructor {args}  {
         # call baseclass constructor
         ::DCS::Component::constructor { -value get -referenceMatches getReferenceMatches }
@@ -123,7 +122,8 @@ class DCS::Radiobox {
             keep -selectcolor
 		}
         pack $itk_component(rbox)
-        registerComponent $itk_interior
+        #registerComponent $itk_interior
+        registerComponent $itk_component(rbox)
 
         eval itk_initialize $args
         announceExist
@@ -135,7 +135,7 @@ class DCS::Radiobox {
     }
 }
 
-configbody DCS::Radiobox::stateList {
+configbody DCSRadiobox::stateList {
 	foreach element $itk_option(-stateList) {
 		if {[llength [lsearch -all -exact $itk_option(-stateList) $element]] > 1} {
 			error "States are not unique"
@@ -145,7 +145,7 @@ configbody DCS::Radiobox::stateList {
 	set stateCount [llength $itk_option(-stateList)]
 }
 
-configbody DCS::Radiobox::buttonLabels {
+configbody DCSRadiobox::buttonLabels {
 
 	if { [llength $itk_option(-buttonLabels)] != [llength $itk_option(-stateList)] } {
 		error "Mismatched button label count in DCSRadiobox"
@@ -155,7 +155,7 @@ configbody DCS::Radiobox::buttonLabels {
 	}
 }
 
-body DCS::Radiobox::regenerateButtons {} {
+body DCSRadiobox::regenerateButtons {} {
 	puts "regenerating radiobuttons"
 	if { $_buttonsGenerated } {
 		for {set i 0} {$i < $stateCount} {incr i} {
@@ -169,15 +169,15 @@ body DCS::Radiobox::regenerateButtons {} {
 	set _buttonsGenerated true
 }
 
-configbody DCS::Radiobox::state {
+configbody DCSRadiobox::state {
     recalcStatus
 }
 
-configbody DCS::Radiobox::trigger {
+configbody DCSRadiobox::trigger {
     addInput $itk_option(-trigger)
 }
 
-configbody DCS::Radiobox::reference {
+configbody DCSRadiobox::reference {
 	if {$itk_option(-reference) != "" } {
 		# unregister with last reference component
 		if { $_lastReferenceComponent != ""} {
@@ -201,7 +201,7 @@ configbody DCS::Radiobox::reference {
 	}
 }
 
-body DCS::Radiobox::handleUpdateFromReference {name targetReady_ alias
+body DCSRadiobox::handleUpdateFromReference {name targetReady_ alias
 	referenceValue_ - } {
 	if {$targetReady_} {
 		set _referenceValue $referenceValue_
@@ -214,7 +214,7 @@ body DCS::Radiobox::handleUpdateFromReference {name targetReady_ alias
 	}
 }
 
-body DCS::Radiobox::recalcStatus { } {
+body DCSRadiobox::recalcStatus { } {
 	if {!$_buttonsGenerated} {
 		return
 	}
@@ -232,13 +232,20 @@ body DCS::Radiobox::recalcStatus { } {
 	
 	updateBubble
 }
-body DCS::Radiobox::get {} {
+body DCSRadiobox::get {} {
 	return [$itk_component(rbox) get]
 }
-body DCS::Radiobox::setValue {value_ {skip_command 0}} {
+body DCSRadiobox::setValue {value_ {skip_command 0}} {
     set currentValue [$itk_component(rbox) get]
     if {$value_ == $currentValue && $skip_command} {
         return
+    }
+
+    ## safety check
+    if {[catch {$itk_component(rbox) index $value_} errMsg]} {
+        puts "bad value for Radiobox::setValue {$value_}: $errMsg"
+        puts "list: $itk_option(-stateList)"
+        set value_ 0
     }
 
     set m_skipCommand $skip_command
@@ -251,7 +258,7 @@ body DCS::Radiobox::setValue {value_ {skip_command 0}} {
 	}
     set m_skipCommand 0
 }
-body DCS::Radiobox::updateTextColor {} {
+body DCSRadiobox::updateTextColor {} {
 	
 	updateRegisteredComponents -value
 
@@ -282,24 +289,27 @@ body DCS::Radiobox::updateTextColor {} {
 	}
 }
 
-body DCS::Radiobox::handleReferenceMatchChange { - } {
+body DCSRadiobox::handleReferenceMatchChange { - } {
 
 	updateRegisteredComponents -referenceMatches
 }
 
-body DCS::Radiobox::updateFromReference { } {
-
-	setValue $_referenceValue
+body DCSRadiobox::updateFromReference { } {
+	setValue $_referenceValue 1
 	updateTextColor
 }
 
 
-body DCS::Radiobox::handleNewOutput { } {
+body DCSRadiobox::handleNewOutput { } {
 	recalcStatus
 }
 
-body DCS::Radiobox::doCommand {} {
+body DCSRadiobox::doCommand {} {
 	updateTextColor
+
+    if {$m_skipCommand} {
+        return
+    }
 
     set cmd $itk_option(-command)
     set v [$itk_component(rbox) get]

@@ -1,0 +1,1599 @@
+self
+3
+localhost 2
+
+simDhs
+3
+10.109.2.21 2
+
+detector
+3
+10.109.2.24 2
+
+PX4
+3
+10.109.2.23 2
+
+epics_gateway
+3
+10.109.2.21 2
+
+imperson
+3
+10.109.2.21 2
+
+robot
+3
+10.109.2.25 2
+
+dtb
+3
+10.109.2.24 2
+
+detector_collect_image
+11
+detector detector_collect_image
+0 1 1 1 1
+0 1 1 1 1
+
+detector_transfer_image
+11
+detector detector_transfer_image
+0 1 1 1 1
+0 1 1 1 1
+
+detector_oscillation_ready
+11
+detector detector_oscillation_ready
+0 1 1 1 1
+0 1 1 1 1
+
+detector_stop
+11
+detector detector_stop
+0 1 1 1 1
+0 1 1 1 1
+
+detector_reset_run
+11
+detector detector_reset_run
+0 1 1 1 1
+0 1 1 1 1
+
+collectStillImage
+11
+self collectStillImage
+0 1 1 1 1
+0 1 1 1 1
+
+collectRun
+11
+self collectRun
+0 1 1 1 1
+0 1 1 1 1
+
+collectRuns
+11
+self collectRuns
+0 1 1 1 1
+0 1 1 1 1
+
+collectFrame
+11
+self collectFrame
+0 1 1 1 1
+0 1 1 1 1
+
+pauseDataCollection
+11
+self pauseDataCollection
+0 1 1 1 1
+0 1 1 1 1
+
+epics_ion
+11
+self epics_ion
+0 1 1 1 1
+0 1 1 1 1
+
+shutter
+6
+dtb 1 shutter
+0 1 1 1 1
+0 1 1 1 1
+
+energy_pds_sp
+13
+epics_gateway SR03BM01DCM01:KEV_SP
+1 1 1 1 1
+0 1 1 1 1
+7 
+
+energy_pds_monit
+13
+epics_gateway SR03BM01DCM01:KEV_MON
+0 0 0 0 0
+0 0 0 0 0
+7.000004489 
+
+energy_pds_busy
+13
+epics_gateway SR03BM01DCM01:DCM_MOVING_STS
+0 0 0 0 0
+0 0 0 0 0
+1
+
+energy
+2
+self energy_bl3bm1
+0 1 1 1 1
+0 1 1 1 1
+0
+7.000004 18.000000 5.000000 0 0 0 0 keV
+0
+
+optimized_energy
+2
+self optimized_energy
+0 0 1 1 1
+0 0 0 1 1
+1
+13.962062 18.000000 6.000000 0 0 0 0 keV
+energy
+
+optimizedEnergyParameters
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+0 {{Optimized table}} 0 0 0 0 0 0 0 9.001068 1163655212 50.00 3600.00 12.00 120.0000 0.080 14.000 -14.000 i0 0.150 0.150 100 20 0.050 0.10
+
+gonio_omega
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 0 0 0 0
+0
+0.000000 360.000000 0.000000 1 1 0 0 deg
+0
+
+gonio_kappa
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 0 0 0 0
+0
+0.000000 6.000000 -30.000000 1 1 0 0 deg
+0
+
+detector_horz
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 0 0 0 0
+0
+0.000000 6.000000 -30.000000 1 1 0 0 mm
+0
+
+detector_vert
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 0 0 0 0
+0
+0.000000 6.000000 -30.000000 1 1 0 0 mm
+0
+
+i0
+4
+self epics_ion 0 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+runs
+13
+self standardString
+1 1 1 1 1
+0 1 1 1 1
+0 0 0
+
+run0
+13
+self runDefinition
+1 1 1 1 1
+0 1 1 1 1
+inactive 0 0 test21 /data/blctl/empty 1 Phi 10.00 11.0 1.0 180.0 2 120.000 40.651965 0.0 1 9.0010545 0.0 0.0 0.0 0.0 0 0
+
+run1
+13
+self runDefinition
+1 1 1 1 1
+0 1 1 1 1
+inactive 0 1 test /data/blctl/empty 1 Phi 0.00 100.0 1.0 180.0 10.00 300.000 34.000 0.0 1 9.001 0.0 0.0 0.0 0.0 0 0
+
+run2
+13
+self runDefinition
+1 1 1 1 1
+0 1 1 1 1
+inactive 0 2 test /data/blctl/empty 1 Phi 0.00 100.0 1.0 180.0 10.00 300.000 34.000 0.0 1 9.001 0.0 0.0 0.0 0.0 0 0
+
+run3
+13
+self runDefinition
+1 1 1 1 1
+0 1 1 1 1
+inactive 0 0 test0 /data/ 1 Phi 1.00 2.00 1.00 180.00 1.0 100.00 40.0 0.0 1 12000.000 0.0 0.0 0.0 0.0 1 0
+
+run4
+13
+self runDefinition
+1 1 1 1 1
+0 1 1 1 1
+inactive 0 0 test0 /data/ 1 Phi 1.00 2.00 1.00 180.00 1.0 100.00 40.0 0.0 1 12000.000 0.0 0.0 0.0 0.0 1 0
+
+run5
+13
+self runDefinition
+1 1 1 1 1
+0 1 1 1 1
+inactive 0 0 test0 /data/ 1 Phi 1.00 2.00 1.00 180.00 1.0 100.00 40.0 0.0 1 12000.000 0.0 0.0 0.0 0.0 1 0
+
+run6
+13
+self runDefinition
+1 1 1 1 1
+0 1 1 1 1
+inactive 0 0 test0 /data/ 1 Phi 1.00 2.00 1.00 180.00 1.0 100.00 40.0 0.0 1 12000.000 0.0 0.0 0.0 0.0 1 0
+
+run7
+13
+self runDefinition
+1 1 1 1 1
+0 1 1 1 1
+inactive 0 0 test0 /data/ 1 Phi 1.00 2.00 1.00 180.00 1.0 100.00 40.0 0.0 1 12000.000 0.0 0.0 0.0 0.0 1 0
+
+run8
+13
+self runDefinition
+1 1 1 1 1
+0 1 1 1 1
+inactive 0 0 test0 /data/ 1 Phi 1.00 2.00 1.00 180.00 1.0 100.00 40.0 0.0 1 12000.000 0.0 0.0 0.0 0.0 1 0
+
+run9
+13
+self runDefinition
+1 1 1 1 1
+0 1 1 1 1
+inactive 0 0 test0 /data/ 1 Phi 1.00 2.00 1.00 180.00 1.0 100.00 40.0 0.0 1 12000.000 0.0 0.0 0.0 0.0 1 0
+
+run10
+13
+self runDefinition
+1 1 1 1 1
+0 1 1 1 1
+inactive 0 0 test0 /data/ 1 Phi 1.00 2.00 1.00 180.00 1.0 100.00 40.0 0.0 1 12000.000 0.0 0.0 0.0 0.0 1 0
+
+run11
+13
+self runDefinition
+1 1 1 1 1
+0 1 1 1 1
+inactive 0 0 test0 /data/ 1 Phi 1.00 2.00 1.00 180.00 1.0 100.00 40.0 0.0 1 12000.000 0.0 0.0 0.0 0.0 1 0
+
+run12
+13
+self runDefinition
+1 1 1 1 1
+0 1 1 1 1
+inactive 0 0 test0 /data/ 1 Phi 1.00 2.00 1.00 180.00 1.0 100.00 40.0 0.0 1 12000.000 0.0 0.0 0.0 0.0 1 0
+
+run13
+13
+self runDefinition
+1 1 1 1 1
+0 1 1 1 1
+inactive 0 0 test0 /data/ 1 Phi 1.00 2.00 1.00 180.00 1.0 100.00 40.0 0.0 1 12000.000 0.0 0.0 0.0 0.0 1 0
+
+run14
+13
+self runDefinition
+1 1 1 1 1
+0 1 1 1 1
+inactive 0 0 test0 /data/ 1 Phi 1.00 2.00 1.00 180.00 1.0 100.00 40.0 0.0 1 12000.000 0.0 0.0 0.0 0.0 1 0
+
+run15
+13
+self runDefinition
+1 1 1 1 1
+0 1 1 1 1
+inactive 0 0 test0 /data/ 1 Phi 1.00 2.00 1.00 180.00 1.0 100.00 40.0 0.0 1 12000.000 0.0 0.0 0.0 0.0 1 0
+
+run16
+13
+self runDefinition
+1 1 1 1 1
+0 1 1 1 1
+inactive 0 0 test0 /data/ 1 Phi 1.00 2.00 1.00 180.00 1.0 100.00 40.0 0.0 1 12000.000 0.0 0.0 0.0 0.0 1 0
+
+moveSample
+11
+self moveSample
+0 1 1 1 1
+0 1 1 1 1
+
+centerLoop
+11
+self centerLoop
+0 1 1 1 1
+0 1 1 1 1
+
+normalize
+11
+self normalize
+0 1 1 1 1
+0 1 1 1 1
+
+expose
+11
+self expose
+0 1 1 1 1
+0 1 1 1 1
+
+requestExposureTime
+11
+self requestExposureTime
+0 1 1 1 1
+0 1 1 1 1
+
+requestCollectedImage
+11
+self requestCollectedImage
+1 1 1 1 1
+1 1 1 1 1
+
+prepareForScan
+11
+self prepareForScan
+0 1 1 1 1
+0 1 1 1 1
+
+recoverFromScan
+11
+self recoverFromScan
+0 1 1 1 1
+0 1 1 1 1
+
+acquireSpectrum
+11
+PX4 acquireSpectrum
+0 1 1 1 1
+0 1 1 1 1
+
+excitationScan
+11
+self excitationScan
+0 1 1 1 1
+0 1 1 1 1
+
+madScan
+11
+self madScan
+0 1 1 1 1
+0 1 1 1 1
+
+optimalExcitation
+11
+self optimalExcitation
+0 1 1 1 1
+0 1 1 1 1
+
+stopFluorescenceScan
+11
+self stopFluorescenceScan
+0 1 1 1 1
+0 1 1 1 1
+
+doseStoredCounts
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 1 1 1 1
+0
+3939.673625 100.000000 -100.000000 1 1 0 0 counts
+0
+
+doseLastCounts
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 1 1 1 1
+0
+3325.602784 100.000000 -100.000000 1 1 0 0 counts
+0
+
+doseStabilityRatio
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 1 1 1 1
+0
+0.050000 1000.000000 -1.000000 0 0 0 0 %
+0
+
+doseThreshold
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 1 1 1 1
+0
+500.000000 1000.000000 -1.000000 0 0 0 0 %
+0
+
+doseIntegrationPeriod
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 1 1 1 1
+0
+0.100000 1000.000000 -1.000000 0 0 0 0 s
+0
+
+maxOscTime
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 1 1 1 1
+0
+60.000000 1000.000000 -1.000000 0 0 0 0 s
+0
+
+sampleImageWidth
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 0 0 0 0
+0
+352.000000 100.000000 -100.000000 1 1 0 0 mm
+0
+
+sampleImageHeight
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 0 0 0 0
+0
+240.000000 100.000000 -100.000000 1 1 0 0 mm
+0
+
+sampleAspectRatio
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 0 0 0 0
+0
+1.120000 100.000000 -100.000000 1 1 0 0 mm
+0
+
+zoomMinScale
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 0 0 0 0
+0
+17.450675 100.000000 -100.000000 1 1 0 0 mm
+0
+
+zoomMedScale
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 0 0 0 0
+0
+4.479888 100.000000 -100.000000 1 1 0 0 mm
+0
+
+zoomMaxScale
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 0 0 0 0
+0
+1.795543 100.000000 -100.000000 1 1 0 0 mm
+0
+
+zoomMinYAxis
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 0 0 0 0
+0
+0.513542 100.000000 -100.000000 1 1 0 0 mm
+0
+
+zoomMedYAxis
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 0 0 0 0
+0
+0.513542 100.000000 -100.000000 1 1 0 0 mm
+0
+
+zoomMaxYAxis
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 0 0 0 0
+0
+0.513021 100.000000 -100.000000 1 1 0 0 mm
+0
+
+zoomMaxXAxis
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 0 0 0 0
+0
+0.500000 100.000000 -100.000000 1 1 0 0 mm
+0
+
+camera_zoom
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 0 0 0 0
+0
+0.750000 100.000000 -100.000000 1 1 0 0 mm
+0
+
+beamlineID
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+BL_3BM1
+
+hutchDoorStatus
+13
+simDhs hutchDoorStatus
+0 1 1 1 1
+0 1 1 1 1
+closed 1180059209
+
+lastImageCollected
+13
+detector lastImageCollected
+0 1 1 1 1
+0 1 1 1 1
+{}
+
+collect_msg
+13
+self collectStatus
+0 1 1 1 1
+0 1 1 1 1
+0 {DCSS was reset.} 0 {} {} {} {}
+
+synchrotron
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+{Australian Synchrotron}
+
+detectorType
+13
+detector detectorType
+0 1 1 1 1
+0 1 1 1 1
+{MAR165}
+
+system_idle
+13
+self startEmpty
+0 1 1 1 1
+0 1 1 1 1
+
+
+lock_operation
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+centerLoop collectRun collectRuns moveSample normalize optimalExcitation scan scanMotor
+
+scanMotor
+11
+self scanMotor
+0 1 1 1 1
+0 0 0 0 0
+
+scan_motor_status
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+/home/blctl/BL_3BM1_003.scan {3 of 3}
+
+cryojet
+11
+self cryojet
+1 1 1 1 1
+0 0 1 1 1
+
+cryojet_const
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+/dev/ttyM2 9600,n,8,2 3 1000 8 0 5 10
+
+cryojet_status
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+285.0 100.0 +00.00 +00.00 1 0
+
+cryo_ion
+11
+self cryo_ion
+1 1 1 1 1
+0 0 1 1 1
+
+cryo_temp
+4
+self cryo_ion 0 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+cryo_sample
+4
+self cryo_ion 1 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+cryo_shield
+4
+self cryo_ion 2 rtc1 standardVirtualIonChamber
+0 1 1 1 1
+0 1 1 1 1
+
+cryo_m_temp
+2
+self cryo_m_temp
+1 1 1 1 1
+0 1 1 1 1
+0
+0.000000 300.000000 100.000000 1 1 0 0 K
+0
+
+cryo_m_sample_flow
+2
+self cryo_m_sample_flow
+1 1 1 1 1
+0 1 1 1 1
+0
+100.000000 10.000000 0.000000 1 1 0 0 L/m
+0
+
+cryo_m_shield_flow
+2
+self cryo_m_shield_flow
+1 1 1 1 1
+0 1 1 1 1
+0
+0.000000 10.000000 0.000000 1 1 0 0 L/m
+0
+
+serial_shutter_const
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+/dev/ttyM0 /dev/ttyM1 9600,n,8,1 2000 3
+
+serialShutter
+11
+self serialShutter
+1 1 1 1 1
+0 1 1 1 1
+
+Se
+6
+self 0 Se
+0 1 1 1 1
+0 1 1 1 1
+
+Al_0.5
+6
+self 0 Al_0.5
+0 1 1 1 1
+0 1 1 1 1
+
+Al_1
+6
+self 0 Al_1
+0 1 1 1 1
+0 1 1 1 1
+
+Al_2
+6
+self 0 Al_2
+0 1 1 1 1
+0 1 1 1 1
+
+Al_4
+6
+self 0 Al_4
+0 1 1 1 1
+0 1 1 1 1
+
+Al_8
+6
+self 0 Al_8
+0 1 1 1 1
+0 1 1 1 1
+
+Al_16
+6
+self 0 Al_16
+0 1 1 1 1
+0 1 1 1 1
+
+Al_32
+6
+self 0 Al_32
+0 1 1 1 1
+0 1 1 1 1
+
+attenuation
+2
+self attenuation
+0 1 1 1 1
+0 1 1 1 1
+0
+0.000000 100.000000 0.000000 0 0 0 0 %
+0
+
+fluorScanStatus
+13
+self fluorScanStatus
+0 1 1 1 1
+0 1 1 1 1
+0 {DCSS was reset} blctl /data/blctl test Se-K 12658.000 11222.4 1.000 {12659.509766 -11.229460 3.662828 12661.379883 -8.605141 6.513579 13600.000000 -1.700000 3.300000 NULL/11251scan 11251smooth_exp.bip 11251smooth_norm.bip 11251fp_fpp.bip} /data/csmith/Auckland/072905/E4/miox_2.bip
+
+runAutochooch
+11
+imperson runAutochooch
+1 1 1 1 1
+1 1 1 1 1
+
+writeExcitationScanFile
+11
+imperson writeExcitationScanFile
+0 1 1 1 1
+0 1 1 1 1
+
+getNextImageIndex
+11
+imperson getNextImageIndex
+0 1 1 1 1
+0 0 0 0 0
+
+snap
+11
+imperson snap
+0 1 1 1 1
+0 1 1 1 1
+
+get_robotstate
+11
+robot get_robotstate
+1 1 1 1 1
+1 1 1 1 1
+
+mount_crystal
+11
+robot mount_crystal
+0 0 0 1 1
+0 0 0 0 0
+
+prepare_mount_crystal
+11
+robot prepare_mount_crystal
+0 0 0 1 1
+0 0 0 0 0
+
+dismount_crystal
+11
+robot dismount_crystal
+0 0 0 1 1
+0 0 0 0 0
+
+prepare_dismount_crystal
+11
+robot prepare_dismount_crystal
+0 0 0 1 1
+0 0 0 0 0
+
+mount_next_crystal
+11
+robot mount_next_crystal
+0 0 0 1 1
+0 0 0 0 0
+
+prepare_mount_next_crystal
+11
+robot prepare_mount_next_crystal
+0 0 0 1 1
+0 0 0 0 0
+
+move_crystal
+11
+robot move_crystal
+0 0 0 1 1
+0 0 0 0 0
+
+prepare_move_crystal
+11
+robot prepare_move_crystal
+0 0 0 1 1
+0 0 0 0 0
+
+robot_config
+11
+robot robot_config
+1 1 1 1 1
+0 0 0 0 0
+
+robot_calibrate
+11
+robot robot_calibrate
+1 1 1 1 1
+0 0 0 0 0
+
+robot_standby
+11
+robot robot_standby
+1 1 1 1 1
+0 0 0 0 0
+
+robot_status
+13
+robot robot_status
+0 1 1 1 1
+0 1 1 1 1
+status: 0 need_reset: 0 need_cal: 0 state: {idle} warning: {} cal_msg: {toolset cal done with quick option} cal_step: {100 of 100} mounted: {} pin_lost: {0} pin_mounted: {39} manual_mode: 0 need_mag_cal: 0 need_cas_cal: 0 need_clear: 0
+
+robot_state
+13
+robot robot_state
+0 1 1 1 1
+0 1 1 1 1
+{no} {in cradle} P0 yes {invalid} 39 0 0 0 0 0 {invalid} {invalid} {invalid} 
+
+robot_cassette
+13
+robot robot_cassette
+0 1 1 1 1
+0 1 1 1 1
+u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u u
+
+robot_probe
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+robot_input
+13
+robot robot_input
+0 1 1 1 1
+0 1 1 1 1
+1 1 0 0 0 0 0 0 1 0 0 1 0 0 0 0
+
+robot_output
+13
+robot robot_output
+0 1 1 1 1
+0 1 1 1 1
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+robot_sample
+13
+robot robot_sample
+0 1 1 1 1
+0 1 1 1 1
+
+
+robot_attribute
+13
+robot robot_attribute
+0 1 1 1 1
+0 1 1 1 1
+1 0 0 1 0 0 0 1 0 1 0 -1 0 0
+
+robot_cal_config
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+0 0 0 0 0 0 1 1 1 0
+
+crystalStatus
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+{} {} robot 0 {} yes
+
+screening_msg
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+error: ERROR ISampleMountingDevice_start !!Error 150 : Command not allowed with motors off., Robot 1
+
+ISampleMountingDevice
+11
+self ISAM4ASP
+0 0 0 1 1
+0 0 0 1 1
+
+sequenceDeviceState
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+bluiceadmin 1 { undefined undefined undefined undefined }
+
+sequence
+11
+self sequence
+0 1 1 1 1
+0 1 1 1 1
+
+sequenceGetConfig
+11
+self sequenceGetConfig
+1 1 1 1 1
+1 1 1 1 1
+
+sequenceSetConfig
+11
+self sequenceSetConfig
+0 1 1 1 1
+0 1 1 1 1
+
+crystalSelectionList
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+-1 -1 {0 0 0 0 0}
+
+screeningActionList
+13
+self screeningActionList
+0 1 1 1 1
+0 1 1 1 1
+0 -1 -1 {1 1 1 1 1 0 0 0 0 0 0 0 0 0}
+
+screeningParameters
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+{{MountNextCrystal {}} {LoopAlignment {}} {Pause {}} {VideoSnapshot {1.000 0deg}} {CollectImage {1.000 2.000 1 {}}} {Rotate 90.000} {VideoSnapshot {1.000 90deg}} {CollectImage {1.000 2.000 1 {}}} {Pause {}} {Rotate -45.000} {VideoSnapshot {1.000 45deg}} {CollectImage {1.000 2.000 1 {}}} {ExcitationScan {10.000 test}} {Pause {}}} 0 ~/test
+
+robotResetStep
+13
+self robotResetStep
+0 1 1 1 1
+0 1 1 1 1
+0
+
+continueResetProcedure
+11
+self continueResetProcedure
+0 0 0 1 0
+0 0 0 0 0
+
+ISampleMountingDeviceSoftOnly
+11
+self ISampleMountingDeviceSoftOnly
+1 1 1 1 1
+0 0 0 0 0
+
+table_setup
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+1277 0 22.28 300.0 0
+
+fillRun
+11
+self fillRun
+0 1 1 1 1
+0 1 1 1 1
+
+runsConfig
+11
+self runsConfig
+0 1 1 1 1
+0 1 1 1 1
+
+autoDose
+11
+self autoDose
+0 1 1 1 1
+0 1 1 1 1
+
+collectWeb
+11
+self collectWeb
+0 1 1 1 1
+0 1 1 1 1
+
+abortCollectWeb
+11
+self abortCollectWeb
+1 1 1 1 1
+1 1 1 1 1
+
+collect_config
+13
+self standardString
+1 1 1 1 1
+0 0 0 0 0
+0 0 0 0 0 0 0 0 0
+
+runExtra0
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+-1 disMnted {} {} {} {} {} {} {} {} {} {} {}
+
+runExtra1
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+{} {} {} {} {} {} {} {} {} {} {} {} {}
+
+runExtra2
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+{} {} {} {} {} {} {} {} {} {} {} {} {}
+
+runExtra3
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+{} {} {} {} {} {} {}
+
+runExtra4
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+{} {} {} {} {} {} {}
+
+runExtra5
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+{} {} {} {} {} {} {}
+
+runExtra6
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+{} {} {} {} {} {} {}
+
+runExtra7
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+{} {} {} {} {} {} {}
+
+runExtra8
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+{} {} {} {} {} {} {}
+
+runExtra9
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+{} {} {} {} {} {} {}
+
+runExtra10
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+{} {} {} {} {} {} {}
+
+runExtra11
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+{} {} {} {} {} {} {}
+
+runExtra12
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+{} {} {} {} {} {} {}
+
+runExtra13
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+{} {} {} {} {} {} {}
+
+runExtra14
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+{} {} {} {} {} {} {}
+
+runExtra15
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+{} {} {} {} {} {} {}
+
+runExtra16
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+{} {} {} {} {} {} {}
+
+cassette_owner
+13
+self standardString
+1 1 1 1 1
+0 0 0 0 0
+{} {} {} {}
+
+robotConfigSoftOnly
+11
+self robotConfigSoftOnly
+1 1 1 1 1
+0 0 0 0 0
+
+system_status
+13
+self systemStatus
+1 1 1 1 1
+0 0 0 0 0
+{Detector Ready} black #00a040
+
+strategy_file
+13
+imperson strategy_file
+0 1 1 1 1
+0 1 1 1 1
+disMnted {}
+
+strategy_status
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+ready disMnted {}
+
+scan_msg
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+error: error energy_sw_limit
+
+burn_paper_constant_name_list
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+exposure_time step_ratio cut_cryo_time
+
+burn_paper_constant
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+25 1.75 10.0
+
+burnPaper
+11
+self burnPaper
+0 1 1 1 1
+0 0 0 0 0
+
+detector_status
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+Detector Ready
+
+collect_default
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+1.0 2
+
+robot_default
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+1 1 1 1 1 0 0 1 0 1 0 -1 0 1 1
+
+userLog
+11
+self userLog
+0 1 1 1 1
+0 1 1 1 1
+
+current_user_log
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+/data/blctl/userLog/BL_3BM1/userLog20061130_175259.ulg
+
+beamextern
+6
+dtb 0 beamextern
+0 1 1 1 1
+0 1 1 1 1
+
+loc_12v
+6
+dtb 0 loc_12v
+0 1 1 1 1
+0 1 1 1 1
+
+hv_on
+6
+dtb 0 hv_on
+0 1 1 1 1
+0 1 1 1 1
+
+backlight_on
+6
+dtb 0 backlight_on
+0 1 1 1 1
+0 1 1 1 1
+
+backlight_in
+6
+dtb 1 backlight_in
+0 1 1 1 1
+0 1 1 1 1
+
+gonio_phi
+1
+dtb phiachse
+0 1 1 1 1
+0 1 1 1 1
+0
+90.000000 0.000000 0.000000 800.000000 16000 800 0 0 0 0 0 1 1 deg
+
+detector_z
+1
+dtb distance
+0 1 1 1 1
+0 1 1 1 1
+0
+300.000000 384.000000 35.000000 400.000000 4000 1000 -400 1 1 0 1 0 0 mm
+
+sample_x
+1
+dtb step3x
+0 1 1 1 1
+0 1 1 1 1
+0
+0.000000 4.500000 -4.500000 756.000000 756 160 0 0 0 0 0 0 0 mm
+
+sample_y
+1
+dtb step3y
+0 1 1 1 1
+0 1 1 1 1
+0
+0.000000 4.500000 -4.500000 756.000000 756 160 0 0 0 0 0 0 0 mm
+
+sample_z
+1
+dtb step3z
+0 1 1 1 1
+0 1 1 1 1
+0
+-0.000000 20.000000 -20.000000 1600.000000 4000 400 -160 1 1 0 0 1 0 mm
+
+beamstop_z
+1
+dtb beamstop
+0 1 1 1 1
+0 1 1 1 1
+0
+40.502055 45.000000 5.000000 6.666000 6 200 0 1 1 0 0 1 0 mm
+
+slit1v
+1
+dtb slit1v
+0 1 1 1 1
+0 1 1 1 1
+0
+10.560000 4.000000 0.000000 200.000000 50 200 -20 0 0 0 0 0 0 mm
+
+slit1h
+1
+dtb slit1h
+0 1 1 1 1
+0 1 1 1 1
+0
+10.900000 4.000000 0.000000 200.000000 50 200 -20 0 0 0 0 0 0 mm
+
+slit2v
+1
+dtb slit2v
+0 1 1 1 1
+0 1 1 1 1
+0
+10.610000 4.000000 0.000000 200.000000 50 200 -20 0 0 0 0 0 0 mm
+
+slit2h
+1
+dtb slit2h
+0 1 1 1 1
+0 1 1 1 1
+0
+10.870000 4.000000 0.000000 200.000000 50 200 -20 0 0 0 0 0 0 mm
+
+table_horz
+1
+dtb horfront
+0 1 1 1 1
+0 1 1 1 1
+0
+10.308125 9.800000 -9.800000 1600.000000 4000 200 -20 0 0 0 0 0 0 mm
+
+table_yaw
+1
+dtb horrear
+0 1 1 1 1
+0 1 1 1 1
+0
+0.582031 4.000000 -4.000000 12800.000000 1280 200 -20 0 0 0 0 1 0 deg
+
+table_vert
+1
+dtb vertrans
+0 1 1 1 1
+0 1 1 1 1
+0
+0.988850 7.500000 -7.500000 20000.000000 800 200 0 0 0 0 0 0 0 mm
+
+detector_two_theta
+1
+dtb theta
+0 1 1 1 1
+0 1 1 1 1
+0
+0.000000 120000.000000 0.000000 1.000000 1600 800 -20 0 0 0 0 1 0 deg
+
+beam_size_xSp
+13
+epics_gateway SR03BM01SLM02:X_SIZE_SP
+1 1 1 1 1
+0 1 1 1 1
+0.3 
+
+beam_size_xCmd
+13
+epics_gateway SR03BM01SLM02:X_SIZE_MV_CMD.PROC
+0 1 1 1 1
+0 1 1 1 1
+0
+
+beam_size_xStop
+13
+epics_gateway SR03BM01SLM02:X_SIZE_ST_CMD
+0 1 1 1 1
+0 1 1 1 1
+1
+
+beam_size_xBusy
+13
+epics_gateway SR03BM01SLM02:BUSY_X_SIZE_STS
+0 0 0 0 0
+0 0 0 0 0
+0 
+
+beam_size_xDrvH
+13
+epics_gateway SR03BM01SLM02:X_SIZE_SP.DRVH
+0 0 0 0 0
+0 0 0 0 0
+62.48500061
+
+beam_size_xDrvL
+13
+epics_gateway SR03BM01SLM02:X_SIZE_SP.DRVL
+0 0 0 0 0
+0 0 0 0 0
+-55.51499939
+
+beam_size_xMonit
+13
+epics_gateway SR03BM01SLM02:X_SIZE_MON
+0 0 0 0 0
+0 0 0 0 0
+0.3000000119 
+
+beam_size_xError
+13
+epics_gateway SR03BM01SLM02:H_ERROR_STS
+0 0 0 0 0
+0 0 0 0 0
+0
+
+beam_size_ySp
+13
+epics_gateway SR03BM01SLM02:Y_SIZE_SP
+0 1 1 1 1
+0 1 1 1 1
+0.3
+
+beam_size_yCmd
+13
+epics_gateway SR03BM01SLM02:Y_SIZE_MV_CMD.PROC
+0 1 1 1 1
+0 1 1 1 1
+0
+
+beam_size_yStop
+13
+epics_gateway SR03BM01SLM02:Y_SIZE_ST_CMD
+0 1 1 1 1
+0 1 1 1 1
+1
+
+beam_size_yBusy
+13
+epics_gateway SR03BM01SLM02:BUSY_Y_SIZE_STS
+0 0 0 0 0
+0 0 0 0 0
+0
+
+beam_size_yDrvH
+13
+epics_gateway SR03BM01SLM02:Y_SIZE_SP.DRVH
+0 0 0 0 0
+0 0 0 0 0
+60
+
+beam_size_yDrvL
+13
+epics_gateway SR03BM01SLM02:Y_SIZE_SP.DRVL
+0 0 0 0 0
+0 0 0 0 0
+-53.37000275
+
+beam_size_yMonit
+13
+epics_gateway SR03BM01SLM02:Y_SIZE_MON
+0 0 0 0 0
+0 0 0 0 0
+0.3000000119
+
+beam_size_yError
+13
+epics_gateway SR03BM01SLM02:V_ERROR_STS
+0 0 0 0 0
+0 0 0 0 0
+0
+
+beam_size_x
+2
+self stringMotor
+0 1 1 1 1
+0 1 1 1 1
+0
+0.300000 62.485001 -55.514999 1 1 0 0 mm
+0
+
+beam_size_y
+2
+self stringMotor
+0 1 1 1 1
+0 1 1 1 1
+0
+0.300000 60.000000 -53.370003 1 1 0 0 mm
+0
+
+sequenceManual
+11
+self sequenceManual
+0 1 1 1 1
+0 1 1 1 1
+
+waitingWatch
+11
+self waitingWatch
+1 1 1 1 1
+0 0 0 0 0
+
+getEPICSPV
+11
+epics_gateway getEPICSPV
+1 1 1 1 1
+1 1 1 1 1
+
+setEPICSPV
+11
+epics_gateway setEPICSPV
+1 1 1 1 1
+0 1 1 1 1
+
+forceReadString
+11
+epics_gateway forceReadString
+1 1 1 1 1
+0 1 1 1 1
+
+robot_force_left
+13
+robot robot_force_left
+0 1 1 1 1
+0 1 1 1 1
+   0.0 uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu
+
+robot_force_middle
+13
+robot robot_force_middle
+0 1 1 1 1
+0 1 1 1 1
+   0.0 uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu
+
+robot_force_right
+13
+robot robot_force_right
+0 1 1 1 1
+0 1 1 1 1
+   0.0 uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu uuuu
+
+ts_robot_cal
+13
+robot ts_robot_cal
+0 1 1 1 1
+0 1 1 1 1
+
+
+END

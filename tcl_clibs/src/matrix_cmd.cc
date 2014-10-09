@@ -1,4 +1,5 @@
 #include <string.h>
+#include <deque>
 #include <tcl.h>
 #include <stdlib.h>
 #include <errno.h>
@@ -17,6 +18,8 @@ static char normal_result[] = "normal OK";
 static double* buffer_x(NULL);
 static double* buffer_y(NULL);
 static size_t currentBufferSize(0);
+
+static deque<DcsScan2DData*> my2DDataPool;
 
 static int resizeArray( double*& x, double*& y, size_t newsize )
 {
@@ -54,7 +57,7 @@ static int resizeArray( double*& x, double*& y, size_t newsize )
 int DcsScan2DDataCmd( ClientData cdata, Tcl_Interp* interp, int objc, Tcl_Obj *CONST objv[] )
 {
     //char puts_buffer[256] = {0};
-        
+
     DcsScan2DData* pScan2DData = (DcsScan2DData*)cdata;
     DcsMatrix* pBase = pScan2DData;
 
@@ -414,14 +417,14 @@ int DcsScan2DDataCmd( ClientData cdata, Tcl_Interp* interp, int objc, Tcl_Obj *C
             {
                 char buffer[64] = {0};
                 int offset = segments[seg_no].m_offset + index;
-                sprintf( buffer, "%.1f", buffer_x[offset] );
+                sprintf( buffer, "%.1lf", buffer_x[offset] );
                 if (Tcl_SetVar2( interp, "m_contour", sub, buffer, TCL_LIST_ELEMENT | TCL_APPEND_VALUE | TCL_NAMESPACE_ONLY | TCL_LEAVE_ERR_MSG ) == NULL)
                 {
                     Tcl_SetResult( interp, "failed to put result into varialbe m_contour", TCL_STATIC );
                     puts( "set var failed for contour" );
                     return TCL_ERROR;
                 }
-                sprintf( buffer, "%.1f", buffer_y[offset] );
+                sprintf( buffer, "%.1lf", buffer_y[offset] );
                 if (Tcl_SetVar2( interp, "m_contour", sub, buffer, TCL_LIST_ELEMENT | TCL_APPEND_VALUE | TCL_NAMESPACE_ONLY | TCL_LEAVE_ERR_MSG ) == NULL)
                 {
                     Tcl_SetResult( interp, "failed to put result into varialbe m_contour", TCL_STATIC );
@@ -710,15 +713,28 @@ int DcsScan2DDataCmd( ClientData cdata, Tcl_Interp* interp, int objc, Tcl_Obj *C
 }
 void DeleteDcsScan2DDataCmd( ClientData cdata )
 {
-    //printf( "matrx at %p deleted \n", cdata );
-    delete (DcsScan2DData *)cdata;
+    fprintf( stderr, "matrx at %p deleted\n", cdata );
+    DcsScan2DData* pObj = (DcsScan2DData *)cdata;
+
+    my2DDataPool.push_front( pObj );
+    fprintf( stderr, "pool size=%d\n", my2DDataPool.size( ) );
 }
 
 int NewDcsScan2DDataCmd( ClientData cdata, Tcl_Interp* interp, int argc, char** argv )
 {
     static unsigned int id(0);
 
-    DcsScan2DData* newMatrixPtr = new DcsScan2DData( );
+    DcsScan2DData* newMatrixPtr = NULL;
+
+    if (my2DDataPool.size( ) > 0) {
+        newMatrixPtr = my2DDataPool.front( );
+        my2DDataPool.pop_front( );
+        newMatrixPtr->reset( );
+        fprintf( stderr, "reusing from pool\n" );
+    } else {
+        fprintf( stderr, "empty pool create new\n" );
+        newMatrixPtr = new DcsScan2DData( );
+    }
 
     //create unique name
     sprintf( interp->result, "DcsScan2DData%u", id++ );

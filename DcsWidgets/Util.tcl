@@ -529,6 +529,10 @@ class ::DCS::Units {
 		set scaleFactor(C,C)		""
 		set scaleFactor(K,K)		""
 
+        ### attenuation
+        set scaleFactor(%,fold) {100.0 / (100.0 - $X)}
+        set scaleFactor(fold,%) {100.0 * (1.0 - 1.0 / $X)}
+
 		#list of possible conversions
 		set conversions(mm) {mm um}
 		set conversions(um) {mm um}
@@ -548,6 +552,8 @@ class ::DCS::Units {
         set conversions(V) {V}
         set conversions(e11p/s) {e11p/s}
         set conversions(mA) {mA}
+        set conversions(%) {% fold}
+        set conversions(fold) {% fold}
 		set conversions() {}	
 	}
 }
@@ -576,10 +582,22 @@ body ::DCS::Units::convertUnits {value fromUnits toUnits} {
 	if {$toUnits == ""} {return $value}
 	if {$fromUnits == $toUnits } {return $value}
 
+    if {$fromUnits == "%" && $toUnits == "fold" && $value >= 100.0} {
+        return 99999.99
+    }
+
 	if { [catch {
-		set result [expr $scaleFactor($fromUnits,$toUnits) $value ]
+        set cc $scaleFactor($fromUnits,$toUnits)
+        if {[string first X $cc] < 0} {
+		    set result [expr $scaleFactor($fromUnits,$toUnits) $value ]
+        } else {
+            puts "from $fromUnits to $toUnits"
+            set X $value
+            puts "cc=$cc, where X=$X"
+            set result [eval expr $cc]
+        }
 	} errorResult ] } {
-		#puts "ERROR $errorResult"
+		puts "units ERROR $errorResult"
 		return $value
 	}
 	
@@ -1132,6 +1150,10 @@ proc parseReOrientInfo { contents_ mapRef } {
     }
 }
 proc secondToTimespan { s } {
+    if {![string is integer -strict $s]} {
+        return $s
+    }
+
     set m [expr $s / 60]
     set h [expr $m / 60]
     set d [expr $h / 24]
@@ -1172,7 +1194,24 @@ proc timespanToSecond { span } {
     }
     return $total
 }
+
+proc secondToDue { s } {
+    if {![string is integer -strict $s]} {
+        return $s
+    }
+    if {$s <= 0} {
+        set v [expr -1 * $s]
+        return "overdue [secondToTimespan $v]"
+        #return "overdue"
+    }
+
+    return [secondToTimespan $s]
+}
+
 proc setStringFieldWithPadding { copy index value {padding {}}} {
+    if {$index < 0} {
+        return -code error "index=$index < 0 for setStringField"
+    }
     set ll [llength $copy]
     if {$ll <= $index} {
         set need [expr $index - $ll + 1]
@@ -1184,6 +1223,26 @@ proc setStringFieldWithPadding { copy index value {padding {}}} {
     set copy [lreplace $copy $index $index $value]
 
     return $copy
+}
+proc setMultiLevelListElement { copy indexList value {padding {}} } {
+    set lIndex [llength $indexList]
+    if {$lIndex < 2} {
+        return [setStringFieldWithPadding $copy $indexList $value $padding]
+    }
+    ### recursive call
+    set index0 [lindex $indexList 0]
+    set leftIndexList [lrange $indexList 1 end]
+    set oldField0 [lindex $copy $index0]
+    set newField0 \
+    [setMultiLevelListElement $oldField0 $leftIndexList $value $padding]
+
+    return [setStringFieldWithPadding $copy $index0 $newField0 $padding]
+}
+proc getMultiLevelListElement { listValue indexList } {
+    set cmd lindex
+    lappend cmd $listValue
+    eval lappend cmd $indexList
+    return [eval $cmd]
 }
 proc calculateProjectionFromSamplePosition { orig cur_x  cur_y  cur_z {return_micron 0}} {
     foreach {orig_x orig_y orig_z orig_angle cv ch} $orig break
@@ -1213,8 +1272,6 @@ proc calculateProjectionFromSamplePosition { orig cur_x  cur_y  cur_z {return_mi
         log_error bad orig to calculate proj: $orig
         return [-999 -999]
     }
-
-
 
     set dx [expr $cur_x - $orig_x]
     set dy [expr $cur_y - $orig_y]
@@ -1378,21 +1435,14 @@ proc translateHorzProjection { source_horz source_orig target_orig } {
 ### now (08/22/2012) we need full translate
 ### we are only use for microns.
 proc translateProjection { source_horz source_vert source_orig target_orig } {
-    set centerV 0.5
-    set centerH 0.5
-    foreach {sx sy sz sangle scv sch} $source_orig break
-    foreach {tx ty tz tangle tcv tch} $target_orig break
-
-    if {[llength $target_orig] >= 10} {
-        set centerV [lindex $target_orig 8]
-        set centerH [lindex $target_orig 9]
-    }
+    foreach {sx sy sz sangle scv sch - - sCenterV sCenterH} $source_orig break
+    foreach {tx ty tz tangle tcv tch - - tCenterV tCenterH} $target_orig break
 
     ### units micron
-    set sCntrX [expr $centerH * $sch * 1000.0]
-    set sCntrY [expr $centerV * $scv * 1000.0]
-    set tCntrX [expr $centerH * $tch * 1000.0]
-    set tCntrY [expr $centerV * $tcv * 1000.0]
+    set sCntrX [expr $sCenterH * $sch * 1000.0]
+    set sCntrY [expr $sCenterV * $scv * 1000.0]
+    set tCntrX [expr $tCenterH * $tch * 1000.0]
+    set tCntrY [expr $tCenterV * $tcv * 1000.0]
     foreach {v0 h0} [calculateProjectionFromSamplePosition \
     $target_orig $sx $sy $sz 1] break
 
@@ -1403,31 +1453,30 @@ proc translateProjection { source_horz source_vert source_orig target_orig } {
 
     return [list $target_horz $target_vert]
 }
-proc reverseProjection { source_horz source_vert source_orig target_orig } {
-    set centerV 0.5
-    set centerH 0.5
-    foreach {sx sy sz sangle scv sch} $source_orig break
-    foreach {tx ty tz tangle tcv tch} $target_orig break
-
-    if {[llength $source_orig] >= 10} {
-        set centerV [lindex $source_orig 8]
-        set centerH [lindex $source_orig 9]
-    }
+proc reverseProjection { target_horz target_vert target_orig source_orig } {
+    foreach {sx sy sz sangle scv sch - - sCenterV sCenterH} $source_orig break
+    foreach {tx ty tz tangle tcv tch - - tCenterV tCenterH} $target_orig break
 
     ### units micron
-    set sCntrX [expr $centerH * $sch * 1000.0]
-    set sCntrY [expr $centerV * $scv * 1000.0]
-    set tCntrX [expr $centerH * $tch * 1000.0]
-    set tCntrY [expr $centerV * $tcv * 1000.0]
+    set sCntrX [expr $sCenterH * $sch * 1000.0]
+    set sCntrY [expr $sCenterV * $scv * 1000.0]
+    set tCntrX [expr $tCenterH * $tch * 1000.0]
+    set tCntrY [expr $tCenterV * $tcv * 1000.0]
+
     foreach {v0 h0} [calculateProjectionFromSamplePosition \
     $target_orig $sx $sy $sz 1] break
 
     set a [expr ($sangle - $tangle) * 3.1415926 / 180.0]
 
-    set target_horz [expr $h0 +  $source_horz - $sCntrX            + $tCntrX]
-    set target_vert [expr $v0 + ($source_vert - $sCntrY) / cos($a) + $tCntrY]
+    if {abs(cos($a)) < 0.01} {
+        #log_error cannot do reverse calculation for 90 degree views.
+        return -code error BAD_ORIG
+    }
 
-    return [list $target_horz $target_vert]
+    set source_horz [expr $target_horz - $h0 - $tCntrX            + $sCntrX]
+    set source_vert [expr ($target_vert - $tCntrY -$v0) / cos($a) + $sCntrY]
+
+    return [list $source_horz $source_vert]
 }
 ## units in microns
 proc translateProjectionBox { s_horz s_vert source_orig target_orig } {
@@ -1446,6 +1495,10 @@ proc reverseProjectionBox { s_horz s_vert source_orig target_orig } {
     foreach {tx ty tz tangle tcv tch} $target_orig break
 
     set a [expr ($sangle - $tangle) * 3.1415926 / 180.0]
+    if {abs(cos($a)) < 0.01} {
+        #log_error cannot do reverse calculation for 90 degree views.
+        return -code error BAD_ORIG
+    }
 
     set target_horz $s_horz
     set target_vert [expr $s_vert / cos($a)]
@@ -1455,21 +1508,15 @@ proc reverseProjectionBox { s_horz s_vert source_orig target_orig } {
 
 ### units in microns
 proc translateProjectionCoords { coords source_orig target_orig } {
-    foreach {sx sy sz sangle scv sch} $source_orig break
-    foreach {tx ty tz tangle tcv tch - - centerV centerH} $target_orig break
-
-    if {$centerV == "" || $centerH == ""} {
-        puts "no center in target orig: $target_orig"
-        puts "source=$source_orig"
-        set centerV 0.5
-        set centerH 0.5
-    }
+    foreach {sx sy sz sangle scv sch - - sCenterV sCenterH} $source_orig break
+    foreach {tx ty tz tangle tcv tch - - tCenterV tCenterH} $target_orig break
 
     ### units micron
-    set sCntrX [expr $centerH * $sch * 1000.0]
-    set sCntrY [expr $centerV * $scv * 1000.0]
-    set tCntrX [expr $centerH * $tch * 1000.0]
-    set tCntrY [expr $centerV * $tcv * 1000.0]
+    set sCntrX [expr $sCenterH * $sch * 1000.0]
+    set sCntrY [expr $sCenterV * $scv * 1000.0]
+    set tCntrX [expr $tCenterH * $tch * 1000.0]
+    set tCntrY [expr $tCenterV * $tcv * 1000.0]
+
     foreach {v0 h0} [calculateProjectionFromSamplePosition \
     $target_orig $sx $sy $sz 1] break
 
@@ -1477,42 +1524,48 @@ proc translateProjectionCoords { coords source_orig target_orig } {
 
     set result ""
 
+    set hOffset [expr $h0 + $tCntrX - $sCntrX]
+    set vScale  [expr cos($a)]
+    set vOffset [expr $v0 + $tCntrY - $sCntrY * $vScale]
+
     foreach {h v} $coords {
-        set target_horz [expr $h0 +  $h - $sCntrX            + $tCntrX]
-        set target_vert [expr $v0 + ($v - $sCntrY) * cos($a) + $tCntrY]
+        set target_horz [expr $h           + $hOffset]
+        set target_vert [expr $v * $vScale + $vOffset]
 
         lappend result $target_horz $target_vert
     }
     return $result
 }
-proc reverseProjectionCoords { coords source_orig target_orig } {
-    foreach {sx sy sz sangle scv sch - - centerV centerH} $source_orig break
-    foreach {tx ty tz tangle tcv tch} $target_orig break
-
-    if {$centerV == "" || $centerH == ""} {
-        puts "no center in target orig: $target_orig"
-        puts "source=$source_orig"
-        set centerV 0.5
-        set centerH 0.5
-    }
+proc reverseProjectionCoords { coords target_orig source_orig } {
+    foreach {sx sy sz sangle scv sch - - sCenterV sCenterH} $source_orig break
+    foreach {tx ty tz tangle tcv tch - - tCenterV tCenterH} $target_orig break
 
     ### units micron
-    set sCntrX [expr $centerH * $sch * 1000.0]
-    set sCntrY [expr $centerV * $scv * 1000.0]
-    set tCntrX [expr $centerH * $tch * 1000.0]
-    set tCntrY [expr $centerV * $tcv * 1000.0]
+    set sCntrX [expr $sCenterH * $sch * 1000.0]
+    set sCntrY [expr $sCenterV * $scv * 1000.0]
+    set tCntrX [expr $tCenterH * $tch * 1000.0]
+    set tCntrY [expr $tCenterV * $tcv * 1000.0]
+
     foreach {v0 h0} [calculateProjectionFromSamplePosition \
     $target_orig $sx $sy $sz 1] break
 
     set a [expr ($sangle - $tangle) * 3.1415926 / 180.0]
+    if {abs(cos($a)) < 0.01} {
+        #log_error cannot do reverse calculation for 90 degree views.
+        return -code error BAD_ORIG
+    }
 
     set result ""
 
-    foreach {h v} $coords {
-        set target_horz [expr $h0 +  $h - $sCntrX            + $tCntrX]
-        set target_vert [expr $v0 + ($v - $sCntrY) / cos($a) + $tCntrY]
+    set hOffset [expr -$h0 - $tCntrX + $sCntrX]
+    set vScale  [expr cos($a)]
+    set vOffset [expr (-$v0 - $tCntrY) / $vScale + $sCntrY]
 
-        lappend result $target_horz $target_vert
+    foreach {h v} $coords {
+        set source_horz [expr $h + $hOffset]
+        set source_vert [expr $v / $vScale + $vOffset]
+
+        lappend result $source_horz $source_vert
     }
     return $result
 }
@@ -1687,4 +1740,148 @@ proc readCSVFileIntoList { path } {
         lappend result $eList
     }
     return $result
+}
+### here horz and vert are fraction from lefttop
+### this position is on the view plane.
+proc calculateSamplePositionFromVideoClick { viewOrig horz vert {micron 0} } {
+    foreach {x0 y0 z0 a0 cv ch - - centerV centerH} $viewOrig break
+
+    if {$micron} {
+        set dH [expr $horz - $centerH * $ch * 1000.0]
+        set dV [expr $vert - $centerV * $cv * 1000.0]
+    } else {
+        set dH [expr $horz - $centerH]
+        set dV [expr $vert - $centerV]
+    }
+
+    foreach {dx dy dz} [calculateSamplePositionDeltaFromDeltaProjection \
+    $viewOrig $dV $dH $micron] break
+
+    set x [expr $x0 + $dx]
+    set y [expr $y0 + $dy]
+    set z [expr $z0 + $dz]
+    #set a [expr $a0 + 90.0]
+    return [list $x $y $z]
+}
+##reverse of above
+proc calculateSamplePositionOnVideo { viewOrig position {micron 0} } {
+    foreach {x y z} $position break
+
+    foreach {- - - - cv ch - - centerV centerH} $viewOrig break
+    set proj [calculateProjectionFromSamplePosition $viewOrig $x $y $z $micron]
+
+    foreach {v h} $proj break
+    if {$micron} {
+        set horz [expr $h + $centerH * $ch * 1000.0]
+        set vert [expr $v + $centerV * $cv * 1000.0]
+    } else {
+        set horz [expr $h + $centerH]
+        set vert [expr $v + $centerV]
+    }
+
+    return [list $horz $vert]
+}
+### the myP most likely is out of the view plane.
+### The adjust will move the point in a plane parallel to the view.
+proc adjustSamplePositionFromVideoClick { viewOrig horz vert myP {micron 0} } {
+    foreach {myX myY myZ} $myP break
+
+    foreach {myH myV} [calculateSamplePositionOnVideo \
+    $viewOrig $myP $micron] break
+
+    set dH [expr $horz - $myH]
+    set dV [expr $vert - $myV]
+    foreach {dx dy dz} [calculateSamplePositionDeltaFromDeltaProjection \
+    $viewOrig $dV $dH $micron] break
+
+    puts "ajust dx=$dx dy=$dy dz=$dz"
+
+    set x [expr $myX + $dx]
+    set y [expr $myY + $dy]
+    set z [expr $myZ + $dz]
+    return [list $x $y $z]
+}
+proc adjustSamplePositionFromVideoDisplacement { viewOrig horz vert myP {micron 0} } {
+    foreach {myX myY myZ} $myP break
+
+    foreach {myH myV} [calculateSamplePositionOnVideo \
+    $viewOrig $myP $micron] break
+
+    set dH [expr $horz ]
+    set dV [expr $vert ]
+    foreach {dx dy dz} [calculateSamplePositionDeltaFromDeltaProjection \
+    $viewOrig $dV $dH $micron] break
+
+    set x [expr $myX + $dx]
+    set y [expr $myY + $dy]
+    set z [expr $myZ + $dz]
+    return [list $x $y $z]
+}
+
+proc replaceUsernameAndGridLabelInDictionary {paramREF user label {crystal 0}} {
+    upvar $paramREF param
+
+    set anyChange 0
+
+    if {$crystal} {
+        set key crystal
+    } else {
+        set key grid
+    }
+
+    foreach name {directory prefix} {
+        if {[dict exists $param $name]} {
+            set value [dict get $param $name]
+            if {$name == "directory"} {
+                if {[checkUsernameInDirectory value $user]} {
+                    dict set param $name $value
+                    incr anyChange
+                }
+                set goodValue [TrimStringForRootDirectoryName $value]
+                if {$goodValue != $value} {
+                    dict set param $name $goodValue
+                    incr anyChange
+                }
+            }
+            set new_value [string map "GRID_LABEL $key$label" $value]
+            if {$new_value != $value} {
+                dict set param $name $new_value
+                incr anyChange
+            }
+        }
+    }
+    return $anyChange
+}
+proc dictSetCellSizeToBeamSize { paramREF followFlag } {
+    if {$followFlag == 0} {
+        return
+    }
+
+    upvar $paramREF param
+    if {[catch {dict get $param collimator} clmtr]} {
+        set clmtr [list 0 -1 2.0 2.0]
+    }
+    foreach {microBeam index cbw cbh} $clmtr break
+    if {$microBeam} {
+        set bw [expr $cbw * 1000.0]
+        set bh [expr $cbh * 1000.0]
+    } else {
+        if {[catch {dict get $param beam_width} bw]} {
+            set bw 0
+        }
+        if {[catch {dict get $param beam_height} bh]} {
+            set bh 0
+        }
+    }
+
+    switch -exact -- $followFlag {
+        1 {
+            dict set param cell_width $bw
+            dict set param cell_height $bh
+        }
+        2 {
+            dict set param cell_width  [expr $bw / 2.0]
+            dict set param cell_height [expr $bh / 2.0]
+        }
+    }
 }

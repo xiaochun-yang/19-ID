@@ -99,6 +99,19 @@ body DCS::MotorTargetList::calculateOutput { } {
 		foreach {currentPosition -} $_inputValueArray($attribute) break
 
 		#puts "TARGET: $targetPosition"
+		foreach {device att} [split $attribute ~] break
+
+        if {$targetPosition == "lowerLimit" \
+        && [$device isa ::DCS::Motor]} {
+            set targetPosition \
+            [lindex [$device getEffectiveLowerLimit] 0]
+            puts "moving lowerLimit for $device = $targetPosition"
+        }
+        if {$targetPosition == "upperLimit" \
+        && [$device isa ::DCS::Motor]} {
+            set targetPosition \
+            [lindex [$device getEffectiveUpperLimit] 0]
+        }
 
 		if { abs ( $currentPosition - $targetPosition) < 0.01 } {
 			set _outputMessage $_inputMessageArray($attribute)
@@ -140,6 +153,18 @@ body DCS::MotorTargetList::moveToTargets { } {
 
 		#remember the wanted trigger value
 		set targetPosition $_blockingValuesArray($attribute)
+        if {$targetPosition == "lowerLimit" \
+        && [$device isa ::DCS::Motor]} {
+            set targetPosition \
+            [lindex [$device getEffectiveLowerLimit] 0]
+            puts "moving lowerLimit for $device = $targetPosition"
+        }
+        if {$targetPosition == "upperLimit" \
+        && [$device isa ::DCS::Motor]} {
+            set targetPosition \
+            [lindex [$device getEffectiveUpperLimit] 0]
+        }
+
 		
 		$device move to $targetPosition [$device cget -baseUnits]
 	}

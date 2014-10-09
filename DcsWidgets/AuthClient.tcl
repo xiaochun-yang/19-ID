@@ -700,7 +700,7 @@ body AuthClient::enforceUniqueness {} {
 			if { $isParseCookie == 1 } {
 					
 				# Fine SessionID field in Set-Cookie header using regular expression
-				if { [regexp {SMBSessionID=([1234567890ABCDEF]*);} $value match tmp] == 1 } {
+				if { [regexp {SMBSessionID=([1234567890ABCDEFabcdef-]*);} $value match tmp] == 1 } {
 					set m_sessionId $tmp
 				}
 				

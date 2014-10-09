@@ -76,6 +76,13 @@ class DCS::Checkbutton {
 	itk_option define -shadowReference shadowreference ShadowReference 0
 	itk_option define -command command Command ""
 
+    itk_option define -background background Background gray {
+        set _originBG $itk_option(-background)
+    }
+
+    itk_option define -onBackground onBackground OnBackground ""
+    itk_option define -offBackground offBackground OffBackground ""
+
 	# Variables to remember which component this entry is currently
 	# using for a reference.
 	private variable _referenceComponent		none
@@ -86,6 +93,8 @@ class DCS::Checkbutton {
 	protected variable _lastReferenceMatches ""
 	protected variable _referenceMatches 0
 	protected variable _state "normal"
+
+    protected variable _originBG gray
 
 	public method updateTextColor
 	public method handleUpdateFromReference
@@ -126,6 +135,7 @@ class DCS::Checkbutton {
 			    keep -background -relief -selectcolor -foreground
                 keep -activeforeground -disabledforeground -highlightcolor
 			    keep -highlightthickness -highlightbackground
+                keep -justify -anchor
 		    }
         } else {
 		    itk_component add checkbutton {
@@ -138,8 +148,10 @@ class DCS::Checkbutton {
 			    keep -background -relief -selectcolor -foreground
                 keep -activeforeground -disabledforeground -highlightcolor
 			    keep -highlightthickness -highlightbackground -overrelief
+                keep -justify -anchor
 		    }
         }
+        set _originBG [$itk_component(checkbutton) cget -background]
 
 		pack $itk_component(checkbutton)
 		pack $itk_component(ring)
@@ -232,8 +244,27 @@ body DCS::Checkbutton::updateTextColor {} {
             }
 		}
 	}
+    if {$itk_option(-onBackground) != "" || $itk_option(-offBackground) != ""} {
+        if {[get]} {
+            set onColor $itk_option(-onBackground)
+            if {$onColor == ""} {
+                set onColor $_originBG
+            }
+            $itk_component(checkbutton) configure \
+            -background $onColor
+        } else {
+            set offColor $itk_option(-offBackground)
+            if {$offColor == ""} {
+                set offColor $_originBG
+            }
+            $itk_component(checkbutton) configure \
+            -background $offColor
+        }
+    } else {
+        $itk_component(checkbutton) configure \
+        -background $_originBG
+    }
 }
-
 
 body DCS::Checkbutton::handleUpdateFromReference { name targetReady_ alias referenceValue_ -} {
 	
@@ -378,7 +409,7 @@ class DCS::CheckbuttonRight {
                 -variable $_checkbuttonVariableName -command "$this doCommand"
 		    } {
         		keep -onvalue -offvalue -wraplength
-			    keep -width -height -activebackground
+			    keep -height -activebackground
 			    keep -background -relief -selectcolor -foreground
                 keep -activeforeground -disabledforeground -highlightcolor
 			    keep -highlightthickness -highlightbackground -overrelief

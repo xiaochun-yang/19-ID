@@ -252,9 +252,23 @@ class DCS::ArrowButton {
 	# inheritance
 	inherit ::DCS::Button
 
-	# public variables
-	public variable direction right
+    public common plusImage
+    set plusImage [image create bitmap -data \
+		"#define hide_width 16
+		#define hide_height 16
+    	static unsigned char hide_bits[] = {
+   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+   0x00, 0x01, 0x00, 0x01, 0xc0, 0x07, 0x00, 0x01, 0x00, 0x01, 0x00, 0x00,
+   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};"]
 
+    public common minusImage
+    set minusImage [image create bitmap -data \
+		"#define hide_width 16
+		#define hide_height 16
+    	static unsigned char hide_bits[] = {
+   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+   0x00, 0x00, 0x00, 0x00, 0xc0, 0x07, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};"]
 	public common leftArrowImage
 	set leftArrowImage [image create bitmap -data \
 		"#define hide_width 16
@@ -262,7 +276,7 @@ class DCS::ArrowButton {
     	static unsigned char hide_bits[] = {
    0x00, 0x00, 0x00, 0x04, 0x00, 0x06, 0x00, 0x07, 0x80, 0x07, 0xc0, 0x07,
    0xe0, 0x07, 0xf0, 0x07, 0xf8, 0x07, 0xf0, 0x07, 0xe0, 0x07, 0xc0, 0x07,
-   0x80, 0x07, 0x00, 0x07, 0x00, 0x06, 0x00, 0x04};"]	\
+   0x80, 0x07, 0x00, 0x07, 0x00, 0x06, 0x00, 0x04};"]
 
 	public common fastLeftArrowImage
 	set fastLeftArrowImage [image create bitmap -data \
@@ -372,12 +386,60 @@ class DCS::ArrowButton {
    0xfe, 0xff, 0x00, 0x00, 0xfe, 0xff, 0xfc, 0x7f, 0xf8, 0x3f, 0xf0, 0x1f,
    0xe0, 0x0f, 0xc0, 0x07, 0x80, 0x03};"]
 
+	public common nearArrowImage
+	set nearArrowImage [image create bitmap -data \
+		"#define hide_width 16
+		#define hide_height 16
+    	static unsigned char hide_bits[] = {
+    0x00, 0x00,
+    0x00, 0x00,
+    0x00, 0x00,
+    0x00, 0x00,
+    0xc0, 0x03,
+    0xe0, 0x07,
+    0xf0, 0x0f,
+    0xf0, 0x0f,
+    0xf0, 0x0f,
+    0xf0, 0x0f,
+    0xe0, 0x07,
+    0xc0, 0x03,
+    0x00, 0x00,
+    0x00, 0x00,
+    0x00, 0x00,
+    0x00, 0x00
+    };"]
+
+	public common farArrowImage
+	set farArrowImage [image create bitmap -data \
+		"#define hide_width 16
+		#define hide_height 16
+    	static unsigned char hide_bits[] = {
+    0x03, 0xc0,
+    0x06, 0x60,
+    0x0c, 0x30,
+    0x18, 0x18,
+    0x30, 0x0c,
+    0x60, 0x06,
+    0xc0, 0x03,
+    0x80, 0x01,
+    0xc0, 0x03,
+    0x60, 0x06,
+    0x30, 0x0c,
+    0x18, 0x18,
+    0x0c, 0x30,
+    0x06, 0x60,
+    0x03, 0xc0,
+    0x01, 0x80,
+    };"]
+
 	constructor { direction  args } {
 		
 		# handle configuration options
 		eval itk_initialize $args
 		
 		switch $direction {
+            near -
+            far -
 			left -
 			fastLeft -
 			right -
@@ -389,6 +451,10 @@ class DCS::ArrowButton {
             vertExpand -
             vertShrink {
 				$itk_component(button) configure -image [set ${direction}ArrowImage]
+            }
+            plus -
+            minus {
+				$itk_component(button) configure -image [set ${direction}Image]
             }
 		}
 	}
@@ -411,6 +477,8 @@ class DCS::ArrowPad {
 	itk_option define -fastRightCommand fastRightCommand FastRightCommand ""
 
 	public method addInput
+
+    public method getRing { } { return $itk_interior }
 
 	constructor { args } {
 		
@@ -513,14 +581,14 @@ configbody ::DCS::ArrowPad::rightCommand {
 configbody ::DCS::ArrowPad::fastLeftCommand {
 	if {$itk_option(-fastLeftCommand) != "" } {
 		$itk_component(fastLeftArrow) configure -command $itk_option(-fastLeftCommand)
-		grid $itk_component(fastLeftArrow) -column 0 -row 2
+		grid $itk_component(fastLeftArrow) -column 0 -row 2 -padx 10
 	}
 }
 
 configbody ::DCS::ArrowPad::fastRightCommand {
 	if {$itk_option(-fastRightCommand) != "" } {
 		$itk_component(fastRightArrow) configure -command $itk_option(-fastRightCommand)
-		grid $itk_component(fastRightArrow) -column 4 -row 2
+		grid $itk_component(fastRightArrow) -column 4 -row 2 -padx 10
 	}
 }
 

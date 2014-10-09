@@ -67,9 +67,9 @@ class SequenceCrystals {
     }
     public method destructor
 
-    
+
 #    private variable MAX_ROW        100
-#yangx change to 192 to cover 12 puck (16sample on each puck) 
+#yangx change to 192 to cover 12 puck (16sample on each puck)     
     private variable MAX_ROW        192
     private variable MAX_COL        100
     private variable INIT_NUM_LABEL     20
@@ -984,10 +984,11 @@ body SequenceCrystals::parseOneRow { row_no contents } {
     }
 }
 body SequenceCrystals::displayAllRow { } {
-    puts "displayAllRow: parsed: $m_numRowParsed displayed: $m_numRowDisplayed"
+    #puts "displayAllRow: parsed: $m_numRowParsed displayed: $m_numRowDisplayed"
     if {$m_numRowParsed == $m_numRowDisplayed} {
         return
     }
+
     set f $itk_component(crystalList)
     if {$m_numRowParsed > $m_numRowDisplayed} {
         for {set row $m_numRowDisplayed} {$row < $m_numRowParsed} {incr row} {
@@ -1010,7 +1011,7 @@ body SequenceCrystals::getNameWidth { column } {
     set name [lindex $column 0]
     set width [lindex $column 1]
     if {$name == ""} {
-        log_error "empty column$num_column definition"
+        log_error "empty column definition"
         return -code error "bad spreadsheet header: empty column name"
     }
     if {$name == "Images" && $width != $IMAGES_WIDTH} {
@@ -2051,7 +2052,9 @@ body SequenceCrystals::handleClientStateChange {  Name_ targetReady_ alias_ stat
 #this is the handler for the string change
 ::itcl::body SequenceCrystals::handleCassetteChange {  stringName_ targetReady_ alias_ cassetteInfo_ - } {
 
+
     if { ! $targetReady_} return
+
     if {$cassetteInfo_ == ""} return
     #puts "CASSETTECHANGE: $cassetteInfo_"
 
@@ -2836,7 +2839,7 @@ body SequenceCrystals::getSpreadsheetUpdate { } {
     set SID [getTicketFromSessionId $SID]
     set eventID [expr $m_SILEventID + 1]
     set data [getSpreadsheetChangesSince $userName $SID $m_SILID $eventID]
-    #puts "yangx row update data: $data"
+    #puts "row update data: $data"
     ###check###
     set silID [lindex $data 0]
     set eventID [lindex $data 1]

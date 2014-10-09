@@ -130,8 +130,8 @@ int DcsMatrix::putValue( int row, int column, double value )
     //check input range
     if (row < 0 || row >= m_numRow || column < 0 || column >= m_numColumn)
     {
-        printf( "DcsMatrix::putValue: bad row %d or column %d\n", row, column );
-        printf( "numrow %d numcolumn %d\n", m_numRow, m_numColumn );
+        fprintf( stderr, "DcsMatrix::putValue: bad row %d or column %d\n", row, column );
+        fprintf( stderr, "numrow %d numcolumn %d\n", m_numRow, m_numColumn );
         return 0;
     }
 
@@ -141,12 +141,18 @@ int DcsMatrix::putValue( int row, int column, double value )
 }
 int DcsMatrix::putValue( int data_index, double value )
 {
+    if (data_index < 0 || data_index >= m_numRow * m_numColumn) {
+        fprintf( stderr, "index =%d bad\n", data_index );
+        fprintf( stderr, "row=%d col=%d\n", m_numRow, m_numColumn );
+        return 0;
+    }
+
     //printf( "DEBUG: data_index=%d\n", data_index );
     if (m_pValidValue[data_index] == -1)
     {
-        printf( "DcsMatrix::putValue: (%d) already has value %lf, %lf ignored\n",
+        fprintf( stderr, "DcsMatrix::putValue: (%d) already has value %lf, %lf ignored\n",
                  data_index, m_pData[data_index], value );
-        return 0;
+        return 1;
     }
 
     //OK, save the value
@@ -178,8 +184,8 @@ int DcsMatrix::setValues( int len, const double values[] )
 
     //check input range
     if (len < 0 || len > m_numRow * m_numColumn) {
-        printf( "DcsMatrix::setValues: bad len=%d\n", len );
-        printf( "numrow %d numcolumn %d\n", m_numRow, m_numColumn );
+        fprintf( stderr, "DcsMatrix::setValues: bad len=%d\n", len );
+        fprintf( stderr, "numrow %d numcolumn %d\n", m_numRow, m_numColumn );
         return 0;
     }
 
@@ -209,7 +215,7 @@ int DcsMatrix::getValue( int row, int column, double& value ) const
     //check input range
     if (row < 0 || row >= m_numRow || column < 0 || column >= m_numColumn)
     {
-        printf( "DcsMatrix::getValue: bad row %d or column %d\n", row, column );
+        fprintf( stderr, "DcsMatrix::getValue: bad row %d or column %d\n", row, column );
         return 0;
     }
     //check state: whether that position already has value
@@ -311,7 +317,7 @@ void DcsMatrix::findHit( double level ) const
                     int V_index = toVHitIndex( row - 1, col );
                     m_pVHitTable[V_index] *= 2;
                 }
-                if (col != m_numColumn) {
+                if (col != m_numColumn - 1) {
                     int H_index = toHHitIndex( row, col );
                     m_pHHitTable[H_index] *= 2;
                 }

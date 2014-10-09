@@ -242,7 +242,7 @@ INC 	+= -I/usr/include/CC \
            -I/usr/local/include
 
 # JPEG directory
-JPEG_DIR = /home/scottm/code/working/jpeg-6b
+JPEG_DIR =
 JPEG_INCLUDE = -I$(JPEG_DIR)
 JPEG_LIB = $(JPEG_DIR)/libjpeg.a
 
@@ -453,6 +453,7 @@ INC +=  -I$(SRC_DIR) \
 	$(JPEG_INCLUDE) \
 	$(OLD_AUTH_INCLUDE) \
 	$(NEWMAT_INCLUDE) \
+	$(LOGGING_INCLUDE) \
 	$(TCL_INCLUDE) 
 
 
@@ -479,12 +480,18 @@ objs =	  $(MACHINE)/ice.o \
 		  $(MACHINE)/cubgcv.o \
 		  $(MACHINE)/matrix.o \
 		  $(MACHINE)/matrix_cmd.o \
+		  $(MACHINE)/linearRegression.o \
 		  $(MACHINE)/ssl_cmd.o \
 		  $(MACHINE)/dcs_message_parse.o \
 		  $(MACHINE)/image_channel.o \
 		  $(MACHINE)/fitFunction.o \
 		  $(MACHINE)/decimalnum.o \
 		  $(MACHINE)/imageScale.o \
+		  $(MACHINE)/putsToLog.o \
+		  $(MACHINE)/imagePGM16.o \
+		  $(MACHINE)/imageBackgroundDetect.o \
+		  $(MACHINE)/bilinearMap_cmd.o \
+		  $(MACHINE)/projectiveMap_cmd.o \
 		  $(MACHINE)/findMax.o
 		  
 
@@ -512,10 +519,25 @@ $(MACHINE)/matrix.o: $(SRC_DIR)$(SLASH)matrix.cc
 $(MACHINE)/matrix_cmd.o: $(SRC_DIR)$(SLASH)matrix_cmd.cc
 	$(CXX) $(CFLAGS) $(CPPFLAGS) $(INC) $<
 
+$(MACHINE)/linearRegression.o: $(SRC_DIR)$(SLASH)linearRegression.cpp $(SRC_DIR)$(SLASH)linearRegression.h
+	$(CXX) $(CFLAGS) $(CPPFLAGS) $(INC) $<
+
 $(MACHINE)/imageScale.o: $(SRC_DIR)$(SLASH)imageScale.cc
 	$(CXX) $(CFLAGS) $(CPPFLAGS) $(INC) $<
 
+$(MACHINE)/imagePGM16.o: $(SRC_DIR)$(SLASH)imagePGM16.cc
+	$(CXX) $(CFLAGS) $(CPPFLAGS) $(INC) $<
+
+$(MACHINE)/imageBackgroundDetect.o: $(SRC_DIR)$(SLASH)imageBackgroundDetect.cc
+	$(CXX) $(CFLAGS) $(CPPFLAGS) $(INC) $<
+
 $(MACHINE)/ssl_cmd.o: $(SRC_DIR)$(SLASH)ssl_cmd.cc
+	$(CXX) $(CFLAGS) $(CPPFLAGS) $(INC) $<
+
+$(MACHINE)/bilinearMap_cmd.o: $(SRC_DIR)$(SLASH)bilinearMap_cmd.cc
+	$(CXX) $(CFLAGS) $(CPPFLAGS) $(INC) $<
+
+$(MACHINE)/projectiveMap_cmd.o: $(SRC_DIR)$(SLASH)projectiveMap_cmd.cc
 	$(CXX) $(CFLAGS) $(CPPFLAGS) $(INC) $<
 
 $(MACHINE)/dcs_message_parse.o: $(SRC_DIR)$(SLASH)dcs_message_parse.cc
@@ -542,6 +564,8 @@ $(MACHINE)/fitFunction.o: $(SRC_DIR)$(SLASH)fitFunction.cpp
 $(MACHINE)/findMax.o: $(SRC_DIR)$(SLASH)findMax.cpp
 	$(CXX) $(CFLAGS) $(CPPFLAGS) $(INC) $<
 
+$(MACHINE)/putsToLog.o: $(SRC_DIR)$(SLASH)putsToLog.c
+	$(CXX) $(CFLAGS) $(CPPFLAGS) $(INC) $<
 
 # Printing out gmake info
 showinfo:

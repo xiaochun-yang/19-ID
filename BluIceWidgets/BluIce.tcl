@@ -66,6 +66,7 @@ package require BLUICEQueueTab
 package require BLUICEMicroSpecTab
 package require Scan3DView
 package require RasterTab
+package require FloatGridTab
 
 class BluIce {
 	inherit ::itk::Widget
@@ -85,6 +86,11 @@ class BluIce {
     private method createUserLogTab
     private method createRasteringTab
     private method createMicroSpecTab
+    private method createHelicalTab
+    private method createLCLSL614Tab
+    private method createLCLSCrystalTab
+    private method createLCLSGridTab
+    private method createPXL614Tab
     
    	public method getLogin
    	public method loginSuccessful
@@ -138,6 +144,11 @@ class BluIce {
               Sample {createSampleTab }
               Rastering {createRasteringTab }
               MicroSpec {createMicroSpecTab}
+              Helical   {createHelicalTab}
+              LCLSL614  {createLCLSL614Tab}
+              LCLSCrystal {createLCLSCrystalTab}
+              LCLSGrid    {createLCLSGridTab}
+              PXL614  {createPXL614Tab}
               default {
                 puts "+++++++++++++++++++++++++++++++++++++++++++++"
                 puts "unknow TAB $tab"
@@ -206,15 +217,135 @@ body BluIce::createSampleTab {} {
 body BluIce::createRasteringTab {} {
    set childsite [$itk_component(notebook) add Rastering -label "Raster"]
 
+    set className [::config getStr "rasterClass"]
+    if {$className == ""} {
+        set className RasterTab
+    }
+
    itk_component add rasteringTab {
-      RasterTab $childsite.sample
+      $className $childsite.sample
    } {
-      keep -videoParameters
       keep -videoEnabled
+      keep -videoParameters
+      keep -beamHeightDevice -beamWidthDevice
+      keep -imageServerHost -imageServerHttpPort
    }
 
    $itk_component(rasteringTab) addChildVisibilityControl $itk_component(notebook) activeTab Rastering
    pack $itk_component(rasteringTab) -expand yes -fill both
+
+    if {$className == "FloatGridTab"} {
+        $itk_component(notebook) register $itk_component(rasteringTab) \
+        activeTab handleActiveTabUpdate
+    }
+}
+
+body BluIce::createHelicalTab {} {
+   set childsite [$itk_component(notebook) add Helical -label "Helical Collect"]
+
+   itk_component add helicalTab {
+      FloatGridTab $childsite.helical \
+      -purpose forCrystal \
+   } {
+      keep -videoEnabled
+      keep -videoParameters
+      keep -beamHeightDevice -beamWidthDevice
+      keep -imageServerHost -imageServerHttpPort
+   }
+
+   $itk_component(helicalTab) addChildVisibilityControl $itk_component(notebook) activeTab Helical
+   pack $itk_component(helicalTab) -expand yes -fill both
+
+    $itk_component(notebook) register $itk_component(helicalTab) activeTab \
+    handleActiveTabUpdate
+}
+
+body BluIce::createLCLSL614Tab { } {
+    set childsite [$itk_component(notebook) add L614 -label "XFEL Grid Collect"]
+
+    itk_component add l614Tab {
+        FloatGridTab $childsite.l614 \
+        -purpose forL614 \
+    } {
+        keep -videoEnabled
+        keep -videoParameters
+        keep -beamHeightDevice -beamWidthDevice
+        keep -imageServerHost -imageServerHttpPort
+    }
+
+    $itk_component(l614Tab) addChildVisibilityControl \
+    $itk_component(notebook) activeTab L614 
+
+    pack $itk_component(l614Tab) -expand yes -fill both
+
+    $itk_component(notebook) register $itk_component(l614Tab) activeTab \
+    handleActiveTabUpdate
+}
+body BluIce::createPXL614Tab { } {
+    set childsite [$itk_component(notebook) add PXL614 -label "L614 Grid"]
+
+    itk_component add pxl614Tab {
+        FloatGridTab $childsite.pxl614 \
+        -purpose forPXL614 \
+    } {
+        keep -videoEnabled
+        keep -videoParameters
+        keep -beamHeightDevice -beamWidthDevice
+        keep -imageServerHost -imageServerHttpPort
+    }
+
+    $itk_component(pxl614Tab) addChildVisibilityControl \
+    $itk_component(notebook) activeTab PXL614
+
+    pack $itk_component(pxl614Tab) -expand yes -fill both
+
+    $itk_component(notebook) register $itk_component(pxl614Tab) activeTab \
+    handleActiveTabUpdate
+}
+
+body BluIce::createLCLSCrystalTab { } {
+    set childsite [$itk_component(notebook) add LCLSCrystal -label "XFEL Helical Collect"]
+
+    itk_component add lclsCrystalTab {
+        FloatGridTab $childsite.lclsCrystal \
+        -purpose forLCLSCrystal \
+    } {
+        keep -videoEnabled
+        keep -videoParameters
+        keep -beamHeightDevice -beamWidthDevice
+        keep -imageServerHost -imageServerHttpPort
+    }
+
+    $itk_component(lclsCrystalTab) addChildVisibilityControl \
+    $itk_component(notebook) activeTab LCLSCrystal
+
+    pack $itk_component(lclsCrystalTab) -expand yes -fill both
+
+    $itk_component(notebook) register $itk_component(lclsCrystalTab) activeTab \
+    handleActiveTabUpdate
+}
+
+body BluIce::createLCLSGridTab { } {
+    set childsite [$itk_component(notebook) add LCLSGrid \
+    -label "XFEL Raster Collect"]
+
+    itk_component add lclsGridTab {
+        FloatGridTab $childsite.lclsGrid \
+        -purpose forLCLS \
+    } {
+        keep -videoEnabled
+        keep -videoParameters
+        keep -beamHeightDevice -beamWidthDevice
+        keep -imageServerHost -imageServerHttpPort
+    }
+
+    $itk_component(lclsGridTab) addChildVisibilityControl \
+    $itk_component(notebook) activeTab LCLSGrid
+
+    pack $itk_component(lclsGridTab) -expand yes -fill both
+
+    $itk_component(notebook) register $itk_component(lclsGridTab) activeTab \
+    handleActiveTabUpdate
 }
 
 body BluIce::createMicroSpecTab {} {

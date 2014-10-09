@@ -606,3 +606,33 @@ proc impRunScript { username_ sessionId_ cmd_ {shell_ {}} } {
 
 }
 
+proc impCopyMultipleFiles { username_ sessionId_ list_ {mode_ ""} } {
+    if {[string equal -length 7 $sessionId_ "PRIVATE"]} {
+        set mySID [string range $sessionId_ 7 end]
+    } else {
+        set mySID $sessionId_
+    }
+    set url "http://[::config getImpDhsImpHost]"
+    append url ":[::config getImpDhsImpPort]"
+    append url "/copyFile?impOldFilePath=MULTIPLE_IN_BODY"
+    append url "&impUser=$username_"
+    append url "&impSessionID=$mySID"
+    if {$mode_ != ""} {
+        append url "&impFileMode=$mode_"
+    }
+
+    set body ""
+    foreach {src tgt} $list_ {
+        append body "impOldFilePath=$src impNewFilePath=$tgt\n"
+    }
+
+    set token [http::geturl $url \
+    -type "text/plain" \
+    -query $body \
+    -timeout 8000]
+
+    checkHttpStatus $token
+    http::cleanup $token
+    #puts "copy file OK"
+}
+

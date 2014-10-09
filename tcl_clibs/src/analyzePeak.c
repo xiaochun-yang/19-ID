@@ -120,7 +120,7 @@ int find_extrema(int n, double *x,double *y, double **c,
 
 int hmps(int n,int maxi,double maxf, double minf, double **c, double *x,double *y, double *hmax, double *fwhmr, double *fwhml);
 
-/*
+/* The notes below now apply to ips.  hmps does not use the spline fit.
  * 
  * Locates inflection points around the maximum in interval maxi of the spline
  * defined by x,y,cc. 
@@ -302,14 +302,15 @@ DECLARE_TCL_COMMAND(analyzePeak)
 	  {
 
 	    //verify and print fwhm  
+        /* the errors are ignored but can cause trouble later if fwhml, fwhrm are zero */
 	    switch (hmps(num,maxi,maxf,minf,c,x,y,&hmax,&fwhmr,&fwhml)) {
-		 case 1:	    
+		 case 1:
 			if ( verbose )
 				{
 				printf("HMf       FWHML          FWHMR          HMwidth\n");
 				printf("%f    %f    %f    %f\n",hmax,fwhml,fwhmr,fwhmr-fwhml);
 				}
-
+            break;
 	    case -1:
 	      Tcl_SetResult(interp,"NoInfAfterPeak",TCL_STATIC);
 	      result = TCL_ERROR;
@@ -575,7 +576,7 @@ int hmps(int n,int maxi,double maxf, double minf, double **c, double *x,double *
   *fwhmr = 0.0;
   *fwhml = 0.0;
 
-  while((j > 0 || k < n) && !finished)
+  while((j > 0 || k <= n) && !finished)
     {
       if(j > 0 && j < n)
 	{
@@ -590,7 +591,7 @@ int hmps(int n,int maxi,double maxf, double minf, double **c, double *x,double *
 	      fj=1;
 	    }
 	}
-      if(k > 0 && k < n)
+      if(k > 0 && k <= n)
 	{
 
 	  if( *hmax < y[k] )

@@ -47,9 +47,12 @@ class DCS::MDICanvas {
 	# protected data
 	protected variable _parentWidget
 	protected variable _document
+	protected variable _id
 	protected variable width
 	protected variable height
 	protected variable _activeDocument ""
+
+    protected variable m_canvas ""
 
 	# public member functions
 	public method addDocument
@@ -67,11 +70,43 @@ class DCS::MDICanvas {
 	public method documentExists { name }
 	public method getDocumentInternalFrame { name }
 
+    public method autoresize { } {
+	    set bbox [$m_canvas bbox all] 
+
+        if {[llength $bbox] < 4} {
+            ### no document, empty canvas
+            return
+        }
+
+        foreach {x1 y1 x2 y2} $bbox break
+
+        #if {$x1 > 0} { set x1 0}
+        #if {$y1 > 0} { set y1 0}
+        ### we not allow place above 0
+        set x1 0
+        set y1 0
+
+        $m_canvas configure \
+        -scrollregion [list $x1 $y1 $x2 $y2] \
+    }
+
+    public method getDocumentsInfo { }
+
+    public method placeDocument { name x y } {
+        catch { $m_canvas coord $_id($name) $x $y }
+        autoresize
+    }
+
 	# public helper functions
 	public method updateSize {}
 
+    public method resetView { } {
+        $itk_component(canvas) xview moveto 0.0
+        $itk_component(canvas) yview moveto 0.0
+    }
+
 	constructor { parentWidget_ args } {
-		
+		array set _id {}
 		set _parentWidget $parentWidget_
 
 		array set document {}
@@ -81,16 +116,24 @@ class DCS::MDICanvas {
 		}
 
 		itk_component add canvas {
-			canvas $itk_component(ring).mdiCanvas
+			iwidgets::scrolledcanvas $itk_component(ring).mdiCanvas \
+            -hscrollmode dynamic \
+            -vscrollmode dynamic \
 		} {
 			keep -background -relief -borderwidth
 		}
+
+        set m_canvas [$itk_component(canvas) component canvas]
 
 		pack $itk_component(ring)  -fill both -expand 1
 		pack $itk_component(canvas) -fill both -expand 1
 		
 		# catch all canvas resize events
-		bind $itk_component(canvas) <Configure> "$this updateSize"
+		#bind $itk_component(canvas) <Configure> "$this updateSize"
+        #bind $itk_component(canvas) <Button-1> { puts "%x %y" }
+		bind $m_canvas <Configure> "$this updateSize"
+        bind $m_canvas <Button-1> { puts "%x %y" }
+
    
 		# configure the new mdi canvas
 		eval itk_initialize $args
@@ -112,10 +155,15 @@ class DCS::MDICanvas {
 
 }
 
-
 body DCS::MDICanvas::documentExists { name } {
-
 	return [info exists _document($name)]
+}
+body DCS::MDICanvas::getDocumentsInfo { } {
+    set result ""
+    foreach name [array names _document] {
+        lappend result [$_document($name) getGeo]
+    }
+    return $result
 }
 
 body DCS::MDICanvas::addDocument { name args } {
@@ -123,14 +171,32 @@ body DCS::MDICanvas::addDocument { name args } {
 	# create the new document and add it to the list of documents
 	#set document($name) [eval {DCS::MdiDocument \#auto $name $this $itk_component(canvas)} $args]
 
-	set path ${itk_component(canvas)}.$name
+	set path $m_canvas.$name
 
 	set _document($name) [eval {DCS::MdiDocument $path $name $this } $args]
 
-	#puts "MDI: $_document($name)"
+    set x [$_document($name) cget -x]
+    set y [$_document($name) cget -y]
+    set resizable [$_document($name) cget -resizable]
+
+	puts "MDI: $_document($name)"
+    set _id($name) [$itk_component(canvas) create window $x $y \
+    -anchor nw \
+    -window $path]
+
+    puts "set _id($name) to $_id($name)"
+
+    $_document($name) setAttachedToCanvas
 
 	# activate the document
 	activateDocument $name
+
+	update
+    autoresize
+
+    if {!$resizable} {
+        after 500 "$this autoresize"
+    }
 
 	# return the internal frame of the new document
 	return [$path getInternalFrame]
@@ -172,37 +238,38 @@ body DCS::MDICanvas::deleteDocument { name } {
    }
 
 	blt::busy release .
+
+    autoresize
 }
 
 
 body DCS::MDICanvas::updateSize {} {
-
 	# get new width and height of canvas
-	set width  [winfo width  $itk_component(canvas)]
-	set height [winfo height $itk_component(canvas)]
+	set width  [winfo width  $m_canvas]
+	set height [winfo height $m_canvas]
 
 	# set all maximized windows back to unmaximized state
 	foreach name [array names _document] {
 		$_document($name) setupMaximizeWidgets
 	}
+
+    autoresize
 }
 
 
 body DCS::MDICanvas::getWidth {} {
-
-	return $width
+    return $width
 }
 
 
 body DCS::MDICanvas::getHeight {} {
-
-	return $height
+    return $height
 }
 
 
 configbody DCS::MDICanvas::background {
 
-	$itk_component(canvas) configure -background $background
+	$m_canvas configure -background $background
 }
 
 
@@ -246,12 +313,16 @@ class DCS::MdiDocument {
 	protected variable oldHeight
 	protected variable cursor
 
+    protected variable m_attachedToCanvas 0
+
 	# public variables (accessed via configure command)
 
 	itk_option define -resizable resizable Resizable 0
 	itk_option define -titleInactiveBackground titleInactiveBackground TitleInactiveBackground grey
 	itk_option define -titleActiveBackground titleActiveBackground TitleActiveBackground blue
 	
+    itk_option define -fontResizable fontResizable FontResizable 0
+
 	public variable title ""
 	public variable x 10
 	public variable y 10
@@ -270,7 +341,11 @@ class DCS::MdiDocument {
 	public variable activationCallback {}
 	public variable destructionCallback {}
 
+    public variable increaseFontCallback { }
+    public variable decreaseFontCallback { }
+
 	# public method
+    public method setAttachedToCanvas { } { set m_attachedToCanvas 1 }
 	public method getInternalFrame
 	public method activate
 	public method deactivate
@@ -285,6 +360,21 @@ class DCS::MdiDocument {
 	public method enterExternalFrame
 	public method startResize
 	public method resize
+
+    public method fontSizePlus { } {
+        if {$increaseFontCallback != ""} {
+            eval $increaseFontCallback
+        }
+    }
+    public method fontSizeMinus { } {
+        if {$decreaseFontCallback != ""} {
+            eval $decreaseFontCallback
+        }
+    }
+
+    public method getGeo { } {
+        return [list $_docName $x $y $width $height]
+    }
 
 	# common bitmap definitions
 	private common systemButtonImage
@@ -463,12 +553,19 @@ class DCS::MdiDocument {
 
 		pack $itk_component(ring)
 
-		# place the new document on the canvas
-		place $itk_interior -x 10 -y 10
-
 		# configure the new document
 		eval itk_initialize $args
 
+        if {$itk_option(-fontResizable)} {
+		    $itk_component(systemMenu) add separator
+		    $itk_component(systemMenu) add command \
+            -label "font size +" \
+            -command "$this fontSizePlus"
+
+		    $itk_component(systemMenu) add command \
+            -label "font size -" \
+            -command "$this fontSizeMinus"
+        }
 	}
 
 	# destructor
@@ -538,9 +635,6 @@ body DCS::MdiDocument::resize { X Y } {
 
 	set height $newHeight
 	set width $newWidth
-	set x $newX
-	set y $newY
-
 
 	# replace old mouse positions
 	set resizeX $X
@@ -549,20 +643,18 @@ body DCS::MdiDocument::resize { X Y } {
 	# reframe size according to new height and width
 	$itk_component(internalFrame) configure -height $height -width $width
 
-	# place frame in new position
-	place $itk_interior -x $x -y $y
-	
+    ## this will place it at x y
+	configure -x $newX -y $newY
+
 	# prepare window for maximize
 	setupMaximizeWidgets
 }
 
 
 body DCS::MdiDocument::enterExternalFrame { cursorX cursorY } {
-
 	# bring title bar back into view of off the top of the canvas
 	if { $y < 0 } {
-		set y 0
-		place $itk_interior -y $y
+		configure -y 0
 	}
 
 	# get position and size of external frame
@@ -622,21 +714,19 @@ body DCS::MdiDocument::enterExternalFrame { cursorX cursorY } {
 
 
 body DCS::MdiDocument::startDrag { startX startY } {
-
 	set dragX $startX
 	set dragY $startY
 }
 
 
 body DCS::MdiDocument::drag { newX newY } {
-
-	set x [expr $x + $newX - $dragX]
-	set y [expr $y + $newY - $dragY]
+	configure \
+    -x [expr $x + $newX - $dragX] \
+	-y [expr $y + $newY - $dragY]
 
 	set dragX $newX
 	set dragY $newY
 
-	place $itk_interior -x $x -y $y
 
 	setupMaximizeWidgets
 }
@@ -757,19 +847,19 @@ configbody DCS::MdiDocument::height {
 }
 
 configbody DCS::MdiDocument::x {
-
-	place $itk_interior -x $x -y $y
+    if {$m_attachedToCanvas} {
+        $mdiCanvas placeDocument $_docName $x $y
+    }
 }
 
 configbody DCS::MdiDocument::y {
-
-	place $itk_interior -x $x -y $y
+    if {$m_attachedToCanvas} {
+        $mdiCanvas placeDocument $_docName $x $y
+    }
 }
 
 configbody DCS::MdiDocument::borderColor {
-	
 	$itk_component(ring) configure -background $borderColor
-
 }
 
 configbody DCS::MdiDocument::resizable {

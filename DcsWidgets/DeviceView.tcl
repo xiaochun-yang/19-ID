@@ -127,7 +127,7 @@ class ::DCS::MotorViewEntry {
     ## we need this hook to adjust "moveBy" entryType:
     protected method onEntryTypeChange { } {
         set type $itk_option(-entryType)
-        switch -exact $type {
+        switch -exact -- $type {
             positiveFloat {
                 set type float
             }
@@ -1528,7 +1528,7 @@ body ::DCS::MotorView::updateView {} {
     if {$m_displayValue == "" } return
 
     if {$itk_option(-checkLimitsAndStatus)} {
-        switch -exact $m_status {
+        switch -exact -- $m_status {
             disconnected -
             offline {
                 $itk_component(position) configure \
@@ -1644,13 +1644,13 @@ class ::DCS::MotorScale {
     itk_option define -from from From "" {
         if {$itk_option(-from) != ""} {
             $itk_component(position) config -from $itk_option(-from)
-            puts "set from to [$itk_component(position) cget -from]"
+            #puts "set from to [$itk_component(position) cget -from]"
         }
     }
     itk_option define -to to To "" {
         if {$itk_option(-to) != ""} {
             $itk_component(position) config -to $itk_option(-to)
-            puts "set to to [$itk_component(position) cget -to]"
+            #puts "set to to [$itk_component(position) cget -to]"
         }
     }
 
@@ -1687,7 +1687,7 @@ class ::DCS::MotorScale {
         }
 
         set value $gScaleVar($this,position)
-        puts "move to $value"
+        #puts "move to $value"
         set my_device $itk_option(-device)
         if {$my_device != ""} {
             $my_device move to $value
@@ -1728,7 +1728,7 @@ class ::DCS::MotorScale {
 
 configbody DCS::MotorScale::device {
     if {$lastDevice != ""} {
-        puts "unregister lastDevice=$lastDevice"
+        #puts "unregister lastDevice=$lastDevice"
 		deleteInput "$lastDevice status"
 	    deleteInput "$lastDevice permission"
 		::mediator unregister $this $lastDevice inMotion
@@ -1792,14 +1792,14 @@ body ::DCS::MotorScale::handleLowerLimitsUpdate { device_ targetReady_ alias_ va
         return
     }
 
-    puts "lower limits update:$value_"
+    #puts "lower limits update:$value_"
 
     if {[llength $value_] < 1} return
     set lowerLimit [lindex $value_ 0]
 
     if {$itk_option(-from) == ""} {
         $itk_component(position) config -from $lowerLimit
-        puts "set from to [$itk_component(position) cget -from]"
+        #puts "set from to [$itk_component(position) cget -from]"
     }
 }
 body ::DCS::MotorScale::handleUpperLimitsUpdate { device_ targetReady_ alias_ value_ -} {
@@ -1809,7 +1809,7 @@ body ::DCS::MotorScale::handleUpperLimitsUpdate { device_ targetReady_ alias_ va
         return
     }
 
-    puts "upper limits update:$value_"
+    #puts "upper limits update:$value_"
 
     if {[llength $value_] < 1} return
 
@@ -1817,7 +1817,7 @@ body ::DCS::MotorScale::handleUpperLimitsUpdate { device_ targetReady_ alias_ va
 
     if {$itk_option(-to) == ""} {
         $itk_component(position) config -to $upperLimit
-        puts "set to to [$itk_component(position) cget -to]"
+        #puts "set to to [$itk_component(position) cget -to]"
     }
 }
 
@@ -1883,7 +1883,7 @@ body DCS::DrawContour::update { } {
 
     set index -1
     foreach {color section} $contents {
-        puts "draw Contour: $color $section"
+        #puts "draw Contour: $color $section"
         incr index
         set coordList ""
         foreach {rx ry} $section {
@@ -1942,13 +1942,13 @@ class DCS::DrawMatrix {
 	protected method update
 
     public method removeMark { } {
-        puts "removeMark"
+        #puts "removeMark"
         $canvas delete mark
     }
     public method displayMark { row col contents } {
-        puts "displayMark"
+        #puts "displayMark"
         removeMark
-        puts "displaying $row $col $contents"
+        #puts "displaying $row $col $contents"
 
         set box [$canvas bbox ${tag}_cell_${row}_${col}]
         foreach {x0 y0 x1 y1} $box break
@@ -2069,7 +2069,7 @@ body DCS::DrawMatrix::update { } {
             if {$cellColor == ""} {
                 return
             }
-            puts "drawing cell $row $col with color=$cellColor and text=$cellText"
+            #puts "drawing cell $row $col with color=$cellColor and text=$cellText"
             if {$textColor == ""} {
                 set textColor $cellColor
             }
@@ -2106,12 +2106,14 @@ body DCS::DrawMatrix::update { } {
 class BeamsizeToDisplay {
     inherit ::itk::Widget ::DCS::Component
 
+    itk_option define -matchColor matchColor MatchColor white
+
     itk_option define -beamWidthWidget beamWidthWidget BeamWidthWidget ""
     itk_option define -beamHeightWidget beamHeightWidget BeamHeightWidget ""
     itk_option define -honorCollimator honorCollimator HonorCollimator 1 {
         if {$itk_option(-honorCollimator)} {
-            puts "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-            puts "register collimator"
+            #puts "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+            #puts "register collimator"
 		    ::mediator register $this ::device::user_collimator_status contents handleUserCollimator
 		    ::mediator register $this ::device::collimator_status contents handleCurrentCollimator
         } else {
@@ -2171,7 +2173,7 @@ body BeamsizeToDisplay::handleBeamSizeY { object_ ready_ - value_ - } {
 }
 body BeamsizeToDisplay::handleUserCollimator { object_ ready_ - contents_ - } {
 	if { $ready_ } {
-        puts "user collimator: $contents_"
+        #puts "user collimator: $contents_"
         set _userCollimatorStatus $contents_
 		updateBeamSize
 	}
@@ -2179,7 +2181,7 @@ body BeamsizeToDisplay::handleUserCollimator { object_ ready_ - contents_ - } {
 
 body BeamsizeToDisplay::handleCurrentCollimator { object_ ready_ - contents_ - } {
 	if { $ready_ } {
-        puts "current collimator: $contents_"
+        #puts "current collimator: $contents_"
         set _currentCollimatorStatus $contents_
 		updateBeamSize
 	}
@@ -2194,7 +2196,7 @@ body BeamsizeToDisplay::updateBeamSize { } {
     if {$itk_option(-honorCollimator) \
     && ($userWillUseCollimator == "1" || $currentCollimatorIn == "1") \
     } {
-        puts "honor collimator"
+        #puts "honor collimator"
         #### current setting has higher priority
         if {$currentCollimatorIn} {
             foreach {isMicro indexMatched width height} $_currentCollimatorStatus break
@@ -2205,7 +2207,7 @@ body BeamsizeToDisplay::updateBeamSize { } {
             puts "collimator size > focus beam size"
             puts "collimator $width $height focus $_beamSizeX $_beamSizeY"
         }
-        set color white
+        set color $itk_option(-matchColor)
     } else {
         set width  $_beamSizeX
         set height $_beamSizeY
@@ -2213,7 +2215,7 @@ body BeamsizeToDisplay::updateBeamSize { } {
         set realH [::device::$gMotorBeamHeight cget -scaledPosition]
         if {abs($realW - $width) < 0.001 \
         && abs($realH - $height) < 0.001} {
-            set color white
+            set color $itk_option(-matchColor)
         } else {
             set color red
         }

@@ -255,7 +255,7 @@ class DCS::UserLogView {
 
     public method handleCatlogFilterChange { } {
         set m_displayCatlog [$itk_component(catlog_filter) get]
-        if {[llength $m_displayCatlog] >= 5} {
+        if {[llength $m_displayCatlog] >= 8} {
             set m_displayCatlog all
         }
         loadCurrentFile
@@ -396,12 +396,16 @@ class DCS::UserLogView {
         $itk_component(catlog_filter) add madscan        -text "mad scan"
         $itk_component(catlog_filter) add excitationscan -text "excitation scan"
         $itk_component(catlog_filter) add raster         -text "raster"
+        $itk_component(catlog_filter) add grid           -text "grid"
+        $itk_component(catlog_filter) add helical        -text "helical"
         $itk_component(catlog_filter) add microspec      -text "microspec"
         $itk_component(catlog_filter) select screening
         $itk_component(catlog_filter) select collecting
         $itk_component(catlog_filter) select madscan
         $itk_component(catlog_filter) select excitationscan
         $itk_component(catlog_filter) select raster
+        $itk_component(catlog_filter) select grid
+        $itk_component(catlog_filter) select helical
         $itk_component(catlog_filter) select microspec
         $itk_component(catlog_filter) configure \
         -command "$this handleCatlogFilterChange"

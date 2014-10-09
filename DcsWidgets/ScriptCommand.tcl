@@ -211,7 +211,7 @@ proc nScripts::getGoodLimits { name } {
     variable deviceFactory
     set obj [$deviceFactory getObjectName $name]
     if {![$deviceFactory deviceExists $obj]} {
-        return -code error "$name not exists"
+        return -code error "$name dose not exist"
     }
 
     if {![$obj isa ::DCS::Motor]} {
@@ -234,7 +234,7 @@ proc nScripts::open_shutter { name } {
     variable deviceFactory
     set obj [$deviceFactory getObjectName $name]
     if {![$deviceFactory deviceExists $obj]} {
-        return -code error "$name not exists"
+        return -code error "$name does not exist"
     }
 
     if {![$obj isa ::DCS::Shutter]} {
@@ -247,7 +247,7 @@ proc nScripts::close_shutter { name } {
     variable deviceFactory
     set obj [$deviceFactory getObjectName $name]
     if {![$deviceFactory deviceExists $obj]} {
-        return -code error "$name not exists"
+        return -code error "$name does not exist"
     }
 
     if {![$obj isa ::DCS::Shutter]} {
@@ -270,7 +270,7 @@ proc nScripts::read_ion_chambers { time args } {
     foreach name $args {
         set obj [$deviceFactory getObjectName $name]
         if {![$deviceFactory deviceExists $obj]} {
-            return -code error "$name not exists"
+            return -code error "$name does not exist"
         }
 
         if {![$obj isa ::DCS::IonChamber]} {
@@ -295,7 +295,7 @@ proc nScripts::get_ion_chamber_counts { args } {
     foreach name $args {
         set obj [$deviceFactory getObjectName $name]
         if {![$deviceFactory deviceExists $obj]} {
-            return -code error "$name not exists"
+            return -code error "$name does not exist"
         }
 
         if {![$obj isa ::DCS::IonChamber]} {
@@ -310,7 +310,7 @@ proc nScripts::get_encoder { name } {
     variable deviceFactory
     set obj [$deviceFactory getObjectName $name]
     if {![$deviceFactory deviceExists $obj]} {
-        return -code error "$name not exists"
+        return -code error "$name does not exist"
     }
 
     if {![$obj isa ::DCS::Encoder]} {
@@ -323,7 +323,7 @@ proc nScripts::set_encoder { name position } {
     variable deviceFactory
     set obj [$deviceFactory getObjectName $name]
     if {![$deviceFactory deviceExists $obj]} {
-        return -code error "$name not exists"
+        return -code error "$name does not exist"
     }
 
     if {![$obj isa ::DCS::Encoder]} {
@@ -336,7 +336,7 @@ proc nScripts::wait_for_encoder { name } {
     variable deviceFactory
     set obj [$deviceFactory getObjectName $name]
     if {![$deviceFactory deviceExists $obj]} {
-        return -code error "$name not exists"
+        return -code error "$name does not exist"
     }
 
     if {![$obj isa ::DCS::Encoder]} {
@@ -352,7 +352,7 @@ proc nScripts::start_operation { name args } {
 
     set obj [$deviceFactory getObjectName $name]
     if {![$deviceFactory deviceExists $obj]} {
-        return -code error "$name not exists"
+        return -code error "$name does not exist"
     }
 
     if {![$obj isa ::DCS::Operation]} {
@@ -368,7 +368,7 @@ proc nScripts::stop_operation { name args } {
 
     set obj [$deviceFactory getObjectName $name]
     if {![$deviceFactory deviceExists $obj]} {
-        return -code error "$name not exists"
+        return -code error "$name does not exist"
     }
 
     if {![$obj isa ::DCS::Operation]} {
@@ -382,7 +382,7 @@ proc nScripts::start_waitable_operation { name args } {
 
     set obj [$deviceFactory getObjectName $name]
     if {![$deviceFactory deviceExists $obj]} {
-        return -code error "$name not exists"
+        return -code error "$name does not exist"
     }
 
     if {![$obj isa ::DCS::Operation]} {
@@ -398,7 +398,7 @@ proc nScripts::wait_for_devices { args } {
     foreach name $args {
         set obj [$deviceFactory getObjectName $name]
         if {![$deviceFactory deviceExists $obj]} {
-            return -code error "$name not exists"
+            return -code error "$name does not exist"
         }
     }
     foreach name $args {
@@ -410,7 +410,7 @@ proc nScripts::wait_for_string_contents { name expected {index -1} } {
     variable deviceFactory
     set obj [$deviceFactory getObjectName $name]
     if {![$deviceFactory deviceExists $obj]} {
-        return -code error "$name not exists"
+        return -code error "$name does not exist"
     }
 
     if {![$obj isa ::DCS::String]} {
@@ -461,7 +461,7 @@ proc nScripts::get_device { name } {
     variable deviceFactory
     set obj [$deviceFactory getObjectName $name]
     if {![$deviceFactory deviceExists $obj]} {
-        return -code error "$name not exists"
+        return -code error "$name does not exist"
     }
     return $obj
 }

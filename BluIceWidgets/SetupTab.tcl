@@ -115,12 +115,18 @@ package require Scan3DView
 package require BLUICEBarcodeView
 package require RasterTab
 package require VisexView
-#package require RasterCanvas
+package require GridCanvas
+package require BLUICEMicroSpecView
+package require BLUICEMicroSpecTab
+package require L614SpecialWidgets
+package require BLUICEMotorLockView
+package require BLUICEEnergyList
+package require BLUICECollimatorMotorView
 
 class SetupTab {
 	inherit ::itk::Widget
 
-	private variable _widgetCount 0
+	private variable _widgetCount
 
     private variable m_viewList ""
     private variable m_viewArray
@@ -187,12 +193,20 @@ class SetupTab {
    private variable m_deviceFactory
    private variable m_logger
 
+    private variable m_dictStringList ""
+
 	# public methods
 	constructor { args } {
       global env
     global gIsDeveloper
 
     array set m_viewArray [list]
+
+        set dictStringList [::config getList stringDictViewList]
+        set m_dictStringList ""
+        foreach d $dictStringList {
+            eval lappend m_dictStringList $d
+        }
 
       set m_deviceFactory [DCS::DeviceFactory::getObject]
       set m_logger [DCS::Logger::getObject]
@@ -501,6 +515,22 @@ body SetupTab::addViews {} {
             set widget_name inline_motor_view
             set widget_class BLUICE::InlineMotorWidget
          }
+         microSpecMotorView {
+            $itk_component(selectView) add command \
+            -label "MicroSpec Motor Staff View" \
+            -command [list $this openToolChest microspec_staff_view]
+            #set widget_name microspec_motor_view
+            #set widget_class DCS::MicroSpecMotorView
+            set widget_name microspec_staff_view 
+            set widget_class DCS::MicroSpecStaffView
+         }
+         collimatorMotorView {
+            $itk_component(selectView) add command \
+            -label "Collimator Motor View" \
+            -command [list $this openToolChest collimator_motor_view]
+            set widget_name collimator_motor_view 
+            set widget_class DCS::CollimatorMotorView
+         }
          default {
             $m_logger logWarning "Could not find beamline view $view."
 
@@ -688,12 +718,28 @@ body SetupTab::addDevTools {} {
     -command [list $this openToolChest beam_size]
 
     $itk_component(devtoolChest) add command \
+    -label "BeamSize Entry"    \
+    -command [list $this openToolChest beam_size_entry]
+
+    $itk_component(devtoolChest) add command \
+    -label "BeamSize Parameter"    \
+    -command [list $this openToolChest beam_size_parameter]
+
+    $itk_component(devtoolChest) add command \
     -label "Blu-Ice"    \
     -command [list $this openToolChest blu-ice] 
 
     $itk_component(devtoolChest) add command \
     -label "CassetteView"    \
     -command [list $this openToolChest cassette_view]
+
+    $itk_component(devtoolChest) add command \
+    -label "CollimatorMenuEntry"    \
+    -command [list $this openToolChest collimator_entry]
+
+    $itk_component(devtoolChest) add command \
+    -label "Collimator Preset DEBUG"    \
+    -command [list $this openToolChest collimator_preset_debug]
 
     $itk_component(devtoolChest) add command \
     -label "DCSS Admin"    \
@@ -711,12 +757,32 @@ body SetupTab::addDevTools {} {
     -command [list $this openToolChest event_view]
 
     $itk_component(devtoolChest) add command \
+    -label "GridCanvas"    \
+    -command [list $this openToolChest grid_canvas]
+
+    $itk_component(devtoolChest) add command \
+    -label "Grid Node List"    \
+    -command [list $this openToolChest grid_node_list]
+
+    $itk_component(devtoolChest) add command \
+    -label "Grid User Setup"    \
+    -command [list $this openToolChest grid_input]
+
+    $itk_component(devtoolChest) add command \
+    -label "Grid Video"    \
+    -command [list $this openToolChest grid_video]
+
+    $itk_component(devtoolChest) add command \
     -label "Inline Camera Preset"    \
     -command [list $this openToolChest inline_preset]
 
     $itk_component(devtoolChest) add command \
     -label "Inline Motor View"    \
     -command [list $this openToolChest inline_motor_view]
+
+    $itk_component(devtoolChest) add command \
+    -label "L614 SoftLink Control"    \
+    -command [list $this openToolChest softlink_setup]
 
     $itk_component(devtoolChest) add command \
     -label "Light Control"    \
@@ -735,8 +801,16 @@ body SetupTab::addDevTools {} {
     -command [list $this openToolChest loop_center_error]
 
     $itk_component(devtoolChest) add command \
+    -label "MicroSpec Staff View"    \
+    -command [list $this openToolChest microspec_staff_view]
+
+    $itk_component(devtoolChest) add command \
     -label "Move Crystal"    \
     -command [list $this openToolChest move_crystal]
+
+    $itk_component(devtoolChest) add command \
+    -label "Motor Lock View"    \
+    -command [list $this openToolChest motor_lock_view]
 
     set showOffset [::config getStr "show.energy_offset"]
     if {$showOffset == "1"} {
@@ -806,8 +880,24 @@ body SetupTab::addDevTools {} {
     -command [list $this openToolChest spectrometer_view]
 
     $itk_component(devtoolChest) add command \
-    -label "Stripper Test"    \
+    -label "Spectrometer 4 Hardware"    \
+    -command [list $this openToolChest spectrometer_hardware]
+
+    $itk_component(devtoolChest) add command \
+    -label "Spectrometer 4 Wrap"    \
+    -command [list $this openToolChest spectrometer_wrap]
+
+    $itk_component(devtoolChest) add command \
+    -label "Spectrometer Status"    \
+    -command [list $this openToolChest spectrometer_status]
+
+    $itk_component(devtoolChest) add command \
+    -label "Strip Pin Test"    \
     -command [list $this openToolChest stripper_view]
+
+    $itk_component(devtoolChest) add command \
+    -label "Trigger Time DEBUG"    \
+    -command [list $this openToolChest trigger_time_view]
 
     $itk_component(devtoolChest) add command \
     -label "User Notify Setup"    \
@@ -849,7 +939,12 @@ body SetupTab::configureMotor { device_ } {
 	if [checkAndActivateExistingDocument configure_$name] return
 
 
-	set path [$itk_component(Mdi) addDocument configure_$name -title "Configure $name"]
+	set path [$itk_component(Mdi) addDocument configure_$name \
+    -title "Configure $name" \
+    -width 550 \
+    -height 300 \
+    -resizable 1 \
+    ]
 			
 	switch [$device_ getMotorType] {
 		pseudo {
@@ -880,20 +975,25 @@ body SetupTab::configureMotor { device_ } {
 }
 
 body SetupTab::scanMotor { device_ } {
+    if {![info exists _widgetCount(scan)]} {
+        set _widgetCount(scan) 0
+    } else {
+        incr _widgetCount(scan)
+    }
+
+    set instantName scan_$_widgetCount(scan)
 	
 	set name [namespace tail $device_]
-	set path [$itk_component(Mdi) addDocument scan_$_widgetCount -title "Scan Motor" -resizable 1 -width 1000 -height 450]
+	set path [$itk_component(Mdi) addDocument $instantName \
+    -title "Scan Motor" -resizable 1 -width 1000 -height 450]
 
-	itk_component add scan_$_widgetCount {
+	itk_component add $instantName {
 		DCS::ScanWidget $path.scan $device_ -mdiHelper $this
 	} {
 	}
 
-	pack $itk_component(scan_$_widgetCount)
+	pack $itk_component($instantName)
 	pack $path
-
-	incr _widgetCount
-
 }
 
 
@@ -970,6 +1070,9 @@ body SetupTab::openToolChest { name  } {
 }
 
 body SetupTab::launchWidget { name  } {
+    if {![info exists _widgetCount($name)]} {
+        set _widgetCount($name) 0
+    }
 
 
 	switch $name {
@@ -1381,19 +1484,18 @@ body SetupTab::launchWidget { name  } {
 
 
 		diffImageViewer {
-			global env
+			set path [$itk_component(Mdi) addDocument \
+            diffImageViewer_$_widgetCount($name) \
+            -title "Diffraction Image Viewer" -resizable 1 -width 500 -height 500]
 
-
-			set path [$itk_component(Mdi) addDocument diffImageViewer_$_widgetCount \
-							  -title "Diffraction Image Viewer" -resizable 1 -width 500 -height 500]
-
-			itk_component add diffImageViewer_$_widgetCount {
+			itk_component add diffImageViewer_$_widgetCount($name) {
 				DiffImageViewer $path.diff -width 500 -height 500 
          } {keep -imageServerHost -imageServerHttpPort}
 				
-			pack $itk_component(diffImageViewer_$_widgetCount) -expand 1 -fill both
+			pack $itk_component(diffImageViewer_$_widgetCount($name)) \
+            -expand 1 -fill both
 			pack $path
-			incr _widgetCount
+			incr _widgetCount($name)
 		}
 
 		runView {
@@ -1455,7 +1557,7 @@ body SetupTab::launchWidget { name  } {
        	stripper_view {
 			if [checkAndActivateExistingDocument stripper_view] return
 
-			set path [$itk_component(Mdi) addDocument stripper_view -title "Stripper Test"  -resizable 1  -width 200 -height 150]
+			set path [$itk_component(Mdi) addDocument stripper_view -title "Strip Pin Test"  -resizable 1  -width 200 -height 150]
 
 			itk_component add stripper_view {
 				RobotStripperWidget $path.casv -mdiHelper "$this"
@@ -1481,7 +1583,7 @@ body SetupTab::launchWidget { name  } {
        	}
 
 		operation_view {
-            set ov_name ov_$_widgetCount
+            set ov_name ${name}_$_widgetCount($name)
             set path [$itk_component(Mdi) addDocument $ov_name -title "Generic Operation View"  -resizable 1  -width 600 -height 300]
 
             itk_component add $ov_name {
@@ -1490,7 +1592,7 @@ body SetupTab::launchWidget { name  } {
             }
             
             pack $itk_component($ov_name) -expand 1 -fill both
-            incr _widgetCount
+            incr _widgetCount($name)
         }
 
 		getgoniodata {
@@ -1529,8 +1631,8 @@ body SetupTab::launchWidget { name  } {
         }
 
 		motor_file {
-            set mf_name mf_$_widgetCount
-            incr _widgetCount
+            set mf_name ${name}_$_widgetCount($name)
+            incr _widgetCount($name)
 
 			set path [$itk_component(Mdi) addDocument $mf_name -title "Motor File Utilities"  -resizable 1 -width 650 -height 700]
 
@@ -1542,8 +1644,8 @@ body SetupTab::launchWidget { name  } {
         }
 
 		motor_config_file {
-            set mcf_name mcf_$_widgetCount
-            incr _widgetCount
+            set mcf_name ${name}_$_widgetCount($name)
+            incr _widgetCount($name)
 
 			set path [$itk_component(Mdi) addDocument $mcf_name -title "Database File Utilities"  -resizable 1 -width 650 -height 700]
 
@@ -1568,7 +1670,7 @@ body SetupTab::launchWidget { name  } {
         }
 
 		logger {
-         set logger_name logger_$_widgetCount
+         set logger_name logger_$_widgetCount($name)
 			set path [$itk_component(Mdi) addDocument $logger_name -title "Logger"  -resizable 1 -width 600 -height 300]
 
 			itk_component add $logger_name {
@@ -1577,8 +1679,7 @@ body SetupTab::launchWidget { name  } {
 			}
 			
 			pack $itk_component($logger_name) -expand 1 -fill both
-			pack $itk_component($logger_name) -expand 0 -fill both
-         incr _widgetCount
+            incr _widgetCount($name)
         }
 
         logSender {
@@ -1894,6 +1995,23 @@ body SetupTab::launchWidget { name  } {
 			pack $path
         }
 
+        beam_size_entry {
+			if [checkAndActivateExistingDocument $name] return
+
+			set path [$itk_component(Mdi) addDocument $name -title "Beam Size Entry"  -resizable 1  -width 500 -height 100]
+
+			itk_component add $name {
+                BeamSizeEntry $path.control \
+				-activeClientOnly 0 \
+				-systemIdleOnly 0 \
+                -honorStatus 0
+		    } {
+		    }
+            
+			pack $itk_component($name) -expand 1 -fill both
+			pack $path
+        }
+
 		focusing_mirrors {
 			if [checkAndActivateExistingDocument $name] return
 			set path [$itk_component(Mdi) addDocument $name -title "Focusing Mirrors"  -resizable 0]
@@ -1998,6 +2116,19 @@ body SetupTab::launchWidget { name  } {
 			pack $itk_component($name) -expand 1 -fill both
         }
 
+        motor_lock_view {
+			if [checkAndActivateExistingDocument $name] return
+			set path [$itk_component(Mdi) addDocument $name -title "Motor Lock View"  -resizable 1 -width 800 -height 600]
+
+			itk_component add $name {
+				MotorLockView $path.$name \
+                -motorList [list gonio_phi sample_x sample_y sample_z]
+			} {
+			}
+			
+			pack $itk_component($name) -expand 1 -fill both
+        }
+
         encoder_file {
 			if [checkAndActivateExistingDocument $name] return
 			set path [$itk_component(Mdi) addDocument $name -title "Encoder Position File"  -resizable 1 -width 600 -height 700]
@@ -2025,7 +2156,7 @@ body SetupTab::launchWidget { name  } {
         align_front_end {
 			if [checkAndActivateExistingDocument $name] return
 
-			set path [$itk_component(Mdi) addDocument $name -title "Align Front End"  -resizable 1  -width 900 -height 600]
+			set path [$itk_component(Mdi) addDocument $name -title "Align Front End"  -resizable 1  -width 1050 -height 600]
 
             set widget_name alignFrontEndView
             set cfgName [::config getStr "bluice.alignFrontEndView"]
@@ -2075,7 +2206,9 @@ body SetupTab::launchWidget { name  } {
             set i 0
             set nameList ""
             foreach checkboxName $eCfg {
-                lappend nameList [list $checkboxName $i]
+                if {$checkboxName != "move_mirror_vert"} {
+                    lappend nameList [list $checkboxName $i]
+                }
                 incr i
             }
 
@@ -2194,7 +2327,7 @@ body SetupTab::launchWidget { name  } {
 
             itk_component add $name {
                 DCS::RunSequenceView $path.$name \
-                -forQueue 1
+                -purpose forQueue \
             } {
             }
 			pack $itk_component($name) -expand 1 -fill both
@@ -2244,12 +2377,51 @@ body SetupTab::launchWidget { name  } {
 			pack $itk_component($name) -expand 1 -fill both
         }
 
+        spectrometer_status {
+			if [checkAndActivateExistingDocument $name] return
+
+			set path [$itk_component(Mdi) addDocument $name \
+            -title "Spectrometer Status"  -width 800 -height 600 -resizable 1]
+
+            itk_component add $name {
+                MicroSpecCalculationSetupView $path.$name \
+                -stringName ::device::spectro_config
+            } {
+            }
+			pack $itk_component($name) -expand 1 -fill both
+        }
+
         spectrometer_view {
 			if [checkAndActivateExistingDocument $name] return
 			set path [$itk_component(Mdi) addDocument $name -title "Spectrometer View"  -width 800 -height 600 -resizable 1 ]
 
             itk_component add $name {
+                #SpectrometerView $path.$name
+                MicroSpectUserView $path.$name
+            } {
+            }
+			pack $itk_component($name) -expand 1 -fill both
+        }
+
+        spectrometer_hardware {
+			if [checkAndActivateExistingDocument $name] return
+			set path [$itk_component(Mdi) addDocument $name -title "Spectrometer Low Level View"  -width 800 -height 600 -resizable 1 ]
+
+            itk_component add $name {
                 SpectrometerView $path.$name \
+                -purpose raw
+            } {
+            }
+			pack $itk_component($name) -expand 1 -fill both
+        }
+
+        spectrometer_wrap {
+			if [checkAndActivateExistingDocument $name] return
+			set path [$itk_component(Mdi) addDocument $name -title "Spectrometer Sub view"  -width 800 -height 600 -resizable 1 ]
+
+            itk_component add $name {
+                SpectrometerView $path.$name \
+                -purpose wrap
             } {
             }
 			pack $itk_component($name) -expand 1 -fill both
@@ -2359,16 +2531,207 @@ body SetupTab::launchWidget { name  } {
 			pack $path
         }
 
-        raster_canvas {
+        grid_canvas {
 			if [checkAndActivateExistingDocument $name] return
 
-			set path [$itk_component(Mdi) addDocument $name -title "Raster Canvas"  -resizable 1  -width 400 -height 300]
+			set path [$itk_component(Mdi) addDocument $name -title "Raster Canvas"  -resizable 1  -width 600 -height 800]
 
 			itk_component add $name {
-                RasterCanvasTest $path.$name \
+                GridDisplayWidget $path.$name
 		    } {
 		    }
             
+			pack $itk_component($name) -expand 1 -fill both
+			pack $path
+        }
+
+        grid_video {
+			if [checkAndActivateExistingDocument $name] return
+
+			set path [$itk_component(Mdi) addDocument $name -title "Raster Video"  -resizable 1  -width 600 -height 500]
+
+			itk_component add $name {
+                GridVideoWidget $path.$name \
+                -videoEnabled 1 \
+		    } {
+				keep -videoParameters
+		    }
+            
+			pack $itk_component($name) -expand 1 -fill both
+			pack $path
+        }
+
+        microspec_staff_view {
+			if [checkAndActivateExistingDocument $name] return
+
+			set path [$itk_component(Mdi) addDocument $name -title "MicroSpec Staff View"  -resizable 1  -width 900 -height 700]
+
+			itk_component add $name {
+                DCS::MicroSpecStaffView $path.$name -mdiHelper $this
+		    } {
+		    }
+            
+			pack $itk_component($name) -expand 1 -fill both
+			pack $path
+        }
+
+        microspec_motor_view {
+			if [checkAndActivateExistingDocument $name] return
+
+			set path [$itk_component(Mdi) addDocument $name -title "MicroSpec Motor View"  -resizable 1  -width 800 -height 600]
+
+			itk_component add $name {
+                DCS::MicroSpecMotorView $path.$name \
+		    } {
+		    }
+			pack $itk_component($name) -expand 1 -fill both
+			pack $path
+        }
+
+        collimator_motor_view {
+			if [checkAndActivateExistingDocument $name] return
+
+			set path [$itk_component(Mdi) addDocument $name -title "Collimator Motor View" ]
+
+			itk_component add $name {
+                DCS::CollimatorMotorView $path.$name \
+		    } {
+		    }
+			pack $itk_component($name) -expand 1 -fill both
+			pack $path
+        }
+
+
+
+
+        collimator_entry {
+			if [checkAndActivateExistingDocument $name] return
+
+			set path [$itk_component(Mdi) addDocument $name -title "Collimator Entry Test"  -resizable 1  -width 800 -height 600]
+
+			itk_component add $name {
+                CollimatorMenuEntry $path.$name \
+                -forUser 1 \
+                -entryWidth 16 \
+                -entryType string \
+                -showEntry 0 \
+                -reference "::device::user_collimator_status contents" \
+                -shadowReference 1
+		    } {
+		    }
+			pack $itk_component($name) -expand 1 -fill both
+			pack $path
+        }
+
+        beam_size_parameter {
+			if [checkAndActivateExistingDocument $name] return
+
+			set path [$itk_component(Mdi) addDocument $name -title "BeamSize Parmeter test"  -resizable 1  -width 400 -height 300]
+
+			itk_component add $name {
+                BeamSizeParameter $path.$name \
+                -promptText "BeamSize: " \
+                -promptWidth 16 \
+                -onCollimatorSubmit "puts \"collimator=%s\"" \
+                -onWidthSubmit "puts width=%s"
+		    } {
+		    }
+            $path.$name setValue 0.5 0.5 {0 -1 2.0 2.0}
+
+
+			pack $itk_component($name) -expand 1 -fill both
+			pack $path
+
+            log_warning beamsize parameter=$path.$name
+        }
+
+        grid_input {
+			if [checkAndActivateExistingDocument $name] return
+
+			set path [$itk_component(Mdi) addDocument $name -title "Raster Setup"  -resizable 1  -width 400 -height 600]
+
+			itk_component add $name {
+                GridListView $path.$name \
+                -activeClientOnly 1 \
+                -systemIdleOnly 1 \
+		    } {
+		    }
+            
+			pack $itk_component($name) -expand 1 -fill both
+			pack $path
+        }
+
+        grid_node_list {
+			if [checkAndActivateExistingDocument $name] return
+
+			set path [$itk_component(Mdi) addDocument $name -title "Raster Node List"  -resizable 1  -width 400 -height 600]
+
+			itk_component add $name {
+                GridNodeListView $path.$name \
+                -activeClientOnly 1 \
+                -systemIdleOnly 1 \
+		    } {
+		    }
+            
+			pack $itk_component($name) -expand 1 -fill both
+			pack $path
+        }
+
+        softlink_setup {
+			if [checkAndActivateExistingDocument $name] return
+
+			set path [$itk_component(Mdi) addDocument $name -title "SoftLink Setup For L614"  -resizable 1  -width 600 -height 100]
+
+			itk_component add $name {
+                L614SoftLinkView $path.$name \
+                -stringName ::device::l614_softlink_status \
+		    } {
+		    }
+            
+			pack $itk_component($name) -expand 1 -fill both
+			pack $path
+        }
+
+        collimator_preset_debug {
+			if [checkAndActivateExistingDocument $name] return
+
+			set path [$itk_component(Mdi) addDocument $name \
+            -title "Collimator Preset DEBUG"  \
+            -resizable 1  -width 1000 -height 500]
+
+            itk_component add $name {
+                DCS::CollimatorPresetLevel2View $path.$name \
+                -stringName ::device::collimator_preset \
+                -systemIdleOnly 0 \
+                -activeClientOnly 0
+            } {
+                keep -mdiHelper
+            }
+
+            #$itk_component($name) setValue 12978.0 1
+
+			pack $itk_component($name) -expand 1 -fill both
+			pack $path
+        }
+
+        trigger_time_view {
+			if [checkAndActivateExistingDocument $name] return
+
+			set path [$itk_component(Mdi) addDocument $name \
+            -title "User Align Beam Trigger Time"  \
+            -resizable 1  -width 1000 -height 160]
+
+            itk_component add $name {
+                DCS::TriggerTimeForUserAlignBeam $path.$name \
+                -stringName ::device::collimator_preset \
+                -systemIdleOnly 0 \
+                -activeClientOnly 0
+            } {
+                keep -mdiHelper
+            }
+
+            #$itk_component($name) setValue 12978.0 1
+
 			pack $itk_component($name) -expand 1 -fill both
 			pack $path
         }
@@ -2424,6 +2787,29 @@ body SetupTab::editString { name_ } {
 
 	pack $itk_component($name_) -expand yes -fill both
 	pack $path
+
+    if {[lsearch -exact $m_dictStringList $name_] < 0} {
+        puts "name=$name_ list=$m_dictStringList"
+        return
+    }
+
+	if [checkAndActivateExistingDocument ${name_}Dict] return
+	
+	#pack the hutch overview widget in the titled frame
+	set path [$itk_component(Mdi) addDocument ${name_}Dict -resizable 1  -title "$name_ dict" -width 200 -height 600]
+
+	#pack the hutch overview widget in the titled frame
+	itk_component add ${name_}Dict {
+		DCS::StringDictView $path.${name_}Dict \
+             -systemIdleOnly 0 \
+             -activeClientOnly 0 \
+			 -stringName $stringObject \
+	} {
+	}
+
+	pack $itk_component(${name_}Dict) -expand yes -fill both
+	pack $path
+
 }
 
 

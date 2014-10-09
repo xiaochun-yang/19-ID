@@ -352,6 +352,7 @@ class DCS::Motor {
       updateRegisteredComponents -value
    }
     public variable lowerLimit     -100.0
+    public variable innerLimit     -100.0
     public variable upperLimit      100.0
     public variable lowerLimitOn      1
     public variable upperLimitOn      1
@@ -362,6 +363,29 @@ class DCS::Motor {
     # This value will also be used to handle moves in other units.
     public variable baseUnits mm
 
+    public variable usrMsg "" {
+        updateRegisteredComponents usrMsg
+    }
+    public variable sysMsg "" {
+        updateRegisteredComponents sysMsg
+    }
+
+    protected variable m_tsUsrMsg 0
+    protected variable m_tsSysMsg 0
+
+    public method setUsrMsgTimestamp { ts } {
+        set m_tsUsrMsg [clock format $ts -format "%D %T"]
+        puts "set ts=$m_tsUsrMsg, updating event"
+        updateRegisteredComponents tsUsrMsg
+    }
+    public method setSysMsgTimestamp { ts } {
+        set m_tsSysMsg [clock format $ts -format "%D %T"]
+        updateRegisteredComponents tsSysMsg
+    }
+    public method getUsrMsgTimestamp { } { return $m_tsUsrMsg }
+    public method getSysMsgTimestamp { } { return $m_tsSysMsg }
+
+
     # public methods
     public method move {prep destination {units ""}}
     public method getScaledPosition {} { return [list $scaledPosition $baseUnits] }
@@ -370,6 +394,7 @@ class DCS::Motor {
 
     public method getUpperLimit {} { return [list $upperLimit $baseUnits]}
     public method getLowerLimit {} { return [list $lowerLimit $baseUnits] }
+    public method getInnerLimit {} { return [list $innerLimit $baseUnits] }
 
     public method getLockOn {} { return $locked }
     public method getConfig {}
@@ -390,9 +415,12 @@ class DCS::Motor {
     public method getMotorType {} {return pseudo}
     ### setScaledPosition only configure the position
     public method setScaledPosition { position_in_base_units }
+    public method setLock { lock }
     public method changeMotorConfiguration
     public method convertToBaseUnits
     public method getRecommendedUnits
+    public method changeUserMessage
+    public method clearSystemMessage
 
     public variable minimumStepSize 0.001
     
@@ -458,6 +486,7 @@ class DCS::Motor {
                      scaledPosition    {getScaledPosition} \
                      -value    {getScaledPosition} \
                      lowerLimit            {getLowerLimit} \
+                     innerLimit            {getInnerLimit} \
                      upperLimit            {getUpperLimit} \
                      limits           {getConfig} \
                      lowerLimitOn {getLowerLimitOn} \
@@ -465,7 +494,11 @@ class DCS::Motor {
                      lockOn {getLockOn} \
                      positionNoUnits { cget -scaledPosition } \
                      deviceMessage {} \
-                permission {getPermission}
+                    permission {getPermission} \
+                    usrMsg {cget -usrMsg} \
+                    sysMsg {cget -sysMsg} \
+                    tsUsrMsg {getUsrMsgTimestamp} \
+                    tsSysMsg {getSysMsgTimestamp} \
              }
     } {
         
@@ -491,6 +524,17 @@ body DCS::Motor::setScaledPosition { position_in_base_units_ } {
     $lowerLimitOn \
     $upperLimitOn \
     $locked
+}
+
+body DCS::Motor::setLock { lock_ } {
+    changeMotorConfiguration \
+    $scaledPosition \
+    $position_in_base_units \
+    $upperLimit \
+    $lowerLimit \
+    $lowerLimitOn \
+    $upperLimitOn \
+    $lock_
 }
 
 body DCS::Motor::configureDevice { message } {
@@ -726,7 +770,12 @@ body DCS::Motor::changeMotorConfiguration { position_ upperLimit_ lowerLimit_ lo
     $controlSystem sendMessage "gtos_configure_device $deviceName $position_ $upperLimit_ $lowerLimit_ $lowerLimitOn_ $upperLimitOn_ $locked_"
 
 }
-
+body DCS::Motor::changeUserMessage { contents_ } {
+    $controlSystem sendMessage "gtos_set_motor_message $deviceName $contents_"
+}
+body DCS::Motor::clearSystemMessage { } {
+    $controlSystem sendMessage "gtos_clear_motor_system_message $deviceName"
+}
 
 body DCS::Motor::recalcStatus { } {
 
@@ -874,6 +923,7 @@ class DCS::RealMotor {
     public method getMotorType {} {return real}
     ### setScaledPosition only configure the position
     public method setScaledPosition { position_in_base_units }
+    public method setLock { lock }
     public method changeMotorConfiguration
     public method convertUnits
 
@@ -892,6 +942,7 @@ class DCS::RealMotor {
                      scaledPosition    {getScaledPosition} \
                      -value    {getScaledPosition} \
                      lowerLimit            {getLowerLimit} \
+                     innerLimit            {getInnerLimit} \
                      upperLimit            {getUpperLimit} \
                      backlash            {getBacklash} \
                      backlashOn            {getBacklashOn } \
@@ -936,6 +987,17 @@ body DCS::RealMotor::configureDevice { message } {
       set undoPosition $scaledPosition
    }
 
+    if {$backlashOn_ && $backlash_ != 0} {
+        set ulV [lindex $upperLimit 0]
+        set llV [lindex $lowerLimit 0]
+        set backlashV [expr 1.0 * $backlash_ / $scaleFactor]
+        if {$backlash > 0} {
+            set innerLimit [expr $llV + $backlashV]
+        } else {
+            set innerLimit [expr $ulV + $backlashV]
+        }
+        updateRegisteredComponents innerLimit
+    }
    #$m_logger logNote "$motor configured:  position: $position, scaleFactor: $scaleFactor, upper limit: $upperLimit, lowerLimit: $lowerLimit, DHS: $controller" 
 
     set _moving $status_
@@ -1088,6 +1150,21 @@ body DCS::RealMotor::setScaledPosition { position_in_base_units_ } {
     $lowerLimitOn \
     $upperLimitOn \
     $locked \
+    $backlashOn \
+    $reverseOn
+}
+body DCS::RealMotor::setLock { lock_ } {
+    changeMotorConfiguration \
+    $scaledPosition \
+    $upperLimit \
+    $lowerLimit \
+    $scaleFactor \
+    $speed \
+    $acceleration \
+    $backlash \
+    $lowerLimitOn \
+    $upperLimitOn \
+    $lock_ \
     $backlashOn \
     $reverseOn
 }

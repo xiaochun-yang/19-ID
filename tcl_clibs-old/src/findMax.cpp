@@ -1,7 +1,9 @@
 #include <cmath>
 #include <vector>
 #include <string>
+#include <cstdlib>
 #include <tcl.h>
+#include <cstdlib>
 #include "findMax.h"
 
 using namespace std;

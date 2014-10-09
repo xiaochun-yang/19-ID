@@ -1,8 +1,8 @@
 #include <string.h>
 #include <tk.h>
 
-static void MedianFilter( unsigned short *pBuffer, int width, int height,
-int size );
+static void MedianFilter( unsigned short *pBuffer, int width, int height, int size );
+
 static int PGM16Format_fileMatch(
 Tcl_Channel chan,
 const char *fileName,

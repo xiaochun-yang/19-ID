@@ -47,6 +47,7 @@ proc getBluIceDirectories {} {
 	global BLC_IMAGES
 	global DCS_DIR
 	global TCL_CLIBS_DIR
+    global auto_path
 
 	#set the variable to the tail end name of the blu-ice directory
 	set BluIceDirectoryName BluIceWidgets
@@ -89,7 +90,11 @@ proc getBluIceDirectories {} {
 	#Guard against incorrectly defined TCLLIBPATH environment variable
 	if { $foundDCSDirectory == 0 || $foundBLCDirectory == 0 } {
 		reportBadTCLLIBPATH $BluIceDirectoryName $DCSWidgetsDirectoryName
-	}
+	} else {
+        if {[lsearch -exact $auto_path $DCS_DIR] < 1} {
+            set auto_path [linsert $auto_path 0 $DCS_DIR]
+        }
+    }
 }
 
 proc reportBadTCLLIBPATH { bluiceDir_  widgetDir_ } {
@@ -402,7 +407,7 @@ proc loadSessionName { } {
 
     set nl [split $nl \n]
     set ll [llength $nl]
-    switch -exact $ll {
+    switch -exact -- $ll {
         0 {
             return ""
         }
@@ -486,6 +491,8 @@ if { [catch {
     global gMotorHorz
     global gBeamHappyExists
     global gInlineCameraExists
+    global gVideoUseStep
+    global gSampleMotorSerialMove
 
     set gMotorBeamWidth  [::config getMotorRunBeamWidth]
     set gMotorBeamHeight [::config getMotorRunBeamHeight]
@@ -514,6 +521,9 @@ if { [catch {
             set gInlineCameraExists 1
         }
     }
+
+    set gVideoUseStep [::config getInt "bluice.videoUseStep" 0]
+    set gSampleMotorSerialMove [::config getInt "sample_move_serial" 0]
 
     ####global filter label mapping
     DCS::DeviceLabelMap filterLabelMap [config getStr bluice.filterLabelMap]

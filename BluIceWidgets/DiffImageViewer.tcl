@@ -212,6 +212,10 @@ class DiffImageViewer {
         catch {image delete $m_imageName}
     }
 
+    public method isPaused { } {
+        return $gCheckButtonVar($this,pause)
+    }
+
     public method unPause { } {
         set gCheckButtonVar($this,pause) 0
     }
@@ -241,6 +245,40 @@ class DiffImageViewer {
     
     }
 
+    public method fileNext { sign } {
+        set currentFile [string trim [$itk_component(fileEntry) get]]
+        set prefix fileroot
+        set numD 5
+        set counter 0
+        set ext ""
+        if {[catch {
+            parseFileNameForCounter $currentFile prefix numD counter ext
+        } errMsg]} {
+            puts "failed to get counter from $currentFile: $errMsg"
+            return
+        }
+        switch -exact -- $sign {
+            + {
+                incr counter
+            }
+            - {
+                incr counter -1
+                if {$counter < 1} {
+                    set counter 1
+                }
+            }
+            default {
+                return
+            }
+        }
+        set counter [format "%0${numD}d" $counter]
+        set nextFile $prefix$counter$ext
+        $itk_component(fileEntry) setValue $nextFile
+        if {$itk_option(-showPause)} {
+            set gCheckButtonVar($this,pause) 1
+        }
+    }
+
     ### the file loading or loaded
     private variable m_fileName         ""
     ## NO_IMAGE, LOADING, SUCCESS, FAILED
@@ -252,6 +290,7 @@ class DiffImageViewer {
     private variable m_contrastMax      400
     private variable resolutionText     ""
     private variable lastDirectory      "/data/$env(USER)"
+    private variable lastExt            ".img"
     private variable centerx            0.5
     private variable centery            0.5
     private variable width              400
@@ -273,6 +312,7 @@ class DiffImageViewer {
     private variable paremters          ""
     private variable httpObjName        ""
     private variable _encodingCalled    0
+    private variable m_currentFileWrap ""
     
     # Gui constants    
     private variable smallFont         *-helvetica-bold-r-normal--14-*-*-*-*-*-*-*
@@ -353,8 +393,9 @@ body DiffImageViewer::constructor { args } {
     if {![ImgLibraryAvailable] } {
         return
     }
-    set m_deviceFactory [DCS::DeviceFactory::getObject]
-    set m_lastImageObj [$m_deviceFactory createString lastImageCollected]
+    set m_currentFileWrap [::DCS::ManualInputWrapper ::#auto]
+    set deviceFactory [DCS::DeviceFactory::getObject]
+    set m_lastImageObj [$deviceFactory createString lastImageCollected]
 
     set m_imageName test$uniqueNameCounter
     incr uniqueNameCounter
@@ -453,6 +494,7 @@ body DiffImageViewer::constructor { args } {
 
     itk_component add fileEntry {
         DCS::Entry $fileSite.f -promptText "File Name" \
+        -reference "$m_currentFileWrap value" \
         -entryType string \
         -entryJustify left \
         -entryWidth 50 \
@@ -464,7 +506,22 @@ body DiffImageViewer::constructor { args } {
         rename -entryJustify filenameJustify filenameJustify FilenameJustity
     }
 
+    itk_component add fileNext {
+        button $fileSite.next \
+        -image $DCS::ArrowButton::plusImage \
+        -command "$this fileNext +" \
+    } {
+    }
+    itk_component add filePrev {
+        button $fileSite.prev \
+        -image $DCS::ArrowButton::minusImage \
+        -command "$this fileNext -" \
+    } {
+    }
+
     pack $itk_component(fileEntry) -side left -expand 1 -fill x -anchor w
+    pack $itk_component(fileNext) -side right
+    pack $itk_component(filePrev) -side right
     pack $itk_component(pause) -side right
 
     image create photo $m_imageName -palette 256/256/256 -format jpeg
@@ -504,6 +561,11 @@ body DiffImageViewer::load { path } {
             update_status "No Image"
         }
         drawBlankImage
+        set newfile [string trim [$itk_component(fileEntry) get]]
+        if {$path != $newfile} {
+            puts "file changed while trying to load"
+            load $newfile
+        }
     }
 }
 
@@ -515,6 +577,7 @@ body DiffImageViewer::load { path } {
 ###################################################################
 body DiffImageViewer::do_load { path } {
     set m_fileName [string trim $path]
+    $m_currentFileWrap setValue $m_fileName
 
     if { $m_fileName == "" || \
     $m_fileName == "0" || \
@@ -591,6 +654,11 @@ body DiffImageViewer::loadImageCB { token } {
         puts "failed: $errMsg"
     }
     #puts "$this callback done"
+    set newfile [string trim [$itk_component(fileEntry) get]]
+    if {$newfile != $m_fileName} {
+        puts "file changed during url load"
+        load $newfile
+    }
 }
 body DiffImageViewer::do_imageCB { token } {
     checkHttpStatus $token
@@ -639,6 +707,7 @@ body DiffImageViewer::do_imageCB { token } {
     handle_mouse_motion $x $y
 
     set lastDirectory [file dirname $m_fileName]
+    set lastExt       [file extension $m_fileName]
 }
 
 ###################################################################
@@ -712,17 +781,9 @@ body DiffImageViewer::handle_filename_entry {} {
     #puts "$this handle_filename_entry"
     # get new value from entry field
     set newfile [string trim [$itk_component(fileEntry) get]]
-    
-    ### Should not check.
-    ### User can recollect with same file name
-    #if { $newfile != "" } {
-    #    if {$newfile == $m_fileName && $m_status == "SUCCESS"} {
-    #        return
-    #    }
-    #}
 
     if {$m_status != "LOADING"} {
-        $this load $newfile
+        load $newfile
     }
 }
 
@@ -1001,9 +1062,11 @@ body DiffImageViewer::handle_resize {} {
 #
 ###################################################################
 body DiffImageViewer::handle_right_click_load {} {
+    set defaultType "DEFAULT $lastExt"
+    set types [list $defaultType \
+    {{ADSC} {.img}} {MAR {.mar* .tif .mccd}} {ImageCif {.cif .cbf}} ]
 
-    set imageFile [tk_getOpenFile -filetypes                             \
-        { {{ADSC} {.img}} {MAR {.mar* .tif .mccd}} {ImageCif {.cif .cbf}} }     \
+    set imageFile [tk_getOpenFile -filetypes $types \
         -initialdir $lastDirectory]
 
     if { $imageFile != "" } {

@@ -100,6 +100,13 @@ class DCS::DetectorFace {
 	protected variable updateOutstanding 0
 	protected variable pixelsPerMM 1.0
 
+    ## to support dyamic configure (change after constructor)
+    protected variable m_xWidget ""
+    protected variable m_yWidget ""
+    protected variable m_zWidget ""
+    protected variable m_bWidget ""
+    protected variable m_eWidget ""
+
 	# protected member functions
 	protected method updateDetectorGraphics {} {}
 	protected method drawResolutionRing
@@ -157,26 +164,60 @@ class DCS::DetectorFace {
 		::mediator announceExistence $this
 	}
 
-	destructor { }
+	destructor { 
+        if {$m_xWidget != ""} {
+	        ::mediator unregister $this $m_xWidget -value
+        }
+        if {$m_yWidget != ""} {
+	        ::mediator unregister $this $m_yWidget -value
+        }
+        if {$m_zWidget != ""} {
+	        ::mediator unregister $this $m_zWidget -value
+        }
+        if {$m_bWidget != ""} {
+	        ::mediator unregister $this $m_bWidget -value
+        }
+        if {$m_eWidget != ""} {
+	        ::mediator unregister $this $m_eWidget -value
+        }
+    }
 }
 
 
 configbody DCS::DetectorFace::detectorXWidget {
-	if {$itk_option(-detectorXWidget) == ""} return
+    if {$m_xWidget != ""} {
+	    ::mediator unregister $this $m_xWidget -value
+    }
 
-	::mediator register $this ::$itk_option(-detectorXWidget) -value handleUpdateFromX
+	if {$itk_option(-detectorXWidget) != ""} {
+	    ::mediator register $this ::$itk_option(-detectorXWidget) \
+        -value handleUpdateFromX
+    }
+    set m_xWidget ::$itk_option(-detectorXWidget)
 }
 
 configbody DCS::DetectorFace::detectorYWidget {
-	if {$itk_option(-detectorYWidget) == ""} return
+    if {$m_yWidget != ""} {
+	    ::mediator unregister $this $m_yWidget -value
+    }
 
-	::mediator register $this ::$itk_option(-detectorYWidget) -value handleUpdateFromY
+	if {$itk_option(-detectorYWidget) != ""} {
+	    ::mediator register $this ::$itk_option(-detectorYWidget) \
+        -value handleUpdateFromY
+    }
+    set m_yWidget ::$itk_option(-detectorYWidget)
 }
 
 configbody DCS::DetectorFace::detectorZWidget {
-	if {$itk_option(-detectorZWidget) == ""} return
+    if {$m_zWidget != ""} {
+	    ::mediator unregister $this $m_zWidget -value
+    }
 
-	::mediator register $this ::$itk_option(-detectorZWidget) -value handleUpdateFromZ
+	if {$itk_option(-detectorZWidget) != ""} {
+	    ::mediator register $this ::$itk_option(-detectorZWidget) \
+        -value handleUpdateFromZ
+    }
+    set m_zWidget ::$itk_option(-detectorZWidget)
 }
 
 configbody DCS::DetectorFace::beamstopXWidget {
@@ -192,17 +233,28 @@ configbody DCS::DetectorFace::beamstopYWidget {
 }
 
 configbody DCS::DetectorFace::beamstopZWidget {
-	if {$itk_option(-beamstopZWidget) == ""} return
+    if {$m_bWidget != ""} {
+	    ::mediator unregister $this $m_bWidget -value
+    }
 
-	::mediator register $this ::$itk_option(-beamstopZWidget) -value handleUpdateFromB
+	if {$itk_option(-beamstopZWidget) != ""} {
+	    ::mediator register $this ::$itk_option(-beamstopZWidget) \
+        -value handleUpdateFromB
+    }
+    set m_bWidget ::$itk_option(-beamstopZWidget)
 }
 
 configbody DCS::DetectorFace::energyWidget {
-	if {$itk_option(-energyWidget) == ""} return
+    if {$m_eWidget != ""} {
+	    ::mediator unregister $this $m_eWidget -value
+    }
 
-	::mediator register $this ::$itk_option(-energyWidget) -value handleUpdateFromE
+	if {$itk_option(-energyWidget) != ""} {
+	    ::mediator register $this ::$itk_option(-energyWidget) \
+        -value handleUpdateFromE
+    }
+    set m_eWidget ::$itk_option(-energyWidget)
 }
-
 
 body DCS::DetectorFace::handleUpdateFromX { object_ targetReady_ - value_ -} {
 
@@ -928,6 +980,25 @@ class DCS::ResolutionWidget {
 	# protected methods
 	public method changeMode { args }
 
+    public method setMode { index } {
+        set modeWidget $itk_option(-externalModeWidget)
+        if {$modeWidget == ""} {
+            set modeWidget $itk_component(detectorMode)
+        }
+
+        set currentIndex [$modeWidget selectDetectorMode]
+        if {$index == $currentIndex} {
+            puts "DEBUG: skip setMode, no change"
+            return
+        }
+        puts "RESOLUTION mode: current=$currentIndex new=$index"
+        if {[catch {
+            $modeWidget setValueByIndex $index
+        } errMsg]} {
+            puts "failed to setMode: $errMsg"
+        }
+    }
+
     private method showModeWidget { } {
 	    if {$itk_option(-detectorType) == "MAR345" && \
         $itk_option(-externalModeWidget) == ""} {
@@ -1299,7 +1370,7 @@ proc testResolution {} {
 	source ../blu-ice/defaultMotors.tcl
 	namespace eval ::device createDefaultMotors
 	
-	catch {load /usr/local/dcs/tcl_clibs/linux/tcl_clibs.so dcs_c_library}
+	catch {load /usr/local/dcs/tcl_clibs/linux64/tcl_clibs.so dcs_c_library}
 	source ../blu-ice/defaultMotors.tcl
 	#set up a list of default motors
 #	namespace eval ::device createDefaultMotors

@@ -77,6 +77,18 @@ class DCS::RunString {
 
     public common m_objRunsConfig "::device::runsConfig"
 
+    public method getXppPulse { } {
+        set t [getField exposure_time]
+        if {$t == 0} {
+            return 1
+        }
+        return [expr int(round($t * 120))]
+    }
+    public method setXppPulse { n } {
+        set t [expr $n / 120.0]
+        setField exposure_time $t
+    }
+
     public method getField { name } {}
     public method setField { name value } {}
     public method getList { args } {}
@@ -125,6 +137,7 @@ class DCS::RunString {
 					 axis	{ getField axis_motor } \
 					 delta { getField delta } \
 					 exposureTime { getField exposure_time } \
+                     pulse { getXppPulse }
 					 inverse { getField inverse_on } \
 					 startFrame { getField start_frame } \
 					 startAngle { getField start_angle } \
@@ -184,6 +197,7 @@ body DCS::RunString::setContents { status_ contents_ } {
 	    updateRegisteredComponents delta
 	    updateRegisteredComponents inverse
 	    updateRegisteredComponents exposureTime
+	    updateRegisteredComponents pulse
 	    updateRegisteredComponents startFrame
 	    updateRegisteredComponents startAngle
 	    updateRegisteredComponents endAngle
@@ -242,7 +256,11 @@ body DCS::RunString::calculateEndFrame { } {
     foreach {startAngle endAngle delta startFrame} \
     [getList start_angle end_angle delta start_frame] break
 
-	set endframe [ expr int( ($endAngle - $startAngle ) / ($delta) -0.01 + $startFrame ) ]
+    if {$delta == 0} {
+        return $startFrame
+    }
+
+    return [ expr int( ($endAngle - $startAngle ) / ($delta) -0.01 + $startFrame ) ]
 }
 
 
@@ -321,6 +339,9 @@ body DCS::RunString::setAxis { axis_ } {
 
 #returns a value for an adjusted wedgesize
 body DCS::RunString::adjustWedgeSize { wedgeSize_ delta_ } {
+   if {$delta_ == 0} {
+       return $wedgeSize_
+   }
    if { $delta_ > $wedgeSize_ } {
       return $delta_
    } else {
@@ -335,7 +356,8 @@ body DCS::RunString::setDelta { delta_ } {
         log_error delta resetted to $delta_
 	}
 	
-	if { $delta_ <= 0.0 } {
+    ### dcss has check to take out 0.0 if not allowed
+	if { $delta_ < 0.0 } {
 		set delta_ 0.01
         log_error delta resetted to $delta_
 	}

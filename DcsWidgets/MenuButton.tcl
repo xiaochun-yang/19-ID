@@ -220,9 +220,12 @@ class DCS::RobotPortMenuButton {
 
     private method setupUnknown { }
     private method setupBad { }
+    private method setupBeamlineTool { }
     private method setupNormal { portStatusList }
     private method setupPuck { portStatusList }
     private method setupCSC { portStatusList }
+
+    private method checkSetup { }
 
     private common EVEN_COLOR #808080
     private common ODD_COLOR  #80f0f0
@@ -286,15 +289,22 @@ class DCS::RobotPortMenuButton {
     private variable m_cscList [list \
     A1 A2 A3 A4 A5 A6 A7 A8 A9 A10 A11 A12 A13 A14 A15 A16 A17 A18 A19]
 
+    private variable m_beamlineToolList [list T0 T1 T2 T3 T4]
+
+
     private variable m_validChoiceList ""
 
     private variable m_strRobotCassette
     private variable m_ctxRobotCassette ""
 
+    private variable m_allowBeamlineTool 0
+
     constructor { args } {
         DCS::Component::constructor {value getValue}
     } {
         set m_validChoiceList $m_unknownList
+
+        set m_allowBeamlineTool [::config getInt "allowUserMountBeamlineTool" 0]
 
         set deviceFactory [DCS::DeviceFactory::getObject]
         set m_strRobotCassette [$deviceFactory createString robot_cassette]
@@ -341,6 +351,15 @@ body DCS::RobotPortMenuButton::repack { } {
         left    { set start 0}
         middle  { set start 97 }
         right   { set start 194 }
+        align   {
+            if {$m_allowBeamlineTool} {
+                setupBeamlineTool
+            } else {
+                setupBad
+            }
+            checkSetup
+            return
+        }
         default { return }
     }
     set cas_status [lindex $m_ctxRobotCassette $start]
@@ -358,6 +377,7 @@ body DCS::RobotPortMenuButton::repack { } {
         4 { setupCSC $portStatusList }
         default { setupBad }
     }
+    checkSetup
 }
 
 body DCS::RobotPortMenuButton::setupUnknown { } {
@@ -378,6 +398,30 @@ body DCS::RobotPortMenuButton::setupUnknown { } {
     }
 
     set m_validChoiceList $m_unknownList
+}
+body DCS::RobotPortMenuButton::setupBeamlineTool { } {
+    $itk_component(mn) delete 0 end
+
+    foreach port $m_beamlineToolList {
+        $itk_component(mn) add command \
+        -label $port \
+        -command "$this setValue $port" \
+        -background $ODD_COLOR \
+        -hidemargin 1 \
+    }
+
+    set m_validChoiceList $m_beamlineToolList
+}
+
+body DCS::RobotPortMenuButton::checkSetup { } {
+    if {$m_validChoiceList == ""} return
+
+    set cur [$itk_component(mb) cget -text]
+    set index [lsearch -exact $m_validChoiceList $cur]
+    if {$index < 0} {
+        $itk_component(mb) configure \
+        -text [lindex $m_validChoiceList 0]
+    }
 }
 body DCS::RobotPortMenuButton::setupBad { } {
     $itk_component(mn) delete 0 end

@@ -873,7 +873,7 @@ body DCS::DcssUserProtocol::handleCompleteMessage { } {
     switch $command {
         stoc_send_client_type {
             if {$authProtocol == 1} {
-                send_to_server "gtos_client_is_gui $_user $env(HOST) $env(DISPLAY)" 200
+                send_to_server "gtos_client_is_gui $_user [info hostname] $env(DISPLAY)" 200
             } else {
                 global gEncryptSID
                 if {$gEncryptSID && $arg1 != ""} {
@@ -881,10 +881,10 @@ body DCS::DcssUserProtocol::handleCompleteMessage { } {
                     set cypher [DcsSslUtil encryptSID $cccc]
                     set l_c [string length $cypher]
                     puts "cypher length $l_c"
-                    send_to_server "gtos_client_is_gui $_user DCS_CYPHER $env(HOST) $env(DISPLAY)" 200
+                    send_to_server "gtos_client_is_gui $_user DCS_CYPHER [info hostname] $env(DISPLAY)" 200
                     sendMessage $cypher
                 } else {
-                    send_to_server "gtos_client_is_gui $_user $_sessionId $env(HOST) $env(DISPLAY)" 200
+                    send_to_server "gtos_client_is_gui $_user $_sessionId [info hostname] $env(DISPLAY)" 200
                 }
             }
             return
@@ -1067,6 +1067,29 @@ body DCS::DcssUserProtocol::handleCompleteMessage { } {
 
             $motor moveStarted $arg2 $arg3
             return
+        }
+        stog_set_motor_user_message {
+            set motor [$m_deviceFactory getObjectName $arg1]
+            set ts $arg2
+            set contents [lrange $_textMessage 3 end]
+
+            $motor configure \
+            -usrMsg $contents
+
+            $motor setUsrMsgTimestamp $ts
+        }
+        stog_set_motor_system_message {
+            set motor [$m_deviceFactory getObjectName $arg1]
+            set ts $arg2
+            set contents [lrange $_textMessage 3 end]
+            $motor configure \
+            -sysMsg $contents
+
+            $motor setSysMsgTimestamp $ts
+            ###DEBUG
+            if {$contents != ""} {
+                log_warning $arg1 sys msg: $contents
+            }
         }
 
         stog_configure_operation {

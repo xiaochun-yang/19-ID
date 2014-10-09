@@ -58,6 +58,9 @@ class DCS::DoseFactor {
    private common m_theObject {} 
    public proc getObject
    public method enforceUniqueness
+
+    private common IGNORE_BEAMSIZE \
+    [::config getInt "doseEstimate.ignoreBeamSize" 0]
 	
 	constructor { args } {
       ::DCS::Component::constructor { doseFactor {getDoseFactor} status {getStatus} }
@@ -96,13 +99,22 @@ body DCS::DoseFactor::estimateNewDoseFactor { situation_ } {
     foreach {ts1 energy1 beam_size_x1 beam_size_y1 attenuation1} \
     $situation_ break
 
+    #puts "last $m_lastSituation"
+    #puts "now  $situation_"
+
+
     ### TODO: include energy in calculation
     set area0 [expr $beam_size_x0 * $beam_size_y0]
     set area1 [expr $beam_size_x1 * $beam_size_y1]
     set through0 [expr 100.0 - $attenuation0]
     set through1 [expr 100.0 - $attenuation1]
-    set flux0 [expr $area0 * $through0]
-    set flux1 [expr $area1 * $through1]
+    if {$IGNORE_BEAMSIZE} {
+        set flux0 $through0
+        set flux1 $through0
+    } else {
+        set flux0 [expr $area0 * $through0]
+        set flux1 [expr $area1 * $through1]
+    }
 
     if {$flux0 < 0} {
         set flux0 0
@@ -190,12 +202,36 @@ class DCS::DoseControlView {
  	inherit ::itk::Widget
 	
 	itk_option define -runListDefinition runListDefinition RunListDefinition ::device::runs
+
+    itk_option define -forGrid forGrid ForGrid 0
    
-   private variable m_deviceFactory
+    public method start { } {
+        if {$itk_option(-forGrid)} {
+            set groupId [gCurrentGridGroup getId]
+            set gridId  [gCurrentGridGroup getCurrentGridId]
+            if {$groupId < 0 || $gridId < 0} {
+                log_error select a crystal first before do normalize
+                return
+            }
+            $m_objGridGroupConfig normalize $groupId $gridId
+        } else {
+            $m_objNormalize startOperation
+        }
+    }
+
+    private variable m_deviceFactory
+    private variable m_objNormalize ""
+    private variable m_objGridGroupConfig ""
 
 	constructor { args} {
 
       set m_deviceFactory [DCS::DeviceFactory::getObject]
+
+        set m_objNormalize \
+        [$m_deviceFactory createOperation normalize]
+
+        set m_objGridGroupConfig \
+        [$m_deviceFactory createOperation gridGroupConfig]
 
       itk_component add doseFrame {
          ::iwidgets::labeledframe $itk_interior.lf -labeltext "Exposure Control"
@@ -214,14 +250,12 @@ class DCS::DoseControlView {
 		itk_component add normalizeButton {
 			DCS::Button $ring.def -text "Normalize" \
 				 -width 5 -pady 0 -activeClientOnly 1 \
+            -command "$this start" \
 		} {}
 		
 		eval itk_initialize $args
 
       set runsList $itk_option(-runListDefinition)
-
-      set normalizeOperation [$m_deviceFactory createOperation normalize]
-      $itk_component(normalizeButton) configure -command [list $normalizeOperation startOperation] 
 
       set doseFactorObject [DCS::DoseFactor::getObject] 
       $itk_component(doseFactor) configure -component $doseFactorObject -attribute doseFactor 

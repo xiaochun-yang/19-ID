@@ -27,7 +27,7 @@ items for any purpose whatsoever.                       Notice 91 02 01
 
 /* tcl_wrapper.c */
 
-/*File $Id: ice.c,v 1.24 2010/02/04 00:40:38 jsong Exp $ */
+/*File $Id: ice.c,v 1.32 2014/06/19 16:13:34 blctl Exp $ */
 /*Version $RCSfile: ice.c,v $*/
 
 /* standard include files */
@@ -41,11 +41,17 @@ items for any purpose whatsoever.                       Notice 91 02 01
 #include "analyzePeak.h"
 #include "image_channel.h"
 #include "matrix_cmd.h"
+#include "projectiveMap_cmd.h"
+#include "bilinearMap_cmd.h"
 #include "ssl_cmd.h"
 #include "dcs_message_parse.h"
 #include "fitFunction.h"
 #include "findMax.h"
 #include "imageScale.h"
+#include "imagePGM16.h"
+#include "imageBackgroundDetect.h"
+#include "putsToLog.h"
+#include "fileMTime.h"
 
 extern "C" {	
 	 int Dcs_c_library_Init ( Tcl_Interp *interp );
@@ -55,9 +61,17 @@ extern "C" {
 		 REGISTER_TCL_COMMAND( cal_find_peak );
 		 REGISTER_TCL_COMMAND( cal_correct_energy );
 		 REGISTER_TCL_COMMAND( analyzePeak );
+		 REGISTER_TCL_COMMAND( poly1stFit );
 		 REGISTER_TCL_COMMAND( poly3rdFit );
 		 REGISTER_TCL_COMMAND( poly5thFit );
 		 REGISTER_TCL_COMMAND( findMax );
+		 REGISTER_TCL_OBJECT_COMMAND( linearRegression );
+		 REGISTER_TCL_OBJECT_COMMAND( putsToLog );
+		 REGISTER_TCL_OBJECT_COMMAND( initPutsLogger );
+		 REGISTER_TCL_OBJECT_COMMAND( get_file_mtime );
+		 REGISTER_TCL_OBJECT_COMMAND( get_timeofday );
+
+         Tk_CreatePhotoImageFormat( &gPGM16Format );
 
 		 //had problems compiling with Digital unix
 #if defined IRIX || defined LINUX
@@ -79,6 +93,24 @@ extern "C" {
                     (ClientData)NULL,
                     (Tcl_CmdDeleteProc*)NULL );
 
+        Tcl_CreateCommand( interp,
+                    "createNewProjectiveMapping",
+                    (Tcl_CmdProc*)NewProjectiveMappingCmd,
+                    (ClientData)NULL,
+                    (Tcl_CmdDeleteProc*)NULL );
+
+        Tcl_CreateCommand( interp,
+                    "createNewDcsCoordsTranslate",
+                    (Tcl_CmdProc*)NewDcsCoordsTranslateCmd,
+                    (ClientData)NULL,
+                    (Tcl_CmdDeleteProc*)NULL );
+
+        Tcl_CreateCommand( interp,
+                    "createNewBilinearMapping",
+                    (Tcl_CmdProc*)NewBilinearMappingCmd,
+                    (ClientData)NULL,
+                    (Tcl_CmdDeleteProc*)NULL );
+
 		 REGISTER_TCL_OBJECT_COMMAND( DcsAxisTicks );
 		 REGISTER_TCL_OBJECT_COMMAND( NewDcsStringParser );
 		 REGISTER_TCL_OBJECT_COMMAND( DcsSslUtil );
@@ -86,6 +118,7 @@ extern "C" {
 		 REGISTER_TCL_OBJECT_COMMAND( imageResizeBilinear );
 		 REGISTER_TCL_OBJECT_COMMAND( imageSubSampleAvg );
 		 REGISTER_TCL_OBJECT_COMMAND( imageDownsizeAreaSample );
+		 REGISTER_TCL_OBJECT_COMMAND( jpegBackgroundDetect );
 #endif
 
 		 Tcl_PkgProvide( interp, "dcs_c_library","1.0");	

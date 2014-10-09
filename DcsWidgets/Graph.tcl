@@ -70,14 +70,16 @@ class DCS::Graph {
 	public method createTrace  { traceName xLabels passedXVector args }
 	public method createSubTrace { traceName subTraceName yLabels passedYVector args }
 	public method deleteSubTraces { subTraceName }
-	public method makeOverlay { objSubTrace }
+	public method makeOverlay { traceName overlayName }
     public method deleteAllOverlay { }
+    ### get self local vector to hold data.
+    public method makeTraceStandalone { traceName }
 
 	public method addToTrace { traceName xValue yValues }
 	public method getPeaks { }
 	public method getXMinMax { }
-	public method getYMinMax { }
-	public method getYMinMaxLog { }
+	public method getYMinMax { yLabel }
+	public method getYMinMaxLog { yLabel }
 	public method setXPosition { args }
 	public method setYPosition { args }
 	public method configureTrace { traceName args }
@@ -181,7 +183,6 @@ class DCS::Graph {
 	itk_option define -onOpenFile onOpenFile OnOpenFile ""
 
 	itk_option define -noDelete noDelete NoDelete 0
-	itk_option define -enableOverlay enableOverlay EnableOverlay 0
 
 	private variable _windowMouseX ""
 	private variable _windowMouseY ""
@@ -235,42 +236,40 @@ class DCS::Graph {
     private variable m_y2LogScale 0
     private variable m_subTraceNumList ""
     private variable m_inputEnergy -1
-    private variable m_ovlyCnt 0
-
-    protected common OVERLAY_COLOR [list \
-    chocolate \
-    cyan \
-    darkgreen \
-    coral \
-    darkred \
-    darkcyan \
-    firebrick \
-    gold \
-    magenta \
-    maroon \
-    navy \
-    orchid \
-    peru \
-    purple \
-    salmon \
-    sienna \
-    tan \
-    tomato \
-    turquoise \
-    violet \
-    yellow \
-    ]
 }
 body DCS::Graph::print {} {
+    set types [list [list PDF .pdf]]
+    set outFile [tk_getSaveFile \
+    -defaultextension ".pdf" \
+    -filetypes $types \
+    ]
+
+    if {$outFile == ""} {
+        ## user aborted
+        return
+    }
+
     puts "printing from Graph"
 	set tmpGraphFile "/tmp/graph_[clock clicks].ps"
-    set outGraphFile [file nativename "~/graph.ps"]
+	$itk_component(bltGraph) postscript output $tmpGraphFile \
+    -landscape 1 \
+    -colormode color \
+    -maxpect 1
 
-	$itk_component(bltGraph) postscript output $tmpGraphFile -landscape 1 -colormode color -maxpect 1
+    #### convert to pdf:
+    ## from email from Thomas on 04/21/14
 
-	puts [exec eps2eps $tmpGraphFile $outGraphFile]
-    puts "created $outGraphFile"
-	puts [exec lp $outGraphFile]
+	#puts [exec eps2eps $tmpGraphFile $outGraphFile]
+    puts [exec ps2pdf \
+    -dPDFSETTINGS=/printer \
+    -dEmbedAllFonts=true \
+    -sPAPERSIZE=letter \
+    -dUseCIEColor=true \
+    $tmpGraphFile $outFile \
+    ]
+
+    log_warning print saved to $outFile
+
 	puts [exec rm $tmpGraphFile]
 }
 
@@ -875,6 +874,8 @@ body DCS::Graph::createTrace { traceName xLabels passedXVector args } {
 		$x2AxisMenu addCommand $label -label $label -before {"Add marker" -1} \
 			-command "$this configure -x2Label [list $label]"
 	}
+
+    return [$trace($traceName) getObj]
 }
 
 
@@ -929,30 +930,21 @@ body DCS::Graph::deleteSubTraces { subTraceName } {
 }
 body DCS::Graph::deleteAllOverlay { } {
 	foreach traceName [$traceSet get] {
-        $trace($traceName) deleteAllOverlay
+        set obj $trace($traceName)
+        if {[$obj isOverlay]} {
+		    delete object $obj
+        }
     }
 	updateShownAxisLabels
 }
-body DCS::Graph::makeOverlay { objSubTrace } {
-    set ll [llength $OVERLAY_COLOR]
-    set color [lindex $OVERLAY_COLOR [expr $m_ovlyCnt % $ll]]
+body DCS::Graph::makeOverlay { traceName overlayName } {
+    if {[info exists trace($overlayName)]} {
+        log_error overlay name $overlayName already exists.
+        return
+    }
 
-    puts "obj=$objSubTrace"
-    incr m_ovlyCnt
-    set tName [$objSubTrace getTraceName]
-    set sName "ovly$m_ovlyCnt"
-    set yLabels [$objSubTrace getYLabels]
-
-    set newST \
-    [createSubTrace $tName $sName $yLabels "" -isOverlay 1 -color $color]
-
-    puts "newST=$newST"
-
-    set oldY [$objSubTrace cget -yVector]
-    set oldL [$objSubTrace getLabel]
-    set newY [$newST cget -yVector]
-    $newY set [$oldY range 0 end]
-    $newST setLabel "o$oldL"
+    set src $trace($traceName)
+    $src clone $overlayName "" 1
 }
 
 body DCS::Graph::deleteXLabels { xLabels } {
@@ -1000,6 +992,7 @@ body DCS::Graph::doConfigAxis { {force 0} } {
 body DCS::Graph::doConfigAxisLinear { axis force } {
     #puts "doConfigAxisLinear: $axis $force"
 
+    set currentLabel ""
     set currentOn [ $itk_component(bltGraph) ${axis}axis cget -log]
     if {$force || $currentOn} {
         $itk_component(bltGraph) axis configure $axis -log 0
@@ -1007,12 +1000,14 @@ body DCS::Graph::doConfigAxisLinear { axis force } {
             if {[info exists itk_option(-${axis}Label)]} {
                 $itk_component(bltGraph) axis configure $axis \
                 -title $itk_option(-${axis}Label)
+
+                set currentLabel $itk_option(-${axis}Label)
             }
         } errMsg]} {
             puts "ERROR1111: $errMsg"
         }
     }
-    foreach {min max min2 max2} [getYMinMax] break
+    foreach {min max min2 max2} [getYMinMax $currentLabel] break
 
     if {$axis == "y2"} {
         set min $min2
@@ -1094,8 +1089,16 @@ body DCS::Graph::doConfigAxisLinear { axis force } {
 }
 
 body DCS::Graph::doConfigAxisLog { axis force } {
-    #puts "doConfigAxisLog: $axis $force"
-    foreach {min max min2 max2} [getYMinMax] break
+    puts "doConfigAxisLog: $axis $force"
+    set currentLabel ""
+    if {[catch {
+        if {[info exists itk_option(-${axis}Label)]} {
+            set currentLabel $itk_option(-${axis}Label)
+        }
+    } errMsg]} {
+        puts "ERROR1111: $errMsg"
+    }
+    foreach {min max min2 max2} [getYMinMax $currentLabel] break
     if {$axis == "y2"} {
         set min $min2
         set max $max2
@@ -1111,7 +1114,7 @@ body DCS::Graph::doConfigAxisLog { axis force } {
     }
 
     set currentOn [$itk_component(bltGraph) ${axis}axis cget -log]
-    foreach {min max min2 max2} [getYMinMaxLog] break
+    foreach {min max min2 max2} [getYMinMaxLog $currentLabel] break
 
     if {$axis == "y2"} {
         set min $min2
@@ -1253,7 +1256,7 @@ body DCS::Graph::getXMinMax { } {
     return [list $x_min $x_max]
 }
 
-body DCS::Graph::getYMinMax { } { 
+body DCS::Graph::getYMinMax { currentYLabel } {
     if {![info exist traceSet]} {
         return [list "" "" "" ""]
     }
@@ -1264,7 +1267,7 @@ body DCS::Graph::getYMinMax { } {
     set y2_max ""
     #puts "getYMinMax: traces: [$traceSet get]"
 	foreach traceName [$traceSet get] {
-		foreach {min max min2 max2} [$trace($traceName) getYMinMax] break
+		foreach {min max min2 max2} [$trace($traceName) getYMinMax $currentYLabel] break
         #puts "trace $traceName: $min $max $min2 $max2"
         if {$min != "" && ($y_min == "" || $y_min > $min)} {
             set y_min $min
@@ -1283,7 +1286,8 @@ body DCS::Graph::getYMinMax { } {
     return [list $y_min $y_max $y2_min $y2_max]
 }
 
-body DCS::Graph::getYMinMaxLog { } { 
+body DCS::Graph::getYMinMaxLog { currentYLabel } { 
+    puts "getYMinMaxLog for $this with label=$currentYLabel"
     if {![info exist traceSet]} {
         return [list "" "" "" ""]
     }
@@ -1294,7 +1298,7 @@ body DCS::Graph::getYMinMaxLog { } {
     set y2_max ""
     #puts "getYMinMax: traces: [$traceSet get]"
 	foreach traceName [$traceSet get] {
-		foreach {min max min2 max2} [$trace($traceName) getYMinMaxLog] break
+		foreach {min max min2 max2} [$trace($traceName) getYMinMaxLog $currentYLabel] break
         #puts "trace $traceName: $min $max $min2 $max2"
         if {$min != "" && ($y_min == "" || $y_min > $min)} {
             set y_min $min
@@ -1309,7 +1313,7 @@ body DCS::Graph::getYMinMaxLog { } {
             set y2_max $max2
         }
 	}
-    #puts "final: $y_min $y_max $y2_min $y2_max"
+    puts "final: $y_min $y_max $y2_min $y2_max"
     return [list $y_min $y_max $y2_min $y2_max]
 }
 
@@ -1565,6 +1569,15 @@ body DCS::Graph::zoomOut {} {
 body DCS::Graph::zoomOutAll {} {
 
 	eval [$zoomStack popAll]
+
+	$itk_component(bltGraph) xaxis configure \
+    -min "" -max ""
+	$itk_component(bltGraph) yaxis configure \
+    -min "" -max ""
+	$itk_component(bltGraph) x2axis configure \
+    -min "" -max ""
+	$itk_component(bltGraph) y2axis configure \
+    -min "" -max ""
 }
 
 
@@ -1791,6 +1804,9 @@ body DCS::ZoomStack::popAll {} {
 
 	set command [lindex $zoomStack 0]
 	set zoomStack ""
+
+    #DEBUG:
+    puts "popAll: $command"
 	
 	return $command
 }
@@ -2789,7 +2805,6 @@ class DCS::Trace {
 
 		# create an ordered set to hold the sub-trace names
 		set subTraceSet [DCS::Set \#auto]
-		set overlaySet [DCS::Set \#auto]
 
 		# handle optional configuration options
 		eval configure $args
@@ -2813,12 +2828,15 @@ class DCS::Trace {
 		# tell the graph that the trace has been deleted
 		$graph reportDeletedTrace $name
 	}
+    ### make vector to self and holding the data
+    public method standalone { }
+
+    public method clone { targetName color makeOverlay }
 	
 	# public member functions
 	public method add { xValue yValues }
 	public method createSubTrace { subTraceName yLabels passedYVector args }
 	public method deleteSubTrace { subTraceName }
-	public method deleteAllOverlay { }
 	public method addToSubTrace { subTraceName xValue yValues }
 	public method setShownAxisLabels { xLabel x2Label yLabel y2Label }
 	public method getElementInfoFromName { element }
@@ -2828,10 +2846,15 @@ class DCS::Trace {
 	public method save { fileHandle }
     public method getPeaks { }
     public method getXMinMax { }
-    public method getYMinMax { }
-    public method getYMinMaxLog { }
+    public method getYMinMax { currentYLabel }
+    public method getYMinMaxLog { currentYLabel }
     public method hideLegend { hide }
     public method getObj { } { return $this }
+
+    public method setIsOverlay { one_zero} {
+        set m_isOverlay $one_zero
+    }
+    public method isOverlay { } { return $m_isOverlay }
 	
 	# public data members (accessed through configure method)
 	public variable xAxis "" { error }
@@ -2840,16 +2863,112 @@ class DCS::Trace {
 
 	# public variable update functions
 	protected method updateHide {} {}
+    protected method getXVector { } { return $xVector }
 
 	# protected variables
 	protected variable xVector
 	protected variable subTraces
 	protected variable subTraceSet
-	protected variable overlaySet
 	protected variable menu
 	protected variable xVectorIsLocal 0
 	protected variable m_xMin  ""
 	protected variable m_xMax  ""
+    protected variable m_isOverlay 0
+
+    protected common s_cloneSubTraceCounter 0
+    protected common SUBTRACE_COLOR [list \
+    chocolate \
+    cyan \
+    darkgreen \
+    coral \
+    darkred \
+    darkcyan \
+    firebrick \
+    gold \
+    magenta \
+    maroon \
+    navy \
+    orchid \
+    peru \
+    purple \
+    salmon \
+    sienna \
+    tan \
+    tomato \
+    turquoise \
+    violet \
+    yellow \
+    ]
+}
+body DCS::Trace::standalone { } {
+    set newXVector 0
+    if {!$xVectorIsLocal} {
+        set oldXVector $xVector
+        set xVector [blt::vector ::[DCS::getUniqueName]]
+        set xVectorIsLocal 1
+        $oldXVector dup $xVector
+        set newXVector 1
+    }
+	foreach subTraceName [array names subTraces] {
+        set src $subTraces($subTraceName)
+        $src standalone $newXVector
+    }
+}
+body DCS::Trace::clone { targetTraceName color makeOverlay } {
+    ## clone needs its own xVector
+    set newTrace [$graph createTrace $targetTraceName $xAxisLabels {}]
+
+    $newTrace setIsOverlay $makeOverlay
+
+    set newXVector [$newTrace getXVector]
+    $xVector dup $newXVector
+
+	foreach subTraceName [array names subTraces] {
+        set src $subTraces($subTraceName)
+        set yLabels [$src getYLabels]
+        ### new subTrace needs its own yVector to store the data.
+        set tgt [$graph createSubTrace $targetTraceName $subTraceName $yLabels {}]
+
+        ## copy data
+        set srcY [$src cget -yVector]
+        set tgtY [$tgt cget -yVector]
+        $srcY dup $tgtY
+
+        ### check label
+        set srcLabel [$src getLabel]
+        $tgt setLabel $srcLabel
+        $tgt setMessage $targetTraceName
+        if {[$graph cget -noDelete]} {
+            $tgt enableDeleteTrace
+        }
+
+        ## copy attributes.
+        set srcColor [$src cget -color]
+        set srcWidth [$src cget -width]
+        set srcSym   [$src cget -symbol]
+        set srcSymSz [$src cget -symbolSize]
+        set srcHide  [$src cget -hideLegend]
+
+        switch -exact -- $color {
+            orig {
+                set color $srcColor
+            }
+            "" {
+                set ll [llength $SUBTRACE_COLOR]
+                set color [lindex $SUBTRACE_COLOR [expr $s_cloneSubTraceCounter % $ll]]
+                incr s_cloneSubTraceCounter
+            }
+        }
+
+        $tgt configure \
+        -color $color \
+        -width $srcWidth \
+        -symbol $srcSym \
+        -symbolSize $srcSymSz \
+        -hideLegend $srcHide
+    }
+
+    return $newTrace
 }
 
 body DCS::Trace::getPeaks { } {
@@ -2863,12 +2982,17 @@ body DCS::Trace::getPeaks { } {
 body DCS::Trace::getXMinMax { } {
     return [list $m_xMin $m_xMax]
 }
-body DCS::Trace::getYMinMax { } {
+body DCS::Trace::getYMinMax { currentYLabel } {
+    puts "getYMinMax for $this with label=$currentYLabel"
     set y_min ""
     set y_max ""
     set y2_min ""
     set y2_max ""
 	foreach subTraceName [$subTraceSet get] {
+        set yLabelList [$subTraces($subTraceName) getYLabels]
+        if {[lsearch -exact $yLabelList $currentYLabel] < 0} {
+            continue
+        }
 		foreach {min max min2 max2} [$subTraces($subTraceName) getMinMax] break
         if {$min != "" && ($y_min == "" || $y_min > $min)} {
             set y_min $min
@@ -2885,12 +3009,17 @@ body DCS::Trace::getYMinMax { } {
 	}
     return [list $y_min $y_max $y2_min $y2_max]
 }
-body DCS::Trace::getYMinMaxLog { } {
+body DCS::Trace::getYMinMaxLog { currentYLabel } {
+    puts "getYMinMaxLog for $this with label=$currentYLabel"
     set y_min ""
     set y_max ""
     set y2_min ""
     set y2_max ""
 	foreach subTraceName [$subTraceSet get] {
+        set yLabelList [$subTraces($subTraceName) getYLabels]
+        if {[lsearch -exact $yLabelList $currentYLabel] < 0} {
+            continue
+        }
 		foreach {min max min2 max2} [$subTraces($subTraceName) getMinMaxLog] break
         if {$min != "" && ($y_min == "" || $y_min > $min)} {
             set y_min $min
@@ -2905,6 +3034,7 @@ body DCS::Trace::getYMinMaxLog { } {
             set y2_max $max2
         }
 	}
+    puts "result  $y_min $y_max $y2_min $y2_max"
     return [list $y_min $y_max $y2_min $y2_max]
 }
 body DCS::Trace::hideLegend { hide } {
@@ -2996,9 +3126,6 @@ body DCS::Trace::createSubTrace { subTraceName yLabels passedYVector args } {
 	
 	# add the sub trace name to the set
 	$subTraceSet add $subTraceName
-    if {[$subTraces($subTraceName) cget -isOverlay]} {
-	    $overlaySet add $subTraceName
-    }
 
     puts "created subtrace $subTraceName: obj=$subTraces($subTraceName)"
 
@@ -3011,16 +3138,6 @@ body DCS::Trace::deleteSubTrace { subTraceName } {
     }
 }
 
-body DCS::Trace::deleteAllOverlay { } {
-    foreach ol [$overlaySet get] {
-        delete object $subTraces($ol)
-    }
-    if {[$overlaySet size] > 0} {
-        puts "Strange, still some overlay left: [$overlaySet get]"
-        $overlaySet clear
-    }
-}
-
 body DCS::Trace::reportDeletedSubTrace { name } {
 
 	# remove sub-trace from the sub-trace array
@@ -3028,7 +3145,6 @@ body DCS::Trace::reportDeletedSubTrace { name } {
 
 	# add the sub trace name to the set
 	$subTraceSet remove $name
-	$overlaySet remove $name
 
 	# delete the trace if last sub-trace has been deleted
 	if { [array names subTraces ] == {} } {
@@ -3109,9 +3225,6 @@ body DCS::Trace::configureSubTrace { subTraceName args } {
 ##########################################################################
 
 class DCS::SubTrace {
-
-    public variable isOverlay 0
-
 	# constructor
 	constructor { subTraceName containingTraceName containingTrace containingGraph passedBLTGraph passedXVector passedYVector passedYAxisLabels args }  {
 		
@@ -3202,7 +3315,7 @@ class DCS::SubTrace {
 		    -command "delete object $this"
 		    $menu addCommand deleteTrace -label "Delete $traceName" \
 			-command "delete object $containingTrace"
-		    $menu addCommand deleteTrace -label "Delete ALL::$name" \
+		    $menu addCommand deleteAllSubTrace -label "Delete ALL::$name" \
 			-command "$graph deleteSubTraces $name"
         }
 
@@ -3210,14 +3323,6 @@ class DCS::SubTrace {
 		$BLTGraph legend bind $BLTElement <Button-3> "$graph setEventSource $this"
 
         eval configure $args
-
-        if {$isOverlay} {
-		    $menu addCommand delete -label "Delete  $m_legend_label" \
-		    -command "delete object $this"
-        } elseif {[$graph cget -enableOverlay]} {
-		    $menu addCommand overlay -label "Keep it as Overlay" \
-		    -command "$graph makeOverlay $this"
-        }
 	}
 	
 	destructor {
@@ -3252,6 +3357,7 @@ class DCS::SubTrace {
 	public method popMenu {}
 	public method save { fileHandle }
     public method getMinMax { } {
+        updateMinMax
         switch -exact -- $yAxis {
             y {
                 return [list $m_min $m_max "" ""]
@@ -3260,11 +3366,12 @@ class DCS::SubTrace {
                 return [list "" "" $m_min $m_max]
             }
             default {
-                return [list "" "" "" ""]
+                return [list $m_min $m_max $m_min $m_max]
             }
         }
     }
     public method getMinMaxLog { } {
+        updateMinMax
         switch -exact -- $yAxis {
             y {
                 return [list $m_minLog $m_maxLog "" ""]
@@ -3285,9 +3392,71 @@ class DCS::SubTrace {
 		    $menu configureEntry title -label $m_legend_label
         }
     }
+
+    public method setMessage { msg } {
+        $menu addLabel message -label $msg -before 1
+    }
+    public method enableDeleteTrace { } {
+        $menu addSeparator sep2
+        $menu addCommand deleteTrace -label "Delete $traceName" \
+        -command "delete object $trace"
+    }
+
     public method getLabel { } { return $m_legend_label }
     public method getHide { } {
 		return [$BLTGraph element cget $BLTElement -hide]
+    }
+
+    public method standalone { newXVector } {
+        if {!$yVectorIsLocal} {
+            set oldYVector $yVector
+            set yVector [blt::vector ::[DCS::getUniqueName]]
+            set yVectorIsLocal 1
+            $oldYVector dup $yVector
+
+		    $BLTGraph element configure $BLTElement -yData $yVector
+        }
+        if {$newXVector} {
+		    $BLTGraph element configure $BLTElement -xData $xVector
+        }
+    }
+
+    protected method updateMinMax { } {
+        set m_min ""
+        set m_max ""
+        set m_minLog ""
+        set m_maxLog ""
+        set n [$yVector length]
+        if {$n < 1} {
+            return
+        }
+        set m_min [$yVector index 0]
+        set m_max $m_min
+
+        set v [expr abs($m_min)]
+        if {$v == 0} {
+            set v 1
+        }
+        set m_minLog $v
+        set m_maxLog $v
+
+
+        foreach value [$yVector range 1 end] {
+            if {$value < $m_min} {
+                set m_min $value
+            } elseif {$value > $m_max} {
+                set m_max $value
+            }
+            set v [expr abs($value)]
+            if {$v == 0} {
+                set v 1
+            }
+            if {$v < $m_minLog} {
+                set m_minLog $v
+            } elseif {$v > $m_maxLog} {
+                set m_maxLog $v
+            }
+        }
     }
 
 	# public data members (accessed through configure method)

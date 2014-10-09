@@ -256,6 +256,201 @@ body SpearStatus::handleParameterChange { name_ targetReady_ - contents_ - } {
     updateLabel
 }
 
+###display LCLS XPP status.
+### the logical is copied from XRayLaserStatus.edl
+class LCLSStatus {
+    inherit ::itk::Widget
+
+    itk_option define -controlSystem controlSystem ControlSystem ::dcss
+    itk_option define -mdiHelper mdiHelper MdiHelper ""
+
+    public method handleNEHLight
+    public method handleNEHStopper
+    public method handleXppStopper
+    public method handleS3Stopper
+    public method handlePosOut
+    public method handleBeamCurrentChange
+    public method handleStatusChange
+
+    private method updateLabel
+
+    private variable m_deviceFactory
+
+    private variable m_strNEHLightState
+    private variable m_strNEHStopper
+    private variable m_strXppStopper
+    private variable m_strS3Stopper
+    private variable m_strXppPosOut
+    private variable m_strBeamCurrent
+
+    private variable m_ctxNEHLight   0
+    private variable m_ctxNEHStopper   1
+    private variable m_ctxXppStopper   1
+    private variable m_ctxS3Stopper 1
+    private variable m_ctxXppPosOut 1
+    private variable m_ctsBeamCurrent 0.0
+
+    private variable m_origBG gray
+
+    constructor { args } {
+        set m_deviceFactory [DCS::DeviceFactory::getObject]
+        set m_strXppStopper [$m_deviceFactory createString xppStopperRBV]
+        set m_strNEHStopper [$m_deviceFactory createString xppNEHStopper]
+        set m_strNEHLightState [$m_deviceFactory createString xppNEHLightState]
+        set m_strBeamCurrent [$m_deviceFactory createString xppPeakCurrent]
+        set m_strS3Stopper [$m_deviceFactory createString xppS3topper]
+        set m_strXppPosOut [$m_deviceFactory createString xppPOSOUT]
+
+        itk_component add ll {
+            label $itk_interior.ll \
+            -width 14 \
+            -text "LCLS Current: "
+        } {
+            keep -background
+            keep -font
+        }
+        set m_origBG [$itk_component(ll) cget -background]
+
+        itk_component add current {
+            label $itk_interior.cur \
+            -justify right \
+            -text "unknown" \
+            -relief sunken
+        } {
+            keep -background
+            keep -font
+            keep -width
+        }
+
+        itk_component add mm {
+            label $itk_interior.mm \
+            -text A
+        } {
+            keep -background
+            keep -font
+        }
+
+        pack $itk_component(ll) -side left
+        pack $itk_component(current) -side left
+        pack $itk_component(mm) -side left
+        eval itk_initialize $args
+
+        $m_strBeamCurrent register $this contents handleBeamCurrentChange
+        $m_strBeamCurrent register $this status   handleStatusChange
+        $m_strXppStopper   register $this contents handleXppStopper
+        $m_strNEHStopper   register $this contents handleNEHStopper
+        $m_strNEHLightState   register $this contents handleNEHLight
+        $m_strS3Stopper   register $this contents handleS3Stopper
+        $m_strXppPosOut   register $this contents handlePosOut
+
+    }
+    destructor {
+        $m_strBeamCurrent unregister $this contents handleBeamCurrentChange
+        $m_strBeamCurrent unregister $this status   handleStatusChange
+        $m_strXppStopper   unregister $this contents handleXppStopper
+        $m_strNEHStopper   unregister $this contents handleNEHStopper
+        $m_strNEHLightState unregister $this contents handleNEHLight
+        $m_strS3Stopper   unregister $this contents handleS3Stopper
+        $m_strXppPosOut   unregister $this contents handlePosOut
+    }
+}
+body LCLSStatus::handleXppStopper { name_ targetReady_ - contents_ - } {
+    if { ! $targetReady_} return
+
+    set m_ctxXppStopper $contents_
+    updateLabel
+}
+body LCLSStatus::handleS3Stopper { name_ targetReady_ - contents_ - } {
+    if { ! $targetReady_} return
+
+    set m_ctxS3Stopper $contents_
+    updateLabel
+}
+body LCLSStatus::handlePosOut { name_ targetReady_ - contents_ - } {
+    if { ! $targetReady_} return
+
+    set m_ctxXppPosOut $contents_
+    updateLabel
+}
+
+body LCLSStatus::handleNEHStopper { name_ targetReady_ - contents_ - } {
+    if { ! $targetReady_} return
+
+    set m_ctxNEHStopper $contents_
+
+    updateLabel
+}
+body LCLSStatus::handleNEHLight { name_ targetReady_ - contents_ - } {
+    if { ! $targetReady_} return
+
+    set m_ctxNEHLight $contents_
+
+    updateLabel
+}
+
+body LCLSStatus::updateLabel { } {
+    if {$m_ctxS3Stopper != "0" && $m_ctxXppPosOut != "0"} {
+        $itk_component(ll) configure \
+        -text "XPP No Laser:" \
+        -foreground red \
+        -background black
+
+        return
+    }
+    if {$m_ctxNEHStopper != "0"} {
+        $itk_component(ll) configure \
+        -text "NEH Stopper:" \
+        -foreground red \
+        -background black
+
+        return
+    }
+
+    if {![string is double -strict $m_ctxXppStopper] \
+    || abs($m_ctxXppStopper) >= 13.5} {
+        $itk_component(ll) configure \
+        -text "XPP Stopper:" \
+        -background yellow \
+        -foreground red
+
+        return
+    }
+    if {[string is double -strict $m_ctsBeamCurrent] \
+    && $m_ctsBeamCurrent < 2000} {
+        $itk_component(ll) configure \
+        -text "LCLS Cur. Low:" \
+        -background yellow \
+        -foreground red
+
+        return
+    }
+
+    $itk_component(ll) configure \
+    -text "XPP Open:" \
+    -background purple \
+    -foreground black
+}
+body LCLSStatus::handleBeamCurrentChange { name_ targetReady_ - contents_ - } {
+    if { ! $targetReady_} return
+
+    set m_ctsBeamCurrent $contents_
+    updateLabel
+
+    if {[string is double -strict $contents_]} {
+        set display [format "%.0f" $contents_]
+
+    } else {
+        set display $contents_
+    }
+    $itk_component(current) configure -text $display
+}
+body LCLSStatus::handleStatusChange { name_ targetReady_ - contents_ - } {
+    if { ! $targetReady_} return
+
+    if {$contents_ != "inactive"} {
+        $itk_component(current) configure -text unknow
+    }
+}
 
 class TimeWidget {
    inherit ::itk::Widget
@@ -402,10 +597,88 @@ class StatusBar {
 	itk_option define -validSessionCallback validSessionCallback ValidSessionCallback ""
 
    public method handleShutter
+   public method handleXppShutter
+   public method handleXppSetupConfig
+   public method updateShutterDisplay
+    public method toggleShutter { } {
+        log_error no control.
+    }
+
+    public method saveSnapshot { ask } {
+        global env
+
+        update
+        set imgSnapshot [image create photo -palette "256/256/256" -format window -data .]
+
+        ### file path
+        set tsForFileName [clock format [clock seconds] -format "%Y%m%d_%H%M%S"]
+        set filePath [file join ~$env(USER) bluice_snapshot_$tsForFileName.jpg]
+        if {$ask} {
+            set types [list [list JPEG .jpg]]
+
+            set cmd [list tk_getSaveFile \
+            -filetypes $types \
+            -defaultextension $m_previousExt \
+            -initialdir $m_previousDir \
+            ]
+
+            if {$m_previousPrefix != "" \
+            && [string is integer -strict $m_previousNumDig] \
+            && [string is integer -strict $m_previousCounter]} {
+                set next [expr $m_previousCounter + 1]
+                set lNext [format "%0${m_previousNumDig}d" $next]
+
+                set nextFile ${m_previousPrefix}$lNext$m_previousExt
+
+                lappend cmd -initialfile $nextFile
+            }
+
+            set filePath [eval $cmd]
+
+            if {$filePath == ""} {
+                return
+            }
+
+            set m_previousDir [file dirname $filePath]
+
+            if {[catch {
+                parseFileNameForCounter $filePath \
+                m_previousPrefix m_previousNumDig m_previousCounter \
+                m_previousExt
+            } errMsg]} {
+                set m_previousPrefix ""
+                set m_previousNumDig ""
+                set m_previousCounter ""
+            }
+        }
+
+        if {[catch {
+            $imgSnapshot write $filePath -format {jpeg -quality 100}
+        } errMsg]} {
+            log_error failed to save snapshot: $errMsg
+        } else {
+            log_warning snapshot saved to $filePath
+        }
+        image delete $imgSnapshot
+    }
 
 
-   private variable m_deviceFactory
-   private variable m_logger
+    private variable m_deviceFactory
+    private variable m_logger
+
+    global env
+    private variable m_previousDir ~$env(USER)
+    private variable m_previousPrefix ""
+    private variable m_previousNumDig ""
+    private variable m_previousCounter ""
+    private variable m_previousExt ".jpg"
+
+    private variable m_shutterState closed
+    private variable m_xppShutterState closed
+    private variable m_ctxXppSetupConfig ""
+
+    private variable m_objShutter ""
+    private variable m_objXppShutter ""
 
    #colors
    private common midhighlight #e0e0f0
@@ -450,7 +723,7 @@ class StatusBar {
 
 
 		#string messages
-		itk_component add sys_status {
+		itk_component add dcss_status {
 			SystemStatus $itk_interior.sysStatus \
 				 -relief sunken -width 50
 		} {
@@ -472,46 +745,69 @@ class StatusBar {
          keep -font
 		}
 
-        itk_component add spear {
-            SpearStatus $itk_interior.spear \
+        if {[::config getConfigRootName] == "BL-XPP"} {
+            set acceleratorStatusClass LCLSStatus
+        } else {
+            set acceleratorStatusClass SpearStatus
+        }
+
+        itk_component add accl_status {
+            $acceleratorStatusClass $itk_interior.accl_status \
             -width 8
         } {
             keep -background
             keep -font
         }
 		
-		itk_component add login {
-			DCS::Login $itk_interior.login
-		} {
-         keep -background
-		}
-	
 
       itk_component add time {
          TimeWidget $itk_interior.t
       } {}
 	
+
+        global BLC_IMAGES
+        set ssImg [image create photo -file $BLC_IMAGES/camera.jpg]
+
+		itk_component add snapshot {
+			label $itk_interior.snapshot \
+            -image $ssImg \
+		} {
+		}
+        bind $itk_component(snapshot) <Button-1> "$this saveSnapshot 0"
+        bind $itk_component(snapshot) <Button-3> "$this saveSnapshot 1"
+
 		eval itk_initialize $args
 
-		set shutterObject [$m_deviceFactory createShutter shutter]
-        $shutterObject register $this state handleShutter
+		set m_objShutter [$m_deviceFactory createShutter shutter]
+        $m_objShutter register $this state handleShutter
 
+        if {[::config getConfigRootName] == "BL-XPP"} {
+		    set m_objXppShutter [$m_deviceFactory createShutter xppShutter]
+            set objXppSetupConfig \
+            [$m_deviceFactory createString xpp_setup_config]
 
-		$itk_component(abort) configure -command "$itk_option(-controlSystem) abort"
-		$itk_component(login) configure -validSessionCallback "$itk_option(-controlSystem) setSessionId"
+            $m_objXppShutter register $this state handleXppShutter
+            $objXppSetupConfig register $this contents handleXppSetupConfig
+        }
 
-      #grid columnconfigure $itk_interior 0 -pad 5 
-		grid $itk_component(sys_status) -row 0 -column 0 -sticky w -padx 5
-		grid $itk_component(spear) -row 0 -column 1 -sticky w -padx 5
+		$itk_component(abort) configure \
+        -command "$itk_option(-controlSystem) abort"
+        #grid columnconfigure $itk_interior 0 -pad 5 
+		grid $itk_component(dcss_status) -row 0 -column 0 -sticky w -padx 5
+		grid $itk_component(accl_status) -row 0 -column 1 -sticky w -padx 5
 		grid $itk_component(abort) -row 0 -column 2 -sticky w
 		grid $itk_component(clientStatusLabel) -row 0 -column 3 -sticky w
 		grid $itk_component(activeButton) -row 0 -column 4 -sticky w
 		grid $itk_component(l_shutter) -row 0 -column 5 -sticky w -padx 5
 		grid $itk_component(shutter) -row 0 -column 6 -sticky w -padx 5
 		grid $itk_component(time) -row 0 -column 7 -sticky w
+		grid $itk_component(snapshot) -row 0 -column 8 -sticky e
+
+        grid columnconfig $itk_interior 8 -weight 10
 
 		#bind a click on the shutter to toggle the state.  Replace this with a button!
-		bind $itk_component(shutter) <Button-1> "$shutterObject toggle"
+		bind $itk_component(shutter) <Button-1> "$m_objShutter toggle"
+		#bind $itk_component(shutter) <Button-1> "$this toggleShutter"
   
       configure -background $midhighlight
       #configure -disabledbackground $midhighlight
@@ -519,20 +815,43 @@ class StatusBar {
 
       ::mediator announceExistence $this
 	}
-
 }
 
 body StatusBar::handleShutter { - targetReady_ alias_ status_ -} {
     if {! $targetReady_} return
+    set m_shutterState $status_
+    updateShutterDisplay
+}
+body StatusBar::handleXppShutter { - targetReady_ alias_ status_ -} {
+    if {! $targetReady_} return
+    set m_xppShutterState $status_
+    updateShutterDisplay
+}
+body StatusBar::handleXppSetupConfig { - ready_ - contents_ - } {
+    if {! $ready_} return
+    set m_ctxXppSetupConfig $contents_
+    updateShutterDisplay
+}
+body StatusBar::updateShutterDisplay { } {
+    set usePulsePicker [lindex $m_ctxXppSetupConfig 5]
+    if {$usePulsePicker == "1"} {
+        $itk_component(l_shutter) config \
+        -text "XPP Shutter:"
 
+        set status $m_xppShutterState
+    } else {
+        $itk_component(l_shutter) config \
+        -text "Shutter:"
+        set status $m_shutterState
+    }
     set red #c04080
-    if {$status_ == "open"} {
+    if {$status == "open"} {
         set background $red
     } else {
         set background $midhighlight 
     }
     $itk_component(shutter) config \
-    -text $status_ \
+    -text $status \
     -background $background
 }
    

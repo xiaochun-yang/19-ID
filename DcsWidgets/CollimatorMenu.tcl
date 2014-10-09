@@ -74,7 +74,7 @@ class CollimatorMenu {
     public method handleListUpdate { - ready_ - contents_ - } {
         $itk_component(presetmn) delete 0 end
         if {!$ready_} return
-        puts "collimatorList: $contents_"
+        #puts "CollimatorMenu collimatorList: $contents_"
         set candidateList ""
         foreach item $contents_ {
             set ll [llength $item]
@@ -154,25 +154,31 @@ class CollimatorMenuEntry {
     protected method value2display { value_ } {
         set ll [llength $value_]
         if {$ll < 4} {
-            puts "wrong value for collimator menuEntry"
+            ### maybe in initalization, normally == 0
+            set ll [llength $m_choiceLabelList]
+            if {[string is integer -strict $value_] \
+            && $value_ >= 0 && $value_ < $ll} {
+                return [lindex $m_choiceLabelList $value_]
+            }
             return $value_
         }
         foreach {isMicro index w h} $value_ break
-        set m_menuIndex [lsearch -exact $m_choiceIndexList $index]
-
-        if {$isMicro == "1" && $index >= 0} {
-            set name [$m_strCollimatorPreset getCollimatorName $index]
-        } else {
-            set name Out
+        set menuIndex [lsearch -exact $m_choiceIndexList $index]
+        if {$menuIndex < 0} {
+            if {$m_choiceIndexList != ""} {
+                log_error not supported collimator setting.
+            }
+            return Unknown
         }
+        set name [lindex $m_choiceLabelList $menuIndex]
+        #puts "value2display: $value_ ====> $name"
         return $name
     }
 
     public method setValueByIndex { index {directAccess_ 0}} {
-        set m_menuIndex $index
         set value [$m_strCollimatorPreset getCollimatorInfo $index]
         setValue $value $directAccess_
-        puts "calle setValue with $value $directAccess_"
+        #puts "calle setValue with $value $directAccess_"
     }
     public method getInfo { } { return $_fullValue }
     public method getIsMicro { } { return [lindex $_fullValue 0] }
@@ -181,8 +187,8 @@ class CollimatorMenuEntry {
         updateRegisteredComponents collimator_info
         updateRegisteredComponents is_micro
     }
-    private variable m_menuIndex 0
     private variable m_choiceIndexList ""
+    private variable m_choiceLabelList ""
     private variable m_strCollimatorPreset ""
     private variable m_attr ""
 
@@ -217,7 +223,7 @@ class CollimatorMenuEntry {
 body CollimatorMenuEntry::handleListUpdate { - ready_ - contents_ - } {
     if {!$ready_} return
 
-    puts "collimatorList: $contents_"
+    #puts "CollimatorMenuEntry collimatorList: $contents_"
     set candidateList ""
     foreach item $contents_ {
         set ll [llength $item]
@@ -241,21 +247,32 @@ body CollimatorMenuEntry::handleListUpdate { - ready_ - contents_ - } {
     set candidateList [lsort -decreasing -real -index 3 $candidateList]
     set choices ""
     set m_choiceIndexList ""
+    set m_choiceLabelList ""
     foreach line $candidateList {
         foreach {lb index name} $line break
         lappend choices [list $lb [list $this setValueByIndex $index]]
 
         ### search preset index for menu index
         lappend m_choiceIndexList $index
+        lappend m_choiceLabelList $lb
     }
     configure -extraMenuChoices $choices
 
-    set collimatorIndex [lindex $_value 1]
-    set m_menuIndex [lsearch -exact $m_choiceIndexList $collimatorIndex]
-    if {$m_menuIndex >= 0} {
-        setValueByIndex $m_menuIndex 1
+    #puts "setting current display: value=$_value"
+    #puts "list=$m_choiceLabelList"
+    set menuIndex [lsearch -exact $m_choiceLabelList $_value]
+    if {$menuIndex >= 0} {
+        setValueByIndex $menuIndex 1
     } else {
-        setValueByIndex 0
-        log_error check collimator settings.
+        set ll [llength $m_choiceLabelList]
+        if {[string is integer -strict $_value] \
+        && $_value >= 0 && $_value < $ll} {
+            setValueByIndex $_value 1
+        } else {
+            setValueByIndex 0 1
+            if {$m_choiceLabelList != ""} {
+                log_error check collimator settings.
+            }
+        }
     }
 }

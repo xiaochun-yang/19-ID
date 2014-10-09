@@ -11,7 +11,7 @@
 # See the file "license.terms" for information on usage and
 # redistribution of this file, and for a DISCLAIMER OF ALL WARRANTIES.
 #
-# RCS: @(#) $Id: httpsmb.tcl,v 1.4 2006/12/19 23:30:26 blctl Exp $
+# RCS: @(#) $Id: httpsmb.tcl,v 1.5 2014/06/19 17:19:49 jsong Exp $
 
 # Rough version history:
 # 1.0	Old http_get interface

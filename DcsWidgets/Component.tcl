@@ -750,6 +750,19 @@ body DCS::ComponentGate::calculateOutput { } {
 		set triggerState $_blockingValuesArray($attribute)
 		
 		if { $_debugOn} {puts "$this Check $_inputValueArray($attribute) == $triggerState ?"}
+
+		foreach {device att} [split $attribute ~] break
+
+        if {$triggerState == "lowerLimit" \
+        && [$device isa ::DCS::Motor]} {
+            set triggerState \
+            [lindex [$device getEffectiveLowerLimit] 0]
+        }
+        if {$triggerState == "upperLimit" \
+        && [$device isa ::DCS::Motor]} {
+            set triggerState \
+            [lindex [$device getEffectiveUpperLimit] 0]
+        }
 		
 		if { $_inputValueArray($attribute) != $triggerState } {
 			set tempOutput 0
