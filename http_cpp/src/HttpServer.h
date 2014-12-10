@@ -183,6 +183,9 @@ public:
     virtual int readRequestBody(char* buf, size_t size)
         throw (XosException) = 0;
 
+    virtual char* fgetsRequestBody(char* buf, size_t size)
+        throw (XosException) = 0;
+
     /**
      * @brief Called by the application flush out the response
      * headers.

@@ -356,7 +356,7 @@ xos_result_t acquireSpectrumXiaSaturn ( char * operationHandle,
 
 	double	liveTime;
 	double  elapsedTime;
-	unsigned long mcaLength;
+	unsigned long mcaLength = 0;
 	double dnumMCAChannels = (double) numChannels;
 	double dnumMCAChannelsReadback;
 
@@ -457,7 +457,7 @@ xos_result_t acquireSpectrumXiaSaturn ( char * operationHandle,
 	printf ("acquireSpectrumXiaSaturn: Real elapsed time seconds: %.3f\n", elapsedTime);
 
 	// Read the spectrum length
-	status = xiaGetRunData(XIA_SATURN_CHANNEL, "mca_length", &mcaLength);
+	status = xiaGetRunData(XIA_SATURN_CHANNEL, "mca_length", (void *)&mcaLength);
 
 	if ( status != XIA_SUCCESS )
 		{

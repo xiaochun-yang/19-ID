@@ -372,8 +372,8 @@ int     send_energy_request_to_control(double *wp)
         new_energy = *wp;
         sprintf(buf, "moveenergy %.3f 1\n", new_energy);
         buflen = strlen(buf);
-// to simulate the energy change, comment out "return(0)" so that the energy will not be changed. Then recompile the program.
-//	return(0);
+// to simulate the energy change, use "return(0)" here. so that the energy will not be changed. Then recompile the program.
+	return(0);
         if(-1 == rep_write(fd, buf, buflen))
         {
                 close(fd);

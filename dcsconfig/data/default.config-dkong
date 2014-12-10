@@ -1,0 +1,467 @@
+##############################
+# Default config
+##############################
+#it will use the user name who starts the dcss
+#if not defined here and not on the command line
+#dcss.defaultUserName=blctl
+
+#dcs
+dcs.rootDir=/usr/local/dcs
+
+###### define list of directoies allowed to collect data
+###### "/data" is not the same as "/data/".
+### you can have serveral lines defined.
+### any match will be allowed
+collect.allowedDirectory=/d1
+collect.allowedDirectory=/d2
+collect.allowedDirectory=/d3
+collect.allowedDirectory=/d4
+collect.allowedDirectory=/storage
+collect.allowedDirectory=/home/nysbc
+
+### light control (board_index channel_index)
+##back light is DigitalOutput
+light.back=0 1
+##side light is AnalogOutput
+light.side=0 0
+
+laser.goniometer.control=0 0
+laser.goniometer.read=0 0
+laser.sample.control=0 1
+laser.sample.read=0 1
+laser.table_vert_1.control=0 2
+laser.table_vert_1.read=0 2
+laser.table_vert_2.control=0 3
+laser.table_vert_2.read=0 3
+laser.table_horz_1.control=0 4
+laser.table_horz_1.read=0 4
+laser.table_horz_2.control=0 5
+laser.table_horz_2.read=0 5
+
+cryoBlock.control=0 0
+cryoBlock.open_read=0 0
+cryoBlock.close_read=0 1
+
+# Old authentication server
+#auth.host=smb.slac.stanford.edu
+#auth.port=8180
+#auth.secureHost=smb.slac.stanford.edu
+#auth.securePort=8543
+
+# New authentication server on smbws1
+#yang auth.host=smbws1.slac.stanford.edu
+auth.host=localhost
+auth.port=8080
+auth.method=smb_config_database
+#auth.method=smb_pam
+auth.secureHost=localhost
+auth.securePort=8443
+#comment following to accept any certificates
+auth.trusted_ca_file=/usr/local/dcs/dcsconfig/data/server-jsse.crt
+
+
+############################
+#IMPORTANT
+# Uncomment the following lines to change the defaults
+# for SSL certificate warning
+#auth.secBetweenHrCertWarn=60
+#auth.secBetweenDayCertWarn=300
+#auth.secBetweenWkCertWarn=14400
+#auth.secBetweenMonCertWarn=43200
+###########################
+
+
+
+#read MBBI as string. default is read its number
+epicsgw.beamlineOpenState.stringTypeRead=1
+
+# image server
+imgsrv.host=localhost
+imgsrv.guiPort=14005
+imgsrv.webPort=14006
+imgsrv.httpPort=14007
+imgsrv.tmpDir=/usr/local/dcs/X4A/imgsrv-tmp/jpegscratch
+imgsrv.maxIdleTime=60
+imgsrv.logStdout=true
+imgsrv.logUdpHost=
+imgsrv.logUdpPort=
+imgsrv.logFilePattern=/usr/local/dcs/X4A/imgsrv_log_%d.log
+imgsrv.logFileSize=31457280
+imgsrv.logFileMax=1
+imgsrv.logLevel=ALL
+imgsrv.logLibs=
+
+# impersoanation server
+imperson.host=localhost
+imperson.port=61001
+imperson.readonlyHost=localhost
+imperson.readonlyPort=61002
+
+screening.latestEventIdUrl=http://localhost:8080/crystals/getLatestEventId.do
+screening.defaultSILUrl=http://localhost:8080/crystals/createDefaultSil.do
+screening.uploadSILUrl=http://localhost:8080/crystals/uploadSil.do
+screening.downloadSILUrl=http://localhost:8080/crystals/downloadSil.do
+
+screening.lockSILUrl=http://localhost:8080/crystals/setSilLock.do
+screening.unassignSILUrl=http://localhost:8080/crystals/unassignSil.do
+screening.deleteSILUrl=http://localhost:8080/crystals/deleteSil.do
+screening.moveCrystalUrl=http://localhost:8080/crystals/moveCrystal.do
+
+screening.cassetteDataUrl=http://localhost:8080/crystals/getCassetteData.do
+screening.cassetteInfoUrl=https://localhost:8443/crystals/CassetteInfo.jsp
+#screening.cassetteInfoUrl=http://localhost:8080/crystals/CassetteList.html
+
+screening.crystalDataUrl=http://localhost:8080/crystals/getCrystalData.do
+screening.crystalUpdateUrl=http://localhost:8080/crystals/updateCrystalData.do
+screening.crystalEditUrl=http://localhost:8080/crystals/setCrystal.do
+screening.crystalSetAttributeUrl=http://localhost:8080/crystals/setCrystalAttribute.do
+screening.crystalGetChangesUrl=http://localhost:8080/crystals/getChangesSince.do
+screening.crystalClearImagesUrl=http://localhost:8080/crystals/clearCrystalImages.do
+screening.crystalClearResultsUrl=http://localhost:8080/crystals/clearCrystal.do
+screening.crystalClearAllCrystalsUrl=http://localhost:8080/crystals/clearAllCrystals.do
+screening.crystalAddImageUrl=http://localhost:8080/crystals/addCrystalImage.do
+screening.crystalSetPropertyUrl=https://localhost:8080/crystals/setCrystalPropertyValues.do
+screening.crystalAnalyzeImageUrl=https://localhost:8080/crystals/analyzeImage.do
+screening.SILRowDataUrl=http://localhost:8080/crystals/jsp/getRow.jsp
+screening.silIdAndEventIdUrl=http://localhost:8080/crystals/getSilIdAndEventId.do
+
+screening.centerAnalyzeImageUrl=https://localhost:8080/crystals/analyzeImageCenter.do
+screening.getNumSpotsUrl=https://localhost:8080/crystals/getNumSpots.do
+
+
+# Original value
+# FOR METHEWS TESTING
+# First screening pass
+#screening.crystalAutoindexUrl=https://smbws1.slac.stanford.edu:8445/crystal-analysis/jsp/strategy.jsp
+# Second screening pass
+#screening.crystalAutoindexUrl=https://smbws1.slac.stanford.edu:8445/crystal-analysis/jsp/reautoindex.jsp
+
+
+# Bluice needs to supply SMBSessionID and beamline parameters
+
+
+screening.defaultDataHome=/storage
+
+#collect.viewStrategyUrl=https://smb.slac.stanford.edu:443/webice/Autoindex_ShowMountedCrystal.do
+
+# Bluice needs to supply SMBSessionID and beamline parameters
+#collect.strategyNewRunUrl=https://smb.slac.stanford.edu:443/webice/Autoindex_ShowNewRun.do
+#strategy.statusUrl=https://smbws2.slac.stanford.edu:8445/crystal-analysis-server/getDcsStrategy.do
+
+# Displays diff image in the image viewer tab in webice
+# parameters: SMBSessionID, userName, file, beamline (optional)
+
+#bluice.tabOrder=Hutch Sample Collect Screening Scan Users UserLog Staff
+#bluice.tabOrder=Hutch Sample Collect Scan Users UserLog Staff
+
+
+#webice.showImageUrl=https://smb.slac.stanford.edu:443/webice/showImageTab.do
+
+# Show strategy page for rundef.
+#webice.viewRunDefStrategy=https://smb.slac.stanford.edu:443/webice/Autoindex_ShowRunDefStrategy.do
+
+#calibrateDetector.centerUrl=https://smbws2.slac.stanford.edu:8445/crystal-analysis-server/centerDetector.do
+#calibrateDetector.calibrateUrl=https://smbws2.slac.stanford.edu:8445/crystal-analysis-server/calibrateDetector.do
+#calibrateDetector.checkJobStatusUrl=https://smbws2.slac.stanford.edu:8445/crystal-analysis-server/checkJobStatus.do
+
+############
+#queuing.addRunUrl=https://smbws2.slac.stanford.edu:8445/crystal-server/addRunDefinition.do
+#queuing.deleteRunUrl=https://smbws2.slac.stanford.edu:8445/crystal-server/deleteRunDefinition.do
+#queuing.getRunUrl=https://smbws2.slac.stanford.edu:8445/crystal-server/getRunDefinition.do
+#queuing.setRunUrl=https://smbws2.slac.stanford.edu:8445/crystal-server/setRunDefinitionProperties.do
+#queuing.addDefaultRepositionUrl=https://smbws2.slac.stanford.edu:8445/crystal-server/addDefaultRepositionData.do
+#queuing.addNormalRepositionUrl=https://smbws2.slac.stanford.edu:8445/crystal-server/addRepositionData.do
+#queuing.getRepositionUrl=https://smbws2.slac.stanford.edu:8445/crystal-server/getRepositionData.do
+
+#bluice.tabOrder=Hutch Sample Collect Screening Scan Users UserLog Staff
+#bluice.tabOrder=Hutch Sample Collect Screening Sorting Scan Rastering Users UserLog Staff
+## show raster_run
+#rasterRun.show=1
+bluice.tabOrder=Hutch Sample Collect Screening Sorting Scan Users UserLog Staff
+bluice.hutchView=DCS::HutchOverview
+bluice.useOneTimeTicket=0
+
+impdhs.ciphers=RC4-MD5
+impdhs.smallImageParam=&sizeX=100&sizeY=100&zoom=1.0&gray=400&percentX=0.5&percentY=0.5
+impdhs.largeImageParam=&sizeX=400&sizeY=400&zoom=1.0&gray=400&percentX=0.5&percentY=0.5
+
+######to allow anyone see the excitation scan
+###### each beamline will have one file in this directory
+###### file name will have beamline name in it.
+excitationScan.directory=/home/nysbc/data/x4A/currentExcitationScan
+
+#the periodic file should reside in the 'BluIceWidgets/data' directory
+periodic.filename=periodic-table.dat
+
+######################################################
+# Site customization:
+# Add notify.staff_list to the beamline config file
+# to OVERRIDE this list
+######################################################
+#yang notify.staff_list="Aina Cohen SMS"          6507149402@tmomail.net
+
+document.displacement_sensor=https://smb.slac.stanford.edu/secure/staff_pages/EngineeringDev/DisplacementSensorInstallation
+document.robot_advanced=https://smb.slac.stanford.edu/secure/staff_pages/UserSupport/BEAMLINES/bluice/Robot_Control.html#SECTION00097000000000000000
+document.optimized_energy=https://smb.slac.stanford.edu/secure/staff_pages/UserSupport/BEAMLINES/motors/Device_description.html#SECTION000410000000000000000
+document.calibrate_sample_camera=https://smb.slac.stanford.edu/wiki/Installation_of_the_Camera_on_the_Beamline#Setting_the_Click-to-center_zoom_parameters
+
+attenuation.filterThickness=Al_32 800 Al_16 400 Al_8 200 Al_4 100 Al_2 50 Al_1 25 Al_0.5 12
+bluice.filterLabelMap=Al_0.5 0.5 Al_1 1 Al_2 2 Al_4 4 Al_8 8 Al_16 16 Al_32 32 Se Se
+
+#video.videoSystemUrl=http://smbws2.slac.stanford.edu:8080/VideoSystem
+
+########################################################
+# default units override
+########################################################
+units.mirror_pitch=mrad
+units.mirror_yaw=mrad
+units.toroid_pitch=mrad
+units.toroid_yaw=mrad
+units.focusing_mirror_2_pitch=mrad
+units.mono_pitch=steps
+units.mono_a_pitch=steps
+units.mono_b_pitch=steps
+units.mono_roll=steps
+units.mono_a_roll=steps
+units.mono_b_roll=steps
+
+###############################################
+# fluorescence scan deadtime default 3%
+###############################################
+fluorescentScan.deadTimeRatio=0.03
+
+##########################################################
+# efforts to move static strings to config
+##########################################################
+sampleCameraConstantsNameList=zoomMinScale zoomMedScale zoomMaxScale zoomMinYAxis zoomMedYAxis zoomMaxYAxis zoomMaxXAxis sampleImageWidth sampleImageHeight sampleAspectRatio
+
+#######################################
+#do disable, add it to the beamline config
+#######################################
+#bluice.oneTicketPerImage=0
+
+###################################################
+# used by reposition of sample queue.
+###################################################
+reposition.origin.motorList=sample_x sample_y sample_z gonio_phi gonio_omega
+
+#####################################################
+# make it configurable
+#####################################################
+#beamGood.signal=i0
+
+###################################################
+# These motors supposed to be moved by 0 before
+# checking "beamGood"
+# special TAGs converting to motors from config below
+# map_beam_size:     motor beam width and height
+# map_beam_width
+# map_beam_height
+# map_energy
+# map_distance
+# map_beam_stop
+#
+# Please put them in right order.
+# For example, energy should be first.
+###################################################
+dcss.preCheckMotorList=energy map_beam_size attenuation
+
+#####################################################
+# make it configurable
+#####################################################
+#beamGood.signal=i0
+
+####################################################
+# make motors for collecting configurable
+# defaaults here are for generic sites.
+# please copy these default over when you overwrite them on your config file
+####################################################
+#these are the defaults
+#run.beam_width=beam_size_x
+#run.beam_height=beam_size_y
+#run.energy=energy
+#run.distance=detector_z
+#run.beam_stop=beamstop_z
+#run.phi=gonio_phi
+#run.omega=gonio_omega
+#run.vert=detector_vert
+#run.horz=detector_horz
+
+#################################################################
+# Only one device or operation in this list will be allowed to
+# start from Bluice:
+#
+#   DCSS will check system_idle when the command it received
+#   is to start a device/operation in this list.
+#
+#   DCSS will put the device/operation name in system_idle once
+#   it started the device/operation.
+#################################################################
+# DCSS will read this to the string "lock_operation" on its startup.
+# You still can change the "lock_operation" dynamically via
+# BluIce->Staff->System Data->lock_operation.  But your change
+# will be discarded once the DCSS restarts.
+#
+# To make change permanent across DCSS restarting, you have to change
+# the config file (here or in the beamline config file).
+#################################################################
+# They are combined together all the following lists.
+# LIMITS: 880 characters total
+### Hutch Tab user accessible:
+dcss.lockDeviceList=optimized_energy energy attenuation beam_size_x beam_size_y beamstop_z detector_z detector_vert detector_horz gonio_omega gonio_kappa gonio_phi camera_zoom centerLoop moveSample moveMotors centerLoopC3D
+### Sample Tab user accessible:
+dcss.lockDeviceList=sequenceManual ISampleMountingDevice cryojet_anneal cryoBlock
+### Collect Tab user accessible:
+dcss.lockDeviceList=collectRun collectRuns normalize centerCrystal collectShutterless
+### Screening Tab
+dcss.lockDeviceList=sequence
+### Sorting Tab
+dcss.lockDeviceList=moveCrystal
+### Scan Tab
+dcss.lockDeviceList=madScan optimalExcitation fluorescence_z
+### Staff Tab: Robot: Probe is robot_config
+dcss.lockDeviceList=robot_config
+### Staff Tab: Tools
+dcss.lockDeviceList=auto_sample_cal centerSlits megaScreening
+### Staff Tab: Developer Tools
+dcss.lockDeviceList=alignFrontEnd alignTable calibrateDetector calibrateSampleCamera calibrateInlineCamera q315_collect_background centerFluor
+### Staff Tab: Scan
+dcss.lockDeviceList=scanMotor scan2Motors scan_n_motors
+### WEBICE:
+dcss.lockDeviceList=fillRun collectWeb
+### EMERGENCY button
+dcss.lockDeviceList=motorStopButton
+
+###tmp
+dcss.lockDeviceList=madCollect
+
+dcss.lockDeviceList=collimator_horz collimator_vert userAlignBeam scan3DSetup manualRastering alignTungsten alignCollimator matchup userCollimator collectRasters collectRaster rasterRunsConfig
+dcss.lockDeviceList=videoVisexSnapshot visexMoveSample visexRotatePhi
+
+################################################
+## flux update setup
+################################################
+flux.trigger=i2
+
+################################################
+# used in both collect and screening
+################################################
+collect.counterFormat=%05d
+
+################################################
+# use C library to scale video image
+# default is on.
+# To disable, uncomment line below
+# or add the line to beamline config file
+################################################
+#video.scaling=0
+
+#########################################
+### chat room colors
+##          name is the text name for that color.
+##          name is dislayed for user to select the color
+##
+##          tag is saved to the chat file
+##          tag is fixed, do not change.
+##
+##          color is the color to use
+#########################################
+## build-in: name       tag         color =name
+##           blue       note
+##           brown      warning
+##           red        error
+##           black      output
+########################################
+## extra:
+##          (you can change name and color, not tag)
+##           name       tag         color
+##          cyan        color_1     cyan
+##          white       color_2     white
+##          gold        color_3     gold
+##          green       color_4     #00a040
+### TAG=NAME {optional COLOR}
+chat_room.color_1=green #00a040
+chat_room.color_2=violet {dark violet}
+chat_room.color_3=pink #c04080
+chat_room.color_4=orange
+## you can have more
+
+decimal.attenuation=1
+
+########################################
+# collimator alignment parameter name list
+#alignCollimatorConstantsNameList=beam_width beam_height energy attenuation fluorescence_z signal min_signal good_signal horz_scan_width horz_scan_points horz_scan_time horz_scan_wait vert_scan_width vert_scan_points vert_scan_time vert_scan_wait
+
+#collimatorPresetNameList=name horz vert tolerance_horz tolerance_vert hide_from_user is_micron_beam width height
+
+#collimatorPresetNameList=name horz vert tolerance_horz tolerance_vert hide_from_user is_micron_beam width height focus_beam_width focus_beam_height
+
+alignCollimatorConstantsNameList=beam_width beam_height energy attenuation fluorescence_z signal min_signal good_signal horz_scan_width horz_scan_points horz_scan_time horz_scan_wait vert_scan_width vert_scan_points vert_scan_time vert_scan_wait beam_sample_z tungsten_delta max_vert_move max_horz_move
+
+collimatorPresetNameList=name horz vert tolerance_horz tolerance_vert display is_micron_beam width height focus_beam_width focus_beam_height horz_encoder vert_encoder adjust flux_table
+
+## it will be use if more than one preset are micron-beam and index is not selected
+collimatorPresetDefaultMicroName=Micro-collimator
+collimatorPresetNormalBeamName=Guard Shield
+collimatorPresetOutName=Out
+
+inlineCameraPresetNameList=name horz vert tolerance_horz tolerance_vert
+inlineCameraPresetHomeName=Home
+inlineCameraPresetInlineName=Inline
+
+######to allow anyone see the 2 video snapshots for 3D scan setup.
+###### each beamline will have 2 files in this directory
+###### file name will have beamline name in it.
+rastering3DScan.directory=/home/nysbc/raster/current3DScanSetup
+rasterRun.directory=/home/nysbc/raster/currentRasterRun
+gridGroup.directory=/home/nysbc/raster/currentGridGroup
+
+### ROI, numPoint, width
+autoFocusConstantsNameList=ROI_center_x ROI_center_y ROI_width ROI_height scan_width scan_points CUT_PERCENT
+
+###############################
+### manual rastering normal crystal configure name list
+rastering.normalConstantNameList=loopW_extra loopH_extra rowMin rowMax rowDef rowHt colMin colMax colDef colWd beamWd beamHt timeMin timeMax timeDef timeIncr delta stopMove stopV distMove distV spotMin spotTgt scaling maxTry contourLevels ridgeLevel beamSpace
+rastering.microConstantNameList=collimator rowMin rowMax rowDef rowHt colMin colMax colDef colWd timeMin timeMax timeDef timeIncr delta stopMove stopV distMove distV spotMin spotTgt scaling maxTry contourLevels ridgeLevel beamSpace
+
+########## rastering V3
+rastering.userSetupNameList=prefix directory shape center_x center_y item_width item_height angle cell_width cell_height collimator beam_width beam_height beam_stop distance delta time attenuation processing
+
+#barcodeMap.file=/home/blctl/barcodeMap/barcode.txt
+
+## this will enable barcode scan
+robot.probeThroughSAM=1
+
+####### binary message support
+dcss.binary_message_location=/data/blctl/currentBinaryMessage
+
+##### all new camera should use this format, not the old pixel one
+##### if support zoom, group these parameters for zoom= 0 and zoom=1
+visexCameraConstantsNameList=center_x center_y view_width_mm view_height_mm
+
+###### phi change from facing beam to face the cameras
+camera_view_phi.inline=0
+camera_view_phi.sample=90
+camera_view_phi.visex=45
+camera_view_phi.microspec=110
+#### this one is better but takes longer to reach sample camera view
+#camera_view_phi.microspec=-70
+
+#########################################################################
+# used in:
+# updateCommonIonChamber in dcss during saveSystemSnapshot
+# IonChamberFile in BluIce
+#########################################
+ionChamber.common=i0 i1 i2 i_beamstop i_sample i_flux
+ionChamber.common=i_mirror_* i_mono* i_house_* i_home_*
+ionChamber.common=i_home_*
+ionChamber.common=e_laser* e_lvdt* e_abs*
+ionChamber.common=e_temperature_probe
+ionChamber.common=v_piezo* t_*
+
+######
+#allowUserConfig=1
+spectrometer.directory=/tmp/currentSpectrum
+
+#######################################################################
+raddose.path=/tmp/raddose/20080103/raddose

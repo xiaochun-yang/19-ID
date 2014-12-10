@@ -55,9 +55,9 @@ handel_OBJS += xia_mem.o
 handel_OBJS += xia_mem_point.o
 
 all:
-	-mkdir linux
-	gcc $(USR_CFLAGS) $(USR_CFLAGS_Linux) -c -fPIC $(handel_SRCS) $(handel_SRCS_Linux)  
-	ar rcs linux/libhandel.a $(handel_OBJS) $(handel_OBJS_Linux) 
+	-mkdir linux64
+	gcc $(USR_CFLAGS) $(USR_CFLAGS__x86_64) -c -fPIC $(handel_SRCS) $(handel_SRCS_x86_64)  
+	ar rcs linux64/libhandel.a $(handel_OBJS) $(handel_OBJS_x86_64) 
 
 clean:
 	-rm  *.o

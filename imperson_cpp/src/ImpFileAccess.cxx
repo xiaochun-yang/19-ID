@@ -306,18 +306,25 @@ void ImpFileAccess::doCopyFile()
 
     HttpRequest* request = stream->getRequest();
 
-    std::string impUser;
-    if (!request->getParamOrHeader(IMP_USER, impUser)) {
-        LOG_WARNING1("copyFile missing %s parameter", IMP_USER);
-        throw XosException(432, SC_432);
-   }
-
     // Old file
     std::string impOldFilePath;
     if (!request->getParamOrHeader(IMP_OLDFILEPATH, impOldFilePath)) {
           LOG_WARNING1("copyFile missing %s parameter", IMP_OLDFILEPATH);
         throw XosException(445, SC_445);
-     }
+    }
+
+    // supporting multiple file copies
+    if (impOldFilePath == "MULTIPLE_IN_BODY") {
+        doCopyMultipleFiles( );
+        return;
+    }
+
+    std::string impUser;
+    if (!request->getParamOrHeader(IMP_USER, impUser)) {
+        LOG_WARNING1("copyFile missing %s parameter", IMP_USER);
+        throw XosException(432, SC_432);
+    }
+
 
     impOldFilePath = ImpListDirectory::resolveDir(impOldFilePath, impUser);
     
@@ -355,6 +362,76 @@ void ImpFileAccess::doCopyFile()
 
     if (fileNeedBackup) {
         writeBackupWarning( response, body, impNewFilePath, fileBackuped );
+    }
+
+    response->setContentLength(body.size());
+    response->setContentType(WWW_PLAINTEXT);
+    stream->writeResponseBody((char*)body.c_str(), (int)body.size());
+
+    stream->finishWriteResponse();
+
+}
+void ImpFileAccess::doCopyMultipleFiles( )
+    throw(XosException)
+{
+    HttpRequest* request = stream->getRequest();
+    HttpResponse* response = stream->getResponse();
+    std::string body("OK");
+
+    std::string impUser;
+    if (!request->getParamOrHeader(IMP_USER, impUser)) {
+        LOG_WARNING1("copyFile missing %s parameter", IMP_USER);
+        throw XosException(432, SC_432);
+    }
+    const size_t MAX_LINE_SIZE = PATH_MAX + 100;
+
+    // "impOldFilePath=/old/path impNewFilePath=/new/path\n"
+    char line[2*MAX_LINE_SIZE + 256] = {0};
+    while (stream->fgetsRequestBody( line, sizeof(line) )) {
+        std::string impOldFilePath;
+        std::string impNewFilePath;
+
+        if (!parseForOldNew( line, impOldFilePath, impNewFilePath )) {
+            continue;
+        }
+
+        impOldFilePath = 
+            ImpListDirectory::resolveDir(impOldFilePath, impUser);
+        impNewFilePath = 
+            ImpListDirectory::resolveDir(impNewFilePath, impUser);
+
+        LOG_FINEST2( "copying %s to %s", impOldFilePath.c_str( ),
+        impNewFilePath.c_str( ) );
+
+        mode_t fileMode;
+        bool fileNeedBackup = false;
+        bool fileBackuped = false;
+        bool dummy;
+
+        prepareDestinationFile(
+            impNewFilePath,
+            fileMode,
+            dummy,
+            fileNeedBackup,
+            fileBackuped,
+            request
+        );
+        copyFile(impOldFilePath.c_str(), impNewFilePath.c_str());
+
+        if (chmod(impNewFilePath.c_str(), fileMode) != 0) {
+            int errCode = errno;
+            LOG_WARNING3("copyFile from %s to %s chmod failed because %s", 
+            impOldFilePath.c_str(), 
+            impNewFilePath.c_str(), 
+            XosFileUtil::getChmodErrorString(errno).c_str());
+            throw XosException(563, std::string(SC_563) + " " + XosFileUtil::getErrorCode(errCode));
+        }
+        if (fileNeedBackup) {
+            writeBackupWarning(
+                response, body, impNewFilePath, fileBackuped
+            );
+        }
+        body += "\n" + impOldFilePath + " copied to " + impNewFilePath;
     }
 
     response->setContentLength(body.size());
@@ -1404,6 +1481,8 @@ void ImpFileAccess::copyFile(const char* oldfile, const char* newfile)
 
     struct stat oldfileStat;
     if (stat(oldfile, &oldfileStat) != 0) {
+        LOG_WARNING1( "stat failed errno=%s",
+                            XosFileUtil::getStatErrorString(errno).c_str());
         throw XosException(558, SC_558);
     }
     int left = oldfileStat.st_size;
@@ -2026,4 +2105,41 @@ void ImpFileAccess::writeBackupWarning(
 
     response->setHeader( IMP_WARNINGMSG, msg );
     body += endofline + IMP_WARNINGMSG + separator + msg;
+}
+int ImpFileAccess::parseForOldNew(
+    const char *line,
+    std::string& oldPath,
+    std::string& newPath
+) {
+    const size_t LL_OLD = strlen( IMP_OLDFILEPATH );
+    const size_t LL_NEW = strlen( IMP_NEWFILEPATH );
+
+    if (line == NULL || line[0] == '\0') {
+        LOG_FINEST( "parseForOldNew: empty line" );
+        return 0;
+    }
+    const char *pOld = strstr( line, IMP_OLDFILEPATH );
+    const char *pNew = strstr( line, IMP_NEWFILEPATH );
+    if (pOld == NULL || pNew == NULL) {
+        LOG_FINEST1( "parseForOldNew: tags not found {%s}", line );
+        return 0;
+    }
+    if (pOld[LL_OLD] != '=' || pNew[LL_NEW] != '=') {
+        LOG_FINEST1( "parseForOldNew: = not found {%s}", line );
+        return 0;
+    }
+    const char *pOldStart = pOld + LL_OLD + 1;
+    const char *pNewStart = pNew + LL_NEW + 1;
+    oldPath = pOldStart;
+    newPath = pNewStart;
+    if (pNew > pOld) {
+        oldPath = oldPath.substr( 0, (pNew - pOldStart) );
+    } else {
+        newPath = newPath.substr( 0, (pOld - pNewStart) );
+    }
+
+    oldPath = XosStringUtil::trim(oldPath);
+    newPath = XosStringUtil::trim(newPath);
+
+    return 1;
 }

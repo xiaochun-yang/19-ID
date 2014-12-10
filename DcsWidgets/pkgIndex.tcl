@@ -79,7 +79,7 @@ package ifneeded DCSDetectorBase 1.0 [list source [file join $dir DetectorBase.t
 package ifneeded DCSDetector 1.0 [list source [file join $dir Detector.tcl]]
 package ifneeded DCSRobotStatus 1.0 [list source [file join $dir RobotStatus.tcl]]
 package ifneeded DCSRobotState 1.0 [list source [file join $dir RobotState.tcl]]
-package ifneeded DependencyInjector 2.0 [list source [file join $dir DependencyInjector.tcl]]
+package ifneeded DependencyInjector 1.0 [list source [file join $dir DependencyInjector.tcl]]
 package ifneeded DCSCollimatorPreset 1.0 [list source [file join $dir CollimatorPreset.tcl]]
 package ifneeded DCSUserAlignBeamStatus 1.0 [list source [file join $dir UserAlignBeamStatus.tcl]]
 package ifneeded DCSCollimatorMenu 1.0 [list source [file join $dir CollimatorMenu.tcl]]

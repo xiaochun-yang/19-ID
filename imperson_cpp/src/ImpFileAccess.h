@@ -175,6 +175,7 @@ private:
      * Handle copyFile command
      **/
     void doCopyFile() throw(XosException);
+    void doCopyMultipleFiles( ) throw(XosException);
 
     /**
      * Handle renameFile command
@@ -226,6 +227,9 @@ private:
      **/
     static void copyFile(const char* oldfile, const char* newfile)
         throw (XosException);
+
+    //return 1 if success.
+    static int parseForOldNew( const char *line, std::string& pOld, std::string& pNew );
 };
 
 #endif // __ImpFileAccess_h__

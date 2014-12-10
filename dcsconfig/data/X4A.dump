@@ -38,6 +38,10 @@ epics_gateway
 3
 localhost 2
 
+xiaSaturn
+3
+localhost 2
+
 analogInStatus1
 13
 galil2 analogInStatus1
@@ -661,7 +665,7 @@ ConsoleDhs MFirst
 0 1 1 1 1
 0 1 1 1 1
 0
-12659.691410 16000.000000 5400.000000 1 1 0 0 eV
+12659.971680 16000.000000 5400.000000 1 1 0 0 eV
 0
 
 optimizedEnergyParameters
@@ -693,7 +697,7 @@ galil1 gonio_phi
 0 1 1 1 1
 0 1 1 1 1
 0
-0.000000 1000.000000 0.000000 10000.000000 900000 10 0 0 0 0 0 0 1 deg
+1.400000 1000.000000 0.000000 10000.000000 900000 10 0 0 0 0 0 0 1 deg
 
 mono_vert
 1
@@ -1217,7 +1221,7 @@ galil1 tripot_3
 0 1 1 1 1
 0 1 1 1 1
 0
-0.278266 10.000000 -10.000000 20157.000000 5000 20 0 0 0 0 0 0 0 mm
+0.364935 10.000000 -10.000000 20157.000000 5000 20 0 0 0 0 0 0 0 mm
 
 tripot_2
 1
@@ -1225,7 +1229,7 @@ galil1 tripot_2
 0 1 1 1 1
 0 1 1 1 1
 0
-0.111525 5.500000 -5.500000 20157.000000 5000 20 0 0 0 0 0 0 0 mm
+0.358982 5.500000 -5.500000 20157.000000 5000 20 0 0 0 0 0 0 0 mm
 
 tripot_1
 1
@@ -1233,7 +1237,7 @@ galil1 tripot_1
 0 1 1 1 1
 0 1 1 1 1
 0
-0.559260 10.000000 -10.000000 20157.000000 5000 20 0 0 0 0 0 0 0 mm
+0.703775 10.000000 -10.000000 20157.000000 5000 20 0 0 0 0 0 0 0 mm
 
 sample_x
 2
@@ -1241,7 +1245,7 @@ self sample_x
 0 1 1 1 1
 0 1 1 1 1
 1
--1.129527 10.000000 -10.000000 0 0 0 0 mm
+-0.869829 10.000000 -10.000000 0 0 0 0 mm
 tripot_1 tripot_2
 
 sample_y
@@ -1250,7 +1254,7 @@ self sample_y
 0 1 1 1 1
 0 1 1 1 1
 1
--0.166217 10.000000 -10.000000 0 0 0 0 mm
+-0.484290 10.000000 -10.000000 0 0 0 0 mm
 tripot_1 tripot_2 tripot_3
 
 sample_z
@@ -1259,7 +1263,7 @@ self sample_z
 0 1 1 1 1
 0 1 1 1 1
 1
-0.316350 10.000000 -10.000000 0 0 0 0 mm
+0.475897 10.000000 -10.000000 0 0 0 0 mm
 tripot_1 tripot_2 tripot_3
 
 sample_z_corr
@@ -1268,7 +1272,7 @@ self sample_z_corr
 0 1 1 1 1
 0 1 1 1 1
 1
-0.316350 4.950000 -28.100000 1 0 0 0 mm
+0.475897 4.950000 -28.100000 1 0 0 0 mm
 sample_z
 
 bend_x3
@@ -1377,7 +1381,7 @@ galil1 detector_y
 0 0 1 1 1
 0 0 0 1 1
 0
-280.000000 300.000000 -0.250000 19690.000000 50000 100 0 1 0 0 0 0 0 mm
+0.000000 300.000000 -0.250000 19690.000000 50000 100 0 1 0 0 0 0 0 mm
 
 detector_z
 1
@@ -1385,7 +1389,7 @@ galil1 detector_z
 0 0 0 1 1
 0 0 0 0 0
 0
-110.000000 1000.000000 75.000000 19690.000000 100000 30 0 1 1 0 0 0 0 mm
+400.000000 1000.000000 75.000000 19690.000000 100000 30 0 1 1 0 0 0 0 mm
 
 gonio_z
 1
@@ -1400,7 +1404,7 @@ collect_msg
 self collectStatus
 0 1 1 1 1
 0 1 1 1 1
-0 {DCSS was reset.} 0 {} {} {} {}
+0 {Error: error error no_hw_host_detector} 6 X4A nysbc {} 1
 
 runs
 13
@@ -1414,14 +1418,14 @@ run0
 self runDefinition
 0 1 1 1 1
 0 1 1 1 1
-inactive 0 0 MtbFtsZ /storage/Lazo 16 Phi 280.600500 319.6005 0.10 180.0 20.00 110.000000 50.000000 50 1 12665.003910 {} {} {} {} 0 0
+inactive 0 0 test /home/nysbc/tmp 5 Phi 1.012300 406.0123 1.00 180.0 5.00 400.000000 50.000000 50 1 12660.390620 {} {} {} {} 1 0
 
 run1
 13
 self runDefinition
 0 1 1 1 1
 0 1 1 1 1
-complete 2 1 t64 /storage/yangx/test 1 Phi 17.082300 19.0823 1.00 360.0 5.00 110.000000 50.000000 50 1 12653.964840 {} {} {} {} 1 0
+inactive 0 1 t64 /storage/yangx/test 1 Phi 1.400000 3.4 0.20 360.0 0.10 400.000000 50.000000 50 1 12659.971680 {} {} {} {} 0 0
 
 run2
 13
@@ -1903,20 +1907,27 @@ self attenuation
 0 1 1 1 1
 0 1 1 1 1
 0
-49.854250 100.000000 0.000000 0 0 0 0 %
+49.852064 100.000000 0.000000 0 0 0 0 %
 0
 
 acquireSpectrum
 11
-simDhs acquireSpectrum
+xiaSaturn acquireSpectrum
 0 1 1 1 1
 0 1 1 1 1
 
 madScan
 11
-self madScanSim
+self madScan
 0 1 1 1 1
 0 1 1 1 1
+
+madScanStatus
+13
+self fluorScanStatus
+0 1 1 1 1
+0 1 1 1 1
+0 {DCSS was reset} nysbc /home/nysbc 385hg Se-K {12658.000 eV} {11222.4 eV} {1.000 s} {12284.589844 -17.096479 6.178682 12427.490234 -10.988670 10.682270 9000.000000 -4.700000 6.400000 NULL/385hgscan 385hgsmooth_exp.bip 385hgsmooth_norm.bip 385hgfp_fpp.bip} /home/nysbc/temp/currentExcitationScan/BL7-1.bip
 
 optimalExcitation
 11
@@ -1941,6 +1952,13 @@ excitationScan
 self excitationScan
 0 1 1 1 1
 0 1 1 1 1
+
+excitationScanStatus
+13
+self fluorScanStatus
+0 1 1 1 1
+0 1 1 1 1
+0 {DCSS was reset} nysbc /storage/nysbc test Se-K {13158.000 eV} N/A {1.000 s} {12656.389648 -7.875937 2.192405 12704.049805 -4.233325 4.405492 9000.000000 -1.000000 0.900000 NULL/Se_7-1scan Se_7-1smooth_exp.bip Se_7-1smooth_norm.bip Se_7-1fp_fpp.bip} /home/nysbc/data/x4A/currentExcitationScan/X4A.bip
 
 sequenceDeviceState
 13
@@ -1979,7 +1997,7 @@ hutchDoorStatus
 simDhs standardString
 0 1 1 1 1
 0 1 1 1 1
-closed 1412880410
+closed 1415040476
 
 getPV
 11
@@ -2102,7 +2120,7 @@ detectorType
 detector detectorType
 0 1 1 1 1
 0 1 1 1 1
-{Q4CCD}
+PILATUS6
 
 robotResetStep
 13
@@ -2128,7 +2146,7 @@ run_time_estimates
 self standardString
 1 1 1 1 1
 0 1 1 1 1
-2 00:00:00 02:24:00 02:24:00 02:24:00 02:24:00 00:03:00 00:03:00 00:03:00 00:01:12 00:36:00 00:18:00 00:18:00 00:18:00 00:18:00 00:18:00 00:00:10
+2 00:00:41 02:24:00 02:24:00 02:24:00 02:24:00 00:03:00 00:03:00 00:03:00 00:01:12 00:36:00 00:18:00 00:18:00 00:18:00 00:18:00 00:18:00 00:00:10
 
 table_property
 13
@@ -2665,7 +2683,7 @@ detector_status
 self standardString
 0 1 1 1 1
 0 1 1 1 1
-Detector Ready
+Detector Error
 
 cassette_owner
 13
@@ -2679,14 +2697,14 @@ system_status
 self systemStatus
 1 1 1 1 1
 0 0 0 0 0
-{detector offline} black red
+{Detector Error} red #d0d000
 
 scan_msg
 13
 self standardString
 0 1 1 1 1
 0 1 1 1 1
-
+error: error Invalid status code in response line: /bin/sh: /usr/local/dcs/autochooch/bin/chooch_remote1.sh: No such file or directory
 
 auto_sample_msg
 13

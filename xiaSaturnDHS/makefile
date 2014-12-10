@@ -40,19 +40,48 @@ endif
 ifeq ($(OS),Windows_NT)
 MACHINE = nt
 else
-ifeq ($(OSTYPE),osf1)
+
+# Assuming that we now must be using some UNIX/Linux flavour
+os := $(shell uname)
+
+ifeq ($(os),OSF1)
 MACHINE = decunix
 else
-ifeq ($(OSTYPE),irix)
+ifeq ($(os),IRIX64)
 MACHINE = irix
 else
-ifeq ($(OSTYPE),linux)
+ifeq ($(os),Linux)
+
+# # Check what flavour of hardware we are running Linux on
+mach := $(shell uname -m)
+
+ifeq ($(mach),i686)
 MACHINE = linux
+else
+ifeq ($(mach),x86_64)
+MACHINE = linux64
+endif
+endif
 endif
 endif
 endif
 endif
 
+#ifeq ($(OS),Windows_NT)
+#MACHINE = nt
+#else
+#ifeq ($(OSTYPE),osf1)
+#MACHINE = decunix
+#else
+#ifeq ($(OSTYPE),irix)
+#MACHINE = irix
+#else
+#ifeq ($(OSTYPE),linux)
+#MACHINE = linux
+#endif
+#endif
+#endif
+#endif
 
 ########################################################
 # NT 
@@ -188,7 +217,28 @@ STD_LIBS += -lm -lrt -lpthread -lc -lz
 endif
 
 #endif any unix
-endif 
+#endif 
+
+ifeq ($(MACHINE),linux64)
+
+########################################################
+# linux x86_64
+#########################################################
+CC      = g++
+CXX     = g++
+LINK    = g++
+CFLAGS  += -fexceptions -c -DLINUX -pthread -D_REENTRANT \
+                        -DWITH_CAMERA_SUPPORT -D_FILE_OFFSET_BITS=64
+CPPFLAGS = -Wall
+LDFLAGS =
+
+
+STD_LIBS += -lm -lrt -lpthread -lc -lz
+
+# endif linux
+endif
+
+endif
 
 
 ########################################################
@@ -245,7 +295,7 @@ HANDEL_INCLUDE = -I$(HANDEL_DIR)
 HANDEL_LIB = $(HANDEL_DIR)$(SLASH)$(MACHINE)$(SLASH)libhandel$(LIBEXT)
 
 # libusb
-USB_DIR = /usr/lib
+USB_DIR = /usr/lib64
 USB_LIB = $(USB_DIR)$(SLASH)libusb$(LIBEXT)
 
 ########################################################

@@ -131,7 +131,8 @@ public:
      **/
     virtual int readRequestBody(char* buf, size_t size)
         throw (XosException);
-
+    virtual char* fgetsRequestBody(char* buf, size_t size)
+        throw (XosException);
 
     /**
      * @brief This method allows the application to write the message body

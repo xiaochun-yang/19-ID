@@ -12,6 +12,7 @@ extern "C" {
 #include "HttpServerHandler.h"
 #include "HttpUtil.h"
 #include "XosStringUtil.h"
+#include "log_quick.h"
 
 
 FILE* log_response = NULL;
@@ -490,12 +491,12 @@ int InetdServer::readRequestBody(char* buf, size_t count)
 
     } else {
 
-       	xos_log("in InetdServer::readRequestBody: use chunk encoding: remainingBytesInChunk = %d\n",
+       	xos_log("in InetdServer::readRequestBody: use chunk encoding: remainingBytesInChunk = %u\n",
        			remainingBytesInChunk);
 
         // chunked encoding
         char tmp[100];
-        if (remainingBytesInChunk <= 0) {
+        if (remainingBytesInChunk == 0) {
         
         	xos_log("reading chunk size\n");
 
@@ -550,7 +551,114 @@ int InetdServer::readRequestBody(char* buf, size_t count)
     return numRead;
 }
 
+char* InetdServer::fgetsRequestBody(char* buf, size_t count)
+        throw (XosException)
+{
+    size_t numToRead = 0;
+    size_t numAvailable = 0;
 
+    if (buf == NULL || count == 0) {
+        return NULL;
+    }
+
+    char* result = NULL;
+
+    // The body may be in "chunked" encoding or no encoding.
+    if (!request->isChunkedEncoding()) {
+
+        long int requestContentLength = request->getContentLength();
+        LOG_FINEST1( "contentLength=%ld", requestContentLength );
+        
+        // If we have read the body then simply returns 0
+        if (numRequestBodyRead >= requestContentLength)
+            return NULL;
+
+        // Read as much as we can but not more that the contentLength
+        numAvailable = requestContentLength - numRequestBodyRead;
+
+        if (numAvailable > count - 1) {
+            numToRead = count - 1;
+        } else {
+            numToRead = numAvailable;
+        }
+
+        result = my_fgets( buf, numToRead + 1, fileno(in) );
+        if (result) {
+            numRequestBodyRead += strlen(buf);
+        }
+        return result;
+    } else {
+       	xos_log("in InetdServer::fgetsRequestBody: use chunk encoding: remainingBytesInChunk = %u\n",
+       			remainingBytesInChunk);
+        bool doneRead = false;
+        size_t startOffset = 0;
+        size_t spaceLeft = count - 1;
+        while (!doneRead) {
+            if (remainingBytesInChunk >= spaceLeft) {
+                numToRead = spaceLeft;
+                result = my_fgets(
+                    buf + startOffset,
+                    numToRead + 1,
+                    fileno(in)
+                );
+                if (result) {
+                    size_t numRead = strlen(buf + startOffset);
+                    numRequestBodyRead += numRead;
+                    remainingBytesInChunk -= numRead;
+                }
+                return result;
+            }
+
+            //now the complicated case, we may need to read across the chunk.
+            if (remainingBytesInChunk > 0) {
+                numToRead = remainingBytesInChunk;
+                result = my_fgets(
+                    buf + startOffset,
+                    numToRead + 1,
+                    fileno(in)
+                );
+                if (result == NULL) {
+                    return result;
+                }
+                size_t numRead = strlen(buf + startOffset);
+                if (numRead > 0 && buf[numRead-1] == '\n') {
+                    numRequestBodyRead += numRead;
+                    remainingBytesInChunk -= numRead;
+                    return result;
+                }
+
+                startOffset += numRead;
+                spaceLeft -= numRead;
+                //DEBUG
+                if (remainingBytesInChunk > 0) {
+                    LOG_SEVERE3( "numToRead=%lu, got %lu, remainInChunk=%u",
+                    numToRead, numRead, remainingBytesInChunk);
+                    return NULL;
+                }
+            }
+            //now remainingBytesInChunk should be zero.
+
+            // chunked encoding
+            char tmp[100];
+      	    xos_log("reading chunk size\n");
+            if (my_fgets(tmp, 100, fileno(in)) == NULL) {
+                return 0;
+            }
+
+            sscanf(tmp, "%x\n", &remainingBytesInChunk);
+
+            xos_log("chunk size = %u\n", remainingBytesInChunk);
+        
+            // Got the last line in the request body indicating that
+            // there is no more data
+            if (remainingBytesInChunk == 0) {
+                return NULL;
+            }
+        } //!done
+    } // isChunkedEncoding()?
+    //should neve be here.
+    return NULL;
+}
 
 /****************************************************
  *

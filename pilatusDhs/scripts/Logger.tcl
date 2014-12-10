@@ -47,7 +47,7 @@ class Pilatus::Logger {
 
             
 #yangx orininal        load ../../tcl_clibs/linux64/tcl_clibs.so dcs_c_library
-	load ../../tcl_clibs/linux/tcl_clibs.so dcs_c_library
+	load ../../tcl_clibs/linux64/tcl_clibs.so dcs_c_library
         initPutsLogger $appName $filePattern $fileSize $numFiles $level $stdout $appendToFile
     }
 }

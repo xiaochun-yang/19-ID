@@ -13,7 +13,7 @@ ifeq ($(OS),Windows_NT)
 default:
 	@echo imperson_cpp application is not supprted on Windows platform
 else
-default: imperson test unittest
+default: imperson standalone_imperson test unittest
 endif
 
 PROJ_NAME = imperson_cpp
@@ -428,7 +428,7 @@ test_appendfile_objs =	  $(MACHINE)/testAppendFile.o
 read_image_objs =	  $(MACHINE)/read_image.o
 TestWriteFilesObjs = $(MACHINE)/TestWriteFiles.o
 
-objs =	  $(MACHINE)/ImpCommandFactory.o \
+common_objs =	  $(MACHINE)/ImpCommandFactory.o \
           $(MACHINE)/ImpReadFile.o \
           $(MACHINE)/ImpWriteFile.o \
           $(MACHINE)/ImpWriteFiles.o \
@@ -440,6 +440,8 @@ objs =	  $(MACHINE)/ImpCommandFactory.o \
           $(MACHINE)/ImpProcess.o \
           $(MACHINE)/ImpServer.o
 	
+objs = ${common_objs} $(MACHINE)/InetdServer.o
+standalone_objs = ${common_objs} $(MACHINE)/StandAloneImpServer.o 
 imgsrv_objs = $(MACHINE)/ImpGetImage.o
 imgcmd_objs = $(MACHINE)/ImageCmd.o
 unittest_objs = $(MACHINE)/ImpTestCommon.o \
@@ -455,6 +457,12 @@ unittest_objs = $(MACHINE)/ImpTestCommon.o \
 
 
 # Object files
+
+$(MACHINE)/InetdServer.o: $(SRC_DIR)$(SLASH)InetdServer.cxx
+	$(CXX) $(CFLAGS) $(CPPFLAGS) $(INC) $<
+
+$(MACHINE)/StandAloneImpServer.o: $(SRC_DIR)$(SLASH)StandAloneImpServer.cxx $(SRC_DIR)$(SLASH)ImpServer.h
+	$(CXX) $(CFLAGS) $(CPPFLAGS) $(INC) $<
 
 $(MACHINE)/ImpCommandFactory.o: $(SRC_DIR)$(SLASH)ImpCommandFactory.cxx $(SRC_DIR)$(SLASH)ImpCommandFactory.h
 	$(CXX) $(CFLAGS) $(CPPFLAGS) $(INC) $<
@@ -558,6 +566,13 @@ ifeq ($(MACHINE),nt)
 	 $(LINK) $(EXEFLAGS) -out:"$(MACHINE)$(SLASH)$@.d" $(LDFLAGS) $(objs) $(LIBS)  
 else
 	$(LINK) -o $(MACHINE)$(SLASH)$@.d $(LDFLAGS) $(objs) $(LIBS)
+endif
+
+standalone_imperson: showinfo makedir $(standalone_objs)
+ifeq ($(MACHINE),nt)
+	 $(LINK) $(EXEFLAGS) -out:"$(MACHINE)$(SLASH)$@" $(LDFLAGS) $(standalone_objs) $(LIBS)  
+else
+	$(LINK) -o $(MACHINE)$(SLASH)$@ $(LDFLAGS) $(standalone_objs) $(LIBS)
 endif
 
 ifeq ($(SUPPORT_IMGSRV),TRUE)

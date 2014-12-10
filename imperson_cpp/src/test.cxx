@@ -622,6 +622,7 @@ static void testGetVersion(run_info_t& run)
 	url +=   "?impUser=" + run.name 
 		+ "&impSessionID=" + run.sessionId;
 	
+printf("yangx url = %s \n", url.c_str());
 	
     HttpClientImp http;
     http.setAutoReadResponseBody(true);
@@ -934,18 +935,20 @@ int main(int argc, char** argv)
 		run.sessionId = argv[i]; ++i;
 		
 		std::string is_test_image = argv[i]; ++i;
-		
+	printf("yangx 1111\n");	
 		char buffer[500];
 		getcwd(buffer, 500);
 		
+printf("yangx 1222\n");
 		testGetVersion(run);
-
+printf("yangx 1333\n");
 		std::string rootDir = std::string(buffer);
 		printf("rootDir = %s\n", rootDir.c_str());
 		std::string fileName = rootDir + "/test/test1.txt";
 		testReadFile(run, fileName);
 		testIsFileReadable(run, fileName);
 		
+printf("yangx 14444\n");
 		testWriteFile(run, rootDir + "/test/out1.txt");
 		
 		testRunExecutable(run, rootDir);
