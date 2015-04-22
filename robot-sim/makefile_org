@@ -1,0 +1,336 @@
+########################################################
+#
+# This makefile should work with gmake 3.8
+# Downloaded from http://ftp.gnu.org/pub/gnu/make/
+#
+########################################################
+
+# Set the default target for this makefile. Put it 
+# way up here to make sure that it's the first target
+# defined in this makefile.
+
+default: libdcsmsg test
+
+DEBUG=TRUE
+
+DCSMSG_LIB = 
+PROJ_NAME = DCSMSG
+PROJ_VERSION	 = head
+
+########################################################
+#
+# DEBUG or RELEASE
+# Set DEBUG to TRUE by setting env variable DEBUG=TRUE
+#
+########################################################
+
+ifeq ($(DEBUG),TRUE)
+DEBUG = TRUE
+else
+DEBUG = FALSE
+endif 
+
+
+########################################################
+#
+# Figuring out the platform on which gmake is executed.
+# From this point onwards, we will rely on the variable 
+# MACHINE for platform specific stuff.
+#
+########################################################
+
+ifeq ($(OS),Windows_NT)
+MACHINE = nt
+else
+ifeq ($(OSTYPE),osf1)
+MACHINE = decunix
+else
+ifeq ($(OSTYPE),irix)
+MACHINE = irix
+else
+ifeq ($(OSTYPE),linux)
+MACHINE = linux
+endif
+endif
+endif
+endif
+
+
+########################################################
+# NT 
+# Note that by default the library will be build with 
+# the multi-threaded or debug multi-threaded option 
+# (-MT or -MTd).
+########################################################
+
+ifeq ($(MACHINE),nt)
+
+SLASH	= \\
+CC      = cl
+LINK    = link
+LDFLAGS	=
+RM	= del
+MKDIR	= mkdir
+LIBEXT	= .lib
+EXEEXT  = .exe
+CP 	= copy
+CFLAGS	= -nologo -W3 -GX -DWIN32 -D_MBCS -D_LIB -Fd"$(MACHINE)$(SLASH)" -FD -c -Fo"$*.o"
+
+ifeq ($(DEBUG),TRUE)
+CFLAGS += -MTd -Gm -ZI -Od -GZ -D_DEBUG
+else
+CFLAGS += -MT -O2 -DXOS_PRODUCTION_CODE -DNDEBUG
+endif
+
+
+INC				+=
+STD_LIBS 		+= wsock32.lib user32.lib
+DCSMSG_LIB		= libdcsmsg.lib
+
+
+else
+
+########################################################
+#
+# Any Unix
+#
+########################################################
+
+SLASH = /
+RM	= rm -rf
+MKDIR	= mkdir -p
+CP	= cp -R
+CFLAGS += -o $@ -c -DXOS_PRODUCTION_CODE
+DCSMSG_LIB	= libdcsmsg.a
+LIBEXT	= .a
+EXEEXT  =
+
+endif
+
+DOXYGEN_EXE = /home/penjitk/software/doxygen/$(MACHINE)/doxygen-1.3/bin/doxygen
+DOT_EXE = /home/penjitk/software/graphviz/$(MACHINE)/graphviz_1.8/bin/dot
+WWW_DOC_DIR = /home/webserverroot/secure/staff_pages/projects/packages/$(PROJ_NAME)
+
+
+ifeq ($(MACHINE),decunix)
+
+########################################################
+# decunix 
+########################################################
+
+CC = cc 
+LINK = cc
+CFLAGS += -w0 -pthread -O5 -DDEC_UNIX
+STD_LIBS += -lm -lrt -lpthread -lc -lmach -lexc -ltemplate
+
+else
+
+########################################################
+# irix 
+########################################################
+
+ifeq ($(MACHINE),irix)
+CC      = cc 
+LINK 	= cc
+CFLAGS  += -MP:dsm=off -DIRIX
+STD_LIBS += -lpthread -lc
+
+
+else
+
+
+ifeq ($(OSTYPE),linux)
+
+########################################################
+# linux 
+########################################################
+
+MACHINE = linux
+CC      = g++
+LINK    = g++
+CFLAGS  += -O -DLINUX -DXOS_PRODUCTION_CODE
+STD_LIBS += -lm -lrt -lpthread -lc
+
+
+endif
+endif
+endif
+
+
+########################################################
+# directory macros
+########################################################
+
+# source directory
+SRC_DIR = .$(SLASH)src
+
+
+########################################################
+# Local liraries
+########################################################
+
+XOS_DIR = ..$(SLASH)xos$
+XOS_INCLUDE = -I$(XOS_DIR)$(SLASH)src
+XOS_LIB = $(XOS_DIR)$(SLASH)$(MACHINE)$(SLASH)xos$(LIBEXT)
+
+XOS_CPP_DIR = ..$(SLASH)xos_cpp$
+XOS_CPP_INCLUDE = -I$(XOS_CPP_DIR)$(SLASH)src
+XOS_CPP_LIB = $(XOS_CPP_DIR)$(SLASH)$(MACHINE)$(SLASH)libxos-cpp$(LIBEXT)
+
+LOGGING_DIR = ..$(SLASH)logging$
+LOGGING_INCLUDE = -I$(LOGGING_DIR)$(SLASH)src
+LOGGING_LIB = $(LOGGING_DIR)$(SLASH)$(MACHINE)$(SLASH)liblogging$(LIBEXT)
+
+
+########################################################
+# Include directories
+########################################################
+
+INC +=  -I$(SRC_DIR) \
+	$(XOS_INCLUDE) \
+	$(XOS_CPP_INCLUDE) \
+	$(LOGGING_INCLUDE)
+
+
+########################################################
+# Libraries
+########################################################
+
+LIBS += $(XOS_CPP_LIB) $(LOGGING_LIB) $(XOS_LIB) $(STD_LIBS) 
+
+
+########################################################
+# Object files
+########################################################
+
+objs = $(MACHINE)/activeObject.o \
+	$(MACHINE)/DcsMessage.o \
+	$(MACHINE)/DcsMessageHandler.o \
+	$(MACHINE)/DcsMessageManager.o \
+	$(MACHINE)/DcsMessageService.o \
+	$(MACHINE)/DcsMessageTwoWay.o \
+	$(MACHINE)/MQueue.o \
+	$(MACHINE)/XOSSingleLock.o
+
+test_objs = $(MACHINE)/test.o \
+	$(MACHINE)/RobotSim.o \
+	$(MACHINE)/RobotService.o \
+	$(MACHINE)/RobotSystem.o
+
+
+########################################################
+#
+# Targets
+#
+########################################################
+
+
+# Object files
+
+$(MACHINE)/activeObject.o: $(SRC_DIR)$(SLASH)activeObject.cxx $(SRC_DIR)$(SLASH)activeObject.h $(SRC_DIR)$(SLASH)XOSSingleLock.h $(SRC_DIR)$(SLASH)PointerList.h
+	$(CC) $(CFLAGS) $(INC) $<
+
+$(MACHINE)/DcsMessage.o: $(SRC_DIR)$(SLASH)DcsMessage.cxx $(SRC_DIR)$(SLASH)DcsMessage.h
+	$(CC) $(CFLAGS) $(INC) $<
+
+$(MACHINE)/DcsMessageHandler.o: $(SRC_DIR)$(SLASH)DcsMessageHandler.cxx $(SRC_DIR)$(SLASH)DcsMessageHandler.h $(SRC_DIR)$(SLASH)DcsMessageManager.h $(SRC_DIR)$(SLASH)XOSSingleLock.h $(SRC_DIR)$(SLASH)DcsMessage.h
+	$(CC) $(CFLAGS) $(INC) $<
+
+$(MACHINE)/DcsMessageManager.o: $(SRC_DIR)$(SLASH)DcsMessageManager.cxx $(SRC_DIR)$(SLASH)DcsMessageManager.h $(SRC_DIR)$(SLASH)XOSSingleLock.h $(SRC_DIR)$(SLASH)DcsMessage.h $(SRC_DIR)$(SLASH)PointerList.h
+	$(CC) $(CFLAGS) $(INC) $<
+
+$(MACHINE)/DcsMessageService.o: $(SRC_DIR)$(SLASH)DcsMessageService.cxx $(SRC_DIR)$(SLASH)DcsMessageService.h $(SRC_DIR)$(SLASH)DcsMessageManager.h $(SRC_DIR)$(SLASH)XOSSingleLock.h $(SRC_DIR)$(SLASH)activeObject.h $(SRC_DIR)$(SLASH)DcsMessage.h $(SRC_DIR)$(SLASH)DcsMessageHandler.h $(SRC_DIR)$(SLASH)MQueue.h $(SRC_DIR)$(SLASH)DcsMessageTwoWay.h
+	$(CC) $(CFLAGS) $(INC) $<
+
+$(MACHINE)/DcsMessageTwoWay.o: $(SRC_DIR)$(SLASH)DcsMessageTwoWay.cxx $(SRC_DIR)$(SLASH)DcsMessageTwoWay.h $(SRC_DIR)$(SLASH)activeObject.h $(SRC_DIR)$(SLASH)XOSSingleLock.h $(SRC_DIR)$(SLASH)PointerList.h
+	$(CC) $(CFLAGS) $(INC) $<
+
+$(MACHINE)/MQueue.o: $(SRC_DIR)$(SLASH)MQueue.cxx $(SRC_DIR)$(SLASH)MQueue.h $(SRC_DIR)$(SLASH)XOSSingleLock.h $(SRC_DIR)$(SLASH)PointerList.h $(SRC_DIR)$(SLASH)DcsMessage.h
+	$(CC) $(CFLAGS) $(INC) $<
+
+$(MACHINE)/XOSSingleLock.o: $(SRC_DIR)$(SLASH)XOSSingleLock.cxx $(SRC_DIR)$(SLASH)XOSSingleLock.h
+	$(CC) $(CFLAGS) $(INC) $<
+
+$(MACHINE)/test.o: $(SRC_DIR)$(SLASH)test.cxx $(SRC_DIR)$(SLASH)RobotSystem.h
+	$(CC) $(CFLAGS) $(INC) $<
+
+$(MACHINE)/RobotSim.o: $(SRC_DIR)$(SLASH)RobotSim.cxx $(SRC_DIR)$(SLASH)RobotSim.h $(SRC_DIR)$(SLASH)Robot.h
+	$(CC) $(CFLAGS) $(INC) $<
+
+$(MACHINE)/RobotService.o: $(SRC_DIR)$(SLASH)RobotService.cxx $(SRC_DIR)$(SLASH)RobotService.h $(SRC_DIR)$(SLASH)Robot.h $(SRC_DIR)$(SLASH)DcsMessageManager.h $(SRC_DIR)$(SLASH)XOSSingleLock.h $(SRC_DIR)$(SLASH)activeObject.h $(SRC_DIR)$(SLASH)DcsMessage.h $(SRC_DIR)$(SLASH)MQueue.h $(SRC_DIR)$(SLASH)DcsMessageTwoWay.h
+	$(CC) $(CFLAGS) $(INC) $<
+
+$(MACHINE)/RobotSystem.o: $(SRC_DIR)$(SLASH)RobotSystem.cxx $(SRC_DIR)$(SLASH)RobotSystem.h $(SRC_DIR)$(SLASH)RobotService.h $(SRC_DIR)$(SLASH)DcsMessageManager.h $(SRC_DIR)$(SLASH)activeObject.h $(SRC_DIR)$(SLASH)DcsMessageService.h
+	$(CC) $(CFLAGS) $(INC) $<
+
+
+# Printing out gmake info
+showinfo:
+	@echo ...
+	@echo ...
+	@echo   
+	-@gmake -version
+	@echo ...
+	@echo ...  
+
+# Create the target directory
+
+makedir:
+	-@$(MKDIR) $(MACHINE)
+
+
+
+# Cleaning the output files. Can be used before re-build all.
+
+clean: 
+	-@$(RM) $(MACHINE)$(SLASH)*.o
+	-@$(RM) $(MACHINE)$(SLASH)*.idb
+	-@$(RM) $(MACHINE)$(SLASH)*.pdb
+	-@$(RM) $(MACHINE)$(SLASH)$(DCSMSG_LIB)
+
+
+# Libary target
+
+libdcsmsg: showinfo makedir $(objs)
+	@echo ...
+	@echo Making $(DCSMSG_LIB)
+	@echo ...
+ifeq ($(MACHINE),nt)
+	 $(LINK) $(LDFLAGS) -out:"$(MACHINE)$(SLASH)$(DCSMSG_LIB)" $(objs) $(LIBS)
+else
+	ar -vr $(MACHINE)$(SLASH)$(DCSMSG_LIB) $(objs)
+endif
+
+
+test: $(test_objs)
+ifeq ($(MACHINE),nt)
+	 $(LINK) -out:"$(MACHINE)$(SLASH)$@$(EXEEXT)" $(LDFLAGS) $(test_objs) $(MACHINE)$(SLASH)$(DCSMSG_LIB) $(LIBS)  
+else
+	$(LINK) -o $(MACHINE)/$@$(EXEEXT) $(LDFLAGS) $(test_objs) $(MACHINE)$(SLASH)$(DCSMSG_LIB) $(LIBS)
+endif
+
+
+
+
+# document target
+
+
+cleandoc: 
+	-@$(RM) doc$(SLASH)$(PROJ_VERSION)
+	-@$(RM) doc$(SLASH)log.txt
+	-@$(RM) doc$(SLASH)$(PROJ_NAME).tag
+
+install: libdcsmsg doc
+	-$(RM) $(WWW_DOC_DIR)$(SLASH)html
+	-$(MKDIR) $(WWW_DOC_DIR)$(SLASH)doc
+	-$(MKDIR) $(WWW_DOC_DIR)$(SLASH)doc$(SLASH)$(PROJ_VERSION)
+	-$(MKDIR) $(WWW_DOC_DIR)$(SLASH)doc$(SLASH)$(PROJ_VERSION)$(SLASH)html
+	$(CP) .$(SLASH)doc$(SLASH)$(PROJ_VERSION)$(SLASH)html$(SLASH)* $(WWW_DOC_DIR)$(SLASH)doc$(SLASH)$(PROJ_VERSION)$(SLASH)html
+	
+
+./doc/$(PROJ_VERSION)/html/index.html: $(objs)
+	-@$(MKDIR) .$(SLASH)doc$(SLASH)$(PROJ_VERSION)
+	-$(DOXYGEN_EXE) .$(SLASH)doc$(SLASH)doxygen.cfg
+	
+doc: ./doc/$(PROJ_VERSION)/html/index.html
+	

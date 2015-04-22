@@ -29,18 +29,20 @@ BOOL CRobotSystem::OnInit( )
 {
     BOOL result;
 
+printf("yangx 111\n");
     //connect two way components
 	m_DcsServer.Connect( m_RobotServer );
 
+printf("yangx 211\n");
     //set up observer callback so that they will notice "this" observer when they change status
     m_DcsServer.Attach( this );
     m_RobotServer.Attach( this );
-
+printf("yangx 311\n");
 	//for unittest
 	m_DcsServer.SetupDCSSServerInfo( "localhost", 14242 );
 	//yangx m_DcsServer.SetupDCSSServerInfo( "smbdev2.slac.stanford.edu", 14342 );
 	m_DcsServer.SetDHSName( "robot" );
-
+printf("yangx 411\n");
     //start the active objects
 	m_DcsServer.start( );
 	m_RobotServer.start( );

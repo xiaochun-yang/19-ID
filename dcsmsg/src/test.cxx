@@ -17,16 +17,19 @@ static void ctrl_c_handler( int value )
 int main(int argc, char** argv)
 {
 
-    LOG_QUICK_OPEN;
-
+printf("yyy 001\n");
+//    LOG_QUICK_OPEN;
+printf("yyy 002\n");
     CRobotSystem mySystem;
+printf("yyy 111\n");
 
     //setup signal to stop the program
     gpRobotSystem = &mySystem;
 	signal( SIGINT, ctrl_c_handler );
-
+printf("yyy 211\n");
     LOG_FINEST( "run from front, not as a service ");
     mySystem.RunFront( );   //block until Ctrl-C
+printf("yyy 311\n");
     LOG_FINEST( "out of running: received ctrl-c ");
 
 	LOG_QUICK_CLOSE;

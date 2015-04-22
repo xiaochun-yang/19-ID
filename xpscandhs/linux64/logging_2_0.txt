@@ -1,759 +1,84 @@
-10/29/14 10:48:33 3450730272   FINEST    DcsMessageManager constructor enter {src/DcsMessageManager.cxx 18  }
-10/29/14 10:48:33 3450730272   FINEST    DcsMessageManager constructor exit {src/DcsMessageManager.cxx 33  }
-10/29/14 10:48:33 3450730272   FINEST    DcsMessageService constructor enter {src/DcsMessageService.cxx 9  }
-10/29/14 10:48:33 3450730272   FINEST    DcsMessageService constructor exit {src/DcsMessageService.cxx 13  }
-10/29/14 10:48:33 3450730272   FINEST    run from front, not as a service  {src/ConsoleDhs.cxx 28  }
-10/29/14 10:48:33 3450730272     INFO    m_ServerName points to: 'localhost' {src/DcsMessageHandler.cxx 43  }
-10/29/14 10:48:33 3450730272     INFO    m_DHSName points to: 'ConsoleDhs' {src/DcsMessageHandler.cxx 62  }
-10/29/14 10:48:33 3450722048   FINEST    SENDER wait for socket lock 11111 {src/DcsMessageService.cxx 87  }
-10/29/14 10:48:33 3450722048   FINEST    SENDER got socket lock 111111 {src/DcsMessageService.cxx 89  }
-10/29/14 10:48:33 3450722048   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-10/29/14 10:48:33 3450722048   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-10/29/14 10:48:33 3450722048     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-10/29/14 10:48:33 3450722048   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-10/29/14 10:48:33 3450722048   FINEST    Sending: 'htos_client_is_hardware ConsoleDhs' {src/DcsMessageHandler.cxx 188  }
-10/29/14 10:48:33 3450722048   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-10/29/14 10:48:33 3450722048   FINEST    SENDER unlock socket lock 11111111111 {src/DcsMessageService.cxx 102  }
-10/29/14 10:48:33 3450722048     INFO    connected to DCSS with DCS protocol, sender ready {src/DcsMessageService.cxx 104  }
-10/29/14 10:48:33 3450722048   FINEST    SENDER enter loop {src/DcsMessageService.cxx 109  }
-10/29/14 10:48:33 3429742336   FINEST    ConsoleSim::Initialize called {src/ConsoleSim.cxx 24  }
-10/29/14 10:48:33 3440232192   FINEST    receiver is waiting sender done for start {src/DcsMessageService.cxx 151  }
-10/29/14 10:48:33 3440232192   FINEST    receiver waiting done {src/DcsMessageService.cxx 153  }
-10/29/14 10:48:33 3440232192     INFO    receiver ready: whole DcsMessageService Ready {src/DcsMessageService.cxx 167  }
-10/29/14 10:48:33 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-10/29/14 10:48:33 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-10/29/14 10:48:33 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-10/29/14 10:48:33 3440232192   FINEST    DcsMessageManager::NewDcsMessage: new MAX TEXT SIZE 64 {src/DcsMessageManager.cxx 176  }
-10/29/14 10:48:33 3440232192   FINEST    Receiving: 'stoh_register_operation get_current_energy get_current_energy
+04/22/15 14:10:35 3688404768   FINEST    DcsMessageManager constructor enter {src/DcsMessageManager.cxx 18  }
+04/22/15 14:10:35 3688404768   FINEST    DcsMessageManager constructor exit {src/DcsMessageManager.cxx 33  }
+04/22/15 14:10:35 3688404768   FINEST    DcsMessageService constructor enter {src/DcsMessageService.cxx 9  }
+04/22/15 14:10:35 3688404768   FINEST    DcsMessageService constructor exit {src/DcsMessageService.cxx 13  }
+04/22/15 14:10:35 3688404768   FINEST    run from front, not as a service  {src/ConsoleDhs.cxx 28  }
+04/22/15 14:10:35 3688404768     INFO    m_ServerName points to: 'localhost' {src/DcsMessageHandler.cxx 43  }
+04/22/15 14:10:35 3688404768     INFO    m_DHSName points to: 'ConsoleDhs' {src/DcsMessageHandler.cxx 62  }
+04/22/15 14:10:35 3688396544   FINEST    SENDER wait for socket lock 11111 {src/DcsMessageService.cxx 87  }
+04/22/15 14:10:35 3688396544   FINEST    SENDER got socket lock 111111 {src/DcsMessageService.cxx 89  }
+04/22/15 14:10:35 3688396544   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
+04/22/15 14:10:35 3688396544   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
+04/22/15 14:10:35 3677906688   FINEST    receiver is waiting sender done for start {src/DcsMessageService.cxx 151  }
+04/22/15 14:10:35 3667416832   FINEST    ConsoleSim::Initialize called {src/ConsoleSim.cxx 24  }
+04/22/15 14:10:35 3688396544     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
+04/22/15 14:10:35 3688396544   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
+04/22/15 14:10:35 3688396544   FINEST    Sending: 'htos_client_is_hardware ConsoleDhs' {src/DcsMessageHandler.cxx 188  }
+04/22/15 14:10:35 3688396544   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
+04/22/15 14:10:35 3688396544   FINEST    SENDER unlock socket lock 11111111111 {src/DcsMessageService.cxx 102  }
+04/22/15 14:10:35 3688396544     INFO    connected to DCSS with DCS protocol, sender ready {src/DcsMessageService.cxx 104  }
+04/22/15 14:10:35 3688396544   FINEST    SENDER enter loop {src/DcsMessageService.cxx 109  }
+04/22/15 14:10:35 3677906688   FINEST    receiver waiting done {src/DcsMessageService.cxx 153  }
+04/22/15 14:10:35 3677906688     INFO    receiver ready: whole DcsMessageService Ready {src/DcsMessageService.cxx 167  }
+04/22/15 14:10:35 3677906688   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+04/22/15 14:10:35 3677906688   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+04/22/15 14:10:35 3677906688   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x140af70 {src/DcsMessageManager.cxx 170  }
+04/22/15 14:10:35 3677906688   FINEST    DcsMessageManager::NewDcsMessage: new MAX TEXT SIZE 64 {src/DcsMessageManager.cxx 176  }
+04/22/15 14:10:35 3677906688   FINEST    Receiving: 'stoh_register_operation get_current_energy get_current_energy
 ' {src/DcsMessageHandler.cxx 249  }
-10/29/14 10:48:33 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-10/29/14 10:48:33 3440232192   FINEST    ConsoleDhs::ConsumeDcsMessage: not a message for that can be handled, pass on {src/ConsoleService.cxx 165  }
-10/29/14 10:48:33 3440232192  WARNING    no one takes this message: stoh_register_operation get_current_energy get_current_energy {src/DcsMessageService.cxx 238  }
-10/29/14 10:48:33 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-10/29/14 10:48:33 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-10/29/14 10:48:33 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-10/29/14 10:48:33 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-10/29/14 10:48:33 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-10/29/14 10:48:33 3440232192   FINEST    Receiving: 'stoh_register_operation move_to_new_energy move_to_new_energy
+04/22/15 14:10:35 3677906688   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
+04/22/15 14:10:35 3677906688   FINEST    ConsoleDhs::ConsumeDcsMessage: not a message for that can be handled, pass on {src/ConsoleService.cxx 165  }
+04/22/15 14:10:35 3677906688  WARNING    no one takes this message: stoh_register_operation get_current_energy get_current_energy {src/DcsMessageService.cxx 238  }
+04/22/15 14:10:35 3677906688   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x140af70) {src/DcsMessageManager.cxx 193  }
+04/22/15 14:10:35 3677906688   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+04/22/15 14:10:35 3677906688   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+04/22/15 14:10:35 3677906688   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+04/22/15 14:10:35 3677906688   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x140af70 {src/DcsMessageManager.cxx 170  }
+04/22/15 14:10:35 3677906688   FINEST    Receiving: 'stoh_register_operation move_to_new_energy move_to_new_energy
 ' {src/DcsMessageHandler.cxx 249  }
-10/29/14 10:48:33 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-10/29/14 10:48:33 3440232192   FINEST    ConsoleDhs::ConsumeDcsMessage: not a message for that can be handled, pass on {src/ConsoleService.cxx 165  }
-10/29/14 10:48:33 3440232192  WARNING    no one takes this message: stoh_register_operation move_to_new_energy move_to_new_energy {src/DcsMessageService.cxx 238  }
-10/29/14 10:48:33 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-10/29/14 10:48:33 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-10/29/14 10:48:33 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-10/29/14 10:48:33 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-10/29/14 10:48:33 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-10/29/14 10:48:33 3440232192   FINEST    Receiving: 'stoh_register_pseudo_motor energy MFirst' {src/DcsMessageHandler.cxx 249  }
-10/29/14 10:48:33 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-10/29/14 10:48:33 3440232192     INFO    register motor energy for MFirst {src/ConsoleService.cxx 293  }
-10/29/14 10:48:33 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-10/29/14 10:48:33 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-10/29/14 10:48:43 3429742336     INFO    Console Thread ready {src/ConsoleService.cxx 388  }
-10/29/14 10:48:43 3450730272     INFO    Console System start OK {src/ConsoleSystem.cxx 84  }
-10/29/14 10:48:43 3450730272   FINEST    x4a server is being connected sucessfully {src/ConsoleService.cxx 666  }
-10/29/14 10:48:43 3450730272   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-10/29/14 10:48:43 3450730272   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 12659.97168 normal ) {src/ConsoleService.cxx 366  }
-10/29/14 10:48:43 3450730272   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
-10/29/14 10:48:43 3450730272   FINEST    Get current energy is done. The current Energy is 12659.971680 {src/ConsoleService.cxx 677  }
-10/29/14 10:48:43 3450722048   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
-10/29/14 10:48:43 3450722048   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
-10/29/14 10:48:43 3450722048   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
-10/29/14 10:48:43 3450722048   FINEST    send message done {src/DcsMessageHandler.cxx 321  }
-10/29/14 10:48:43 3450722048   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-10/29/14 10:48:43 3450722048   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
-10/29/14 10:53:55 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-10/29/14 10:53:55 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-10/29/14 10:53:55 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-10/29/14 10:53:55 3440232192   FINEST    Receiving: 'stoh_start_motor_move energy 12659.971680' {src/DcsMessageHandler.cxx 249  }
-10/29/14 10:53:55 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-10/29/14 10:53:55 3440232192   FINEST    match motor0 {src/ConsoleService.cxx 256  }
-10/29/14 10:53:55 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
-10/29/14 10:53:55 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-10/29/14 10:53:55 3429742336   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
-10/29/14 10:53:55 3429742336   FINEST    x4a energy GetMotorPosition(): 12659.971680 {src/ConsoleService.cxx 449  }
-10/29/14 10:53:55 3429742336   FINEST    x4a energy moved to 12659.971680  {src/ConsoleService.cxx 464  }
-10/29/14 10:53:55 3429742336   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9570 {src/DcsMessageManager.cxx 170  }
-10/29/14 10:53:55 3429742336   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 12659.97168 normal ) {src/ConsoleService.cxx 366  }
-10/29/14 10:53:55 3429742336   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
-10/29/14 10:53:55 3429742336   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
-10/29/14 10:53:55 3429742336   FINEST    x4a currentEnergy = 12659.971680  {src/ConsoleService.cxx 485  }
-10/29/14 10:53:55 3429742336   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-10/29/14 10:53:55 3450722048   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
-10/29/14 10:53:55 3450722048   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
-10/29/14 10:53:55 3450722048   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
-10/29/14 10:53:55 3450722048   FINEST    send message done {src/DcsMessageHandler.cxx 321  }
-10/29/14 10:53:55 3450722048   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9570) {src/DcsMessageManager.cxx 193  }
-10/29/14 10:53:55 3450722048   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
-10/29/14 10:53:56 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-10/29/14 10:53:56 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-10/29/14 10:53:56 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9570 {src/DcsMessageManager.cxx 170  }
-10/29/14 10:53:56 3440232192   FINEST    Receiving: 'stoh_start_motor_move energy 12659.970000' {src/DcsMessageHandler.cxx 249  }
-10/29/14 10:53:56 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-10/29/14 10:53:56 3440232192   FINEST    match motor0 {src/ConsoleService.cxx 256  }
-10/29/14 10:53:56 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
-10/29/14 10:53:56 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-10/29/14 10:53:56 3429742336   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
-10/29/14 10:53:56 3429742336   FINEST    x4a energy GetMotorPosition(): 12659.970000 {src/ConsoleService.cxx 449  }
-10/29/14 10:53:56 3429742336   FINEST    x4a energy moved to 12659.970000  {src/ConsoleService.cxx 464  }
-10/29/14 10:53:56 3429742336   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-10/29/14 10:53:56 3429742336   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 12659.97168 normal ) {src/ConsoleService.cxx 366  }
-10/29/14 10:53:56 3429742336   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
-10/29/14 10:53:56 3429742336   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
-10/29/14 10:53:56 3429742336   FINEST    x4a currentEnergy = 12659.971680  {src/ConsoleService.cxx 485  }
-10/29/14 10:53:56 3450722048   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
-10/29/14 10:53:56 3450722048   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
-10/29/14 10:53:56 3450722048   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
-10/29/14 10:53:56 3429742336   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9570) {src/DcsMessageManager.cxx 193  }
-10/29/14 10:53:56 3450722048   FINEST    send message done {src/DcsMessageHandler.cxx 321  }
-10/29/14 10:53:56 3450722048   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-10/29/14 10:53:56 3450722048   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
-10/29/14 11:48:27 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-10/29/14 11:48:27 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-10/29/14 11:48:27 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-10/29/14 11:48:27 3440232192   FINEST    Receiving: 'stoh_start_motor_move energy 12659.971680' {src/DcsMessageHandler.cxx 249  }
-10/29/14 11:48:27 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-10/29/14 11:48:27 3440232192   FINEST    match motor0 {src/ConsoleService.cxx 256  }
-10/29/14 11:48:27 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
-10/29/14 11:48:27 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-10/29/14 11:48:27 3429742336   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
-10/29/14 11:48:27 3429742336   FINEST    x4a energy GetMotorPosition(): 12659.971680 {src/ConsoleService.cxx 449  }
-10/29/14 11:48:27 3429742336   FINEST    x4a energy moved to 12659.971680  {src/ConsoleService.cxx 464  }
-10/29/14 11:48:27 3429742336   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9570 {src/DcsMessageManager.cxx 170  }
-10/29/14 11:48:27 3429742336   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 12659.97168 normal ) {src/ConsoleService.cxx 366  }
-10/29/14 11:48:27 3429742336   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
-10/29/14 11:48:27 3429742336   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
-10/29/14 11:48:27 3429742336   FINEST    x4a currentEnergy = 12659.971680  {src/ConsoleService.cxx 485  }
-10/29/14 11:48:27 3429742336   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-10/29/14 11:48:27 3450722048   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
-10/29/14 11:48:27 3450722048   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
-10/29/14 11:48:27 3450722048   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
-10/29/14 11:48:27 3450722048   FINEST    send message done {src/DcsMessageHandler.cxx 321  }
-10/29/14 11:48:27 3450722048   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9570) {src/DcsMessageManager.cxx 193  }
-10/29/14 11:48:27 3450722048   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
-10/29/14 11:48:28 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-10/29/14 11:48:28 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-10/29/14 11:48:28 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9570 {src/DcsMessageManager.cxx 170  }
-10/29/14 11:48:28 3440232192   FINEST    Receiving: 'stoh_start_motor_move energy 12659.970000' {src/DcsMessageHandler.cxx 249  }
-10/29/14 11:48:28 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-10/29/14 11:48:28 3440232192   FINEST    match motor0 {src/ConsoleService.cxx 256  }
-10/29/14 11:48:28 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: we consume it {src/ConsoleService.cxx 279  }
-10/29/14 11:48:28 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-10/29/14 11:48:28 3429742336   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
-10/29/14 11:48:28 3429742336   FINEST    x4a energy GetMotorPosition(): 12659.970000 {src/ConsoleService.cxx 449  }
-10/29/14 11:48:28 3429742336   FINEST    x4a energy moved to 12659.970000  {src/ConsoleService.cxx 464  }
-10/29/14 11:48:28 3429742336   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-10/29/14 11:48:28 3429742336   FINEST    ConsoleService::SendoutDcsMessage( htos_motor_move_completed energy 12659.97168 normal ) {src/ConsoleService.cxx 366  }
-10/29/14 11:48:28 3429742336   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
-10/29/14 11:48:28 3429742336   FINEST    Get current energy is done {src/ConsoleService.cxx 478  }
-10/29/14 11:48:28 3429742336   FINEST    x4a currentEnergy = 12659.971680  {src/ConsoleService.cxx 485  }
-10/29/14 11:48:28 3429742336   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9570) {src/DcsMessageManager.cxx 193  }
-10/29/14 11:48:28 3450722048   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
-10/29/14 11:48:28 3450722048   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
-10/29/14 11:48:28 3450722048   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
-10/29/14 11:48:28 3450722048   FINEST    send message done {src/DcsMessageHandler.cxx 321  }
-10/29/14 11:48:28 3450722048   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-10/29/14 11:48:28 3450722048   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
-11/03/14 13:47:59 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:47:59 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:47:59 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:47:59 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:47:59 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:47:59 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:47:59 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:47:59 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:47:59 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:47:59 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:47:59 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:47:59 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:47:59 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:47:59 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:47:59 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:47:59 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:47:59 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:47:59 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:47:59 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:47:59 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:47:59 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:47:59 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:47:59 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:47:59 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:47:59 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:47:59 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:47:59 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:47:59 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:47:59 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:47:59 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:47:59 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:47:59 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:47:59 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:47:59 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:47:59 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:47:59 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:47:59 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:47:59 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:47:59 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:47:59 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:47:59 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:47:59 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:47:59 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:47:59 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:47:59 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:47:59 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:47:59 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:47:59 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:47:59 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:47:59 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:47:59 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:47:59 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:47:59 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:47:59 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:47:59 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:47:59 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:47:59 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:47:59 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:47:59 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:47:59 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:47:59 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:47:59 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:47:59 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:47:59 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:47:59 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:47:59 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:47:59 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:47:59 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:47:59 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:47:59 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:47:59 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:47:59 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:47:59 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:47:59 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:47:59 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:47:59 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:47:59 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:47:59 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:47:59 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:47:59 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:47:59 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:47:59 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:47:59 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:47:59 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:47:59 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:47:59 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:47:59 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:47:59 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:47:59 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:47:59 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:47:59 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:47:59 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:47:59 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:47:59 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:47:59 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:47:59 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:47:59 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:47:59 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:47:59 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:48:00 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:48:00 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:48:00 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:48:00 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:48:00 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:48:00 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:48:00 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:48:00 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:48:00 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:48:01 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:48:01 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:48:01 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:48:01 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:48:01 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:48:01 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:48:01 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:48:01 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:48:01 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:48:01 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:48:01 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:48:01 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:48:01 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:48:01 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:48:01 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:48:01 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:48:01 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:48:01 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:48:01 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:48:01 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:48:01 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:48:01 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:48:01 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:48:01 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:48:01 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:48:01 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:48:01 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:48:01 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:48:01 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:48:01 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:48:01 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:48:01 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:48:01 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:48:01 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:48:01 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:48:01 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:48:01 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:48:01 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:48:01 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:48:01 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:48:01 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:48:01 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:48:01 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:48:01 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:48:01 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:48:02 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:48:02 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:48:02 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:48:02 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:48:02 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:48:02 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:48:02 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:48:02 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:48:02 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:48:02 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:48:02 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:48:02 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:48:02 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:48:02 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:48:02 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:48:02 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:48:02 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:48:02 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:48:02 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:48:02 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:48:02 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:48:02 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:48:02 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:48:02 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:48:02 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:48:02 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:48:02 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:48:02 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:48:02 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:48:02 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:48:02 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:48:02 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:48:02 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:48:02 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:48:02 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:48:02 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:48:02 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:48:02 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:48:02 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:48:02 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:48:02 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:48:02 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:48:02 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:48:02 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:48:02 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:48:02 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:48:02 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:48:02 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:48:02 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:48:02 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:48:02 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:48:02 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:48:02 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:48:02 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:48:02 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:48:02 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:48:02 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:48:02 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:48:02 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:48:02 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:48:02 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:48:02 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:48:02 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:48:02 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:48:02 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:48:02 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:48:02 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:48:02 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:48:02 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:48:02 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:48:02 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:48:02 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:48:02 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:48:02 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:48:02 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:48:02 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:48:02 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:48:02 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:48:02 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:48:02 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:48:02 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:48:02 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:48:02 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:48:02 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:48:02 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:48:02 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:48:02 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:48:02 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:48:02 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:48:02 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:48:02 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:48:02 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:48:02 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:48:02 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:48:02 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:48:02 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:48:02 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:48:02 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:48:02 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:48:02 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:48:02 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:48:02 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:48:02 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:48:02 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:48:02 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:48:02 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:48:02 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:48:02 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:48:02 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:48:02 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:48:02 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:48:02 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:48:02 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:48:02 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:48:02 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:48:02 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:48:02 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:48:02 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:48:02 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:48:02 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:48:02 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:48:02 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:48:02 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:48:02 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:48:02 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:48:02 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:48:02 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:48:02 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:48:02 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:48:02 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:48:02 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:48:02 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:48:02 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:48:02 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:48:02 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:48:02 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:48:02 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:48:02 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:48:02 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:48:02 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:48:02 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:48:02 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:48:02 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:48:02 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:48:02 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:48:02 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:48:02 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:48:02 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:48:02 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:48:02 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:48:02 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:48:02 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:48:02 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:48:02 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:48:02 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:48:02 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:48:02 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:48:02 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:48:02 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:48:02 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:48:02 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:48:02 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:48:02 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:48:02 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:48:02 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:48:02 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:48:02 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:48:02 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:48:02 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:48:02 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:48:02 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:48:02 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:48:02 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:48:02 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:48:02 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:48:02 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:48:02 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:48:02 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:48:02 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:48:02 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:48:02 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:48:02 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:48:02 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:48:02 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:48:02 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:48:02 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:48:02 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:48:02 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:48:02 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:48:02 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:48:02 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:48:02 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:48:02 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:48:02 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:48:02 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:48:02 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xfc9f70 {src/DcsMessageManager.cxx 170  }
-11/03/14 13:48:02 3440232192   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-11/03/14 13:48:02 3440232192   FINEST    abort all message {src/DcsMessage.cxx 100  }
-11/03/14 13:48:02 3440232192   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-11/03/14 13:48:02 3440232192   FINEST    ConsoleService::ConsumeDcsMessage: abort unfinished operations {src/ConsoleService.cxx 127  }
-11/03/14 13:48:02 3440232192   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xfc9f70) {src/DcsMessageManager.cxx 193  }
-11/03/14 13:48:02 3440232192   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+04/22/15 14:10:35 3677906688   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
+04/22/15 14:10:35 3677906688   FINEST    ConsoleDhs::ConsumeDcsMessage: not a message for that can be handled, pass on {src/ConsoleService.cxx 165  }
+04/22/15 14:10:35 3677906688  WARNING    no one takes this message: stoh_register_operation move_to_new_energy move_to_new_energy {src/DcsMessageService.cxx 238  }
+04/22/15 14:10:35 3677906688   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x140af70) {src/DcsMessageManager.cxx 193  }
+04/22/15 14:10:35 3677906688   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+04/22/15 14:10:35 3677906688   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+04/22/15 14:10:35 3677906688   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+04/22/15 14:10:35 3677906688   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x140af70 {src/DcsMessageManager.cxx 170  }
+04/22/15 14:10:35 3677906688   FINEST    Receiving: 'stoh_register_pseudo_motor energy MFirst' {src/DcsMessageHandler.cxx 249  }
+04/22/15 14:10:35 3677906688   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
+04/22/15 14:10:35 3677906688     INFO    register motor energy for MFirst {src/ConsoleService.cxx 293  }
+04/22/15 14:10:35 3677906688   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x140af70) {src/DcsMessageManager.cxx 193  }
+04/22/15 14:10:35 3677906688   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+04/22/15 14:10:45 3667416832     INFO    Console Thread ready {src/ConsoleService.cxx 388  }
+04/22/15 14:10:45 3688404768     INFO    Console System start OK {src/ConsoleSystem.cxx 84  }
+04/22/15 14:10:45 3688404768  WARNING    Error connecting to x4a server {src/ConsoleService.cxx 662  }
+04/22/15 14:10:45 3688404768   FINEST    issue stop command {src/ConsoleSystem.cxx 111  }
+04/22/15 14:10:45 3688404768   FINEST    wait all threads to stop {src/ConsoleSystem.cxx 116  }
+04/22/15 14:10:45 3688404768   FINEST    in WaitAllStop: got out of SEM wait {src/ConsoleSystem.cxx 167  }
+04/22/15 14:10:45 3688396544   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+04/22/15 14:10:45 3688396544     INFO    SENDER quit by command STOP {src/DcsMessageService.cxx 128  }
+04/22/15 14:10:45 3688396544     INFO    sender stopped {src/DcsMessageService.cxx 144  }
+04/22/15 14:10:45 3667416832   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
+04/22/15 14:10:45 3667416832     INFO    Console thread quit by STOP {src/ConsoleService.cxx 407  }
+04/22/15 14:10:45 3667416832     INFO    Console thread stopped and EvtStopped set {src/ConsoleService.cxx 526  }
+04/22/15 14:10:45 3688404768   FINEST    in WaitAllStop: got out of SEM wait {src/ConsoleSystem.cxx 167  }
+04/22/15 14:10:45 3688404768   FINEST    console service stopped {src/ConsoleSystem.cxx 174  }
+04/22/15 14:10:45 3688404768   FINEST    in WaitAllStop: got out of SEM wait {src/ConsoleSystem.cxx 167  }
+04/22/15 14:10:45 3688404768   FINEST    console service stopped {src/ConsoleSystem.cxx 174  }
+04/22/15 14:10:45 3677906688   FINEST    receiver is waiting sender done for stop {src/DcsMessageService.cxx 203  }
+04/22/15 14:10:45 3677906688   FINEST    waiting done {src/DcsMessageService.cxx 205  }
+04/22/15 14:10:45 3677906688   FINEST    receiver disconnect DCSS {src/DcsMessageService.cxx 212  }
+04/22/15 14:10:45 3677906688     INFO    receiver stopped: means this active object stopped {src/DcsMessageService.cxx 215  }
+04/22/15 14:10:45 3688404768   FINEST    in WaitAllStop: got out of SEM wait {src/ConsoleSystem.cxx 167  }
+04/22/15 14:10:45 3688404768   FINEST    dcs msg service stopped {src/ConsoleSystem.cxx 170  }
+04/22/15 14:10:45 3688404768   FINEST    console service stopped {src/ConsoleSystem.cxx 174  }
+04/22/15 14:10:45 3688404768   FINEST    alll stopped {src/ConsoleSystem.cxx 177  }
+04/22/15 14:10:45 3688404768   FINEST    DcsMessageManager: {src/ConsoleSystem.cxx 120  }
+04/22/15 14:10:45 3688404768   FINEST    GetMaxTextSize=64 {src/ConsoleSystem.cxx 121  }
+04/22/15 14:10:45 3688404768   FINEST    GetMaxBinarySize=0 {src/ConsoleSystem.cxx 122  }
+04/22/15 14:10:45 3688404768   FINEST    GetMaxPoolSize=10 {src/ConsoleSystem.cxx 123  }
+04/22/15 14:10:45 3688404768   FINEST    GetNewCount=3 {src/ConsoleSystem.cxx 124  }
+04/22/15 14:10:45 3688404768   FINEST    GetDeleteCount=3 {src/ConsoleSystem.cxx 125  }
+04/22/15 14:10:45 3688404768     INFO    Console System stopped {src/ConsoleSystem.cxx 127  }
+04/22/15 14:10:45 3688404768  WARNING    init_8bm_cons: Error connecting to console server on IP66 {src/ConsoleSystem.cxx 90  }
+04/22/15 14:10:45 3688404768   FINEST    out of running: received ctrl-c  {src/ConsoleDhs.cxx 30  }
