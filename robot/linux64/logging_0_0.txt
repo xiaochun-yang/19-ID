@@ -1,236 +1,708 @@
-04/22/15 14:18:28 3356776224   FINEST    DcsMessageManager constructor enter {src/DcsMessageManager.cxx 18  }
-04/22/15 14:18:28 3356776224   FINEST    DcsMessageManager constructor exit {src/DcsMessageManager.cxx 33  }
-04/22/15 14:18:28 3356776224   FINEST    DcsMessageService constructor enter {src/DcsMessageService.cxx 9  }
-04/22/15 14:18:28 3356776224   FINEST    DcsMessageService constructor exit {src/DcsMessageService.cxx 13  }
-04/22/15 14:18:28 3356776224   FINEST    run from front, not as a service  {src/robot.cxx 28  }
-04/22/15 14:18:28 3356776224     INFO    m_ServerName points to: 'localhost' {src/DcsMessageHandler.cxx 43  }
-04/22/15 14:18:28 3356776224     INFO    m_DHSName points to: 'robot' {src/DcsMessageHandler.cxx 62  }
-04/22/15 14:18:28 3356768000   FINEST    SENDER wait for socket lock 11111 {src/DcsMessageService.cxx 87  }
-04/22/15 14:18:28 3356768000   FINEST    SENDER got socket lock 111111 {src/DcsMessageService.cxx 89  }
-04/22/15 14:18:28 3356768000   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:18:28 3356768000   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:18:28 3335788288   FINEST    RobotControls::Initialize called {src/RobotControls.cxx 34  }
-04/22/15 14:18:28 3346278144   FINEST    receiver is waiting sender done for start {src/DcsMessageService.cxx 151  }
-04/22/15 14:18:28 3356768000     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:18:28 3356768000   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:18:28 3356768000   FINEST    Sending: 'htos_client_is_hardware robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:18:28 3356768000   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:18:28 3356768000   FINEST    SENDER unlock socket lock 11111111111 {src/DcsMessageService.cxx 102  }
-04/22/15 14:18:28 3356768000     INFO    connected to DCSS with DCS protocol, sender ready {src/DcsMessageService.cxx 104  }
-04/22/15 14:18:28 3356768000   FINEST    SENDER enter loop {src/DcsMessageService.cxx 109  }
-04/22/15 14:18:28 3346278144   FINEST    receiver waiting done {src/DcsMessageService.cxx 153  }
-04/22/15 14:18:28 3346278144     INFO    receiver ready: whole DcsMessageService Ready {src/DcsMessageService.cxx 167  }
-04/22/15 14:18:28 3346278144   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:18:28 3346278144   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:18:28 3346278144   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x10caf70 {src/DcsMessageManager.cxx 170  }
-04/22/15 14:18:28 3346278144   FINEST    DcsMessageManager::NewDcsMessage: new MAX TEXT SIZE 56 {src/DcsMessageManager.cxx 176  }
-04/22/15 14:18:28 3346278144   FINEST    Receiving: 'stoh_register_operation get_robotstate get_robotstate
+05/06/15 15:22:15 3197335328   FINEST    DcsMessageManager constructor enter {src/DcsMessageManager.cxx 18  }
+05/06/15 15:22:15 3197335328   FINEST    DcsMessageManager constructor exit {src/DcsMessageManager.cxx 33  }
+05/06/15 15:22:15 3197335328   FINEST    DcsMessageService constructor enter {src/DcsMessageService.cxx 9  }
+05/06/15 15:22:15 3197335328   FINEST    DcsMessageService constructor exit {src/DcsMessageService.cxx 13  }
+05/06/15 15:22:15 3197335328   FINEST    run from front, not as a service  {src/robot.cxx 28  }
+05/06/15 15:22:15 3197335328     INFO    m_ServerName points to: 'localhost' {src/DcsMessageHandler.cxx 43  }
+05/06/15 15:22:15 3197335328     INFO    m_DHSName points to: 'robot' {src/DcsMessageHandler.cxx 62  }
+05/06/15 15:22:15 3197327104   FINEST    SENDER wait for socket lock 11111 {src/DcsMessageService.cxx 87  }
+05/06/15 15:22:15 3197327104   FINEST    SENDER got socket lock 111111 {src/DcsMessageService.cxx 89  }
+05/06/15 15:22:15 3176347392   FINEST    RobotControls::Initialize called {src/RobotControls.cxx 35  }
+05/06/15 15:22:15 3197327104   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
+05/06/15 15:22:15 3197327104   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
+05/06/15 15:22:15 3186837248   FINEST    receiver is waiting sender done for start {src/DcsMessageService.cxx 151  }
+05/06/15 15:22:15 3197327104     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
+05/06/15 15:22:15 3197327104   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
+05/06/15 15:22:15 3197327104   FINEST    Sending: 'htos_client_is_hardware robot' {src/DcsMessageHandler.cxx 188  }
+05/06/15 15:22:15 3197327104   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
+05/06/15 15:22:15 3197327104   FINEST    SENDER unlock socket lock 11111111111 {src/DcsMessageService.cxx 102  }
+05/06/15 15:22:15 3197327104     INFO    connected to DCSS with DCS protocol, sender ready {src/DcsMessageService.cxx 104  }
+05/06/15 15:22:15 3197327104   FINEST    SENDER enter loop {src/DcsMessageService.cxx 109  }
+05/06/15 15:22:15 3186837248   FINEST    receiver waiting done {src/DcsMessageService.cxx 153  }
+05/06/15 15:22:15 3186837248     INFO    receiver ready: whole DcsMessageService Ready {src/DcsMessageService.cxx 167  }
+05/06/15 15:22:15 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:22:15 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:22:15 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:22:15 3186837248   FINEST    DcsMessageManager::NewDcsMessage: new MAX TEXT SIZE 56 {src/DcsMessageManager.cxx 176  }
+05/06/15 15:22:16 3186837248   FINEST    Receiving: 'stoh_register_operation get_robotstate get_robotstate
 ' {src/DcsMessageHandler.cxx 249  }
-04/22/15 14:18:28 3346278144   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
-04/22/15 14:18:28 3346278144   FINEST    RobotDhs::ConsumeDcsMessage: not a message for that can be handled, pass on {src/RobotService.cxx 165  }
-04/22/15 14:18:28 3346278144  WARNING    no one takes this message: stoh_register_operation get_robotstate get_robotstate {src/DcsMessageService.cxx 238  }
-04/22/15 14:18:28 3346278144   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x10caf70) {src/DcsMessageManager.cxx 193  }
-04/22/15 14:18:28 3346278144   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:18:28 3346278144   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:18:28 3346278144   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:18:28 3346278144   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x10caf70 {src/DcsMessageManager.cxx 170  }
-04/22/15 14:18:28 3346278144   FINEST    Receiving: 'stoh_register_operation open_lid open_lid
+05/06/15 15:22:16 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:22:16 3186837248   FINEST    RobotDhs::ConsumeDcsMessage: not a message for that can be handled, pass on {src/RobotService.cxx 165  }
+05/06/15 15:22:16 3186837248  WARNING    no one takes this message: stoh_register_operation get_robotstate get_robotstate {src/DcsMessageService.cxx 238  }
+05/06/15 15:22:16 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:22:16 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:22:16 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:22:16 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:22:16 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:22:16 3186837248   FINEST    Receiving: 'stoh_register_operation open_lid open_lid
 ' {src/DcsMessageHandler.cxx 249  }
-04/22/15 14:18:28 3346278144   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
-04/22/15 14:18:28 3346278144   FINEST    RobotDhs::ConsumeDcsMessage: not a message for that can be handled, pass on {src/RobotService.cxx 165  }
-04/22/15 14:18:28 3346278144  WARNING    no one takes this message: stoh_register_operation open_lid open_lid {src/DcsMessageService.cxx 238  }
-04/22/15 14:18:28 3346278144   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x10caf70) {src/DcsMessageManager.cxx 193  }
-04/22/15 14:18:28 3346278144   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:18:28 3346278144   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:18:28 3346278144   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:18:28 3346278144   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x10caf70 {src/DcsMessageManager.cxx 170  }
-04/22/15 14:18:28 3346278144   FINEST    Receiving: 'stoh_register_operation close_lid close_lid
+05/06/15 15:22:16 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:22:16 3186837248   FINEST    RobotDhs::ConsumeDcsMessage: not a message for that can be handled, pass on {src/RobotService.cxx 165  }
+05/06/15 15:22:16 3186837248  WARNING    no one takes this message: stoh_register_operation open_lid open_lid {src/DcsMessageService.cxx 238  }
+05/06/15 15:22:16 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:22:16 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:22:16 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:22:16 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:22:16 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:22:16 3186837248   FINEST    Receiving: 'stoh_register_operation close_lid close_lid
 ' {src/DcsMessageHandler.cxx 249  }
-04/22/15 14:18:28 3346278144   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
-04/22/15 14:18:28 3346278144   FINEST    RobotDhs::ConsumeDcsMessage: not a message for that can be handled, pass on {src/RobotService.cxx 165  }
-04/22/15 14:18:28 3346278144  WARNING    no one takes this message: stoh_register_operation close_lid close_lid {src/DcsMessageService.cxx 238  }
-04/22/15 14:18:28 3346278144   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x10caf70) {src/DcsMessageManager.cxx 193  }
-04/22/15 14:18:28 3346278144   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:18:28 3346278144   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:18:28 3346278144   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:18:28 3346278144   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x10caf70 {src/DcsMessageManager.cxx 170  }
-04/22/15 14:18:28 3346278144   FINEST    DcsMessageManager::NewDcsMessage: new MAX TEXT SIZE 58 {src/DcsMessageManager.cxx 176  }
-04/22/15 14:18:28 3346278144   FINEST    Receiving: 'stoh_register_operation warm_up_grabber warm_up_grabber
+05/06/15 15:22:16 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:22:16 3186837248   FINEST    RobotDhs::ConsumeDcsMessage: not a message for that can be handled, pass on {src/RobotService.cxx 165  }
+05/06/15 15:22:16 3186837248  WARNING    no one takes this message: stoh_register_operation close_lid close_lid {src/DcsMessageService.cxx 238  }
+05/06/15 15:22:16 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:22:16 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:22:16 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:22:16 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:22:16 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:22:16 3186837248   FINEST    DcsMessageManager::NewDcsMessage: new MAX TEXT SIZE 58 {src/DcsMessageManager.cxx 176  }
+05/06/15 15:22:16 3186837248   FINEST    Receiving: 'stoh_register_operation warm_up_grabber warm_up_grabber
 ' {src/DcsMessageHandler.cxx 249  }
-04/22/15 14:18:28 3346278144   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
-04/22/15 14:18:28 3346278144   FINEST    RobotDhs::ConsumeDcsMessage: not a message for that can be handled, pass on {src/RobotService.cxx 165  }
-04/22/15 14:18:28 3346278144  WARNING    no one takes this message: stoh_register_operation warm_up_grabber warm_up_grabber {src/DcsMessageService.cxx 238  }
-04/22/15 14:18:28 3346278144   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x10caf70) {src/DcsMessageManager.cxx 193  }
-04/22/15 14:18:28 3346278144   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:18:28 3346278144   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:18:28 3346278144   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:18:28 3346278144   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x10caf70 {src/DcsMessageManager.cxx 170  }
-04/22/15 14:18:28 3346278144   FINEST    DcsMessageManager::NewDcsMessage: new MAX TEXT SIZE 63 {src/DcsMessageManager.cxx 176  }
-04/22/15 14:18:28 3346278144   FINEST    Receiving: 'stoh_register_operation cool_down_grabber coool_down_grabber
+05/06/15 15:22:16 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:22:16 3186837248   FINEST    RobotDhs::ConsumeDcsMessage: not a message for that can be handled, pass on {src/RobotService.cxx 165  }
+05/06/15 15:22:16 3186837248  WARNING    no one takes this message: stoh_register_operation warm_up_grabber warm_up_grabber {src/DcsMessageService.cxx 238  }
+05/06/15 15:22:16 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:22:16 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:22:16 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:22:16 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:22:16 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:22:16 3186837248   FINEST    DcsMessageManager::NewDcsMessage: new MAX TEXT SIZE 63 {src/DcsMessageManager.cxx 176  }
+05/06/15 15:22:16 3186837248   FINEST    Receiving: 'stoh_register_operation cool_down_grabber coool_down_grabber
 ' {src/DcsMessageHandler.cxx 249  }
-04/22/15 14:18:28 3346278144   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
-04/22/15 14:18:28 3346278144   FINEST    RobotDhs::ConsumeDcsMessage: not a message for that can be handled, pass on {src/RobotService.cxx 165  }
-04/22/15 14:18:28 3346278144  WARNING    no one takes this message: stoh_register_operation cool_down_grabber coool_down_grabber {src/DcsMessageService.cxx 238  }
-04/22/15 14:18:28 3346278144   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x10caf70) {src/DcsMessageManager.cxx 193  }
-04/22/15 14:18:28 3346278144   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:18:28 3346278144   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:18:28 3346278144   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:18:28 3346278144   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x10caf70 {src/DcsMessageManager.cxx 170  }
-04/22/15 14:18:28 3346278144   FINEST    DcsMessageManager::NewDcsMessage: new MAX TEXT SIZE 64 {src/DcsMessageManager.cxx 176  }
-04/22/15 14:18:28 3346278144   FINEST    Receiving: 'stoh_register_operation set_sample_address set_sample_address
+05/06/15 15:22:16 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:22:16 3186837248   FINEST    RobotDhs::ConsumeDcsMessage: not a message for that can be handled, pass on {src/RobotService.cxx 165  }
+05/06/15 15:22:16 3186837248  WARNING    no one takes this message: stoh_register_operation cool_down_grabber coool_down_grabber {src/DcsMessageService.cxx 238  }
+05/06/15 15:22:16 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:22:16 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:22:16 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:22:16 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:22:16 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:22:16 3186837248   FINEST    DcsMessageManager::NewDcsMessage: new MAX TEXT SIZE 64 {src/DcsMessageManager.cxx 176  }
+05/06/15 15:22:16 3186837248   FINEST    Receiving: 'stoh_register_operation set_sample_address set_sample_address
 ' {src/DcsMessageHandler.cxx 249  }
-04/22/15 14:18:28 3346278144   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
-04/22/15 14:18:28 3346278144   FINEST    RobotDhs::ConsumeDcsMessage: not a message for that can be handled, pass on {src/RobotService.cxx 165  }
-04/22/15 14:18:28 3346278144  WARNING    no one takes this message: stoh_register_operation set_sample_address set_sample_address {src/DcsMessageService.cxx 238  }
-04/22/15 14:18:28 3346278144   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x10caf70) {src/DcsMessageManager.cxx 193  }
-04/22/15 14:18:28 3346278144   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:18:28 3346278144   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:18:28 3346278144   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:18:28 3346278144   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x10caf70 {src/DcsMessageManager.cxx 170  }
-04/22/15 14:18:28 3346278144   FINEST    Receiving: 'stoh_register_operation screening_mode screening_mode
+05/06/15 15:22:16 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:22:16 3186837248   FINEST    RobotDhs::ConsumeDcsMessage: not a message for that can be handled, pass on {src/RobotService.cxx 165  }
+05/06/15 15:22:16 3186837248  WARNING    no one takes this message: stoh_register_operation set_sample_address set_sample_address {src/DcsMessageService.cxx 238  }
+05/06/15 15:22:16 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:22:16 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:22:16 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:22:16 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:22:16 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:22:16 3186837248   FINEST    Receiving: 'stoh_register_operation screening_mode screening_mode
 ' {src/DcsMessageHandler.cxx 249  }
-04/22/15 14:18:28 3346278144   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
-04/22/15 14:18:28 3346278144   FINEST    RobotDhs::ConsumeDcsMessage: not a message for that can be handled, pass on {src/RobotService.cxx 165  }
-04/22/15 14:18:28 3346278144  WARNING    no one takes this message: stoh_register_operation screening_mode screening_mode {src/DcsMessageService.cxx 238  }
-04/22/15 14:18:28 3346278144   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x10caf70) {src/DcsMessageManager.cxx 193  }
-04/22/15 14:18:28 3346278144   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:18:28 3346278144   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:18:28 3346278144   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:18:28 3346278144   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x10caf70 {src/DcsMessageManager.cxx 170  }
-04/22/15 14:18:28 3346278144   FINEST    Receiving: 'stoh_register_operation mount_crystal mount_crystal
+05/06/15 15:22:16 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:22:16 3186837248   FINEST    RobotDhs::ConsumeDcsMessage: not a message for that can be handled, pass on {src/RobotService.cxx 165  }
+05/06/15 15:22:16 3186837248  WARNING    no one takes this message: stoh_register_operation screening_mode screening_mode {src/DcsMessageService.cxx 238  }
+05/06/15 15:22:16 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:22:16 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:22:16 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:22:16 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:22:16 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:22:16 3186837248   FINEST    Receiving: 'stoh_register_operation mount_crystal mount_crystal
 ' {src/DcsMessageHandler.cxx 249  }
-04/22/15 14:18:28 3346278144   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
-04/22/15 14:18:28 3346278144   FINEST    RobotDhs::ConsumeDcsMessage: not a message for that can be handled, pass on {src/RobotService.cxx 165  }
-04/22/15 14:18:28 3346278144  WARNING    no one takes this message: stoh_register_operation mount_crystal mount_crystal {src/DcsMessageService.cxx 238  }
-04/22/15 14:18:28 3346278144   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x10caf70) {src/DcsMessageManager.cxx 193  }
-04/22/15 14:18:28 3346278144   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:18:28 3346278144   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:18:28 3346278144   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:18:28 3346278144   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x10caf70 {src/DcsMessageManager.cxx 170  }
-04/22/15 14:18:28 3346278144   FINEST    DcsMessageManager::NewDcsMessage: new MAX TEXT SIZE 70 {src/DcsMessageManager.cxx 176  }
-04/22/15 14:18:28 3346278144   FINEST    Receiving: 'stoh_register_operation prepare_mount_crystal prepare_mount_crystal
+05/06/15 15:22:16 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:22:16 3186837248   FINEST    RobotDhs::ConsumeDcsMessage: not a message for that can be handled, pass on {src/RobotService.cxx 165  }
+05/06/15 15:22:16 3186837248  WARNING    no one takes this message: stoh_register_operation mount_crystal mount_crystal {src/DcsMessageService.cxx 238  }
+05/06/15 15:22:16 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:22:16 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:22:16 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:22:16 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:22:16 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:22:16 3186837248   FINEST    DcsMessageManager::NewDcsMessage: new MAX TEXT SIZE 70 {src/DcsMessageManager.cxx 176  }
+05/06/15 15:22:16 3186837248   FINEST    Receiving: 'stoh_register_operation prepare_mount_crystal prepare_mount_crystal
 ' {src/DcsMessageHandler.cxx 249  }
-04/22/15 14:18:28 3346278144   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
-04/22/15 14:18:28 3346278144   FINEST    RobotDhs::ConsumeDcsMessage: not a message for that can be handled, pass on {src/RobotService.cxx 165  }
-04/22/15 14:18:28 3346278144  WARNING    no one takes this message: stoh_register_operation prepare_mount_crystal prepare_mount_crystal {src/DcsMessageService.cxx 238  }
-04/22/15 14:18:28 3346278144   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x10caf70) {src/DcsMessageManager.cxx 193  }
-04/22/15 14:18:28 3346278144   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:18:28 3346278144   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:18:28 3346278144   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:18:28 3346278144   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x10caf70 {src/DcsMessageManager.cxx 170  }
-04/22/15 14:18:28 3346278144   FINEST    Receiving: 'stoh_register_operation dismount_crystal dismount_crystal
+05/06/15 15:22:16 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:22:16 3186837248   FINEST    RobotDhs::ConsumeDcsMessage: not a message for that can be handled, pass on {src/RobotService.cxx 165  }
+05/06/15 15:22:16 3186837248  WARNING    no one takes this message: stoh_register_operation prepare_mount_crystal prepare_mount_crystal {src/DcsMessageService.cxx 238  }
+05/06/15 15:22:16 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:22:16 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:22:16 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:22:16 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:22:16 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:22:16 3186837248   FINEST    Receiving: 'stoh_register_operation dismount_crystal dismount_crystal
 ' {src/DcsMessageHandler.cxx 249  }
-04/22/15 14:18:28 3346278144   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
-04/22/15 14:18:28 3346278144   FINEST    RobotDhs::ConsumeDcsMessage: not a message for that can be handled, pass on {src/RobotService.cxx 165  }
-04/22/15 14:18:28 3346278144  WARNING    no one takes this message: stoh_register_operation dismount_crystal dismount_crystal {src/DcsMessageService.cxx 238  }
-04/22/15 14:18:28 3346278144   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x10caf70) {src/DcsMessageManager.cxx 193  }
-04/22/15 14:18:28 3346278144   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:18:28 3346278144   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:18:28 3346278144   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:18:28 3346278144   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x10caf70 {src/DcsMessageManager.cxx 170  }
-04/22/15 14:18:28 3346278144   FINEST    DcsMessageManager::NewDcsMessage: new MAX TEXT SIZE 76 {src/DcsMessageManager.cxx 176  }
-04/22/15 14:18:28 3346278144   FINEST    Receiving: 'stoh_register_operation prepare_dismount_crystal prepare_dismount_crystal
+05/06/15 15:22:16 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:22:16 3186837248   FINEST    RobotDhs::ConsumeDcsMessage: not a message for that can be handled, pass on {src/RobotService.cxx 165  }
+05/06/15 15:22:16 3186837248  WARNING    no one takes this message: stoh_register_operation dismount_crystal dismount_crystal {src/DcsMessageService.cxx 238  }
+05/06/15 15:22:16 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:22:16 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:22:16 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:22:16 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:22:16 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:22:16 3186837248   FINEST    DcsMessageManager::NewDcsMessage: new MAX TEXT SIZE 76 {src/DcsMessageManager.cxx 176  }
+05/06/15 15:22:16 3186837248   FINEST    Receiving: 'stoh_register_operation prepare_dismount_crystal prepare_dismount_crystal
 ' {src/DcsMessageHandler.cxx 249  }
-04/22/15 14:18:28 3346278144   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
-04/22/15 14:18:28 3346278144   FINEST    RobotDhs::ConsumeDcsMessage: not a message for that can be handled, pass on {src/RobotService.cxx 165  }
-04/22/15 14:18:28 3346278144  WARNING    no one takes this message: stoh_register_operation prepare_dismount_crystal prepare_dismount_crystal {src/DcsMessageService.cxx 238  }
-04/22/15 14:18:28 3346278144   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x10caf70) {src/DcsMessageManager.cxx 193  }
-04/22/15 14:18:28 3346278144   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:18:28 3346278144   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:18:28 3346278144   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:18:28 3346278144   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x10caf70 {src/DcsMessageManager.cxx 170  }
-04/22/15 14:18:28 3346278144   FINEST    Receiving: 'stoh_register_operation mount_next_crystal mount_next_crystal
+05/06/15 15:22:16 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:22:16 3186837248   FINEST    RobotDhs::ConsumeDcsMessage: not a message for that can be handled, pass on {src/RobotService.cxx 165  }
+05/06/15 15:22:16 3186837248  WARNING    no one takes this message: stoh_register_operation prepare_dismount_crystal prepare_dismount_crystal {src/DcsMessageService.cxx 238  }
+05/06/15 15:22:16 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:22:16 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:22:16 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:22:16 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:22:16 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:22:16 3186837248   FINEST    Receiving: 'stoh_register_operation mount_next_crystal mount_next_crystal
 ' {src/DcsMessageHandler.cxx 249  }
-04/22/15 14:18:28 3346278144   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
-04/22/15 14:18:28 3346278144   FINEST    RobotDhs::ConsumeDcsMessage: not a message for that can be handled, pass on {src/RobotService.cxx 165  }
-04/22/15 14:18:28 3346278144  WARNING    no one takes this message: stoh_register_operation mount_next_crystal mount_next_crystal {src/DcsMessageService.cxx 238  }
-04/22/15 14:18:28 3346278144   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x10caf70) {src/DcsMessageManager.cxx 193  }
-04/22/15 14:18:28 3346278144   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:18:28 3346278144   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:18:28 3346278144   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:18:28 3346278144   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x10caf70 {src/DcsMessageManager.cxx 170  }
-04/22/15 14:18:28 3346278144   FINEST    DcsMessageManager::NewDcsMessage: new MAX TEXT SIZE 80 {src/DcsMessageManager.cxx 176  }
-04/22/15 14:18:28 3346278144   FINEST    Receiving: 'stoh_register_operation prepare_mount_next_crystal prepare_mount_next_crystal
+05/06/15 15:22:16 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:22:16 3186837248   FINEST    RobotDhs::ConsumeDcsMessage: not a message for that can be handled, pass on {src/RobotService.cxx 165  }
+05/06/15 15:22:16 3186837248  WARNING    no one takes this message: stoh_register_operation mount_next_crystal mount_next_crystal {src/DcsMessageService.cxx 238  }
+05/06/15 15:22:16 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:22:16 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:22:16 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:22:16 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:22:16 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:22:16 3186837248   FINEST    DcsMessageManager::NewDcsMessage: new MAX TEXT SIZE 80 {src/DcsMessageManager.cxx 176  }
+05/06/15 15:22:16 3186837248   FINEST    Receiving: 'stoh_register_operation prepare_mount_next_crystal prepare_mount_next_crystal
 ' {src/DcsMessageHandler.cxx 249  }
-04/22/15 14:18:28 3346278144   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
-04/22/15 14:18:28 3346278144   FINEST    RobotDhs::ConsumeDcsMessage: not a message for that can be handled, pass on {src/RobotService.cxx 165  }
-04/22/15 14:18:28 3346278144  WARNING    no one takes this message: stoh_register_operation prepare_mount_next_crystal prepare_mount_next_crystal {src/DcsMessageService.cxx 238  }
-04/22/15 14:18:28 3346278144   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x10caf70) {src/DcsMessageManager.cxx 193  }
-04/22/15 14:18:28 3346278144   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:18:38 3335788288     INFO    Robot Thread ready {src/RobotService.cxx 388  }
-04/22/15 14:18:38 3356776224     INFO    Robot System start OK {src/RobotSystem.cxx 85  }
-04/22/15 14:18:38 3356776224   FINEST    RobotControls::ConnectToRobotServer Denso Server is connected {src/RobotControls.cxx 149  }
-04/22/15 14:18:40 3346278144   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:18:40 3346278144   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:18:40 3346278144   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x10caf70 {src/DcsMessageManager.cxx 170  }
-04/22/15 14:18:40 3346278144   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-04/22/15 14:18:40 3346278144   FINEST    abort all message {src/DcsMessage.cxx 100  }
-04/22/15 14:18:40 3346278144   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
-04/22/15 14:18:40 3346278144   FINEST    RobotService::ConsumeDcsMessage: abort unfinished operations {src/RobotService.cxx 127  }
-04/22/15 14:18:40 3346278144   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x10caf70) {src/DcsMessageManager.cxx 193  }
-04/22/15 14:18:40 3346278144   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:18:40 3346278144   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:18:40 3346278144   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:18:40 3346278144   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x10caf70 {src/DcsMessageManager.cxx 170  }
-04/22/15 14:18:40 3346278144   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-04/22/15 14:18:40 3346278144   FINEST    abort all message {src/DcsMessage.cxx 100  }
-04/22/15 14:18:40 3346278144   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
-04/22/15 14:18:40 3346278144   FINEST    RobotService::ConsumeDcsMessage: abort unfinished operations {src/RobotService.cxx 127  }
-04/22/15 14:18:40 3346278144   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x10caf70) {src/DcsMessageManager.cxx 193  }
-04/22/15 14:18:40 3346278144   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:18:40 3346278144   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:18:40 3346278144   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:18:40 3346278144   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x10caf70 {src/DcsMessageManager.cxx 170  }
-04/22/15 14:18:40 3346278144   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-04/22/15 14:18:40 3346278144   FINEST    abort all message {src/DcsMessage.cxx 100  }
-04/22/15 14:18:40 3346278144   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
-04/22/15 14:18:40 3346278144   FINEST    RobotService::ConsumeDcsMessage: abort unfinished operations {src/RobotService.cxx 127  }
-04/22/15 14:18:40 3346278144   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x10caf70) {src/DcsMessageManager.cxx 193  }
-04/22/15 14:18:40 3346278144   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:18:40 3346278144   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:18:40 3346278144   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:18:40 3346278144   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x10caf70 {src/DcsMessageManager.cxx 170  }
-04/22/15 14:18:40 3346278144   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-04/22/15 14:18:40 3346278144   FINEST    abort all message {src/DcsMessage.cxx 100  }
-04/22/15 14:18:40 3346278144   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
-04/22/15 14:18:40 3346278144   FINEST    RobotService::ConsumeDcsMessage: abort unfinished operations {src/RobotService.cxx 127  }
-04/22/15 14:18:40 3346278144   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x10caf70) {src/DcsMessageManager.cxx 193  }
-04/22/15 14:18:40 3346278144   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:18:40 3346278144   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:18:40 3346278144   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:18:40 3346278144   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x10caf70 {src/DcsMessageManager.cxx 170  }
-04/22/15 14:18:40 3346278144   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-04/22/15 14:18:40 3346278144   FINEST    abort all message {src/DcsMessage.cxx 100  }
-04/22/15 14:18:40 3346278144   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
-04/22/15 14:18:40 3346278144   FINEST    RobotService::ConsumeDcsMessage: abort unfinished operations {src/RobotService.cxx 127  }
-04/22/15 14:18:40 3346278144   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x10caf70) {src/DcsMessageManager.cxx 193  }
-04/22/15 14:18:40 3346278144   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:19:44 3356776224   FINEST    issue stop command {src/RobotSystem.cxx 112  }
-04/22/15 14:19:44 3356776224   FINEST    wait all threads to stop {src/RobotSystem.cxx 117  }
-04/22/15 14:19:44 3356776224   FINEST    in WaitAllStop: got out of SEM wait {src/RobotSystem.cxx 168  }
-04/22/15 14:19:44 3356776224   FINEST    in WaitAllStop: got out of SEM wait {src/RobotSystem.cxx 168  }
-04/22/15 14:19:44 3356776224   FINEST    in WaitAllStop: got out of SEM wait {src/RobotSystem.cxx 168  }
-04/22/15 14:19:44 3335788288   FINEST    Robot thread out of waiting {src/RobotService.cxx 394  }
-04/22/15 14:19:44 3335788288     INFO    Robot thread quit by STOP {src/RobotService.cxx 407  }
-04/22/15 14:19:44 3335788288     INFO    Robot thread stopped and EvtStopped set {src/RobotService.cxx 526  }
-04/22/15 14:19:44 3356768000   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
-04/22/15 14:19:44 3356768000     INFO    SENDER quit by command STOP {src/DcsMessageService.cxx 128  }
-04/22/15 14:19:44 3356768000     INFO    sender stopped {src/DcsMessageService.cxx 144  }
-04/22/15 14:19:44 3356776224   FINEST    in WaitAllStop: got out of SEM wait {src/RobotSystem.cxx 168  }
-04/22/15 14:19:44 3356776224   FINEST    robot service stopped {src/RobotSystem.cxx 175  }
-04/22/15 14:19:44 3346278144   FINEST    receiver is waiting sender done for stop {src/DcsMessageService.cxx 203  }
-04/22/15 14:19:44 3346278144   FINEST    waiting done {src/DcsMessageService.cxx 205  }
-04/22/15 14:19:44 3346278144   FINEST    receiver disconnect DCSS {src/DcsMessageService.cxx 212  }
-04/22/15 14:19:44 3346278144     INFO    receiver stopped: means this active object stopped {src/DcsMessageService.cxx 215  }
-04/22/15 14:19:44 3356776224   FINEST    in WaitAllStop: got out of SEM wait {src/RobotSystem.cxx 168  }
-04/22/15 14:19:44 3356776224   FINEST    dcs msg service stopped {src/RobotSystem.cxx 171  }
-04/22/15 14:19:44 3356776224   FINEST    robot service stopped {src/RobotSystem.cxx 175  }
-04/22/15 14:19:44 3356776224   FINEST    alll stopped {src/RobotSystem.cxx 178  }
-04/22/15 14:19:44 3356776224   FINEST    DcsMessageManager: {src/RobotSystem.cxx 121  }
-04/22/15 14:19:44 3356776224   FINEST    GetMaxTextSize=80 {src/RobotSystem.cxx 122  }
-04/22/15 14:19:44 3356776224   FINEST    GetMaxBinarySize=0 {src/RobotSystem.cxx 123  }
-04/22/15 14:19:44 3356776224   FINEST    GetMaxPoolSize=10 {src/RobotSystem.cxx 124  }
-04/22/15 14:19:44 3356776224   FINEST    GetNewCount=18 {src/RobotSystem.cxx 125  }
-04/22/15 14:19:44 3356776224   FINEST    GetDeleteCount=18 {src/RobotSystem.cxx 126  }
-04/22/15 14:19:44 3356776224     INFO    Robot System stopped {src/RobotSystem.cxx 128  }
-04/22/15 14:19:44 3356776224   FINEST    out of running: received ctrl-c  {src/robot.cxx 30  }
+05/06/15 15:22:16 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:22:16 3186837248   FINEST    RobotDhs::ConsumeDcsMessage: not a message for that can be handled, pass on {src/RobotService.cxx 165  }
+05/06/15 15:22:16 3186837248  WARNING    no one takes this message: stoh_register_operation prepare_mount_next_crystal prepare_mount_next_crystal {src/DcsMessageService.cxx 238  }
+05/06/15 15:22:16 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:22:16 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:22:25 3176347392     INFO    Robot Thread ready {src/RobotService.cxx 392  }
+05/06/15 15:22:25 3197335328     INFO    Robot System start OK {src/RobotSystem.cxx 85  }
+05/06/15 15:22:25 3197335328   FINEST    RobotControls::ConnectToRobotServer Denso Server is connected {src/RobotControls.cxx 284  }
+05/06/15 15:39:36 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:39:36 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:39:36 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:39:36 3186837248   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:39:36 3186837248   FINEST    abort all message {src/DcsMessage.cxx 100  }
+05/06/15 15:39:36 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:39:36 3186837248   FINEST    RobotService::ConsumeDcsMessage: abort unfinished operations {src/RobotService.cxx 127  }
+05/06/15 15:39:36 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:39:36 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:39:36 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:39:36 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:39:36 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:39:36 3186837248   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:39:36 3186837248   FINEST    abort all message {src/DcsMessage.cxx 100  }
+05/06/15 15:39:36 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:39:36 3186837248   FINEST    RobotService::ConsumeDcsMessage: abort unfinished operations {src/RobotService.cxx 127  }
+05/06/15 15:39:36 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:39:36 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:39:36 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:39:36 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:39:36 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:39:36 3186837248   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:39:36 3186837248   FINEST    abort all message {src/DcsMessage.cxx 100  }
+05/06/15 15:39:36 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:39:36 3186837248   FINEST    RobotService::ConsumeDcsMessage: abort unfinished operations {src/RobotService.cxx 127  }
+05/06/15 15:39:36 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:39:36 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:39:36 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:39:36 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:39:36 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:39:36 3186837248   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:39:36 3186837248   FINEST    abort all message {src/DcsMessage.cxx 100  }
+05/06/15 15:39:36 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:39:36 3186837248   FINEST    RobotService::ConsumeDcsMessage: abort unfinished operations {src/RobotService.cxx 127  }
+05/06/15 15:39:36 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:39:36 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:39:36 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:39:36 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:39:36 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:39:36 3186837248   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:39:36 3186837248   FINEST    abort all message {src/DcsMessage.cxx 100  }
+05/06/15 15:39:36 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:39:36 3186837248   FINEST    RobotService::ConsumeDcsMessage: abort unfinished operations {src/RobotService.cxx 127  }
+05/06/15 15:39:36 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:39:36 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:39:36 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:39:36 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:39:36 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:39:36 3186837248   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:39:36 3186837248   FINEST    abort all message {src/DcsMessage.cxx 100  }
+05/06/15 15:39:36 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:39:36 3186837248   FINEST    RobotService::ConsumeDcsMessage: abort unfinished operations {src/RobotService.cxx 127  }
+05/06/15 15:39:36 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:39:36 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:39:37 3186837248   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:39:37 3186837248   FINEST    abort all message {src/DcsMessage.cxx 100  }
+05/06/15 15:39:37 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:39:37 3186837248   FINEST    RobotService::ConsumeDcsMessage: abort unfinished operations {src/RobotService.cxx 127  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:39:37 3186837248   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:39:37 3186837248   FINEST    abort all message {src/DcsMessage.cxx 100  }
+05/06/15 15:39:37 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:39:37 3186837248   FINEST    RobotService::ConsumeDcsMessage: abort unfinished operations {src/RobotService.cxx 127  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:39:37 3186837248   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:39:37 3186837248   FINEST    abort all message {src/DcsMessage.cxx 100  }
+05/06/15 15:39:37 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:39:37 3186837248   FINEST    RobotService::ConsumeDcsMessage: abort unfinished operations {src/RobotService.cxx 127  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:39:37 3186837248   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:39:37 3186837248   FINEST    abort all message {src/DcsMessage.cxx 100  }
+05/06/15 15:39:37 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:39:37 3186837248   FINEST    RobotService::ConsumeDcsMessage: abort unfinished operations {src/RobotService.cxx 127  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:39:37 3186837248   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:39:37 3186837248   FINEST    abort all message {src/DcsMessage.cxx 100  }
+05/06/15 15:39:37 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:39:37 3186837248   FINEST    RobotService::ConsumeDcsMessage: abort unfinished operations {src/RobotService.cxx 127  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:39:37 3186837248   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:39:37 3186837248   FINEST    abort all message {src/DcsMessage.cxx 100  }
+05/06/15 15:39:37 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:39:37 3186837248   FINEST    RobotService::ConsumeDcsMessage: abort unfinished operations {src/RobotService.cxx 127  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:39:37 3186837248   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:39:37 3186837248   FINEST    abort all message {src/DcsMessage.cxx 100  }
+05/06/15 15:39:37 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:39:37 3186837248   FINEST    RobotService::ConsumeDcsMessage: abort unfinished operations {src/RobotService.cxx 127  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:39:37 3186837248   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:39:37 3186837248   FINEST    abort all message {src/DcsMessage.cxx 100  }
+05/06/15 15:39:37 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:39:37 3186837248   FINEST    RobotService::ConsumeDcsMessage: abort unfinished operations {src/RobotService.cxx 127  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:39:37 3186837248   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:39:37 3186837248   FINEST    abort all message {src/DcsMessage.cxx 100  }
+05/06/15 15:39:37 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:39:37 3186837248   FINEST    RobotService::ConsumeDcsMessage: abort unfinished operations {src/RobotService.cxx 127  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:39:37 3186837248   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:39:37 3186837248   FINEST    abort all message {src/DcsMessage.cxx 100  }
+05/06/15 15:39:37 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:39:37 3186837248   FINEST    RobotService::ConsumeDcsMessage: abort unfinished operations {src/RobotService.cxx 127  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:39:37 3186837248   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:39:37 3186837248   FINEST    abort all message {src/DcsMessage.cxx 100  }
+05/06/15 15:39:37 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:39:37 3186837248   FINEST    RobotService::ConsumeDcsMessage: abort unfinished operations {src/RobotService.cxx 127  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:39:37 3186837248   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:39:37 3186837248   FINEST    abort all message {src/DcsMessage.cxx 100  }
+05/06/15 15:39:37 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:39:37 3186837248   FINEST    RobotService::ConsumeDcsMessage: abort unfinished operations {src/RobotService.cxx 127  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:39:37 3186837248   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:39:37 3186837248   FINEST    abort all message {src/DcsMessage.cxx 100  }
+05/06/15 15:39:37 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:39:37 3186837248   FINEST    RobotService::ConsumeDcsMessage: abort unfinished operations {src/RobotService.cxx 127  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:39:37 3186837248   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:39:37 3186837248   FINEST    abort all message {src/DcsMessage.cxx 100  }
+05/06/15 15:39:37 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:39:37 3186837248   FINEST    RobotService::ConsumeDcsMessage: abort unfinished operations {src/RobotService.cxx 127  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:39:37 3186837248   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:39:37 3186837248   FINEST    abort all message {src/DcsMessage.cxx 100  }
+05/06/15 15:39:37 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:39:37 3186837248   FINEST    RobotService::ConsumeDcsMessage: abort unfinished operations {src/RobotService.cxx 127  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:39:37 3186837248   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:39:37 3186837248   FINEST    abort all message {src/DcsMessage.cxx 100  }
+05/06/15 15:39:37 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:39:37 3186837248   FINEST    RobotService::ConsumeDcsMessage: abort unfinished operations {src/RobotService.cxx 127  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:39:37 3186837248   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:39:37 3186837248   FINEST    abort all message {src/DcsMessage.cxx 100  }
+05/06/15 15:39:37 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:39:37 3186837248   FINEST    RobotService::ConsumeDcsMessage: abort unfinished operations {src/RobotService.cxx 127  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:39:37 3186837248   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:39:37 3186837248   FINEST    abort all message {src/DcsMessage.cxx 100  }
+05/06/15 15:39:37 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:39:37 3186837248   FINEST    RobotService::ConsumeDcsMessage: abort unfinished operations {src/RobotService.cxx 127  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:39:37 3186837248   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:39:37 3186837248   FINEST    abort all message {src/DcsMessage.cxx 100  }
+05/06/15 15:39:37 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:39:37 3186837248   FINEST    RobotService::ConsumeDcsMessage: abort unfinished operations {src/RobotService.cxx 127  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:39:37 3186837248   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:39:37 3186837248   FINEST    abort all message {src/DcsMessage.cxx 100  }
+05/06/15 15:39:37 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:39:37 3186837248   FINEST    RobotService::ConsumeDcsMessage: abort unfinished operations {src/RobotService.cxx 127  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:39:37 3186837248   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:39:37 3186837248   FINEST    abort all message {src/DcsMessage.cxx 100  }
+05/06/15 15:39:37 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:39:37 3186837248   FINEST    RobotService::ConsumeDcsMessage: abort unfinished operations {src/RobotService.cxx 127  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:39:37 3186837248   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:39:37 3186837248   FINEST    abort all message {src/DcsMessage.cxx 100  }
+05/06/15 15:39:37 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:39:37 3186837248   FINEST    RobotService::ConsumeDcsMessage: abort unfinished operations {src/RobotService.cxx 127  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:39:37 3186837248   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:39:37 3186837248   FINEST    abort all message {src/DcsMessage.cxx 100  }
+05/06/15 15:39:37 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:39:37 3186837248   FINEST    RobotService::ConsumeDcsMessage: abort unfinished operations {src/RobotService.cxx 127  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:39:37 3186837248   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:39:37 3186837248   FINEST    abort all message {src/DcsMessage.cxx 100  }
+05/06/15 15:39:37 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:39:37 3186837248   FINEST    RobotService::ConsumeDcsMessage: abort unfinished operations {src/RobotService.cxx 127  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:39:37 3186837248   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:39:37 3186837248   FINEST    abort all message {src/DcsMessage.cxx 100  }
+05/06/15 15:39:37 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:39:37 3186837248   FINEST    RobotService::ConsumeDcsMessage: abort unfinished operations {src/RobotService.cxx 127  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:39:37 3186837248   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:39:37 3186837248   FINEST    abort all message {src/DcsMessage.cxx 100  }
+05/06/15 15:39:37 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:39:37 3186837248   FINEST    RobotService::ConsumeDcsMessage: abort unfinished operations {src/RobotService.cxx 127  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:39:37 3186837248   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:39:37 3186837248   FINEST    abort all message {src/DcsMessage.cxx 100  }
+05/06/15 15:39:37 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:39:37 3186837248   FINEST    RobotService::ConsumeDcsMessage: abort unfinished operations {src/RobotService.cxx 127  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:39:37 3186837248   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:39:37 3186837248   FINEST    abort all message {src/DcsMessage.cxx 100  }
+05/06/15 15:39:37 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:39:37 3186837248   FINEST    RobotService::ConsumeDcsMessage: abort unfinished operations {src/RobotService.cxx 127  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:39:37 3186837248   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:39:37 3186837248   FINEST    abort all message {src/DcsMessage.cxx 100  }
+05/06/15 15:39:37 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:39:37 3186837248   FINEST    RobotService::ConsumeDcsMessage: abort unfinished operations {src/RobotService.cxx 127  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:39:37 3186837248   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:39:37 3186837248   FINEST    abort all message {src/DcsMessage.cxx 100  }
+05/06/15 15:39:37 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:39:37 3186837248   FINEST    RobotService::ConsumeDcsMessage: abort unfinished operations {src/RobotService.cxx 127  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:39:37 3186837248   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:39:37 3186837248   FINEST    abort all message {src/DcsMessage.cxx 100  }
+05/06/15 15:39:37 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:39:37 3186837248   FINEST    RobotService::ConsumeDcsMessage: abort unfinished operations {src/RobotService.cxx 127  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:39:37 3186837248   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:39:37 3186837248   FINEST    abort all message {src/DcsMessage.cxx 100  }
+05/06/15 15:39:37 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:39:37 3186837248   FINEST    RobotService::ConsumeDcsMessage: abort unfinished operations {src/RobotService.cxx 127  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:39:37 3186837248   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:39:37 3186837248   FINEST    abort all message {src/DcsMessage.cxx 100  }
+05/06/15 15:39:37 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:39:37 3186837248   FINEST    RobotService::ConsumeDcsMessage: abort unfinished operations {src/RobotService.cxx 127  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:39:37 3186837248   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:39:37 3186837248   FINEST    abort all message {src/DcsMessage.cxx 100  }
+05/06/15 15:39:37 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:39:37 3186837248   FINEST    RobotService::ConsumeDcsMessage: abort unfinished operations {src/RobotService.cxx 127  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:39:37 3186837248   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:39:37 3186837248   FINEST    abort all message {src/DcsMessage.cxx 100  }
+05/06/15 15:39:37 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:39:37 3186837248   FINEST    RobotService::ConsumeDcsMessage: abort unfinished operations {src/RobotService.cxx 127  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:39:37 3186837248   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:39:37 3186837248   FINEST    abort all message {src/DcsMessage.cxx 100  }
+05/06/15 15:39:37 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:39:37 3186837248   FINEST    RobotService::ConsumeDcsMessage: abort unfinished operations {src/RobotService.cxx 127  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:39:37 3186837248   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:39:37 3186837248   FINEST    abort all message {src/DcsMessage.cxx 100  }
+05/06/15 15:39:37 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:39:37 3186837248   FINEST    RobotService::ConsumeDcsMessage: abort unfinished operations {src/RobotService.cxx 127  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:39:37 3186837248   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:39:37 3186837248   FINEST    abort all message {src/DcsMessage.cxx 100  }
+05/06/15 15:39:37 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:39:37 3186837248   FINEST    RobotService::ConsumeDcsMessage: abort unfinished operations {src/RobotService.cxx 127  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:39:37 3186837248   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:39:37 3186837248   FINEST    abort all message {src/DcsMessage.cxx 100  }
+05/06/15 15:39:37 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:39:37 3186837248   FINEST    RobotService::ConsumeDcsMessage: abort unfinished operations {src/RobotService.cxx 127  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:39:37 3186837248   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:39:37 3186837248   FINEST    abort all message {src/DcsMessage.cxx 100  }
+05/06/15 15:39:37 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:39:37 3186837248   FINEST    RobotService::ConsumeDcsMessage: abort unfinished operations {src/RobotService.cxx 127  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:39:37 3186837248   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:39:37 3186837248   FINEST    abort all message {src/DcsMessage.cxx 100  }
+05/06/15 15:39:37 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:39:37 3186837248   FINEST    RobotService::ConsumeDcsMessage: abort unfinished operations {src/RobotService.cxx 127  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:39:37 3186837248   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:39:37 3186837248   FINEST    abort all message {src/DcsMessage.cxx 100  }
+05/06/15 15:39:37 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:39:37 3186837248   FINEST    RobotService::ConsumeDcsMessage: abort unfinished operations {src/RobotService.cxx 127  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:39:37 3186837248   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:39:37 3186837248   FINEST    abort all message {src/DcsMessage.cxx 100  }
+05/06/15 15:39:37 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:39:37 3186837248   FINEST    RobotService::ConsumeDcsMessage: abort unfinished operations {src/RobotService.cxx 127  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:39:37 3186837248   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:39:37 3186837248   FINEST    abort all message {src/DcsMessage.cxx 100  }
+05/06/15 15:39:37 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:39:37 3186837248   FINEST    RobotService::ConsumeDcsMessage: abort unfinished operations {src/RobotService.cxx 127  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:39:37 3186837248   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:39:37 3186837248   FINEST    abort all message {src/DcsMessage.cxx 100  }
+05/06/15 15:39:37 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:39:37 3186837248   FINEST    RobotService::ConsumeDcsMessage: abort unfinished operations {src/RobotService.cxx 127  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:39:37 3186837248   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:39:37 3186837248   FINEST    abort all message {src/DcsMessage.cxx 100  }
+05/06/15 15:39:37 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:39:37 3186837248   FINEST    RobotService::ConsumeDcsMessage: abort unfinished operations {src/RobotService.cxx 127  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:39:37 3186837248   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:39:37 3186837248   FINEST    abort all message {src/DcsMessage.cxx 100  }
+05/06/15 15:39:37 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:39:37 3186837248   FINEST    RobotService::ConsumeDcsMessage: abort unfinished operations {src/RobotService.cxx 127  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:39:37 3186837248   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:39:37 3186837248   FINEST    abort all message {src/DcsMessage.cxx 100  }
+05/06/15 15:39:37 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:39:37 3186837248   FINEST    RobotService::ConsumeDcsMessage: abort unfinished operations {src/RobotService.cxx 127  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:39:37 3186837248   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:39:37 3186837248   FINEST    abort all message {src/DcsMessage.cxx 100  }
+05/06/15 15:39:37 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:39:37 3186837248   FINEST    RobotService::ConsumeDcsMessage: abort unfinished operations {src/RobotService.cxx 127  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x120cf70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:39:37 3186837248   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:39:37 3186837248   FINEST    abort all message {src/DcsMessage.cxx 100  }
+05/06/15 15:39:37 3186837248   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:39:37 3186837248   FINEST    RobotService::ConsumeDcsMessage: abort unfinished operations {src/RobotService.cxx 127  }
+05/06/15 15:39:37 3186837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x120cf70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:39:37 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:39:39 3186837248   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:39:39 3186837248   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:39:39 3186837248  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
+05/06/15 15:39:40 3186837248     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
+05/06/15 15:39:40 3186837248   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
+05/06/15 15:39:40 3186837248   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
+05/06/15 15:39:40 3186837248  WARNING    Unable to connect to server: localhost {src/DcsMessageHandler.cxx 143  }
+05/06/15 15:39:40 3186837248  WARNING    WINSOCK ERROR--xos_socket_make_connection failed {src/DcsMessageHandler.cxx 144  }
+05/06/15 15:39:45 3186837248   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
+05/06/15 15:39:45 3186837248  WARNING    MakeSocketConnection failed {src/DcsMessageHandler.cxx 105  }
+05/06/15 15:39:45 3186837248   FINEST    -DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 106  }
+05/06/15 15:39:46 3197335328   FINEST    issue stop command {src/RobotSystem.cxx 112  }
+05/06/15 15:39:46 3197335328   FINEST    wait all threads to stop {src/RobotSystem.cxx 117  }
+05/06/15 15:39:46 3197335328   FINEST    in WaitAllStop: got out of SEM wait {src/RobotSystem.cxx 168  }
+05/06/15 15:39:46 3197335328   FINEST    in WaitAllStop: got out of SEM wait {src/RobotSystem.cxx 168  }
+05/06/15 15:39:46 3197335328   FINEST    in WaitAllStop: got out of SEM wait {src/RobotSystem.cxx 168  }
+05/06/15 15:39:46 3176347392   FINEST    Robot thread out of waiting {src/RobotService.cxx 398  }
+05/06/15 15:39:46 3176347392     INFO    Robot thread quit by STOP {src/RobotService.cxx 411  }
+05/06/15 15:39:46 3176347392     INFO    Robot thread stopped and EvtStopped set {src/RobotService.cxx 530  }
+05/06/15 15:39:46 3197327104   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+05/06/15 15:39:46 3197327104     INFO    SENDER quit by command STOP {src/DcsMessageService.cxx 128  }
+05/06/15 15:39:46 3197327104     INFO    sender stopped {src/DcsMessageService.cxx 144  }
+05/06/15 15:39:46 3197335328   FINEST    in WaitAllStop: got out of SEM wait {src/RobotSystem.cxx 168  }
+05/06/15 15:39:46 3197335328   FINEST    robot service stopped {src/RobotSystem.cxx 175  }
+05/06/15 15:39:50 3186837248   FINEST    trying to connect to DCSS {src/DcsMessageService.cxx 251  }
+05/06/15 15:39:50 3186837248   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:39:50 3186837248   FINEST    receiver is waiting sender done for stop {src/DcsMessageService.cxx 203  }
+05/06/15 15:39:50 3186837248   FINEST    waiting done {src/DcsMessageService.cxx 205  }
+05/06/15 15:39:50 3186837248   FINEST    receiver disconnect DCSS {src/DcsMessageService.cxx 212  }
+05/06/15 15:39:50 3186837248     INFO    receiver stopped: means this active object stopped {src/DcsMessageService.cxx 215  }
+05/06/15 15:39:50 3197335328   FINEST    in WaitAllStop: got out of SEM wait {src/RobotSystem.cxx 168  }
+05/06/15 15:39:50 3197335328   FINEST    dcs msg service stopped {src/RobotSystem.cxx 171  }
+05/06/15 15:39:50 3197335328   FINEST    robot service stopped {src/RobotSystem.cxx 175  }
+05/06/15 15:39:50 3197335328   FINEST    alll stopped {src/RobotSystem.cxx 178  }
+05/06/15 15:39:50 3197335328   FINEST    DcsMessageManager: {src/RobotSystem.cxx 121  }
+05/06/15 15:39:50 3197335328   FINEST    GetMaxTextSize=80 {src/RobotSystem.cxx 122  }
+05/06/15 15:39:50 3197335328   FINEST    GetMaxBinarySize=0 {src/RobotSystem.cxx 123  }
+05/06/15 15:39:50 3197335328   FINEST    GetMaxPoolSize=10 {src/RobotSystem.cxx 124  }
+05/06/15 15:39:50 3197335328   FINEST    GetNewCount=69 {src/RobotSystem.cxx 125  }
+05/06/15 15:39:50 3197335328   FINEST    GetDeleteCount=69 {src/RobotSystem.cxx 126  }
+05/06/15 15:39:50 3197335328     INFO    Robot System stopped {src/RobotSystem.cxx 128  }
+05/06/15 15:39:50 3197335328   FINEST    out of running: received ctrl-c  {src/robot.cxx 30  }

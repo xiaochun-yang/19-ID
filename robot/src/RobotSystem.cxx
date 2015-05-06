@@ -88,7 +88,7 @@ BOOL CRobotSystem::OnInit( )
 	if(!m_RobotServer.ConnectX4a())
 	{
 		Cleanup();
-                LOG_WARNING( "init_8bm_cons: Error connecting to robot server on IP66");
+                LOG_WARNING( "ConnectRobotServer: Error Coould not Connecting to robot server on IP72");
 		return FALSE;
 	}
 

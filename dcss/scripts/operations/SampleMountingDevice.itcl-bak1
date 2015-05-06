@@ -1339,18 +1339,18 @@ variable ::nScripts::sil_config
 #start a timer
 set timeStart [clock clicks -milliseconds]
 
-#        move tripot_1 to 0.70378
-#        move tripot_2 to 0.35898
-#        move tripot_3 to 0.36494
+        move tripot_1 to 0.70378
+        move tripot_2 to 0.35898
+        move tripot_3 to 0.36494
 
-#        move gonio_phi to 0
-#	move gonio_kappa to 0
-##	move detector_z to 200
+        move gonio_phi to 0
+	move gonio_kappa to 0
+#	move detector_z to 200
 
 #set timeEnd [expr [clock clicks -milliseconds] - $timeStart]
 #puts "yangx time for moving motors = $timeEnd"
 
-#       wait_for_devices tripot_1 tripot_2 tripot_3 gonio_phi gonio_kappa 
+       wait_for_devices tripot_1 tripot_2 tripot_3 gonio_phi gonio_kappa 
 
 #set timeEnd [expr [clock clicks -milliseconds] - $timeStart]
 #puts "yangx time for waiting moving finished = $timeEnd"
@@ -1358,15 +1358,15 @@ set timeStart [clock clicks -milliseconds]
 #set timeStart [clock clicks -milliseconds]
 
 #make sure the address is being set
-#             set argument "$column$row"
-#	     set val 1
-#             while {$val !=0 } {
-#		set operationHandle [eval start_waitable_operation set_sample_address $argument]
-#              	set result [wait_for_operation_to_finish $operationHandle]
-#                set res [lindex $result 1]
-#                set val [string compare $res "sample_ok"]
-#		puts "yangx set_sample_address = $argument the return result=$result"
-#             }
+             set argument "$column$row"
+	     set val 1
+             while {$val !=0 } {
+		set operationHandle [eval start_waitable_operation set_sample_address $argument]
+              	set result [wait_for_operation_to_finish $operationHandle]
+                set res [lindex $result 1]
+                set val [string compare $res "sample_ok"]
+		puts "yangx set_sample_address = $argument the return result=$result"
+             }
 	
              #set operationHandle [eval start_waitable_operation set_sample_address $argument]
              #set result [wait_for_operation_to_finish $operationHandle]
@@ -1529,13 +1529,13 @@ variable ::nScripts::robot_cassette
 #yang add
 #        moveToMountPosition  
 
-#        move tripot_1 to 0.70378
-#        move tripot_2 to 0.35898
-#        move tripot_3 to 0.36494
-#        move gonio_phi to 0
-#	move gonio_kappa to 0
-##	move detector_z to 200
-#        wait_for_devices tripot_1 tripot_2 tripot_3 gonio_phi gonio_kappa
+        move tripot_1 to 0.70378
+        move tripot_2 to 0.35898
+        move tripot_3 to 0.36494
+        move gonio_phi to 0
+	move gonio_kappa to 0
+#	move detector_z to 200
+        wait_for_devices tripot_1 tripot_2 tripot_3 gonio_phi gonio_kappa
 
 #        set argument "$column$row"
 #        set operationHandle [eval start_waitable_operation set_sample_address $argument]

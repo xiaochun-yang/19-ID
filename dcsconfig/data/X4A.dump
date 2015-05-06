@@ -55,29 +55,29 @@ robot get_robotstate
 1 1 1 1 1
 1 1 1 1 1
 
-open_lid
+center_grabber
 11
-robot open_lid
+robot center_grabber
 1 1 1 1 1
 1 1 1 1 1
 
-close_lid
+dry_grabber
 11
-robot close_lid
+robot dry_grabber
 1 1 1 1 1
 1 1 1 1 1
 
-warm_up_grabber
+cool_grabber
 11
-robot warm_up_grabber
+robot coool_grabber
 1 1 1 1 1
 1 1 1 1 1
 
-cool_down_grabber
+clear_mounted_state
 11
-robot coool_down_grabber
-1 1 1 1 1
-1 1 1 1 1
+robot clear_mounted_state
+0 0 0 1 1
+0 0 0 0 0
 
 set_sample_address
 11
@@ -231,14 +231,14 @@ crystalStatus
 self standardString
 0 1 1 1 1
 0 1 1 1 1
-{} A2 robot 0 {} yes 0
+A1 A2 robot 1 A1 yes 0
 
 screening_msg
 13
 self standardString
 0 1 1 1 1
 0 1 1 1 1
-error: gonio_kappa_no_hw_host galil2
+sync warning: current: => A1 next: A1 => A2
 
 ISampleMountingDevice
 11
@@ -1990,7 +1990,7 @@ hutchDoorStatus
 simDhs standardString
 0 1 1 1 1
 0 1 1 1 1
-closed 1429726786
+closed 1430941938
 
 getPV
 11
@@ -2092,7 +2092,7 @@ crystalSelectionList
 self standardString
 0 1 1 1 1
 0 1 1 1 1
--1 1 {0 1 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1}
+0 1 {1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1}
 
 screeningActionList
 13
@@ -2409,7 +2409,7 @@ scn_crystal_msg
 self standardString
 0 1 1 1 1
 0 1 1 1 1
-sync warning: current cleared
+sync warning: current: => A1 next: A1 => A2
 
 scn_action_msg
 13

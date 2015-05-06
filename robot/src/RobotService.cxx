@@ -15,12 +15,12 @@
 
 RobotService::OperationToMethod RobotService::m_OperationMap[] =
 {//  name,								immediately, method to call
-	{"init_8bm_cons",					FALSE, &RobotService::Init8bmCons},
-	{"start_monitor_counts",				FALSE, &RobotService::StartMonitorCounts},
-        {"stop_monitor_counts",                                 FALSE, &RobotService::StopMonitorCounts},
-	{"read_monitor_counts",					FALSE, &RobotService::ReadMonitorCounts},
-	{"readAnalog",						FALSE, &RobotService::ReadAnalog},
-        {"readOrtecCounters",                                   FALSE, &RobotService::readOrtecCounters},
+	{"clear_mounted_state",					FALSE, &RobotService::ClearMountedState},
+	{"mount_crystal",					FALSE, &RobotService::MountCrystal},
+        {"dismount_crystal",                                    FALSE, &RobotService::DismountCrystal},
+	{"center_grabber",					FALSE, &RobotService::CenterGrabber},
+	{"dry_grabber",						FALSE, &RobotService::DryGrabber},
+        {"cool_grabber",                                        FALSE, &RobotService::CoolGrabber},
 	{"ReadOrtecCounters",                                   FALSE, &RobotService::ReadOrtecCounters},
 	{"move_to_new_energy",                   		FALSE, &RobotService::MoveToNewEnergy},
 	{"get_current_energy",           			FALSE, &RobotService::GetCurrentEnergy},
@@ -172,8 +172,12 @@ BOOL RobotService::HandleKnownOperations( DcsMessage* pMsg )
    m_pInstantMessage = pMsg;
    //check to see if this is an operation we can finish immediately
    LOG_INFO1("OPNAME: %s\n", m_pInstantMessage->GetOperationName());
+   LOG_INFO1("operation massage: %s\n", m_pInstantMessage->GetText() );
+
    for (unsigned int i = 0; i < ARRAYLENGTH(m_OperationMap); ++i)
    {
+   	LOG_INFO1("OPNAME1: %s\n", m_OperationMap[i].m_OperationName);
+	
       if (!strcmp( m_pInstantMessage->GetOperationName( ), m_OperationMap[i].m_OperationName ))
       {
          LOG_FINEST1( "match operation%d", i );
@@ -546,6 +550,7 @@ void RobotService::WrapRobotMethod( PTR_ROBOT_FUNC pMethod )
 // LOG_FINEST1("m_pCurrentMessage->GetOperationArgument( ):%s", m_pInstantMessage->GetOperationArgument( ) );
 // LOG_FINEST("WrapRobotMethod 2");
 
+	//yangx "m_pRobot->*pMethod" return 0 for updating, return 1 for completion
 	while (!(m_pRobot->*pMethod)( m_pCurrentMessage->GetOperationArgument( ), status_buffer ))
 	{
         	status_buffer[Robot::MAX_LENGTH_STATUS_BUFFER] = '\0';
@@ -696,9 +701,9 @@ BOOL RobotService::ConnectX4a()
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
-void RobotService::Init8bmCons()
+void RobotService::ClearMountedState()
 {
-	WrapRobotMethod( &Robot::Init8bmCons );
+	WrapRobotMethod( &Robot::ClearMountedState );
 }
 /*
 void RobotService::ConnectRobotServer()
@@ -706,36 +711,34 @@ void RobotService::ConnectRobotServer()
         WrapRobotMethod( &Robot::ConnectRobotServer );
 }
 */
-void RobotService::StartMonitorCounts()
+void RobotService::MountCrystal()
 {
-        WrapRobotMethod( &Robot::StartMonitorCounts );
+        WrapRobotMethod( &Robot::MountCrystal );
 }
 
-void RobotService::StopMonitorCounts()
+void RobotService::DismountCrystal()
 {
-                                        LOG_FINEST("Stop 1");       
-	 WrapRobotMethod( &Robot::StopMonitorCounts );
-                                        LOG_FINEST("Stop 2");			
+	 WrapRobotMethod( &Robot::DismountCrystal );
 }
 
-void RobotService::ReadMonitorCounts()
+void RobotService::CenterGrabber()
 {
-        WrapRobotMethod( &Robot::ReadMonitorCounts );
+        WrapRobotMethod( &Robot::CenterGrabber );
 }
 
-void RobotService::ReadAnalog()
+void RobotService::DryGrabber()
 {
-        WrapRobotMethod( &Robot::ReadAnalog );
+        WrapRobotMethod( &Robot::DryGrabber );
+}
+
+void RobotService::CoolGrabber()
+{
+        WrapRobotMethod( &Robot::CoolGrabber);
 }
 
 void RobotService::ReadOrtecCounters()
 {
         WrapRobotMethod( &Robot::ReadOrtecCounters);
-}
-
-void RobotService::readOrtecCounters()
-{
-        WrapRobotMethod( &Robot::readOrtecCounters);
 }
 
 

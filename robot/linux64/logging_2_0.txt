@@ -1,1057 +1,363 @@
-04/22/15 14:11:43 1120503584   FINEST    DcsMessageManager constructor enter {src/DcsMessageManager.cxx 18  }
-04/22/15 14:11:43 1120503584   FINEST    DcsMessageManager constructor exit {src/DcsMessageManager.cxx 33  }
-04/22/15 14:11:43 1120503584   FINEST    DcsMessageService constructor enter {src/DcsMessageService.cxx 9  }
-04/22/15 14:11:43 1120503584   FINEST    DcsMessageService constructor exit {src/DcsMessageService.cxx 13  }
-04/22/15 14:11:43 1120503584   FINEST    run from front, not as a service  {src/robot.cxx 28  }
-04/22/15 14:11:43 1120503584     INFO    m_ServerName points to: 'localhost' {src/DcsMessageHandler.cxx 43  }
-04/22/15 14:11:43 1120503584     INFO    m_DHSName points to: 'Robot' {src/DcsMessageHandler.cxx 62  }
-04/22/15 14:11:43 1120495360   FINEST    SENDER wait for socket lock 11111 {src/DcsMessageService.cxx 87  }
-04/22/15 14:11:43 1120495360   FINEST    SENDER got socket lock 111111 {src/DcsMessageService.cxx 89  }
-04/22/15 14:11:43 1120495360   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:11:43 1120495360   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:11:43 1110005504   FINEST    receiver is waiting sender done for start {src/DcsMessageService.cxx 151  }
-04/22/15 14:11:43 1120495360     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:11:43 1120495360   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:11:43 1099515648   FINEST    RobotControls::Initialize called {src/RobotControls.cxx 34  }
-04/22/15 14:11:43 1120495360   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:11:43 1120495360   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:11:43 1120495360   FINEST    SENDER unlock socket lock 11111111111 {src/DcsMessageService.cxx 102  }
-04/22/15 14:11:43 1120495360     INFO    connected to DCSS with DCS protocol, sender ready {src/DcsMessageService.cxx 104  }
-04/22/15 14:11:43 1120495360   FINEST    SENDER enter loop {src/DcsMessageService.cxx 109  }
-04/22/15 14:11:43 1110005504   FINEST    receiver waiting done {src/DcsMessageService.cxx 153  }
-04/22/15 14:11:43 1110005504     INFO    receiver ready: whole DcsMessageService Ready {src/DcsMessageService.cxx 167  }
-04/22/15 14:11:43 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:11:43 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:11:43 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:11:44 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:11:44 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:11:44 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:11:44 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:11:44 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:11:44 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:11:44 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:11:44 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:11:44 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:11:44 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:11:44 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:11:45 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:11:45 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:11:45 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:11:45 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:11:45 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:11:45 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:11:45 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:11:45 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:11:45 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:11:45 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:11:45 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:11:46 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:11:46 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:11:46 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:11:46 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:11:46 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:11:46 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:11:46 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:11:46 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:11:46 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:11:46 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:11:46 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:11:47 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:11:47 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:11:47 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:11:47 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:11:47 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:11:47 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:11:47 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:11:47 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:11:47 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:11:47 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:11:47 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:11:48 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:11:48 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:11:48 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:11:48 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:11:48 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:11:48 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:11:48 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:11:48 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:11:48 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:11:48 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:11:48 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:11:49 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:11:49 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:11:49 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:11:49 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:11:49 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:11:49 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:11:49 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:11:49 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:11:49 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:11:49 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:11:49 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:11:50 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:11:50 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:11:50 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:11:50 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:11:50 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:11:50 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:11:50 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:11:50 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:11:50 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:11:50 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:11:50 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:11:51 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:11:51 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:11:51 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:11:51 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:11:51 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:11:51 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:11:51 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:11:51 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:11:51 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:11:51 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:11:51 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:11:52 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:11:52 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:11:52 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:11:52 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:11:52 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:11:52 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:11:52 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:11:52 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:11:52 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:11:52 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:11:52 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:11:53 1099515648     INFO    Robot Thread ready {src/RobotService.cxx 388  }
-04/22/15 14:11:53 1120503584     INFO    Robot System start OK {src/RobotSystem.cxx 85  }
-04/22/15 14:11:53 1120503584   FINEST    RobotControls::ConnectToRobotServer Denso Server is connected {src/RobotControls.cxx 149  }
-04/22/15 14:11:53 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:11:53 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:11:53 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:11:53 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:11:53 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:11:53 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:11:53 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:11:53 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:11:53 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:11:53 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:11:53 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:11:54 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:11:54 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:11:54 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:11:54 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:11:54 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:11:54 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:11:54 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:11:54 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:11:54 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:11:54 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:11:54 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:11:55 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:11:55 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:11:55 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:11:55 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:11:55 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:11:55 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:11:55 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:11:55 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:11:55 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:11:55 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:11:55 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:11:56 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:11:56 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:11:56 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:11:56 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:11:56 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:11:56 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:11:56 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:11:56 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:11:56 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:11:56 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:11:56 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:11:57 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:11:57 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:11:57 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:11:57 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:11:57 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:11:57 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:11:57 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:11:57 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:11:57 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:11:57 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:11:57 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:11:58 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:11:58 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:11:58 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:11:58 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:11:58 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:11:58 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:11:58 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:11:58 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:11:58 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:11:58 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:11:58 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:11:59 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:11:59 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:11:59 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:11:59 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:11:59 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:11:59 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:11:59 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:11:59 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:11:59 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:11:59 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:11:59 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:12:00 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:12:00 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:12:00 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:12:00 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:12:00 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:12:00 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:12:00 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:12:00 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:12:00 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:12:00 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:12:00 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:12:01 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:12:01 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:12:01 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:12:01 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:12:01 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:12:01 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:12:01 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:12:01 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:12:01 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:12:01 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:12:01 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:12:02 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:12:02 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:12:02 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:12:02 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:12:02 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:12:02 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:12:02 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:12:02 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:12:02 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:12:02 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:12:02 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:12:03 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:12:03 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:12:03 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:12:03 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:12:03 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:12:03 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:12:03 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:12:03 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:12:03 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:12:03 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:12:03 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:12:04 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:12:04 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:12:04 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:12:04 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:12:04 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:12:04 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:12:04 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:12:04 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:12:04 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:12:04 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:12:04 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:12:05 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:12:05 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:12:05 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:12:05 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:12:05 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:12:05 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:12:05 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:12:05 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:12:05 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:12:05 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:12:05 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:12:06 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:12:06 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:12:06 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:12:06 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:12:06 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:12:06 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:12:06 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:12:06 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:12:06 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:12:06 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:12:06 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:12:07 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:12:07 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:12:07 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:12:07 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:12:07 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:12:07 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:12:07 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:12:07 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:12:07 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:12:07 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:12:07 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:12:08 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:12:08 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:12:08 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:12:08 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:12:08 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:12:08 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:12:08 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:12:08 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:12:08 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:12:08 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:12:08 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:12:09 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:12:09 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:12:09 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:12:09 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:12:09 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:12:09 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:12:09 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:12:09 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:12:09 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:12:09 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:12:09 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:12:10 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:12:10 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:12:10 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:12:10 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:12:10 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:12:10 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:12:10 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:12:10 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:12:10 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:12:10 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:12:10 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:12:11 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:12:11 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:12:11 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:12:11 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:12:11 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:12:11 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:12:11 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:12:11 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:12:11 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:12:11 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:12:11 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:12:12 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:12:12 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:12:12 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:12:12 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:12:12 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:12:12 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:12:12 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:12:12 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:12:12 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:12:12 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:12:12 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:12:13 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:12:13 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:12:13 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:12:13 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:12:13 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:12:13 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:12:13 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:12:13 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:12:13 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:12:13 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:12:13 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:12:14 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:12:14 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:12:14 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:12:14 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:12:14 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:12:14 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:12:14 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:12:14 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:12:14 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:12:14 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:12:14 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:12:15 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:12:15 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:12:15 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:12:15 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:12:15 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:12:15 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:12:15 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:12:15 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:12:15 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:12:15 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:12:15 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:12:16 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:12:16 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:12:16 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:12:16 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:12:16 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:12:16 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:12:16 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:12:16 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:12:16 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:12:16 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:12:16 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:12:17 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:12:17 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:12:17 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:12:17 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:12:17 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:12:17 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:12:17 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:12:17 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:12:17 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:12:17 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:12:17 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:12:18 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:12:18 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:12:18 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:12:18 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:12:18 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:12:18 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:12:18 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:12:18 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:12:18 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:12:18 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:12:18 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:12:19 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:12:19 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:12:19 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:12:19 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:12:19 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:12:19 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:12:19 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:12:19 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:12:19 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:12:19 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:12:19 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:12:20 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:12:20 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:12:20 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:12:20 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:12:20 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:12:20 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:12:20 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:12:20 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:12:20 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:12:20 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:12:20 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:12:21 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:12:21 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:12:21 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:12:21 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:12:21 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:12:21 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:12:21 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:12:21 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:12:21 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:12:21 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:12:21 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:12:22 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:12:22 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:12:22 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:12:22 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:12:22 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:12:22 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:12:22 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:12:22 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:12:22 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:12:22 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:12:22 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:12:23 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:12:23 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:12:23 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:12:23 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:12:23 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:12:23 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:12:23 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:12:23 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:12:23 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:12:23 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:12:23 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:12:24 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:12:24 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:12:24 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:12:24 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:12:24 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:12:24 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:12:24 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:12:24 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:12:24 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:12:24 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:12:24 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:12:25 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:12:25 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:12:25 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:12:25 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:12:25 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:12:25 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:12:25 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:12:25 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:12:25 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:12:25 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:12:25 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:12:26 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:12:26 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:12:26 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:12:26 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:12:26 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:12:26 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:12:26 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:12:26 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:12:26 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:12:26 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:12:26 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:12:27 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:12:27 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:12:27 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:12:27 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:12:27 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:12:27 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:12:27 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:12:27 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:12:27 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:12:27 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:12:27 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:12:28 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:12:28 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:12:28 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:12:28 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:12:28 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:12:28 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:12:28 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:12:28 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:12:28 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:12:28 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:12:28 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:12:29 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:12:29 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:12:29 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:12:29 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:12:29 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:12:29 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:12:29 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:12:29 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:12:29 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:12:29 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:12:29 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:12:30 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:12:30 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:12:30 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:12:30 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:12:30 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:12:30 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:12:30 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:12:30 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:12:30 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:12:30 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:12:30 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:12:31 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:12:31 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:12:31 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:12:31 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:12:31 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:12:31 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:12:31 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:12:31 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:12:31 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:12:31 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:12:31 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:12:32 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:12:32 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:12:32 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:12:32 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:12:32 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:12:32 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:12:32 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:12:32 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:12:32 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:12:32 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:12:32 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:12:33 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:12:33 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:12:33 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:12:33 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:12:33 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:12:33 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:12:33 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:12:33 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:12:33 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:12:33 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:12:33 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:12:34 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:12:34 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:12:34 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:12:34 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:12:34 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:12:34 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:12:34 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:12:34 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:12:34 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:12:34 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:12:34 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:12:35 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:12:35 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:12:35 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:12:35 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:12:35 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:12:35 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:12:35 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:12:35 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:12:35 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:12:35 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:12:35 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:12:36 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:12:36 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:12:36 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:12:36 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:12:36 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:12:36 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:12:36 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:12:36 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:12:36 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:12:36 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:12:36 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:12:37 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:12:37 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:12:37 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:12:37 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:12:37 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:12:37 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:12:37 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:12:37 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:12:37 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:12:37 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:12:37 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:12:38 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:12:38 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:12:38 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:12:38 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:12:38 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:12:38 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:12:38 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:12:38 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:12:38 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:12:38 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:12:38 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:12:39 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:12:39 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:12:39 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:12:39 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:12:39 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:12:39 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:12:39 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:12:39 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:12:39 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:12:39 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:12:39 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:12:40 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:12:40 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:12:40 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:12:40 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:12:40 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:12:40 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:12:40 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:12:40 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:12:40 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:12:40 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:12:40 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:12:41 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:12:41 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:12:41 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:12:41 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:12:41 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:12:41 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:12:41 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:12:41 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:12:41 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:12:41 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:12:41 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:12:42 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:12:42 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:12:42 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:12:42 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:12:42 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:12:42 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:12:42 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:12:42 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:12:42 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:12:42 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:12:42 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:12:43 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:12:43 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:12:43 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:12:43 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:12:43 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:12:43 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:12:43 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:12:43 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:12:43 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:12:43 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:12:43 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:12:44 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:12:44 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:12:44 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:12:44 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:12:44 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:12:44 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:12:44 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:12:44 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:12:44 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:12:44 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:12:44 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:12:45 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:12:45 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:12:45 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:12:45 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:12:45 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:12:45 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:12:45 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:12:45 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:12:45 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:12:45 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:12:45 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:12:46 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:12:46 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:12:46 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:12:46 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:12:46 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:12:46 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:12:46 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:12:46 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:12:46 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:12:46 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:12:46 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:12:47 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:12:47 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:12:47 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:12:47 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:12:47 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:12:47 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:12:47 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:12:47 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:12:47 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:12:47 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:12:47 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:12:48 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:12:48 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:12:48 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:12:48 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:12:48 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:12:48 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:12:48 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:12:48 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:12:48 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:12:48 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:12:48 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:12:49 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:12:49 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:12:49 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:12:49 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:12:49 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:12:49 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:12:49 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:12:49 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:12:49 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:12:49 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:12:49 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:12:50 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:12:50 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:12:50 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:12:50 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:12:50 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:12:50 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:12:50 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:12:50 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:12:50 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:12:50 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:12:50 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:12:51 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:12:51 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:12:51 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:12:51 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:12:51 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:12:51 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:12:51 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:12:51 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:12:51 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:12:51 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:12:51 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:12:52 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:12:52 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:12:52 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:12:52 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:12:52 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:12:52 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:12:52 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:12:52 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:12:52 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:12:52 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:12:52 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:12:53 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:12:53 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:12:53 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:12:53 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:12:53 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:12:53 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:12:53 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:12:53 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:12:53 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:12:53 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:12:53 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:12:54 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:12:54 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:12:54 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:12:54 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:12:54 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:12:54 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:12:54 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:12:54 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:12:54 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:12:54 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:12:54 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:12:55 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:12:55 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:12:55 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:12:55 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:12:55 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:12:55 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:12:55 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:12:55 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:12:55 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:12:55 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:12:55 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:12:56 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:12:56 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:12:56 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:12:56 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:12:56 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:12:56 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:12:56 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:12:56 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:12:56 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:12:56 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:12:56 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:12:57 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:12:57 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:12:57 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:12:57 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:12:57 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:12:57 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:12:57 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:12:57 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:12:57 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:12:57 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:12:57 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:12:58 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:12:58 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:12:58 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:12:58 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:12:58 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:12:58 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:12:58 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:12:58 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:12:58 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:12:58 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:12:58 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:12:59 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:12:59 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:12:59 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:12:59 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:12:59 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:12:59 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:12:59 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:12:59 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:12:59 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:12:59 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:12:59 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:13:00 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:13:00 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:13:00 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:13:00 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:13:00 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:13:00 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:13:00 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:13:00 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:13:00 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:13:00 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:13:00 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:13:01 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:13:01 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:13:01 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:13:01 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:13:01 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:13:01 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:13:01 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:13:01 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:13:01 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:13:01 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:13:01 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:13:02 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:13:02 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:13:02 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:13:02 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:13:02 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:13:02 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:13:02 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:13:02 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:13:02 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:13:02 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:13:02 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:13:03 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:13:03 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:13:03 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:13:03 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:13:03 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:13:03 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:13:03 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:13:03 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:13:03 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:13:03 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:13:03 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:13:04 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:13:04 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:13:04 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:13:04 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:13:04 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:13:04 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:13:04 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:13:04 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:13:04 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:13:04 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:13:04 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:13:05 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:13:05 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:13:05 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:13:05 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:13:05 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:13:05 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:13:05 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:13:05 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:13:05 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:13:05 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:13:05 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:13:06 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:13:06 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:13:06 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:13:06 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:13:06 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:13:06 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:13:06 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:13:06 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:13:06 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:13:06 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:13:06 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:13:07 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:13:07 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:13:07 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:13:07 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:13:07 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:13:07 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:13:07 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:13:07 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:13:07 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:13:07 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:13:07 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:13:08 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:13:08 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:13:08 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:13:08 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:13:08 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:13:08 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:13:08 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:13:08 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:13:08 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:13:08 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:13:08 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:13:09 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:13:09 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:13:09 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:13:09 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:13:09 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:13:09 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:13:09 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:13:09 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:13:09 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:13:09 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:13:09 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:13:10 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:13:10 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:13:10 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:13:10 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:13:10 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:13:10 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:13:10 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:13:10 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:13:10 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:13:10 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:13:10 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:13:11 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:13:11 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:13:11 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:13:11 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:13:11 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:13:11 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:13:11 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:13:11 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:13:11 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:13:11 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:13:11 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:13:12 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:13:12 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:13:12 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:13:12 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:13:12 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:13:12 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:13:12 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:13:12 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:13:12 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:13:12 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:13:12 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:13:13 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:13:13 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:13:13 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:13:13 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:13:13 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:13:13 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:13:13 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:13:13 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:13:13 1110005504   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-04/22/15 14:13:13 1110005504   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-04/22/15 14:13:13 1110005504  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
-04/22/15 14:13:13 1120503584   FINEST    issue stop command {src/RobotSystem.cxx 112  }
-04/22/15 14:13:13 1120503584   FINEST    wait all threads to stop {src/RobotSystem.cxx 117  }
-04/22/15 14:13:13 1120503584   FINEST    in WaitAllStop: got out of SEM wait {src/RobotSystem.cxx 168  }
-04/22/15 14:13:13 1099515648   FINEST    Robot thread out of waiting {src/RobotService.cxx 394  }
-04/22/15 14:13:13 1099515648     INFO    Robot thread quit by STOP {src/RobotService.cxx 407  }
-04/22/15 14:13:13 1099515648     INFO    Robot thread stopped and EvtStopped set {src/RobotService.cxx 526  }
-04/22/15 14:13:13 1120495360   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
-04/22/15 14:13:13 1120495360     INFO    SENDER quit by command STOP {src/DcsMessageService.cxx 128  }
-04/22/15 14:13:13 1120495360     INFO    sender stopped {src/DcsMessageService.cxx 144  }
-04/22/15 14:13:13 1120503584   FINEST    in WaitAllStop: got out of SEM wait {src/RobotSystem.cxx 168  }
-04/22/15 14:13:13 1120503584   FINEST    robot service stopped {src/RobotSystem.cxx 175  }
-04/22/15 14:13:13 1120503584   FINEST    in WaitAllStop: got out of SEM wait {src/RobotSystem.cxx 168  }
-04/22/15 14:13:13 1120503584   FINEST    robot service stopped {src/RobotSystem.cxx 175  }
-04/22/15 14:13:13 1120503584   FINEST    in WaitAllStop: got out of SEM wait {src/RobotSystem.cxx 168  }
-04/22/15 14:13:13 1120503584   FINEST    robot service stopped {src/RobotSystem.cxx 175  }
-04/22/15 14:13:14 1110005504     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
-04/22/15 14:13:14 1110005504   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-04/22/15 14:13:14 1110005504   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-04/22/15 14:13:14 1110005504     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-04/22/15 14:13:14 1110005504   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-04/22/15 14:13:14 1110005504   FINEST    Sending: 'htos_client_is_hardware Robot' {src/DcsMessageHandler.cxx 188  }
-04/22/15 14:13:14 1110005504   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-04/22/15 14:13:14 1110005504   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-04/22/15 14:13:14 1110005504   FINEST    receiver is waiting sender done for stop {src/DcsMessageService.cxx 203  }
-04/22/15 14:13:14 1110005504   FINEST    waiting done {src/DcsMessageService.cxx 205  }
-04/22/15 14:13:14 1110005504   FINEST    receiver disconnect DCSS {src/DcsMessageService.cxx 212  }
-04/22/15 14:13:14 1110005504     INFO    receiver stopped: means this active object stopped {src/DcsMessageService.cxx 215  }
-04/22/15 14:13:14 1120503584   FINEST    in WaitAllStop: got out of SEM wait {src/RobotSystem.cxx 168  }
-04/22/15 14:13:14 1120503584   FINEST    dcs msg service stopped {src/RobotSystem.cxx 171  }
-04/22/15 14:13:14 1120503584   FINEST    robot service stopped {src/RobotSystem.cxx 175  }
-04/22/15 14:13:14 1120503584   FINEST    alll stopped {src/RobotSystem.cxx 178  }
-04/22/15 14:13:14 1120503584   FINEST    DcsMessageManager: {src/RobotSystem.cxx 121  }
-04/22/15 14:13:14 1120503584   FINEST    GetMaxTextSize=0 {src/RobotSystem.cxx 122  }
-04/22/15 14:13:14 1120503584   FINEST    GetMaxBinarySize=0 {src/RobotSystem.cxx 123  }
-04/22/15 14:13:14 1120503584   FINEST    GetMaxPoolSize=10 {src/RobotSystem.cxx 124  }
-04/22/15 14:13:14 1120503584   FINEST    GetNewCount=0 {src/RobotSystem.cxx 125  }
-04/22/15 14:13:14 1120503584   FINEST    GetDeleteCount=0 {src/RobotSystem.cxx 126  }
-04/22/15 14:13:14 1120503584     INFO    Robot System stopped {src/RobotSystem.cxx 128  }
-04/22/15 14:13:14 1120503584   FINEST    out of running: received ctrl-c  {src/robot.cxx 30  }
+05/06/15 15:50:36 2162845472   FINEST    DcsMessageManager constructor enter {src/DcsMessageManager.cxx 18  }
+05/06/15 15:50:36 2162845472   FINEST    DcsMessageManager constructor exit {src/DcsMessageManager.cxx 33  }
+05/06/15 15:50:36 2162845472   FINEST    DcsMessageService constructor enter {src/DcsMessageService.cxx 9  }
+05/06/15 15:50:36 2162845472   FINEST    DcsMessageService constructor exit {src/DcsMessageService.cxx 13  }
+05/06/15 15:50:36 2162845472   FINEST    run from front, not as a service  {src/robot.cxx 28  }
+05/06/15 15:50:36 2162845472     INFO    m_ServerName points to: 'localhost' {src/DcsMessageHandler.cxx 43  }
+05/06/15 15:50:36 2162845472     INFO    m_DHSName points to: 'robot' {src/DcsMessageHandler.cxx 62  }
+05/06/15 15:50:36 2162837248   FINEST    SENDER wait for socket lock 11111 {src/DcsMessageService.cxx 87  }
+05/06/15 15:50:36 2162837248   FINEST    SENDER got socket lock 111111 {src/DcsMessageService.cxx 89  }
+05/06/15 15:50:36 2152347392   FINEST    receiver is waiting sender done for start {src/DcsMessageService.cxx 151  }
+05/06/15 15:50:36 2141857536   FINEST    RobotControls::Initialize called {src/RobotControls.cxx 35  }
+05/06/15 15:50:36 2162837248   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
+05/06/15 15:50:36 2162837248   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
+05/06/15 15:50:36 2162837248     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
+05/06/15 15:50:36 2162837248   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
+05/06/15 15:50:36 2162837248   FINEST    Sending: 'htos_client_is_hardware robot' {src/DcsMessageHandler.cxx 188  }
+05/06/15 15:50:36 2162837248   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
+05/06/15 15:50:36 2162837248   FINEST    SENDER unlock socket lock 11111111111 {src/DcsMessageService.cxx 102  }
+05/06/15 15:50:36 2162837248     INFO    connected to DCSS with DCS protocol, sender ready {src/DcsMessageService.cxx 104  }
+05/06/15 15:50:36 2162837248   FINEST    SENDER enter loop {src/DcsMessageService.cxx 109  }
+05/06/15 15:50:36 2152347392   FINEST    receiver waiting done {src/DcsMessageService.cxx 153  }
+05/06/15 15:50:36 2152347392     INFO    receiver ready: whole DcsMessageService Ready {src/DcsMessageService.cxx 167  }
+05/06/15 15:50:36 2152347392   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:50:36 2152347392   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:50:36 2152347392   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x19f1f70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:50:36 2152347392   FINEST    DcsMessageManager::NewDcsMessage: new MAX TEXT SIZE 56 {src/DcsMessageManager.cxx 176  }
+05/06/15 15:50:36 2152347392   FINEST    Receiving: 'stoh_register_operation get_robotstate get_robotstate
+' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:50:36 2152347392   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:50:36 2152347392   FINEST    RobotDhs::ConsumeDcsMessage: not a message for that can be handled, pass on {src/RobotService.cxx 165  }
+05/06/15 15:50:36 2152347392  WARNING    no one takes this message: stoh_register_operation get_robotstate get_robotstate {src/DcsMessageService.cxx 238  }
+05/06/15 15:50:36 2152347392   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x19f1f70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:50:36 2152347392   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:50:36 2152347392   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:50:36 2152347392   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:50:36 2152347392   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x19f1f70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:50:36 2152347392   FINEST    Receiving: 'stoh_register_operation center_grabber center_grabber
+' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:50:36 2152347392   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:50:36 2152347392   FINEST    RobotDhs::ConsumeDcsMessage: not a message for that can be handled, pass on {src/RobotService.cxx 165  }
+05/06/15 15:50:36 2152347392  WARNING    no one takes this message: stoh_register_operation center_grabber center_grabber {src/DcsMessageService.cxx 238  }
+05/06/15 15:50:36 2152347392   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x19f1f70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:50:36 2152347392   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:50:36 2152347392   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:50:36 2152347392   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:50:36 2152347392   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x19f1f70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:50:36 2152347392   FINEST    Receiving: 'stoh_register_operation dry_grabber dry_grabber
+' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:50:36 2152347392   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:50:36 2152347392   FINEST    RobotDhs::ConsumeDcsMessage: not a message for that can be handled, pass on {src/RobotService.cxx 165  }
+05/06/15 15:50:36 2152347392  WARNING    no one takes this message: stoh_register_operation dry_grabber dry_grabber {src/DcsMessageService.cxx 238  }
+05/06/15 15:50:36 2152347392   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x19f1f70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:50:36 2152347392   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:50:36 2152347392   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:50:36 2152347392   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:50:36 2152347392   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x19f1f70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:50:36 2152347392   FINEST    Receiving: 'stoh_register_operation cool_grabber coool_grabber
+' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:50:36 2152347392   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:50:36 2152347392   FINEST    RobotDhs::ConsumeDcsMessage: not a message for that can be handled, pass on {src/RobotService.cxx 165  }
+05/06/15 15:50:36 2152347392  WARNING    no one takes this message: stoh_register_operation cool_grabber coool_grabber {src/DcsMessageService.cxx 238  }
+05/06/15 15:50:36 2152347392   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x19f1f70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:50:36 2152347392   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:50:36 2152347392   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:50:36 2152347392   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:50:36 2152347392   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x19f1f70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:50:36 2152347392   FINEST    DcsMessageManager::NewDcsMessage: new MAX TEXT SIZE 66 {src/DcsMessageManager.cxx 176  }
+05/06/15 15:50:36 2152347392   FINEST    Receiving: 'stoh_register_operation clear_mounted_state clear_mounted_state
+' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:50:36 2152347392   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:50:36 2152347392   FINEST    RobotDhs::ConsumeDcsMessage: not a message for that can be handled, pass on {src/RobotService.cxx 165  }
+05/06/15 15:50:36 2152347392  WARNING    no one takes this message: stoh_register_operation clear_mounted_state clear_mounted_state {src/DcsMessageService.cxx 238  }
+05/06/15 15:50:36 2152347392   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x19f1f70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:50:36 2152347392   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:50:36 2152347392   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:50:36 2152347392   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:50:36 2152347392   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x19f1f70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:50:36 2152347392   FINEST    Receiving: 'stoh_register_operation set_sample_address set_sample_address
+' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:50:36 2152347392   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:50:36 2152347392   FINEST    RobotDhs::ConsumeDcsMessage: not a message for that can be handled, pass on {src/RobotService.cxx 165  }
+05/06/15 15:50:36 2152347392  WARNING    no one takes this message: stoh_register_operation set_sample_address set_sample_address {src/DcsMessageService.cxx 238  }
+05/06/15 15:50:36 2152347392   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x19f1f70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:50:36 2152347392   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:50:36 2152347392   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:50:36 2152347392   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:50:36 2152347392   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x19f1f70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:50:36 2152347392   FINEST    Receiving: 'stoh_register_operation screening_mode screening_mode
+' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:50:36 2152347392   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:50:36 2152347392   FINEST    RobotDhs::ConsumeDcsMessage: not a message for that can be handled, pass on {src/RobotService.cxx 165  }
+05/06/15 15:50:36 2152347392  WARNING    no one takes this message: stoh_register_operation screening_mode screening_mode {src/DcsMessageService.cxx 238  }
+05/06/15 15:50:36 2152347392   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x19f1f70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:50:36 2152347392   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:50:36 2152347392   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:50:36 2152347392   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:50:36 2152347392   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x19f1f70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:50:36 2152347392   FINEST    Receiving: 'stoh_register_operation mount_crystal mount_crystal
+' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:50:36 2152347392   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:50:36 2152347392   FINEST    RobotDhs::ConsumeDcsMessage: not a message for that can be handled, pass on {src/RobotService.cxx 165  }
+05/06/15 15:50:36 2152347392  WARNING    no one takes this message: stoh_register_operation mount_crystal mount_crystal {src/DcsMessageService.cxx 238  }
+05/06/15 15:50:36 2152347392   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x19f1f70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:50:36 2152347392   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:50:36 2152347392   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:50:36 2152347392   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:50:36 2152347392   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x19f1f70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:50:36 2152347392   FINEST    DcsMessageManager::NewDcsMessage: new MAX TEXT SIZE 70 {src/DcsMessageManager.cxx 176  }
+05/06/15 15:50:36 2152347392   FINEST    Receiving: 'stoh_register_operation prepare_mount_crystal prepare_mount_crystal
+' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:50:36 2152347392   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:50:36 2152347392   FINEST    RobotDhs::ConsumeDcsMessage: not a message for that can be handled, pass on {src/RobotService.cxx 165  }
+05/06/15 15:50:36 2152347392  WARNING    no one takes this message: stoh_register_operation prepare_mount_crystal prepare_mount_crystal {src/DcsMessageService.cxx 238  }
+05/06/15 15:50:36 2152347392   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x19f1f70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:50:36 2152347392   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:50:36 2152347392   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:50:36 2152347392   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:50:36 2152347392   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x19f1f70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:50:36 2152347392   FINEST    Receiving: 'stoh_register_operation dismount_crystal dismount_crystal
+' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:50:36 2152347392   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:50:36 2152347392   FINEST    RobotDhs::ConsumeDcsMessage: not a message for that can be handled, pass on {src/RobotService.cxx 165  }
+05/06/15 15:50:36 2152347392  WARNING    no one takes this message: stoh_register_operation dismount_crystal dismount_crystal {src/DcsMessageService.cxx 238  }
+05/06/15 15:50:36 2152347392   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x19f1f70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:50:36 2152347392   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:50:36 2152347392   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:50:36 2152347392   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:50:36 2152347392   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x19f1f70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:50:36 2152347392   FINEST    DcsMessageManager::NewDcsMessage: new MAX TEXT SIZE 76 {src/DcsMessageManager.cxx 176  }
+05/06/15 15:50:36 2152347392   FINEST    Receiving: 'stoh_register_operation prepare_dismount_crystal prepare_dismount_crystal
+' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:50:36 2152347392   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:50:36 2152347392   FINEST    RobotDhs::ConsumeDcsMessage: not a message for that can be handled, pass on {src/RobotService.cxx 165  }
+05/06/15 15:50:36 2152347392  WARNING    no one takes this message: stoh_register_operation prepare_dismount_crystal prepare_dismount_crystal {src/DcsMessageService.cxx 238  }
+05/06/15 15:50:36 2152347392   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x19f1f70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:50:36 2152347392   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:50:36 2152347392   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:50:36 2152347392   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:50:36 2152347392   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x19f1f70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:50:36 2152347392   FINEST    Receiving: 'stoh_register_operation mount_next_crystal mount_next_crystal
+' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:50:36 2152347392   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:50:36 2152347392   FINEST    RobotDhs::ConsumeDcsMessage: not a message for that can be handled, pass on {src/RobotService.cxx 165  }
+05/06/15 15:50:36 2152347392  WARNING    no one takes this message: stoh_register_operation mount_next_crystal mount_next_crystal {src/DcsMessageService.cxx 238  }
+05/06/15 15:50:36 2152347392   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x19f1f70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:50:36 2152347392   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:50:36 2152347392   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:50:36 2152347392   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:50:36 2152347392   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x19f1f70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:50:36 2152347392   FINEST    DcsMessageManager::NewDcsMessage: new MAX TEXT SIZE 80 {src/DcsMessageManager.cxx 176  }
+05/06/15 15:50:36 2152347392   FINEST    Receiving: 'stoh_register_operation prepare_mount_next_crystal prepare_mount_next_crystal
+' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:50:36 2152347392   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:50:36 2152347392   FINEST    RobotDhs::ConsumeDcsMessage: not a message for that can be handled, pass on {src/RobotService.cxx 165  }
+05/06/15 15:50:36 2152347392  WARNING    no one takes this message: stoh_register_operation prepare_mount_next_crystal prepare_mount_next_crystal {src/DcsMessageService.cxx 238  }
+05/06/15 15:50:36 2152347392   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x19f1f70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:50:36 2152347392   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:50:46 2141857536     INFO    Robot Thread ready {src/RobotService.cxx 392  }
+05/06/15 15:50:46 2162845472     INFO    Robot System start OK {src/RobotSystem.cxx 85  }
+05/06/15 15:50:46 2162845472   FINEST    RobotControls::ConnectToRobotServer Denso Server is connected {src/RobotControls.cxx 284  }
+05/06/15 15:51:03 2152347392   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:51:03 2152347392   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:51:03 2152347392   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x19f1f70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:51:03 2152347392   FINEST    Receiving: 'stoh_start_operation center_grabber 2.2 ' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:51:03 2152347392   FINEST    Got an operation {src/DcsMessage.cxx 130  }
+05/06/15 15:51:03 2152347392   FINEST    operation: center_grabber, 2.2,  {src/DcsMessage.cxx 146  }
+05/06/15 15:51:03 2152347392   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:51:03 2152347392     INFO    OPNAME: center_grabber {src/RobotService.cxx 174  }
+05/06/15 15:51:03 2152347392     INFO    operation massage: stoh_start_operation center_grabber 2.2  {src/RobotService.cxx 175  }
+05/06/15 15:51:03 2152347392     INFO    OPNAME1: clear_mounted_state {src/RobotService.cxx 179  }
+05/06/15 15:51:03 2152347392     INFO    OPNAME1: mount_crystal {src/RobotService.cxx 179  }
+05/06/15 15:51:03 2152347392     INFO    OPNAME1: dismount_crystal {src/RobotService.cxx 179  }
+05/06/15 15:51:03 2152347392     INFO    OPNAME1: center_grabber {src/RobotService.cxx 179  }
+05/06/15 15:51:03 2152347392   FINEST    match operation3 {src/RobotService.cxx 183  }
+05/06/15 15:51:03 2152347392   FINEST    added to dcs msg queue, current length=1 {src/RobotService.cxx 205  }
+05/06/15 15:51:03 2152347392   FINEST    -RobotService::ConsumeDcsMessage: we consume it {src/RobotService.cxx 237  }
+05/06/15 15:51:03 2152347392   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:51:03 2141857536   FINEST    Robot thread out of waiting {src/RobotService.cxx 398  }
+05/06/15 15:51:03 2141857536     INFO    IN RobotService::ThreadMethod starting method {src/RobotService.cxx 436  }
+05/06/15 15:51:03 2141857536   FINEST    RobotControls::CenterGrabber called( ) {src/RobotControls.cxx 552  }
+05/06/15 15:51:03 2141857536   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x19f1570 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:51:03 2141857536   FINEST    DcsMessageManager::NewOperationReplyMessage {src/DcsMessageManager.cxx 250  }
+05/06/15 15:51:03 2141857536   FINEST    tag =htos_operation_completed {src/DcsMessageManager.cxx 251  }
+05/06/15 15:51:03 2141857536   FINEST    operation = NAME:center_grabber, HANDLE:2.2 {src/DcsMessageManager.cxx 252  }
+05/06/15 15:51:03 2141857536   FINEST    status = normal {src/DcsMessageManager.cxx 253  }
+05/06/15 15:51:03 2141857536   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x19f1f70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:51:03 2141857536   FINEST    RobotService::SendoutDcsMessage( htos_operation_completed center_grabber 2.2 normal ) {src/RobotService.cxx 370  }
+05/06/15 15:51:03 2141857536   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+05/06/15 15:51:03 2162837248   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+05/06/15 15:51:03 2162837248   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+05/06/15 15:51:03 2162837248   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+05/06/15 15:51:03 2162837248   FINEST    send message done {src/DcsMessageHandler.cxx 321  }
+05/06/15 15:51:03 2162837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x19f1570) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:51:03 2162837248   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+05/06/15 15:51:22 2152347392   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:51:22 2152347392   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:51:22 2152347392   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x19f1570 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:51:22 2152347392   FINEST    Receiving: 'stoh_start_operation dry_grabber 2.3 ' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:51:22 2152347392   FINEST    Got an operation {src/DcsMessage.cxx 130  }
+05/06/15 15:51:22 2152347392   FINEST    operation: dry_grabber, 2.3,  {src/DcsMessage.cxx 146  }
+05/06/15 15:51:22 2152347392   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:51:22 2152347392     INFO    OPNAME: dry_grabber {src/RobotService.cxx 174  }
+05/06/15 15:51:22 2152347392     INFO    operation massage: stoh_start_operation dry_grabber 2.3  {src/RobotService.cxx 175  }
+05/06/15 15:51:22 2152347392     INFO    OPNAME1: clear_mounted_state {src/RobotService.cxx 179  }
+05/06/15 15:51:22 2152347392     INFO    OPNAME1: mount_crystal {src/RobotService.cxx 179  }
+05/06/15 15:51:22 2152347392     INFO    OPNAME1: dismount_crystal {src/RobotService.cxx 179  }
+05/06/15 15:51:22 2152347392     INFO    OPNAME1: center_grabber {src/RobotService.cxx 179  }
+05/06/15 15:51:22 2152347392     INFO    OPNAME1: dry_grabber {src/RobotService.cxx 179  }
+05/06/15 15:51:22 2152347392   FINEST    match operation4 {src/RobotService.cxx 183  }
+05/06/15 15:51:22 2152347392   FINEST    added to dcs msg queue, current length=1 {src/RobotService.cxx 205  }
+05/06/15 15:51:22 2152347392   FINEST    -RobotService::ConsumeDcsMessage: we consume it {src/RobotService.cxx 237  }
+05/06/15 15:51:22 2152347392   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:51:22 2141857536   FINEST    Robot thread out of waiting {src/RobotService.cxx 398  }
+05/06/15 15:51:22 2141857536     INFO    IN RobotService::ThreadMethod starting method {src/RobotService.cxx 436  }
+05/06/15 15:51:22 2141857536   FINEST    RobotControls::DryGrabber called( ) {src/RobotControls.cxx 576  }
+05/06/15 15:51:22 2141857536   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x19f1f70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:51:22 2141857536   FINEST    DcsMessageManager::NewOperationReplyMessage {src/DcsMessageManager.cxx 250  }
+05/06/15 15:51:22 2141857536   FINEST    tag =htos_operation_completed {src/DcsMessageManager.cxx 251  }
+05/06/15 15:51:22 2141857536   FINEST    operation = NAME:dry_grabber, HANDLE:2.3 {src/DcsMessageManager.cxx 252  }
+05/06/15 15:51:22 2141857536   FINEST    status =  {src/DcsMessageManager.cxx 253  }
+05/06/15 15:51:22 2141857536   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x19f1570) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:51:22 2141857536   FINEST    RobotService::SendoutDcsMessage( htos_operation_completed dry_grabber 2.3  ) {src/RobotService.cxx 370  }
+05/06/15 15:51:22 2141857536   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+05/06/15 15:51:22 2162837248   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+05/06/15 15:51:22 2162837248   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+05/06/15 15:51:22 2162837248   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+05/06/15 15:51:22 2162837248   FINEST    send message done {src/DcsMessageHandler.cxx 321  }
+05/06/15 15:51:22 2162837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x19f1f70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:51:22 2162837248   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+05/06/15 15:51:27 2152347392   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:51:27 2152347392   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:51:27 2152347392   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x19f1f70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:51:27 2152347392   FINEST    Receiving: 'stoh_start_operation cool_grabber 2.4 ' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:51:27 2152347392   FINEST    Got an operation {src/DcsMessage.cxx 130  }
+05/06/15 15:51:27 2152347392   FINEST    operation: cool_grabber, 2.4,  {src/DcsMessage.cxx 146  }
+05/06/15 15:51:27 2152347392   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:51:27 2152347392     INFO    OPNAME: cool_grabber {src/RobotService.cxx 174  }
+05/06/15 15:51:27 2152347392     INFO    operation massage: stoh_start_operation cool_grabber 2.4  {src/RobotService.cxx 175  }
+05/06/15 15:51:27 2152347392     INFO    OPNAME1: clear_mounted_state {src/RobotService.cxx 179  }
+05/06/15 15:51:27 2152347392     INFO    OPNAME1: mount_crystal {src/RobotService.cxx 179  }
+05/06/15 15:51:27 2152347392     INFO    OPNAME1: dismount_crystal {src/RobotService.cxx 179  }
+05/06/15 15:51:27 2152347392     INFO    OPNAME1: center_grabber {src/RobotService.cxx 179  }
+05/06/15 15:51:27 2152347392     INFO    OPNAME1: dry_grabber {src/RobotService.cxx 179  }
+05/06/15 15:51:27 2152347392     INFO    OPNAME1: cool_grabber {src/RobotService.cxx 179  }
+05/06/15 15:51:27 2152347392   FINEST    match operation5 {src/RobotService.cxx 183  }
+05/06/15 15:51:27 2152347392   FINEST    added to dcs msg queue, current length=1 {src/RobotService.cxx 205  }
+05/06/15 15:51:27 2152347392   FINEST    -RobotService::ConsumeDcsMessage: we consume it {src/RobotService.cxx 237  }
+05/06/15 15:51:27 2152347392   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:51:27 2141857536   FINEST    Robot thread out of waiting {src/RobotService.cxx 398  }
+05/06/15 15:51:27 2141857536     INFO    IN RobotService::ThreadMethod starting method {src/RobotService.cxx 436  }
+05/06/15 15:51:27 2141857536   FINEST    RobotControls::DryGrabber called( ) {src/RobotControls.cxx 598  }
+05/06/15 15:51:27 2141857536   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x19f1570 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:51:27 2141857536   FINEST    DcsMessageManager::NewOperationReplyMessage {src/DcsMessageManager.cxx 250  }
+05/06/15 15:51:27 2141857536   FINEST    tag =htos_operation_completed {src/DcsMessageManager.cxx 251  }
+05/06/15 15:51:27 2141857536   FINEST    operation = NAME:cool_grabber, HANDLE:2.4 {src/DcsMessageManager.cxx 252  }
+05/06/15 15:51:27 2141857536   FINEST    status =  {src/DcsMessageManager.cxx 253  }
+05/06/15 15:51:27 2141857536   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x19f1f70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:51:27 2141857536   FINEST    RobotService::SendoutDcsMessage( htos_operation_completed cool_grabber 2.4  ) {src/RobotService.cxx 370  }
+05/06/15 15:51:27 2141857536   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+05/06/15 15:51:27 2162837248   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+05/06/15 15:51:27 2162837248   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+05/06/15 15:51:27 2162837248   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+05/06/15 15:51:27 2162837248   FINEST    send message done {src/DcsMessageHandler.cxx 321  }
+05/06/15 15:51:27 2162837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x19f1570) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:51:27 2162837248   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+05/06/15 15:51:40 2152347392   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:51:40 2152347392   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:51:40 2152347392   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x19f1570 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:51:41 2152347392   FINEST    Receiving: 'stoh_start_operation mount_crystal 1.1 l 1 A' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:51:41 2152347392   FINEST    Got an operation {src/DcsMessage.cxx 130  }
+05/06/15 15:51:41 2152347392   FINEST    operation: mount_crystal, 1.1, l 1 A {src/DcsMessage.cxx 146  }
+05/06/15 15:51:41 2152347392   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:51:41 2152347392     INFO    OPNAME: mount_crystal {src/RobotService.cxx 174  }
+05/06/15 15:51:41 2152347392     INFO    operation massage: stoh_start_operation mount_crystal 1.1 l 1 A {src/RobotService.cxx 175  }
+05/06/15 15:51:41 2152347392     INFO    OPNAME1: clear_mounted_state {src/RobotService.cxx 179  }
+05/06/15 15:51:41 2152347392     INFO    OPNAME1: mount_crystal {src/RobotService.cxx 179  }
+05/06/15 15:51:41 2152347392   FINEST    match operation1 {src/RobotService.cxx 183  }
+05/06/15 15:51:41 2152347392   FINEST    added to dcs msg queue, current length=1 {src/RobotService.cxx 205  }
+05/06/15 15:51:41 2152347392   FINEST    -RobotService::ConsumeDcsMessage: we consume it {src/RobotService.cxx 237  }
+05/06/15 15:51:41 2152347392   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:51:41 2141857536   FINEST    Robot thread out of waiting {src/RobotService.cxx 398  }
+05/06/15 15:51:41 2141857536     INFO    IN RobotService::ThreadMethod starting method {src/RobotService.cxx 436  }
+05/06/15 15:51:41 2141857536   FINEST    RobotControls::MountCrystal called( l 1 A) {src/RobotControls.cxx 100  }
+05/06/15 15:51:41 2141857536   FINEST    RobotControls::CommandParse ( MOUNT 1 A) {src/RobotControls.cxx 309  }
+05/06/15 15:51:41 2141857536   FINEST    RobotControls::ReadRobotStatus   start {src/RobotControls.cxx 316  }
+05/06/15 15:51:45 2141857536   FINEST    The status from Denso: normal  {src/RobotControls.cxx 329  }
+05/06/15 15:51:45 2141857536   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x19f1f70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:51:45 2141857536   FINEST    DcsMessageManager::NewOperationReplyMessage {src/DcsMessageManager.cxx 250  }
+05/06/15 15:51:45 2141857536   FINEST    tag =htos_operation_completed {src/DcsMessageManager.cxx 251  }
+05/06/15 15:51:45 2141857536   FINEST    operation = NAME:mount_crystal, HANDLE:1.1 {src/DcsMessageManager.cxx 252  }
+05/06/15 15:51:45 2141857536   FINEST    status = normal  {src/DcsMessageManager.cxx 253  }
+05/06/15 15:51:45 2141857536   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x19f1570) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:51:45 2141857536   FINEST    RobotService::SendoutDcsMessage( htos_operation_completed mount_crystal 1.1 normal  ) {src/RobotService.cxx 370  }
+05/06/15 15:51:45 2141857536   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+05/06/15 15:51:45 2162837248   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+05/06/15 15:51:45 2162837248   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+05/06/15 15:51:45 2162837248   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+05/06/15 15:51:45 2162837248   FINEST    send message done {src/DcsMessageHandler.cxx 321  }
+05/06/15 15:51:45 2162837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x19f1f70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:51:45 2162837248   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+05/06/15 15:51:53 2152347392   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+05/06/15 15:51:53 2152347392   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+05/06/15 15:51:53 2152347392   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x19f1f70 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:51:53 2152347392   FINEST    Receiving: 'stoh_start_operation clear_mounted_state 2.6 ' {src/DcsMessageHandler.cxx 249  }
+05/06/15 15:51:53 2152347392   FINEST    Got an operation {src/DcsMessage.cxx 130  }
+05/06/15 15:51:53 2152347392   FINEST    operation: clear_mounted_state, 2.6,  {src/DcsMessage.cxx 146  }
+05/06/15 15:51:53 2152347392   FINEST    +RobotService::ConsumeDcsMessage {src/RobotService.cxx 111  }
+05/06/15 15:51:53 2152347392     INFO    OPNAME: clear_mounted_state {src/RobotService.cxx 174  }
+05/06/15 15:51:53 2152347392     INFO    operation massage: stoh_start_operation clear_mounted_state 2.6  {src/RobotService.cxx 175  }
+05/06/15 15:51:53 2152347392     INFO    OPNAME1: clear_mounted_state {src/RobotService.cxx 179  }
+05/06/15 15:51:53 2152347392   FINEST    match operation0 {src/RobotService.cxx 183  }
+05/06/15 15:51:53 2152347392   FINEST    added to dcs msg queue, current length=1 {src/RobotService.cxx 205  }
+05/06/15 15:51:53 2152347392   FINEST    -RobotService::ConsumeDcsMessage: we consume it {src/RobotService.cxx 237  }
+05/06/15 15:51:53 2152347392   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+05/06/15 15:51:53 2141857536   FINEST    Robot thread out of waiting {src/RobotService.cxx 398  }
+05/06/15 15:51:53 2141857536     INFO    IN RobotService::ThreadMethod starting method {src/RobotService.cxx 436  }
+05/06/15 15:51:53 2141857536   FINEST    RobotControls::ConnectToRobotServer called( ) {src/RobotControls.cxx 358  }
+05/06/15 15:51:53 2141857536   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x19f1570 {src/DcsMessageManager.cxx 170  }
+05/06/15 15:51:53 2141857536   FINEST    DcsMessageManager::NewOperationReplyMessage {src/DcsMessageManager.cxx 250  }
+05/06/15 15:51:53 2141857536   FINEST    tag =htos_operation_completed {src/DcsMessageManager.cxx 251  }
+05/06/15 15:51:53 2141857536   FINEST    operation = NAME:clear_mounted_state, HANDLE:2.6 {src/DcsMessageManager.cxx 252  }
+05/06/15 15:51:53 2141857536   FINEST    status = normal {src/DcsMessageManager.cxx 253  }
+05/06/15 15:51:53 2141857536   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x19f1f70) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:51:53 2141857536   FINEST    RobotService::SendoutDcsMessage( htos_operation_completed clear_mounted_state 2.6 normal ) {src/RobotService.cxx 370  }
+05/06/15 15:51:53 2141857536   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+05/06/15 15:51:53 2162837248   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+05/06/15 15:51:53 2162837248   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+05/06/15 15:51:53 2162837248   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+05/06/15 15:51:53 2162837248   FINEST    send message done {src/DcsMessageHandler.cxx 321  }
+05/06/15 15:51:53 2162837248   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x19f1570) {src/DcsMessageManager.cxx 193  }
+05/06/15 15:51:53 2162837248   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+05/06/15 15:52:21 2162845472   FINEST    issue stop command {src/RobotSystem.cxx 112  }
+05/06/15 15:52:21 2162845472   FINEST    wait all threads to stop {src/RobotSystem.cxx 117  }
+05/06/15 15:52:21 2141857536   FINEST    Robot thread out of waiting {src/RobotService.cxx 398  }
+05/06/15 15:52:21 2141857536     INFO    Robot thread quit by STOP {src/RobotService.cxx 411  }
+05/06/15 15:52:21 2141857536     INFO    Robot thread stopped and EvtStopped set {src/RobotService.cxx 530  }
+05/06/15 15:52:21 2162837248   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+05/06/15 15:52:21 2162837248     INFO    SENDER quit by command STOP {src/DcsMessageService.cxx 128  }
+05/06/15 15:52:21 2162837248     INFO    sender stopped {src/DcsMessageService.cxx 144  }
+05/06/15 15:52:21 2162845472   FINEST    in WaitAllStop: got out of SEM wait {src/RobotSystem.cxx 168  }
+05/06/15 15:52:21 2162845472   FINEST    robot service stopped {src/RobotSystem.cxx 175  }
+05/06/15 15:52:21 2162845472   FINEST    in WaitAllStop: got out of SEM wait {src/RobotSystem.cxx 168  }
+05/06/15 15:52:21 2162845472   FINEST    robot service stopped {src/RobotSystem.cxx 175  }
+05/06/15 15:52:21 2162845472   FINEST    in WaitAllStop: got out of SEM wait {src/RobotSystem.cxx 168  }
+05/06/15 15:52:21 2162845472   FINEST    robot service stopped {src/RobotSystem.cxx 175  }
+05/06/15 15:52:21 2162845472   FINEST    in WaitAllStop: got out of SEM wait {src/RobotSystem.cxx 168  }
+05/06/15 15:52:21 2162845472   FINEST    robot service stopped {src/RobotSystem.cxx 175  }
+05/06/15 15:52:21 2152347392   FINEST    receiver is waiting sender done for stop {src/DcsMessageService.cxx 203  }
+05/06/15 15:52:21 2152347392   FINEST    waiting done {src/DcsMessageService.cxx 205  }
+05/06/15 15:52:21 2152347392   FINEST    receiver disconnect DCSS {src/DcsMessageService.cxx 212  }
+05/06/15 15:52:21 2152347392     INFO    receiver stopped: means this active object stopped {src/DcsMessageService.cxx 215  }
+05/06/15 15:52:21 2162845472   FINEST    in WaitAllStop: got out of SEM wait {src/RobotSystem.cxx 168  }
+05/06/15 15:52:21 2162845472   FINEST    dcs msg service stopped {src/RobotSystem.cxx 171  }
+05/06/15 15:52:21 2162845472   FINEST    robot service stopped {src/RobotSystem.cxx 175  }
+05/06/15 15:52:21 2162845472   FINEST    alll stopped {src/RobotSystem.cxx 178  }
+05/06/15 15:52:21 2162845472   FINEST    DcsMessageManager: {src/RobotSystem.cxx 121  }
+05/06/15 15:52:21 2162845472   FINEST    GetMaxTextSize=80 {src/RobotSystem.cxx 122  }
+05/06/15 15:52:21 2162845472   FINEST    GetMaxBinarySize=0 {src/RobotSystem.cxx 123  }
+05/06/15 15:52:21 2162845472   FINEST    GetMaxPoolSize=10 {src/RobotSystem.cxx 124  }
+05/06/15 15:52:21 2162845472   FINEST    GetNewCount=23 {src/RobotSystem.cxx 125  }
+05/06/15 15:52:21 2162845472   FINEST    GetDeleteCount=23 {src/RobotSystem.cxx 126  }
+05/06/15 15:52:21 2162845472     INFO    Robot System stopped {src/RobotSystem.cxx 128  }
+05/06/15 15:52:21 2162845472   FINEST    out of running: received ctrl-c  {src/robot.cxx 30  }

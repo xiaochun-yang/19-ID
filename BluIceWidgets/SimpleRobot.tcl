@@ -428,11 +428,12 @@ class SimpleRobotWidget {
     protected variable m_wrap4LN2Standby
 
     protected variable m_oprobotinit
-    protected variable m_opcloselid
-    protected variable m_opopenlid
+  # protected variable m_opcloselid
+    protected variable m_opcentergrabber
     protected variable m_opRMS
+    protected variable m_oclearmountedstate	
     protected variable m_opcoolgrabber
-    protected variable m_opwarmgrabber
+    protected variable m_opdrygrabber
 
 
     public method handleMountClick { } {
@@ -481,9 +482,9 @@ class SimpleRobotWidget {
 #         $m_oprobotinit startOperation
     }
 
-    public method handleCloselid { } {
-         $m_opcloselid startOperation
-    }
+#    public method handleCloselid { } {
+#         $m_opcloselid startOperation
+#    }
 
     public method handleMountpos { } {
         ::device::gonio_phi move to 0 deg
@@ -493,12 +494,12 @@ class SimpleRobotWidget {
        	::device::tripot_3 move to 0.36494
     }
 
-    public method handleOpenlid { } {
-         $m_opopenlid startOperation
+    public method handleCenterGrabber { } {
+         $m_opcentergrabber startOperation
     }
 
-    public method handleWarmgrabber { } {
-         $m_opwarmgrabber startOperation
+    public method handleDrygrabber { } {
+         $m_opdrygrabber startOperation
     }
 
     public method handleCoolgrabber { } {
@@ -506,6 +507,7 @@ class SimpleRobotWidget {
     }
 
     public method handleRMS { } {
+	 $m_oclearmountedstate startOperation
          $m_opRMS startOperation
     }
 
@@ -547,10 +549,11 @@ class SimpleRobotWidget {
 
 #yangx Add reset mount statu
 #        set m_oprobotinit [$m_deviceFactory createOperation robotinit]
-        set m_opcloselid [$m_deviceFactory createOperation close_lid]
-        set m_opopenlid [$m_deviceFactory createOperation open_lid]
-        set m_opwarmgrabber [$m_deviceFactory createOperation warm_up_grabber]
-        set m_opcoolgrabber [$m_deviceFactory createOperation cool_down_grabber]
+#        set m_opcloselid [$m_deviceFactory createOperation close_lid]
+        set m_opcentergrabber [$m_deviceFactory createOperation center_grabber]
+        set m_opdrygrabber [$m_deviceFactory createOperation dry_grabber]
+        set m_opcoolgrabber [$m_deviceFactory createOperation cool_grabber]
+        set m_oclearmountedstate [$m_deviceFactory createOperation clear_mounted_state]
 	set m_opRMS [$m_deviceFactory createOperation RMS]
 	
         itk_component add ring {
@@ -658,32 +661,32 @@ class SimpleRobotWidget {
             keep -activeClientOnly
         }
 
-        itk_component add Close {
-            DCS::HotButton $site.bc \
-            -text "Close Lid"  \
-            -confirmText "Confirm"\
-            -width 9 \
-            -command "$this handleCloselid"
-        } {
-            keep -activeClientOnly
-        }
+#        itk_component add Close {
+#            DCS::HotButton $site.bc \
+#            -text "Close Lid"  \
+#            -confirmText "Confirm"\
+#            -width 9 \
+#            -command "$this handleCloselid"
+#        } {
+#            keep -activeClientOnly
+#        }
 
-        itk_component add Open {
+        itk_component add Center {
             DCS::HotButton $site.bo \
-            -text "Open Lid"  \
+            -text "Center grabber"  \
             -confirmText "Confirm"\
             -width 9 \
-            -command "$this handleOpenlid"
+            -command "$this handleCenterGrabber"
         } {
             keep -activeClientOnly
         }
 
-        itk_component add Warm {
+        itk_component add Dry {
             DCS::HotButton $site.wm \
-            -text "Warm Grabber"  \
+            -text "Dry Grabber"  \
             -confirmText "Confirm"\
             -width 9 \
-            -command "$this handleWarmgrabber"
+            -command "$this handleDrygrabber"
         } {
             keep -activeClientOnly
         }
@@ -755,11 +758,11 @@ class SimpleRobotWidget {
             grid $itk_component(message) -row 0 -column 2 -rowspan 2 -sticky news
 
             grid $itk_component(Init) -row 1 -column 2 -sticky w   
-            grid $itk_component(Open) -row 0 -column 3 -sticky w -columnspan 2
-	    grid $itk_component(Close) -row 1 -column 3  -sticky w -columnspan 2
+            grid $itk_component(Center) -row 0 -column 3 -sticky w -columnspan 2
+	    grid $itk_component(Dry) -row 1 -column 3  -sticky w -columnspan 2
 
             grid $itk_component(remove) -row 2 -column 2  -sticky w -columnspan 2
-            grid $itk_component(Warm) -row 2 -column 3 -sticky w -columnspan 2
+            grid $itk_component(Cool) -row 2 -column 3 -sticky w -columnspan 2
             grid $itk_component(Mountpos) -row 3 -column 3 -sticky nw -columnspan 2
 
             grid columnconfigure $site 0 -weight 0

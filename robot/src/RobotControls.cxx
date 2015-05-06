@@ -17,7 +17,8 @@
 #define REAL    1
 
 static int sockfd;
-int op_mode = REAL;
+static struct sockaddr_in address;
+static int op_mode = REAL;
 static char current_monitor_counts_string[127];
 
 RobotControls::RobotControls(void):
@@ -50,14 +51,55 @@ RobotStatus RobotControls::GetStatus( ) const
 	return result;
 }
 
+BOOL CheckConnection()
+{
+        struct sockaddr saddress;
+        socklen_t  saddress_len;
+        int result;
+
+        saddress_len = sizeof saddress;
+
+        //Checking to see if the server still connected.
+
+        result= getpeername(sockfd, (struct sockaddr *)&saddress, &saddress_len); 
+        //check result to see if the it's connected
+        if(result !=0)
+        {
+                //The connection has problems
+                //check to see what is the problem.    
+                switch (errno) {
+                        //case EBADF: printf ("Invalid socket file descriptor\n"); break;
+                        //case EINTR: printf ("Operation interrupted\n"); break;
+                        //case ENOTSOCK: printf ("Descriptor is not a socket\n"); break;
+                        //case EMSGSIZE: printf ("Message is too large\n"); break;
+                        //case EWOULDBLOCK: printf ("Operation would block\n"); break;
+                        //case ENOBUFS: printf ("Not enough internal buffer space\n"); break;
+                        case ENOTCONN:
+			{
+				 //connection lost. try to reconnect to server
+        			result = connect(sockfd, (struct sockaddr *)&address, sizeof(address) );
+        			if(result == -1)
+        			{
+					LOG_WARNING( "ConnectRobotServer: Error connecting to Robot Server");
+                        		//strcpy( status_buffer, "error");
+                        		return FALSE; 
+				}       
+			}
+                        //case EPIPE: printf ("Connection broken\n"); break;
+                        default: LOG_WARNING("Unknown error\n");
+                }
+		return FALSE;
+        }
+	return TRUE;
+}
 
 BOOL RobotControls::MountCrystal( const char argument[], char status_buffer[] )
 {
-	static int state_counter = 0;
+	char cmd[100], status[100];
 
 	LOG_FINEST1( "RobotControls::MountCrystal called( %s)", argument );
 
-	xos_thread_sleep( SLEEP_TIME );
+	//xos_thread_sleep( SLEEP_TIME );
 	if (m_CrystalMounted)
 	{
 		LOG_WARNING( "RobotControls::MountCrystal: BAD, crystal already mounted" );
@@ -66,27 +108,70 @@ BOOL RobotControls::MountCrystal( const char argument[], char status_buffer[] )
 	}
 	else
 	{
-		if (state_counter < 5 )
-		{
-			++state_counter;
-			sprintf( status_buffer, "doing the job %d", state_counter );
-			return false;
-		}
-		else
-		{
-			state_counter = 0;
-			m_CrystalMounted = TRUE;
-			strcpy( status_buffer, "normal" );
-			return TRUE;
-		}
+			//parse and send the command to denso robot
+			if(!CommandParse(argument, cmd))
+			{
+				LOG_WARNING( "MountCrystal: can not form a correct mount command");
+                        	strcpy( status_buffer, "error command ");
+				return TRUE;			
+			}
+
+
+			// send the command to denso robot server
+			int count=0;
+			while (write(sockfd, cmd, sizeof(cmd)) < 0)
+			{
+  				LOG_WARNING1("Error in writing --%s--to Denso Robot\n",cmd);
+				if(count++>4)
+				{
+					strcpy( status_buffer, "error in sending command to Denso");
+					return TRUE;
+				}	
+			}
+
+			//wait for return status from the denso robot server
+			count=0;
+			while(TRUE)
+			{
+				if(!(ReadRobotStatus(sockfd, status)))
+				{
+					LOG_WARNING("Error in Reading robot status from Denso robot server\n");
+					if(count++>4)
+					{
+						strcpy( status_buffer, "error can't read robot status");
+                                		return TRUE;
+					}
+					continue;
+				}
+				else if((strncmp(status, "error",5)) ==0)
+				{
+					 strcpy( status_buffer, status);
+                                         return TRUE;	
+				}		
+			
+				else if ((strncmp(status, "normal",6)) ==0)
+				{
+					m_CrystalMounted = TRUE;
+                        		strcpy( status_buffer, status );
+                        		return TRUE;
+				}
+				else // update status
+				{
+					strcpy( status_buffer, status );
+					return FALSE;
+				}
+			}
 	}
 }
 
-/*
+
 BOOL RobotControls::DismountCrystal( const char argument[], char status_buffer[] )
 {
+	int count;
+	char cmd[100], status[100];
+
 	LOG_FINEST1( "RobotControls::DismountCrystal called( %s)", argument );
-	xos_thread_sleep( SLEEP_TIME );
+	//xos_thread_sleep( SLEEP_TIME );
 	if (!m_CrystalMounted)
 	{
 		LOG_WARNING( "RobotControls::DismountCrystal:BAD crystal not mounted yet" );
@@ -94,12 +179,58 @@ BOOL RobotControls::DismountCrystal( const char argument[], char status_buffer[]
 	}
 	else
 	{
-		m_CrystalMounted = FALSE;
-		strcpy( status_buffer, "normal" );
+		//parse and send the command to denso robot
+                if(!CommandParse(argument, cmd))
+                {
+                	LOG_WARNING( "MountCrystal: can not form a correct dismount command");
+                        strcpy( status_buffer, "error command ");
+                        return TRUE;
+                }
+		count=0;
+	        while (write(sockfd, cmd, sizeof(cmd)) < 0)
+                {
+                	LOG_WARNING1("Error in writing --%s--to Denso Robot\n",cmd);
+                        if(count++>4)
+                        {
+                             strcpy( status_buffer, "error in sending command to Denso");
+                             return TRUE;
+                         }
+                }
+		count=0;
+                while(TRUE)
+                {
+                	if(!(ReadRobotStatus(sockfd, status)))
+                        {
+                        	LOG_WARNING("Error in Reading robot status from Denso robot server\n");
+                                if(count++>4)
+                                {
+                                	strcpy( status_buffer, "error can't read robot status");
+                                        return TRUE;
+                                }
+                                continue;
+                         }
+                         else if((strncmp(status, "error",5)) ==0)
+                         {
+                         	strcpy( status_buffer, status);
+                                return TRUE;
+                         }
+                         else if ((strncmp(status, "normal",6)) ==0)
+                         {
+                         	m_CrystalMounted = FALSE;
+                                strcpy( status_buffer, status );
+                                return TRUE;
+                         }
+                         else // update status
+			 {
+				LOG_FINEST("Dismounted the Crystal");
+				strcpy( status_buffer, status );
+                        	return FALSE;
+			 }
+                }
+
 	}
-	return TRUE;
 }
-*/
+
 
 // Robot operation functions
 ///////////////////////////////////////////////////////////////////////////
@@ -109,19 +240,21 @@ BOOL RobotControls::DismountCrystal( const char argument[], char status_buffer[]
 
 BOOL RobotControls::ConnectRobotServer()
 {
-        int result, rc ;
-        struct sockaddr_in address;
-        //Create socket for client.
+        int result ;
+        
+
+	address.sin_family = AF_INET;
+	address.sin_addr.s_addr = inet_addr("130.199.198.72");
+	address.sin_port = htons(5002);
+	//Create socket for client.
         sockfd = socket(PF_INET, SOCK_STREAM, 0);
         if (sockfd == -1) {
                 perror("Socket create failed.\n") ;
                 return FALSE ;
         }
         //Name the socket as agreed with server.
-        address.sin_family = AF_INET;
-        address.sin_addr.s_addr = inet_addr("130.199.198.72");
-        address.sin_port = htons(5002);
         result = connect(sockfd, (struct sockaddr *)&address, sizeof(address) );
+        //result = connect(sockfd, (struct sockaddr *)&address, sizeof(address) );
         if(result == -1)
         {
 			LOG_WARNING( "ConnectRobotServer: Error connecting to Robot Server");
@@ -130,8 +263,10 @@ BOOL RobotControls::ConnectRobotServer()
         }
 	else
 	{
-               //the while loop is for testing purpose. should be removed 
-    /*          char ch = 'P';
+		/*
+               //the while loop is for testing purpose. should be removed
+		int rc; 
+                char ch = 'P';
 	        while ( ch < 'Y') {
 
                 	//Read and write via sockfd
@@ -145,44 +280,84 @@ BOOL RobotControls::ConnectRobotServer()
         	}
 
 		//strcpy( status_buffer, "normal" );
-      */
+      		*/
 		LOG_FINEST("RobotControls::ConnectToRobotServer Denso Server is connected\n" );
 	  	return TRUE;	
 	}
 }
 
-BOOL RobotControls::Init8bmCons( const char argument[], char status_buffer[] )
+BOOL RobotControls::CommandParse( const char argument[], char cmd[] )
+{
+
+	char loc, puck, sample[2];
+	char temp[10];
+	int result;
+
+	if(m_CrystalMounted)
+		strcpy(cmd, "DISMOUNT ");
+	else
+		strcpy(cmd, "MOUNT ");
+	result=sscanf(argument, "%c %s %c", &loc, sample, &puck);
+	if(result !=3)
+	{
+		LOG_WARNING( "RobotControls::CommandParse: Can not get all three location, puck sample values ");
+		return 0;
+	}
+	//puck = puck-64;
+	sprintf(temp,"%s %c\r\0", sample, puck);
+	strcat(cmd, temp);
+	LOG_FINEST1( "RobotControls::CommandParse ( %s)", cmd);
+	return 1;
+	
+}
+
+BOOL RobotControls::ReadRobotStatus(int fd, char *status)
+{
+	LOG_FINEST( "RobotControls::ReadRobotStatus   start");
+        char ch;
+        int  i, n;
+        for(i=0;;i++)
+        {
+                n = read(fd, &ch, 1);
+                if(n == 1){
+                	status[i]=ch;
+                        //printf("ch=%d",ch);
+			//LOG_FINEST1( "RobotControls::ReadRobotStatus ( %c)", ch);
+                        if(ch=='\r')
+			{
+                        	status[i++]='\0';
+                                LOG_FINEST1("The status from Denso: %s\n",status);
+                                break;
+                        }
+                }
+                else if (n == 0) /* no character read? */
+                {
+                        LOG_WARNING("The Denso robot server is offline");
+                        return(0);
+                        //if (i == 0)   /* no character read? */
+                        //      break; /* then return 0 */
+                }
+		else if (n==-1)
+		{
+			LOG_WARNING("Error: Can't read from the Denso robot server");
+			switch(errno)
+			{
+				case EBADF: LOG_WARNING("Error: Socket argument is not a valid file descriptor");
+				case ETIMEDOUT: LOG_WARNING("Error: Transmition timeout on a active connection");
+				case EINTR: LOG_WARNING("Error: interupted by a signal that was caught");
+			}	
+                        return(0);
+		}
+        }
+        return (1);
+}
+
+BOOL RobotControls::ClearMountedState( const char argument[], char status_buffer[] )
 {
 
         LOG_FINEST1( "RobotControls::ConnectToRobotServer called( %s)", argument );
-	if(op_mode == REAL){
-		// cons_rpc_init(char *server, int server_index)
-		// cons_rpc_open(int server_index, char *)
-		// 164.54.152.66 is the computer where the console launched                                                                       
-		LOG_FINEST(" brfore cpns_rpc_init");
-
-		if(cons_rpc_init("130.199.198.52", 5002))
-        	{
-                	LOG_WARNING( "init_8bm_cons: Error connecting to console server");
-			strcpy( status_buffer, "error");
-                	return TRUE;
-        	}
-
-		LOG_FINEST(" after cpns_rpc_init");
-		// password is hard coded here right now.
-        	if(cons_rpc_open(1, "ribosome"))
-        	{
-                	LOG_WARNING( "init_8bm_cons: Error opening console server (after connect)");
-			strcpy(status_buffer, "error");
-                	return TRUE;
-        	}
-        	LOG_FINEST( "init_8bm_cons: Open: sucessfully");
-        	strcpy( status_buffer, "normal" );
-		return TRUE;
-	}
-	
-        xos_thread_sleep( SLEEP_TIME );
-        strcpy( status_buffer, "normal" );
+        m_CrystalMounted=FALSE;
+	strcpy( status_buffer, "normal" );
         return TRUE;
 }
 
@@ -371,57 +546,71 @@ BOOL RobotControls::MonoStatus(const char argument[], char status_buffer[])
 }                                                                                                                             
 //////////////////////////////////////////////////////////////////////////////
 // Read Monitor counts from Ortec Counters.
-BOOL RobotControls::ReadMonitorCounts( const char argument[], char status_buffer[] )
+BOOL RobotControls::CenterGrabber( const char argument[], char status_buffer[] )
 {
                                                                                                                                    
-        LOG_FINEST1( "RobotControls::ReadMonitorCounts called( %s)", argument );
-                                                                                                                                   
-        if(op_mode == REAL)
+        LOG_FINEST1( "RobotControls::CenterGrabber called( %s)", argument );
+        
+	// send the command to denso robot server
+        int count=0;
+	char cmd[]="CENTER\r";
+        while (write(sockfd, cmd, sizeof(cmd)) < 0)
         {
-		// it will get all 4 values from 0-3 channels of ortec counters.
-                if(cons_rpc_gets(1, "POST_REQUEST DCM4 CURRENT_MONITOR_COUNTS 500",current_monitor_counts_string))
+        	LOG_WARNING1("Error in writing --%s--to Denso Robot\n",cmd);
+                if(count++>4)
                 {
-                        LOG_WARNING("Error: Stop_monitor_counts failed" );
-                        strcpy(status_buffer, "error");
-                        return TRUE;
+                       strcpy( status_buffer, "error in sending command to Denso");
+                       return TRUE;
                 }
-                                                                                                                                   
-                LOG_FINEST(" Read monitor counts (ortec 974)");
-                strcpy( status_buffer, "normal " );
-		strcat(status_buffer, current_monitor_counts_string);
-                return TRUE;
         }
-        xos_thread_sleep( SLEEP_TIME );
-        strcpy( status_buffer, "normal" );
+        
+	strcpy( status_buffer, "normal" );
         return TRUE;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // Stop the ortec 974 (GPIB) counter counting
-BOOL RobotControls::ReadAnalog( const char argument[], char status_buffer[] )
+BOOL RobotControls::DryGrabber( const char argument[], char status_buffer[] )
 {
 
-        LOG_FINEST1( "RobotControls::ReadAnalog called( %s)", argument );
-                                                                                                                                   
-        if(op_mode == REAL)
+	LOG_FINEST1( "RobotControls::DryGrabber called( %s)", argument );
+
+        // send the command to denso robot server
+        int count=0;
+        char cmd[]="Dry\r";
+        while (write(sockfd, cmd, sizeof(cmd)) < 0)
         {
-                if(cons_rpc_gets(1, "POST_REQUEST DCM4 CURRENT_MONITOR_COUNTS 500",current_monitor_counts_string))
+                LOG_WARNING1("Error in writing --%s--to Denso Robot\n",cmd);
+                if(count++>4)
                 {
-                        LOG_WARNING("Error: Stop_monitor_counts failed" );
-                        strcpy(status_buffer, "error");
-                        return TRUE;
+                       strcpy( status_buffer, "error in sending command to Denso");
+                       return TRUE;
                 }
-                
-		LOG_FINEST(" Read Monitor counts (ortec 974)");
-                strcpy( status_buffer, "normal " );
-		strcat( status_buffer, current_monitor_counts_string);
-                return TRUE;
         }
-        xos_thread_sleep( SLEEP_TIME );
-        strcpy( status_buffer, "normal" );
-        return TRUE;
+
 }
 
+////////////////////////////////////////////////////////////////////////////////
+// Stop the ortec 974 (GPIB) counter counting
+BOOL RobotControls::CoolGrabber( const char argument[], char status_buffer[] )
+{
+
+        LOG_FINEST1( "RobotControls::DryGrabber called( %s)", argument );
+
+        // send the command to denso robot server
+        int count=0;
+        char cmd[]="Cool\r";
+        while (write(sockfd, cmd, sizeof(cmd)) < 0)
+        {
+                LOG_WARNING1("Error in writing --%s--to Denso Robot\n",cmd);
+                if(count++>4)
+                {
+                       strcpy( status_buffer, "error in sending command to Denso");
+                       return TRUE;
+                }
+        }
+
+}
 
 //////////////////////////////////////////////////////////////////////////////
 // Start, wait and stop the Ortec counter and then to read the counts from 
@@ -540,78 +729,3 @@ BOOL RobotControls::ReadOrtecCounters( const char argument[], char status_buffer
 
 
 //////////////////////////////////////////////////////////////////////////////
-// This is a simulation function of Starting, waiting and stoping the Ortec
-// counter and then to read the counts from the Ortec counters.
-/*
-BOOL RobotControls::ReadOrtecCounters( const char argument[], char status_buffer[] )
-{
-                                                                                                                           
-                                                                                                                           
-        LOG_FINEST1( "RobotControls::ReadOrtecCounters called( %s)", argument );
-                                                                                                                           
-        if(op_mode == REAL)
-        {
-                // Parse the argument
-                double rTime;
-                long   countingTime;
-                if( (sscanf(argument, "%lf", &rTime) ) != 1)
-                {
-                        LOG_WARNING("Error: ReadOrtecCounter failed: No Counting time is given" );
-                        strcpy(status_buffer, "error");
-                        return TRUE;
-                }
-                                                                                                                           
-                // wait for the counting time (in msec)
-                countingTime = (long) (rTime*1000);
-                xos_thread_sleep( countingTime );
-                LOG_FINEST1(" Counting Time %ld ", countingTime);
-                                                                                                                           
-                strcpy(current_monitor_counts_string, "1234 4567 5678 6789");                                                                                                                            
-                LOG_FINEST(" Read Monitor counts (ortec 974)");
-                strcpy( status_buffer, "normal " );
-                strcat( status_buffer, current_monitor_counts_string);
-                return TRUE;
-        }
-        xos_thread_sleep( SLEEP_TIME );
-        strcpy( status_buffer, "normal" );
-        return TRUE;
-}
-*/
-//////////////////////////////////////////////////////////////////////////////
-// This is a simulation function of Starting, waiting and stoping the Ortec
-// counter and then to read the counts from the Ortec counters. 
-BOOL RobotControls::readOrtecCounters( const char argument[], char status_buffer[] )
-{
-                                                                                                                                            
-        LOG_FINEST1( "RobotControls::ReadOrtecCounters called( %s)", argument );
-                                                                            
-        if(op_mode == REAL)
-        {
-                // Parse the argument
-                double rTime;
-                long   countingTime;
-                if( (sscanf(argument, "%lf", &rTime) ) != 1)
-                {
-                        LOG_WARNING("Error: ReadOrtecCounter failed: No Counting time is given" );
-                        strcpy(status_buffer, "error");
-                        return TRUE;
-                }
-                
-                // wait for the counting time (in msec)
-                countingTime = (long) (rTime*1000);
-                xos_thread_sleep( countingTime );
-                LOG_FINEST1(" Counting Time %ld ", countingTime);
-
-		strcpy(current_monitor_counts_string, "1234 4567 5678 6789");                                                
-                LOG_FINEST(" Read Monitor counts (ortec 974)");
-                strcpy( status_buffer, "normal " );
-                strcat( status_buffer, current_monitor_counts_string);
-                return TRUE;
-        }
-        xos_thread_sleep( SLEEP_TIME );
-        strcpy( status_buffer, "normal" );
-        return TRUE;
-}
-
-
-

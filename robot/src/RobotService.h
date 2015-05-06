@@ -48,16 +48,16 @@ private:
 
 	////////////////////////////method for each operation//////////////////////
 
-	void Init8bmCons();
+	void ClearMountedState();
 	//BOOL ConnectToServer();
-	void StartMonitorCounts();
-	void StopMonitorCounts();
-	void ReadMonitorCounts();
-	void ReadAnalog();
+	void MountCrystal();
+	void DismountCrystal();
+	void CenterGrabber();
+	void DryGrabber();
 	void MoveToNewEnergy();
 	void GetCurrentEnergy();
+	void CoolGrabber();
 	void ReadOrtecCounters();
-	void readOrtecCounters();
 	void MonoStatus( );
 	
 	void WrapRobotMethod( PTR_ROBOT_FUNC pMethod );

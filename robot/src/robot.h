@@ -49,14 +49,15 @@ public:
 	virtual BOOL DismountCrystal( const char position[],  char status_buffer[] ) = 0;
 */
 	// Robot operation
-	virtual BOOL Init8bmCons( const char argument[],  char status_buffer[] ) = 0;
+	virtual BOOL ClearMountedState( const char argument[],  char status_buffer[] ) = 0;
 	virtual BOOL ConnectRobotServer() = 0;
-        virtual BOOL StartMonitorCounts( const char argument[],  char status_buffer[] ) = 0;
-        virtual BOOL StopMonitorCounts( const char argument[],  char status_buffer[] ) = 0;
-	virtual BOOL ReadMonitorCounts( const char argument[],  char status_buffer[] ) = 0;
-	virtual BOOL ReadAnalog( const char argument[],  char status_buffer[] ) = 0;
+	virtual void ClearMountedState() = 0;
+        virtual BOOL MountCrystal( const char argument[],  char status_buffer[] ) = 0;
+        virtual BOOL DismountCrystal( const char argument[],  char status_buffer[] ) = 0;
+	virtual BOOL CenterGrabber( const char argument[],  char status_buffer[] ) = 0;
+	virtual BOOL DryGrabber( const char argument[],  char status_buffer[] ) = 0;
         virtual BOOL ReadOrtecCounters( const char argument[],  char status_buffer[] ) = 0;
-        virtual BOOL readOrtecCounters( const char argument[],  char status_buffer[] ) = 0;
+        virtual BOOL CoolGrabber( const char argument[],  char status_buffer[] ) = 0;
 	virtual BOOL MoveToNewEnergy(const char argument[], char status_buffer[] ) = 0;
         virtual BOOL GetCurrentEnergy(const char argument[], char status_buffer[] ) = 0;
         virtual BOOL MonoStatus(const char argument[], char status_buffer[] ) = 0;
