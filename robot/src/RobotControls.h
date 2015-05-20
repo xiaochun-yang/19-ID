@@ -41,7 +41,7 @@ public:
 	virtual BOOL DryGrabber(const char argument[], char status_buffer[] );
 	virtual BOOL MoveToNewEnergy(const char argument[], char status_buffer[] );	
 	virtual BOOL GetCurrentEnergy(const char argument[], char status_buffer[] );
-        virtual BOOL ReadOrtecCounters(const char argument[], char status_buffer[] );
+        virtual BOOL GetRobotstate(const char argument[], char status_buffer[] );
         virtual BOOL CoolGrabber(const char argument[], char status_buffer[] );
         virtual BOOL MonoStatus(const char argument[], char status_buffer[] );
 

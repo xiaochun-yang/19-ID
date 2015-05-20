@@ -6,7 +6,7 @@ simDhs
 3
 localhost 2
 
-detector
+simdetector
 3
 localhost 2
 
@@ -231,14 +231,14 @@ crystalStatus
 self standardString
 0 1 1 1 1
 0 1 1 1 1
-A1 A2 robot 1 A1 yes 0
+{} A1 robot 0 {} yes 0
 
 screening_msg
 13
 self standardString
 0 1 1 1 1
 0 1 1 1 1
-sync warning: current: => A1 next: A1 => A2
+sync: current cleared
 
 ISampleMountingDevice
 11
@@ -254,38 +254,38 @@ self RobotTest
 
 lastImageCollected
 13
-detector lastImageCollected
+simdetector lastImageCollected
 0 1 1 1 1
 0 1 1 1 1
 /storage/nesg/raman/2014/aug-27/nt5c2/nt5c2_c5_45s_1_00360.img
 
 detector_collect_image
 11
-detector detector_collect_image
+simdetector detector_collect_image
 0 1 1 1 1
 0 1 1 1 1
 
 detector_transfer_image
 11
-detector detector_transfer_image
+simdetector detector_transfer_image
 0 1 1 1 1
 0 1 1 1 1
 
 detector_oscillation_ready
 11
-detector detector_oscillation_ready
+simdetector detector_oscillation_ready
 0 1 1 1 1
 0 1 1 1 1
 
 detector_stop
 11
-detector detector_stop
+simdetector detector_stop
 0 1 1 1 1
 0 1 1 1 1
 
 detector_reset_run
 11
-detector detector_reset_run
+simdetector detector_reset_run
 0 1 1 1 1
 0 1 1 1 1
 
@@ -693,7 +693,7 @@ galil2 gonio_kappa
 
 gonio_phi
 1
-galil1 gonio_phi
+simDhs gonio_phi
 0 1 1 1 1
 0 1 1 1 1
 0
@@ -1990,7 +1990,7 @@ hutchDoorStatus
 simDhs standardString
 0 1 1 1 1
 0 1 1 1 1
-closed 1430941938
+closed 1432136538
 
 getPV
 11
@@ -2092,7 +2092,7 @@ crystalSelectionList
 self standardString
 0 1 1 1 1
 0 1 1 1 1
-0 1 {1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1}
+-1 0 {1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1}
 
 screeningActionList
 13
@@ -2106,14 +2106,14 @@ screeningParameters
 self standardString
 0 1 1 1 1
 0 1 1 1 1
-{{MountNextCrystal {}} {LoopAlignment {}} {Pause {}} {VideoSnapshot {1.000 0deg}} {CollectImage {1.000 40.000 1 {}}} {Rotate 90.000} {VideoSnapshot {1.000 90deg}} {CollectImage {1.000 40.000 1 {}}} {Pause {}} {Rotate -45.000} {VideoSnapshot {1.000 45deg}} {CollectImage {1.000 40.000 1 {}}} {ExcitationScan {10.000 test}} {ReOrient {}} {RunQueueTask {}} {Pause {}} {GrabberWarmCycle 6}} 1 /storage/nesg/raman/2014/jun-3 300.000 50.000 50
+{{MountNextCrystal {}} {LoopAlignment {}} {Pause {}} {VideoSnapshot {1.000 0deg}} {CollectImage {1.000 40.000 1 {}}} {Rotate 90.000} {VideoSnapshot {1.000 90deg}} {CollectImage {1.000 40.000 1 {}}} {Pause {}} {Rotate -45.000} {VideoSnapshot {1.000 45deg}} {CollectImage {1.000 40.000 1 {}}} {ExcitationScan {10.000 test}} {ReOrient {}} {RunQueueTask {}} {Pause {}} {GrabberWarmCycle 100}} 1 /storage/nesg/raman/2014/jun-3 300.000 50.000 50
 
 detectorType
 13
-detector detectorType
+simdetector detectorType
 0 1 1 1 1
 0 1 1 1 1
-{Q4CCD}
+Q4CCD
 
 robotResetStep
 13
@@ -2409,7 +2409,7 @@ scn_crystal_msg
 self standardString
 0 1 1 1 1
 0 1 1 1 1
-sync warning: current: => A1 next: A1 => A2
+sync warning: current cleared
 
 scn_action_msg
 13
@@ -2690,7 +2690,7 @@ system_status
 self systemStatus
 1 1 1 1 1
 0 0 0 0 0
-{detector offline} black red
+{galil1 offline} black red
 
 scan_msg
 13

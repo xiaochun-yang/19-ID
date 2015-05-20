@@ -1768,8 +1768,8 @@ itcl::body SampleMountingDevice::mountNextCrystal { cassette row column cassette
 
 	#Before dismount, set robot to the screening mode
         #start_operation screening_mode "ON"
-        set operationHandle1 [eval start_waitable_operation screening_mode "ON"]
-        set result1 [wait_for_operation_to_finish $operationHandle1]
+        #yangx set operationHandle1 [eval start_waitable_operation screening_mode "ON"]
+        #yangx set result1 [wait_for_operation_to_finish $operationHandle1]
 
 #set timeStart1 [clock clicks -milliseconds]
 	#dismount first
@@ -1804,8 +1804,8 @@ itcl::body SampleMountingDevice::mountNextCrystal { cassette row column cassette
 
 	# set the screening mode to off
         #start_operation screening_mode "OFF"
-	set operationHandle1 [eval start_waitable_operation screening_mode "OFF"]
-        set result1 [wait_for_operation_to_finish $operationHandle1]
+	#yangx set operationHandle1 [eval start_waitable_operation screening_mode "OFF"]
+        #yangx set result1 [wait_for_operation_to_finish $operationHandle1]
 
     } e ] } {
         if {[lindex $e 0] == "normal"} {

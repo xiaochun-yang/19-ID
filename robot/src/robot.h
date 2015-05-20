@@ -56,7 +56,7 @@ public:
         virtual BOOL DismountCrystal( const char argument[],  char status_buffer[] ) = 0;
 	virtual BOOL CenterGrabber( const char argument[],  char status_buffer[] ) = 0;
 	virtual BOOL DryGrabber( const char argument[],  char status_buffer[] ) = 0;
-        virtual BOOL ReadOrtecCounters( const char argument[],  char status_buffer[] ) = 0;
+        virtual BOOL GetRobotstate( const char argument[],  char status_buffer[] ) = 0;
         virtual BOOL CoolGrabber( const char argument[],  char status_buffer[] ) = 0;
 	virtual BOOL MoveToNewEnergy(const char argument[], char status_buffer[] ) = 0;
         virtual BOOL GetCurrentEnergy(const char argument[], char status_buffer[] ) = 0;

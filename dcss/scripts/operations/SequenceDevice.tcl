@@ -2258,7 +2258,7 @@ if { $currentPortOK && $nextPortOK } {
 	# after dismount and mount. In the case of dismount failed, it will not 
 	# set the screening mode off. So it's added here to make sure it set.
 
-    	    start_operation screening_mode "OFF" 
+    	    #start_operation screening_mode "OFF" 
 
 	    return -code error $errorText
         }

@@ -57,7 +57,7 @@ private:
 	void MoveToNewEnergy();
 	void GetCurrentEnergy();
 	void CoolGrabber();
-	void ReadOrtecCounters();
+	void GetRobotstate();
 	void MonoStatus( );
 	
 	void WrapRobotMethod( PTR_ROBOT_FUNC pMethod );

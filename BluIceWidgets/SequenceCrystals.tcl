@@ -1437,6 +1437,7 @@ body SequenceCrystals::parseHeader { header {forced 0} } {
     bind $itk_component(checkHeader) <Map> "$this handleHeaderMap -1"
 
     #$itk_component(stateHeader) config -background $gray
+#yangx change to from $gray to $green for testing 
     $itk_component(checkHeader) config -background $gray
     
     #floating header

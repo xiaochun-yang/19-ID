@@ -21,7 +21,7 @@ RobotService::OperationToMethod RobotService::m_OperationMap[] =
 	{"center_grabber",					FALSE, &RobotService::CenterGrabber},
 	{"dry_grabber",						FALSE, &RobotService::DryGrabber},
         {"cool_grabber",                                        FALSE, &RobotService::CoolGrabber},
-	{"ReadOrtecCounters",                                   FALSE, &RobotService::ReadOrtecCounters},
+	{"get_robotstate",                                      FALSE, &RobotService::GetRobotstate},
 	{"move_to_new_energy",                   		FALSE, &RobotService::MoveToNewEnergy},
 	{"get_current_energy",           			FALSE, &RobotService::GetCurrentEnergy},
 	{"mono_status",						FALSE, &RobotService::MonoStatus},
@@ -736,9 +736,9 @@ void RobotService::CoolGrabber()
         WrapRobotMethod( &Robot::CoolGrabber);
 }
 
-void RobotService::ReadOrtecCounters()
+void RobotService::GetRobotstate()
 {
-        WrapRobotMethod( &Robot::ReadOrtecCounters);
+        WrapRobotMethod( &Robot::GetRobotstate);
 }
 
 
