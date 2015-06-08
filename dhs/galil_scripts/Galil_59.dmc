@@ -1,0 +1,34 @@
+#AUTO
+HOMED=0
+MO
+MT 2,2,2.5,2.5,2,2,2.5,2
+LC 1,1,1,1,1,1,1,1
+AG 1,1,1,1,1,1,2,1
+SH
+CN1,1
+HM
+BGG
+MCG
+HOMED=1
+MG "HOMED"
+EN
+#ShutAll
+EN
+#W_Dog
+CW ,1
+Kick=0
+LastKic=0
+#WDog_ok
+//MG{EF} "WATCHDOG ok"
+AT 0
+AT 5000
+JP #WDogBad,Kick=LastKic
+LastKic=Kick
+TimeOut=0
+JP #WDog_ok
+#WDogBad
+TimeOut=1
+//DON'T Send an unsolicited message to DHS
+//MG{EF} "dtoh_watchdog_timeout"
+JP #WDog_ok
+

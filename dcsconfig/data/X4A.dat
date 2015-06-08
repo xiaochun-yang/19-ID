@@ -18,6 +18,14 @@ galil2
 3
 localhost 2
 
+galil3
+3
+localhost 2
+
+galil4
+3
+localhost 2
+
 camera
 3
 localhost 2
@@ -257,7 +265,7 @@ lastImageCollected
 simdetector lastImageCollected
 0 1 1 1 1
 0 1 1 1 1
-/storage/nesg/raman/2014/aug-27/nt5c2/nt5c2_c5_45s_1_00360.img
+/home/nysbc/tmp/nt5c2_c5_45s_1_00360.img
 
 detector_collect_image
 11
@@ -693,7 +701,7 @@ galil2 gonio_kappa
 
 gonio_phi
 1
-simDhs gonio_phi
+galil1 gonio_phi
 0 1 1 1 1
 0 1 1 1 1
 0
@@ -933,31 +941,31 @@ simDhs dac
 
 ion_chamber0
 12
-galil2 ion_chamber0
+simDhs ion_chamber0
 0 1 1 1 1
 0 1 1 1 1
 
 ion_chamber1
 12
-galil2 ion_chamber1
+simDhs ion_chamber1
 0 1 1 1 1
 0 1 1 1 1
 
 ion_chamber2
 12
-galil2 ion_chamber2
+simDhs ion_chamber2
 0 1 1 1 1
 0 1 1 1 1
 
 ion_chamber3
 12
-galil2 ion_chamber3
+simDhs ion_chamber3
 0 1 1 1 1
 0 1 1 1 1
 
 ion_chamber4
 12
-galil2 ion_chamber4
+simDhs ion_chamber4
 0 1 1 1 1
 0 1 1 1 1
 
@@ -1418,21 +1426,21 @@ run0
 self runDefinition
 0 1 1 1 1
 0 1 1 1 1
-inactive 0 0 nt5c2_c5 /storage/nesg/raman/2014/aug-27 13 Phi 90.00 820.0 1.00 180.0 35.000 300.000 50.000000 50 1 12659.272460 {} {} {} {} 1 0
+inactive 0 0 nt5c2_c5 /home/nysbc/nesg/raman/2014/aug-27 13 Phi 90.00 820.0 1.00 180.0 35.000 300.000 50.000000 50 1 12659.272460 {} {} {} {} 1 0
 
 run1
 13
 self runDefinition
 0 1 1 1 1
 0 1 1 1 1
-complete 360 1 nt5c2_c5_45s /storage/nesg/raman/2014/aug-27/nt5c2 1 Phi 90.00 450.0 1.00 180.0 45.000 285.000 50.000000 50 1 12659.272460 {} {} {} {} 1 0
+complete 360 1 nt5c2_c5_45s /home/nysbc/nesg/raman/2014/aug-27/nt5c2 1 Phi 90.00 450.0 1.00 180.0 45.000 285.000 50.000000 50 1 12659.272460 {} {} {} {} 1 0
 
 run2
 13
 self runDefinition
 0 1 1 1 1
 0 1 1 1 1
-inactive 0 2 paf2 /storage/lbai/paf2 1 Phi 0.00 360.0 1.00 10.0 30.000 122.001 50.000000 99.861011 1 5988.722170 {} {} {} {} 1 1
+inactive 0 2 paf2 /home/nysbc/lbai/paf2 1 Phi 0.00 360.0 1.00 10.0 30.000 122.001 50.000000 99.861011 1 5988.722170 {} {} {} {} 1 1
 
 run3
 13
@@ -2106,7 +2114,7 @@ screeningParameters
 self standardString
 0 1 1 1 1
 0 1 1 1 1
-{{MountNextCrystal {}} {LoopAlignment {}} {Pause {}} {VideoSnapshot {1.000 0deg}} {CollectImage {1.000 40.000 1 {}}} {Rotate 90.000} {VideoSnapshot {1.000 90deg}} {CollectImage {1.000 40.000 1 {}}} {Pause {}} {Rotate -45.000} {VideoSnapshot {1.000 45deg}} {CollectImage {1.000 40.000 1 {}}} {ExcitationScan {10.000 test}} {ReOrient {}} {RunQueueTask {}} {Pause {}} {GrabberWarmCycle 6}} 1 /storage/nesg/raman/2014/jun-3 300.000 50.000 50
+{{MountNextCrystal {}} {LoopAlignment {}} {Pause {}} {VideoSnapshot {1.000 0deg}} {CollectImage {1.000 40.000 1 {}}} {Rotate 90.000} {VideoSnapshot {1.000 90deg}} {CollectImage {1.000 40.000 1 {}}} {Pause {}} {Rotate -45.000} {VideoSnapshot {1.000 45deg}} {CollectImage {1.000 40.000 1 {}}} {ExcitationScan {10.000 test}} {ReOrient {}} {RunQueueTask {}} {Pause {}} {GrabberWarmCycle 6}} 1 /home/nysbc/tmp/raman/2014/jun-3 300.000 50.000 50
 
 detectorType
 13
@@ -2642,7 +2650,7 @@ current_user_log
 self standardString
 0 1 1 1 1
 0 1 1 1 1
-/usr/local/dcs/userLog/X4A/userLog20130107_134657.ulg
+/usr/local/dcs/X4A/userLog20130107_134657.ulg
 
 screening_user
 13

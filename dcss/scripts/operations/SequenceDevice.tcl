@@ -2279,17 +2279,17 @@ if { $currentPortOK && $nextPortOK } {
                 set screening_msg "$cassette$column$row mounted"
             }
             #yangx warm_up grabber
-    	    if { $m_startWarmUp } {
+    	   # if { $m_startWarmUp } {
        		#start_operation warm_up_grabber
 
 		#wait for the warm up operation to finished. without waiting may cause 
 		#problem. I don't really know at this point. 
 
-		set operationHandle [eval start_waitable_operation warm_up_grabber]
-		set result [wait_for_operation_to_finish $operationHandle]
-		after 500
-       		set m_startWarmUp 0
-	    }
+		#set operationHandle [eval start_waitable_operation warm_up_grabber]
+		#set result [wait_for_operation_to_finish $operationHandle]
+		#after 500
+       		#set m_startWarmUp 0
+	    #}
 
         } else {
             set m_currentCassette n
@@ -2344,7 +2344,7 @@ if { $currentPortOK && $nextPortOK } {
         set screening_msg "$m_currentCassette$m_currentColumn$m_currentRow dismounted"
         checkIfRobotResetIsRequired
 #yangx add
-	start_operation warm_up_grabber
+#	start_operation warm_up_grabber
 
     } else {
         puts "ROBOT simulation"
@@ -2404,8 +2404,8 @@ if { $currentPortOK && $nextPortOK } {
 #yangx add warm up grabber here for no wait
 # if it's not mounted for some reason the following operation
 # should not be executed. put if { mounted? } here.
-	after 1000   #try shorten this
-        start_operation warm_up_grabber
+#	after 1000   #try shorten this
+#       start_operation warm_up_grabber
     } else {
         puts "ROBOT simulation"
         sleep 800

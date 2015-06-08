@@ -15,16 +15,16 @@
 
 RobotService::OperationToMethod RobotService::m_OperationMap[] =
 {//  name,								immediately, method to call
-	{"clear_mounted_state",					FALSE, &RobotService::ClearMountedState},
-	{"mount_crystal",					FALSE, &RobotService::MountCrystal},
-        {"dismount_crystal",                                    FALSE, &RobotService::DismountCrystal},
-	{"center_grabber",					FALSE, &RobotService::CenterGrabber},
-	{"dry_grabber",						FALSE, &RobotService::DryGrabber},
-        {"cool_grabber",                                        FALSE, &RobotService::CoolGrabber},
-	{"get_robotstate",                                      FALSE, &RobotService::GetRobotstate},
-	{"move_to_new_energy",                   		FALSE, &RobotService::MoveToNewEnergy},
-	{"get_current_energy",           			FALSE, &RobotService::GetCurrentEnergy},
-	{"mono_status",						FALSE, &RobotService::MonoStatus},
+	{"clear_mounted_state",					FALSE, &RobotService::ClearMountedState, 10},
+	{"mount_crystal",					FALSE, &RobotService::MountCrystal,	30},
+        {"dismount_crystal",                                    FALSE, &RobotService::DismountCrystal,	30},
+	{"center_grabber",					FALSE, &RobotService::CenterGrabber,	30},
+	{"dry_grabber",						FALSE, &RobotService::DryGrabber,	100},
+        {"cool_grabber",                                        FALSE, &RobotService::CoolGrabber,	100},
+	{"get_robotstate",                                      FALSE, &RobotService::GetRobotState,	4},
+	{"move_to_new_energy",                   		FALSE, &RobotService::MoveToNewEnergy,	100},
+	{"get_current_energy",           			FALSE, &RobotService::GetCurrentEnergy,	100},
+	{"mono_status",						FALSE, &RobotService::MonoStatus,	100},
 };
 
 RobotService::MotorNameStruct RobotService::m_MotorMap[] = {
@@ -32,18 +32,86 @@ RobotService::MotorNameStruct RobotService::m_MotorMap[] = {
 //        {"MSecond",                     MOTOR_SECOND},
 };
 
+RobotService::StringList RobotService::m_StringMap[] =
+{
+        //name                          //name length   //write         //read          //Msg Latest
+        {"robot_status",        12,                             true,           false,          NULL},
+        {"robot_state",         11,                             true,           false,          NULL},
+        {"robot_cassette",      14,                             true,           false,          NULL},
+        {"robot_sample",        12,                             true,           false,          NULL},
+        {"robot_attribute",     15,                             false,          true,           NULL},
+        {"robot_input",         11,                             true,           false,          NULL},
+        {"robot_output",        12,                             true,           false,          NULL}
+};
+
+const char* RobotService::ms_StringStatus(m_StringMap[0].m_StringName);
+//the robot_staus is a text string with fields:
+//0: "status:"
+//1: status_num         0- 400000000
+//2: "need_reset:"
+//3: need_reset         0 or 1
+//4: "need_cal:"
+//5: need_calibration   0 or 1
+//6: "state:"
+//7: state              {idle} {prepare_mount_crystal}
+//8: "warning:"
+//9: warning message    {empty port in mounting}
+//10:"cal_msg:"
+//11:calibration message {touching seat} {....}
+//12:"cal_step:"
+//13:calibration steps  {d of d} {+d} {-d}
+//14:"mounted:"
+//15:{} or port position been mounted like {l 4 A}
+//16:"pin_lost:"
+//17:number of pin lost
+//18:"pin_mounted:"
+//19:number of pin mounted from last reset
+
+//example "status: 0 need_reset: 0 need_cal: 0 state: idle warning: {} cal_msg: {done} cal_step: {0 of 100} mounted: {m 4 A} pin_lost: 0 pin_mounted: 100"
+
+const char* RobotService::ms_StringState(m_StringMap[1].m_StringName);
+//example "{sample on tong} {magnet on cradle} P0 {in lN2} {current port: m 5 B}"
+const char* RobotService::ms_StringCassetteStatus(m_StringMap[2].m_StringName);
+//example "2 {1 1 0 2 ...} 0 {0 0 0 0 .....} 2 {2 2 2 1 1 1 000 ...}"
+//first field is left cassette status
+//second field is a list of port status for left cassette
+
+const char* RobotService::ms_StringSampleStatus(m_StringMap[3].m_StringName);
+//examples "l3A mounting", "l3A empty", "l3A mounted", "l3A dismounting"
+//this string is for display only.  You can parse robot_status and robot_state to get the same information
+
+const char* RobotService::ms_StringAttribute(m_StringMap[4].m_StringName);
+//0:    0/1:                send detailed message in calibration
+//1:    0/1:                probe cassette
+//2:    0/1:                probe port
+//3:    unsigned integer:   lost pin threshold to set NEED_CLEAR FLAG
+//4:    0/1:                check magnet, using force sensor to make sure that magnet is there
+//5:    0/1:                post calibration threshold check
+//6:    0/1:                collect force info at all contacts of tong (post, cassette, goniometer
+
+const char* RobotService::ms_StringInputBits(m_StringMap[5].m_StringName);
+const char* RobotService::ms_StringOutputBits(m_StringMap[6].m_StringName);
+
+//we only need "normal" as string status
+const char* RobotService::ms_Normal("normal");
+
+
 RobotService::RobotService( ):
 	m_MsgManager( DcsMessageManager::GetObject( )),
-	m_MsgQueue( 1 ),
+	m_MsgQueue( 1 ),//yangx changed from 1 to 3 max_length
 	m_pRobot(NULL),
+	m_SendingDetailedMessage(false),
+	m_timeStampRobotPolling(0),
 	m_pCurrentOperation(NULL),
 	m_pInstantOperation(NULL)
 {
     xos_semaphore_create( &m_SemThreadWait, 0 );
-    xos_semaphore_create( &m_SemStopOnly, 0 );
+    xos_event_create( &m_EvtStopOnly, true, false );
     m_pRobot = new RobotControls;
 
     m_pRobot->SetSleepSemaphore( &m_SemStopOnly );
+//    m_pRobot->SetSleepEvent( &m_EvtStopOnly );
+//    m_pRobot->RegisterEventListener( *this );	
 }
 
 RobotService::~RobotService( )
@@ -51,7 +119,7 @@ RobotService::~RobotService( )
 	stop( );
 	delete m_pRobot;
 
-    xos_semaphore_close( &m_SemStopOnly );
+//    xos_event_close( &m_EvtStopOnly );
     xos_semaphore_close( &m_SemThreadWait );
 }
 
@@ -736,9 +804,9 @@ void RobotService::CoolGrabber()
         WrapRobotMethod( &Robot::CoolGrabber);
 }
 
-void RobotService::GetRobotstate()
+void RobotService::GetRobotState()
 {
-        WrapRobotMethod( &Robot::GetRobotstate);
+        WrapRobotMethod( &Robot::GetRobotState);
 }
 
 

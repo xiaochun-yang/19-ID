@@ -57,7 +57,7 @@ private:
 	void MoveToNewEnergy();
 	void GetCurrentEnergy();
 	void CoolGrabber();
-	void GetRobotstate();
+	void GetRobotState();
 	void MonoStatus( );
 	
 	void WrapRobotMethod( PTR_ROBOT_FUNC pMethod );
@@ -79,9 +79,10 @@ private:
 	MQueue m_MsgQueue;
 
 	//thread
-    xos_thread_t m_Thread;
+	xos_thread_t m_Thread;
 	xos_semaphore_t m_SemThreadWait;    //this is wait for message and stop
-    xos_semaphore_t m_SemStopOnly;      //this is for stop only, used as timer
+    	xos_semaphore_t m_SemStopOnly;      //this is for stop only, used as timer
+	xos_event_t m_EvtStopOnly;      //this is for stop only, used as timer
 
 	//Robot
 	Robot* m_pRobot;
@@ -93,14 +94,50 @@ private:
 	DcsMessage* volatile 	m_pInstantOperation;
         DcsMessage* volatile    m_pInstantMessage;      //operation that is taking place if it is an immediate operation
         DcsMessage* volatile    m_pCurrentMessage;      //operation that is currently taking place
-
+	
+	volatile bool m_SendingDetailedMessage;
+	//watch dog
+        volatile time_t m_timeStampRobotPolling;
 
 	static struct OperationToMethod
 	{
 		const char*          m_OperationName;
 		bool	             m_Immediately;
 		void (RobotService::*m_pMethod)();
+		unsigned int         m_TimeoutForNextOperation; //if not 0, it will go home (standby) if next operation does not
 	} m_OperationMap[];
+
+	//strnigs owned by robot
+    	static const char* ms_StringStatus;             //set only by robot, read by all
+    	static const char* ms_StringState;              //set only by robot, read by all
+    	static const char* ms_StringCassetteStatus;     //set only by robot, read by all
+    	static const char* ms_StringSampleStatus;       //set only by robot, read by all
+    	static const char* ms_StringInputBits;                      //set only by robot, read by all
+    	static const char* ms_StringOutputBits;                     //set only by robot, read by all
+
+    	static const char* ms_StringAttribute;          //set by blu-ice, read by robot
+
+    	//"normal" status for sending set_string_completed
+    	static const char* ms_Normal;
+
+
+        //strings in this array will get special treatment to keep DCSS in SYNC with robot.
+        //If the m_Write is set:
+        //              the latest message will be save in case DCSS is disconnected
+        //              and will be sent out when DCSS is reconnected
+        //
+        //If the m_Read is set:
+        //              robot will retrieve the contents from DCSS when it is connected to DCSS
+
+        static struct StringList
+        {
+                const char*                             m_StringName;
+                size_t                                  m_NameLength;
+                bool                                    m_Write;
+                bool                                    m_Read;
+                DcsMessage* volatile    m_pMsgLatest;
+        } m_StringMap[];
+
 
         enum MotorIndex {
                 MOTOR_FIRST,

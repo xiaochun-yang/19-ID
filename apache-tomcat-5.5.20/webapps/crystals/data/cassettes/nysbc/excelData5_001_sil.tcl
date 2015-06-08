@@ -1,5 +1,5 @@
 {
-  {5} {7} {load}
+  {5} {14} {load}
   {
     {Selected 4 {hide editable}}
     {Port 4 {show readonly}}
@@ -53,7 +53,6 @@
     {}
     {
       {
-        { {/storage/yangx/robot-test/A1} {A1_0001.img} {A1_0deg_0001.jpg} {A1_0001_small.jpg} {A1_0001_medium.jpg} {A1_0001_large.jpg} {} {} {} {} {} {} {} {} {} {} }
       }
       {
       }

@@ -29,7 +29,7 @@ public:
 	virtual RobotStatus GetStatus( ) const = 0;
 
 	//return false if failed: it will be called at the beginning of robot thread
-	virtual BOOL Initialize( ) = 0;
+	virtual bool Initialize( ) = 0;
 
 	virtual void Cleanup( ) = 0;
 
@@ -47,21 +47,21 @@ public:
 
     //The "prepare" is for cooling the tong and and allow the DCSS
     //can move motors around in the same time
-	virtual BOOL PrepareMountCrystal( const char position[],  char status_buffer[] ) =  0;
-	virtual BOOL PrepareDismountCrystal( const char position[],  char status_buffer[] ) = 0;
-	virtual BOOL PrepareMountNextCrystal( const char position[],  char status_buffer[] ) = 0;
+	virtual bool PrepareMountCrystal( const char position[],  char status_buffer[] ) =  0;
+	virtual bool PrepareDismountCrystal( const char position[],  char status_buffer[] ) = 0;
+	virtual bool PrepareMountNextCrystal( const char position[],  char status_buffer[] ) = 0;
 
-	virtual BOOL MountCrystal( const char position[],  char status_buffer[] ) =  0;
-	virtual BOOL DismountCrystal( const char position[],  char status_buffer[] ) = 0;
-	virtual BOOL MountNextCrystal( const char position[],  char status_buffer[] ) = 0;
+	virtual bool MountCrystal( const char position[],  char status_buffer[] ) =  0;
+	virtual bool DismountCrystal( const char position[],  char status_buffer[] ) = 0;
+	virtual bool MountNextCrystal( const char position[],  char status_buffer[] ) = 0;
 
-	virtual BOOL PrepareSortCrystal( const char argument[], char status_buffer[] ) = 0;
-	virtual BOOL SortCrystal( const char argument[], char status_buffer[] ) = 0;
+	virtual bool PrepareSortCrystal( const char argument[], char status_buffer[] ) = 0;
+	virtual bool SortCrystal( const char argument[], char status_buffer[] ) = 0;
 
 
-	virtual BOOL Config( const char argument[],  char status_buffer[] ) = 0;
+	virtual bool Config( const char argument[],  char status_buffer[] ) = 0;
 
-	virtual BOOL Calibrate( const char argument[],  char status_buffer[] ) = 0;
+	virtual bool Calibrate( const char argument[],  char status_buffer[] ) = 0;
 
     //if you want to sleep in your function, use this semaphore to wait.
     //Stop will wake you up

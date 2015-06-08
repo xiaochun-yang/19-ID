@@ -18,6 +18,14 @@ galil2
 3
 localhost 2
 
+galil3
+3
+localhost 2
+
+galil4
+3
+localhost 2
+
 camera
 3
 localhost 2
@@ -238,7 +246,7 @@ screening_msg
 self standardString
 0 1 1 1 1
 0 1 1 1 1
-sync: current cleared
+lA2 dismounted
 
 ISampleMountingDevice
 11
@@ -257,7 +265,7 @@ lastImageCollected
 simdetector lastImageCollected
 0 1 1 1 1
 0 1 1 1 1
-/storage/nesg/raman/2014/aug-27/nt5c2/nt5c2_c5_45s_1_00360.img
+
 
 detector_collect_image
 11
@@ -673,7 +681,7 @@ optimizedEnergyParameters
 self standardString
 0 1 1 1 1
 0 1 1 1 1
-0 {{Optimized table}} 1 0 0 0 0 0 0 12641.9987791 1109956666 100.00 3600.00 12.00 50.0000 0.100 11.000 -12.000 i2 0.095 0.095 0.100 20 0.050 0.10 1 20 0 {} {} {} {} {} {}
+0 {{Optimized table}} 1 0 0 0 0 0 0 12641.9987791 1109956666 100.00 3600.00 12.00 50.0000 0.100 11.000 -12.000 i2 0.095 0.095 0.100 20 0.050 0.10 0 20 0 {} {} {} {} {} {}
 
 gonio_omega
 1
@@ -693,11 +701,11 @@ galil2 gonio_kappa
 
 gonio_phi
 1
-simDhs gonio_phi
+galil1 gonio_phi
 0 1 1 1 1
 0 1 1 1 1
 0
-90.005200 1000.000000 0.000000 10000.000000 900000 10 0 0 0 0 0 0 1 deg
+0.000000 1000.000000 0.000000 10000.000000 900000 10 0 0 0 0 0 0 1 deg
 
 mono_vert
 1
@@ -933,31 +941,31 @@ simDhs dac
 
 ion_chamber0
 12
-galil2 ion_chamber0
+simDhs ion_chamber0
 0 1 1 1 1
 0 1 1 1 1
 
 ion_chamber1
 12
-galil2 ion_chamber1
+simDhs ion_chamber1
 0 1 1 1 1
 0 1 1 1 1
 
 ion_chamber2
 12
-galil2 ion_chamber2
+simDhs ion_chamber2
 0 1 1 1 1
 0 1 1 1 1
 
 ion_chamber3
 12
-galil2 ion_chamber3
+simDhs ion_chamber3
 0 1 1 1 1
 0 1 1 1 1
 
 ion_chamber4
 12
-galil2 ion_chamber4
+simDhs ion_chamber4
 0 1 1 1 1
 0 1 1 1 1
 
@@ -1221,7 +1229,7 @@ galil1 tripot_3
 0 1 1 1 1
 0 1 1 1 1
 0
-0.204098 10.000000 -10.000000 20157.000000 5000 20 0 0 0 0 0 0 0 mm
+0.364935 10.000000 -10.000000 20157.000000 5000 20 0 0 0 0 0 0 0 mm
 
 tripot_2
 1
@@ -1229,7 +1237,7 @@ galil1 tripot_2
 0 1 1 1 1
 0 1 1 1 1
 0
-0.194870 5.500000 -5.500000 20157.000000 5000 20 0 0 0 0 0 0 0 mm
+0.358982 5.500000 -5.500000 20157.000000 5000 20 0 0 0 0 0 0 0 mm
 
 tripot_1
 1
@@ -1237,7 +1245,7 @@ galil1 tripot_1
 0 1 1 1 1
 0 1 1 1 1
 0
-0.538523 10.000000 -10.000000 20157.000000 5000 20 0 0 0 0 0 0 0 mm
+0.703775 10.000000 -10.000000 20157.000000 5000 20 0 0 0 0 0 0 0 mm
 
 sample_x
 2
@@ -1245,7 +1253,7 @@ self sample_x
 0 1 1 1 1
 0 1 1 1 1
 1
--0.866953 10.000000 -10.000000 0 0 0 0 mm
+-0.869829 10.000000 -10.000000 0 0 0 0 mm
 tripot_1 tripot_2
 
 sample_y
@@ -1254,7 +1262,7 @@ self sample_y
 0 1 1 1 1
 0 1 1 1 1
 1
--0.473102 10.000000 -10.000000 0 0 0 0 mm
+-0.484290 10.000000 -10.000000 0 0 0 0 mm
 tripot_1 tripot_2 tripot_3
 
 sample_z
@@ -1263,7 +1271,7 @@ self sample_z
 0 1 1 1 1
 0 1 1 1 1
 1
-0.312497 10.000000 -10.000000 0 0 0 0 mm
+0.475897 10.000000 -10.000000 0 0 0 0 mm
 tripot_1 tripot_2 tripot_3
 
 sample_z_corr
@@ -1272,7 +1280,7 @@ self sample_z_corr
 0 1 1 1 1
 0 1 1 1 1
 1
-0.312497 4.950000 -28.100000 1 0 0 0 mm
+0.475897 4.950000 -28.100000 1 0 0 0 mm
 sample_z
 
 bend_x3
@@ -1389,7 +1397,7 @@ galil1 detector_z
 0 0 0 1 1
 0 0 0 0 0
 0
-285.000000 1000.000000 122.000000 19690.000000 100000 30 0 1 1 0 0 0 0 mm
+400.000000 1000.000000 75.000000 19690.000000 100000 30 0 1 1 0 0 0 0 mm
 
 gonio_z
 1
@@ -1418,21 +1426,21 @@ run0
 self runDefinition
 0 1 1 1 1
 0 1 1 1 1
-inactive 0 0 nt5c2_c5 /storage/nesg/raman/2014/aug-27 13 Phi 90.00 820.0 1.00 180.0 35.000 300.000 50.000000 50 1 12659.272460 {} {} {} {} 1 0
+inactive 0 0 nt5c2_c5 /home/nysbc/nesg/raman/2014/aug-27 13 Phi 90.00 820.0 1.00 180.0 35.000 300.000 50.000000 50 1 12659.272460 {} {} {} {} 1 0
 
 run1
 13
 self runDefinition
 0 1 1 1 1
 0 1 1 1 1
-complete 360 1 nt5c2_c5_45s /storage/nesg/raman/2014/aug-27/nt5c2 1 Phi 90.00 450.0 1.00 180.0 45.000 285.000 50.000000 50 1 12659.272460 {} {} {} {} 1 0
+complete 360 1 nt5c2_c5_45s /home/nysbc/nesg/raman/2014/aug-27/nt5c2 1 Phi 90.00 450.0 1.00 180.0 45.000 285.000 50.000000 50 1 12659.272460 {} {} {} {} 1 0
 
 run2
 13
 self runDefinition
 0 1 1 1 1
 0 1 1 1 1
-inactive 0 2 paf2 /storage/lbai/paf2 1 Phi 0.00 360.0 1.00 10.0 30.000 122.001 50.000000 99.861011 1 5988.722170 {} {} {} {} 1 1
+inactive 0 2 paf2 /home/nysbc/lbai/paf2 1 Phi 0.00 360.0 1.00 10.0 30.000 122.001 50.000000 99.861011 1 5988.722170 {} {} {} {} 1 1
 
 run3
 13
@@ -1990,7 +1998,7 @@ hutchDoorStatus
 simDhs standardString
 0 1 1 1 1
 0 1 1 1 1
-closed 1432136538
+closed 1433774934
 
 getPV
 11
@@ -2099,14 +2107,14 @@ screeningActionList
 self screeningActionList
 0 1 1 1 1
 0 1 1 1 1
-0 -1 0 {1 0 1 1 1 1 1 1 0 0 0 0 0 0 0 0 1}
+0 -1 4 {1 0 1 1 1 0 0 0 0 0 0 0 0 0 0 0 1}
 
 screeningParameters
 13
 self standardString
 0 1 1 1 1
 0 1 1 1 1
-{{MountNextCrystal {}} {LoopAlignment {}} {Pause {}} {VideoSnapshot {1.000 0deg}} {CollectImage {1.000 40.000 1 {}}} {Rotate 90.000} {VideoSnapshot {1.000 90deg}} {CollectImage {1.000 40.000 1 {}}} {Pause {}} {Rotate -45.000} {VideoSnapshot {1.000 45deg}} {CollectImage {1.000 40.000 1 {}}} {ExcitationScan {10.000 test}} {ReOrient {}} {RunQueueTask {}} {Pause {}} {GrabberWarmCycle 100}} 1 /storage/nesg/raman/2014/jun-3 300.000 50.000 50
+{{MountNextCrystal {}} {LoopAlignment {}} {Pause {}} {VideoSnapshot {1.000 0deg}} {CollectImage {1.000 2.000 1 {}}} {Rotate 90.000} {VideoSnapshot {1.000 90deg}} {CollectImage {1.000 2.000 1 {}}} {Pause {}} {Rotate -45.000} {VideoSnapshot {1.000 45deg}} {CollectImage {1.000 2.000 1 {}}} {ExcitationScan {10.000 test}} {ReOrient {}} {RunQueueTask {}} {Pause {}} {GrabberWarmCycle 6}} 1 /home/nysbc/tmp/raman/2014/jun-3 400.000 50.000 50
 
 detectorType
 13
@@ -2409,7 +2417,7 @@ scn_crystal_msg
 self standardString
 0 1 1 1 1
 0 1 1 1 1
-sync warning: current cleared
+
 
 scn_action_msg
 13
@@ -2520,7 +2528,7 @@ sil_event_id
 imperson sil_event_id
 0 1 1 1 1
 0 1 1 1 1
-5 7
+5 14
 
 robot_force_left
 13
@@ -2642,7 +2650,7 @@ current_user_log
 self standardString
 0 1 1 1 1
 0 1 1 1 1
-/usr/local/dcs/userLog/X4A/userLog20130107_134657.ulg
+/usr/local/dcs/X4A/userLog20130107_134657.ulg
 
 screening_user
 13

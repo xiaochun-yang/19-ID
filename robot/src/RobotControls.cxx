@@ -22,6 +22,8 @@ static BOOL error_comm=FALSE;
 static int op_mode = REAL;
 static char current_monitor_counts_string[127];
 
+
+
 RobotControls::RobotControls(void):
 	m_CrystalMounted(FALSE)
 {
@@ -42,6 +44,17 @@ BOOL RobotControls::Initialize( )
 	return TRUE;
 }
 
+BOOL RobotControls::RegisterEventListener( RobotEventListener& listener )
+{
+    if (m_pEventListener) return false;
+    m_pEventListener = &listener;
+    return true;
+}
+
+void RobotControls::UnregisterEventListener( RobotEventListener& listener )
+{
+    if (m_pEventListener == &listener) m_pEventListener = NULL;
+}
 
 RobotStatus RobotControls::GetStatus( ) const
 {
@@ -103,7 +116,7 @@ BOOL RobotControls::MountCrystal( const char argument[], char status_buffer[] )
 	if(error_comm)
 	{
 		//try to connect to denso server again
-		if(ConnectRobotServer())
+		if(!ConnectRobotServer())
 		{
                 	LOG_WARNING( "MountCrystal: Could not connect to Denso Robot Server");
                         strcpy( status_buffer, "error Denso Robot Server closed");
@@ -190,13 +203,13 @@ BOOL RobotControls::MountCrystal( const char argument[], char status_buffer[] )
 BOOL RobotControls::DismountCrystal( const char argument[], char status_buffer[] )
 {
 	int count;
-	char cmd[100], status[100];
+	char cmd[100], status[120];
 
 	LOG_FINEST1( "RobotControls::DismountCrystal called( %s)", argument );
         if(error_comm)
         {
                 //try to connect to denso server again
-                if(ConnectRobotServer())
+                if(!ConnectRobotServer())
                 {
                         LOG_WARNING( "MountCrystal: Could not connect to Denso Robot Server");
                         strcpy( status_buffer, "error Denso Robot Server closed");
@@ -286,6 +299,7 @@ BOOL RobotControls::ConnectRobotServer()
 	address.sin_family = AF_INET;
 	address.sin_addr.s_addr = inet_addr("130.199.198.72");
 	address.sin_port = htons(5002);
+
 	//Create socket for client.
         sockfd = socket(PF_INET, SOCK_STREAM, 0);
         if (sockfd == -1) {
@@ -339,8 +353,8 @@ BOOL RobotControls::CommandParse( const char argument[], char cmd[] )
 BOOL RobotControls::ReadRobotStatus(int fd, char *status)
 {
 	LOG_FINEST( "RobotControls::ReadRobotStatus   start");
-        char ch;
-        int  i, n;
+        char ch, temp[50];
+        int  i, n,ret,ecode;
         for(i=0;;i++)
         {
                 n = read(fd, &ch, 1);
@@ -351,6 +365,43 @@ BOOL RobotControls::ReadRobotStatus(int fd, char *status)
                         if(ch=='\r')
 			{
                         	status[i++]='\0';
+				if((strncmp(status, "error",5)) ==0)
+				{
+					sscanf(status,"%s %x", temp,&ecode);
+					strcpy(status, temp);
+					switch(ecode)
+					{
+						case FLAG_ERROR_NO_GONIO_INFO:
+							strcat(status, " No Goniometer information\0");
+							break;	
+						case FALG_ERROR_DETECTOR_EXTENDED:
+							strcat(status, " Fluoresence detector extended\0");   
+                                                        break;  
+						case FALG_ERROR_CRYO_NOT_RETRACTED:
+							strcat(status, " Cryostream not retracted\0");      
+                                                        break;						 
+						case FALG_ERROR_NO_SAMPLE:
+							strcat(status, " No Sample\0");      
+                                                        break;
+						case FLAG_ERROR_GRABBER_STUCK:
+							strcat(status, " Grabber stuck\0");      
+                                                        break;
+						case FLAG_ERROR_GRABBER_STICKY:     
+							strcat(status, " Grabber Sticky\0");      
+                                                        break;
+						case FLAG_ERROR_SPINDLE_OCCUPIED:
+							strcat(status, " Spindle occupied\0");      
+                                                        break;   
+						case FLAG_ERROR_DRY_TIMEOUT:
+							strcat(status, " Dry Grabber timout\0");      
+                                                        break;   
+						default:
+							strcat(status, " Unkonwn error\0");
+							break;
+
+					}
+								
+				}
                                 LOG_FINEST1("The status from Denso: %s\n",status);
                                 break;
                         }
@@ -388,6 +439,31 @@ BOOL RobotControls::ClearMountedState( const char argument[], char status_buffer
 {
 
         LOG_FINEST1( "RobotControls::ConnectToRobotServer called( %s)", argument );
+        if(error_comm)
+        {
+                //try to connect to denso server again
+                if(!ConnectRobotServer())
+                {
+                        LOG_WARNING( "MountCrystal: Could not connect to Denso Robot Server");
+                        strcpy( status_buffer, "error Denso Robot Server closed");
+                        return TRUE;
+                }
+        }
+
+        // send the command to denso robot server
+        int count=0;
+        char cmd[]="ClearMountedStatus\r";
+        while (write(sockfd, cmd, sizeof(cmd)) < 0)
+        {
+                LOG_WARNING1("Error in writing --%s--to Denso Robot\n",cmd);
+                if(count++>4)
+                {
+                       strcpy( status_buffer, "error in sending command to Denso");
+                       error_comm = TRUE;
+                       return TRUE;
+                }
+        }
+	//I am not sure should it read back the status from the robot. 
         m_CrystalMounted=FALSE;
 	strcpy( status_buffer, "normal" );
         return TRUE;
@@ -585,7 +661,7 @@ BOOL RobotControls::CenterGrabber( const char argument[], char status_buffer[] )
         if(error_comm)
         {
                 //try to connect to denso server again
-                if(ConnectRobotServer())
+                if(!ConnectRobotServer())
                 {
                         LOG_WARNING( "MountCrystal: Could not connect to Denso Robot Server");
                         strcpy( status_buffer, "error Denso Robot Server closed");
@@ -620,9 +696,9 @@ BOOL RobotControls::DryGrabber( const char argument[], char status_buffer[] )
         if(error_comm)
         {
                 //try to connect to denso server again
-                if(ConnectRobotServer())
+                if(!ConnectRobotServer())
                 {
-                        LOG_WARNING( "MountCrystal: Could not connect to Denso Robot Server");
+                        LOG_WARNING( "DryGrabber: Could not connect to Denso Robot Server");
                         strcpy( status_buffer, "error Denso Robot Server closed");
                         return TRUE;
                 }
@@ -653,9 +729,9 @@ BOOL RobotControls::CoolGrabber( const char argument[], char status_buffer[] )
         if(error_comm)
         {
                 //try to connect to denso server again
-                if(ConnectRobotServer())
+                if(!ConnectRobotServer())
                 {
-                        LOG_WARNING( "MountCrystal: Could not connect to Denso Robot Server");
+                        LOG_WARNING( "CoolGrabber: Could not connect to Denso Robot Server");
                         strcpy( status_buffer, "error Denso Robot Server closed");
                         return TRUE;
                 }
@@ -681,7 +757,7 @@ BOOL RobotControls::CoolGrabber( const char argument[], char status_buffer[] )
 // Start, wait and stop the Ortec counter and then to read the counts from 
 // the Ortec counters.
 
-BOOL RobotControls::GetRobotstate( const char argument[], char status_buffer[] )
+BOOL RobotControls::GetRobotState( const char argument[], char status_buffer[] )
 {
 
 	LOG_FINEST1( "RobotControls::GetRobotstate called( %s)", argument );

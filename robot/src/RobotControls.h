@@ -41,18 +41,24 @@ public:
 	virtual BOOL DryGrabber(const char argument[], char status_buffer[] );
 	virtual BOOL MoveToNewEnergy(const char argument[], char status_buffer[] );	
 	virtual BOOL GetCurrentEnergy(const char argument[], char status_buffer[] );
-        virtual BOOL GetRobotstate(const char argument[], char status_buffer[] );
+        virtual BOOL GetRobotState(const char argument[], char status_buffer[] );
         virtual BOOL CoolGrabber(const char argument[], char status_buffer[] );
         virtual BOOL MonoStatus(const char argument[], char status_buffer[] );
-
-        //BOOL ConnectRobotServer(const char argument[], char status_buffer[] );
+	virtual void SetSleepEvent( xos_event_t* pEvent ) { m_pSleepEvent = pEvent; }
+	virtual BOOL RegisterEventListener( RobotEventListener& lisener );
+	virtual void UnregisterEventListener( RobotEventListener& lisener );
+        
+	//BOOL ConnectRobotServer(const char argument[], char status_buffer[] );
 	BOOL ReadRobotStatus(int , char *);
 	BOOL CheckConnection();
 	BOOL CommandParse( const char *, char * );
 	double m_CurrentWavelength;
 
 private:
+	xos_event_t* m_pSleepEvent;
 	BOOL m_CrystalMounted;
+	//for event listener Q: we only support 1 listener now
+    	RobotEventListener* volatile m_pEventListener;
 };
 
 #endif //#ifndef __ROBOT_SIMULATOR_H__
