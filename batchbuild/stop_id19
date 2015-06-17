@@ -1,0 +1,75 @@
+#!/bin/bash
+#
+#if [[ $1 = "-b" ]] || [[ $2 = "-b" ]]
+#then
+    DCSDaemonMode=1
+#else
+#    if [[ ${DISPLAY##*:} != "1.0" ]]; then
+#        echo "must run from vncserver 1"
+#        exit
+#    fi
+#fi
+DCS_ROOT=/usr/local/dcs
+source $DCS_ROOT/batchbuild/dcs_functions
+
+
+if [ $# -ge 1 ] && [[ $1 != "-b" ]]
+then
+	BEAMLINE=$1
+else
+case $HOSTNAME in 
+   blctlsim.slac.stanford.edu ) BEAMLINE="BL0-0";;
+   blctl15.slac.stanford.edu ) BEAMLINE="BL1-5";;
+   blctl71.slac.stanford.edu ) BEAMLINE="BL7-1";;
+   blctl91.slac.stanford.edu ) BEAMLINE="BL9-1";;
+   blctl92.slac.stanford.edu ) BEAMLINE="BL9-2";;
+   blctl93.slac.stanford.edu ) BEAMLINE="BL9-3";;
+   blctl111.slac.stanford.edu ) BEAMLINE="BL11-1";;
+   blctl122.slac.stanford.edu ) BEAMLINE="BL12-2";;
+   blctl141.slac.stanford.edu ) BEAMLINE="BL14-1";;
+   smbdev2.slac.stanford.edu ) BEAMLINE="BL-sim";;
+   yangxc ) BEAMLINE="ID-19";;
+   * ) echo "run this script on a blctl machine only"
+      exit
+      ;;
+esac
+fi
+
+echo $BEAMLINE
+
+echo `date` stop_dcs called on $BEAMLINE |mail -s "$BEAMLINE restart_dcs stop" yangx@bnl.gov
+
+#sudo -v
+#######################main##################
+#kill_authserver $BEAMLINE
+kill_impdhs $BEAMLINE
+kill_dhs $BEAMLINE
+kill_epics $BEAMLINE
+kill_simdhs $BEAMLINE
+#kill_simdetector $BEAMLINE
+#kill_temperatureDhs $BEAMLINE
+#kill_sr570 $BEAMLINE
+#kill_cryojet $BEAMLINE
+kill_image
+kill_adsc
+#kill_console
+kill_dcss $BEAMLINE
+#kill_scan345
+
+case $BEAMLINE in
+   BL9-1 | BL1-5)
+    kill_remote_detector $BEAMLINE
+   ;;
+   BL9-2)
+        kill_marccd_detector_with_hostname mar325-0011p
+   ;;
+   BL11-1)
+        kill_marccd_detector_with_hostname mar325-0020p
+   ;;
+   BL14-1)
+        kill_marccd_detector_with_hostname mar325-0022
+   ;;
+   *)
+   ;;
+esac
+

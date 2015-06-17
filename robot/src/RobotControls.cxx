@@ -5,6 +5,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -20,7 +21,7 @@ static int sockfd;
 static struct sockaddr_in address;
 static BOOL error_comm=FALSE;
 static int op_mode = REAL;
-static char current_monitor_counts_string[127];
+//static char current_monitor_counts_string[127];
 
 
 
@@ -197,6 +198,7 @@ BOOL RobotControls::MountCrystal( const char argument[], char status_buffer[] )
 				}
 			}
 	}
+	return TRUE;
 }
 
 
@@ -281,6 +283,7 @@ BOOL RobotControls::DismountCrystal( const char argument[], char status_buffer[]
                 }
 
 	}
+	return TRUE;
 }
 
 
@@ -297,7 +300,8 @@ BOOL RobotControls::ConnectRobotServer()
 	close(sockfd);
 
 	address.sin_family = AF_INET;
-	address.sin_addr.s_addr = inet_addr("130.199.198.72");
+	address.sin_addr.s_addr = inet_addr("192.168.10.180");
+//	address.sin_addr.s_addr = inet_addr("130.199.198.72");
 	address.sin_port = htons(5002);
 
 	//Create socket for client.
@@ -321,6 +325,12 @@ BOOL RobotControls::ConnectRobotServer()
 	{
 		LOG_FINEST("RobotControls::ConnectToRobotServer Denso Server is connected\n" );
 		error_comm = FALSE;
+		sleep(1);
+		// Get robot mount/dismount state
+		if( ReadRobotState(sockfd) )
+			m_CrystalMounted=TRUE;
+		else
+			m_CrystalMounted=FALSE;
 	  	return TRUE;	
 	}
 }
@@ -343,18 +353,66 @@ BOOL RobotControls::CommandParse( const char argument[], char cmd[] )
 		return 0;
 	}
 	//puck = puck-64;
-	sprintf(temp,"%s %c\r\0", sample, puck);
+	sprintf(temp,"%s %c\r", sample, puck);
 	strcat(cmd, temp);
 	LOG_FINEST1( "RobotControls::CommandParse ( %s)", cmd);
 	return 1;
 	
 }
 
+BOOL RobotControls::ReadRobotState(int fd)
+{
+        LOG_FINEST( "RobotControls::ReadRobotState");
+        char ch,status[50];
+        int  i, n,state;
+        int count=0;
+        char cmd[]="status\r";
+
+        while (write(fd, cmd, sizeof(cmd)) < 0)
+        {
+                LOG_WARNING1("Error in writing --%s--to Denso Robot\n",cmd);
+                if(count++>4)
+                {
+                       //strcpy( status_buffer, "error in sending command to Denso");
+                       error_comm = TRUE;
+                       return TRUE;
+                }
+	}
+
+        for(i=0;;i++)
+        {
+                n = read(fd, &ch, 1);
+                if(n == 1)
+                {
+                        status[i]=ch;
+                        LOG_FINEST1( "RobotControls::ReadRobotState ( %d)", ch);
+                        if(ch=='\r')
+                        {
+                                status[i++]='\0';
+                                LOG_FINEST1( "RobotControls::ReadRobotState string ( %s)", status);
+                                sscanf(status,"%d", &state);
+                                LOG_FINEST1( "RobotControls::ReadRobotState -- ( %d)", state);
+                                if(state==8)
+					return TRUE;
+				else
+					return FALSE;
+                        }
+                }
+      
+                else if (n == 0) /* no character read? */
+                {
+                        LOG_WARNING("The Denso robot server is offline");
+                        error_comm = TRUE;
+                        return(0);
+ 		}
+	}
+}
+
 BOOL RobotControls::ReadRobotStatus(int fd, char *status)
 {
 	LOG_FINEST( "RobotControls::ReadRobotStatus   start");
         char ch, temp[50];
-        int  i, n,ret,ecode;
+        int  i, n,ecode;
         for(i=0;;i++)
         {
                 n = read(fd, &ch, 1);
@@ -717,7 +775,7 @@ BOOL RobotControls::DryGrabber( const char argument[], char status_buffer[] )
                        return TRUE;
                 }
         }
-
+	return TRUE;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -750,7 +808,7 @@ BOOL RobotControls::CoolGrabber( const char argument[], char status_buffer[] )
                        return TRUE;
                 }
         }
-
+	return TRUE;
 }
 
 //////////////////////////////////////////////////////////////////////////////

@@ -1,799 +1,698 @@
-06/05/15 16:45:53 1442875168   FINEST    run from front, not as a daemon {src/detectordhs.cxx 58  }
-06/05/15 16:45:53 1442875168   FINEST    DcsMessageManager constructor enter {src/DcsMessageManager.cxx 18  }
-06/05/15 16:45:53 1442875168   FINEST    DcsMessageManager constructor exit {src/DcsMessageManager.cxx 33  }
-06/05/15 16:45:53 1442875168   FINEST    DcsMessageService constructor enter {src/DcsMessageService.cxx 9  }
-06/05/15 16:45:53 1442875168   FINEST    DcsMessageService constructor exit {src/DcsMessageService.cxx 13  }
-06/05/15 16:45:53 1442875168     INFO    m_ServerName points to: 'localhost' {src/DcsMessageHandler.cxx 43  }
-06/05/15 16:45:53 1442875168     INFO    m_DHSName points to: 'simdetector' {src/DcsMessageHandler.cxx 62  }
-06/05/15 16:45:53 1442866944   FINEST    SENDER wait for socket lock 11111 {src/DcsMessageService.cxx 87  }
-06/05/15 16:45:53 1442866944   FINEST    SENDER got socket lock 111111 {src/DcsMessageService.cxx 89  }
-06/05/15 16:45:53 1442866944   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-06/05/15 16:45:53 1442866944   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-06/05/15 16:45:53 1432377088   FINEST    receiver is waiting sender done for start {src/DcsMessageService.cxx 151  }
-06/05/15 16:45:53 1442866944     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-06/05/15 16:45:53 1442866944   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-06/05/15 16:45:53 1442866944   FINEST    Sending: 'htos_client_is_hardware simdetector' {src/DcsMessageHandler.cxx 188  }
-06/05/15 16:45:53 1442866944   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-06/05/15 16:45:53 1442866944   FINEST    SENDER unlock socket lock 11111111111 {src/DcsMessageService.cxx 102  }
-06/05/15 16:45:53 1442866944     INFO    connected to DCSS with DCS protocol, sender ready {src/DcsMessageService.cxx 104  }
-06/05/15 16:45:53 1442866944   FINEST    SENDER enter loop {src/DcsMessageService.cxx 109  }
-06/05/15 16:45:53 1432377088   FINEST    receiver waiting done {src/DcsMessageService.cxx 153  }
-06/05/15 16:45:53 1432377088     INFO    receiver ready: whole DcsMessageService Ready {src/DcsMessageService.cxx 167  }
-06/05/15 16:45:53 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/05/15 16:45:53 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/05/15 16:45:53 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/05/15 16:45:53 1432377088   FINEST    DcsMessageManager::NewDcsMessage: new MAX TEXT SIZE 61 {src/DcsMessageManager.cxx 176  }
-06/05/15 16:45:53 1421887232     INFO    Default source image dir: /home/nysbc/data {src/SimDetector.cxx 91  }
-06/05/15 16:45:53 1421887232     INFO    image file: /home/nysbc/data/A1_001.img {src/SimDetector.cxx 96  }
-06/05/15 16:45:53 1421887232     INFO    image file: /home/nysbc/data/test.img {src/SimDetector.cxx 96  }
-06/05/15 16:45:53 1421887232     INFO    image pool size 2 {src/SimDetector.cxx 99  }
-06/05/15 16:45:53 1421887232     INFO    Detector Thread ready {src/DetectorService.cxx 319  }
-06/05/15 16:45:53 1442875168     INFO    Detector System start OK {src/DetectorSystem.cxx 106  }
-06/05/15 16:45:53 1432377088   FINEST    Receiving: 'stoh_register_string lastImageCollected lastImageCollected
+06/10/15 17:22:29 4081497888   FINEST    run from front, not as a daemon {src/detectordhs.cxx 58  }
+06/10/15 17:22:29 4081497888   FINEST    DcsMessageManager constructor enter {src/DcsMessageManager.cxx 18  }
+06/10/15 17:22:29 4081497888   FINEST    DcsMessageManager constructor exit {src/DcsMessageManager.cxx 33  }
+06/10/15 17:22:29 4081497888   FINEST    DcsMessageService constructor enter {src/DcsMessageService.cxx 9  }
+06/10/15 17:22:29 4081497888   FINEST    DcsMessageService constructor exit {src/DcsMessageService.cxx 13  }
+06/10/15 17:22:29 4081497888     INFO    m_ServerName points to: 'localhost' {src/DcsMessageHandler.cxx 43  }
+06/10/15 17:22:29 4081497888     INFO    m_DHSName points to: 'simdetector' {src/DcsMessageHandler.cxx 62  }
+06/10/15 17:22:29 4081489664   FINEST    SENDER wait for socket lock 11111 {src/DcsMessageService.cxx 87  }
+06/10/15 17:22:29 4081489664   FINEST    SENDER got socket lock 111111 {src/DcsMessageService.cxx 89  }
+06/10/15 17:22:29 4081489664   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
+06/10/15 17:22:29 4081489664   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
+06/10/15 17:22:29 4081489664     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
+06/10/15 17:22:29 4081489664   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
+06/10/15 17:22:29 4081489664   FINEST    Sending: 'htos_client_is_hardware simdetector' {src/DcsMessageHandler.cxx 188  }
+06/10/15 17:22:29 4081489664   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
+06/10/15 17:22:29 4081489664   FINEST    SENDER unlock socket lock 11111111111 {src/DcsMessageService.cxx 102  }
+06/10/15 17:22:29 4081489664     INFO    connected to DCSS with DCS protocol, sender ready {src/DcsMessageService.cxx 104  }
+06/10/15 17:22:29 4081489664   FINEST    SENDER enter loop {src/DcsMessageService.cxx 109  }
+06/10/15 17:22:29 4060509952     INFO    Default source image dir: /home/nysbc/data {src/SimDetector.cxx 91  }
+06/10/15 17:22:29 4060509952     INFO    image file: /home/nysbc/data/A1_001.img {src/SimDetector.cxx 96  }
+06/10/15 17:22:29 4060509952     INFO    image file: /home/nysbc/data/test.img {src/SimDetector.cxx 96  }
+06/10/15 17:22:29 4060509952     INFO    image pool size 2 {src/SimDetector.cxx 99  }
+06/10/15 17:22:29 4060509952     INFO    Detector Thread ready {src/DetectorService.cxx 319  }
+06/10/15 17:22:29 4070999808   FINEST    receiver is waiting sender done for start {src/DcsMessageService.cxx 151  }
+06/10/15 17:22:29 4070999808   FINEST    receiver waiting done {src/DcsMessageService.cxx 153  }
+06/10/15 17:22:29 4070999808     INFO    receiver ready: whole DcsMessageService Ready {src/DcsMessageService.cxx 167  }
+06/10/15 17:22:29 4081497888     INFO    Detector System start OK {src/DetectorSystem.cxx 106  }
+06/10/15 17:22:29 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/10/15 17:22:29 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/10/15 17:22:29 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139c520 {src/DcsMessageManager.cxx 170  }
+06/10/15 17:22:29 4070999808   FINEST    DcsMessageManager::NewDcsMessage: new MAX TEXT SIZE 61 {src/DcsMessageManager.cxx 176  }
+06/10/15 17:22:29 4070999808   FINEST    Receiving: 'stoh_register_string lastImageCollected lastImageCollected
 ' {src/DcsMessageHandler.cxx 249  }
-06/05/15 16:45:53 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/05/15 16:45:53 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/05/15 16:45:53 1432377088   FINEST    -ImpersonService::ConsumeDcsMessage: stoh_register_string {src/DetectorService.cxx 160  }
-06/05/15 16:45:53 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/05/15 16:45:53 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/05/15 16:45:53 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/05/15 16:45:53 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/05/15 16:45:53 1432377088   FINEST    DcsMessageManager::NewDcsMessage: new MAX TEXT SIZE 72 {src/DcsMessageManager.cxx 176  }
-06/05/15 16:45:53 1432377088   FINEST    Receiving: 'stoh_register_operation detector_collect_image detector_collect_image
+06/10/15 17:22:29 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/10/15 17:22:29 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139c520) {src/DcsMessageManager.cxx 193  }
+06/10/15 17:22:29 4070999808   FINEST    -ImpersonService::ConsumeDcsMessage: stoh_register_string {src/DetectorService.cxx 160  }
+06/10/15 17:22:29 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/10/15 17:22:29 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/10/15 17:22:29 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/10/15 17:22:29 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139c520 {src/DcsMessageManager.cxx 170  }
+06/10/15 17:22:29 4070999808   FINEST    DcsMessageManager::NewDcsMessage: new MAX TEXT SIZE 72 {src/DcsMessageManager.cxx 176  }
+06/10/15 17:22:29 4070999808   FINEST    Receiving: 'stoh_register_operation detector_collect_image detector_collect_image
 ' {src/DcsMessageHandler.cxx 249  }
-06/05/15 16:45:53 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/05/15 16:45:53 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/05/15 16:45:53 1432377088  WARNING    no one takes this message: stoh_register_operation detector_collect_image detector_collect_image {src/DcsMessageService.cxx 238  }
-06/05/15 16:45:53 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/05/15 16:45:53 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/05/15 16:45:53 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/05/15 16:45:53 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/05/15 16:45:53 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/05/15 16:45:53 1432377088   FINEST    DcsMessageManager::NewDcsMessage: new MAX TEXT SIZE 74 {src/DcsMessageManager.cxx 176  }
-06/05/15 16:45:53 1432377088   FINEST    Receiving: 'stoh_register_operation detector_transfer_image detector_transfer_image
+06/10/15 17:22:29 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/10/15 17:22:29 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/10/15 17:22:29 4070999808  WARNING    no one takes this message: stoh_register_operation detector_collect_image detector_collect_image {src/DcsMessageService.cxx 238  }
+06/10/15 17:22:29 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139c520) {src/DcsMessageManager.cxx 193  }
+06/10/15 17:22:29 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/10/15 17:22:29 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/10/15 17:22:29 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/10/15 17:22:29 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139c520 {src/DcsMessageManager.cxx 170  }
+06/10/15 17:22:29 4070999808   FINEST    DcsMessageManager::NewDcsMessage: new MAX TEXT SIZE 74 {src/DcsMessageManager.cxx 176  }
+06/10/15 17:22:29 4070999808   FINEST    Receiving: 'stoh_register_operation detector_transfer_image detector_transfer_image
 ' {src/DcsMessageHandler.cxx 249  }
-06/05/15 16:45:53 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/05/15 16:45:53 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/05/15 16:45:53 1432377088  WARNING    no one takes this message: stoh_register_operation detector_transfer_image detector_transfer_image {src/DcsMessageService.cxx 238  }
-06/05/15 16:45:53 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/05/15 16:45:53 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/05/15 16:45:53 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/05/15 16:45:53 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/05/15 16:45:53 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/05/15 16:45:53 1432377088   FINEST    DcsMessageManager::NewDcsMessage: new MAX TEXT SIZE 80 {src/DcsMessageManager.cxx 176  }
-06/05/15 16:45:53 1432377088   FINEST    Receiving: 'stoh_register_operation detector_oscillation_ready detector_oscillation_ready
+06/10/15 17:22:29 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/10/15 17:22:29 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/10/15 17:22:29 4070999808  WARNING    no one takes this message: stoh_register_operation detector_transfer_image detector_transfer_image {src/DcsMessageService.cxx 238  }
+06/10/15 17:22:29 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139c520) {src/DcsMessageManager.cxx 193  }
+06/10/15 17:22:29 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/10/15 17:22:29 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/10/15 17:22:29 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/10/15 17:22:29 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139c520 {src/DcsMessageManager.cxx 170  }
+06/10/15 17:22:29 4070999808   FINEST    DcsMessageManager::NewDcsMessage: new MAX TEXT SIZE 80 {src/DcsMessageManager.cxx 176  }
+06/10/15 17:22:29 4070999808   FINEST    Receiving: 'stoh_register_operation detector_oscillation_ready detector_oscillation_ready
 ' {src/DcsMessageHandler.cxx 249  }
-06/05/15 16:45:53 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/05/15 16:45:53 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/05/15 16:45:53 1432377088  WARNING    no one takes this message: stoh_register_operation detector_oscillation_ready detector_oscillation_ready {src/DcsMessageService.cxx 238  }
-06/05/15 16:45:53 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/05/15 16:45:53 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/05/15 16:45:53 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/05/15 16:45:53 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/05/15 16:45:53 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/05/15 16:45:53 1432377088   FINEST    Receiving: 'stoh_register_operation detector_stop detector_stop
+06/10/15 17:22:29 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/10/15 17:22:29 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/10/15 17:22:29 4070999808  WARNING    no one takes this message: stoh_register_operation detector_oscillation_ready detector_oscillation_ready {src/DcsMessageService.cxx 238  }
+06/10/15 17:22:29 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139c520) {src/DcsMessageManager.cxx 193  }
+06/10/15 17:22:29 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/10/15 17:22:29 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/10/15 17:22:29 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/10/15 17:22:29 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139c520 {src/DcsMessageManager.cxx 170  }
+06/10/15 17:22:29 4070999808   FINEST    Receiving: 'stoh_register_operation detector_stop detector_stop
 ' {src/DcsMessageHandler.cxx 249  }
-06/05/15 16:45:53 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/05/15 16:45:53 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/05/15 16:45:53 1432377088  WARNING    no one takes this message: stoh_register_operation detector_stop detector_stop {src/DcsMessageService.cxx 238  }
-06/05/15 16:45:53 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/05/15 16:45:53 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/05/15 16:45:53 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/05/15 16:45:53 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/05/15 16:45:53 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/05/15 16:45:53 1432377088   FINEST    Receiving: 'stoh_register_operation detector_reset_run detector_reset_run
+06/10/15 17:22:29 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/10/15 17:22:29 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/10/15 17:22:29 4070999808  WARNING    no one takes this message: stoh_register_operation detector_stop detector_stop {src/DcsMessageService.cxx 238  }
+06/10/15 17:22:29 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139c520) {src/DcsMessageManager.cxx 193  }
+06/10/15 17:22:29 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/10/15 17:22:29 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/10/15 17:22:29 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/10/15 17:22:29 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139c520 {src/DcsMessageManager.cxx 170  }
+06/10/15 17:22:29 4070999808   FINEST    Receiving: 'stoh_register_operation detector_reset_run detector_reset_run
 ' {src/DcsMessageHandler.cxx 249  }
-06/05/15 16:45:53 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/05/15 16:45:53 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/05/15 16:45:53 1432377088  WARNING    no one takes this message: stoh_register_operation detector_reset_run detector_reset_run {src/DcsMessageService.cxx 238  }
-06/05/15 16:45:53 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/05/15 16:45:53 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/05/15 16:45:53 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/05/15 16:45:53 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/05/15 16:45:53 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/05/15 16:45:53 1432377088   FINEST    Receiving: 'stoh_register_string detectorType detectorType
+06/10/15 17:22:29 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/10/15 17:22:29 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/10/15 17:22:29 4070999808  WARNING    no one takes this message: stoh_register_operation detector_reset_run detector_reset_run {src/DcsMessageService.cxx 238  }
+06/10/15 17:22:29 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139c520) {src/DcsMessageManager.cxx 193  }
+06/10/15 17:22:29 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/10/15 17:22:29 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/10/15 17:22:29 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/10/15 17:22:29 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139c520 {src/DcsMessageManager.cxx 170  }
+06/10/15 17:22:29 4070999808   FINEST    Receiving: 'stoh_register_string detectorType detectorType
 ' {src/DcsMessageHandler.cxx 249  }
-06/05/15 16:45:53 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/05/15 16:45:53 1432377088   FINEST    Got stoh_register_string detectorType {src/DetectorService.cxx 142  }
-06/05/15 16:45:53 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2006b20 {src/DcsMessageManager.cxx 170  }
-06/05/15 16:45:53 1432377088   FINEST    DetectorService::SendoutDcsMessage( htos_send_configuration detectorType ) {src/DetectorService.cxx 295  }
-06/05/15 16:45:53 1432377088   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
-06/05/15 16:45:53 1432377088   FINEST    detectorType ask for contents {src/DetectorService.cxx 154  }
-06/05/15 16:45:53 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/05/15 16:45:53 1432377088   FINEST    -ImpersonService::ConsumeDcsMessage: stoh_register_string {src/DetectorService.cxx 160  }
-06/05/15 16:45:53 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/05/15 16:45:53 1442866944   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
-06/05/15 16:45:53 1442866944   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
-06/05/15 16:45:53 1442866944   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
-06/05/15 16:45:53 1442866944   FINEST    send message done {src/DcsMessageHandler.cxx 321  }
-06/05/15 16:45:53 1442866944   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2006b20) {src/DcsMessageManager.cxx 193  }
-06/05/15 16:45:53 1442866944   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
-06/05/15 16:45:53 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/05/15 16:45:53 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/05/15 16:45:53 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2006b20 {src/DcsMessageManager.cxx 170  }
-06/05/15 16:45:53 1432377088   FINEST    Receiving: 'stoh_configure_string detectorType simdetector Q4CCD' {src/DcsMessageHandler.cxx 249  }
-06/05/15 16:45:53 1432377088   FINEST    string: detectorType, Q4CCD {src/DcsMessage.cxx 197  }
-06/05/15 16:45:53 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/05/15 16:45:53 1432377088   FINEST    received string name="detectorType", contents="Q4CCD" {src/DetectorService.cxx 169  }
-06/05/15 16:45:53 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2006b20) {src/DcsMessageManager.cxx 193  }
-06/05/15 16:45:53 1432377088     INFO    Detector type = Q4CCD {src/DetectorService.cxx 190  }
-06/05/15 16:45:53 1432377088     INFO    setDetectorType: new type = Q4CCD {src/SimDetector.cxx 954  }
-06/05/15 16:45:53 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2006b20 {src/DcsMessageManager.cxx 170  }
-06/05/15 16:45:53 1432377088   FINEST    DetectorService::SendoutDcsMessage( htos_set_string_completed detectorType normal Q4CCD ) {src/DetectorService.cxx 295  }
-06/05/15 16:45:53 1432377088   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
-06/05/15 16:45:53 1432377088   FINEST    -ImpersonService::ConsumeDcsMessage: string Q4CCD message, done {src/DetectorService.cxx 200  }
-06/05/15 16:45:53 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/05/15 16:45:53 1442866944   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
-06/05/15 16:45:53 1442866944   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
-06/05/15 16:45:53 1442866944   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
-06/05/15 16:45:53 1442866944   FINEST    send message done {src/DcsMessageHandler.cxx 321  }
-06/05/15 16:45:53 1442866944   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2006b20) {src/DcsMessageManager.cxx 193  }
-06/05/15 16:45:53 1442866944   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
-06/05/15 16:47:02 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/05/15 16:47:02 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/05/15 16:47:02 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2006b20 {src/DcsMessageManager.cxx 170  }
-06/05/15 16:47:02 1432377088   FINEST    DcsMessageManager::NewDcsMessage: new MAX TEXT SIZE 225 {src/DcsMessageManager.cxx 176  }
-06/05/15 16:47:02 1432377088   FINEST    Receiving: 'stoh_start_operation detector_collect_image 1.4 16 A1_0001 /home/nysbc/tmp/raman/2014/jun-3/A1 nysbc gonio_phi 2.000 0.000000 1.000 400.000000 0.9793503752205441 0.000000 0.000000 1 0 PRIVATEXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX' {src/DcsMessageHandler.cxx 249  }
-06/05/15 16:47:02 1432377088   FINEST    Got an operation {src/DcsMessage.cxx 130  }
-06/05/15 16:47:02 1432377088   FINEST    operation: detector_collect_image, 1.4, 16 A1_0001 /home/nysbc/tmp/raman/2014/jun-3/A1 nysbc gonio_phi 2.000 0.000000 1.000 400.000000 0.9793503752205441 0.000000 0.000000 1 0 PRIVATEXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX {src/DcsMessage.cxx 146  }
-06/05/15 16:47:02 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/05/15 16:47:02 1432377088   FINEST    match operation0 {src/DetectorService.cxx 231  }
-06/05/15 16:47:02 1432377088   FINEST    added to Detector queue, current length=1 {src/DetectorService.cxx 253  }
-06/05/15 16:47:02 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: we consume it {src/DetectorService.cxx 282  }
-06/05/15 16:47:02 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/05/15 16:47:02 1421887232   FINEST    Detector thread out of waiting {src/DetectorService.cxx 325  }
-06/05/15 16:47:02 1421887232     INFO    detectorCollectImage enter: detector status = 0 {src/SimDetector.cxx 171  }
-06/05/15 16:47:02 1421887232     INFO    Operation arguments = 16 A1_0001 /home/nysbc/tmp/raman/2014/jun-3/A1 nysbc gonio_phi 2.000 0.000000 1.000 400.000000 0.9793503752205441 0.000000 0.000000 1 0 PRIVATE7057AE5A9A3044F53273F068276F73C4 {src/SimDetector.cxx 443  }
-06/05/15 16:47:02 1421887232   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/05/15 16:47:02 1421887232   FINEST    DcsMessageManager::NewOperationReplyMessage {src/DcsMessageManager.cxx 250  }
-06/05/15 16:47:02 1421887232   FINEST    tag =htos_operation_update {src/DcsMessageManager.cxx 251  }
-06/05/15 16:47:02 1421887232   FINEST    operation = NAME:detector_collect_image, HANDLE:1.4 {src/DcsMessageManager.cxx 252  }
-06/05/15 16:47:02 1421887232   FINEST    status = start_oscillation NULL 1.000000 {src/DcsMessageManager.cxx 253  }
-06/05/15 16:47:02 1421887232   FINEST    DetectorService::SendoutDcsMessage( htos_operation_update detector_collect_image 1.4 start_oscillation NULL 1.000000 ) {src/DetectorService.cxx 295  }
-06/05/15 16:47:02 1421887232   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
-06/05/15 16:47:02 1442866944   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
-06/05/15 16:47:02 1442866944   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
-06/05/15 16:47:02 1442866944   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
-06/05/15 16:47:02 1442866944   FINEST    send message done {src/DcsMessageHandler.cxx 321  }
-06/05/15 16:47:02 1442866944   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/05/15 16:47:02 1442866944   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
-06/05/15 16:47:03 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/05/15 16:47:03 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/05/15 16:47:03 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/05/15 16:47:03 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/05/15 16:47:03 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/05/15 16:47:03 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/05/15 16:47:03 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/05/15 16:47:03 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/05/15 16:47:03 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/05/15 16:47:03 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/05/15 16:47:03 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/05/15 16:47:03 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/05/15 16:47:03 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/05/15 16:47:03 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/05/15 16:47:03 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/05/15 16:47:03 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/05/15 16:47:03 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/05/15 16:47:03 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/05/15 16:47:03 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/05/15 16:47:03 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/05/15 16:47:03 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/05/15 16:47:03 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/05/15 16:47:03 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/05/15 16:47:03 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/05/15 16:47:03 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/05/15 16:47:03 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/05/15 16:47:03 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/05/15 16:47:03 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/05/15 16:47:03 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/05/15 16:47:03 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/05/15 16:47:03 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/05/15 16:47:03 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/05/15 16:47:03 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/05/15 16:47:03 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/05/15 16:47:03 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/05/15 16:47:03 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/05/15 16:47:03 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/05/15 16:47:03 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/05/15 16:47:03 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/05/15 16:47:03 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/05/15 16:47:03 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/05/15 16:47:03 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/05/15 16:47:03 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/05/15 16:47:03 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/05/15 16:47:03 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/05/15 16:47:03 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/05/15 16:47:03 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/05/15 16:47:03 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/05/15 16:47:03 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/05/15 16:47:03 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/05/15 16:47:03 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/05/15 16:47:03 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/05/15 16:47:03 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/05/15 16:47:03 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/05/15 16:47:03 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/05/15 16:47:03 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/05/15 16:47:03 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/05/15 16:47:03 1432377088   FINEST    Receiving: 'stoh_start_operation detector_stop 1.6 ' {src/DcsMessageHandler.cxx 249  }
-06/05/15 16:47:03 1432377088   FINEST    Got an operation {src/DcsMessage.cxx 130  }
-06/05/15 16:47:03 1432377088   FINEST    operation: detector_stop, 1.6,  {src/DcsMessage.cxx 146  }
-06/05/15 16:47:03 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/05/15 16:47:03 1432377088   FINEST    match operation3 {src/DetectorService.cxx 231  }
-06/05/15 16:47:03 1432377088   FINEST    immediately {src/DetectorService.cxx 235  }
-06/05/15 16:47:03 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2006120 {src/DcsMessageManager.cxx 170  }
-06/05/15 16:47:03 1432377088   FINEST    DcsMessageManager::NewOperationReplyMessage {src/DcsMessageManager.cxx 250  }
-06/05/15 16:47:03 1432377088   FINEST    tag =htos_operation_completed {src/DcsMessageManager.cxx 251  }
-06/05/15 16:47:03 1432377088   FINEST    operation = NAME:detector_stop, HANDLE:1.6 {src/DcsMessageManager.cxx 252  }
-06/05/15 16:47:03 1432377088   FINEST    status = normal {src/DcsMessageManager.cxx 253  }
-06/05/15 16:47:03 1432377088   FINEST    DetectorService::SendoutDcsMessage( htos_operation_completed detector_stop 1.6 normal ) {src/DetectorService.cxx 295  }
-06/05/15 16:47:03 1432377088   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
-06/05/15 16:47:03 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/05/15 16:47:03 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: we consume it {src/DetectorService.cxx 282  }
-06/05/15 16:47:03 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/05/15 16:47:03 1421887232   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/05/15 16:47:03 1421887232   FINEST    DcsMessageManager::NewOperationReplyMessage {src/DcsMessageManager.cxx 250  }
-06/05/15 16:47:03 1421887232   FINEST    tag =htos_operation_completed {src/DcsMessageManager.cxx 251  }
-06/05/15 16:47:03 1421887232   FINEST    operation = NAME:detector_collect_image, HANDLE:1.4 {src/DcsMessageManager.cxx 252  }
-06/05/15 16:47:03 1421887232   FINEST    status = normal {src/DcsMessageManager.cxx 253  }
-06/05/15 16:47:03 1421887232   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2006b20) {src/DcsMessageManager.cxx 193  }
-06/05/15 16:47:03 1421887232   FINEST    DetectorService::SendoutDcsMessage( htos_operation_completed detector_collect_image 1.4 normal ) {src/DetectorService.cxx 295  }
-06/05/15 16:47:03 1421887232   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=2 {src/DcsMessageService.cxx 291  }
-06/05/15 16:47:03 1421887232   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2006b20 {src/DcsMessageManager.cxx 170  }
-06/05/15 16:47:03 1421887232   FINEST    DetectorService::SendoutDcsMessage( htos_set_string_completed lastImageCollected normal  ) {src/DetectorService.cxx 295  }
-06/05/15 16:47:03 1421887232   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=3 {src/DcsMessageService.cxx 291  }
-06/05/15 16:47:03 1442866944   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
-06/05/15 16:47:03 1442866944   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
-06/05/15 16:47:03 1442866944   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
-06/05/15 16:47:03 1442866944   FINEST    send message done {src/DcsMessageHandler.cxx 321  }
-06/05/15 16:47:03 1442866944   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2006120) {src/DcsMessageManager.cxx 193  }
-06/05/15 16:47:03 1442866944   FINEST    send message done {src/DcsMessageHandler.cxx 321  }
-06/05/15 16:47:03 1442866944   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/05/15 16:47:03 1442866944   FINEST    send message done {src/DcsMessageHandler.cxx 321  }
-06/05/15 16:47:03 1442866944   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2006b20) {src/DcsMessageManager.cxx 193  }
-06/05/15 16:47:03 1442866944   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
-06/05/15 16:47:03 1442866944   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
-06/05/15 16:47:03 1442866944   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
-06/05/15 16:47:03 1442866944   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
-06/05/15 16:47:03 1442866944   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
-06/05/15 16:47:03 1442866944   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
-06/05/15 16:47:03 1442866944   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
-06/05/15 16:47:03 1442866944   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
-06/05/15 16:47:03 1442866944   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
-06/05/15 16:47:03 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/05/15 16:47:03 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/05/15 16:47:03 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2006b20 {src/DcsMessageManager.cxx 170  }
-06/05/15 16:47:03 1432377088   FINEST    Receiving: 'stoh_start_operation detector_stop 1.7 ' {src/DcsMessageHandler.cxx 249  }
-06/05/15 16:47:03 1432377088   FINEST    Got an operation {src/DcsMessage.cxx 130  }
-06/05/15 16:47:03 1432377088   FINEST    operation: detector_stop, 1.7,  {src/DcsMessage.cxx 146  }
-06/05/15 16:47:03 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/05/15 16:47:03 1432377088   FINEST    match operation3 {src/DetectorService.cxx 231  }
-06/05/15 16:47:03 1432377088   FINEST    immediately {src/DetectorService.cxx 235  }
-06/05/15 16:47:03 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/05/15 16:47:03 1432377088   FINEST    DcsMessageManager::NewOperationReplyMessage {src/DcsMessageManager.cxx 250  }
-06/05/15 16:47:03 1432377088   FINEST    tag =htos_operation_completed {src/DcsMessageManager.cxx 251  }
-06/05/15 16:47:03 1432377088   FINEST    operation = NAME:detector_stop, HANDLE:1.7 {src/DcsMessageManager.cxx 252  }
-06/05/15 16:47:03 1432377088   FINEST    status = normal {src/DcsMessageManager.cxx 253  }
-06/05/15 16:47:03 1432377088   FINEST    DetectorService::SendoutDcsMessage( htos_operation_completed detector_stop 1.7 normal ) {src/DetectorService.cxx 295  }
-06/05/15 16:47:03 1432377088   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
-06/05/15 16:47:03 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2006b20) {src/DcsMessageManager.cxx 193  }
-06/05/15 16:47:03 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: we consume it {src/DetectorService.cxx 282  }
-06/05/15 16:47:03 1442866944   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
-06/05/15 16:47:03 1442866944   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
-06/05/15 16:47:03 1442866944   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
-06/05/15 16:47:03 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/05/15 16:47:03 1442866944   FINEST    send message done {src/DcsMessageHandler.cxx 321  }
-06/05/15 16:47:03 1442866944   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/05/15 16:47:03 1442866944   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
-06/05/15 16:47:07 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/05/15 16:47:07 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/05/15 16:47:07 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/05/15 16:47:07 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/05/15 16:47:07 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/05/15 16:47:07 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/05/15 16:47:07 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/05/15 16:47:07 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/05/15 16:47:07 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/08/15 10:48:58 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/08/15 10:48:58 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/08/15 10:48:58 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/08/15 10:48:58 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/08/15 10:48:58 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/08/15 10:48:58 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/08/15 10:48:58 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/08/15 10:48:58 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/08/15 10:48:58 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/08/15 10:48:58 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/08/15 10:48:58 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/08/15 10:48:58 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/08/15 10:48:58 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/08/15 10:48:58 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/08/15 10:48:58 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/08/15 10:48:58 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/08/15 10:48:58 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/08/15 10:48:58 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/08/15 10:48:58 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/08/15 10:48:58 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/08/15 10:48:58 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/08/15 10:48:58 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/08/15 10:48:58 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/08/15 10:48:58 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/08/15 10:48:58 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/08/15 10:48:58 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/08/15 10:48:58 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/08/15 10:48:58 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/08/15 10:48:58 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/08/15 10:48:58 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/08/15 10:48:58 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/08/15 10:48:58 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/08/15 10:48:58 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/08/15 10:48:58 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/08/15 10:48:58 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/08/15 10:48:58 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/08/15 10:48:58 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/08/15 10:48:58 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/08/15 10:48:58 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/08/15 10:48:58 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/08/15 10:48:58 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/08/15 10:48:58 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/08/15 10:48:58 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/08/15 10:48:58 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/08/15 10:48:58 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/08/15 10:48:58 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/08/15 10:48:58 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/08/15 10:48:58 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/08/15 10:48:58 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/08/15 10:48:58 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/08/15 10:48:58 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/08/15 10:48:58 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/08/15 10:48:58 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/08/15 10:48:58 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/08/15 10:48:59 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/08/15 10:48:59 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/08/15 10:48:59 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/08/15 10:48:59 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/08/15 10:48:59 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/08/15 10:48:59 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/08/15 10:48:59 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/08/15 10:48:59 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/08/15 10:48:59 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/08/15 10:48:59 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/08/15 10:48:59 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/08/15 10:48:59 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/08/15 10:48:59 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/08/15 10:48:59 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/08/15 10:48:59 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/08/15 10:48:59 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/08/15 10:48:59 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/08/15 10:48:59 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/08/15 10:48:59 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/08/15 10:48:59 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/08/15 10:48:59 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/08/15 10:48:59 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/08/15 10:48:59 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/08/15 10:48:59 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/08/15 10:48:59 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/08/15 10:48:59 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/08/15 10:48:59 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/08/15 10:48:59 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/08/15 10:48:59 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/08/15 10:48:59 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/08/15 10:48:59 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/08/15 10:48:59 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/08/15 10:48:59 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/08/15 10:48:59 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/08/15 10:48:59 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/08/15 10:48:59 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/08/15 10:48:59 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/08/15 10:48:59 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/08/15 10:48:59 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/08/15 10:48:59 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/08/15 10:48:59 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/08/15 10:48:59 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/08/15 10:48:59 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/08/15 10:48:59 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/08/15 10:48:59 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/08/15 10:48:59 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/08/15 10:48:59 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/08/15 10:48:59 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/08/15 10:48:59 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/08/15 10:48:59 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/08/15 10:48:59 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/08/15 10:48:59 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/08/15 10:48:59 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/08/15 10:48:59 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/08/15 10:48:59 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/08/15 10:48:59 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/08/15 10:48:59 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/08/15 10:48:59 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/08/15 10:48:59 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/08/15 10:48:59 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/08/15 10:48:59 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/08/15 10:48:59 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/08/15 10:48:59 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/08/15 10:48:59 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/08/15 10:48:59 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/08/15 10:48:59 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/08/15 10:48:59 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/08/15 10:48:59 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/08/15 10:48:59 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/08/15 10:48:59 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/08/15 10:48:59 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/08/15 10:48:59 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/08/15 10:48:59 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/08/15 10:48:59 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/08/15 10:48:59 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/08/15 10:48:59 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/08/15 10:48:59 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/08/15 10:48:59 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/08/15 10:48:59 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/08/15 10:48:59 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/08/15 10:48:59 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/08/15 10:48:59 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/08/15 10:48:59 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/08/15 10:48:59 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/08/15 10:48:59 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/08/15 10:48:59 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/08/15 10:48:59 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/08/15 10:48:59 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/08/15 10:48:59 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/08/15 10:48:59 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/08/15 10:48:59 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/08/15 10:48:59 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/08/15 10:48:59 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/08/15 10:48:59 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/08/15 10:48:59 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/08/15 10:48:59 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/08/15 10:48:59 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/08/15 10:48:59 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/08/15 10:48:59 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/08/15 10:48:59 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/08/15 10:48:59 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/08/15 10:48:59 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/08/15 10:48:59 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/08/15 10:48:59 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/08/15 10:48:59 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/08/15 10:48:59 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/08/15 10:48:59 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/08/15 10:48:59 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/08/15 10:48:59 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/08/15 10:48:59 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/08/15 10:48:59 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/08/15 10:48:59 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/08/15 10:48:59 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/08/15 10:48:59 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/08/15 10:48:59 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/08/15 10:48:59 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/08/15 10:48:59 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/08/15 10:48:59 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/08/15 10:48:59 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/08/15 10:48:59 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/08/15 10:48:59 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/08/15 10:48:59 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/08/15 10:48:59 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/08/15 10:48:59 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/08/15 10:48:59 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/08/15 10:48:59 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/08/15 10:48:59 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/08/15 10:48:59 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/08/15 10:48:59 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/08/15 10:48:59 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/08/15 10:48:59 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/08/15 10:48:59 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/08/15 10:48:59 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/08/15 10:48:59 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/08/15 10:48:59 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/08/15 10:48:59 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/08/15 10:48:59 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/08/15 10:48:59 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/08/15 10:48:59 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/08/15 10:48:59 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/08/15 10:48:59 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/08/15 10:48:59 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/08/15 10:48:59 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/08/15 10:48:59 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/08/15 10:48:59 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/08/15 10:48:59 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/08/15 10:48:59 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/08/15 10:48:59 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/08/15 10:48:59 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/08/15 10:48:59 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/08/15 10:48:59 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/08/15 10:48:59 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/08/15 10:48:59 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/08/15 10:48:59 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/08/15 10:48:59 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/08/15 10:48:59 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/08/15 10:48:59 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/08/15 10:48:59 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/08/15 10:48:59 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/08/15 10:48:59 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/08/15 10:48:59 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/08/15 10:48:59 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/08/15 10:48:59 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/08/15 10:48:59 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/08/15 10:48:59 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/08/15 10:48:59 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/08/15 10:48:59 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/08/15 10:48:59 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/08/15 10:48:59 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/08/15 10:48:59 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/08/15 10:48:59 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/08/15 10:48:59 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/08/15 10:48:59 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/08/15 10:48:59 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/08/15 10:48:59 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/08/15 10:48:59 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/08/15 10:48:59 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/08/15 10:48:59 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/08/15 10:48:59 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/08/15 10:48:59 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/08/15 10:48:59 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/08/15 10:48:59 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/08/15 10:48:59 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/08/15 10:48:59 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/08/15 10:48:59 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/08/15 10:48:59 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/08/15 10:48:59 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/08/15 10:48:59 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/08/15 10:48:59 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/08/15 10:48:59 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/08/15 10:48:59 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/08/15 10:48:59 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/08/15 10:48:59 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/08/15 10:48:59 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/08/15 10:48:59 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/08/15 10:48:59 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x2007520 {src/DcsMessageManager.cxx 170  }
-06/08/15 10:48:59 1432377088   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
-06/08/15 10:48:59 1432377088   FINEST    abort all message {src/DcsMessage.cxx 100  }
-06/08/15 10:48:59 1432377088   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
-06/08/15 10:48:59 1432377088   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
-06/08/15 10:48:59 1432377088   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x2007520) {src/DcsMessageManager.cxx 193  }
-06/08/15 10:48:59 1432377088   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/10/15 17:22:29 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/10/15 17:22:29 4070999808   FINEST    Got stoh_register_string detectorType {src/DetectorService.cxx 142  }
+06/10/15 17:22:29 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/10/15 17:22:29 4070999808   FINEST    DetectorService::SendoutDcsMessage( htos_send_configuration detectorType ) {src/DetectorService.cxx 295  }
+06/10/15 17:22:29 4070999808   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+06/10/15 17:22:29 4070999808   FINEST    detectorType ask for contents {src/DetectorService.cxx 154  }
+06/10/15 17:22:29 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139c520) {src/DcsMessageManager.cxx 193  }
+06/10/15 17:22:29 4070999808   FINEST    -ImpersonService::ConsumeDcsMessage: stoh_register_string {src/DetectorService.cxx 160  }
+06/10/15 17:22:29 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/10/15 17:22:29 4081489664   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+06/10/15 17:22:29 4081489664   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+06/10/15 17:22:29 4081489664   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+06/10/15 17:22:29 4081489664   FINEST    send message done {src/DcsMessageHandler.cxx 321  }
+06/10/15 17:22:29 4081489664   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/10/15 17:22:29 4081489664   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+06/10/15 17:22:29 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/10/15 17:22:29 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/10/15 17:22:29 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/10/15 17:22:29 4070999808   FINEST    Receiving: 'stoh_configure_string detectorType simdetector Q4CCD' {src/DcsMessageHandler.cxx 249  }
+06/10/15 17:22:29 4070999808   FINEST    string: detectorType, Q4CCD {src/DcsMessage.cxx 197  }
+06/10/15 17:22:29 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/10/15 17:22:29 4070999808   FINEST    received string name="detectorType", contents="Q4CCD" {src/DetectorService.cxx 169  }
+06/10/15 17:22:29 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/10/15 17:22:29 4070999808     INFO    Detector type = Q4CCD {src/DetectorService.cxx 190  }
+06/10/15 17:22:29 4070999808     INFO    setDetectorType: new type = Q4CCD {src/SimDetector.cxx 954  }
+06/10/15 17:22:29 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/10/15 17:22:29 4070999808   FINEST    DetectorService::SendoutDcsMessage( htos_set_string_completed detectorType normal Q4CCD ) {src/DetectorService.cxx 295  }
+06/10/15 17:22:29 4070999808   FINEST    DcsMessageService::ConsumeDcsMessage: added to queue, current length=1 {src/DcsMessageService.cxx 291  }
+06/10/15 17:22:29 4070999808   FINEST    -ImpersonService::ConsumeDcsMessage: string Q4CCD message, done {src/DetectorService.cxx 200  }
+06/10/15 17:22:29 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/10/15 17:22:29 4081489664   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+06/10/15 17:22:29 4081489664   FINEST    SENDER wait for socket lock {src/DcsMessageService.cxx 134  }
+06/10/15 17:22:29 4081489664   FINEST    SENDER got socket lock {src/DcsMessageService.cxx 136  }
+06/10/15 17:22:29 4081489664   FINEST    send message done {src/DcsMessageHandler.cxx 321  }
+06/10/15 17:22:29 4081489664   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/10/15 17:22:29 4081489664   FINEST    SENDER release socket lock {src/DcsMessageService.cxx 139  }
+06/10/15 17:22:43 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/10/15 17:22:43 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/10/15 17:22:43 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/10/15 17:22:43 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/10/15 17:22:43 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/10/15 17:22:43 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/10/15 17:22:43 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/10/15 17:22:43 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/10/15 17:22:43 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:02 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:02 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:02 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:02 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:02 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:02 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:02 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:02 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:02 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:02 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:02 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:02 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:02 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:02 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:02 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:02 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:02 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:02 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:02 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:02 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:02 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:02 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:02 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:02 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:02 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:02 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:02 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:02 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:02 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:02 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:02 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:02 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:02 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:02 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:02 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:02 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:02 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:02 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:02 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:02 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:02 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:02 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:02 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:02 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:02 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:02 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:02 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:02 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:02 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:02 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:02 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:02 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:02 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:02 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:03 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:03 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:03 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:03 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:03 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:03 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:03 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:03 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:03 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:03 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:03 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:03 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:03 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:03 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:03 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:03 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:03 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:03 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:03 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:03 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:03 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:03 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:03 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:03 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:03 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:03 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:03 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:03 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:03 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:03 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:03 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:03 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:03 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:03 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:03 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:03 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:03 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:03 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:03 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:03 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:03 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:03 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:03 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:03 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:03 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:03 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:03 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:03 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:03 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:03 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:03 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:03 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:03 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:03 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:04 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:04 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:04 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:04 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:04 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:04 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:04 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:04 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:04 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:04 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:04 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:04 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:04 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:04 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:04 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:04 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:04 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:04 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:04 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:04 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:04 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:04 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:04 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:04 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:04 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:04 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:04 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:04 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:04 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:04 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:04 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:04 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:04 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:04 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:04 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:04 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:04 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:04 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:04 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:04 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:04 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:04 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:04 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:04 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:04 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:04 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:04 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:04 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:04 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:04 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:04 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:04 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:04 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:04 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:04 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:04 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:04 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:04 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:04 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:04 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:04 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:04 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:04 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:04 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:04 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:04 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:04 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:04 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:04 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:04 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:04 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:04 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:04 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:04 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:04 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:04 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:04 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:04 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:04 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:04 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:04 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:04 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:04 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:04 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:04 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:04 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:04 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:04 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:04 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:04 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:04 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:04 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:04 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:04 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:04 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:04 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:04 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:04 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:04 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:04 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:04 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:04 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:04 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:04 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:04 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:04 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:04 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:04 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:04 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:04 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:04 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:04 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:04 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:04 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:04 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:04 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:04 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:04 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:04 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:04 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:04 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:04 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:04 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:04 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:04 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:04 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:04 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:04 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:04 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:04 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:04 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:04 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:04 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:04 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:04 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:04 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:04 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:04 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:04 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:04 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:04 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:04 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:04 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:04 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:04 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:04 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:04 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:04 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:04 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:04 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:04 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:04 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:04 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:04 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:04 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:04 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:04 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:04 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:04 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:04 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:04 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:04 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:04 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:04 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:04 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:04 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:04 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:04 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:04 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:04 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:04 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:04 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:04 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:04 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:04 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:04 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:04 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:04 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:04 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:04 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:04 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:04 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:04 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:04 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:04 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:04 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:04 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:04 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:04 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:04 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:04 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:04 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:04 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:04 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:04 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:04 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::NewDcsMessage return with 0x0x139bb20 {src/DcsMessageManager.cxx 170  }
+06/15/15 13:50:04 4070999808   FINEST    Receiving: 'stoh_abort_all soft' {src/DcsMessageHandler.cxx 249  }
+06/15/15 13:50:04 4070999808   FINEST    abort all message {src/DcsMessage.cxx 100  }
+06/15/15 13:50:04 4070999808   FINEST    +DetectorService::ConsumeDcsMessage {src/DetectorService.cxx 126  }
+06/15/15 13:50:04 4070999808   FINEST    -DetectorService::ConsumeDcsMessage: not operation, pass on {src/DetectorService.cxx 220  }
+06/15/15 13:50:04 4070999808   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0x139bb20) {src/DcsMessageManager.cxx 193  }
+06/15/15 13:50:04 4070999808   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }

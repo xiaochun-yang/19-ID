@@ -50,6 +50,7 @@ public:
         
 	//BOOL ConnectRobotServer(const char argument[], char status_buffer[] );
 	BOOL ReadRobotStatus(int , char *);
+        BOOL ReadRobotState(int);
 	BOOL CheckConnection();
 	BOOL CommandParse( const char *, char * );
 	double m_CurrentWavelength;
