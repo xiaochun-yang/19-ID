@@ -6,7 +6,7 @@ simDhs
 3
 localhost 2
 
-detector
+simdetector
 3
 localhost 2
 
@@ -25,7 +25,6 @@ localhost 2
 galil4
 3
 localhost 2
-
 
 camera
 3
@@ -236,7 +235,7 @@ crystalStatus
 self standardString
 0 1 1 1 1
 0 1 1 1 1
-{} {} robot 0 {} yes 0
+{} A1 robot 0 {} yes 0
 
 screening_msg
 13
@@ -259,38 +258,38 @@ self RobotTest
 
 lastImageCollected
 13
-detector lastImageCollected
+simdetector lastImageCollected
 0 1 1 1 1
 0 1 1 1 1
 {}
 
 detector_collect_image
 11
-detector detector_collect_image
+simdetector detector_collect_image
 0 1 1 1 1
 0 1 1 1 1
 
 detector_transfer_image
 11
-detector detector_transfer_image
+simdetector detector_transfer_image
 0 1 1 1 1
 0 1 1 1 1
 
 detector_oscillation_ready
 11
-detector detector_oscillation_ready
+simdetector detector_oscillation_ready
 0 1 1 1 1
 0 1 1 1 1
 
 detector_stop
 11
-detector detector_stop
+simdetector detector_stop
 0 1 1 1 1
 0 1 1 1 1
 
 detector_reset_run
 11
-detector detector_reset_run
+simdetector detector_reset_run
 0 1 1 1 1
 0 1 1 1 1
 
@@ -370,7 +369,7 @@ self table_pitch
 0 1 1 1 1
 0 0 0 0 0
 1
-0.009492 100.000000 -100.000000 0 0 0 0 deg
+-0.005663 100.000000 -100.000000 0 0 0 0 deg
 table_vert_1 table_vert_2
 
 table_horz_1
@@ -528,7 +527,6 @@ self mirror_bending_nyx
 2.500230 2.500230 0.150161 0 0 0 0 mm
 mirror_bend_downstream mirror_bend_upstream
 
-
 mirror_slit_upper
 1
 simDhs m0topslit
@@ -601,7 +599,7 @@ simDhs mono_crystal2_perp
 0 1 1 1 1
 0 0 0 0 0
 0
-13.299013 14.001014 0.000000 153.846000 500 125 98 1 1 0 1 0 0 mm
+15.184015 50.000000 0.000000 153.846000 500 125 0 0 0 0 0 0 0 mm
 
 mono_crystal2_para
 1
@@ -609,8 +607,7 @@ simDhs mono_crystal2_para
 0 1 1 1 1
 0 0 0 0 0
 0
-13.299013 14.001014 0.000000 153.846000 500 125 98 1 1 0 1 0 0 mm
-
+96.089596 140.001000 0.000000 153.846000 500 125 0 0 0 0 0 0 0 mm
 
 mono_slit_vert
 1
@@ -646,11 +643,11 @@ simDhs monossrlslit
 
 mono_pitch
 1
-simDhs  mono_pitch
+simDhs mono_pitch
 0 1 1 1 1
 0 0 0 0 0
 0
-5398.000000 99990.000000 -1000000.000000 1.000000 100 100 -10 0 0 0 0 0 0 deg
+3.000000 20.000000 0.000000 20000.000000 7000 350 0 1 1 0 0 0 0 deg
 
 mono_roll
 1
@@ -658,7 +655,7 @@ simDhs mono_roll
 0 1 1 1 1
 0 0 0 0 0
 0
-12544.000000 999990.000000 -10000000.000000 1.000000 100 100 -10 0 0 0 0 0 0 deg
+2.000000 20.000000 0.000000 20000.000000 7000 350 0 1 1 0 0 0 0 deg
 
 d_spacing
 2
@@ -675,7 +672,7 @@ self standardVirtualMotor
 1 1 1 1 1
 0 0 0 0 0
 0
-10.0 50.000000 0.000000 0 0 0 0 mm
+30.000000 50.000000 0.000000 0 0 0 0 mm
 0
 
 asymmetric_cut
@@ -693,7 +690,7 @@ simDhs mono_theta
 0 1 1 1 1
 0 0 0 0 0
 0
-8.421500 23.000000 4.200000 20000.000000 7000 350 -4000 1 1 0 1 1 0 deg
+8.985650 23.000000 4.200000 20000.000000 7000 350 0 1 1 0 0 0 0 deg
 
 energy
 2
@@ -701,23 +698,8 @@ self energy_id19
 0 1 1 1 1
 0 1 1 1 1
 0
-12660.111330 16000.000000 5400.000000 1 1 0 0 eV
+12658.742786 16000.000000 5400.000000 0 0 0 0 eV
 mono_theta 
-
-optimized_energy
-2
-self optimized_energy
-0 1 1 1 1
-0 0 1 1 1
-1
-12657.974370 16000.000000 7000.000000 0 0 0 0 eV
-energy
-
-energyTracking
-11
-self energyTracking
-1 1 1 1 1
-0 0 0 0 0
 
 optimizedEnergyParameters
 13
@@ -748,7 +730,7 @@ galil1 gonio_phi
 0 1 1 1 1
 0 1 1 1 1
 0
-1.400000 1000.000000 0.000000 10000.000000 900000 10 0 0 0 0 0 0 1 deg
+45.000000 1000.000000 -1000.000000 1.000000 1000 10 5 1 1 0 1 0 1 deg
 
 mono_vert
 1
@@ -1268,7 +1250,7 @@ simDhs guard_shield_horiz
 
 tripot_3
 1
-galil1 tripot_3
+simDhs tripot_3
 0 1 1 1 1
 0 1 1 1 1
 0
@@ -1276,7 +1258,7 @@ galil1 tripot_3
 
 tripot_2
 1
-galil1 tripot_2
+simDhs tripot_2
 0 1 1 1 1
 0 1 1 1 1
 0
@@ -1284,7 +1266,7 @@ galil1 tripot_2
 
 tripot_1
 1
-galil1 tripot_1
+simDhs tripot_1
 0 1 1 1 1
 0 1 1 1 1
 0
@@ -1465,7 +1447,7 @@ self table_nyx_pitch
 0 1 1 1 1
 0 0 0 0 0
 1
-0.0093 100.000000 -100 0 0 0 0 deg
+0.009300 100.000000 -100.000000 0 0 0 0 deg
 table_v1 table_v2 table_v3
 
 table_nyx_roll
@@ -1474,7 +1456,7 @@ self table_nyx_roll
 0 1 1 1 1
 0 0 0 0 0
 1
-0.0093 100.000000 -100 0 0 0 0 deg
+0.000000 100.000000 -100.000000 0 0 0 0 deg
 table_v2 table_v3
 
 table_nyx_yaw
@@ -1483,7 +1465,7 @@ self table_nyx_yaw
 0 1 1 1 1
 0 0 0 0 0
 1
-0.0093 100.000000 -100 0 0 0 0 deg
+0.000000 100.000000 -100.000000 0 0 0 0 deg
 table_h1 table_h2
 
 table_nyx_horz
@@ -1492,7 +1474,7 @@ self table_nyx_horz
 0 1 1 1 1
 0 0 0 0 0
 1
-2.5 100.000000 -100 0 0 0 0 mm
+300.852972 100.000000 -100.000000 0 0 0 0 mm
 table_h1 table_h2
 
 camera_zoom
@@ -1525,7 +1507,7 @@ galil1 detector_y
 0 0 1 1 1
 0 0 0 1 1
 0
-0.000000 300.000000 -0.250000 19690.000000 50000 100 0 1 0 0 0 0 0 mm
+0.000000 1000.000000 -1000.000000 1.000000 1000 10 0 0 0 0 0 0 0 mm
 
 detector_z
 1
@@ -1533,7 +1515,7 @@ galil1 detector_z
 0 0 0 1 1
 0 0 0 0 0
 0
-400.000000 1000.000000 75.000000 19690.000000 100000 30 0 1 1 0 0 0 0 mm
+0.000000 1000.000000 -1000.000000 1.000000 1000 10 0 0 0 0 0 0 0 mm
 
 gonio_z
 1
@@ -2051,7 +2033,7 @@ self attenuation
 0 1 1 1 1
 0 1 1 1 1
 0
-49.850975 100.000000 0.000000 0 0 0 0 %
+49.861652 100.000000 0.000000 0 0 0 0 %
 0
 
 acquireSpectrum
@@ -2141,7 +2123,7 @@ hutchDoorStatus
 simDhs standardString
 0 1 1 1 1
 0 1 1 1 1
-closed 1414076628
+closed 1435169602
 
 getPV
 11
@@ -2243,7 +2225,7 @@ crystalSelectionList
 self standardString
 0 1 1 1 1
 0 1 1 1 1
--1 -1 {0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0}
+-1 0 {1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1}
 
 screeningActionList
 13
@@ -2261,7 +2243,7 @@ self standardString
 
 detectorType
 13
-detector detectorType
+simdetector detectorType
 0 1 1 1 1
 0 1 1 1 1
 PILATUS6
@@ -2472,7 +2454,7 @@ system_idle
 self startEmpty
 1 1 1 1 1
 0 0 0 0 0
-
+moveMotors energy
 
 lock_operation
 13
@@ -2793,7 +2775,7 @@ current_user_log
 self standardString
 0 1 1 1 1
 0 1 1 1 1
-/usr/local/dcs/userLog/X4A/userLog20130107_134657.ulg
+/usr/local/dcs/userLog/ID-19/userLog20130107_134657.ulg
 
 screening_user
 13
@@ -2841,7 +2823,7 @@ system_status
 self systemStatus
 1 1 1 1 1
 0 0 0 0 0
-{detector offline} black red
+{moveMotors - Detector Error} red #d0d000
 
 scan_msg
 13

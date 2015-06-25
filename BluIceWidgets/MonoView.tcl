@@ -209,6 +209,8 @@ class DoubleCrystalMonoView {
         mono_slit_spear \
         mono_slit_lower \
         mono_slit_vert \
+	mono_crystal2_perp \
+	mono_crystal2_para \
         mono_pitch \
         mono_roll \
         mono_theta \
@@ -220,7 +222,7 @@ class DoubleCrystalMonoView {
 
       set m_deviceFactory [::DCS::DeviceFactory::getObject]
 
-		# construct the goniometer widgets
+      # construct the goniometer widgets
       motorView mono_slit_ssrl 347 89 s 
       motorView mono_slit_spear 120 189 n
       motorView mono_slit_lower 267 244 n
@@ -458,6 +460,72 @@ class DoubleCrystalMonoViewDoubleSet9_2 {
 
 }
 
+class DoubleCrystalMonoViewDoubleSetID19 {
+        inherit ::DCS::CanvasGifView
+
+        itk_option define -mdiHelper mdiHelper MdiHelper ""
+
+    public proc getMotorList { } {
+        return [list \
+        mono_crystal2_para \
+        mono_crystal2_perp \
+        mono_pitch \
+        mono_roll \
+        mono_theta \
+        energy \
+        ]
+    }
+    public method gotoToroidView { } {
+        $itk_option(-mdiHelper) openToolChest toroid
+    }
+
+
+    constructor { args} {
+        set m_deviceFactory [::DCS::DeviceFactory::getObject]
+
+        loadBackdropImage ID19Mono.gif
+                place $itk_component(control) -x 220 -y 460
+
+        motorView mono_crystal2_para 709 208 se
+        motorView mono_crystal2_perp 539 322 n
+        motorView mono_pitch 130 314 n
+        motorView mono_roll 130 60 s
+        motorView mono_theta 271 314 n
+        motorView energy 271 412 s
+
+        moveHotSpot mono_crystal2_para 676 222 positive 0
+        moveHotSpot mono_crystal2_para 655 229 negative 0
+
+        moveHotSpot mono_crystal2_perp 535 273 positive 0
+        moveHotSpot mono_crystal2_perp 509 279 negative 0
+
+        moveHotSpot mono_pitch 143 260 positive 0
+        moveHotSpot mono_pitch 143 291 negative 0
+        moveHotSpot mono_roll 120 68  positive 0
+        moveHotSpot mono_roll 120 96  negative 0
+
+        moveHotSpot mono_theta 414 304 positive 0
+        moveHotSpot mono_theta 328 304 negative 0
+
+
+        #### link button
+        itk_component add link {
+            button $itk_component(canvas).link \
+            -text "goto toroidView ==>" \
+            -command "$this gotoToroidView"
+        } {
+    	}
+   	place $itk_component(link) -x 690 -y 440 -anchor ne
+
+        eval itk_initialize $args
+
+        configure -width 710 -height 500
+   }
+
+}
+
+
+
 class DoubleCrystalMonoViewDoubleSet12_2 {
  	inherit ::DCS::CanvasShapes
 
@@ -488,11 +556,13 @@ class DoubleCrystalMonoViewDoubleSet12_2 {
       set m_deviceFactory [::DCS::DeviceFactory::getObject]
 
 		# construct the goniometer widgets
-      motorView mono_slit_ssrl 347 89 s 
+#      motorView mono_slit_ssrl 347 89 s 
+      motorView mono_a_pitch 347 89 s
       motorView mono_slit_spear 120 189 n
       motorView mono_slit_lower 267 244 n
       motorView mono_slit_upper 230 42 e
-      motorView mono_a_pitch 645 130 w
+#      motorView mono_a_pitch 645 130 w
+	motorView mono_slit_ssrl 645 130 w
       motorView mono_a_roll 485 150 s
       motorView mono_theta 515 263 n
       motorView energy 680 230 n

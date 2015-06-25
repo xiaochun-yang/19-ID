@@ -1,75 +1,183 @@
-06/16/15 15:58:10 3367348000   FINEST    DcsMessageManager constructor enter {src/DcsMessageManager.cxx 18  }
-06/16/15 15:58:10 3367348000   FINEST    DcsMessageManager constructor exit {src/DcsMessageManager.cxx 33  }
-06/16/15 15:58:10 3367348000   FINEST    DcsMessageService constructor enter {src/DcsMessageService.cxx 9  }
-06/16/15 15:58:10 3367348000   FINEST    DcsMessageService constructor exit {src/DcsMessageService.cxx 13  }
-06/16/15 15:58:10 3367348000   FINEST    run from front, not as a service  {src/ConsoleDhs.cxx 28  }
-06/16/15 15:58:10 3367348000     INFO    m_ServerName points to: 'localhost' {src/DcsMessageHandler.cxx 43  }
-06/16/15 15:58:10 3367348000     INFO    m_DHSName points to: 'ConsoleDhs' {src/DcsMessageHandler.cxx 62  }
-06/16/15 15:58:10 3356849920   FINEST    receiver is waiting sender done for start {src/DcsMessageService.cxx 151  }
-06/16/15 15:58:10 3346360064   FINEST    ConsoleSim::Initialize called {src/ConsoleSim.cxx 24  }
-06/16/15 15:58:10 3367339776   FINEST    SENDER wait for socket lock 11111 {src/DcsMessageService.cxx 87  }
-06/16/15 15:58:10 3367339776   FINEST    SENDER got socket lock 111111 {src/DcsMessageService.cxx 89  }
-06/16/15 15:58:10 3367339776   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
-06/16/15 15:58:10 3367339776   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
-06/16/15 15:58:10 3367339776     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
-06/16/15 15:58:10 3367339776   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
-06/16/15 15:58:10 3367339776   FINEST    Sending: 'htos_client_is_hardware ConsoleDhs' {src/DcsMessageHandler.cxx 188  }
-06/16/15 15:58:10 3367339776   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
-06/16/15 15:58:10 3367339776   FINEST    SENDER unlock socket lock 11111111111 {src/DcsMessageService.cxx 102  }
-06/16/15 15:58:10 3367339776     INFO    connected to DCSS with DCS protocol, sender ready {src/DcsMessageService.cxx 104  }
-06/16/15 15:58:10 3367339776   FINEST    SENDER enter loop {src/DcsMessageService.cxx 109  }
-06/16/15 15:58:10 3356849920   FINEST    receiver waiting done {src/DcsMessageService.cxx 153  }
-06/16/15 15:58:10 3356849920     INFO    receiver ready: whole DcsMessageService Ready {src/DcsMessageService.cxx 167  }
-06/16/15 15:58:10 3356849920   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/16/15 15:58:10 3356849920   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/16/15 15:58:10 3356849920   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xc5ff70 {src/DcsMessageManager.cxx 170  }
-06/16/15 15:58:10 3356849920   FINEST    DcsMessageManager::NewDcsMessage: new MAX TEXT SIZE 64 {src/DcsMessageManager.cxx 176  }
-06/16/15 15:58:10 3356849920   FINEST    Receiving: 'stoh_register_operation get_current_energy get_current_energy
-' {src/DcsMessageHandler.cxx 249  }
-06/16/15 15:58:10 3356849920   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-06/16/15 15:58:10 3356849920   FINEST    ConsoleDhs::ConsumeDcsMessage: not a message for that can be handled, pass on {src/ConsoleService.cxx 165  }
-06/16/15 15:58:10 3356849920  WARNING    no one takes this message: stoh_register_operation get_current_energy get_current_energy {src/DcsMessageService.cxx 238  }
-06/16/15 15:58:10 3356849920   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xc5ff70) {src/DcsMessageManager.cxx 193  }
-06/16/15 15:58:10 3356849920   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/16/15 15:58:10 3356849920   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
-06/16/15 15:58:10 3356849920   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
-06/16/15 15:58:10 3356849920   FINEST    DcsMessageManager::NewDcsMessage return with 0x0xc5ff70 {src/DcsMessageManager.cxx 170  }
-06/16/15 15:58:10 3356849920   FINEST    Receiving: 'stoh_register_operation move_to_new_energy move_to_new_energy
-' {src/DcsMessageHandler.cxx 249  }
-06/16/15 15:58:10 3356849920   FINEST    +ConsoleService::ConsumeDcsMessage {src/ConsoleService.cxx 111  }
-06/16/15 15:58:10 3356849920   FINEST    ConsoleDhs::ConsumeDcsMessage: not a message for that can be handled, pass on {src/ConsoleService.cxx 165  }
-06/16/15 15:58:10 3356849920  WARNING    no one takes this message: stoh_register_operation move_to_new_energy move_to_new_energy {src/DcsMessageService.cxx 238  }
-06/16/15 15:58:10 3356849920   FINEST    DcsMessageManager::DeleteDcsMessage( 0x0xc5ff70) {src/DcsMessageManager.cxx 193  }
-06/16/15 15:58:10 3356849920   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
-06/16/15 15:58:20 3346360064     INFO    Console Thread ready {src/ConsoleService.cxx 388  }
-06/16/15 15:58:20 3367348000     INFO    Console System start OK {src/ConsoleSystem.cxx 84  }
-06/16/15 15:58:23 3367348000  WARNING    Error connecting to x4a server {src/ConsoleService.cxx 662  }
-06/16/15 15:58:23 3367348000   FINEST    issue stop command {src/ConsoleSystem.cxx 111  }
-06/16/15 15:58:23 3367348000   FINEST    wait all threads to stop {src/ConsoleSystem.cxx 116  }
-06/16/15 15:58:23 3367348000   FINEST    in WaitAllStop: got out of SEM wait {src/ConsoleSystem.cxx 167  }
-06/16/15 15:58:23 3367348000   FINEST    in WaitAllStop: got out of SEM wait {src/ConsoleSystem.cxx 167  }
-06/16/15 15:58:23 3346360064   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
-06/16/15 15:58:23 3346360064     INFO    Console thread quit by STOP {src/ConsoleService.cxx 407  }
-06/16/15 15:58:23 3346360064     INFO    Console thread stopped and EvtStopped set {src/ConsoleService.cxx 526  }
-06/16/15 15:58:23 3367339776   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
-06/16/15 15:58:23 3367339776     INFO    SENDER quit by command STOP {src/DcsMessageService.cxx 128  }
-06/16/15 15:58:23 3367339776     INFO    sender stopped {src/DcsMessageService.cxx 144  }
-06/16/15 15:58:23 3367348000   FINEST    in WaitAllStop: got out of SEM wait {src/ConsoleSystem.cxx 167  }
-06/16/15 15:58:23 3367348000   FINEST    console service stopped {src/ConsoleSystem.cxx 174  }
-06/16/15 15:58:24 3356849920   FINEST    receiver is waiting sender done for stop {src/DcsMessageService.cxx 203  }
-06/16/15 15:58:24 3356849920   FINEST    waiting done {src/DcsMessageService.cxx 205  }
-06/16/15 15:58:24 3356849920   FINEST    receiver disconnect DCSS {src/DcsMessageService.cxx 212  }
-06/16/15 15:58:24 3356849920     INFO    receiver stopped: means this active object stopped {src/DcsMessageService.cxx 215  }
-06/16/15 15:58:24 3367348000   FINEST    in WaitAllStop: got out of SEM wait {src/ConsoleSystem.cxx 167  }
-06/16/15 15:58:24 3367348000   FINEST    dcs msg service stopped {src/ConsoleSystem.cxx 170  }
-06/16/15 15:58:24 3367348000   FINEST    console service stopped {src/ConsoleSystem.cxx 174  }
-06/16/15 15:58:24 3367348000   FINEST    alll stopped {src/ConsoleSystem.cxx 177  }
-06/16/15 15:58:24 3367348000   FINEST    DcsMessageManager: {src/ConsoleSystem.cxx 120  }
-06/16/15 15:58:24 3367348000   FINEST    GetMaxTextSize=64 {src/ConsoleSystem.cxx 121  }
-06/16/15 15:58:24 3367348000   FINEST    GetMaxBinarySize=0 {src/ConsoleSystem.cxx 122  }
-06/16/15 15:58:24 3367348000   FINEST    GetMaxPoolSize=10 {src/ConsoleSystem.cxx 123  }
-06/16/15 15:58:24 3367348000   FINEST    GetNewCount=2 {src/ConsoleSystem.cxx 124  }
-06/16/15 15:58:24 3367348000   FINEST    GetDeleteCount=2 {src/ConsoleSystem.cxx 125  }
-06/16/15 15:58:24 3367348000     INFO    Console System stopped {src/ConsoleSystem.cxx 127  }
-06/16/15 15:58:24 3367348000  WARNING    init_8bm_cons: Error connecting to console server on IP66 {src/ConsoleSystem.cxx 90  }
-06/16/15 15:58:24 3367348000   FINEST    out of running: received ctrl-c  {src/ConsoleDhs.cxx 30  }
+06/18/15 14:12:32 3126769440   FINEST    DcsMessageManager constructor enter {src/DcsMessageManager.cxx 18  }
+06/18/15 14:12:32 3126769440   FINEST    DcsMessageManager constructor exit {src/DcsMessageManager.cxx 33  }
+06/18/15 14:12:32 3126769440   FINEST    DcsMessageService constructor enter {src/DcsMessageService.cxx 9  }
+06/18/15 14:12:32 3126769440   FINEST    DcsMessageService constructor exit {src/DcsMessageService.cxx 13  }
+06/18/15 14:12:32 3126769440   FINEST    run from front, not as a service  {src/ConsoleDhs.cxx 28  }
+06/18/15 14:12:32 3126769440     INFO    m_ServerName points to: 'localhost' {src/DcsMessageHandler.cxx 43  }
+06/18/15 14:12:32 3126769440     INFO    m_DHSName points to: 'ConsoleDhs' {src/DcsMessageHandler.cxx 62  }
+06/18/15 14:12:32 3126761216   FINEST    SENDER wait for socket lock 11111 {src/DcsMessageService.cxx 87  }
+06/18/15 14:12:32 3126761216   FINEST    SENDER got socket lock 111111 {src/DcsMessageService.cxx 89  }
+06/18/15 14:12:32 3126761216   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
+06/18/15 14:12:32 3126761216   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
+06/18/15 14:12:32 3126761216     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
+06/18/15 14:12:32 3126761216   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
+06/18/15 14:12:32 3116271360   FINEST    receiver is waiting sender done for start {src/DcsMessageService.cxx 151  }
+06/18/15 14:12:32 3126761216   FINEST    Sending: 'htos_client_is_hardware ConsoleDhs' {src/DcsMessageHandler.cxx 188  }
+06/18/15 14:12:32 3126761216   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
+06/18/15 14:12:32 3126761216   FINEST    SENDER unlock socket lock 11111111111 {src/DcsMessageService.cxx 102  }
+06/18/15 14:12:32 3126761216     INFO    connected to DCSS with DCS protocol, sender ready {src/DcsMessageService.cxx 104  }
+06/18/15 14:12:32 3126761216   FINEST    SENDER enter loop {src/DcsMessageService.cxx 109  }
+06/18/15 14:12:32 3116271360   FINEST    receiver waiting done {src/DcsMessageService.cxx 153  }
+06/18/15 14:12:32 3116271360     INFO    receiver ready: whole DcsMessageService Ready {src/DcsMessageService.cxx 167  }
+06/18/15 14:12:32 3116271360   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/18/15 14:12:32 3116271360   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/18/15 14:12:32 3116271360  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
+06/18/15 14:12:32 3105781504   FINEST    ConsoleSim::Initialize called {src/ConsoleSim.cxx 24  }
+06/18/15 14:12:33 3116271360     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
+06/18/15 14:12:33 3116271360   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
+06/18/15 14:12:33 3116271360   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
+06/18/15 14:12:33 3116271360     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
+06/18/15 14:12:33 3116271360   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
+06/18/15 14:12:33 3116271360   FINEST    Sending: 'htos_client_is_hardware ConsoleDhs' {src/DcsMessageHandler.cxx 188  }
+06/18/15 14:12:33 3116271360   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
+06/18/15 14:12:33 3116271360   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/18/15 14:12:33 3116271360   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/18/15 14:12:33 3116271360   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/18/15 14:12:33 3116271360  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
+06/18/15 14:12:34 3116271360     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
+06/18/15 14:12:34 3116271360   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
+06/18/15 14:12:34 3116271360   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
+06/18/15 14:12:34 3116271360     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
+06/18/15 14:12:34 3116271360   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
+06/18/15 14:12:34 3116271360   FINEST    Sending: 'htos_client_is_hardware ConsoleDhs' {src/DcsMessageHandler.cxx 188  }
+06/18/15 14:12:34 3116271360   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
+06/18/15 14:12:34 3116271360   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/18/15 14:12:34 3116271360   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/18/15 14:12:34 3116271360   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/18/15 14:12:34 3116271360  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
+06/18/15 14:12:35 3116271360     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
+06/18/15 14:12:35 3116271360   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
+06/18/15 14:12:35 3116271360   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
+06/18/15 14:12:35 3116271360     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
+06/18/15 14:12:35 3116271360   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
+06/18/15 14:12:35 3116271360   FINEST    Sending: 'htos_client_is_hardware ConsoleDhs' {src/DcsMessageHandler.cxx 188  }
+06/18/15 14:12:35 3116271360   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
+06/18/15 14:12:35 3116271360   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/18/15 14:12:35 3116271360   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/18/15 14:12:35 3116271360   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/18/15 14:12:35 3116271360  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
+06/18/15 14:12:36 3116271360     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
+06/18/15 14:12:36 3116271360   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
+06/18/15 14:12:36 3116271360   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
+06/18/15 14:12:36 3116271360     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
+06/18/15 14:12:36 3116271360   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
+06/18/15 14:12:36 3116271360   FINEST    Sending: 'htos_client_is_hardware ConsoleDhs' {src/DcsMessageHandler.cxx 188  }
+06/18/15 14:12:36 3116271360   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
+06/18/15 14:12:36 3116271360   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/18/15 14:12:36 3116271360   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/18/15 14:12:36 3116271360   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/18/15 14:12:36 3116271360  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
+06/18/15 14:12:37 3116271360     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
+06/18/15 14:12:37 3116271360   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
+06/18/15 14:12:37 3116271360   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
+06/18/15 14:12:37 3116271360     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
+06/18/15 14:12:37 3116271360   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
+06/18/15 14:12:37 3116271360   FINEST    Sending: 'htos_client_is_hardware ConsoleDhs' {src/DcsMessageHandler.cxx 188  }
+06/18/15 14:12:37 3116271360   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
+06/18/15 14:12:37 3116271360   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/18/15 14:12:37 3116271360   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/18/15 14:12:37 3116271360   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/18/15 14:12:37 3116271360  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
+06/18/15 14:12:38 3116271360     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
+06/18/15 14:12:38 3116271360   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
+06/18/15 14:12:38 3116271360   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
+06/18/15 14:12:38 3116271360     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
+06/18/15 14:12:38 3116271360   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
+06/18/15 14:12:38 3116271360   FINEST    Sending: 'htos_client_is_hardware ConsoleDhs' {src/DcsMessageHandler.cxx 188  }
+06/18/15 14:12:38 3116271360   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
+06/18/15 14:12:38 3116271360   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/18/15 14:12:38 3116271360   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/18/15 14:12:38 3116271360   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/18/15 14:12:38 3116271360  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
+06/18/15 14:12:39 3116271360     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
+06/18/15 14:12:39 3116271360   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
+06/18/15 14:12:39 3116271360   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
+06/18/15 14:12:39 3116271360     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
+06/18/15 14:12:39 3116271360   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
+06/18/15 14:12:39 3116271360   FINEST    Sending: 'htos_client_is_hardware ConsoleDhs' {src/DcsMessageHandler.cxx 188  }
+06/18/15 14:12:39 3116271360   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
+06/18/15 14:12:39 3116271360   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/18/15 14:12:39 3116271360   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/18/15 14:12:39 3116271360   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/18/15 14:12:39 3116271360  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
+06/18/15 14:12:40 3116271360     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
+06/18/15 14:12:40 3116271360   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
+06/18/15 14:12:40 3116271360   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
+06/18/15 14:12:40 3116271360     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
+06/18/15 14:12:40 3116271360   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
+06/18/15 14:12:40 3116271360   FINEST    Sending: 'htos_client_is_hardware ConsoleDhs' {src/DcsMessageHandler.cxx 188  }
+06/18/15 14:12:40 3116271360   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
+06/18/15 14:12:40 3116271360   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/18/15 14:12:40 3116271360   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/18/15 14:12:40 3116271360   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/18/15 14:12:40 3116271360  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
+06/18/15 14:12:41 3116271360     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
+06/18/15 14:12:41 3116271360   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
+06/18/15 14:12:41 3116271360   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
+06/18/15 14:12:41 3116271360     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
+06/18/15 14:12:41 3116271360   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
+06/18/15 14:12:41 3116271360   FINEST    Sending: 'htos_client_is_hardware ConsoleDhs' {src/DcsMessageHandler.cxx 188  }
+06/18/15 14:12:41 3116271360   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
+06/18/15 14:12:41 3116271360   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/18/15 14:12:41 3116271360   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/18/15 14:12:41 3116271360   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/18/15 14:12:41 3116271360  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
+06/18/15 14:12:42 3105781504     INFO    Console Thread ready {src/ConsoleService.cxx 388  }
+06/18/15 14:12:42 3126769440     INFO    Console System start OK {src/ConsoleSystem.cxx 84  }
+06/18/15 14:12:42 3116271360     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
+06/18/15 14:12:42 3116271360   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
+06/18/15 14:12:42 3116271360   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
+06/18/15 14:12:42 3116271360     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
+06/18/15 14:12:42 3116271360   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
+06/18/15 14:12:42 3116271360   FINEST    Sending: 'htos_client_is_hardware ConsoleDhs' {src/DcsMessageHandler.cxx 188  }
+06/18/15 14:12:42 3116271360   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
+06/18/15 14:12:42 3116271360   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/18/15 14:12:42 3116271360   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/18/15 14:12:42 3116271360   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/18/15 14:12:42 3116271360  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
+06/18/15 14:12:43 3116271360     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
+06/18/15 14:12:43 3116271360   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
+06/18/15 14:12:43 3116271360   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
+06/18/15 14:12:43 3116271360     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
+06/18/15 14:12:43 3116271360   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
+06/18/15 14:12:43 3116271360   FINEST    Sending: 'htos_client_is_hardware ConsoleDhs' {src/DcsMessageHandler.cxx 188  }
+06/18/15 14:12:43 3116271360   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
+06/18/15 14:12:43 3116271360   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/18/15 14:12:43 3116271360   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/18/15 14:12:43 3116271360   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/18/15 14:12:43 3116271360  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
+06/18/15 14:12:44 3116271360     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
+06/18/15 14:12:44 3116271360   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
+06/18/15 14:12:44 3116271360   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
+06/18/15 14:12:44 3116271360     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
+06/18/15 14:12:44 3116271360   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
+06/18/15 14:12:44 3116271360   FINEST    Sending: 'htos_client_is_hardware ConsoleDhs' {src/DcsMessageHandler.cxx 188  }
+06/18/15 14:12:44 3116271360   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
+06/18/15 14:12:44 3116271360   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/18/15 14:12:44 3116271360   FINEST    RECEIVER wait socket lock {src/DcsMessageService.cxx 188  }
+06/18/15 14:12:44 3116271360   FINEST    RECEIVER got socket lock {src/DcsMessageService.cxx 190  }
+06/18/15 14:12:44 3116271360  WARNING    WINSOCK ERROR--readFixedLength failed: num bytes requested [26] {src/DcsMessageHandler.cxx 267  }
+06/18/15 14:12:45 3126769440  WARNING    Error connecting to x4a server {src/ConsoleService.cxx 662  }
+06/18/15 14:12:45 3126769440   FINEST    issue stop command {src/ConsoleSystem.cxx 111  }
+06/18/15 14:12:45 3126769440   FINEST    wait all threads to stop {src/ConsoleSystem.cxx 116  }
+06/18/15 14:12:45 3126769440   FINEST    in WaitAllStop: got out of SEM wait {src/ConsoleSystem.cxx 167  }
+06/18/15 14:12:45 3126769440   FINEST    in WaitAllStop: got out of SEM wait {src/ConsoleSystem.cxx 167  }
+06/18/15 14:12:45 3105781504   FINEST    Console thread out of waiting {src/ConsoleService.cxx 394  }
+06/18/15 14:12:45 3105781504     INFO    Console thread quit by STOP {src/ConsoleService.cxx 407  }
+06/18/15 14:12:45 3105781504     INFO    Console thread stopped and EvtStopped set {src/ConsoleService.cxx 526  }
+06/18/15 14:12:45 3126761216   FINEST    SENDER out of waiting {src/DcsMessageService.cxx 114  }
+06/18/15 14:12:45 3126761216     INFO    SENDER quit by command STOP {src/DcsMessageService.cxx 128  }
+06/18/15 14:12:45 3126761216     INFO    sender stopped {src/DcsMessageService.cxx 144  }
+06/18/15 14:12:45 3126769440   FINEST    in WaitAllStop: got out of SEM wait {src/ConsoleSystem.cxx 167  }
+06/18/15 14:12:45 3126769440   FINEST    console service stopped {src/ConsoleSystem.cxx 174  }
+06/18/15 14:12:45 3116271360     INFO    lost socket connection in receiving message {src/DcsMessageService.cxx 247  }
+06/18/15 14:12:45 3116271360   FINEST    +DcsMessageHandler::ConnectToDCSS {src/DcsMessageHandler.cxx 85  }
+06/18/15 14:12:45 3116271360   FINEST    +DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 131  }
+06/18/15 14:12:45 3116271360     INFO    connected to localhost at port 14242 {src/DcsMessageHandler.cxx 139  }
+06/18/15 14:12:45 3116271360   FINEST    -DcsMessageHandler::MakeSocketConnection {src/DcsMessageHandler.cxx 148  }
+06/18/15 14:12:45 3116271360   FINEST    Sending: 'htos_client_is_hardware ConsoleDhs' {src/DcsMessageHandler.cxx 188  }
+06/18/15 14:12:45 3116271360   FINEST    -DcsMessageHandler::ConnectToDCSS OK {src/DcsMessageHandler.cxx 122  }
+06/18/15 14:12:45 3116271360   FINEST    RECEIVER release socket lock {src/DcsMessageService.cxx 193  }
+06/18/15 14:12:45 3116271360   FINEST    receiver is waiting sender done for stop {src/DcsMessageService.cxx 203  }
+06/18/15 14:12:45 3116271360   FINEST    waiting done {src/DcsMessageService.cxx 205  }
+06/18/15 14:12:45 3116271360   FINEST    receiver disconnect DCSS {src/DcsMessageService.cxx 212  }

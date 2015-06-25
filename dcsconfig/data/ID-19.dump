@@ -6,7 +6,7 @@ simDhs
 3
 localhost 2
 
-detector
+simdetector
 3
 localhost 2
 
@@ -235,7 +235,7 @@ crystalStatus
 self standardString
 0 1 1 1 1
 0 1 1 1 1
-{} {} robot 0 {} no 0
+{} A1 robot 0 {} yes 0
 
 screening_msg
 13
@@ -258,38 +258,38 @@ self RobotTest
 
 lastImageCollected
 13
-detector lastImageCollected
+simdetector lastImageCollected
 0 1 1 1 1
 0 1 1 1 1
 {}
 
 detector_collect_image
 11
-detector detector_collect_image
+simdetector detector_collect_image
 0 1 1 1 1
 0 1 1 1 1
 
 detector_transfer_image
 11
-detector detector_transfer_image
+simdetector detector_transfer_image
 0 1 1 1 1
 0 1 1 1 1
 
 detector_oscillation_ready
 11
-detector detector_oscillation_ready
+simdetector detector_oscillation_ready
 0 1 1 1 1
 0 1 1 1 1
 
 detector_stop
 11
-detector detector_stop
+simdetector detector_stop
 0 1 1 1 1
 0 1 1 1 1
 
 detector_reset_run
 11
-detector detector_reset_run
+simdetector detector_reset_run
 0 1 1 1 1
 0 1 1 1 1
 
@@ -599,7 +599,7 @@ simDhs mono_crystal2_perp
 0 1 1 1 1
 0 0 0 0 0
 0
-13.299013 14.001014 0.000000 153.846000 500 125 98 1 1 0 1 0 0 mm
+15.184015 50.000000 0.000000 153.846000 500 125 0 0 0 0 0 0 0 mm
 
 mono_crystal2_para
 1
@@ -607,7 +607,7 @@ simDhs mono_crystal2_para
 0 1 1 1 1
 0 0 0 0 0
 0
-13.299013 14.001014 0.000000 153.846000 500 125 98 1 1 0 1 0 0 mm
+96.083096 140.001000 0.000000 153.846000 500 125 0 0 0 0 0 0 0 mm
 
 mono_slit_vert
 1
@@ -647,7 +647,7 @@ simDhs mono_pitch
 0 1 1 1 1
 0 0 0 0 0
 0
-5398.000000 99990.000000 -1000000.000000 1.000000 100 100 -10 0 0 0 0 0 0 deg
+3.000000 20.000000 0.000000 20000.000000 7000 350 0 1 1 0 0 0 0 deg
 
 mono_roll
 1
@@ -655,7 +655,7 @@ simDhs mono_roll
 0 1 1 1 1
 0 0 0 0 0
 0
-12544.000000 999990.000000 -10000000.000000 1.000000 100 100 -10 0 0 0 0 0 0 deg
+2.000000 20.000000 0.000000 20000.000000 7000 350 0 1 1 0 0 0 0 deg
 
 d_spacing
 2
@@ -672,7 +672,7 @@ self standardVirtualMotor
 1 1 1 1 1
 0 0 0 0 0
 0
-10.000000 50.000000 0.000000 0 0 0 0 mm
+30.000000 50.000000 0.000000 0 0 0 0 mm
 0
 
 asymmetric_cut
@@ -690,7 +690,7 @@ simDhs mono_theta
 0 1 1 1 1
 0 0 0 0 0
 0
-8.421500 23.000000 4.200000 20000.000000 7000 350 -4000 1 1 0 1 1 0 deg
+8.986200 23.000000 4.200000 20000.000000 7000 350 0 0 0 0 0 0 0 deg
 
 energy
 2
@@ -698,23 +698,8 @@ self energy_id19
 0 1 1 1 1
 0 1 1 1 1
 0
-13500.000163 16000.000000 5400.000000 1 1 0 0 eV
+12663.999699 16000.000000 5400.000000 0 0 0 0 eV
 mono_theta
-
-optimized_energy
-2
-self optimized_energy
-0 1 1 1 1
-0 0 1 1 1
-1
-13500.000163 16000.000000 7000.000000 0 0 0 0 eV
-energy
-
-energyTracking
-11
-self energyTracking
-1 1 1 1 1
-0 0 0 0 0
 
 optimizedEnergyParameters
 13
@@ -745,7 +730,7 @@ galil1 gonio_phi
 0 1 1 1 1
 0 1 1 1 1
 0
-0.000000 1000.000000 -1000.000000 1.000000 1000 10 0 0 0 0 0 0 1 deg
+45.000000 1000.000000 -1000.000000 1.000000 1000 10 5 1 1 0 1 0 1 deg
 
 mono_vert
 1
@@ -1265,27 +1250,27 @@ simDhs guard_shield_horiz
 
 tripot_3
 1
-galil1 tripot_3
+simDhs tripot_3
 0 1 1 1 1
 0 1 1 1 1
 0
-0.000000 1000.000000 -1000.000000 1.000000 1000 10 0 0 0 0 0 0 0 mm
+0.364935 10.000000 -10.000000 20157.000000 5000 20 0 0 0 0 0 0 0 mm
 
 tripot_2
 1
-galil1 tripot_2
+simDhs tripot_2
 0 1 1 1 1
 0 1 1 1 1
 0
-0.000000 1000.000000 -1000.000000 1.000000 1000 10 0 0 0 0 0 0 0 mm
+0.358982 5.500000 -5.500000 20157.000000 5000 20 0 0 0 0 0 0 0 mm
 
 tripot_1
 1
-galil1 tripot_1
+simDhs tripot_1
 0 1 1 1 1
 0 1 1 1 1
 0
-0.000000 1000.000000 -1000.000000 1.000000 1000 10 0 0 0 0 0 0 0 mm
+0.703775 10.000000 -10.000000 20157.000000 5000 20 0 0 0 0 0 0 0 mm
 
 sample_x
 2
@@ -1293,7 +1278,7 @@ self sample_x
 0 1 1 1 1
 0 1 1 1 1
 1
-0.000000 10.000000 -10.000000 0 0 0 0 mm
+-0.869829 10.000000 -10.000000 0 0 0 0 mm
 tripot_1 tripot_2
 
 sample_y
@@ -1302,7 +1287,7 @@ self sample_y
 0 1 1 1 1
 0 1 1 1 1
 1
-0.000000 10.000000 -10.000000 0 0 0 0 mm
+-0.484290 10.000000 -10.000000 0 0 0 0 mm
 tripot_1 tripot_2 tripot_3
 
 sample_z
@@ -1311,7 +1296,7 @@ self sample_z
 0 1 1 1 1
 0 1 1 1 1
 1
-0.000000 10.000000 -10.000000 0 0 0 0 mm
+0.475897 10.000000 -10.000000 0 0 0 0 mm
 tripot_1 tripot_2 tripot_3
 
 sample_z_corr
@@ -1320,7 +1305,7 @@ self sample_z_corr
 0 1 1 1 1
 0 1 1 1 1
 1
-0.000000 4.950000 -28.100000 1 0 0 0 mm
+0.475897 4.950000 -28.100000 1 0 0 0 mm
 sample_z
 
 bend_x3
@@ -2048,7 +2033,7 @@ self attenuation
 0 1 1 1 1
 0 1 1 1 1
 0
-43.964458 100.000000 0.000000 0 0 0 0 %
+49.820659 100.000000 0.000000 0 0 0 0 %
 0
 
 acquireSpectrum
@@ -2138,7 +2123,7 @@ hutchDoorStatus
 simDhs standardString
 0 1 1 1 1
 0 1 1 1 1
-closed 1434564808
+closed 1435244150
 
 getPV
 11
@@ -2240,7 +2225,7 @@ crystalSelectionList
 self standardString
 0 1 1 1 1
 0 1 1 1 1
--1 -1 {}
+-1 0 {1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1}
 
 screeningActionList
 13
@@ -2258,7 +2243,7 @@ self standardString
 
 detectorType
 13
-detector detectorType
+simdetector detectorType
 0 1 1 1 1
 0 1 1 1 1
 PILATUS6
@@ -2661,7 +2646,7 @@ sil_id
 imperson sil_id
 0 1 1 1 1
 0 1 1 1 1
-0
+20
 
 sil_event_id
 13
@@ -2790,7 +2775,7 @@ current_user_log
 self standardString
 0 1 1 1 1
 0 1 1 1 1
-/usr/local/dcs/userLog/X4A/userLog20130107_134657.ulg
+/usr/local/dcs/userLog/ID-19/userLog20130107_134657.ulg
 
 screening_user
 13
@@ -2838,7 +2823,7 @@ system_status
 self systemStatus
 1 1 1 1 1
 0 0 0 0 0
-{detector offline} black red
+{galil1 offline} black red
 
 scan_msg
 13
