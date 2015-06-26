@@ -480,7 +480,7 @@ self standardVirtualMotor
 
 mirror_vert
 1
-simDhs m0ver
+simDhs mirror_vert
 0 1 1 1 1
 0 0 0 0 0
 0
@@ -488,7 +488,7 @@ simDhs m0ver
 
 mirror_horz
 1
-simDhs m0ver
+simDhs mirror_horz
 0 1 1 1 1
 0 0 0 0 0
 0
@@ -496,7 +496,7 @@ simDhs m0ver
 
 mirror_pitch
 1
-simDhs m0pitch
+simDhs mirror_pitch
 0 1 1 1 1
 0 0 0 0 0
 0
@@ -504,7 +504,7 @@ simDhs m0pitch
 
 mirror_bend_upstream
 1
-simDhs m0bend
+simDhs mirror_bend_upstream
 0 1 1 1 1
 0 0 0 0 0
 0
@@ -512,7 +512,7 @@ simDhs m0bend
 
 mirror_bend_downstream
 1
-simDhs m0bend
+simDhs mirror_bend_downstream
 0 1 1 1 1
 0 0 0 0 0
 0
@@ -520,7 +520,16 @@ simDhs m0bend
 
 mirror_bend
 2
-self mirror_bending_nyx
+self mirror_bend_id19
+0 1 1 1 1
+0 0 0 0 0
+1
+0.000000 2.500230 0.150161 0 0 0 0 mm
+mirror_bend_downstream mirror_bend_upstream
+
+mirror_bend_pos
+2
+self mirror_bend_id19
 0 1 1 1 1
 0 0 0 0 0
 1
@@ -529,7 +538,7 @@ mirror_bend_downstream mirror_bend_upstream
 
 mirror_slit_upper
 1
-simDhs m0topslit
+simDhs mirror_slit_upper
 0 1 1 1 1
 0 0 0 0 0
 0
@@ -537,11 +546,29 @@ simDhs m0topslit
 
 mirror_slit_lower
 1
-simDhs m0botslit
+simDhs mirror_slit_upper
 0 1 1 1 1
 0 0 0 0 0
 0
 -3.708399 0.000000 -8.000000 157.750000 500 125 100 1 0 0 1 0 0 mm
+
+mirror_slit_vert
+2
+self STDSLIT_VERT
+0 1 1 1 1
+0 0 0 0 0
+1
+0.551506 10.000000 -10.000000 0 0 0 0 mm
+mirror_slit_upper mirror_slit_lower
+
+mirror_slit_vert_gap
+2
+self STDSLIT_VERT_GAP
+0 1 1 1 1
+0 0 0 0 0
+1
+8.519809 5.000000 -5.000000 0 0 0 0 mm
+mirror_slit_upper mirror_slit_lower
 
 mirror_vert_chin
 2
@@ -607,7 +634,7 @@ simDhs mono_crystal2_para
 0 1 1 1 1
 0 0 0 0 0
 0
-96.083096 140.001000 0.000000 153.846000 500 125 0 0 0 0 0 0 0 mm
+96.089596 140.001000 0.000000 153.846000 500 125 0 0 0 0 0 0 0 mm
 
 mono_slit_vert
 1
@@ -690,7 +717,7 @@ simDhs mono_theta
 0 1 1 1 1
 0 0 0 0 0
 0
-8.986200 23.000000 4.200000 20000.000000 7000 350 0 0 0 0 0 0 0 deg
+8.985650 23.000000 4.200000 20000.000000 7000 350 0 1 1 0 0 0 0 deg
 
 energy
 2
@@ -698,7 +725,7 @@ self energy_id19
 0 1 1 1 1
 0 1 1 1 1
 0
-12663.999699 16000.000000 5400.000000 0 0 0 0 eV
+12664.768487 16000.000000 5400.000000 0 0 0 0 eV
 mono_theta
 
 optimizedEnergyParameters
@@ -2033,7 +2060,7 @@ self attenuation
 0 1 1 1 1
 0 1 1 1 1
 0
-49.820659 100.000000 0.000000 0 0 0 0 %
+49.814668 100.000000 0.000000 0 0 0 0 %
 0
 
 acquireSpectrum
@@ -2123,7 +2150,7 @@ hutchDoorStatus
 simDhs standardString
 0 1 1 1 1
 0 1 1 1 1
-closed 1435244150
+closed 1435350826
 
 getPV
 11

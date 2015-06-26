@@ -480,7 +480,7 @@ self standardVirtualMotor
 
 mirror_vert
 1
-simDhs mirror_vert
+simDhs m0ver
 0 1 1 1 1
 0 0 0 0 0
 0
@@ -488,7 +488,7 @@ simDhs mirror_vert
 
 mirror_horz
 1
-simDhs mirror_horz
+simDhs m0ver
 0 1 1 1 1
 0 0 0 0 0
 0
@@ -496,7 +496,7 @@ simDhs mirror_horz
 
 mirror_pitch
 1
-simDhs mirror_pitch
+simDhs m0pitch
 0 1 1 1 1
 0 0 0 0 0
 0
@@ -504,7 +504,7 @@ simDhs mirror_pitch
 
 mirror_bend_upstream
 1
-simDhs mirror_bend_upstream
+simDhs m0bend
 0 1 1 1 1
 0 0 0 0 0
 0
@@ -512,7 +512,7 @@ simDhs mirror_bend_upstream
 
 mirror_bend_downstream
 1
-simDhs mirror_bend_downstream
+simDhs m0bend
 0 1 1 1 1
 0 0 0 0 0
 0
@@ -520,26 +520,16 @@ simDhs mirror_bend_downstream
 
 mirror_bend
 2
-self mirror_bend_id19
+self mirror_bending_nyx
 0 1 1 1 1
 0 0 0 0 0
 1
 2.500230 2.500230 0.150161 0 0 0 0 mm
 mirror_bend_downstream mirror_bend_upstream
-
-mirror_bend_pos
-2
-self mirror_bend_id19
-0 1 1 1 1
-0 0 0 0 0
-1
-2.500230 2.500230 0.150161 0 0 0 0 mm
-mirror_bend_downstream mirror_bend_upstream
-
 
 mirror_slit_upper
 1
-simDhs mirror_slit_upper
+simDhs m0topslit
 0 1 1 1 1
 0 0 0 0 0
 0
@@ -547,30 +537,11 @@ simDhs mirror_slit_upper
 
 mirror_slit_lower
 1
-simDhs mirror_slit_upper
+simDhs m0botslit
 0 1 1 1 1
 0 0 0 0 0
 0
 -3.708399 0.000000 -8.000000 157.750000 500 125 100 1 0 0 1 0 0 mm
-
-mirror_slit_vert
-2
-self STDSLIT_VERT
-0 1 1 1 1
-0 0 0 0 0
-1
-0.628703 10.000000 -10.000000 0 0 0 0 mm
-mirror_slit_upper mirror_slit_lower
-
-mirror_slit_vert_gap
-2
-self STDSLIT_VERT_GAP
-0 1 1 1 1
-0 0 0 0 0
-1
--1.257406 5.000000 -5.000000 0 0 0 0 mm
-mirror_slit_upper mirror_slit_lower
-
 
 mirror_vert_chin
 2
@@ -728,7 +699,7 @@ self energy_id19
 0 1 1 1 1
 0
 12658.742786 16000.000000 5400.000000 0 0 0 0 eV
-mono_theta 
+mono_theta
 
 optimizedEnergyParameters
 13
@@ -2490,7 +2461,7 @@ lock_operation
 self standardString
 0 1 1 1 1
 0 1 1 1 1
-optimized_energy energy attenuation beam_size_x beam_size_y beamstop_z detector_z detector_vert detector_horz gonio_omega gonio_kappa gonio_phi camera_zoom centerLoop moveSample moveMotors centerLoopC3D sequenceManual ISampleMountingDevice cryojet_anneal cryoBlock collectRun collectRuns normalize centerCrystal collectShutterless sequence moveCrystal madScan optimalExcitation fluorescence_z robot_config auto_sample_cal centerSlits megaScreening alignFrontEnd alignTable calibrateDetector calibrateSampleCamera calibrateInlineCamera q315_collect_background centerFluor scanMotor scan2Motors scan_n_motors fillRun collectWeb motorStopButton madCollect collimator_horz collimator_vert userAlignBeam scan3DSetup manualRastering alignTungsten alignCollimator matchup userCollimator collectRasters collectRaster rasterRunsConfig videoVisexSnapshot visexMoveSample visexRotatePhi 
+optimized_energy energy attenuation beam_size_x beam_size_y beamstop_z detector_z detector_vert detector_horz gonio_omega gonio_kappa gonio_phi camera_zoom centerLoop moveSample moveMotors centerLoopC3D sequenceManual ISampleMountingDevice cryojet_anneal cryoBlock collectRun collectRuns normalize centerCrystal collectShutterless sequence moveCrystal madScan optimalExcitation fluorescence_z robot_config auto_sample_cal centerSlits megaScreening alignFrontEnd alignTable calibrateDetector calibrateSampleCamera calibrateInlineCamera q315_collect_background centerFluor scanMotor scan2Motors scan_n_motors fillRun collectWeb motorStopButton madCollect collimator_horz collimator_vert userAlignBeam scan3DSetup manualRastering alignTungsten alignCollimator matchup userCollimator collectRasters collectRaster rasterRunsConfig videoVisexSnapshot visexMoveSample visexRotatePhi
 
 xraySearchParams
 13
