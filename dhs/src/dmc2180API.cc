@@ -1189,7 +1189,24 @@ xos_result_t Dmc2180AbsoluteEncoder::get_current_position(
 }
 
 xos_result_t Dmc2180AnalogEncoder::set_position(dcs_scaled_t newPosition) {
+
 	LOG_WARNING1("analog encoder cannot be set: channel %ld\n", axisLabel);
+
+//yang  maybe should execute routine, something like #SETENC which is in the galil memory
+//yang	sprintf(command, "AO %d %f", axisIndex, ((dcs_scaled_t)newPosition*scale_factor) );
+        /* construct and send message to dmc2180 */
+//        controller_execute(command, &error_code, FALSE );
+
+//        LOG_INFO1("error_code: %d\n",error_code);
+
+        /* check for errors */
+//        if (error_code != 0) {
+//                LOG_WARNING1("error_code: %d\n",error_code);
+
+                /* report failure */
+//                return XOS_FAILURE;
+//        }
+
 	return XOS_SUCCESS;
 }
 

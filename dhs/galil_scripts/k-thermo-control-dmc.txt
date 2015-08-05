@@ -1,0 +1,66 @@
+REM K-thermocouple control (SCB-48306 directly plug in DMC4080 analog inputs) 
+
+REM with SCB-48306/48316 Signal condition card
+REM made for K thermocouple with 6 input.
+REM range 0--350C. constant=10.15mv/degree C
+
+REM This program is running in the memory of the DMC-4080
+
+REM set inputs 0-5V with AQ ie. AQ x,3 (x channel, 3 0-5)
+REM I think MI and AQ can be burned in the memory of RIO-47xxx.
+
+REM This program will read the analog input for K thermocouple
+REM from DMC analog inputs. If the input
+REM temperature is higher than required one. Then set the output
+REM 15 (digital output port 1 is directly connect to the ELO input
+REM to 1 (SB 1). It trigger ELO (turn the motor drive current off).
+REM It will reenable the ELO (turn the motor current on) once the
+REM temperture is below the required one.
+REM DO1-8 for ABCD axis, DO9-16 for EFGH axis.
+REM for the first 4 motor ABCD D01 connect to ELO
+REM for the last 4 motor EFGH D09 connect ELO
+
+REM REM dosen't taking execution time. NO and 'comments takes
+REM excution time. the fillowing ' for the comments should be
+REM removed in the real excution 
+REM this program is only for the first 4 motors
+
+#KTHERO
+voltk=10.15		;'mv/degree C
+mtemp=40		;'Pre-set the maximum temperature allowed
+ovheat=0		;'1--over heat
+nchannels=4		; number of k-thermo motors
+AT 0			;'set initial time reference
+
+#CALC
+n=0
+
+#CALCT
+tcurr=(@AN[n]*1000)/voltk
+JP #ACTELO, tcurr>mtemp
+n=n+1
+JP #CALCT,n<nmotors	;'Maximum k-thermocouple can be used.
+AT -500			;'wait for 500 mseconds and set the new reference at 500
+JP #DEAELO,ovheat=1
+JP #CALC
+
+'trigger elo to shut the drive current off
+'assume for now that Digital input 1 is being connect to the ELO port
+'so that set input 15 will trigger ELO
+#ACTELO
+AT -500
+JP #CALC,ovheat=1
+SB 1			;'output port 1 is connected with ELO input
+REM following lines will be added.should test for limited number of times
+'JP #ACTELO,_TA3=0;'	make sure TA3=1
+ovheat=1 
+JP #CALC
+
+#DEAELO
+CB 1
+MO
+SH
+AT -500
+'JP #DEAELO,_TA3=1		;'make sure TA3=0
+ovheat=0
+JP #CALC

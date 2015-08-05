@@ -1,0 +1,27 @@
+REM single pole low-pass filter on multiple analog inputs
+REM 
+#main
+'k1+k2 = 1 - use division with m div 2^n ratio
+'k1 is new read, increase k1 for less filtering ex k1=31/32 k2=1/32
+'k2 is old read, increase k2 for more filtering ex k1=1/32 k2=31/32
+k1=16/32;k2=16/32
+an1=@AN[1]
+an2=@AN[2]
+an3=@AN[3]
+an4=@AN[4]
+an5=@AN[5]
+an6=@AN[6]
+an7=@AN[7]
+'
+'execute position maint threads here
+'use an1 instead of @AN[1], an2 instead of @AN[2] . . .
+'
+AT0;'set initial time reference
+REM AT-n, waits for 'n' ms from last time reference and then sets a new time reference
+#filt
+an1=(k1*@AN[1])+(k2*an1);an2=(k1*@AN[2])+(k2*an2);an3=(k1*@AN[3])+(k2*an3)
+an4=(k1*@AN[4])+(k2*an4);an5=(k1*@AN[5])+(k2*an5);an6=(k1*@AN[6])+(k2*an6)
+an7=(k1*@AN[7])+(k2*an7);AT-10;JP#filt
+
+
+

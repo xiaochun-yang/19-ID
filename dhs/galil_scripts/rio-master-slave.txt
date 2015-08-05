@@ -1,0 +1,40 @@
+'************************************
+'Description-
+'Master-Slave RIO Communication
+'Master initiates connection and 
+'sends IO requests to slave.
+'Errors out if no comm possible.
+'Requires static IP on master & slave
+'************************************
+#AUTO
+'close TCP connection on B handle
+WT2000
+IHB=>-2
+#w
+JP#w,_IHB2<>0
+'open new connection to slave RIO
+'replace with correct IP address
+IHB=192,168,2,3<502>2;  'modbus port
+t_out=TIME+5000
+#l
+t=TIME
+JP#ERROR,t>t_out
+JP#l,(_IHB2<>-2)
+'display message and blink slave bit1
+MG"SLAVE CONNECTED"
+#n
+SB2001
+WT200
+CB2001
+WT200
+JP#n
+#ERROR
+'display error and blink master bit4
+MG"ERROR CONNECTING TO SLAVE"
+#e
+SB4
+WT200
+CB4
+WT200
+JP#e
+EN

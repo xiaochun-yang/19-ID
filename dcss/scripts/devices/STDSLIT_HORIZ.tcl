@@ -4,7 +4,7 @@
 proc PREFIX_horiz_initialize {} {
 
 	# specify children devices
-	set_children PREFIX_ssrl PREFIX_spear
+	set_children PREFIX_nsls PREFIX_ring
 	set_siblings PREFIX_horiz_gap
 }
 
@@ -18,20 +18,20 @@ proc PREFIX_horiz_move { new_PREFIX_horiz } {
 	variable PREFIX_horiz
 
 	# calculate new positions of the two motors
-	set new_PREFIX_ssrl [PREFIX_ssrl_calculate $new_PREFIX_horiz $gDevice(PREFIX_horiz_gap,target)]
-	set new_PREFIX_spear [PREFIX_spear_calculate $new_PREFIX_horiz $gDevice(PREFIX_horiz_gap,target)]
+	set new_PREFIX_nsls [PREFIX_nsls_calculate $new_PREFIX_horiz $gDevice(PREFIX_horiz_gap,target)]
+	set new_PREFIX_ring [PREFIX_ring_calculate $new_PREFIX_horiz $gDevice(PREFIX_horiz_gap,target)]
 
 	# move motors in order that avoids collisions
 	if { $new_PREFIX_horiz > $PREFIX_horiz } {
-		move PREFIX_ssrl to $new_PREFIX_ssrl
-		move PREFIX_spear to $new_PREFIX_spear
+		move PREFIX_nsls to $new_PREFIX_nsls
+		move PREFIX_ring to $new_PREFIX_ring
 	} else {
-		move PREFIX_spear to $new_PREFIX_spear
-		move PREFIX_ssrl to $new_PREFIX_ssrl
+		move PREFIX_ring to $new_PREFIX_ring
+		move PREFIX_nsls to $new_PREFIX_nsls
 	}
 
 	# wait for the moves to complete
-	wait_for_devices PREFIX_ssrl PREFIX_spear
+	wait_for_devices PREFIX_nsls PREFIX_ring
 }
 
 
@@ -39,39 +39,39 @@ proc PREFIX_horiz_set { new_PREFIX_horiz } {
 
 	# global variables
 	variable PREFIX_horiz_gap
-	variable PREFIX_ssrl
-	variable PREFIX_spear
+	variable PREFIX_nsls
+	variable PREFIX_ring
 
 	# move the two motors
-	set PREFIX_ssrl  [PREFIX_ssrl_calculate $new_PREFIX_horiz $PREFIX_horiz_gap]
-	set PREFIX_spear  [PREFIX_spear_calculate $new_PREFIX_horiz $PREFIX_horiz_gap]
+	set PREFIX_nsls  [PREFIX_nsls_calculate $new_PREFIX_horiz $PREFIX_horiz_gap]
+	set PREFIX_ring  [PREFIX_ring_calculate $new_PREFIX_horiz $PREFIX_horiz_gap]
 }
 
 
 proc PREFIX_horiz_update {} {
 
 	# global variables
-	variable PREFIX_ssrl
-	variable PREFIX_spear
+	variable PREFIX_nsls
+	variable PREFIX_ring
 
 	# calculate from real motor positions and motor parameters
-	return [PREFIX_horiz_calculate $PREFIX_ssrl $PREFIX_spear]
+	return [PREFIX_horiz_calculate $PREFIX_nsls $PREFIX_ring]
 }
 
 
-proc PREFIX_horiz_calculate { s1ssrl s1spear } {
+proc PREFIX_horiz_calculate { s1nsls s1ring } {
 	
-	return [expr ($s1ssrl + $s1spear)/ 2.0 ]
+	return [expr ($s1nsls + $s1ring)/ 2.0 ]
 }
 
 
-proc PREFIX_ssrl_calculate { s1h s1hg } {
+proc PREFIX_nsls_calculate { s1h s1hg } {
 
 	return [expr $s1h + $s1hg / 2.0 ]
 }
 
 
-proc PREFIX_spear_calculate { s1h s1hg } {
+proc PREFIX_ring_calculate { s1h s1hg } {
 
 	return [expr $s1h - $s1hg / 2.0 ]
 }

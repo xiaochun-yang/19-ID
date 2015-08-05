@@ -473,49 +473,55 @@ class DoubleCrystalMonoViewDoubleSetID19 {
         mono_roll \
         mono_theta \
         energy \
+	mono_fine_pitch
         ]
     }
-    public method gotoToroidView { } {
-        $itk_option(-mdiHelper) openToolChest toroid
-    }
+#    public method gotoToroidView { } {
+#        $itk_option(-mdiHelper) openToolChest toroid
+#    }
 
 
     constructor { args} {
         set m_deviceFactory [::DCS::DeviceFactory::getObject]
 
-        loadBackdropImage ID19Mono.gif
+        loadBackdropImage id19-mono-yang-8.gif
                 place $itk_component(control) -x 220 -y 460
 
-        motorView mono_crystal2_para 709 208 se
-        motorView mono_crystal2_perp 539 322 n
-        motorView mono_pitch 130 314 n
-        motorView mono_roll 130 60 s
-        motorView mono_theta 271 314 n
-        motorView energy 271 412 s
+        motorView mono_crystal2_para 510 130 se
+        motorView mono_crystal2_perp 670 130 se
+     #  motorView mono_pitch 130 314 n
+	motorView mono_pitch 670 300 se
+        motorView mono_roll 190 200 sw
+        motorView mono_theta 190 420 s
+        motorView energy 330 420 s
+        motorView mono_fine_pitch 430 420 s
 
-        moveHotSpot mono_crystal2_para 676 222 positive 0
-        moveHotSpot mono_crystal2_para 655 229 negative 0
+#	ion_chamber_view i0 50 550 w
+#        ion_chamber_view i1 1 573 168
 
-        moveHotSpot mono_crystal2_perp 535 273 positive 0
-        moveHotSpot mono_crystal2_perp 509 279 negative 0
+#        moveHotSpot mono_crystal2_para 676 222 positive 0
+#        moveHotSpot mono_crystal2_para 655 229 negative 0
 
-        moveHotSpot mono_pitch 143 260 positive 0
-        moveHotSpot mono_pitch 143 291 negative 0
-        moveHotSpot mono_roll 120 68  positive 0
-        moveHotSpot mono_roll 120 96  negative 0
+#        moveHotSpot mono_crystal2_perp 535 273 positive 0
+#        moveHotSpot mono_crystal2_perp 509 279 negative 0
 
-        moveHotSpot mono_theta 414 304 positive 0
-        moveHotSpot mono_theta 328 304 negative 0
+#        moveHotSpot mono_pitch 143 260 positive 0
+#        moveHotSpot mono_pitch 143 291 negative 0
+#        moveHotSpot mono_roll 120 68  positive 0
+#        moveHotSpot mono_roll 120 96  negative 0
+
+#        moveHotSpot mono_theta 414 304 positive 0
+#        moveHotSpot mono_theta 328 304 negative 0
 
 
-        #### link button
-        itk_component add link {
-            button $itk_component(canvas).link \
-            -text "goto toroidView ==>" \
-            -command "$this gotoToroidView"
-        } {
-    	}
-   	place $itk_component(link) -x 690 -y 440 -anchor ne
+  #### link button
+#        itk_component add link {
+#            button $itk_component(canvas).link \
+#            -text "goto toroidView ==>" \
+#            -command "$this gotoToroidView"
+#        } {
+#    	}
+#   	place $itk_component(link) -x 690 -y 440 -anchor ne
 
         eval itk_initialize $args
 
@@ -1337,62 +1343,75 @@ class ID19MirrorView {
         return [list \
                 mirror_slit_upper \
                 mirror_slit_lower \
-                mirror_slit_vert \
-                mirror_slit_vert_gap \
-                mirror_bend_downstream \
-                mirror_bend_upstream \
+		mirror_slit_left \
+		mirror_slit_right \
+                mirror_slit_vert_pos \
+                mirror_slit_vert_siz \
+		mirror_slit_horz_pos \
+		mirror_slit_horz_siz \
+                mirror_bend_1 \
+                mirror_bend_2 \
                 mirror_bend \
                 mirror_roll \
                 mirror_pitch \
+		mirror_vert \
+		mirror_horz \
         ]
     }
 
         constructor { args} {
 
     if {[catch {
-        loadBackdropImage ID19Mirror.gif
+        loadBackdropImage id19-mirror-yang-7.gif
     } errMsg]} {
         log_error failed to load image: $errMsg
     }
 
-    motorView mirror_slit_upper 35 80 sw
-    motorView mirror_slit_lower 170 185 nw
-    motorView mirror_slit_vert 40 260 nw
-    motorView mirror_slit_vert_gap 40 320 nw
-    motorArrow mirror_slit_vert 35 115 {} 35 305 25 120 25 300
-    motorArrow mirror_slit_vert_gap 35 320 {} 35 365 25 325 25 360
+    motorView mirror_slit_upper 10 70 sw
+    motorView mirror_slit_lower 170 70 sw
+    motorView mirror_slit_vert 10 330 nw
+    motorView mirror_slit_vert_gap 170 330 nw
 
-   motorView mirror_bend_downstream 256 81 sw
-   motorView mirror_bend_upstream 518 81 sw
-#   motorView mirror_bend 400 250 sw
-   motorView mirror_roll 381 288 nw
-   motorView mirror_bend 577 313 nw
-   motorView mirror_pitch 596 178 nw
+    motorView mirror_slit_nsls 10 120 nw
+    motorView mirror_slit_ring 10 180 nw
+    motorView mirror_slit_horiz 10 270 nw
+    motorView mirror_slit_horiz_gap 170 270 nw
+
+#    motorArrow mirror_slit_vert 35 115 {} 35 305 25 120 25 300
+#    motorArrow mirror_slit_vert_gap 35 320 {} 35 365 25 325 25 360
+
+   motorView mirror_bend_1 340 150 sw
+   motorView mirror_bend_2 560 150 sw
+   motorView mirror_roll 350 290 nw
+   motorView mirror_bend 440 71 sw
+   motorView mirror_pitch 596 200 nw
+   motorView mirror_vert 560 280 nw
+   motorView mirror_horz 560 340 nw
 
 
-   moveHotSpot mirror_slit_upper 176 36 positive
-   moveHotSpot mirror_slit_upper 176 73 negative
+#   moveHotSpot mirror_slit_upper 176 36 positive
+#   moveHotSpot mirror_slit_upper 176 73 negative
 
-   moveHotSpot mirror_slit_lower 162 189 positive
-   moveHotSpot mirror_slit_lower 162 229 negative
+#   moveHotSpot mirror_slit_lower 162 189 positive
+#   moveHotSpot mirror_slit_lower 162 229 negative
    
-   moveHotSpot mirror_bend_downstream 314 93 positive
-   moveHotSpot mirror_bend_downstream 314 132 negative
+#   moveHotSpot mirror_bend_downstream 314 93 positive
+#   moveHotSpot mirror_bend_downstream 314 132 negative
 
-   moveHotSpot mirror_bend_upstream 574 93 positive
-   moveHotSpot mirror_bend_upstream 574 132 negative
+#   moveHotSpot mirror_bend_upstream 574 93 positive
+#   moveHotSpot mirror_bend_upstream 574 132 negative
 
-   moveHotSpot mirror_bend 728 332 positive
-   moveHotSpot mirror_bend 728 372 negative
+#   moveHotSpot mirror_bend 728 332 positive
+#   moveHotSpot mirror_bend 728 372 negative
    
-   moveHotSpot mirror_slit_vert 458 142 positive
-   moveHotSpot mirror_slit_vert 458 182 negative
+#   moveHotSpot mirror_slit_vert 458 142 positive
+#   moveHotSpot mirror_slit_vert 458 182 negative
 
-   moveHotSpot mirror_roll 458 243 positive
-   moveHotSpot mirror_roll 458 283 negative
+#   moveHotSpot mirror_roll 596 243 positive
+#   moveHotSpot mirror_roll 596 283 negative
 
-   moveHotSpot mirror_pitch 577 177 positive
-   moveHotSpot mirror_pitch 577 240 negative
+#   moveHotSpot mirror_pitch 577 200 positive
+#   moveHotSpot mirror_pitch 577 240 negative
 
         eval itk_initialize $args
    }

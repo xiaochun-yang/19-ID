@@ -1,0 +1,20 @@
+'************************************
+'Temperature control application
+'using SCB-48206 RTD interface board
+'connected to RIO-47120
+'************************************
+#Tcntrl
+AQ0,3; 'set analog input to 0-5
+DQ0,4; 'set analog out to +/-10
+'.012 deg/V conversion for RTD
+'20degC is desired temperature
+setpt=.012*20+2;'desired setpoint  
+CL1000;  'loop update rate of 1sec
+AF0;  'analog in 0 as feedback
+AZ0;  'analog out 0 as control Voltage
+KP25;  'set PID filter values
+KD50
+KI0
+DB.024;  '2 deg deadband
+PS setpt;  'pass setpt variable to PS
+EN
