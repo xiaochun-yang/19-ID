@@ -472,8 +472,8 @@ class DoubleCrystalMonoViewDoubleSetID19 {
         mono_pitch \
         mono_roll \
         mono_theta \
-        energy \
-	mono_fine_pitch
+        energy 
+#	mono_fine_pitch
         ]
     }
 #    public method gotoToroidView { } {
@@ -494,7 +494,7 @@ class DoubleCrystalMonoViewDoubleSetID19 {
         motorView mono_roll 190 200 sw
         motorView mono_theta 190 420 s
         motorView energy 330 420 s
-        motorView mono_fine_pitch 430 420 s
+#        motorView mono_fine_pitch 430 420 s
 
 #	ion_chamber_view i0 50 550 w
 #        ion_chamber_view i1 1 573 168
@@ -1343,12 +1343,12 @@ class ID19MirrorView {
         return [list \
                 mirror_slit_upper \
                 mirror_slit_lower \
-		mirror_slit_left \
-		mirror_slit_right \
-                mirror_slit_vert_pos \
-                mirror_slit_vert_siz \
-		mirror_slit_horz_pos \
-		mirror_slit_horz_siz \
+		mirror_slit_ring \
+		mirror_slit_lobs \
+                mirror_slit_vert \
+                mirror_slit_vert_gap \
+		mirror_slit_horz \
+		mirror_slit_horz_gap \
                 mirror_bend_1 \
                 mirror_bend_2 \
                 mirror_bend \
@@ -1358,11 +1358,16 @@ class ID19MirrorView {
 		mirror_horz \
         ]
     }
+   
+    public method handleBeamCurrentChange
+ 
+    private variable m_deviceFactory
+    private variable m_strBeamCurrent
 
-        constructor { args} {
+   constructor { args} {
 
     if {[catch {
-        loadBackdropImage id19-mirror-yang-7.gif
+        loadBackdropImage id19-mirror-yang-9.gif
     } errMsg]} {
         log_error failed to load image: $errMsg
     }
@@ -1372,21 +1377,38 @@ class ID19MirrorView {
     motorView mirror_slit_vert 10 330 nw
     motorView mirror_slit_vert_gap 170 330 nw
 
-    motorView mirror_slit_nsls 10 120 nw
-    motorView mirror_slit_ring 10 180 nw
-    motorView mirror_slit_horiz 10 270 nw
-    motorView mirror_slit_horiz_gap 170 270 nw
+    motorView mirror_slit_lobs 10 100 nw
+    motorView mirror_slit_ring 10 170 nw
+    motorView mirror_slit_horiz 10 250 nw
+    motorView mirror_slit_horiz_gap 170 250 nw
 
 #    motorArrow mirror_slit_vert 35 115 {} 35 305 25 120 25 300
 #    motorArrow mirror_slit_vert_gap 35 320 {} 35 365 25 325 25 360
 
-   motorView mirror_bend_1 340 150 sw
+   motorView mirror_bend_1 350 150 sw
    motorView mirror_bend_2 560 150 sw
    motorView mirror_roll 350 290 nw
    motorView mirror_bend 440 71 sw
    motorView mirror_pitch 596 200 nw
    motorView mirror_vert 560 280 nw
-   motorView mirror_horz 560 340 nw
+   motorView mirror_horz 560 360 nw
+
+   for {set i 0} {$i < 2} {incr i} {
+
+   	itk_component add ioncurrent$i {
+        	# make the optimize beam button
+                label $itk_component(canvas).ioncurrent$i \
+                      -text " " \
+                      -relief sunken \
+                      -width 8 \
+                      -background #c0c0ff \
+                      -activebackground #c0c0ff
+                } {
+                           keep -foreground
+                }
+       }
+       place $itk_component(ioncurrent0) -x 350 -y 155
+       place $itk_component(ioncurrent1) -x 560 -y 155
 
 
 #   moveHotSpot mirror_slit_upper 176 36 positive
@@ -1414,8 +1436,41 @@ class ID19MirrorView {
 #   moveHotSpot mirror_pitch 577 240 negative
 
         eval itk_initialize $args
+
+	::mediator announceExistence $this
+	set m_deviceFactory [DCS::DeviceFactory::getObject]
+        set m_strBeamCurrent [$m_deviceFactory createString analogInStatus1]
+        $m_strBeamCurrent register $this contents handleBeamCurrentChange
    }
 
+   destructor { }
+
+}
+
+body ID19MirrorView::destructor {} {
+        $m_strBeamCurrent unregister $this contents handleBeamCurrentChange
+        mediator announceDestruction $this
+}
+
+body ID19MirrorView::handleBeamCurrentChange { name_ targetReady_ - contents_ - } {
+    if { ! $targetReady_} return
+#puts "contents=$contents_ \n"
+    if { $contents_ == "" } return
+
+    for {set i 0} {$i < 2} {incr i} {
+           set value [lindex $contents_ $i]
+           $itk_component(ioncurrent$i) configure \
+                -text [format "%.5f" $value] \
+                -state normal
+    }
+
+    #if {[string is double -strict $contents_]} {
+    #    set display [format "%.3f" $contents_]
+    #} else {
+    #    set display $contents_
+    #}
+    #$itk_component(ioncurrent) configure -text $display
+#    log_error "yangxx display=$display"
 }
 
 

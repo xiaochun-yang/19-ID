@@ -219,7 +219,6 @@ DcsMessage* DcsMessageHandler::CreateAndReceiveDcsMessage( unsigned int timeout 
 		//receive the header
 		memset( msgHeader, 0, sizeof(msgHeader) );
 		m_sConnect.readFixedLength( msgHeader, DCS_HEADER_SIZE );
-
         //LOG_FINEST1( "Message->header: '%s'", msgHeader );
 
 		//get text and binary buffer sizes from header

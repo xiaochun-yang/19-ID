@@ -231,6 +231,18 @@ class SamplePositioningWidget {
         set fileRoot [::config getConfigRootName]
         $m_opCenterCrystal startOperation $user $SID $dir $fileRoot
     }
+    public method centerMicroCrystal { } {
+        set user [$itk_option(-controlSystem) getUser]
+        global gEncryptSID
+        if {$gEncryptSID} {
+            set SID SID
+        } else {
+            set SID  PRIVATE[$itk_option(-controlSystem) getSessionId]
+        }
+        set dir  /data/$user/centerCrystal
+        set fileRoot [::config getConfigRootName]
+        $m_opCenterCrystal startOperation $user $SID $dir $fileRoot use_collimator_constant
+    }
     public method handleCrystalEnabledEvent { stringName_ ready_ alias_ contents_ - } {
         if {!$ready_} return
 
@@ -387,7 +399,6 @@ class SamplePositioningWidget {
         }
         grid $itk_component(inPadStep) -column 2 -row 2
 
-
         set showFocusButton [::config getInt "bluice.showFocusButton" 0]
         if {$showFocusButton} {
             itk_component add focusIn {
@@ -507,30 +518,20 @@ class SamplePositioningWidget {
         }
 
 
-#		itk_component add center {
-#			::DCS::Button $itk_component(control).center \
-#				 -text "Center Loop" \
-#				 -width 15 -activeClientOnly 1
-#		} {
-#		}
-
-#yangx disable the Center Loop for now
-
-                itk_component add center {
-                        ::DCS::Button $itk_component(control).center \
-                                 -text "Center Loop" \
-                                 -width 15 -state disabled
-                } {
-                }
-
-		itk_component add crystal {
-			::DCS::Button $itk_component(control).crystal \
-				 -text "Center Crystal" \
-				 -width 15 -activeClientOnly 1
-		} {
-		}
-		itk_component add snapshot {
-		    ::DCS::Button $itk_component(control).snapshot \
+        itk_component add center {
+            ::DCS::Button $itk_component(control).center \
+                 -text "Center Loop" \
+                 -width 15 -activeClientOnly 1
+        } {
+        }
+        itk_component add crystal {
+            ::DCS::Button $itk_component(control).crystal \
+                 -text "Center Crystal" \
+                 -width 15 -activeClientOnly 1
+        } {
+        }
+        itk_component add snapshot {
+            ::DCS::Button $itk_component(control).snapshot \
             -systemIdleOnly 0 \
             -activeClientOnly 0 \
             -text "Video Snapshot" \
@@ -663,8 +664,7 @@ class SamplePositioningWidget {
         $itk_component(phiStep) setValue 45.0
     }
     destructor {
-        set objCenterCrystalConst [$m_deviceFactory createString center_crystal_const]
-        $objCenterCrystalConst unregister $this system_on handleCrystalEnabledEvent
+        $m_strCenterCrystalConst unregister $this system_on handleCrystalEnabledEvent
     }
 
     public method startFocusMove { dir } {
@@ -885,7 +885,7 @@ class SampleVideoWidget {
             set index [lsearch -exact $cfgNameList $f]
             set m_indexMap($v) $index
             if {$index < 0} {
-                puts "ERROR wrong field {$f} for $paraName"
+                puts "ERROR wrong field {$f} for sampleCameraParameterd"
             }
         }
 
@@ -1438,15 +1438,34 @@ class ComboSamplePositioningWidget {
         }
 
         #####do not show this button for now
-        set contents_ 0
+        #set contents_ 0
 
         if {$m_centerCrystalEnabled == $contents_} return
         set m_centerCrystalEnabled $contents_
 
         if {$m_centerCrystalEnabled} {
-            pack $itk_component(crystal)
+            pack $itk_component(crystal) -after $itk_component(center)
         } else {
             pack forget $itk_component(crystal)
+        }
+    }
+    public method handleMicroCrystalEnabledEvent { stringName_ ready_ alias_ contents_ - } {
+        if {!$ready_} return
+
+        if {$contents_ == ""} {
+            set contents_ 0
+        }
+
+        #####do not show this button for now
+        #set contents_ 0
+
+        if {$m_centerMicroCrystalEnabled == $contents_} return
+        set m_centerMicroCrystalEnabled $contents_
+
+        if {$m_centerMicroCrystalEnabled} {
+            pack $itk_component(micro_crystal) -before $itk_component(snapshot)
+        } else {
+            pack forget $itk_component(micro_crystal)
         }
     }
     public method handleZoomSwitchEvent { - ready_ - pos - } {
@@ -1514,6 +1533,9 @@ class ComboSamplePositioningWidget {
     private variable m_motorSampleZ
     private variable m_opCenterCrystal
     private variable m_centerCrystalEnabled 0
+    private variable m_centerMicroCrystalEnabled 0
+    private variable m_strCenterCrystalConst
+    private variable m_strCollimatorCenterCrystalConst
     private variable m_noInline 1
     private variable m_opMove
     private variable m_opInlineMove
@@ -1567,10 +1589,14 @@ class ComboSamplePositioningWidget {
             [$m_deviceFactory getObjectName $inlineOpNameMoveSample]
         }
 
-        set objCenterCrystalConst \
+        set m_strCenterCrystalConst \
         [$m_deviceFactory createString center_crystal_const]
+        $m_strCenterCrystalConst createAttributeFromField system_on 0
 
-        $objCenterCrystalConst createAttributeFromField system_on 0
+        set m_strCollimatorCenterCrystalConst \
+        [$m_deviceFactory createString collimator_center_crystal_const]
+        $m_strCollimatorCenterCrystalConst createAttributeFromField system_on 0
+
 
         itk_component add control {
             frame $itk_interior.c

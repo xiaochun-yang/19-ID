@@ -283,21 +283,23 @@ class DCS::MotorMoveView {
         set devObj [$itk_component(device) cget -device]
         #set value [$itk_component(device) get]
 	set dname [namespace tail $devObj]
-	if { $dname  == "sample_x" || $dname  == "sample_y" || $dname  == "sample_z" } {
-		set value "#HOMEABC"
-		eval "::device::tripot_1" move to $value
-	} else {
+	#if { $dname  == "sample_x" || $dname  == "sample_y" || $dname  == "sample_z" } {
+	#	set value "#HOMEABC"
+	#	eval "::device::tripot_1" move to $value
+	#} else {
 		set value "home"
 	        eval $devObj move to $value
-	}
+	#}
         puts "move $devObj to $value"
         eval $devObj waitForDevice
 	puts "homing finished"
 	after 100
 	if { $dname  == "gonio_phi" } {
-		set value 110
-	} elseif { [namespace tail $devObj] == "gonio_kappa" } {
-		set value -146.9
+	#	set value "#HOMA"
+	#	after 20000
+		set value -16
+	} elseif { $dname == "gonio_kappa" } {
+		set value -6.66
 	} else {
 		set value 0.0
 	}

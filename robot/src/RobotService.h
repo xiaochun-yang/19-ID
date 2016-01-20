@@ -70,6 +70,7 @@ private:
 	BOOL GetEnergy(double *, double);
 public:
 	BOOL ConnectX4a();
+	BOOL disConnectX4a();
 
 	//////////////DATA
 private:

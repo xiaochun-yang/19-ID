@@ -1,0 +1,91 @@
+//
+//Galil Script for DMCi4080
+//
+#AUTO
+MO
+MT2,2,2.5,2,2.5,2,2.5,2
+LC1,1,1,1,1,1,1,1
+AG0,0,0,0,0,0,0,0
+CN1
+SH
+auto=1
+EN
+#HOMSLIT
+//'SET TIMEOUT TO 22 SECONDS
+SHDEFG
+DP,,,0,0,0,0
+FL,,,333333,333333,333333,333333
+RL,,,333333,333333,333333,333333
+OD=0
+OE=0
+OF=0
+OG=0
+HM
+BGDEFG
+MCDEFG
+PR,,,OD,OE+108288,OF,OG+108288
+BGDEFG
+MCDEFG
+MG "HOME COMPLETE"
+EN
+#LIMSWI
+MG TIME
+MG "SLITMOTOR TIMED OUT"
+RE
+//'
+//'
+#GO10
+MG TIME
+SHD
+DPD=0
+FLD=11000
+PAD=10000
+SPD=1000
+BGD
+MCD
+MG "MOVE COMPLETE"
+EN
+#BEGIN
+MG TIME
+SHD
+TWD=1
+PRD=10000
+SPD=2000
+BGD
+MCD
+MG "COMPLETE"
+EN
+//
+#W_Dog
+CW ,1
+Kick=0
+LastKic=0
+#WDog_ok
+//MG{EF} "WATCHDOG ok"
+AT 0
+AT 5000
+JP #WDogBad,Kick=LastKic
+LastKic=Kick
+TimeOut=0
+JP #WDog_ok
+#WDogBad
+//ST ABCDEFGH
+//ST S
+//#close shutter
+//SB 2
+TimeOut=1
+//DON'T Send an unsolicited message to DHS
+//MG{EF} "dtoh_watchdog_timeout"
+JP #WDog_ok
+EN
+//
+#ShutAll
+AT 0
+AT 1000
+IHA=>-2
+IHB=>-2
+IHC=>-2
+IHD=>-2
+IHE=>-2
+IHF=>-2
+EN

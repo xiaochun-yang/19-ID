@@ -153,7 +153,7 @@ class BLUICE::InlineMotorWidget {
 		itk_component add video {
             SamplePositioningWidget $itk_interior.video \
             [::config getImageUrl 5] \
-            inline_sample_camera_constant inline_camera_zoom not_available inlineMoveSample \
+            inline_sample_camera_constant inline_camera_zoom centerLoop inlineMoveSample \
              -beamWidthWidget ::device::$gMotorBeamWidth \
              -beamHeightWidget ::device::$gMotorBeamHeight
 		} {

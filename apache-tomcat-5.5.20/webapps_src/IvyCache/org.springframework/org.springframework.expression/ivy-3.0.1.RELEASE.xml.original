@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="http://ivyrep.jayasoft.org/ivy-doc.xsl"?>
+<ivy-module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://incubator.apache.org/ivy/schemas/ivy.xsd" version="1.3">
+
+	<info organisation="org.springframework" module="org.springframework.expression" revision="3.0.1.RELEASE" status="release" publication="20100218150756">
+		<license name="Apache 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
+	</info>
+
+	<configurations>
+		<conf name="compile" visibility="public" extends="aspects" description="Maven compile dependencies"/>
+		<conf name="optional" visibility="public" extends="compile" description="Maven optional dependencies"/>
+		<conf name="provided" visibility="public" description="Maven provided dependencies"/>
+		<conf name="dm-server-provided" visibility="public" description="Maven provided dependencies that already exist in the platform"/>
+		<conf name="runtime" visibility="public" extends="compile" description="Runtime dependencies"/>
+		<conf name="test" visibility="private" description="Test dependencies"/>
+		<conf name="aspects" visibility="private" description="Aspects to be woven"/>
+		<conf name="external" visibility="private" description="External candidates to be woven"/>
+		<conf name="additional" visibility="private" description="Additional candidates to be included in the PAR"/>
+		<conf name="commons-logging" extends="runtime" description="JARs needed to run with Commons Logging"/>
+	</configurations>
+
+	<publications>
+		<artifact name="org.springframework.expression"/>
+		<artifact name="org.springframework.expression-sources" type="src" ext="jar"/>
+	</publications>
+
+	<dependencies>
+		<!-- compile dependencies -->
+		<dependency org="org.apache.commons" name="com.springsource.org.apache.commons.logging" rev="1.1.1" conf="compile, commons-logging->runtime"/>
+		<dependency org="org.springframework" name="org.springframework.core" rev="3.0.1.RELEASE" revConstraint="latest.integration" conf="compile->runtime"/>
+		<!-- test dependencies -->
+		<dependency org="org.apache.log4j" name="com.springsource.org.apache.log4j" rev="1.2.15" conf="test->runtime"/>
+		<dependency org="org.junit" name="com.springsource.org.junit" rev="4.7.0" conf="test->runtime"/>
+	</dependencies>
+
+</ivy-module>

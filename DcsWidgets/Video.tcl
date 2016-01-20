@@ -1422,6 +1422,7 @@ body DCS::VideoSystemExplorer::selectCamera { - targetReady - value -} {
 
    set m_currentCamera $value 
    set imageUrl "${itk_option(-baseVideoSystemUrl)}/video.html?stream=$m_currentCamera"
+   puts "YANGX imageUrl=$imageUrl"
    $itk_component(video) configure -imageUrl $imageUrl
    requestPresets
 }

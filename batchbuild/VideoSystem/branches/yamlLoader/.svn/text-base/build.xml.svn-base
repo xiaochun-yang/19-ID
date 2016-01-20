@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+    <!-- Set CATALINA_HOME environment variable before building! -->
+    
+<project xmlns:ivy="antlib:org.apache.ivy.ant" basedir="." default="build" name="VideoSystem">
+    <property environment="env"/>
+    <!-- Local system paths -->
+    <property name="TOMCAT_BASE" value="${env.CATALINA_HOME}" />
+    <property name="TOMCAT_LIB" value="${TOMCAT_BASE}/common/lib" />
+    <property name="TOMCAT_WEBAPPS" value="${TOMCAT_BASE}/webapps" />
+    <property name="TOMCAT_WEBAPPS_BAK" value="${TOMCAT_BASE}/webapps_bak" />
+    <property name="APP_NAME" value="VideoSystem" />
+    
+	<property file="ivy.properties"/>
+	
+
+	<taskdef resource="org/apache/ivy/ant/antlib.xml"
+        uri="antlib:org.apache.ivy.ant" classpath="${ivyjar}"/>
+	
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="1.6"/>
+    <property name="source" value="1.6"/>
+
+	<!-- ================================= 
+	     target: resolve              
+	     ================================= -->
+	<target name="resolve" description="--> retrieve dependencies with ivy"   >
+	  <ivy:retrieve />
+	</target>
+
+    <path id="J2EE 1.4 Libraries.libraryclasspath">
+        <pathelement location="${TOMCAT_LIB}/servlet-api.jar"/>
+    </path>
+
+    <path id="VideoSystem.classpath">
+        <path refid="J2EE 1.4 Libraries.libraryclasspath"/>
+        <pathelement location="WebRoot/WEB-INF/classes"/>
+        <pathelement location="WebRoot/WEB-INF/lib/imageFilter.jar"/>
+        <fileset dir="WebRoot/WEB-INF/lib">
+        	<include name="**/*.jar"/>
+      	</fileset>
+    </path>
+	
+    <target name="init" depends="resolve">
+        <mkdir dir="WebRoot/WEB-INF/classes"/>
+        <copy includeemptydirs="false" todir="WebRoot/WEB-INF/classes">
+            <fileset dir="src/main/resources">
+                <exclude name="**/*.launch"/>
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="clean">
+        <delete dir="WebRoot/WEB-INF/classes"/>
+    </target>
+    <target depends="clean" name="cleanall"/>
+    <target depends="build-subprojects,build-project" name="build"/>
+    <target name="build-subprojects"/>
+    <target depends="init" name="build-project">
+    	
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="WebRoot/WEB-INF/classes" source="${source}" target="${target}">
+			<src path="src/main/java"/>
+            <classpath refid="VideoSystem.classpath"/>
+        </javac>
+
+    </target>
+    
+
+	 <target name="undeploy" depends="build">
+  	  <move todir="${TOMCAT_WEBAPPS_BAK}/${APP_NAME}">
+ 		    <fileset dir="${TOMCAT_WEBAPPS}/${APP_NAME}"/>
+		  </move>
+	 </target>
+		
+	 <target name="deploy-live" depends="build,undeploy">
+	 	
+	 	<copy todir="${TOMCAT_WEBAPPS}/${APP_NAME}">
+		    <fileset dir="WebRoot"/>
+		  </copy>
+	 </target>
+
+	 <target name="deploy" depends="deploy-live" />
+	
+	
+</project>

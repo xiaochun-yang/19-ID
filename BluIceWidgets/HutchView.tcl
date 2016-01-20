@@ -488,9 +488,12 @@ body DCS::HutchOverview::constructFrontend { x y } {
 
 	# create the image of the frontend
 	global BLC_IMAGES
-	set frontendImage [ image create photo \
-									-file "$BLC_IMAGES/beampath-gonio-4.gif" \
-									-palette "12/12/12"]
+#	set frontendImage [ image create photo \
+#									-file "$BLC_IMAGES/beampath-gonio-4.gif" \
+#									-palette "12/12/12"]
+set frontendImage [ image create photo \
+                   -file "$BLC_IMAGES/beampath-stage-stop-1.gif" \
+                   -palette "12/12/12"]
 	$itk_component(canvas) create image 60 98 -anchor nw -image $frontendImage
 
 	# draw the label for the frontend
@@ -501,7 +504,7 @@ body DCS::HutchOverview::constructFrontend { x y } {
 	#	place $itk_component(canvas).frontendLabel -x 130 -y 265
 
 	# draw the X-ray beam entering the collimator
-	$itk_component(canvas) create line 20 161 63 161 -fill magenta -width 4
+	$itk_component(canvas) create line 20 155 63 155 -fill magenta -width 4
 
 	# draw the beam after the shutter
 	$itk_component(canvas) create line 410 163 565 163 -fill magenta -width 2 -tag postShutterBeam

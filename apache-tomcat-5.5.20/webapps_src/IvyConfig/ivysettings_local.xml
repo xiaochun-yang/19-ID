@@ -1,0 +1,28 @@
+<ivysettings>
+    
+    <settings defaultResolver="ssrl_repository" />
+    <caches default="my" checkUpToDate="false"><cache name="my"  basedir="${cache.dir}" /> </caches>
+    
+    <resolvers>
+        <chain name="ssrl_repository"  returnFirst="true" > 
+         <filesystem name="workspace">
+                <ivy pattern="/${workspace}/IvyConfig/localbuild/[module]/[revision]/ivy.xml" />
+                <artifact pattern="/${workspace}/IvyConfig/localbuild/[module]/[revision]/[artifact].[ext]" />
+         </filesystem>        
+
+		  <url name="Ssrl published repository" >
+  				<ivy pattern="http://smb.slac.stanford.edu/ivy/release/[organisation]/[module]/[revision]/ivy.xml"/>		  
+  				<artifact pattern="http://smb.slac.stanford.edu/ivy/release/[organisation]/[module]/[revision]/[artifact].[ext]"/>
+			</url>
+
+		</chain>
+		
+    </resolvers>
+
+
+    <modules>
+        <module organisation="ssrl" name="*" resolver="ssrl_repository" />
+        <module organisation="org.restflow" name="*" resolver="ssrl_repository" />
+    </modules>
+
+</ivysettings>

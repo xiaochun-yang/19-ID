@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="http://ivyrep.jayasoft.org/ivy-doc.xsl"?>
+<ivy-module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://incubator.apache.org/ivy/schemas/ivy.xsd" version="1.3">
+
+	<info organisation="org.springframework" module="org.springframework.asm" revision="3.0.1.RELEASE" status="release" publication="20100218150756">
+		<license name="Apache 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
+	</info>
+
+	<configurations>
+		<conf name="compile" visibility="public" extends="aspects" description="Maven compile dependencies"/>
+		<conf name="optional" visibility="public" extends="compile" description="Maven optional dependencies"/>
+		<conf name="provided" visibility="public" description="Maven provided dependencies"/>
+		<conf name="dm-server-provided" visibility="public" description="Maven provided dependencies that already exist in the platform"/>
+		<conf name="runtime" visibility="public" extends="compile" description="Runtime dependencies"/>
+		<conf name="test" visibility="private" description="Test dependencies"/>
+		<conf name="aspects" visibility="private" description="Aspects to be woven"/>
+		<conf name="external" visibility="private" description="External candidates to be woven"/>
+		<conf name="additional" visibility="private" description="Additional candidates to be included in the PAR"/>
+		<conf name="jarjar" visibility="private" description="JARs to be jarjar&apos;d into current JAR"/>
+	</configurations>
+
+	<publications>
+		<artifact name="org.springframework.asm"/>
+		<artifact name="org.springframework.asm-sources" type="src" ext="jar"/>
+	</publications>
+
+	<dependencies>
+		<dependency org="org.objectweb.asm" name="com.springsource.org.objectweb.asm" rev="2.2.3" conf="jarjar->runtime"/>
+		<dependency org="org.objectweb.asm" name="com.springsource.org.objectweb.asm.commons" rev="2.2.3" conf="jarjar->runtime"/>
+	</dependencies>
+
+</ivy-module>

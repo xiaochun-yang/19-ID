@@ -80,14 +80,13 @@ xos_result_t Dmc2180::init_connection() {
 		LOG_WARNING("Could not execute RS\n");
 		return XOS_FAILURE;
 	}
-
 	execute("AB 0", response, &error_code, FALSE );
 	if (error_code != 0) {
 		LOG_WARNING("Could not execute AB\n");
 		return XOS_FAILURE;
 	}
 
-	// Restore the encoder values now that we have completed the RS
+	/* Restore the encoder values now that we have completed the RS*/
 	for (int axis = 0; axis < DMC2180_MAX_ENCODERS; axis++) {
 		if (relativeEncoder[axis].axisUsed) {
 			relativeEncoder[axis].set_position(storedEncoderValue[axis]);
@@ -188,7 +187,7 @@ xos_result_t Dmc2180::init_connection() {
 		LOG_SEVERE("Thread creation unsuccessful.");
 		xos_error_exit("Exit");
 	} else {
-		// wait for new thread to start listening 
+		/* wait for new thread to start listening */
 		if (xos_semaphore_wait(&newThreadListening, 0) != XOS_SUCCESS) {
 			LOG_SEVERE("Error waiting on semaphore");
 			xos_error_exit("Exit.");
@@ -1189,24 +1188,7 @@ xos_result_t Dmc2180AbsoluteEncoder::get_current_position(
 }
 
 xos_result_t Dmc2180AnalogEncoder::set_position(dcs_scaled_t newPosition) {
-
 	LOG_WARNING1("analog encoder cannot be set: channel %ld\n", axisLabel);
-
-//yang  maybe should execute routine, something like #SETENC which is in the galil memory
-//yang	sprintf(command, "AO %d %f", axisIndex, ((dcs_scaled_t)newPosition*scale_factor) );
-        /* construct and send message to dmc2180 */
-//        controller_execute(command, &error_code, FALSE );
-
-//        LOG_INFO1("error_code: %d\n",error_code);
-
-        /* check for errors */
-//        if (error_code != 0) {
-//                LOG_WARNING1("error_code: %d\n",error_code);
-
-                /* report failure */
-//                return XOS_FAILURE;
-//        }
-
 	return XOS_SUCCESS;
 }
 

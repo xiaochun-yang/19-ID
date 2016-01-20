@@ -116,7 +116,8 @@ void CRobotSystem::Cleanup( )
 	//wait the thread to signal STOPPED
 	LOG_FINEST( "wait all threads to stop");
     WaitAllStop( );
-
+    m_RobotServer.disConnectX4a();
+    LOG_INFO( "Robot disconnected" );
 	//log some statitics
 	LOG_FINEST( "DcsMessageManager:");
 	LOG_FINEST1( "GetMaxTextSize=%lu", m_MsgManager.GetMaxTextSize( ));

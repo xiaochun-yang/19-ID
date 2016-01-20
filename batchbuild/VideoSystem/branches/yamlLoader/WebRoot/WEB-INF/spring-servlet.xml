@@ -1,0 +1,83 @@
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+"http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+
+	<bean id = "videoSourceDao" class="videoSystem.beans.VideoSourceDao" >
+		<property name="videoMappingYaml" value="WEB-INF/axisServerUrlMapping.yml" />
+	</bean>
+
+	<bean id="videoStreamMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+	
+		<property name="interceptors">
+			<list>
+				<ref local="ipAddressInterceptor"/>
+			</list>
+		</property>
+		
+		<property name="mappings" >
+			<props>
+				<prop key="/video.html">videoStreamRequestController</prop>
+				<prop key="/control.html">cameraController</prop>
+			</props>
+		</property>
+	</bean>
+
+
+	<bean id = "videoStreamRequestController" class="videoSystem.controllers.VideoStreamRequestController" >
+		<property name="videoThreadManager"><ref bean="videoThreadManager"/></property>	
+	</bean>
+	
+
+	<bean id = "videoThreadManager" class="videoSystem.engine.VideoThreadManager" singleton="true">
+		<property name="videoSourceDao"><ref bean="videoSourceDao"/></property>
+	</bean>
+
+
+	<bean id = "cameraController" class="videoSystem.controllers.CameraController" >
+		<property name="methodNameResolver"><ref local="videoMethodResolver"/></property>
+		<property name="videoSourceDao"><ref bean="videoSourceDao"/></property>
+	</bean>
+
+	<bean id="videoMethodResolver" class="org.springframework.web.servlet.mvc.multiaction.ParameterMethodNameResolver">
+		<property name="paramName"><value>method</value></property>
+	</bean>
+	
+	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basename"><value>/WEB-INF/messages</value></property>
+		<property name="cacheSeconds"><value>2</value></property>
+	</bean>
+	
+	<bean id = "ipAddressInterceptor" class="videoSystem.util.IpAddressInterceptor"/>
+	
+	<bean id="jpegView" class="videoSystem.views.JpegView"/>
+
+	<bean id="badChannelRequest" class="videoSystem.views.BadChannelRequestView"/>
+
+	
+	 	<bean id="velocityConfigurer" class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
+   		<property name="resourceLoaderPath"><value>/WEB-INF/velocity</value></property>
+   		<property name="configLocation"><value>/WEB-INF/velocity.properties</value></property>
+	</bean>
+
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.velocity.VelocityViewResolver">
+  		<property name="cache"><value>true</value></property>
+  		<property name="prefix"><value></value></property>
+	  	<property name="suffix"><value>.vm</value></property>
+	  	<property name="exposeSpringMacroHelpers">
+      		<value>true</value>
+    	</property>
+    	<property name="exposeRequestAttributes">
+      		<value>false</value>
+    	</property>
+    	<property name="exposeSessionAttributes">
+      		<value>true</value>
+   		</property>
+<!--		<property name="toolboxConfigLocation"><value>toolbox.xml</value></property>-->
+
+	</bean>
+		
+   <bean id="exceptionHandler" class="videoSystem.controllers.ExceptionHandler"/> 
+	
+	
+</beans>
+

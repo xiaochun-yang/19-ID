@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one
+   or more contributor license agreements.  See the NOTICE file
+   distributed with this work for additional information
+   regarding copyright ownership.  The ASF licenses this file
+   to you under the Apache License, Version 2.0 (the
+   "License"); you may not use this file except in compliance
+   with the License.  You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing,
+   software distributed under the License is distributed on an
+   "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+   KIND, either express or implied.  See the License for the
+   specific language governing permissions and limitations
+   under the License.    
+-->
+<ivy-module version="2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://ant.apache.org/ivy/schemas/ivy.xsd">
+    <info organisation="ssrl" module="SsrlJavaLib" revision="1.2" status="release" publication="20110413184533"> 
+	</info>        
+	        
+   <configurations>
+		<conf name="compile" description="Provides helper methods for java applications"/>
+		<conf name="runtime" extends="compile" description="Provides helper methods for java applications"/>
+      	
+    </configurations>
+
+	
+    <publications>
+      <artifact name="SsrlJavaLib" type="jar" ext="jar" conf="compile"/>
+     </publications>
+
+	<dependencies>
+		<dependency org="org.springframework" name="org.springframework.beans" rev="3.0.1.RELEASE-A" conf="runtime"/>
+		<dependency org="org.springframework" name="org.springframework.context" rev="3.0.1.RELEASE-A" conf="runtime"/>
+		<dependency org="org.springframework" name="org.springframework.web.servlet" rev="3.0.1.RELEASE-A" conf="runtime"/>
+	 	<dependency org="javax" name="javaee-api" rev="6.0" conf="runtime->default"/>
+	 	<dependency org="org.apache.velocity" name="velocity" rev="1.6.3" conf="runtime->default"/>
+		<dependency org="commons-codec" name="commons-codec" rev="1.4" conf="runtime->default"/>
+		<dependency org="commons-dbcp" name="commons-dbcp" rev="1.4" conf="runtime->default"/>
+		<dependency org="commons-collections" name="commons-collections" rev="3.1" conf="runtime->default"/>
+		<dependency org="org.yaml" name="snakeyaml" rev="1.6" conf="runtime->default"/>
+		       
+ 		
+	</dependencies>
+</ivy-module>

@@ -35,6 +35,7 @@ public:
 	// console dhs operations
 	virtual BOOL ClearMountedState(const char argument[], char status_buffer[] );
 	virtual BOOL ConnectRobotServer();
+	virtual BOOL disConnectRobotServer();
         virtual BOOL StartMonitorCounts(const char argument[], char status_buffer[] );
         virtual BOOL StopMonitorCounts(const char argument[], char status_buffer[] );
 	virtual BOOL CenterGrabber(const char argument[], char status_buffer[] );

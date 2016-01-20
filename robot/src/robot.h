@@ -158,6 +158,7 @@ public:
 	// Robot operation
 	virtual BOOL ClearMountedState( const char argument[],  char status_buffer[] ) = 0;
 	virtual BOOL ConnectRobotServer() = 0;
+	virtual BOOL disConnectRobotServer() = 0;
 	virtual void ClearMountedState() = 0;
         virtual BOOL MountCrystal( const char argument[],  char status_buffer[] ) = 0;
         virtual BOOL DismountCrystal( const char argument[],  char status_buffer[] ) = 0;

@@ -703,7 +703,7 @@ class SimpleRobotWidget {
 
         itk_component add Cool {
             DCS::HotButton $site.co \
-            -text "Cool Grabber"  \
+            -text "Close Comm"  \
             -confirmText "Confirm"\
             -width 9 \
             -command "$this handleCoolgrabber"

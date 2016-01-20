@@ -1,0 +1,41 @@
+# mono_piezo_nyx.tcl for nyx 19id beamline at nsls2. The mono_theta is servo motor with dual encoder.
+# main encoder --- position; dual encoder --- attached with motor.
+
+
+proc mono_piezo_initialize {} {
+
+	# specify children devices
+#        set_children rio47_mono_piezo
+}
+
+proc mono_piezo_move { new_mono_piezo } {
+
+	# global variables
+	variable mono_piezo
+	variable rio47_mono_piezo
+	
+	#should be "set_encoder". It's for testing
+	get_encoder rio47_mono_piezo
+    	set mono_piezo [wait_for_encoder rio47_mono_piezo]
+}
+
+
+proc mono_piezo_set { new_mono_piezo } {
+
+	variable mono_piezo
+	set mono_piezo $new_mono_piezo
+}
+
+
+proc mono_piezo_update {} {
+
+	# global variables
+        variable rio47_mono_piezo
+	variable mono_piezo
+
+	get_encoder rio47_mono_piezo
+        set mono_piezo [wait_for_encoder rio47_mono_piezo]
+	
+	return $mono_piezo
+}
+

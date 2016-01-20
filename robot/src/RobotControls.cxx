@@ -300,8 +300,7 @@ BOOL RobotControls::ConnectRobotServer()
 	close(sockfd);
 
 	address.sin_family = AF_INET;
-	address.sin_addr.s_addr = inet_addr("192.168.10.180");
-//	address.sin_addr.s_addr = inet_addr("130.199.198.72");
+	address.sin_addr.s_addr = inet_addr("192.168.1.40");
 	address.sin_port = htons(5002);
 
 	//Create socket for client.
@@ -366,7 +365,7 @@ BOOL RobotControls::ReadRobotState(int fd)
         char ch,status[50];
         int  i, n,state;
         int count=0;
-        char cmd[]="status\r";
+        char cmd[]="STATUS\r";
 
         while (write(fd, cmd, sizeof(cmd)) < 0)
         {
@@ -510,7 +509,7 @@ BOOL RobotControls::ClearMountedState( const char argument[], char status_buffer
 
         // send the command to denso robot server
         int count=0;
-        char cmd[]="ClearMountedStatus\r";
+        char cmd[]="CLEAR\r";
         while (write(sockfd, cmd, sizeof(cmd)) < 0)
         {
                 LOG_WARNING1("Error in writing --%s--to Denso Robot\n",cmd);
@@ -764,7 +763,7 @@ BOOL RobotControls::DryGrabber( const char argument[], char status_buffer[] )
 
         // send the command to denso robot server
         int count=0;
-        char cmd[]="Dry\r";
+        char cmd[]="DRY\r";
         while (write(sockfd, cmd, sizeof(cmd)) < 0)
         {
                 LOG_WARNING1("Error in writing --%s--to Denso Robot\n",cmd);
@@ -797,7 +796,7 @@ BOOL RobotControls::CoolGrabber( const char argument[], char status_buffer[] )
 
         // send the command to denso robot server
         int count=0;
-        char cmd[]="Cool\r";
+        char cmd[]="CLOSE\r";
         while (write(sockfd, cmd, sizeof(cmd)) < 0)
         {
                 LOG_WARNING1("Error in writing --%s--to Denso Robot\n",cmd);
@@ -810,7 +809,42 @@ BOOL RobotControls::CoolGrabber( const char argument[], char status_buffer[] )
         }
 	return TRUE;
 }
+/////////////////////////////////////////////////////////////////////////////
+BOOL RobotControls::disConnectRobotServer()
+{
+char status_buffer[50];
 
+        LOG_FINEST( "DISCONNECTE ROBOT CALLED\n");
+        if(error_comm)
+        {
+                if(!ConnectRobotServer())
+                {
+                        LOG_WARNING( "CoolGrabber: Could not connect to Denso Robot Server");
+                        strcpy( status_buffer, "error Denso Robot Server closed");
+                        return TRUE;
+                }
+        }
+
+
+	LOG_WARNING("ROBOT IS DISCONNECTED \n");
+        int count=0;
+        char cmd[]="CLOSE\r";
+        while (write(sockfd, cmd, sizeof(cmd)) < 0)
+        {
+                LOG_WARNING1("Error in writing --%s--to Denso Robot\n",cmd);
+                if(count++>4)
+                {
+                       strcpy( status_buffer, "error in sending command to Denso");
+                       error_comm = TRUE;
+                       return TRUE;
+                }
+        }
+        LOG_FINEST( "DISCONNECTED SUCCESSFUL\n");
+	sleep(2);
+        return TRUE;
+
+
+}
 //////////////////////////////////////////////////////////////////////////////
 // Start, wait and stop the Ortec counter and then to read the counts from 
 // the Ortec counters.

@@ -108,6 +108,7 @@ package require BLUICEAlignFrontEndViewBL12-2
 package require BLUICESr570
 package require BLUICERepositionView
 package require BLUICEInlineMotorView
+package require BLUICESampleMotorView
 package require BLUICEQueueView
 package require BLUICEFrontEndSlitsViewBL12-2
 package require BLUICESpectrometerView
@@ -515,6 +516,13 @@ body SetupTab::addViews {} {
             set widget_name inline_motor_view
             set widget_class BLUICE::InlineMotorWidget
          }
+	 sampleMotorView {
+            $itk_component(selectView) add command \
+            -label "Sample Motor View" \
+            -command [list $this openToolChest sample_motor_view]
+            set widget_name sample_motor_view
+            set widget_class BLUICE::SampleMotorWidget
+         }
          microSpecMotorView {
             $itk_component(selectView) add command \
             -label "MicroSpec Motor Staff View" \
@@ -779,6 +787,10 @@ body SetupTab::addDevTools {} {
     $itk_component(devtoolChest) add command \
     -label "Inline Motor View"    \
     -command [list $this openToolChest inline_motor_view]
+
+    $itk_component(devtoolChest) add command \
+    -label "Sample Motor View"    \
+    -command [list $this openToolChest sample_motor_view]
 
     $itk_component(devtoolChest) add command \
     -label "L614 SoftLink Control"    \
@@ -1947,6 +1959,24 @@ body SetupTab::launchWidget { name  } {
 			pack $itk_component($name) -expand 1 -fill both
 			pack $path
 			$itk_component($name) configure \
+            -videoEnabled 1
+        }
+
+        sample_motor_view {
+                        if [checkAndActivateExistingDocument $name] return
+
+                        set path [$itk_component(Mdi) addDocument $name -title "Sample Motor View"  -resizable 1  -width 600 -height 300]
+
+                        itk_component add $name {
+                BLUICE::SampleMotorWidget $path.control
+                    } {
+                keep -videoParameters
+                keep -videoEnabled
+                    }
+
+                        pack $itk_component($name) -expand 1 -fill both
+                        pack $path
+                        $itk_component($name) configure \
             -videoEnabled 1
         }
 

@@ -81,6 +81,7 @@ package ifneeded BLUICEAlignFrontEndView 1.0 	[list source [file join $dir align
 package ifneeded BLUICESr570 1.0 	[list source [file join $dir Sr570.tcl]]
 package ifneeded BLUICERepositionView 1.0 	[list source [file join $dir RepositionView.tcl]]
 package ifneeded BLUICEInlineMotorView 1.0 	[list source [file join $dir InlineMotorView.tcl]]
+package ifneeded BLUICESampleMotorView 1.0      [list source [file join $dir SampleMotorView.tcl]]
 package ifneeded BLUICEQueueView 1.0 	[list source [file join $dir QueueView.tcl]]
 package ifneeded BLUICEQueueTab 1.0 	[list source [file join $dir QueueTab.tcl]]
 package ifneeded BLUICEScoreView 1.0 	[list source [file join $dir ScoreView.tcl]]
