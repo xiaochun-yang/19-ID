@@ -35,12 +35,13 @@ int main(int argc, char** argv)
     xiaSaturnSystem* gpSystem = xiaSaturnSystem::getInstance();
 
 
-    LOG_FINEST( "Loading Properties file\n");
+    //LOG_FINEST( "Loading Properties file\n");
 
+    LOG_FINEST1( "Loaded Properties file %s\n",argv[1]);
     if (!gpSystem->loadProperties(argv[1]))
     	return 1;
 
-    LOG_FINEST( "Loaded Properties file\n");
+    LOG_FINEST1( "Loaded Properties file %s\n",argv[1]);
 
 
     LOG_FINEST( "run from front, not as a service");

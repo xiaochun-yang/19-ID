@@ -98,6 +98,66 @@ body OptimizeButton::handleStart {} {
     ::device::optimized_energy move by 0 eV
 }
 
+class LoadButton {
+    	
+	inherit DCS::Button
+    
+	public method handleStart
+    
+#	public variable m_loadParamsObj
+
+        constructor { args} {
+
+        	eval itk_initialize $args
+
+        	configure -command "$this handleStart"
+         	#set m_deviceFactory [DCS::DeviceFactory::getObject]
+
+         	#if { [$m_deviceFactory stringExists optimizedEnergyParameters] } {
+            	#	set m_optimizeEnergyParamsObj [DCS::OptimizedEnergyParams::getObject]
+            	#	addInput "$m_optimizeEnergyParamsObj optimizeEnable 1 {Table optimizations are disabled.}"
+         	#}
+
+         	#announceExist
+#		set m_loadParamsObj 0
+    	}
+}
+
+body LoadButton::handleStart {} {
+
+#    $m_optimizeEnergyParamsObj setLastOptimizedTime 0
+
+#	::device::gonio_phi move to 180 deg
+#	::device::gonio_kappa move to 90 deg
+
+        #this is for move sample_x/y/z to robot mount/unmount position
+#       ::device::gonio_phi move to 0 deg
+#       ::device::gonio_kappa move to 0 deg
+#       ::device::tripot_1 move to 0    mm
+#       ::device::tripot_2 move to 0    mm
+#       ::device::tripot_3 move to 0    mm
+
+        set text [.pw.pane0.childsite.bluice.n.canvas.notebook.cs.page1.cs.h.hutch.c.load cget -text]
+        if {$text == "Load"} {
+                set text "Unload"
+                ::device::gonio_phi move to 270 deg
+                ::device::gonio_kappa move to 180 deg
+
+	# can't recognized the wait_for_devices
+	# 	wait_for_devices ::device::gonio_phi ::device::gonio_kappa
+	#	set text "Unload"
+
+        } else {
+                set text "Load"
+                ::device::gonio_kappa move to 0 deg
+	#	wait_for_devices ::device::gonio_kappa
+	#	set text "Load"
+        }
+
+#	puts "set m_loadParamsObj = $m_loadParamsObj \n"
+#        ::.pw.pane0.childsite.bluice.n.canvas.notebook.cs.page1.cs.h.hutch.c.load  configure -text $text 
+	.pw.pane0.childsite.bluice.n.canvas.notebook.cs.page1.cs.h.hutch.c.load configure -text $text
+}
 
 class DCS::HutchOverview {
  	inherit ::itk::Widget
@@ -132,17 +192,19 @@ class DCS::HutchOverview {
 	protected method constructAttenuation
 	protected method constructAutomation
 	#yang added
-	protected method constructHalfslitUpH
+	#protected method constructHalfslits
 
 	public method handleUpdateFromShutter
 	public method handleDetectorTypeChange
 
 	private variable _detectorObject
 
-   public method getDetectorHorzWidget {} {return $itk_component(detector_horz)}
+   	public method getDetectorHorzWidget {} {return $itk_component(detector_horz)}
 	public method getDetectorVertWidget {} {return $itk_component(detector_vert)} 
 	public method getDetectorZWidget {} {return $itk_component(detector_z)}
 	public method getBeamstopZWidget {} {return $itk_component(beamstop)}
+        public method getBeamstopHorzWidget {} {return $itk_component(beamstop_horz)}
+        public method getBeamstopVertWidget {} {return $itk_component(beamstop_vert)}
 	public method getEnergyWidget {} {return $itk_component(energy)}
 	public method getBeamWidthWidget {} {return $itk_component(beamWidth)}
 	public method getBeamHeightWidget {} {return $itk_component(beamHeight)}
@@ -152,18 +214,20 @@ class DCS::HutchOverview {
 	public method handleShutter2
 	public method handleShutter3
         public method handleShutter4
+	public method handleBeamCurrentChange
 
    
-   private variable m_deviceFactory
+   	private variable m_deviceFactory
+	private variable m_strBeamCurrent
 
 	constructor { args} {
 		# call base class constructor
 		::DCS::Component::constructor {}
-	} {
+		} {
       		set m_deviceFactory [DCS::DeviceFactory::getObject]
 
 		itk_component add canvas {
-			canvas $itk_interior.c -width 1000 -height 285
+			canvas $itk_interior.c -width 1000 -height 295
 		}
 
 		# construct the panel of control buttons
@@ -178,19 +242,18 @@ class DCS::HutchOverview {
 		place $itk_component(control) -x 30 -y 10
 
 		# construct the goniometer widgets
-		constructGoniometer 440 250
+		constructGoniometer 420 270
 
 		# construct the detector widgets
 		itk_component add detector_vert {
 			::DCS::TitledMotorEntry $itk_component(canvas).detector_vert \
 				 -unitsList default \
-				 -menuChoiceDelta 25  -units mm -unitsWidth 4 \
+				 -menuChoiceDelta 20  -units mm -unitsWidth 4 \
 				 -entryWidth 10 \
 				 -labelText "Vertical" \
-                -activeClientOnly 0 \
-                -systemIdleOnly 0 \
-                -honorStatus 0
+                		 -activeClientOnly 1 
 		} {
+		   keep -systemIdleOnly
 		   keep -mdiHelper
 		   rename -device detectorVertDevice detectorVertDevice DetectorVertDevice
 		}
@@ -198,14 +261,16 @@ class DCS::HutchOverview {
 		itk_component add detector_z {
 			# create motor view for detector_z
 			::DCS::TitledMotorEntry $itk_component(canvas).detector_z \
+                -checkLimits -1 \
 				 -labelText "Distance" -unitsList default \
-             -menuChoiceDelta 50 \
+             			 -menuChoiceDelta 50 \
 				 -entryType positiveFloat -units mm -unitsWidth 3 \
 				 -entryWidth 8 \
-                -activeClientOnly 0 \
-                -systemIdleOnly 0 \
-                -honorStatus 0
+                		 -activeClientOnly 1 
+               			# -systemIdleOnly 0 \
+               			# -honorStatus 0
 		} {
+			keep -systemIdleOnly
 			keep -mdiHelper
 			rename -device detectorZDevice detectorZDevice DetectorZDevice
 		}
@@ -214,13 +279,12 @@ class DCS::HutchOverview {
 			# create motor view for detector_horiz
 			::DCS::TitledMotorEntry $itk_component(canvas).detector_horz \
 				 -unitsList default \
-				 -menuChoiceDelta 25  -units mm -unitsWidth 4 \
+				 -menuChoiceDelta 50  -units mm -unitsWidth 4 \
 				 -entryWidth 10 \
 				 -labelText "Horizontal" \
-                -activeClientOnly 0 \
-                -systemIdleOnly 0 \
-                -honorStatus 0
+               			 -activeClientOnly 1 
 		} {
+			keep -systemIdleOnly
 			keep -mdiHelper
 			rename -device detectorHorzDevice detectorHorzDevice DetectorHorzDevice
 		}
@@ -229,19 +293,19 @@ class DCS::HutchOverview {
 			# create motor view for detector_horiz
 			::DCS::TitledMotorEntry $itk_component(canvas).energy \
 				 -labelText "Energy" \
+                 -checkLimits -1 \
 				 -entryWidth 10 \
 				 -autoGenerateUnitsList 0 \
-            -unitsList {A {-decimalPlaces 5 -menuChoiceDelta 0.1} eV {-decimalPlaces 3 -menuChoiceDelta 1000} keV {-decimalPlaces 6 -menuChoiceDelta 1.0}} \
+           			 -unitsList {A {-decimalPlaces 5 -menuChoiceDelta 0.1} eV {-decimalPlaces 3 -menuChoiceDelta 1000} keV {-decimalPlaces 6 -menuChoiceDelta 1.0}} \
 				 -unitsWidth 4 \
-                -activeClientOnly 0 \
-                -systemIdleOnly 0 \
-                -honorStatus 0
+        		        -activeClientOnly 1 
 		} {
+			keep -systemIdleOnly
 			keep -mdiHelper
 			rename -device energyDevice energyDevice EnergyDevice
 		}
 
-		place $itk_component(canvas).energy -x 15 -y 200
+		place $itk_component(canvas).energy -x 10 -y 220
 
       #only add optimize button if the optimized_energy motor exists on this beam line.
       if { [$m_deviceFactory motorExists optimized_energy]} {
@@ -257,6 +321,37 @@ class DCS::HutchOverview {
 
 		place $itk_component(optimize) -x 15 -y 255
       }
+	
+		itk_component add load {
+                           # make the optimize beam button
+                           LoadButton $itk_component(canvas).load \
+				 -text "Load" \
+				 -font "courier -14 bold"\
+                                 -width 8 \
+				 -background #c0c0ff \
+				 -activebackground #c0c0ff
+                   } {
+                           keep -foreground
+                   }
+                place $itk_component(load) -x 288 -y 10
+#puts "yangx this =$this  itk_component= $itk_component(load)\n"
+	        for {set i 0} {$i < 3} {incr i} {
+
+                	itk_component add ioncurrent$i {
+                           # make the optimize beam button
+                           label $itk_component(canvas).ioncurrent$i \
+                                 -text "00000" \
+				 -relief sunken \
+                                 -width 5 \
+                                 -background #c0c0ff \
+                                 -activebackground #c0c0ff
+                 	} {
+                           keep -foreground
+                 	}
+		}
+#                place $itk_component(ioncurrent0) -x 120 -y 155
+#		place $itk_component(ioncurrent1) -x 305 -y 155
+#		place $itk_component(ioncurrent2) -x 375 -y 180
 
 		$itk_component(control) registerMotorWidget ::$itk_component(detector_vert)
 		$itk_component(control) registerMotorWidget ::$itk_component(detector_horz)
@@ -274,16 +369,23 @@ class DCS::HutchOverview {
 		set _detectorObject [DCS::Detector::getObject]
 
 		pack $itk_component(canvas)
-        eval itk_initialize $args
+	        eval itk_initialize $args
 
 		::mediator register $this ::$_detectorObject type handleDetectorTypeChange
 
 		::mediator announceExistence $this
 
-      set m_deviceFactory [DCS::DeviceFactory::getObject]
+      		set m_deviceFactory [DCS::DeviceFactory::getObject]
 		set shutterObject [$m_deviceFactory createShutter shutter]
+	        set m_strBeamCurrent [$m_deviceFactory createString analogInStatus1]
+		$m_strBeamCurrent register $this contents handleBeamCurrentChange
+
 		::mediator register $this $shutterObject state handleUpdateFromShutter
-		
+	
+#yangx add to get rid of the canvas borderline (the borderline appears when you enter the
+#motion numbers.
+		$itk_component(canvas) configure -borderwidth 0 -highlightthickness 0
+	
 		return
 	}
     
@@ -291,6 +393,7 @@ class DCS::HutchOverview {
 }
 
 body DCS::HutchOverview::destructor {} {
+	$m_strBeamCurrent unregister $this contents handleBeamCurrentChange
 	mediator announceDestruction $this
 }
 
@@ -319,12 +422,12 @@ body DCS::HutchOverview::handleUpdateFromShutter { shutter_ targetReady_ - state
 body DCS::HutchOverview::constructGoniometer { x y } {
 
 	# draw and label the goniometer
-	global BLC_IMAGES
+#	global BLC_IMAGES
 
-	set goniometerImage [ image create photo -file "$BLC_IMAGES/gonio.gif" -palette "8/8/8"]
+#	set goniometerImage [ image create photo -file "$BLC_IMAGES/xyz.gif" -palette "8/8/8"]
 	
 #	itk_component add goniometerImage {
-		$itk_component(canvas) create image $x [expr $y - 190] -anchor nw -image $goniometerImage
+	#	$itk_component(canvas) create image [expr $x + 10]  [expr $y - 190] -anchor nw -image $goniometerImage
 #	}
 
 	itk_component add phi {
@@ -334,15 +437,15 @@ body DCS::HutchOverview::constructGoniometer { x y } {
 			 -autoMenuChoices 0 \
 			 -shadowReference 1 \
 			 -units "deg" -menuChoices {0.000 45.000 90.000 135.000 180.000 \
-												 225.000 270.000 315.000 360.000}  \
-          -activeClientOnly 1
+							 225.000 270.000 315.000 360.000}  \
+          		 -activeClientOnly 1
 	}  {
-        keep -systemIdleOnly
+        	keep -systemIdleOnly
 		keep -mdiHelper
 		rename -device gonioPhiDevice gonioPhiDevice GonioPhiDevice
 	}
 
-	place $itk_component(phi) -x [expr $x + 20]  -y [expr $y - 245]
+	place $itk_component(phi) -x [expr $x + 190]  -y [expr $y - 195]
 	
 	
 	# create motor view for gonio_omega
@@ -361,15 +464,19 @@ body DCS::HutchOverview::constructGoniometer { x y } {
 	# create motor view for gonio_kappa
 	itk_component add kappa {
 		::DCS::TitledMotorEntry $itk_component(canvas).kappa \
-			 -labelText "Kappa"  -autoGenerateUnitsList 0 \
-          -unitsWidth 4 -unitsList {deg {-menuChoiceDelta 5 -precision .001}} -activeClientOnly 1
+			 -labelText "Kappa" \
+			 -autoMenuChoices 0 \
+			 -shadowReference 1 \
+                         -units "deg" -menuChoices {0.000 45.000 90.000 135.000 180.000 \
+                                                         225.000 270.000 315.000 360.000}  \
+			 -activeClientOnly 1
 	} {
-        keep -systemIdleOnly
+        	keep -systemIdleOnly
 		keep -mdiHelper
 		rename -device gonioKappaDevice gonioKappaDevice GonioKappaDevice
 	}
 
-	place $itk_component(kappa) -x [expr $x + 140] -y [expr $y - 185]
+	place $itk_component(kappa) -x [expr $x + 30] -y [expr $y - 235]
 
 	$itk_component(control) registerMotorWidget ::$itk_component(phi)
 	$itk_component(control) registerMotorWidget ::$itk_component(omega)
@@ -381,10 +488,13 @@ body DCS::HutchOverview::constructFrontend { x y } {
 
 	# create the image of the frontend
 	global BLC_IMAGES
-	set frontendImage [ image create photo \
-									-file "$BLC_IMAGES/frontend.gif" \
-									-palette "8/8/8"]
-	$itk_component(canvas) create image 50 72 -anchor nw -image $frontendImage
+#	set frontendImage [ image create photo \
+#									-file "$BLC_IMAGES/beampath-gonio-4.gif" \
+#									-palette "12/12/12"]
+set frontendImage [ image create photo \
+                   -file "$BLC_IMAGES/beampath-stage-stop-1.gif" \
+                   -palette "12/12/12"]
+	$itk_component(canvas) create image 60 98 -anchor nw -image $frontendImage
 
 	# draw the label for the frontend
 	label $itk_component(canvas).frontendLabel \
@@ -394,10 +504,10 @@ body DCS::HutchOverview::constructFrontend { x y } {
 	#	place $itk_component(canvas).frontendLabel -x 130 -y 265
 
 	# draw the X-ray beam entering the collimator
-	$itk_component(canvas) create line 0 161 58 161 -fill magenta -width 4
+	$itk_component(canvas) create line 20 147 63 147 -fill magenta -width 4
 
 	# draw the beam after the shutter
-	$itk_component(canvas) create line 383 163 620 163 -fill magenta -width 2 -tag postShutterBeam
+	$itk_component(canvas) create line 410 163 565 163 -fill magenta -width 2 -tag postShutterBeam
 	
 	#$energyWidget addInput "${deviceNamespace}::mono_theta status inactive {supporting device}"
 
@@ -406,116 +516,156 @@ body DCS::HutchOverview::constructFrontend { x y } {
 	# create motor view for detector_horiz
 	itk_component add beamWidth {
 		::DCS::TitledMotorEntry $itk_component(canvas).beam_width \
+            -updateValueOnMatch 1 \
 			 -labelText "Beam Width" \
-			 -entryWidth 5  -autoGenerateUnitsList 0 \
-         -unitsList {mm {-entryType positiveFloat -menuChoiceDelta 0.05}} -activeClientOnly 1
+			 -entryWidth 5 \
+			  -autoGenerateUnitsList 0 \
+         		  -unitsList {mm {-entryType positiveFloat -menuChoiceDelta 0.1}  um {-entryType positiveInt -menuChoiceDelta 100} }\
+			  -activeClientOnly 1
 	} {
-        keep -systemIdleOnly
+        	keep -systemIdleOnly
 		keep -mdiHelper
 		rename -device beamWidthDevice beamWidthDevice BeamWidthDevice
 	}
 
 	# create motor view for detector_horiz
-	itk_component add beamHeight {
-		::DCS::TitledMotorEntry $itk_component(canvas).beam_height \
-			 -labelText "Beam Height" \
-			 -entryWidth 5 -autoGenerateUnitsList 0 \
-         -unitsList {mm {-entryType positiveFloat -menuChoiceDelta 0.05} } -activeClientOnly 1
-	} {
-        keep -systemIdleOnly
-		keep -mdiHelper
-		rename -device beamHeightDevice beamHeightDevice BeamHeightDevice
-	}
 
-	$itk_component(canvas) create text 320 233 -text "x" -font "helvetica -14 bold"
+#	itk_component add beamHeight {
+#		::DCS::TitledMotorEntry $itk_component(canvas).beam_height \
+#			 -labelText "Beam Height" \
+#			 -entryWidth 5 -autoGenerateUnitsList 0 \
+#         -unitsList {mm {-entryType positiveFloat -menuChoiceDelta 0.1} } -activeClientOnly 1
+#	} {
+#        	keep -systemIdleOnly
+#		keep -mdiHelper
+#		rename -device beamHeightDevice beamHeightDevice BeamHeightDevice
+#	}
+
+       # create motor view for detector_horiz
+        itk_component add beamHeight {
+                ::DCS::TitledMotorEntry $itk_component(canvas).beam_height \
+                         -labelText "Beam Height" \
+                         -entryWidth 5 \
+			 -autoGenerateUnitsList 0 \
+                         -unitsList {mm {-entryType positiveFloat -menuChoiceDelta 0.1} um {-entryType positiveInt -menuChoiceDelta 100} }\
+			 -activeClientOnly 1
+        } {
+                keep -systemIdleOnly
+                keep -mdiHelper
+                rename -device beamHeightDevice beamHeightDevice BeamHeightDevice
+        }
+
+	$itk_component(canvas) create text 322 253 -text "x" -font "helvetica -14 bold"
 
 
-	place $itk_component(beamWidth) -x 211 -y 200
-	place $itk_component(beamHeight) -x 330 -y 200
+	place $itk_component(beamWidth) -x 211 -y 220
+	place $itk_component(beamHeight) -x 330 -y 220
 	
 	$itk_component(control) registerMotorWidget ::$itk_component(beamWidth)
 	$itk_component(control) registerMotorWidget ::$itk_component(beamHeight)	
 
 #   	constructAttenuation
-	constructHalfslitUpH
+	#constructHalfslits
 }
 
-body DCS::HutchOverview::constructHalfslitUpH { } {
+#body DCS::HutchOverview::constructHalfslits { } {
 
-                itk_component add shutteruh {
-                        label $itk_interior.shutteruh \
-                        -relief sunken -width 4
-                } {
-         		keep -font
-                }
 
-                itk_component add shutteruv {
-                        label $itk_interior.shutteruv \
-                        -relief sunken -width 4
-                } {
-                        keep -font
-                }
+#                itk_component add shutteruh {
+#                        label $itk_component(canvas).shutteruh \
+#                        -relief ridge -width 4
+#                } {
+#         		keep -font
+#                }
+#
+#                itk_component add shutteruv {
+#                        label $itk_component(canvas).shutteruv \
+#                        -relief ridge -width 4
+#                } {
+#                        keep -font
+#                }
+#
+#                itk_component add shutterdh {
+#                        label $itk_component(canvas).shutterdh \
+#                        -relief ridge -width 4
+#                } {
+#                        keep -font
+#                }
+#
+#                itk_component add shutterdv {
+#                        label $itk_component(canvas).shutterdv \
+#                        -relief ridge -width 4
+#                } {
+#                        keep -font
+#                }
+#
+#                itk_component add shutterLabel {
+#                        # create the shutter label
+#                        label $itk_component(canvas).shutterLabel \
+#                                 -text "Half Slits" \
+#                                 -font "helvetica -14 bold"
+#                }
+#
+#                itk_component add shutterLabelH {
+#                        # create the shutter label
+#                        label $itk_component(canvas).shutterLabelH \
+#                                 -text "H" \
+#                                 -font "helvetica -14 bold"
+#                }
+#
+#                itk_component add shutterLabelV {
+#                        # create the shutter label
+#                        label $itk_component(canvas).shutterLabelV \
+#                                 -text "V" \
+#                                 -font "helvetica -14 bold"
+#                }
+#
+#		place $itk_component(shutterLabelH) -x 10 -y 110
+#		place $itk_component(shutterLabelV) -x 10 -y 130
+#		place $itk_component(shutterLabel) -x 100 -y 110
+#
+#		place $itk_component(shutteruh) -x 37 -y 110
+#		place $itk_component(shutteruv) -x 37 -y 130
+#                place $itk_component(shutterdh) -x 223 -y 110
+#                place $itk_component(shutterdv) -x 223 -y 130
+#
+#                set shutterObject [$m_deviceFactory createShutter hslit_up_h]
+#	        $shutterObject register $this state handleShutter1
+#                #bind a click on the shutter to toggle the state.  Replace this with a button!
+#                bind $itk_component(shutteruh) <Button-1> "$shutterObject toggle"
+#
+#                set shutterObject [$m_deviceFactory createShutter hslit_up_v]
+#                $shutterObject register $this state handleShutter2
+#		bind $itk_component(shutteruv) <Button-1> "$shutterObject toggle"
+#
+#                set shutterObject [$m_deviceFactory createShutter hslit_dn_h]
+#                $shutterObject register $this state handleShutter3
+#                bind $itk_component(shutterdh) <Button-1> "$shutterObject toggle"
+#
+#                set shutterObject [$m_deviceFactory createShutter hslit_dn_v]
+#                $shutterObject register $this state handleShutter4
+#                bind $itk_component(shutterdv) <Button-1> "$shutterObject toggle"
+#}
+#
+body DCS::HutchOverview::handleBeamCurrentChange { name_ targetReady_ - contents_ - } {
+    if { ! $targetReady_} return
+#puts "contents=$contents_ \n"
+    if { $contents_ == "" } return
+	
+    for {set i 0} {$i < 3} {incr i} {
+           set value [lindex $contents_ $i]
+           $itk_component(ioncurrent$i) configure \
+                -text [format "%.3f" $value] \
+                -state normal
+    }
 
-                itk_component add shutterdh {
-                        label $itk_interior.shutterdh \
-                        -relief sunken -width 4
-                } {
-                        keep -font
-                }
-
-                itk_component add shutterdv {
-                        label $itk_interior.shutterdv \
-                        -relief sunken -width 4
-                } {
-                        keep -font
-                }
-
-                itk_component add shutterLabel {
-                        # create the shutter label
-                        label $itk_interior.shutterLabel \
-                                 -text "Half Slits" \
-                                 -font "helvetica -14 bold"
-                }
-
-                itk_component add shutterLabelH {
-                        # create the shutter label
-                        label $itk_interior.shutterLabelH \
-                                 -text "H" \
-                                 -font "helvetica -14 bold"
-                }
-
-                itk_component add shutterLabelV {
-                        # create the shutter label
-                        label $itk_interior.shutterLabelV \
-                                 -text "V" \
-                                 -font "helvetica -14 bold"
-                }
-
-		place $itk_component(shutterLabelH) -x 70 -y 100
-		place $itk_component(shutterLabelV) -x 70 -y 130
-		place $itk_component(shutterLabel) -x 100 -y 70
-		place $itk_component(shutteruh) -x 90 -y 100
-		place $itk_component(shutteruv) -x 90 -y 130
-
-                place $itk_component(shutterdh) -x 140 -y 100
-                place $itk_component(shutterdv) -x 140 -y 130
-
-                set shutterObject [$m_deviceFactory createShutter hslit_up_h]
-	        $shutterObject register $this state handleShutter1
-                #bind a click on the shutter to toggle the state.  Replace this with a button!
-                bind $itk_component(shutteruh) <Button-1> "$shutterObject toggle"
-
-                set shutterObject [$m_deviceFactory createShutter hslit_up_v]
-                $shutterObject register $this state handleShutter2
-		bind $itk_component(shutteruv) <Button-1> "$shutterObject toggle"
-
-                set shutterObject [$m_deviceFactory createShutter hslit_dn_h]
-                $shutterObject register $this state handleShutter3
-                bind $itk_component(shutterdh) <Button-1> "$shutterObject toggle"
-
-                set shutterObject [$m_deviceFactory createShutter hslit_dn_v]
-                $shutterObject register $this state handleShutter4
-                bind $itk_component(shutterdv) <Button-1> "$shutterObject toggle"
+    #if {[string is double -strict $contents_]} {
+    #    set display [format "%.3f" $contents_]
+    #} else {
+    #    set display $contents_
+    #}
+    #$itk_component(ioncurrent) configure -text $display
+#    log_error "yangxx display=$display"
 }
 
 body DCS::HutchOverview::handleShutter1 { - targetReady_ alias_ status_ -} {
@@ -590,13 +740,15 @@ body DCS::HutchOverview::constructAttenuation { } {
 
    if { ![$m_deviceFactory motorExists attenuation]} return
 
+    set deci [::config getInt decimal.attenuation 1]
+
 	# create motor view for beam attenuation
 	itk_component add attenuation {
 		::DCS::TitledMotorEntry $itk_component(canvas).attenuation \
 			 -labelText "Attenuation" \
 			 -entryType positiveFloat \
 			 -menuChoiceDelta 10 -units "%"  -autoGenerateUnitsList 0 \
-			 -decimalPlaces 1 \
+			 -decimalPlaces $deci \
          -activeClientOnly 0
 	} {
         keep -systemIdleOnly
@@ -613,11 +765,11 @@ body DCS::HutchOverview::constructBeamstop { x y } {
 
 	# create the image of the frontend
 	global BLC_IMAGES
-	set beamstopImage [ image create photo -file "$BLC_IMAGES/beamstop.gif" -palette "8/8/8"]
-	$itk_component(canvas) create image 570 159 -anchor nw -image $beamstopImage
+#	set beamstopImage [ image create photo -file "$BLC_IMAGES/beamstop.gif" -palette "8/8/8"]
+#	$itk_component(canvas) create image 570 159 -anchor nw -image $beamstopImage
 
 	# draw the label for the frontend
-	label $itk_component(canvas).beamstopLabel \
+#	label $itk_component(canvas).beamstopLabel \
 		 -font "helvetica -18 bold" \
 		 -text "Beamstop"
 	#	place $itk_component(canvas).beamstopLabel -x 530 -y 265
@@ -629,22 +781,67 @@ body DCS::HutchOverview::constructBeamstop { x y } {
 			 -menuChoiceDelta 5 \
 			 -entryType positiveFloat \
 			 -decimalPlaces 3 -units mm \
-             -activeClientOnly 0 \
-             -systemIdleOnly 0 \
-             -honorStatus 0
+             		 -activeClientOnly 0 \
+             		 -systemIdleOnly 0 \
+             		 -honorStatus 0
 	} {
 		keep -mdiHelper
 		rename -device beamstopDevice beamstopDevice BeamstopDevice
 	}
 
 
-	place $itk_component(beamstop) -x 530 -y 225
-	$itk_component(control) registerMotorWidget ::$itk_component(beamstop)
+        # create motor view for beamstop_horz
+        itk_component add beamstop_horz {
+                ::DCS::TitledMotorEntry $itk_component(canvas).beamstop_horz \
+                         -labelText "Beamstop_horz" \
+                         -menuChoiceDelta 0.1 \
+			 -autoGenerateUnitsList 0 \
+                         -entryType positiveFloat \
+                         -decimalPlaces 3 -units mm \
+             		 -activeClientOnly 1
+        } {
+		keep -systemIdleOnly
+                keep -mdiHelper
+                rename -device beamstopHorzDevice beamstopHorzDevice BeamstopHorzDevice
+        }
+
+        # create motor view for beamstop_vert
+        itk_component add beamstop_vert {
+                ::DCS::TitledMotorEntry $itk_component(canvas).beamstop_vert \
+                         -labelText "Beamstop_vert" \
+                         -menuChoiceDelta 0.1 \
+			 -autoGenerateUnitsList 0 \
+                         -entryType positiveFloat \
+                         -decimalPlaces 3 -units mm \
+        		 -activeClientOnly 1 
+        } {
+		keep -systemIdleOnly
+                keep -mdiHelper
+                rename -device beamstopVertDevice beamstopVertDevice BeamstopVertDevice
+        }
+
+#y      place $itk_component(beamstop) -x 530 -y 225
+        place $itk_component(beamstop_horz) -x 610 -y 180
+        place $itk_component(beamstop_vert) -x 530 -y 225
+
+	# For vertical beamstop
+        $itk_component(canvas) create line 515 240 515 270 -arrow both -width 3 -fill black
+        $itk_component(canvas) create text 525 240 -text "+" -font "courier -10 bold" 
+        $itk_component(canvas) create text 525 270 -text "-" -font "courier -10 bold" 
+
+	# For horizontal beamstop
+	$itk_component(canvas) create line 570 200 600 170 -arrow both -width 3 -fill black
+        $itk_component(canvas) create text 585 200 -text "+" -font "courier -10 bold" 
+        $itk_component(canvas) create text 605 175 -text "-" -font "courier -10 bold" 
+
+#        $itk_component(control) registerMotorWidget ::$itk_component(beamstop)
+        $itk_component(control) registerMotorWidget ::$itk_component(beamstop_horz)
+        $itk_component(control) registerMotorWidget ::$itk_component(beamstop_vert)
 
 	# draw arrow for beam stop motion
-	$itk_component(canvas) create line 580 190 620 190 -arrow both -width 3 -fill black	
-	$itk_component(canvas) create text 613 180 -text "+" -font "courier -10 bold"
-	$itk_component(canvas) create text 584 180 -text "-" -font "courier -10 bold"
+#	$itk_component(canvas) create line 580 190 620 190 -arrow both -width 3 -fill black	
+#	$itk_component(canvas) create text 613 180 -text "+" -font "courier -10 bold"
+#	$itk_component(canvas) create text 584 180 -text "-" -font "courier -10 bold"
 }
 
 body DCS::HutchOverview::handleDetectorTypeChange { detector_ targetReady_ alias_ type_ -  } {
@@ -671,24 +868,24 @@ configbody DCS::HutchOverview::detectorType {
 		Q4CCD {
 
 			place $itk_component(detector_vert) -x 835 -y 0
-			place $itk_component(detector_z) -x 660 -y 125
+			place $itk_component(detector_z) -x 835 -y 235
 		#yang	place $itk_component(detector_horz) -x 855 -y 212
 
 			set detectorImage [ image create photo \
-											-file "$BLC_IMAGES/q4_small.gif" \
+											-file "$BLC_IMAGES/q4_big2.gif" \
 											-palette "8/8/8"]
-			$itk_component(canvas) create image 820 90 \
+			$itk_component(canvas) create image 820 45 \
 				 -anchor nw \
 				 -image $detectorImage -tag detectorItems
 			
-			$itk_component(canvas) create line 900 55 900 95 -arrow both -width 3 -fill black -tag detectorItems	
+			$itk_component(canvas) create line 900 55 900 80 -arrow both -width 3 -fill black -tag detectorItems	
 			$itk_component(canvas) create text 910 61 -text "+" -font "courier -10 bold" -tag detectorItems
-			$itk_component(canvas) create text 910 88 -text "-" -font "courier -10 bold" -tag detectorItems
+			$itk_component(canvas) create text 910 80 -text "-" -font "courier -10 bold" -tag detectorItems
 			
-			$itk_component(canvas) create line 796 157 821 157 -arrow first -width 3 -fill black -tag detectorItems
-			$itk_component(canvas) create line 821 157 836 157 -arrow last  -width 3 -fill white -tag detectorItems
-			$itk_component(canvas) create text 800 148 -text "-" -font "courier -10 bold" -tag detectorItems
-			$itk_component(canvas) create text 835 148 -text "+" -font "courier -10 bold" -fill white -tag detectorItems
+			$itk_component(canvas) create line 925 230 955 230 -arrow both -width 3 -fill black -tag detectorItems
+		#	$itk_component(canvas) create line 821 225 836 225 -arrow last  -width 3 -fill white -tag detectorItems
+			$itk_component(canvas) create text 920 230 -text "-" -font "courier -10 bold" -tag detectorItems
+			$itk_component(canvas) create text 965 230 -text "+" -font "courier -10 bold" -fill black -tag detectorItems
 			
 #yang			$itk_component(canvas) create line 913 185 942 212 -arrow both -width 3 -fill black	 -tag detectorItems
 #yang			$itk_component(canvas) create text 927 188 -text "+" -font "courier -10 bold" -tag detectorItems
@@ -801,6 +998,37 @@ configbody DCS::HutchOverview::detectorType {
 			$itk_component(canvas) create text 927 188 -text "+" -font "courier -10 bold"	-tag detectorItems
 			$itk_component(canvas) create text 948 207 -text "-" -font "courier -10 bold"	-tag detectorItems
 		}
+
+
+		PILATUS6 {
+			place $itk_component(detector_vert) -x 835 -y 0 
+			place $itk_component(detector_z) -x 660 -y 125
+			place $itk_component(detector_horz) -x 855 -y 212
+
+			set detectorImage [ image create photo \
+											-file "$BLC_IMAGES/pilatus6.gif" \
+											-palette "8/8/8" ]
+
+			$itk_component(canvas) create image 820 90 \
+				 -anchor nw \
+				 -image $detectorImage 	-tag detectorItems
+			
+			$itk_component(canvas) create line 900 55 900 95 -arrow both -width 3 -fill black -tag detectorItems	
+			$itk_component(canvas) create text 910 61 -text "+" -font "courier -10 bold"	-tag detectorItems
+			$itk_component(canvas) create text 910 88 -text "-" -font "courier -10 bold"	-tag detectorItems
+			
+			$itk_component(canvas) create line 796 157 821 157 -arrow first -width 3 -fill black -tag detectorItems
+			$itk_component(canvas) create line 821 157 836 157 -arrow last  -width 3 -fill white -tag detectorItems
+			$itk_component(canvas) create text 800 148 -text "-" -font "courier -10 bold"	-tag detectorItems
+			$itk_component(canvas) create text 835 148 -text "+" -font "courier -10 bold" -fill white	-tag detectorItems
+			
+			$itk_component(canvas) create line 913 185 942 212 -arrow both -width 3 -fill black	-tag detectorItems
+			$itk_component(canvas) create text 927 188 -text "+" -font "courier -10 bold"	-tag detectorItems
+			$itk_component(canvas) create text 948 207 -text "-" -font "courier -10 bold"	-tag detectorItems
+		}
+
+
+
 
 		default {
 			place $itk_component(detector_vert) -x 835 -y 30

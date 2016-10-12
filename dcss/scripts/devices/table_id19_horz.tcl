@@ -62,12 +62,12 @@ proc table_horz_calculate { th1 th2 } {
 
 proc calculate_table_horz_1 { th ty } {
 
-        return [expr $th + $ty*402*3.1415926/180) ]
+        return [expr ($th + $ty*402*3.1415926/180) ]
 }
 
 
 proc calculate_table_horz_2 { th ty} {
 
-        return [expr $th - $ty*402*3.1415926/180) ]
+        return [expr ($th - $ty*402*3.1415926/180) ]
 }
 

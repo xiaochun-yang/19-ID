@@ -847,6 +847,22 @@ function start_dhs_sd () {
     fi
     wait_dhs $BEAMLINE $*
 }
+function start_dhs_inline () {
+    kill_dhs $BEAMLINE $*
+    echo "Starting new \"dhs $*\" process"
+    cd ${DCS_ROOT}/dhs_inline/$MACHINE
+
+    if [[ $DCSDaemonMode = "1" ]]
+    then
+        ./dhs $BEAMLINE $* -b
+    else
+        POS_X=$(($POS_X + $DELTA_X))
+        POS_Y=$(($POS_Y + $DELTA_Y))
+        xterm -geometry 80x24+$POS_X+$POS_Y -e ./dhs $BEAMLINE $* &
+    fi
+    wait_dhs $BEAMLINE $*
+}
+
 function start_sudo_dhs_detector () {
     kill_dhs $BEAMLINE detector
     echo "Starting new \"dhs $*\" process"

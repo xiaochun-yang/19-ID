@@ -512,7 +512,7 @@ Dmc2180::Dmc2180() {
 	}
 
 	/* initialize usage array for axes */
-	for (int channel = 0; channel < DMC2180_MAX_SHUTTERS; channel++) {
+	for (int channel = 0; channel < 16; channel++) {
 		shutter[channel].channel_used = FALSE;
 		shutter[channel].channel = channel + 1;
 		shutter[channel].dmc2180 = this; //allows motor to access controller data
@@ -875,6 +875,7 @@ xos_result_t Dmc2180_motor::timedExposureServoMotor(
 	/* what distance to ramp up in? */
 	//accelerationDistance_counts = (dcs_unscaled_t)((accelerationRate_counts_per_ss * accelerationTime_s * accelerationTime_s) / 2.0);
 	accelerationDistance_counts = (dcs_unscaled_t)( exposureVelocity_counts_per_s * exposureVelocity_counts_per_s  ) / (2 * acceleration_counts_per_ss);
+	// Above probably needed for steppers, but too much for Servos.
 
     LOG_INFO1("rampDistance: %d", accelerationDistance_counts);
 
@@ -914,7 +915,7 @@ xos_result_t Dmc2180_motor::timedExposureServoMotor(
 		outputCompareDirection = -65536;
 	}
 
-
+	accelerationDistance_counts = 0;	// for Servo motors.
 
 	// ExpStart...Exposure Start: phi location where shutter should open
 	// ExpEnd...Exposure End: phi location where shutter should close
@@ -925,15 +926,16 @@ xos_result_t Dmc2180_motor::timedExposureServoMotor(
 		"ExpStart=%ld;"
 		"ExpEnd=%ld;"
 		"ExpVel=%ld;"
+		"RampCnt=%ld;"
 		"ReadyPos=%ld;"
 		"OverPos=%ld;"
 		"OcDir=%d;"
 		"XQ #%s,3", axisLabel, exposeCmd.shutterChannel, shutterOpenTrigger_counts,
-			exposureEnd_counts, exposureVelocity_counts_per_s, initialPosition_counts,
+			exposureEnd_counts, exposureVelocity_counts_per_s, accelerationDistance_counts, initialPosition_counts,
 			overshootPosition_counts, outputCompareDirection,
 			exposureScriptName.c_str());
 
-//LOG_INFO1("yangxx to see a is %c \n", axisLabel);
+LOG_INFO1("yangxx buffer=  %s \n", buffer);
 
 	if (controller_execute(buffer, &error_code, FALSE ) == XOS_FAILURE)
 		return XOS_FAILURE;

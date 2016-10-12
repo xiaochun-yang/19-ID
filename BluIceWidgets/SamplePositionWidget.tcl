@@ -1557,9 +1557,13 @@ class ComboSamplePositioningWidget {
         set m_showingInlineViewWrap [::DCS::ManualInputWrapper ::#auto]
         set m_deviceFactory [DCS::DeviceFactory::getObject]
 
+#	set lenth [llength $sampleSet]
+#puts "sampleSet=$sampleSet length=$lenth"
         if {[llength $sampleSet] < 5} {
             puts "software ERROR, please let programmer know"
             puts "wrong argument for ComboSampleVideo"
+#		set lenth [llength $sampleSet]
+#puts "sampleSet=$sampleSet length=$lenth"
             exit
         }
 

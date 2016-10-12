@@ -77,11 +77,13 @@ class DCS::TableWidget {
 		table_vert \
         table_vert_1 \
         table_vert_2 \
+	table_vert_3 \
         table_horz \
         table_horz_1 \
         table_horz_2 \
         table_yaw \
         table_pitch \
+	table_roll
         ]
     }
 	
@@ -93,11 +95,13 @@ class DCS::TableWidget {
 		motorView table_vert 280 90 sw 
       motorView table_vert_1 145 90 sw
       motorView table_vert_2 410 90 sw
+      motorView table_vert_3 540 90 sw
       motorView table_horz 215 200 
       motorView table_horz_1 75 200 
       motorView table_horz_2 355 200
       motorView table_yaw 20 110
-      motorView table_pitch 520 110
+      motorView table_pitch 520 160
+      motorView table_roll 520 220
 
 		# draw the table
 		rect_solid 180 120 250 20 40 60 40 
@@ -105,6 +109,7 @@ class DCS::TableWidget {
 		motorArrow table_vert 330 90 {} 330 140	342 94 342 140
 		motorArrow table_vert_1 210  90 {} 210 140 222 94 222 140
 		motorArrow table_vert_2 450  90 {} 450 140 462 95 462 140
+		motorArrow table_vert_3 580  90 {} 580 140 592 95 592 140
 		motorArrow table_horz 305 170 {} 272 197 313 172 291 196
 		motorArrow table_horz_1  190 170 {} 158 197 198 172 176 196
 		motorArrow table_horz_2 430 170 {} 403 197 442 177 422 196

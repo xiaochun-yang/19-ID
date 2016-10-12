@@ -301,6 +301,7 @@ BOOL RobotControls::ConnectRobotServer()
 
 	address.sin_family = AF_INET;
 	address.sin_addr.s_addr = inet_addr("192.168.1.40");
+	//address.sin_addr.s_addr = inet_addr("130.199.198.72");
 	address.sin_port = htons(5002);
 
 	//Create socket for client.
@@ -326,10 +327,31 @@ BOOL RobotControls::ConnectRobotServer()
 		error_comm = FALSE;
 		sleep(1);
 		// Get robot mount/dismount state
+		
 		if( ReadRobotState(sockfd) )
 			m_CrystalMounted=TRUE;
 		else
 			m_CrystalMounted=FALSE;
+	/*	
+		int ret, count;
+		count=0;
+		while((ret= ReadRobotState(sockfd)) ==0)
+		{
+			sleep(1);
+			if(count++>4){
+				error_comm = TRUE;
+        		        return FALSE;
+			}
+		}
+                if( ret == 8 || ret==1 )
+                        m_CrystalMounted=TRUE;
+                else if(ret==2 || ret==4)
+                        m_CrystalMounted=FALSE;
+	//	else{
+	//		error_comm = TRUE;
+	//		return FALSE;
+	//	}
+*/
 	  	return TRUE;	
 	}
 }
@@ -359,9 +381,9 @@ BOOL RobotControls::CommandParse( const char argument[], char cmd[] )
 	
 }
 
-BOOL RobotControls::ReadRobotState(int fd)
+int RobotControls::ReadRobotState(int fd)
 {
-        LOG_FINEST( "RobotControls::ReadRobotState");
+        LOG_FINEST( "yang--RobotControls::ReadRobotState");
         char ch,status[50];
         int  i, n,state;
         int count=0;
@@ -391,10 +413,13 @@ BOOL RobotControls::ReadRobotState(int fd)
                                 LOG_FINEST1( "RobotControls::ReadRobotState string ( %s)", status);
                                 sscanf(status,"%d", &state);
                                 LOG_FINEST1( "RobotControls::ReadRobotState -- ( %d)", state);
+				
                                 if(state==8)
 					return TRUE;
 				else
 					return FALSE;
+				
+			//	return(state);
                         }
                 }
       
@@ -741,6 +766,42 @@ BOOL RobotControls::CenterGrabber( const char argument[], char status_buffer[] )
         }
         
 	strcpy( status_buffer, "normal" );
+        return TRUE;
+}
+
+//////////////////////////////////////////////////////////////////////////////
+// Read Monitor counts from Ortec Counters.
+BOOL RobotControls::SafePosition( const char argument[], char status_buffer[] )
+{
+
+
+        LOG_FINEST1( "RobotControls::safePosition called( %s)", argument );
+        if(error_comm)
+        {
+                //try to connect to denso server again
+                if(!ConnectRobotServer())
+                {
+                        LOG_WARNING( "MountCrystal: Could not connect to Denso Robot Server");
+                        strcpy( status_buffer, "error Denso Robot Server closed");
+                        return TRUE;
+                }
+        }
+
+        // send the command to denso robot server
+        int count=0;
+        char cmd[]="SAFE\r";
+        while (write(sockfd, cmd, sizeof(cmd)) < 0)
+        {
+                LOG_WARNING1("Error in writing --%s--to Denso Robot\n",cmd);
+                if(count++>4)
+                {
+                       strcpy( status_buffer, "error in sending command to Denso");
+                       error_comm = TRUE;
+                       return TRUE;
+                }
+        }
+
+        strcpy( status_buffer, "normal" );
         return TRUE;
 }
 

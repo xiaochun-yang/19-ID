@@ -300,6 +300,17 @@ class DCS::MotorMoveView {
 		set value -16
 	} elseif { $dname == "gonio_kappa" } {
 		set value -6.66
+	} elseif { $dname == "slit_0_lower" } {
+                set value 180
+	} elseif { $dname == "slit_0_lobs" } {
+                set value 180
+	} elseif { $dname == "sample_x" } {
+                set value -0.13
+	} elseif { $dname == "sample_y" } {
+                set value -0.61
+	} elseif { $dname == "sample_z" } {
+               # set value -0.5
+		set value 0.0
 	} else {
 		set value 0.0
 	}

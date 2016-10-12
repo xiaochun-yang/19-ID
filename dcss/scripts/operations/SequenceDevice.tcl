@@ -107,7 +107,7 @@ private variable m_mountingCrystal -1
 # added for manual mode, to avoid changing screening selections
 private variable m_manualMode 0
 private variable m_currentCassette n
-private variable m_currentColumn N
+private variable m_currentColumn n
 private variable m_currentRow 0
 
 # state for robot configuration
@@ -2064,7 +2064,7 @@ if { $next>=0 } {
 } else {
     #mark of no mount
     set next_cassette n
-    set next_column N
+    set next_column n
     set next_row 0
 }
 
@@ -2210,12 +2210,12 @@ $m_currentRow == 0} {
         return -code error $errorText
     }
     set m_currentCassette n
-    set m_currentColumn N
+    set m_currentColumn n
     set m_currentRow 0
 }
 
 if {$m_currentCassette != "n" && \
-$m_currentColumn != "N" && \
+$m_currentColumn != "n" && \
 $m_currentRow != 0} {
     puts "current port OK"
     set currentPortOK 1
@@ -2223,7 +2223,7 @@ $m_currentRow != 0} {
     set currentPortOK 0
 }
 if {$cassette != "n" && \
-$column != "N" && \
+$column != "n" && \
 $row != 0} {
     puts "next port OK"
     set nextPortOK 1
@@ -2272,7 +2272,7 @@ if { $currentPortOK && $nextPortOK } {
             ####check skipped empty port
             if {[lindex $errorText 5] == "n" && \
             [lindex $errorText 6] == "0" && \
-            [lindex $errorText 7] == "N"} {
+            [lindex $errorText 7] == "n"} {
                 set m_skipThisSample 1
                 set screening_msg "skip empty port"
             } else {
@@ -2293,7 +2293,7 @@ if { $currentPortOK && $nextPortOK } {
 
         } else {
             set m_currentCassette n
-            set m_currentColumn N
+            set m_currentColumn n
             set m_currentRow 0
             set screening_msg "mount failed"
         }
@@ -2357,7 +2357,7 @@ if { $currentPortOK && $nextPortOK } {
 #	set m_startWarmUp 0
 #    } else {
     	set m_currentCassette n
-    	set m_currentColumn N
+    	set m_currentColumn n
     	set m_currentRow 0
 #    }
     spinMsgLoop
@@ -2421,7 +2421,7 @@ if { $currentPortOK && $nextPortOK } {
 
 if {!$m_useRobot && $m_manualMode} {
     if {$m_currentCassette == "n" || \
-    $m_currentColumn == "N" || \
+    $m_currentColumn == "n" || \
     $m_currentRow == 0} {
         set screening_msg "manual dismount"
         log_warning "If a sample is mounted, dismount it now"
@@ -3118,7 +3118,7 @@ puts "SequenceDevice.tcl loaded successfully"
     } else {
         set m_currentCassette n
         set m_currentRow 0
-        set m_currentColumn N
+        set m_currentColumn n
     }
 }
 #this updates the system string so that all clients can see the new state
@@ -3146,7 +3146,7 @@ puts "SequenceDevice.tcl loaded successfully"
         set cur_sub_dir [lindex $m_crystalDirList $m_currentCrystal]
 
     } elseif {$m_currentCassette != "n" && \
-    $m_currentColumn != "N" && \
+    $m_currentColumn != "n" && \
     $m_currentRow != "0"} {
         ### must be manual mode
         set cur_port $m_currentCassette$m_currentColumn$m_currentRow
@@ -3279,7 +3279,7 @@ puts "SequenceDevice.tcl loaded successfully"
             }
             set m_currentCrystal -1
             set m_currentCassette n
-            set m_currentColumn N
+            set m_currentColumn n
             set m_currentRow 0
             set m_isSyncedWithRobot yes
             updateCrystalSelectionListString
@@ -3311,7 +3311,7 @@ puts "SequenceDevice.tcl loaded successfully"
     } else {
         set gonio_cassette $cur_cassette
         set gonio_row 0
-        set gonio_column N
+        set gonio_column n
     }
     ######### compare current crystal with sample on goniometer ####
     #gether information
@@ -3339,7 +3339,7 @@ puts "SequenceDevice.tcl loaded successfully"
         set port_status [getCrystalStatus $m_currentCrystal]
     } else {
         set cur_row 0
-        set cur_column N
+        set cur_column n
         set port_status -
     }
     #compare
@@ -3360,7 +3360,7 @@ puts "SequenceDevice.tcl loaded successfully"
         }
         set m_currentCrystal -1
         set m_currentCassette n
-        set m_currentColumn N
+        set m_currentColumn n
         set m_currentRow 0
         set m_nextCrystal [getNextCrystal $m_nextCrystal]
         set m_isSyncedWithRobot yes
@@ -3466,7 +3466,7 @@ puts "portIndex=$portIndex m_indexMap=$m_indexMap spreadsheet_index=$spreadsheet
     variable ::nScripts::robot_cassette
 
     set casIndex [lsearch -exact {l m r} $cassette]
-    set CIndex [lsearch -exact {A B C D E F G H I J K L} $column]
+    set CIndex [lsearch -exact {A B C D E F G H I J K L M N O P} $column]
     set RIndex $row
 #puts "xyang casIndex=$casIndex CIndex=$CIndex RIndex=$RIndex"
     if { $casIndex < 0 || $CIndex < 0 } { return -1 }
@@ -3758,7 +3758,7 @@ puts "portIndex=$portIndex m_indexMap=$m_indexMap spreadsheet_index=$spreadsheet
             }
             set column [string index $port 0]
             set row [string range $port 1 end]
-            if {[lsearch -exact {A B C D E F G H I J K L} $column] < 0} {
+            if {[lsearch -exact {A B C D E F G H I J K L M N O P} $column] < 0} {
                 set scn_crystal_msg "warning: $portID has bad column $column"
                 set result [lreplace $result $i $i 0]
                 puts "checkCrystalList turn off $i: bad column"
@@ -4179,7 +4179,7 @@ puts "portIndex=$portIndex m_indexMap=$m_indexMap spreadsheet_index=$spreadsheet
         } else {
             set m_currentCassette n
             set m_currentRow 0
-            set m_currentColumn N
+            set m_currentColumn n
         }
         set m_currentCrystal -1
         updateCrystalStatusString
@@ -4189,7 +4189,7 @@ puts "portIndex=$portIndex m_indexMap=$m_indexMap spreadsheet_index=$spreadsheet
     set spreadsheet_index [lindex $m_cassetteInfo 1]
     set spreadsheet_cassette [lindex {0 l m r} $spreadsheet_index]
     if {$cassette == "n" || \
-    $column == "N" || \
+    $column == "n" || \
     $row == 0 || \
     $spreadsheet_cassette != $cassette} {
         set m_mountingCrystal -1
@@ -4200,7 +4200,7 @@ puts "portIndex=$portIndex m_indexMap=$m_indexMap spreadsheet_index=$spreadsheet
     mountCrystal $cassette $column $row 0
     set m_mountingCrystal -1
     if {($m_currentCassette == "n" && \
-    $m_currentColumn == "N" && \
+    $m_currentColumn == "n" && \
     $m_currentRow == 0) || $spreadsheet_cassette != $m_currentCassette} {
             set m_currentCrystal -1
     } else {
@@ -4432,7 +4432,7 @@ puts "portIndex=$portIndex m_indexMap=$m_indexMap spreadsheet_index=$spreadsheet
 
     #### clear 
     set m_currentCassette n
-    set m_currentColumn N
+    set m_currentColumn n
     set m_currentRow 0
     updateAfterDismount
 }

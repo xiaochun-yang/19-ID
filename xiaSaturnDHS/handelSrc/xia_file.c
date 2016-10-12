@@ -1,40 +1,38 @@
 /*
- * Copyright (c) 2006, XIA LLC
+ * Copyright (c) 2006-2014 XIA LLC
+ * All rights reserved
  *
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, 
- * with or without modification, are permitted provided 
+ * Redistribution and use in source and binary forms,
+ * with or without modification, are permitted provided
  * that the following conditions are met:
  *
- *   * Redistributions of source code must retain the above 
- *     copyright notice, this list of conditions and the 
+ *   * Redistributions of source code must retain the above
+ *     copyright notice, this list of conditions and the
  *     following disclaimer.
- *   * Redistributions in binary form must reproduce the 
- *     above copyright notice, this list of conditions and the 
- *     following disclaimer in the documentation and/or other 
+ *   * Redistributions in binary form must reproduce the
+ *     above copyright notice, this list of conditions and the
+ *     following disclaimer in the documentation and/or other
  *     materials provided with the distribution.
- *   * Neither the name of X-ray Instrumentation Associates 
- *     nor the names of its contributors may be used to endorse 
- *     or promote products derived from this software without 
+ *   * Neither the name of XIA LLC
+ *     nor the names of its contributors may be used to endorse
+ *     or promote products derived from this software without
  *     specific prior written permission.
  *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND 
- * CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
- * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
- * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
- * IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE 
- * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, 
- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON 
- * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR 
- * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF 
- * THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND
+ * CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+ * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR
+ * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
+ * THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  *
  *
- * xia_file.c,v 1.2 2007/11/14 21:19:58 rivers Exp
  */
 
 #include <stdio.h>
@@ -76,41 +74,41 @@ static xia_file_handle_t *FILE_HANDLES = NULL;
  * This routine returns @c NULL if @c fopen() fails or if any of the passed
  * in arguments are invalid.
  */
-XIA_EXPORT FILE *xia_fopen(const char *name, const char *mode, char *file,
+XIA_SHARED FILE *xia_fopen(const char *name, const char *mode, char *file,
                            int line)
 {
-  FILE *fp = NULL;
+    FILE *fp = NULL;
 
-  
-  if (name == NULL || mode == NULL || file == NULL) {
-    return NULL;
-  }
 
-  fp = fopen(name, mode);
-  
-  if (fp) {
-    xia__add_handle(fp, file, line);
-  }
+    if (name == NULL || mode == NULL || file == NULL) {
+        return NULL;
+    }
 
-  return fp;
+    fp = fopen(name, mode);
+
+    if (fp) {
+        xia__add_handle(fp, file, line);
+    }
+
+    return fp;
 }
 
 
 /** @brief Returns the number of open file handles
  *
  */
-XIA_EXPORT int xia_num_open_handles(void)
+XIA_SHARED int xia_num_open_handles(void)
 {
-  xia_file_handle_t *fh = NULL;
+    xia_file_handle_t *fh = NULL;
 
-  int n_handles = 0;
+    int n_handles = 0;
 
 
-  for (fh = FILE_HANDLES; fh != NULL; fh = fh->next, n_handles++) {
-    /* Do nothing. */
-  }
+    for (fh = FILE_HANDLES; fh != NULL; fh = fh->next, n_handles++) {
+        /* Do nothing. */
+    }
 
-  return n_handles;
+    return n_handles;
 }
 
 
@@ -119,17 +117,26 @@ XIA_EXPORT int xia_num_open_handles(void)
  *
  * It is an unchecked exception to pass a @c NULL stream to this function.
  */
-XIA_EXPORT void xia_print_open_handles(FILE *stream)
+XIA_SHARED void xia_print_open_handles(FILE *stream)
 {
-  xia_file_handle_t *fh = NULL;
+    xia_file_handle_t *fh = NULL;
 
 
-  ASSERT(stream != NULL);
+    ASSERT(stream != NULL);
 
 
-  for (fh = FILE_HANDLES; fh != NULL; fh = fh->next) {
-    fprintf(stream, "<%p> %s, line %d\n", fh->fp, fh->file, fh->line);
-  }
+    for (fh = FILE_HANDLES; fh != NULL; fh = fh->next) {
+        fprintf(stream, "<%p> %s, line %d\n", fh->fp, fh->file, fh->line);
+    }
+}
+
+
+/** @brief Prints a list of the open file handles to stdout
+ *
+ */
+XIA_SHARED void xia_print_open_handles_stdout(void)
+{
+    xia_print_open_handles(stdout);
 }
 
 
@@ -138,12 +145,12 @@ XIA_EXPORT void xia_print_open_handles(FILE *stream)
  * Removes the specified @a fp from the handles list. It is an unchecked
  * exception to pass a @c NULL file pointer into this routine.
  */
-XIA_EXPORT int xia_fclose(FILE *fp)
+XIA_SHARED int xia_fclose(FILE *fp)
 {
-  ASSERT(fp != NULL);
+    ASSERT(fp != NULL);
 
-  xia__remove_handle(fp);
-  return fclose(fp);
+    xia__remove_handle(fp);
+    return fclose(fp);
 }
 
 
@@ -154,22 +161,22 @@ XIA_EXPORT int xia_fclose(FILE *fp)
  */
 static void xia__add_handle(FILE *fp, char *file, int line)
 {
-  xia_file_handle_t *new_handle = NULL;
+    xia_file_handle_t *new_handle = NULL;
 
 
-  ASSERT(fp != NULL);
-  ASSERT(file != NULL);
+    ASSERT(fp != NULL);
+    ASSERT(file != NULL);
 
-  
-  new_handle = malloc(sizeof(xia_file_handle_t));
-  ASSERT(new_handle != NULL);
 
-  new_handle->fp   = fp;
-  new_handle->line = line;
-  strncpy(new_handle->file, file, MAX_FILE_SIZE);
+    new_handle = malloc(sizeof(xia_file_handle_t));
+    ASSERT(new_handle != NULL);
 
-  new_handle->next = FILE_HANDLES;
-  FILE_HANDLES = new_handle;
+    new_handle->fp   = fp;
+    new_handle->line = line;
+    strncpy(new_handle->file, file, MAX_FILE_SIZE);
+
+    new_handle->next = FILE_HANDLES;
+    FILE_HANDLES = new_handle;
 }
 
 
@@ -178,33 +185,33 @@ static void xia__add_handle(FILE *fp, char *file, int line)
  */
 static void xia__remove_handle(FILE *fp)
 {
-  xia_file_handle_t *fh   = NULL;
-  xia_file_handle_t *prev = NULL;
+    xia_file_handle_t *fh   = NULL;
+    xia_file_handle_t *prev = NULL;
 
 
-  if (!fp) {
-    return;
-  }
-
-  for (fh = FILE_HANDLES, prev = NULL; fh != NULL; fh = fh->next) {
-
-    if (fh->fp == fp) {
-
-      if (prev == NULL) {
-        FILE_HANDLES = fh->next;
-	  
-      } else {
-        prev->next = fh->next;
-      }
-
-      free(fh);
-      fh = NULL;
-      return;
+    if (!fp) {
+        return;
     }
 
-    prev = fh;
-  }
+    for (fh = FILE_HANDLES, prev = NULL; fh != NULL; fh = fh->next) {
 
-  /* This means that we couldn't find the pointer in our list of handles. */
-  ASSERT(FALSE_);
+        if (fh->fp == fp) {
+
+            if (prev == NULL) {
+                FILE_HANDLES = fh->next;
+
+            } else {
+                prev->next = fh->next;
+            }
+
+            free(fh);
+            fh = NULL;
+            return;
+        }
+
+        prev = fh;
+    }
+
+    /* This means that we couldn't find the pointer in our list of handles. */
+    FAIL();
 }

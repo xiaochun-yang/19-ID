@@ -39,6 +39,7 @@ public:
         virtual BOOL StartMonitorCounts(const char argument[], char status_buffer[] );
         virtual BOOL StopMonitorCounts(const char argument[], char status_buffer[] );
 	virtual BOOL CenterGrabber(const char argument[], char status_buffer[] );
+	virtual BOOL SafePosition(const char argument[], char status_buffer[] );
 	virtual BOOL DryGrabber(const char argument[], char status_buffer[] );
 	virtual BOOL MoveToNewEnergy(const char argument[], char status_buffer[] );	
 	virtual BOOL GetCurrentEnergy(const char argument[], char status_buffer[] );
@@ -51,7 +52,7 @@ public:
         
 	//BOOL ConnectRobotServer(const char argument[], char status_buffer[] );
 	BOOL ReadRobotStatus(int , char *);
-        BOOL ReadRobotState(int);
+        int ReadRobotState(int);
 	BOOL CheckConnection();
 	BOOL CommandParse( const char *, char * );
 	double m_CurrentWavelength;

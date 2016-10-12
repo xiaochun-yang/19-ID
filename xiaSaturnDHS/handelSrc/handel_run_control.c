@@ -1,13 +1,7 @@
-
 /*
- * handel_run_control.c
- *
- *
- * Created 11/28/01 -- PJF
- *
- * Copyright (c) 2002,2003,2004, X-ray Instrumentation Associates
- *               2005, XIA LLC
- * All rights reserved.
+ * Copyright (c) 2002-2004 X-ray Instrumentation Associates
+ *               2005-2012 XIA LLC
+ * All rights reserved
  *
  * Redistribution and use in source and binary forms, 
  * with or without modification, are permitted provided 
@@ -20,7 +14,7 @@
  *     above copyright notice, this list of conditions and the 
  *     following disclaimer in the documentation and/or other 
  *     materials provided with the distribution.
- *   * Neither the name of X-ray Instrumentation Associates 
+ *   * Neither the name of XIA LLC 
  *     nor the names of its contributors may be used to endorse 
  *     or promote products derived from this software without 
  *     specific prior written permission.
@@ -39,6 +33,8 @@
  * THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF 
  * SUCH DAMAGE.
  *
+ * $Id$
+ *
  */
 
 
@@ -51,6 +47,7 @@
 #include "xia_assert.h"
 
 #include "handel_errors.h"
+#include "handel_log.h"
 
 
 /*****************************************************************************
@@ -306,6 +303,7 @@ HANDEL_EXPORT int HANDEL_API xiaStopRun(int detChan)
 		
 		while (detChanSetElem != NULL)
 		  {
+			/* Recursive loop here to stop run for all channels */
 			status = xiaStopRun((int)detChanSetElem->channel);
 			
 			if (status != XIA_SUCCESS)
@@ -357,7 +355,6 @@ HANDEL_EXPORT int HANDEL_API xiaGetRunData(int detChan, char *name, void *value)
     XiaDefaults *defaults = NULL;
 	
 	Module *m = NULL;
-
 
     elemType = xiaGetElemType((unsigned int)detChan);
 
@@ -414,7 +411,8 @@ HANDEL_EXPORT int HANDEL_API xiaGetRunData(int detChan, char *name, void *value)
 		
 	  case 999:
 		status = XIA_INVALID_DETCHAN;
-		xiaLogError("xiaGetRunData", "detChan number is not in the list of valid values ", status);
+		sprintf(info_string, "run data %s detChan number = %d is not in the list of valid values", name, detChan);
+		xiaLogError("xiaGetRunData", info_string, status);
 		return status;
 		break;
       default:
@@ -449,14 +447,13 @@ HANDEL_EXPORT int HANDEL_API xiaDoSpecialRun(int detChan, char *name, void *info
 
     PSLFuncs localFuncs;
 
-    /* The following declarations are used to retrieve the preampGain and gainScale */
+    /* The following declarations are used to retrieve the preampGain. */
     Module *module = NULL;
     Detector *detector = NULL;
     char *boardAlias;
     char *detectorAlias;
     int detector_chan;
     unsigned int modChan;
-    double gainScale;
 
     elemType = xiaGetElemType((unsigned int)detChan);
 
@@ -491,9 +488,8 @@ HANDEL_EXPORT int HANDEL_API xiaDoSpecialRun(int detChan, char *name, void *info
 		detectorAlias = module->detector[modChan];
 		detector_chan = module->detector_chan[modChan];
 		detector      = xiaFindDetector(detectorAlias);
-		gainScale     = module->gain[modChan];
 		
-		status = localFuncs.doSpecialRun(detChan, name, gainScale, info, defaults, 
+		status = localFuncs.doSpecialRun(detChan, name, info, defaults, 
 										 detector, detector_chan);
 		
 		if (status != XIA_SUCCESS)

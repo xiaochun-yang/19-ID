@@ -209,10 +209,15 @@ class DoubleCrystalMonoView {
         mono_slit_spear \
         mono_slit_lower \
         mono_slit_vert \
-	mono_crystal2_perp \
-	mono_crystal2_para \
-        mono_pitch \
-        mono_roll \
+	mono_c2_perp \
+	mono_c2_para \
+        mono_c2_pitch \
+        mono_c2_roll \
+	mono_c2_yaw\
+	mono_c2_bend_1\
+	mono_c2_bend_2\
+	mono_c2_bend\
+	mono_c1_bend\
         mono_theta \
         energy \
         ]
@@ -227,8 +232,9 @@ class DoubleCrystalMonoView {
       motorView mono_slit_spear 120 189 n
       motorView mono_slit_lower 267 244 n
       motorView mono_slit_vert 230 42 e
-      motorView mono_pitch 645 130 w
-      motorView mono_roll 485 150 s
+      motorView mono_c2_pitch 645 130 w
+      motorView mono_c2_roll 645 150 w
+      motorView mono_c2_yaw 645 170 w
       motorView mono_theta 515 263 n
       motorView energy 725 226 n
 
@@ -239,8 +245,8 @@ class DoubleCrystalMonoView {
 	   motorArrow mono_slit_spear 202 164 {} 168 187 193 157 173 172
 	   motorArrow mono_slit_lower 248 199 {} 248 244 258 204 258 239
 	   motorArrow mono_slit_vert 248 41 {} 248 86 238 46 238 81 
-	   motorArrow mono_pitch 610 205 {640 195 640 155} 610 145 625 213 625 138
-	   motorArrow mono_roll 470 165 { 480 150 490 170 480 190 } 470 175 463 158 463 181
+	   motorArrow mono_c2_pitch 610 205 {640 195 640 155} 610 145 625 213 625 138
+	   motorArrow mono_c2_roll 470 165 { 480 150 490 170 480 190 } 470 175 463 158 463 181
       motorArrow mono_theta 540 230 {530 260 490 260} 480 230 551 238 467 241
 
       # draw the ssrl slit 
@@ -467,12 +473,17 @@ class DoubleCrystalMonoViewDoubleSetID19 {
 
     public proc getMotorList { } {
         return [list \
-        mono_crystal2_para \
-        mono_crystal2_perp \
-        mono_pitch \
-        mono_roll \
+        mono_c2_para \
+        mono_c2_perp \
+        mono_c2_pitch \
+        mono_c2_roll \
+	mono_c2_yaw \
+	mono_c2_bend_1 \
+	mono_c2_bend_2 \
+	mono_c2_bend \
+	mono_c1_bend \
         mono_theta \
-        energy 
+        energy \
 #	mono_fine_pitch
         ]
     }
@@ -487,11 +498,16 @@ class DoubleCrystalMonoViewDoubleSetID19 {
         loadBackdropImage id19-mono-yang-8.gif
                 place $itk_component(control) -x 220 -y 460
 
-        motorView mono_crystal2_para 510 130 se
-        motorView mono_crystal2_perp 670 130 se
-     #  motorView mono_pitch 130 314 n
-	motorView mono_pitch 670 300 se
-        motorView mono_roll 190 200 sw
+        motorView mono_c2_para 510 80 ne
+        motorView mono_c2_perp 670 80 ne
+	motorView mono_c2_bend_1 50 140 nw
+	motorView mono_c2_bend_2 185 140 nw
+	motorView mono_c2_bend 185 80 nw
+	motorView mono_c1_bend 50 200 nw
+     #  motorView mono_c2_pitch 130 314 n
+	motorView mono_c2_pitch 670 300 se
+        motorView mono_c2_roll  670 370 se
+	motorView mono_c2_yaw   670 440 se
         motorView mono_theta 190 420 s
         motorView energy 330 420 s
 #        motorView mono_fine_pitch 430 420 s
@@ -499,16 +515,16 @@ class DoubleCrystalMonoViewDoubleSetID19 {
 #	ion_chamber_view i0 50 550 w
 #        ion_chamber_view i1 1 573 168
 
-#        moveHotSpot mono_crystal2_para 676 222 positive 0
-#        moveHotSpot mono_crystal2_para 655 229 negative 0
+#        moveHotSpot mono_c2_para 676 222 positive 0
+#        moveHotSpot mono_c2_para 655 229 negative 0
 
-#        moveHotSpot mono_crystal2_perp 535 273 positive 0
-#        moveHotSpot mono_crystal2_perp 509 279 negative 0
+#        moveHotSpot mono_c2_perp 535 273 positive 0
+#        moveHotSpot mono_c2_perp 509 279 negative 0
 
-#        moveHotSpot mono_pitch 143 260 positive 0
-#        moveHotSpot mono_pitch 143 291 negative 0
-#        moveHotSpot mono_roll 120 68  positive 0
-#        moveHotSpot mono_roll 120 96  negative 0
+#        moveHotSpot mono_c2_pitch 143 260 positive 0
+#        moveHotSpot mono_c2_pitch 143 291 negative 0
+#        moveHotSpot mono_c2_roll 120 68  positive 0
+#        moveHotSpot mono_c2_roll 120 96  negative 0
 
 #        moveHotSpot mono_theta 414 304 positive 0
 #        moveHotSpot mono_theta 328 304 negative 0

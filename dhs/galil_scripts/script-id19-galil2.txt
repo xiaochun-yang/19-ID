@@ -3,6 +3,15 @@
 //
 #AUTO
 HOMED=1
+MOA
+MT 1,2.5,2.5,2,2,2,2.5,2.5
+CEA=0
+CN1,1
+ER-1
+//set speed of phi homing
+HVA=40000
+BR0
+SHA
 EN
 #HOMA
 JGA=900000
@@ -25,6 +34,8 @@ MCA
 WT500
 DPA=0
 DEA=0
+CB10;SB9
+CB11;SB12
 EN
 #HOMG
 JGG=-10000
@@ -409,7 +420,10 @@ AT 0
 //IHA=>-2
 //IHB=>-2
 EN
-//
+//make dummy #ION because the C program call this funtion
+#ION
+EN
+
 //Function: ExpServo (Exposure using Phi Servo Motor)
 //This script expects the following hardware configuration:
 // 1) Phi motor to be on the set on the ~a variable axis.
@@ -421,12 +435,12 @@ EN
 // ShutCh..Shutter channel
 // KSVal.  The desired value for KS that was used to calculate the ramp time.
 // RampCnt The number of counts required to get up to ExpVel
+// Trigger Digital output D0 which connect detector trgger.
 #Expose
-//yangx The secondard shutter must be open (ssrl doesn't have the 2nd shutter)
-//I manually open the second shutter which is channel 1
-//CB 1
-CB 11
-KS~a=KSVal
+Trigger = 1
+//the trigger is assigned to galil2 DO1 port. (CB on 5V, SB off 0V).  
+SB Trigger
+//KS~a=KSVal
 // OcDir..Output compare direction
 //MotErr is some extra counts to give a minimum counts for rollback
 IF @ABS[ExpVel] < 100
@@ -458,10 +472,10 @@ MG{EF} "log_info ShutCh", ShutCh
 //Set the phi encoder position to 0 so that we can use zero to trigger the output compare.
 // This is ok because the encoder is not used for anything else...
 //Encoder is on channel H!  Thus DPH=0 to set the trigger position.
-DPH=0
+//DPH=0
 //Move to ready position
-//yangx original CB Shutch
-SB ShutCh
+//close the shuttter CB Shutch
+CB ShutCh
 //Disable the output compare while we get into position
 //OCH=-1
 MG{EF} "log_info Expose start"
@@ -477,17 +491,18 @@ JP #WtRv1, ExpVel < 0
 MG{EF} "log_info Forward motor"
 #WtFw1
 JP #WtFw1, _TD~a < ShutOpen
-//yangx original SB ShutCh
-CB ShutCh
+//open the shutter
+SB ShutCh
 //wait 10 millsec and trigger detector
-SB 11
+//WT 10
+CB Trigger
 JP #Cont1
 #WtRv1    //reverse direction
 JP #WtRv1, _TD~a > ShutOpen
-//yangx original SB ShutCh
-CB ShutCh
-//trigger the shutter
-SB 11
+//open the shutter SB ShutCh
+SB ShutCh
+//trigger the detector to start data collection
+CB Trigger
 #Cont1
 //tell the dhs that the shutter is open
 MG{EF} "dtoh_shutter_open", ShutCh
@@ -496,22 +511,23 @@ JP #WtRv2, ExpVel < 0
 #WtFw2
 JP #WtFw2, _TD~a < ExpEnd
 //tell the dhs that the shutter is closed
-//yangx original CB ShutCh
-SB ShutCh
-//trigger detector to stop
-CB 11
+//close the shutter CB ShutCh
+CB ShutCh
+//trigger detector to stop the data collection
+SB Trigger
 JP #Cont2
 #WtRv2
 JP #WtRv2, _TD~a > ExpEnd
-//yangx original CB ShutCh
-SB ShutCh
+//close the shutter CB ShutCh
+CB ShutCh
 //trigger detector to stop
+SB trigger
 #Cont2
-G{EF} "dtoh_shutter_closed ", ShutCh
+MG{EF} "dtoh_shutter_closed ", ShutCh
 //stop the motor
 #StopExp
-//yangx original CB ShutCh
-SB ShutCh
+//close the shutter CB ShutCh
+CB ShutCh
 //OCH=-1
 MC~a
 EN
@@ -524,8 +540,8 @@ EN
 //use this to get the same motor timing without opening the shutter.
 #NoExps
 //Close shutter and move to ready position
-//yangx original CB ShutCh
-SB ShutCh
+//close the shutter CB ShutCh
+CB ShutCh
 //Disable the output compare, because we don't want the shutter to open
 MG{EF} "log_info Expose start"
 PA~a=ReadyPos
@@ -538,8 +554,8 @@ AM~a
 EN
 #HALT
 MG{EF} "dtoh_shutter_closed", ShutCh
-//yangx original CB ShutCh
-SB ShutCh
+//close the shutter CB ShutCh
+CB ShutCh
 //#CMDERR
 //MG{EF} "dtoh_shutter_closed", ShutCh
 //CB ShutCh

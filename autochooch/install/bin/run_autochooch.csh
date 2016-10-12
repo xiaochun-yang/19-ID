@@ -81,11 +81,22 @@ if ( ! -e rawdata${uniqueName} ) then
 	exit
 endif
 
-# Run Benny_auto to generate curves
-${CHOOCHBIN}/Benny_auto ${uniqueName}
 
-# Run Chooch_auto to find f', f'' 
-${CHOOCHBIN}/Chooch_auto ${uniqueName}
+if ( ! -e ${CHOOCHBIN}/chooch ) then
+
+
+        # Run Benny_auto to generate curves
+        ${CHOOCHBIN}/Benny_auto ${uniqueName}
+
+
+        # Run Chooch_auto to find f', f'' 
+        ${CHOOCHBIN}/Chooch_auto ${uniqueName}
+
+else
+       ${CHOOCHBIN}/chooch -e $2 -a $3 -o anomfacs${uniqueName} $1 
+ 
+endif
+
 
 set parFile = ${beamline}${uniqueName}.par
 
@@ -105,10 +116,12 @@ echo "Removing tmp files"
 
 # Remove temporary files
 echo "Deleting temp files *${uniqueName}"
-rm -rf splinor${uniqueName} splinor_raw${uniqueName}
-rm -rf atomdata${uniqueName} atomname${uniqueName}
-rm -rf anomfacs${uniqueName} pre_poly${uniqueName} post_poly${uniqueName}
-rm -rf valuefile${uniqueName}
+
+if ( -e splinor${uniqueName} ) rm -rf splinor${uniqueName} splinor_raw${uniqueName}
+if ( -e atomdata${uniqueName} ) rm -rf atomdata${uniqueName} atomname${uniqueName}
+if ( -e anomfacs${uniqueName} ) rm -rf anomfacs${uniqueName} 
+if ( -e pre_poly${uniqueName} ) rm -fr pre_poly${uniqueName} post_poly${uniqueName}
+if ( -e valuefile${uniqueName} ) rm -rf valuefile${uniqueName}
 
 # done
 exit

@@ -265,16 +265,19 @@ proc collectRun_start { runNumber userName reuseDark sessionID args } {
             if {$runNumber == 0} {
 		        set numImages 1
             }
+	    
+puts "yangx 1111 numImages=$numImages"
             set sub_dir   [lindex $thisFrame 6]
 
             #set directoryNew [file join $directory $sub_dir]
             set directoryNew $directory
 
             set maxImagesOnDisk [lindex $detectorStatus [expr [lsearch $detectorStatus FREE_IMAGE_SPACE] +1]]
-            if {$maxImagesOnDisk < $numImages } {
-                #don't ask for more images than can fit on the pilatus ram disk
-                set numImages $maxImagesOnDisk
-            }
+puts "yangx 1112 maxImagesOnDisk=$maxImagesOnDisk"
+#yangx            if {$maxImagesOnDisk < $numImages } {
+#yangx                #don't ask for more images than can fit on the pilatus ram disk
+#yangx                set numImages $maxImagesOnDisk
+#yangx            }
 
 			move $axisMotor to $phiPosition
 			move $gMotorEnergy to $energyPosition
@@ -339,7 +342,7 @@ proc collectRun_start { runNumber userName reuseDark sessionID args } {
                 set collect_msg [lreplace $collect_msg 0 1 1 \
                 "collecting run $runNumber frames $displayStart - $displayEnd of $totalFrames"]
             }
-
+puts "yangx 1122 numImages=$numImages"
             set calcExposureTime [requestExposureTime_start $exposureTime $useDose]
 		    set operationHandle [start_waitable_operation detectorCollectShutterless \
 										$runNumber \
@@ -362,6 +365,7 @@ proc collectRun_start { runNumber userName reuseDark sessionID args } {
 
 		    set status "update"
 		    #loop over all intermediate messages from the detector
+puts "yangx 2222 numImages=$numImages"
 		    while { $status == "update" } {
 			    set result [wait_for_operation $operationHandle]
 			

@@ -1,11 +1,11 @@
-# table_yaw.tcl
+# table_id19_yaw.tcl
 
 
 proc table_yaw_initialize {} {
 	
 	# specify children devices
 	set_children table_horz_1 table_horz_2
-	set_siblings table__horz
+	set_siblings table_horz
 }
 
 
@@ -50,6 +50,12 @@ proc table_yaw_update {} {
 	return [table_yaw_calculate $table_horz_1 $table_horz_2]
 }
 
+#proc calculate_table_horz_1 { th ty } {
+#	return [expr $th + 402*$ty*3.14159/180]
+#}
+#proc calculate_table_horz_2 { th ty } {
+#        return [expr $th - 402*$ty*3.14159/180]
+#}
 
 proc table_yaw_calculate { th1 th2 } {
 

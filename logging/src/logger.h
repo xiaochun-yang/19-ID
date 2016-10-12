@@ -5,7 +5,7 @@
 
 #define SEVERE(s, f) severe(s, f)
 #define WARNING(s, f) warning(s, f)
-#define INFO(s, f) info(s, f)
+#define INFO(s, f) myinfo(s, f)
 #define CONFIG(s, f) config(s, f)
 #define FINE(s, f) fine(s, f)
 #define FINER(s, f) finer(s, f)
@@ -13,7 +13,7 @@
 
 #define SEVERE1(s, f, a1) severe(s, f, a1)
 #define WARNING1(s, f, a1) warning(s, f, a1)
-#define INFO1(s, f, a1) info(s, f, a1)
+#define INFO1(s, f, a1) myinfo(s, f, a1)
 #define CONFIG1(s, f, a1) config(s, f, a1)
 #define FINE1(s, f, a1) fine(s, f, a1)
 #define FINER1(s, f, a1) finer(s, f, a1)
@@ -21,7 +21,7 @@
 
 #define SEVERE2(s, f, a1, a2) severe(s, f, a1, a2)
 #define WARNING2(s, f, a1, a2) warning(s, f, a1, a2)
-#define INFO2(s, f, a1, a2) info(s, f, a1, a2)
+#define INFO2(s, f, a1, a2) myinfo(s, f, a1, a2)
 #define CONFIG2(s, f, a1, a2) config(s, f, a1, a2)
 #define FINE2(s, f, a1, a2) fine(s, f, a1, a2)
 #define FINER2(s, f, a1, a2) finer(s, f, a1, a2)
@@ -29,7 +29,7 @@
 
 #define SEVERE3(s, f, a1, a2, a3) severe(s, f, a1, a2, a3)
 #define WARNING3(s, f, a1, a2, a3) warning(s, f, a1, a2, a3)
-#define INFO3(s, f, a1, a2, a3) info(s, f, a1, a2, a3)
+#define INFO3(s, f, a1, a2, a3) myinfo(s, f, a1, a2, a3)
 #define CONFIG3(s, f, a1, a2, a3) config(s, f, a1, a2, a3)
 #define FINE3(s, f, a1, a2, a3) fine(s, f, a1, a2, a3)
 #define FINER3(s, f, a1, a2, a3) finer(s, f, a1, a2, a3)
@@ -37,7 +37,7 @@
 
 #define SEVERE4(s, f, a1, a2, a3, a4) severe(s, f, a1, a2, a3, a4)
 #define WARNING4(s, f, a1, a2, a3, a4) warning(s, f, a1, a2, a3, a4)
-#define INFO4(s, f, a1, a2, a3, a4) info(s, f, a1, a2, a3, a4)
+#define INFO4(s, f, a1, a2, a3, a4) myinfo(s, f, a1, a2, a3, a4)
 #define CONFIG4(s, f, a1, a2, a3, a4) config(s, f, a1, a2, a3, a4)
 #define FINE4(s, f, a1, a2, a3, a4) fine(s, f, a1, a2, a3, a4)
 #define FINER4(s, f, a1, a2, a3, a4) finer(s, f, a1, a2, a3, a4)
@@ -45,7 +45,7 @@
 
 #define SEVERE5(s, f, a1, a2, a3, a4, a5) severe(s, f, a1, a2, a3, a4, a5)
 #define WARNING5(s, f, a1, a2, a3, a4, a5) warning(s, f, a1, a2, a3, a4, a5)
-#define INFO5(s, f, a1, a2, a3, a4, a5) info(s, f, a1, a2, a3, a4, a5)
+#define INFO5(s, f, a1, a2, a3, a4, a5) myinfo(s, f, a1, a2, a3, a4, a5)
 #define CONFIG5(s, f, a1, a2, a3, a4, a5) config(s, f, a1, a2, a3, a4, a5)
 #define FINE5(s, f, a1, a2, a3, a4, a5) fine(s, f, a1, a2, a3, a4, a5)
 #define FINER5(s, f, a1, a2, a3, a4, a5) finer(s, f, a1, a2, a3, a4, a5)
@@ -288,7 +288,7 @@ void log_r(logger_t* self, log_record_t* record);
 void loglog(logger_t* self, log_level_t* level, const char* format, ...);
 void severe(logger_t* self, const char* format, ...);
 void warning(logger_t* self, const char* format, ...);
-void info(logger_t* self, const char* format, ...);
+void myinfo(logger_t* self, const char* format, ...);
 void config(logger_t* self, const char* format, ...);
 void fine(logger_t* self, const char* format, ...);
 void finer(logger_t* self, const char* format, ...);

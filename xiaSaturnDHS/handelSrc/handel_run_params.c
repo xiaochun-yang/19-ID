@@ -1,15 +1,7 @@
 /*
- * handel_run_params.c
- *
- * Created 11/09/01 -- PJF
- *
- * This file contains the routines relating to
- * control of the run parameters, such as
- * xiaSetAcquitionValues, xiaGainChange, etc...
- *
- * Copyright (c) 2002,2003,2004, X-ray Instrumentation Associates
- *               2005, XIA LLC
- * All rights reserved.
+ * Copyright (c) 2002-2004 X-ray Instrumentation Associates
+ *               2005-2014 XIA LLC
+ * All rights reserved
  *
  * Redistribution and use in source and binary forms, 
  * with or without modification, are permitted provided 
@@ -22,7 +14,7 @@
  *     above copyright notice, this list of conditions and the 
  *     following disclaimer in the documentation and/or other 
  *     materials provided with the distribution.
- *   * Neither the name of X-ray Instrumentation Associates 
+ *   * Neither the name of XIA LLC 
  *     nor the names of its contributors may be used to endorse 
  *     or promote products derived from this software without 
  *     specific prior written permission.
@@ -41,6 +33,7 @@
  * THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF 
  * SUCH DAMAGE.
  *
+ *
  */
 
 
@@ -48,12 +41,13 @@
 
 #include "xia_common.h"
 #include "xia_assert.h"
-
-#include "handeldef.h"
 #include "xia_handel_structures.h"
 #include "xia_handel.h"
 #include "xia_system.h"
+
+#include "handeldef.h"
 #include "handel_errors.h"
+#include "handel_log.h"
 
 
 /** Static Prototypes **/
@@ -74,7 +68,6 @@ HANDEL_EXPORT int HANDEL_API xiaSetAcquisitionValues(int detChan, char *name, vo
   int elemType;
   int detector_chan;
 
-  double gainScale;
   double savedValue;
 
   unsigned int modChan;
@@ -150,9 +143,6 @@ HANDEL_EXPORT int HANDEL_API xiaSetAcquisitionValues(int detChan, char *name, vo
 	  
 	  defaults    = xiaGetDefaultFromDetChan((unsigned int)detChan);
 	  
-	  sprintf(info_string, "defaults->alias = %s", defaults->alias);
-	  xiaLogDebug("xiaSetAcquisitionValues", info_string);
-
 	  boardAlias  = xiaGetAliasFromDetChan(detChan);
 	  module      = xiaFindModule(boardAlias);
 	  modChan     = xiaGetModChan((unsigned int)detChan);
@@ -164,8 +154,6 @@ HANDEL_EXPORT int HANDEL_API xiaSetAcquisitionValues(int detChan, char *name, vo
 	  detectorAlias 		= module->detector[modChan];
 	  detector_chan 		= module->detector_chan[modChan];
 	  detector      		= xiaFindDetector(detectorAlias);
-	  /*	  preampGain    		= detector->gain[detector_chan];*/
-	  gainScale             = module->gain[modChan];
 	  currentFirmware	    = &module->currentFirmware[modChan];
 	  
 	  switch (detector->type)
@@ -223,15 +211,15 @@ HANDEL_EXPORT int HANDEL_API xiaSetAcquisitionValues(int detChan, char *name, vo
 	  
 	  status = localFuncs.setAcquisitionValues(detChan, name, value, defaults,
 											   firmwareSet, currentFirmware,
-											   detectorType, gainScale, detector,
+											   detectorType, detector,
 											   detector_chan, module, modChan); 
 	  
-	  if (status != XIA_SUCCESS)
-		{
-		  sprintf(info_string, "Unable to set acquisition values for detChan %d", detChan);
+	  if (status != XIA_SUCCESS) {
+		  sprintf(info_string, "Unable to set '%s' to %0.3f for detChan %d.",
+                  name, *((double *)value), detChan);
 		  xiaLogError("xiaSetAcquisitionValues", info_string, status);
 		  return status;
-		}
+      }
 	  
 	  break;
 	  
@@ -477,8 +465,7 @@ HANDEL_EXPORT int HANDEL_API xiaRemoveAcquisitionValues(int detChan, char *name)
 
       status = localFuncs.userSetup(detChan, defaults, fs,
                                     &(m->currentFirmware[modChan]), detType,
-                                    m->gain[modChan], det,
-                                    m->detector_chan[modChan], m, modChan);
+                                    det, m->detector_chan[modChan], m, modChan);
 
       if (status != XIA_SUCCESS) {
         sprintf(info_string, "Error updating acquisition values after '%s' "
@@ -493,7 +480,6 @@ HANDEL_EXPORT int HANDEL_API xiaRemoveAcquisitionValues(int detChan, char *name)
 	  sprintf(info_string, "Specified acquisition value %s is a required value for detChan %d", name, detChan);
 	  xiaLogError("xiaRemoveAcquisitionValues", info_string, status);
 	  return status;
-	  break;
 	}
 
 	break;
@@ -510,7 +496,8 @@ HANDEL_EXPORT int HANDEL_API xiaRemoveAcquisitionValues(int detChan, char *name)
 
 	  if (status != XIA_SUCCESS) {
 
-		sprintf(info_string, "Error removing %s from detChan %d", name, detChanSetElem->channel);
+		sprintf(info_string, "Error removing %s from detChan %u", name,
+                detChanSetElem->channel);
 		xiaLogError("xiaRemoveAcquisitionValues", info_string, status);
 		return status;
 	  }
@@ -606,8 +593,8 @@ HANDEL_EXPORT int HANDEL_API xiaUpdateUserParams(int detChan)
 	  status = xiaUpdateUserParams(detChanSetElem->channel);
 
 	  if (status != XIA_SUCCESS) {
-
-		sprintf(info_string, "Error setting user params for detChan %d", detChanSetElem->channel);
+		sprintf(info_string, "Error setting user params for detChan %u",
+                detChanSetElem->channel);
 		xiaLogError("xiaUpdateUserParams", info_string, status);
 		return status;
 	  }
@@ -643,15 +630,10 @@ HANDEL_EXPORT int HANDEL_API xiaGainOperation(int detChan, char *name, void *val
 {
   int status;
   int elemType;
-  int detector_chan;
 
   unsigned int modChan;
 
-  double preampGain;
-  double gainScale;
-
   char boardType[MAXITEM_LEN];
-  char detectorType[MAXITEM_LEN];
 
   char *boardAlias;
   char *detectorAlias;
@@ -665,8 +647,6 @@ HANDEL_EXPORT int HANDEL_API xiaGainOperation(int detChan, char *name, void *val
   Module *module = NULL;
 
   XiaDefaults *defaults = NULL;
-
-  CurrentFirmware *currentFirmware = NULL;
 
   PSLFuncs localFuncs;
 
@@ -698,34 +678,10 @@ HANDEL_EXPORT int HANDEL_API xiaGainOperation(int detChan, char *name, void *val
 	  module        		= xiaFindModule(boardAlias);
 	  modChan       		= xiaGetModChan((unsigned int)detChan);
 	  detectorAlias 		= module->detector[modChan];
-	  detector_chan 		= module->detector_chan[modChan];
 	  detector      		= xiaFindDetector(detectorAlias);
-	  preampGain    		= detector->gain[detector_chan];
-	  gainScale             = module->gain[modChan];
-	  currentFirmware 	    = &module->currentFirmware[modChan]; 
-
-	  switch (detector->type)
-		{
-		case XIA_DET_RESET:
-		  strcpy(detectorType, "RESET");
-		  break;
-
-		case XIA_DET_RCFEED:
-		  strcpy(detectorType, "RC");
-		  break;
-
-		default:
-		case XIA_DET_UNKNOWN:
-		  status = XIA_MISSING_TYPE;
-		  sprintf(info_string, "No detector type specified for detChan %d", detChan);
-		  xiaLogError("xiaGainOperation", info_string, status);
-		  return status;
-		  break;
-		}
-
-	  status = localFuncs.gainOperation(detChan, name, value, detector, detector_chan, 
-										defaults, gainScale, currentFirmware, detectorType,
-										module);
+          
+	  status = localFuncs.gainOperation(detChan, name, value, detector,
+                                        modChan, module, defaults);
 
 	  if (status != XIA_SUCCESS)
 		{
@@ -775,145 +731,6 @@ HANDEL_EXPORT int HANDEL_API xiaGainOperation(int detChan, char *name, void *val
 
 /*****************************************************************************
  *
- * This routine adjusts the gain by some delta value. The implementation of
- * this is based in XerXes and HanDeL doesn't do too much with it.
- *
- *****************************************************************************/
-HANDEL_EXPORT int HANDEL_API xiaGainChange(int detChan, double deltaGain)
-{
-  int status;
-  int elemType;
-  int detector_chan;
-
-  unsigned int modChan;
-
-  double gainScale;
-
-  char boardType[MAXITEM_LEN];
-  char detectorType[MAXITEM_LEN];
-
-  char *boardAlias;
-  char *detectorAlias;
-
-  DetChanElement *detChanElem = NULL;
-
-  DetChanSetElem *detChanSetElem = NULL;
-
-  Detector *detector = NULL;
-
-  Module *module = NULL;
-
-  XiaDefaults *defaults = NULL;
-
-  CurrentFirmware *currentFirmware = NULL;
-
-  PSLFuncs localFuncs;
-
-  elemType = xiaGetElemType(detChan);
-
-  switch(elemType)
-	{
-	case SINGLE:
-	  status = xiaGetBoardType(detChan, boardType);
-
-	  if (status != XIA_SUCCESS)
-		{
-		  sprintf(info_string, "Unable to get boardType for detChan %d", detChan);
-		  xiaLogError("xiaGainChange", info_string, status);
-		  return status;
-		}
-
-	  status = xiaLoadPSL(boardType, &localFuncs);
-
-	  if (status != XIA_SUCCESS)
-		{
-		  sprintf(info_string, "Unable to load PSL funcs for detChan %d", detChan);
-		  xiaLogError("xiaGainChange", info_string, status);
-		  return status;
-		}
-
-	  defaults      		= xiaGetDefaultFromDetChan((unsigned int)detChan);
-	  boardAlias    		= xiaGetAliasFromDetChan(detChan);
-	  module        		= xiaFindModule(boardAlias);
-	  modChan       		= xiaGetModChan((unsigned int)detChan);
-	  detectorAlias 		= module->detector[modChan];
-	  detector_chan 		= module->detector_chan[modChan];
-	  detector      		= xiaFindDetector(detectorAlias);
-	  /*	  preampGain    		= detector->gain[detector_chan];*/
-	  gainScale             = module->gain[modChan];
-	  currentFirmware 	    = &module->currentFirmware[modChan]; 
-
-	  switch (detector->type)
-		{
-		case XIA_DET_RESET:
-		  strcpy(detectorType, "RESET");
-		  break;
-
-		case XIA_DET_RCFEED:
-		  strcpy(detectorType, "RC");
-		  break;
-
-		default:
-		case XIA_DET_UNKNOWN:
-		  status = XIA_MISSING_TYPE;
-		  sprintf(info_string, "No detector type specified for detChan %d", detChan);
-		  xiaLogError("xiaGainChange", info_string, status);
-		  return status;
-		  break;
-		}
-
-	  status = localFuncs.gainChange(detChan, deltaGain, defaults, currentFirmware,
-									 detectorType, gainScale, detector,
-									 detector_chan, module, modChan);
-
-	  if (status != XIA_SUCCESS)
-		{
-		  sprintf(info_string, "Error changing the gain for detChan %d", detChan);
-		  xiaLogError("xiaGainChange", info_string, status);
-		  return status;
-		}
-
-	  break;
-
-	case SET:
-	  detChanElem = xiaGetDetChanPtr(detChan);
-
-	  detChanSetElem = detChanElem->data.detChanSet;
-
-	  while (detChanSetElem != NULL)
-		{
-		  status = xiaGainChange(detChanSetElem->channel, deltaGain);
-
-		  if (status != XIA_SUCCESS)
-			{
-			  sprintf(info_string, "Error changing the gain for detChan %d", detChan);
-			  xiaLogError("xiaGainChange", info_string, status);
-			  return status;
-			}
-
-		  detChanSetElem = getListNext(detChanSetElem);
-		}
-
-	  break;
-
-	case 999:
-	  status = XIA_INVALID_DETCHAN;
-	  xiaLogError("xiaGainChange", "detChan number is not in the list of valid values ", status);
-	  return status;
-	  break;
-	default:
-	  status = XIA_UNKNOWN;
-	  xiaLogError("xiaGainChange", "Should not be seeing this message", status);
-	  return status;
-	  break;
-	}
-
-  return XIA_SUCCESS;
-}
-
-
-/*****************************************************************************
- *
  * This routine adjusts the gain by modifying the preamp gain. This is the
  * routine that should be called for things like gain matching.
  *
@@ -924,8 +741,6 @@ HANDEL_EXPORT int HANDEL_API xiaGainCalibrate(int detChan, double deltaGain)
   int elemType;
 
   unsigned int modChan;
-
-  double gainScale;
 
   char boardType[MAXITEM_LEN];
 
@@ -973,10 +788,9 @@ HANDEL_EXPORT int HANDEL_API xiaGainCalibrate(int detChan, double deltaGain)
 	  modChan       = xiaGetModChan((unsigned int)detChan);
 	  detectorAlias = module->detector[modChan];
 	  detector      = xiaFindDetector(detectorAlias);
-	  gainScale     = module->gain[modChan];
 
 	  status = localFuncs.gainCalibrate(detChan, detector, modChan, module,
-										defaults, deltaGain, gainScale);
+										defaults, deltaGain);
 
 	  if (status != XIA_SUCCESS)
 		{
@@ -1263,16 +1077,14 @@ HANDEL_EXPORT int HANDEL_API xiaGetNumParams(int detChan, unsigned short *value)
  */
 HANDEL_STATIC boolean_t HANDEL_API xiaIsUpperCase(char *string)
 {
-  int len;
-  int i;
-
+  size_t len, i;
 
   len = strlen(string);
 
   for (i = 0; i < len; i++) {
 
-	if (!isupper(string[i]) &&
-		!isdigit(string[i])) {
+      if (!isupper((int)string[i]) &&
+          !isdigit((int)string[i])) {
 
 	  return FALSE_;
 	}

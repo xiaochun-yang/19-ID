@@ -77,7 +77,7 @@ class HutchTab {
 			keep -gonioKappaDevice -detectorVertDevice
 			keep -detectorHorzDevice -detectorZDevice -energyDevice
 			keep -attenuationDevice -beamWidthDevice -beamHeightDevice
-			keep -beamstopDevice -beamstopHorzDevice -beamstopVertDevice
+			keep -beamstopDevice
 		}
 
         #create a frame to host resolution and sample wash
@@ -111,8 +111,8 @@ class HutchTab {
 		$itk_component(resolution) configure -detectorYWidget [$itk_component(hutchWidget) getDetectorVertWidget ]
 		$itk_component(resolution) configure -detectorZWidget [$itk_component(hutchWidget) getDetectorZWidget ]
 		$itk_component(resolution) configure -beamstopZWidget [$itk_component(hutchWidget) getBeamstopZWidget ]
-		$itk_component(resolution) configure -beamstopXWidget [$itk_component(hutchWidget) getBeamstopHorzWidget ]
-		$itk_component(resolution) configure -beamstopYWidget [$itk_component(hutchWidget) getBeamstopVertWidget ]
+#		$itk_component(resolution) configure -beamstopXWidget [$itk_component(hutchWidget) getBeamstopHorzWidget ]
+#		$itk_component(resolution) configure -beamstopYWidget [$itk_component(hutchWidget) getBeamstopVertWidget ]
 		$itk_component(resolution) configure -energyWidget [$itk_component(hutchWidget) getEnergyWidget ]
 
 	

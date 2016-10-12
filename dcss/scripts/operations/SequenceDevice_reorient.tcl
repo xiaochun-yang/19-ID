@@ -3135,7 +3135,7 @@ puts "SequenceDevice.tcl loaded successfully"
             }
             set column [string index $port 0]
             set row [string range $port 1 end]
-            if {[lsearch {A B C D E F G H I J K L} $column] < 0} {
+            if {[lsearch {A B C D E F G H I J K L M N O P} $column] < 0} {
                 set scn_crystal_msg "warning: $portID has bad column $column"
                 set result [lreplace $result $i $i 0]
                 puts "checkCrystalList turn off $i: bad column"

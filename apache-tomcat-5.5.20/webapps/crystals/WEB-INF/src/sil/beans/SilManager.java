@@ -31,7 +31,7 @@ public class SilManager
 	private String filePrefix = "excelData";
 	private String fileCrystalData2Sil = "xsltCrystalData2Sil.xsl";
 
-	String portFirstChar = "ABCDEFGHIJKL";
+	String portFirstChar = "ABCDEFGHIJKLMNOP";
 	int maxPort = 16;
 	String directoryChars = "_-\\/";
 	String crystalIdChars = "_-";

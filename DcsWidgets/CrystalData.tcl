@@ -15,8 +15,9 @@ proc createDefaultSpreadsheet { } {
     set gDefaultSpreadsheetLeft {}
     set gDefaultSpreadsheetMiddle {}
     set gDefaultSpreadsheetRight {}
-#yangx change from 8 to 16 below for 16 samples.
-    foreach x {A B C D E F G H I J K L} {
+#yangx change from 8 to 16 below for 16 samples, letter extent from L to P.
+#need to add right-2 in the future. we have 16 pucks
+    foreach x {A B C D E F G H I J K L M N O P} {
         for {set y 1} {$y<=16} {incr y} {
             set port ${x}$y
             lappend gDefaultSpreadsheetNo [list $port c_$port 0 0 0 0 0 0 0]
@@ -133,7 +134,7 @@ proc generateIndexMap { cassette_index port_index spreadsheetRef cassette_status
             set port [lindex $row $port_index]
             set port_column [string index $port 0]
             set port_row [string range $port 1 end]
-            set CIndex [lsearch {A B C D E F G H I J K L} $port_column]
+            set CIndex [lsearch {A B C D E F G H I J K L M N O P} $port_column]
             set RIndex [lsearch {1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16} \
             $port_row]
             if {$CIndex < 0 || $RIndex < 0} {
@@ -172,7 +173,7 @@ proc generateIndexMap { cassette_index port_index spreadsheetRef cassette_status
         set port [lindex $row $port_index]
         set port_column [string index $port 0]
         set port_row [string range $port 1 end]
-        set CIndex [lsearch {A B C D E F G H I J K L} $port_column]
+        set CIndex [lsearch {A B C D E F G H I J K L M N O P} $port_column]
         set RIndex [lsearch {1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16} $port_row]
         if {$CIndex < 0 || $RIndex < 0} {
             lappend resultList -1

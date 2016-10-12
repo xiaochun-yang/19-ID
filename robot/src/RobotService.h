@@ -53,6 +53,7 @@ private:
 	void MountCrystal();
 	void DismountCrystal();
 	void CenterGrabber();
+	void SafePosition();
 	void DryGrabber();
 	void MoveToNewEnergy();
 	void GetCurrentEnergy();

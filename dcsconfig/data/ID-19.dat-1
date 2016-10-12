@@ -26,13 +26,45 @@ galil4
 3
 localhost 2
 
+galil5
+3
+localhost 2
+
+galil6
+3
+localhost 2
+
+galil7
+3
+localhost 2
+
+galil8
+3
+localhost 2
+
+galil9
+3
+localhost 2
+
+galil10
+3
+localhost 2
+
+galil11
+3
+localhost 2
+
 camera
+3
+localhost 2
+
+inline_camera
 3
 localhost 2
 
 robot
 3
-130.199.198.72 2
+localhost 2
 
 imperson
 3
@@ -48,10 +80,10 @@ localhost 2
 
 analogInStatus1
 13
-galil2 analogInStatus1
+galil7 analogInStatus1
 0 1 1 1 1
 0 1 1 1 1
-0.023500 -0.010700 0.029900 3.463200 2.596400 2.597400 2.597000 0.020400
+2.039800 2.056000 0.006700 2.574100 3.433500 2.574000 2.574800 2.574800
 
 get_robotstate
 11
@@ -59,39 +91,27 @@ robot get_robotstate
 1 1 1 1 1
 1 1 1 1 1
 
-open_lid
+center_grabber
 11
-robot open_lid
+robot center_grabber
 1 1 1 1 1
 1 1 1 1 1
 
-close_lid
+dry_grabber
 11
-robot close_lid
+robot dry_grabber
 1 1 1 1 1
 1 1 1 1 1
 
-warm_up_grabber
+cool_grabber
 11
-robot warm_up_grabber
+robot coool_grabber
 1 1 1 1 1
 1 1 1 1 1
 
-cool_down_grabber
+clear_mounted_state
 11
-robot coool_down_grabber
-1 1 1 1 1
-1 1 1 1 1
-
-set_sample_address
-11
-robot set_sample_address
-0 0 0 1 1
-0 0 0 0 0
-
-screening_mode
-11
-robot screening_mode
+robot clear_mounted_state
 0 0 0 1 1
 0 0 0 0 0
 
@@ -186,7 +206,7 @@ robot_cassette
 self standardString
 0 1 1 1 1
 0 1 1 1 1
-3 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 u u u u u u u u u u u 1 1 1 1 1 1 3 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3 1 1 1 1 u u u u u u u u u u u u u u 1 1 1 1 1 1 u u u u u u u u 1 1 u u u u u u u u 1 1 1 1 1 1 u u u u u u u u u u 1 1 1 1 1 1 u u 1 1 1 1 1 1 u u u u u u u u u u u u u u u u u u u 0 1 1 1 1
+3 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 u u u u u u u u u u u 1 1 1 1 1 1 3 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3 1 1 1 1 u u u u u u u u u u u u u u 1 1 1 1 1 1 u u u u u u u u u u u u u u u u u u 1 1 1 1 1 1 u u u u u u u u u u 1 1 1 1 1 1 u u 1 1 1 1 1 1 u u u u u u u u u u u u u u u u u u u 0 1 1 1 1
 
 robot_probe
 13
@@ -242,7 +262,7 @@ screening_msg
 self standardString
 0 1 1 1 1
 0 1 1 1 1
-rA1 dismounted
+lA3 dismounted
 
 ISampleMountingDevice
 11
@@ -331,107 +351,96 @@ self pauseDataCollection
 
 table_vert_1
 1
-simDhs tablev1
+simDhs table_vert_1
 0 1 1 1 1
 0 0 0 0 0
 0
-16.912694 49.999984 0.500013 3145.921000 500 125 1573 1 1 0 1 0 0 mm
+0.000000 37.000000 -37.000000 94488.000000 50000 100 0 1 1 0 0 0 0 mm
 
 table_vert_2
 1
-simDhs tablev2
+simDhs table_vert_2
 0 1 1 1 1
 0 0 0 0 0
 0
-17.217851 49.999984 0.500013 3145.921000 500 125 1573 1 1 0 1 0 0 mm
+17.217900 50.000000 0.500000 94488.000000 50000 100 0 1 1 0 0 0 0 mm
+
+table_vert_3
+1
+simDhs table_vert_3
+0 1 1 1 1
+0 0 0 0 0
+0
+0.000000 37.000000 -37.000000 94488.000000 50000 100 0 1 1 0 1 0 0 mm
+
+table_horz_1
+1
+simDhs table_horz_1
+0 1 1 1 1
+0 0 0 0 0
+0
+0.000000 37.000000 -37.000000 20000.000000 10000 100 0 1 1 0 1 0 0 mm
+
+table_horz_2
+1
+simDhs table_horz_2
+0 1 1 1 1
+0 0 0 0 0
+0
+0.000000 37.000000 -37.000000 20000.000000 10000 100 0 1 1 0 1 1 0 mm
+
+detector_distance
+1
+simDhs table_d
+0 1 1 1 1
+0 0 0 0 0
+0
+0.000000 37.000000 -37.000000 20000.000000 10000 100 0 1 1 0 1 1 0 mm
 
 table_vert
 2
-self table_vert
+self table_id19_vert
 0 1 1 1 1
 0 0 0 0 0
 1
-16.999893 1000.000000 0.050000 0 0 0 0 mm
-table_vert_1 table_vert_2
+5.739300 1000.000000 0.050000 0 0 0 0 mm
+table_vert_1 table_vert_2 table_vert_3
 
 table_horz
 2
-self table_horz
+self table_id19_horz
 0 1 1 1 1
 0 0 0 0 0
 1
-25.096233 100.000000 -100.000000 0 0 0 0 mm
+0.000000 100.000000 -100.000000 0 0 0 0 mm
 table_horz_1 table_horz_2
 
 table_pitch
 2
-self table_pitch
+self table_id19_pitch
 0 1 1 1 1
 0 0 0 0 0
 1
--0.005663 100.000000 -100.000000 0 0 0 0 deg
-table_vert_1 table_vert_2
+-0.473526 100.000000 -100.000000 0 0 0 0 deg
+table_vert_1 table_vert_2 table_vert_3
 
-table_horz_1
-1
-simDhs tableh
+table_roll
+2
+self table_id19_roll
 0 1 1 1 1
 0 0 0 0 0
-0
-25.102524 38.500000 0.500000 1268.000000 600 300 -1268 1 1 0 1 0 0 mm
-
-table_horz_2
 1
-simDhs tableh2
-0 1 1 1 1
-0 0 0 0 0
-0
-0.134287 2.899973 -2.899973 1288.288000 800 300 129 1 1 0 1 1 0 mm
+1.345857 100.000000 -100.000000 0 0 0 0 deg
+table_vert_2 table_vert_3
 
 table_yaw
 2
-self table_yaw
+self table_id19_yaw
 0 1 1 1 1
 0 0 0 0 0
 1
-0.008011 2000.000000 -2000.000000 0 0 0 0 deg
+0.000000 2000.000000 -2000.000000 0 0 0 0 deg
 table_horz_1 table_horz_2
-
-table_v1_z
-2
-self table_v1_z
-1 1 1 1 1
-0 0 0 0 0
-0
--571.370000 100.000000 -100.000000 0 0 0 0 mm
-0
-
-table_v2_z
-2
-self table_v2_z
-1 1 1 1 1
-0 0 0 0 0
-0
-1270.690000 100.000000 -100.000000 0 0 0 0 mm
-0
-
-table_pivot_z
-2
-self standardVirtualMotor
-0 1 1 1 1
-0 0 0 0 0
-0
--45.000000 100.000000 -100.000000 0 0 0 0 mm
-0
-
-table_h2_z
-2
-self table_h2_z
-0 1 1 1 1
-0 0 0 0 0
-0
-960.501000 100.000000 -100.000000 0 0 0 0 mm
-0
 
 table_vert_offset
 2
@@ -478,72 +487,93 @@ self standardVirtualMotor
 -0.032785 100.000000 -100.000000 0 0 0 0 mm
 0
 
-mirror_vert
+bpm3_vert
 1
-simDhs mirror_vert
+galil7 bpm3_vert
 0 1 1 1 1
 0 0 0 0 0
 0
-2.626939 4.500408 -2.350204 1225.000000 500 125 -250 1 1 0 1 0 0 mm
+0.000000 1000.000000 -1000.000000 1.000000 1000 10 0 0 0 0 0 0 0 mm
+
+bpm3_horz
+1
+galil7 bpm3_horz
+0 1 1 1 1
+0 0 0 0 0
+0
+0.000000 1000.000000 -1000.000000 1.000000 1000 10 0 0 0 0 0 0 0 mm
+
+mirror_vert
+1
+galil7 mirror_vert
+0 1 1 1 1
+0 0 0 0 0
+0
+0.000000 10.000000 -10.000000 819200.000000 64000 100 0 1 1 0 1 0 0 mm
+
+mirror_vert_encoder
+12
+simDhs mirror_vert_encoder
+0 1 1 1 1
+0 1 1 1 1
+
+mirror_vert_offset
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 0 0 0 0
+0
+0.000000 100.000000 -100.000000 0 0 0 0 mm
+0
 
 mirror_horz
 1
-simDhs mirror_horz
+galil7 mirror_horz
 0 1 1 1 1
 0 0 0 0 0
 0
-2.626939 4.500408 -2.350204 1225.000000 500 125 -250 1 1 0 1 0 0 mm
+0.000000 10.000000 -10.000000 640000.000000 64000 100 20 0 0 0 1 0 0 mm
 
 mirror_pitch
 1
-simDhs mirror_pitch
+galil7 mirror_pitch
 0 1 1 1 1
 0 0 0 0 0
 0
-4.220331 5.300138 2.749540 869.600000 550 350 300 1 1 0 1 0 0 deg
+0.000000 17.840000 -17.820000 384000.000000 64000 100 0 0 0 0 0 0 0 mrad
 
 mirror_roll
 1
-simDhs mirror_pitch
+galil7 mirror_pitch
 0 1 1 1 1
 0 0 0 0 0
 0
-4.220331 5.300138 2.749540 869.600000 550 350 300 1 1 0 1 0 0 deg
+0.000000 17.990000 -17.890000 384000.000000 64000 100 0 1 1 0 0 0 0 mrad
 
-mirror_bend_upstream
+mirror_bend_1
 1
-simDhs mirror_bend_upstream
+galil7 mirror_bend_1
 0 1 1 1 1
 0 0 0 0 0
 0
-2.500230 2.500230 0.150161 1085.500000 1000 200 100 1 1 0 1 1 0 mm
+1.500000 7.400000 0.000000 1700000.000000 64000 100 0 1 1 0 0 0 0 mm
 
-mirror_bend_downstream
+mirror_bend_2
 1
-simDhs mirror_bend_downstream
+galil7 mirror_bend_2
 0 1 1 1 1
 0 0 0 0 0
 0
-2.500230 2.500230 0.150161 1085.500000 1000 200 100 1 1 0 1 1 0 mm
+1.500000 7.300000 -1.400000 1700000.000000 64000 100 0 0 0 0 0 0 0 mm
 
 mirror_bend
 2
-self mirror_bend_id19
+self STD_MOVE_TOGETHER
 0 1 1 1 1
 0 0 0 0 0
 1
-2.500230 2.500230 0.150161 0 0 0 0 mm
-mirror_bend_downstream mirror_bend_upstream
-
-mirror_bend_pos
-2
-self mirror_bend_id19
-0 1 1 1 1
-0 0 0 0 0
-1
-2.500230 2.500230 0.150161 0 0 0 0 mm
-mirror_bend_downstream mirror_bend_upstream
-
+1.500000 2.500230 0.150161 0 0 0 0 mm
+mirror_bend_1 mirror_bend_2
 
 mirror_slit_upper
 1
@@ -555,7 +585,23 @@ simDhs mirror_slit_upper
 
 mirror_slit_lower
 1
-simDhs mirror_slit_upper
+simDhs mirror_slit_lower
+0 1 1 1 1
+0 0 0 0 0
+0
+-3.708399 0.000000 -8.000000 157.750000 500 125 100 1 0 0 1 0 0 mm
+
+mirror_slit_lobs
+1
+simDhs mirror_slit_lobs
+0 1 1 1 1
+0 0 0 0 0
+0
+-3.708399 0.000000 -8.000000 157.750000 500 125 100 1 0 0 1 0 0 mm
+
+mirror_slit_ring
+1
+simDhs mirror_slit_ring
 0 1 1 1 1
 0 0 0 0 0
 0
@@ -567,7 +613,7 @@ self STDSLIT_VERT
 0 1 1 1 1
 0 0 0 0 0
 1
-0.628703 10.000000 -10.000000 0 0 0 0 mm
+0.551506 10.000000 -10.000000 0 0 0 0 mm
 mirror_slit_upper mirror_slit_lower
 
 mirror_slit_vert_gap
@@ -576,27 +622,26 @@ self STDSLIT_VERT_GAP
 0 1 1 1 1
 0 0 0 0 0
 1
--1.257406 5.000000 -5.000000 0 0 0 0 mm
+8.519809 5.000000 -5.000000 0 0 0 0 mm
 mirror_slit_upper mirror_slit_lower
 
-
-mirror_vert_chin
+mirror_slit_horiz
 2
-self mirror_vert_chin_bl92
+self STDSLIT_HORIZ
 0 1 1 1 1
 0 0 0 0 0
-0
-2.626939 3.700000 -0.100000 0 0 0 0 mm
-0
+1
+-3.708399 10.000000 -10.000000 0 0 0 0 mm
+mirror_slit_lobs mirror_slit_ring
 
-mirror_chin_gap
+mirror_slit_horiz_gap
 2
-self mirror_chin_gap_bl92
+self STDSLIT_HORIZ_GAP
 0 1 1 1 1
 0 0 0 0 0
-0
-2.184471 -0.470000 -1.000000 0 0 0 0 mm
-0
+1
+0.000000 5.000000 -5.000000 0 0 0 0 mm
+mirror_slit_lobs mirror_slit_ring
 
 toroid_vert
 1
@@ -636,7 +681,7 @@ simDhs mono_crystal2_perp
 0 1 1 1 1
 0 0 0 0 0
 0
-15.184015 50.000000 0.000000 153.846000 500 125 0 0 0 0 0 0 0 mm
+15.248073 50.000000 0.000000 153.846000 500 125 0 0 0 0 0 0 0 mm
 
 mono_crystal2_para
 1
@@ -644,39 +689,25 @@ simDhs mono_crystal2_para
 0 1 1 1 1
 0 0 0 0 0
 0
-96.089596 140.001000 0.000000 153.846000 500 125 0 0 0 0 0 0 0 mm
+83.496311 140.001000 0.000000 153.846000 500 125 0 0 0 0 0 0 0 mm
 
-mono_slit_vert
-1
-simDhs monotwoslit
+mono_crystal2_perp_offset
+2
+self standardVirtualMotor
 0 1 1 1 1
 0 0 0 0 0
 0
-13.299013 14.001014 0.000000 153.846000 500 125 98 1 1 0 1 0 0 mm
+0.000000 100.000000 0.000000 0 0 0 0 mm
+0
 
-mono_slit_lower
-1
-simDhs monobotslit
+mono_crystal2_para_offset
+2
+self standardVirtualMotor
 0 1 1 1 1
 0 0 0 0 0
 0
--5.070064 -0.305732 -16.203822 78.500000 500 125 -39 1 0 0 0 0 0 mm
-
-mono_slit_spear
-1
-simDhs monospearslit
-0 1 1 1 1
-0 0 0 0 0
+0.000000 100.000000 0.000000 0 0 0 0 mm
 0
--7.301587 0.203175 -25.003175 157.500000 500 125 50 1 1 0 1 1 0 mm
-
-mono_slit_ssrl
-1
-simDhs monossrlslit
-0 1 1 1 1
-0 0 0 0 0
-0
-3.911111 22.000000 -0.203175 157.500000 500 125 -50 1 1 0 1 1 0 mm
 
 mono_pitch
 1
@@ -727,7 +758,16 @@ simDhs mono_theta
 0 1 1 1 1
 0 0 0 0 0
 0
-8.985650 23.000000 4.200000 20000.000000 7000 350 0 1 1 0 0 0 0 deg
+10.354574 23.000000 4.200000 20000.000000 7000 350 0 1 1 0 0 0 0 deg
+
+mono_theta_offset
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 0 0 0 0
+0
+0.000000 100.000000 0.000000 0 0 0 0 mm
+0
 
 energy
 2
@@ -735,8 +775,23 @@ self energy_id19
 0 1 1 1 1
 0 1 1 1 1
 0
-12658.742786 16000.000000 5400.000000 0 0 0 0 eV
-mono_theta 
+10999.673063 16000.000000 5400.000000 0 0 0 0 eV
+mono_theta
+
+mono_piezo
+2
+self mono_piezo_id19
+0 1 1 1 1
+0 0 0 0 0
+0
+0.000000 10.000000 0.000000 0 0 0 0 V
+0
+
+rio47_mono_piezo
+12
+galil2 rio47_mono_piezo
+0 1 1 1 1
+0 1 1 1 1
 
 optimizedEnergyParameters
 13
@@ -745,17 +800,237 @@ self standardString
 0 1 1 1 1
 0 {{Optimized table}} 1 0 0 0 0 0 0 12641.9987791 1109956666 100.00 3600.00 12.00 50.0000 0.100 11.000 -12.000 i2 0.095 0.095 0.100 20 0.050 0.10 0 20 0 {} {} {} {} 0 {}
 
-gonio_omega
+white_beam_filter_1
 1
-simDhs gonio_omega
+simDhs white_beam_filter_1
+0 1 1 1 1
+0 0 0 0 0
+0
+13.299013 14.001014 0.000000 153.846000 500 125 98 1 1 0 1 0 0 mm
+
+white_beam_filter_2
+1
+simDhs white_beam_filter_2
+0 1 1 1 1
+0 0 0 0 0
+0
+13.299013 14.001014 0.000000 153.846000 500 125 98 1 1 0 1 0 0 mm
+
+white_beam_mask_x
+1
+simDhs white_beam_mask_x
+0 1 1 1 1
+0 0 0 0 0
+0
+13.299013 14.001014 0.000000 153.846000 500 125 98 1 1 0 1 0 0 mm
+
+white_beam_mask_y
+1
+simDhs white_beam_mask_y
+0 1 1 1 1
+0 0 0 0 0
+0
+13.299013 14.001014 0.000000 153.846000 500 125 98 1 1 0 1 0 0 mm
+
+inline_sample_camera_constant
+13
+self standardString
+1 1 1 1 1
+0 0 0 0 0
+6.6 1.32 1.32 0.5 0.5 0.5 0.5 704 480.0 1.1
+
+inlineMoveSample
+11
+self inlineMoveSample
+0 1 1 1 1
+0 1 1 1 1
+
+calibrateInlineCamera
+11
+self calibrateInlineCamera
+0 1 1 1 1
+0 0 0 0 0
+
+initializeInlineCamera
+11
+inline_camera initializeCamera
+0 1 1 1 1
+0 1 1 1 1
+
+getInlineLoopTip
+11
+inline_camera getLoopTip
+1 1 1 1 1
+0 1 1 1 1
+
+getInlinePinDiameters
+11
+inline_camera getPinDiameters
+0 1 1 1 1
+0 1 1 1 1
+
+addInlineImageToList
+11
+inline_camera addImageToList
+0 1 1 1 1
+0 1 1 1 1
+
+findInlineBoundingBox
+11
+inline_camera findBoundingBox
+0 1 1 1 1
+0 1 1 1 1
+
+inlineSnapshot
+11
+self inlineSnapshot
+1 1 1 1 1
+1 1 1 1 1
+
+inline_camera_vert
+1
+galil1 inline_camera_vert
 0 1 1 1 1
 0 0 0 1 1
 0
-3.000000 1000.000000 -1000.000000 10000.000000 500000 50 0 0 0 1 0 1 1 deg
+20.000000 24.000000 0.000000 12800.000000 10000 100 0 1 1 0 0 0 1 mm
+
+inline_camera_horz
+1
+galil1 inline_camera_horz
+0 1 1 1 1
+0 0 0 1 1
+0
+10.000000 25.000000 0.000000 12800.000000 10000 100 0 1 1 0 0 0 1 mm
+
+inline_camera_focus
+1
+galil1 inline_camera_focus
+0 1 1 1 1
+0 0 0 1 1
+0
+10.000000 25.000000 0.000000 116736.000000 100000 100 0 1 1 0 0 0 1 mm
+
+inline_camera_zoom
+1
+simDhs inline_camera_zoom
+1 1 1 1 1
+0 1 1 1 1
+0
+10.000000 25.000000 0.000000 116736.000000 100000 100 0 1 1 0 0 0 1 mm
+
+inline_camera_polarizer
+1
+simDhs inline_camera_polarizer
+0 0 0 0 1
+0 0 0 0 1
+0
+5.007440 5.025000 4.000000 25000.000000 1000 500 0 0 0 1 0 0 1 deg
+
+inline_camera_position_preset
+13
+self standardString
+1 1 1 1 1
+0 0 0 0 0
+{Inline 16.100000 -0.376000 0.002 0.002} {Home 13.639000 -0.738000 0.002 0.002}
+
+inline_camera_position_status
+13
+self standardString
+1 1 1 1 1
+0 0 0 0 0
+0 -1
+
+inlineCameraMove
+11
+self inlineCameraMove
+0 1 1 1 1
+0 1 1 1 1
+
+sample_camera_horz
+1
+galil1 sample_camera_horz
+0 1 1 1 1
+0 0 0 1 1
+0
+20.000000 25.000000 0.000000 12800.000000 10000 100 0 1 1 0 0 0 1 mm
+
+sample_camera_vert
+1
+galil1 sample_camera_vert
+0 1 1 1 1
+0 0 0 1 1
+0
+15.000000 27.000000 0.000000 12800.000000 10000 100 0 1 1 0 0 1 1 mm
+
+sample_camera_focus
+1
+galil1 sample_camera_focus
+0 1 1 1 1
+0 0 0 1 1
+0
+0.000000 5.000000 0.000000 400896.000000 100000 100 0 1 1 0 0 0 1 mm
+
+sample_camera_zoom
+1
+simDhs sample_camera_zoom
+0 1 1 1 1
+0 0 0 1 1
+0
+0.000000 5.000000 0.000000 400896.000000 100000 100 0 1 1 0 0 0 1 mm
+
+sample_camera_polarizer
+1
+simDhs sample_camera_polarizer
+0 0 0 0 1
+0 0 0 0 1
+0
+0.000000 2000.000000 -2000.000000 25000.000000 1000 500 0 0 0 1 0 0 1 deg
+
+inline_light_in
+6
+galil1 0 inline_light_in
+0 1 1 1 1
+0 1 1 1 1
+
+inline_light_out
+6
+galil1 1 inline_light_out
+0 1 1 1 1
+0 1 1 1 1
+
+inlineLightStatus
+13
+galil1 inlineLightStatus
+0 1 1 1 1
+0 1 1 1 1
+INSERTED no REMOVED yes
+
+inlineLightControl
+11
+self inlineLightControl
+0 1 1 1 1
+0 1 1 1 1
+
+sample_z
+1
+simDhs sample_z
+0 1 1 1 1
+0 1 1 1 1
+0
+0.563526 12.000000 -14.000000 20157.000000 10000 50 0 0 0 0 0 0 0 mm
 
 gonio_kappa
 1
-galil2 gonio_kappa
+galil1 gonio_kappa
+0 1 1 1 1
+0 0 0 1 1
+0
+0.000000 360.000000 0.000000 601.000000 30000 50 0 0 0 0 0 0 0 deg
+
+gonio_omega
+1
+simDhs gonio_omega
 0 1 1 1 1
 0 0 0 1 1
 0
@@ -763,83 +1038,108 @@ galil2 gonio_kappa
 
 gonio_phi
 1
-galil1 gonio_phi
+simDhs gonio_phi
 0 1 1 1 1
 0 1 1 1 1
 0
-45.000000 1000.000000 -1000.000000 1.000000 1000 10 5 1 1 0 1 0 1 deg
+90.000000 1000.000000 -1000.000000 10000.000000 900000 20 5 0 0 0 0 0 1 deg
 
-mono_vert
+sample_vert
 1
-simDhs girder
+galil2 sample_vert
 0 1 1 1 1
-0 0 0 0 0
+0 1 1 1 1
 0
-11.920000 112.500016 6.000000 30425.000000 2800 750 30425 1 1 0 1 1 0 mm
+0.000000 45.000000 -45.000000 20000.000000 20000 50 0 1 1 0 0 0 0 mm
 
-beam_pipe_vert
+optic_vert
 1
-simDhs stopper
+galil2 optic_vert
 0 1 1 1 1
-0 0 0 0 0
+0 1 1 1 1
 0
-86.861126 1000.000000 -5.260389 1901.000000 800 350 9505 1 1 0 1 1 0 mm
+0.000000 44.000000 -43.000000 20000.000000 20000 50 0 1 1 0 0 0 0 mm
+
+y
+1
+galil2 y
+0 1 1 1 1
+0 1 1 1 1
+0
+0.000000 25.000000 -38.000000 12800.000000 10000 50 0 1 1 0 0 0 0 mm
+
+sample_x
+1
+simDhs sample_x
+0 1 1 1 1
+0 1 1 1 1
+0
+0.270469 6.000000 -6.000000 12800.000000 10000 50 0 1 1 0 0 0 0 mm
+
+sample_y
+1
+simDhs sample_y
+0 1 1 1 1
+0 1 1 1 1
+0
+-0.471641 7.000000 -6.000000 12800.000000 10000 50 0 0 0 0 0 0 0 mm
+
+pitch
+1
+galil2 pitch
+0 1 1 1 1
+0 1 1 1 1
+0
+0.000000 1.000000 -1.000000 30075.000000 15000 50 0 1 1 0 0 0 0 deg
+
+yaw
+1
+galil2 yaw
+0 1 1 1 1
+0 1 1 1 1
+0
+0.000000 2.800000 -3.600000 71047.000000 30000 100 0 0 0 0 0 0 0 deg
 
 beamstop_vert
 1
-galil2 beamstopv
+galil3 beamstop_vert
 0 1 1 1 1
 0 0 0 0 0
 0
-1.000000 2.000000 0.000000 3003.000000 100 100 0 1 1 0 0 0 0 mm
+0.000000 4.000000 -4.500000 41995.000000 20000 100 0 1 1 0 0 0 0 mm
 
 beamstop_horz
 1
-galil2 beamstoph
+galil3 beamstop_horz
 0 1 1 1 1
 0 0 0 0 0
 0
-1.000000 2.000000 0.000000 3003.000000 100 100 0 1 1 0 0 0 0 mm
+0.000000 50.000000 0.000000 1422.000000 20000 50 0 1 1 0 0 1 1 deg
+
+beamstop_dist
+1
+galil3 beamstop_dist
+0 1 1 1 1
+0 0 1 1 1
+0
+5.000000 45.000000 0.000000 6400.000000 120000 50 0 1 1 0 0 0 0 mm
 
 beamstop_z
 1
-simDhs beamstopz
+simDhs beamstop_z
 0 1 1 1 1
 0 0 1 1 1
 0
 50.000000 500.000000 5.000000 3003.000000 50 100 0 0 0 0 0 0 0 mm
 
-slit_0_upper
-1
-simDhs stoppertopslit
+beamstop_z_auto
+2
+self beamstop_z_auto
 0 1 1 1 1
-0 0 0 0 0
-0
-0.000000 100.000000 -100.000000 10.000000 1000 100 -10 1 1 0 1 0 0 mm
-
-slit_0_lower
+0 0 1 1 1
 1
-simDhs stopperbotslit
-0 1 1 1 1
-0 0 0 0 0
-0
-0.000000 100.000000 -100.000000 10.000000 1000 100 -10 1 1 0 1 0 0 mm
-
-slit_0_spear
-1
-simDhs stopperspearslit
-0 1 1 1 1
-0 0 0 0 0
-0
-0.000000 100.000000 -100.000000 10.000000 1000 100 -10 1 1 0 1 0 0 mm
-
-slit_0_ssrl
-1
-simDhs stopperssrlslit
-0 1 1 1 1
-0 0 0 0 0
-0
-0.000000 100.000000 -100.000000 10.000000 1000 100 -10 1 1 0 1 0 0 mm
+63.203051 63.200000 17.000000 0 0 0 0 mm
+beamstop_z
 
 fluorescence_z
 1
@@ -865,17 +1165,17 @@ simDhs slit1lower
 0
 -0.075000 10.000000 -10.000000 1600.000000 200 100 240 0 0 0 1 1 0 mm
 
-slit_1_spear
+slit_1_ring
 1
-simDhs slit1spear
+simDhs slit1ring
 0 1 1 1 1
 0 0 0 0 0
 0
 0.005000 0.000000 -0.600000 1600.000000 200 100 240 0 0 0 1 1 0 mm
 
-slit_1_ssrl
+slit_1_nsls
 1
-simDhs slit1ssrl
+simDhs slit1nsls
 0 1 1 1 1
 0 0 0 0 0
 0
@@ -897,17 +1197,17 @@ simDhs slit2lower
 0
 -0.075000 0.100000 -10.000000 1600.000000 200 100 240 0 0 0 1 1 0 mm
 
-slit_2_spear
+slit_2_ring
 1
-simDhs slit2spear
+simDhs slit2ring
 0 1 1 1 1
 0 0 0 0 0
 0
 -0.075000 0.100000 -8.000000 1600.000000 200 100 240 0 0 0 1 1 0 mm
 
-slit_2_ssrl
+slit_2_nsls
 1
-simDhs slit2ssrl
+simDhs slit2nsls
 0 1 1 1 1
 0 0 0 0 0
 0
@@ -915,7 +1215,7 @@ simDhs slit2ssrl
 
 slit_1_vert_gap
 2
-self slit_1_vert_gap
+self STDSLIT_VERT_GAP
 0 1 1 1 1
 0 0 0 0 0
 1
@@ -924,7 +1224,7 @@ slit_1_upper slit_1_lower
 
 slit_1_vert
 2
-self slit_1_vert
+self STDSLIT_VERT
 0 1 1 1 1
 0 0 0 0 0
 0
@@ -938,7 +1238,7 @@ self slit_1_horiz_gap
 0 0 0 0 0
 1
 0.150000 10.000000 0.095000 0 0 0 0 mm
-slit_1_ssrl slit_1_spear
+slit_1_nsls slit_1_ring
 
 slit_1_horiz
 2
@@ -951,7 +1251,7 @@ self slit_1_horiz
 
 slit_2_vert_gap
 2
-self slit_2_vert_gap
+self STDSLIT_VERT_GAP
 0 1 1 1 1
 0 0 0 0 0
 1
@@ -960,7 +1260,7 @@ slit_2_upper slit_2_lower
 
 slit_2_vert
 2
-self slit_2_vert
+self STDSLIT_VERT
 0 1 1 1 1
 0 0 0 0 0
 0
@@ -969,16 +1269,16 @@ self slit_2_vert
 
 slit_2_horiz_gap
 2
-self slit_2_horiz_gap
+self STDSLIT_HORIZ_GAP
 0 1 1 1 1
 0 0 0 0 0
 1
 0.150000 10.000000 0.095000 0 0 0 0 mm
-slit_2_ssrl slit_2_spear
+slit_2_nsls slit_2_ring
 
 slit_2_horiz
 2
-self slit_2_horiz
+self STDSLIT_HORIZ
 0 1 1 1 1
 0 0 0 0 0
 0
@@ -1058,6 +1358,12 @@ self ion_chamber3_op
 ion_chamber4_op
 11
 self ion_chamber4_op
+0 1 1 1 1
+0 1 1 1 1
+
+mono_fine_pitch
+4
+self ion_chamber0_op 0 rtc1 standardVirtualIonChamber
 0 1 1 1 1
 0 1 1 1 1
 
@@ -1201,7 +1507,7 @@ simDhs 0 Al_4
 
 Al_8
 6
-simDhs 1 Al_8
+simDhs 0 Al_8
 0 1 1 1 1
 0 1 1 1 1
 
@@ -1285,66 +1591,6 @@ simDhs guard_shield_horiz
 0
 0.535942 1.958000 0.100000 13753.350000 1200 190 1375 0 0 0 1 1 0 mm
 
-tripot_3
-1
-simDhs tripot_3
-0 1 1 1 1
-0 1 1 1 1
-0
-0.364935 10.000000 -10.000000 20157.000000 5000 20 0 0 0 0 0 0 0 mm
-
-tripot_2
-1
-simDhs tripot_2
-0 1 1 1 1
-0 1 1 1 1
-0
-0.358982 5.500000 -5.500000 20157.000000 5000 20 0 0 0 0 0 0 0 mm
-
-tripot_1
-1
-simDhs tripot_1
-0 1 1 1 1
-0 1 1 1 1
-0
-0.703775 10.000000 -10.000000 20157.000000 5000 20 0 0 0 0 0 0 0 mm
-
-sample_x
-2
-self sample_x
-0 1 1 1 1
-0 1 1 1 1
-1
--0.869829 10.000000 -10.000000 0 0 0 0 mm
-tripot_1 tripot_2
-
-sample_y
-2
-self sample_y
-0 1 1 1 1
-0 1 1 1 1
-1
--0.484290 10.000000 -10.000000 0 0 0 0 mm
-tripot_1 tripot_2 tripot_3
-
-sample_z
-2
-self sample_z
-0 1 1 1 1
-0 1 1 1 1
-1
-0.475897 10.000000 -10.000000 0 0 0 0 mm
-tripot_1 tripot_2 tripot_3
-
-sample_z_corr
-2
-self sample_z_corr
-0 1 1 1 1
-0 1 1 1 1
-1
-0.475897 4.950000 -28.100000 1 0 0 0 mm
-sample_z
-
 bend_x3
 1
 simDhs bend_x3
@@ -1387,132 +1633,73 @@ self bending_center
 -2.911247 10.000000 0.095000 0 0 0 0 mm
 bend_x3 bend_x5
 
-slit_1
+slit_0_upper
 1
-galil2 slit_1
+simDhs slit_0_upper
 0 1 1 1 1
 0 1 1 1 1
 0
-57.909793 61.000000 -60.000000 600.572000 500 50 0 0 0 0 0 0 0 deg
+57.909793 61.000000 -60.000000 600.572000 500 50 0 0 0 0 0 0 1 deg
 
-slit_2
+slit_0_lower
 1
-galil2 slit_2
+simDhs slit_0_lower
 0 1 1 1 1
 0 1 1 1 1
 0
-57.909793 60.000000 -60.000000 600.572000 500 100 0 0 0 0 0 0 0 deg
+57.909793 60.000000 -60.000000 600.572000 500 100 0 0 0 0 0 0 1 deg
+
+slit_0_lobs
+1
+simDhs slit_0_lobs
+0 1 1 1 1
+0 1 1 1 1
+0
+57.909793 61.000000 -60.000000 600.572000 500 50 0 0 0 0 0 0 1 deg
+
+slit_0_ring
+1
+simDhs slit_0_ring
+0 1 1 1 1
+0 1 1 1 1
+0
+57.909793 60.000000 -60.000000 600.572000 500 100 0 0 0 0 0 0 1 deg
 
 beam_size_x
 2
-self beam_size_x
+self beam_size_x_id19
 0 1 1 1 1
 0 1 1 1 1
 1
-0.125018 2.000000 0.000000 0 0 0 0 mm
-slit_2
+0.125015 2.000000 0.000000 0 0 0 0 mm
+slit_0_ring slit_0_lobs
+
+slit_pos_x
+2
+self slit_pos_x_id19
+0 1 1 1 1
+0 1 1 1 1
+1
+0.000000 2.000000 0.000000 0 0 0 0 mm
+slit_0_ring slit_0_lobs
 
 beam_size_y
 2
-self beam_size_y
+self beam_size_y_id19
 0 1 1 1 1
 0 1 1 1 1
 1
-0.125018 2.000000 0.000000 0 0 0 0 mm
-slit_1
+0.125015 2.000000 0.000000 0 0 0 0 mm
+slit_0_upper slit_0_lower
 
-table_v1
-1
-simDhs table_v1
-0 1 1 1 1
-0 1 1 1 1
-0
-56.632677 61.000000 -60.000000 600.572000 500 50 0 0 0 0 0 0 0 mm
-
-table_v2
-1
-simDhs table_v2
-0 1 1 1 1
-0 1 1 1 1
-0
-56.632677 61.000000 -60.000000 600.572000 500 50 0 0 0 0 0 0 0 mm
-
-table_v3
-1
-simDhs table_v3
-0 1 1 1 1
-0 1 1 1 1
-0
-56.632677 61.000000 -60.000000 600.572000 500 50 0 0 0 0 0 0 0 mm
-
-table_h1
-1
-simDhs table_h1
-0 1 1 1 1
-0 1 1 1 1
-0
-56.632677 61.000000 -60.000000 600.572000 500 50 0 0 0 0 0 0 0 mm
-
-table_h2
-1
-simDhs table_h2
-0 1 1 1 1
-0 1 1 1 1
-0
-56.632677 61.000000 -60.000000 600.572000 500 50 0 0 0 0 0 0 0 mm
-
-table_para
-1
-simDhs table_para
-0 1 1 1 1
-0 1 1 1 1
-0
-56.632677 61.000000 -60.000000 600.572000 500 50 0 0 0 0 0 0 0 mm
-
-table_nyx_vert
+slit_pos_y
 2
-self table_nyx_vert
+self slit_pos_y_id19
 0 1 1 1 1
-0 0 0 0 0
-1
-16.999893 1000.000000 0.050000 0 0 0 0 mm
-table_v1 table_v2 table_v3
-
-table_nyx_pitch
-2
-self table_nyx_pitch
 0 1 1 1 1
-0 0 0 0 0
 1
-0.009300 100.000000 -100.000000 0 0 0 0 deg
-table_v1 table_v2 table_v3
-
-table_nyx_roll
-2
-self table_nyx_roll
-0 1 1 1 1
-0 0 0 0 0
-1
-0.000000 100.000000 -100.000000 0 0 0 0 deg
-table_v2 table_v3
-
-table_nyx_yaw
-2
-self table_nyx_yaw
-0 1 1 1 1
-0 0 0 0 0
-1
-0.000000 100.000000 -100.000000 0 0 0 0 deg
-table_h1 table_h2
-
-table_nyx_horz
-2
-self table_nyx_horz
-0 1 1 1 1
-0 0 0 0 0
-1
-300.852972 100.000000 -100.000000 0 0 0 0 mm
-table_h1 table_h2
+0.000000 2.000000 0.000000 0 0 0 0 mm
+slit_0_upper slit_0_lower
 
 camera_zoom
 1
@@ -1965,112 +2152,13 @@ self optimizeTable
 0 1 1 1 1
 0 1 1 1 1
 
-sampleImageWidth
-2
-self standardVirtualMotor
-0 1 1 1 1
-0 1 1 1 1
-0
-352.000000 100.000000 -100.000000 1 1 0 0 mm
-0
-
-sampleImageHeight
-2
-self standardVirtualMotor
-0 1 1 1 1
-0 1 1 1 1
-0
-240.000000 100.000000 -100.000000 1 1 0 0 mm
-0
-
-sampleScaleFactor
-2
-self sampleScaleFactor
-0 1 1 1 1
-0 1 1 1 1
-1
-1.943854 100.000000 1.000000 0 0 0 0 mm
-camera_zoom
-
-sampleAspectRatio
-2
-self standardVirtualMotor
-0 1 1 1 1
-0 1 1 1 1
-0
-1.120000 100.000000 -100.000000 1 1 0 0 mm
-0
-
-zoomMinScale
-2
-self standardVirtualMotor
-0 1 1 1 1
-0 1 1 1 1
-0
-19.184006 100.000000 -100.000000 1 1 0 0 mm
-0
-
-zoomMedScale
-2
-self standardVirtualMotor
-0 1 1 1 1
-0 1 1 1 1
-0
-4.875923 100.000000 -100.000000 1 1 0 0 mm
-0
-
-zoomMaxScale
-2
-self standardVirtualMotor
-0 1 1 1 1
-0 1 1 1 1
-0
-1.926168 100.000000 -100.000000 1 1 0 0 mm
-0
-
-zoomMinYAxis
-2
-self standardVirtualMotor
-0 1 1 1 1
-0 1 1 1 1
-0
-0.500000 100.000000 -100.000000 1 1 0 0 mm
-0
-
-zoomMedYAxis
-2
-self standardVirtualMotor
-0 1 1 1 1
-0 1 1 1 1
-0
-0.500000 100.000000 -100.000000 1 1 0 0 mm
-0
-
-zoomMaxYAxis
-2
-self standardVirtualMotor
-0 1 1 1 1
-0 1 1 1 1
-0
-0.500000 100.000000 -100.000000 1 1 0 0 mm
-0
-
-zoomMaxXAxis
-2
-self standardVirtualMotor
-0 1 1 1 1
-0 1 1 1 1
-0
-0.500000 100.000000 -100.000000 1 1 0 0 mm
-0
-
 attenuation
 2
 self attenuation
 0 1 1 1 1
 0 1 1 1 1
 0
-49.861652 100.000000 0.000000 0 0 0 0 %
+0.000000 100.000000 0.000000 0 0 0 0 %
 0
 
 acquireSpectrum
@@ -2160,7 +2248,7 @@ hutchDoorStatus
 simDhs standardString
 0 1 1 1 1
 0 1 1 1 1
-closed 1435169602
+closed 1452203359
 
 getPV
 11
@@ -2180,54 +2268,6 @@ epics_gateway xrcurr
 0 1 1 1 1
 0 1 1 1 1
 0
-
-detector_zz
-1
-epics_gateway C1:DETDIST
-0 0 0 1 1
-0 0 0 0 0
-0
-0.000000 1000.000000 -1000.000000 20000.000000 2 400 0 1 1 0 0 0 0 mm
-
-dettable_us_cleg
-1
-epics_gateway C1:US_CLEG
-0 1 1 1 1
-0 1 1 1 1
-0
-0.000000 1000.000000 -1000.000000 63159.224400 0 400 0 1 1 0 0 0 0 mm
-
-dettable_ds_lleg
-1
-epics_gateway C1:DS_LLEG
-0 1 1 1 1
-0 1 1 1 1
-0
-0.000000 1000.000000 -1000.000000 63159.224400 0 400 0 1 1 0 0 0 0 mm
-
-dettable_ds_rleg
-1
-epics_gateway C1:DS_RLEG
-0 1 1 1 1
-0 1 1 1 1
-0
-0.000000 1000.000000 -1000.000000 63159.224400 0 400 0 1 1 0 0 0 0 mm
-
-dettable_us_horz
-1
-epics_gateway C1:US_HORZ
-0 1 1 1 1
-0 1 1 1 1
-0
-0.000000 1000.000000 -1000.000000 20000.000000 0 400 0 1 1 0 0 0 0 mm
-
-dettable_ds_horz
-1
-epics_gateway C1:DS_HORZ
-0 1 1 1 1
-0 1 1 1 1
-0
-0.000000 1000.000000 -1000.000000 20000.000000 0 400 0 1 1 0 0 0 0 mm
 
 dose_const
 13
@@ -2491,7 +2531,7 @@ system_idle
 self startEmpty
 1 1 1 1 1
 0 0 0 0 0
-moveMotors energy
+
 
 lock_operation
 13
@@ -2579,7 +2619,7 @@ scn_crystal_msg
 self standardString
 0 1 1 1 1
 0 1 1 1 1
-error: must select at least one crystal
+error: cassettes mismatch
 
 scn_action_msg
 13
@@ -2765,7 +2805,14 @@ center_crystal_const
 self standardString
 0 1 1 1 1
 0 1 1 1 1
-0 0.25 0.25 3 4 3 4 0.03 0.25 0.03 0.25 1 1 4 0.1 10 10 50 100 1 6 60 60 20 20 1
+0 20 20 3 9 5 9 .05 .05 .025 .025 1.0 .02 5 0.001 40 10 10 50 1 1 1 1 0 20 0 0 10 5 5 5 5 0.005 0.2 0.005 0.2
+
+collimator_center_crystal_const
+13
+self standardString
+1 1 1 1 1
+0 1 1 1 1
+0 {} {} 7 10 7 10 .015 .1 .005 .1 1 20 4 0.001 40 5 10 100 0 1 0 0 20 20 0 1 1 3 9 3 9 0.01 0.01 0.005 0.005
 
 center_crystal_data
 13
@@ -2860,7 +2907,7 @@ system_status
 self systemStatus
 1 1 1 1 1
 0 0 0 0 0
-{moveMotors - Detector Error} red #d0d000
+{simdetector offline} black red
 
 scan_msg
 13
@@ -3000,19 +3047,12 @@ self centerLoopC3D
 1 1 1 1 1
 1 1 1 0 0
 
-sample_camera_constant_name_list
-13
-self standardString
-1 1 1 1 1
-0 0 0 0 0
-zoomMinScale zoomMedScale zoomMaxScale zoomMinYAxis zoomMedYAxis zoomMaxYAxis zoomMaxXAxis sampleImageWidth sampleImageHeight sampleAspectRatio
-
 sample_camera_constant
 13
 self standardString
 1 1 1 1 1
 0 0 0 0 0
-18.998082 4.909010 1.943854 0.508854 0.508333 0.500000 0.500000 352.000000 240.000000 1.120000
+6.1 2.0 0.37 0.500000 0.500000 0.500000 0.500000 704 480 1.1
 
 rastering_normal_constant
 13

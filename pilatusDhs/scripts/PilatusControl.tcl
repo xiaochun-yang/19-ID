@@ -69,6 +69,7 @@ class Pilatus::DetectorStatus {
     public variable sumImagesDeltaDeg 0.1
 
     private variable _maxImageSizeKb 0
+    private variable _HF4M_ready 0
     
     constructor { root maxImageSizeKb} {
         set _maxImageSizeKb $maxImageSizeKb
@@ -451,7 +452,13 @@ class Pilatus::DetectorControl {
         $_multiImageParams configure -localDir $localDir
 
         putsDet "exttrigger $localDir${uid}_.cbf"
-        configure -collecting true
+	
+#	set _HF4M_ready 0
+
+#	vwait _HF4m_ready
+
+#	puts "yangx: EXECUTE configure command"
+	configure -collecting true
 
     }
 
@@ -482,7 +489,6 @@ class Pilatus::DetectorControl {
                 append response $a
             }
         }
-
 
         set response ${_buildingMsg}${response} 
         if {$response == ""} return
@@ -585,6 +591,9 @@ class Pilatus::DetectorControl {
                 215 {
                     handleReturnCode15 $returnMsg
                 }
+                300 {
+                    handleReturnCode300 $returnMsg
+                }
             }
 
 
@@ -597,6 +606,10 @@ class Pilatus::DetectorControl {
 
     }
 
+    private method handleReturnCode300 {  msg_ } {
+	puts "ReturnCode300> ${msg_}"
+	set _HF4M_ready 1
+    }
 
     private method handleReturnCode15 {  msg_ } {
         set exposureMode [$_detectorStatus cget -exposureMode]

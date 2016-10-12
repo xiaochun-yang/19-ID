@@ -5,32 +5,33 @@ proc inlineLightControl_start { position } {
 	# global variables
 	variable beamstop_z
     variable beamstop_z_auto
-    variable beamstop_z_auto_moving
-
 
     if {$position == "insert"} {
         set result [inlineLightAlreadyIn]
         if {$result} {
-            return [lightsControl_start setup inline_insert]
+            if {[isOperation lightsControl]} {
+                return [lightsControl_start setup inline_insert]
+            }
+            return 0
         }
 
         foreach {lowerLimit upperLimit} [getGoodLimits beamstop_z] break;
         #move beamstop_z to 65.0
-        move beamstop_z to $upperLimit
-        wait_for_devices beamstop_z
-        if {abs($beamstop_z - $upperLimit) > 1.0} {
-            log_severe failed to move away beamstop for inline light
-            return -code error failed_to_move_away_beamstop
-        }
-
+#yangx	move beamstop_z to $upperLimit
+#yangx  wait_for_devices beamstop_z
+#yangx  if {abs($beamstop_z - $upperLimit) > 1.0} {
+#y            log_severe failed to move away beamstop for inline light
+#y            return -code error failed_to_move_away_beamstop
+#y        }
         insertInlineCamera 
-
         return 1
     } else {
-        removeInlineCamera
+#yang        if {[isMotor beamstop_z_auto]} {
+            removeInlineCamera
 
-        move beamstop_z to $beamstop_z_auto
-        wait_for_devices beamstop_z
+#y            move beamstop_z to $beamstop_z_auto
+#y            wait_for_devices beamstop_z
+#y        }
     }
 }
 

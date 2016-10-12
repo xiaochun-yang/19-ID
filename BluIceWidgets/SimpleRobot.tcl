@@ -430,6 +430,7 @@ class SimpleRobotWidget {
     protected variable m_oprobotinit
   # protected variable m_opcloselid
     protected variable m_opcentergrabber
+    protected variable m_opsafeposition
     protected variable m_opRMS
     protected variable m_oclearmountedstate	
     protected variable m_opcoolgrabber
@@ -486,12 +487,14 @@ class SimpleRobotWidget {
 #         $m_opcloselid startOperation
 #    }
 
-    public method handleMountpos { } {
-        ::device::gonio_phi move to 0 deg
-	::device::gonio_kappa move to 0 deg
-	::device::tripot_1 move to 0.70378
-       	::device::tripot_2 move to 0.35898
-       	::device::tripot_3 move to 0.36494
+    public method handleSafePos { } {
+
+#        ::device::gonio_phi move to 0 deg
+#	::device::gonio_kappa move to 0 deg
+#	::device::tripot_1 move to 0.70378
+#      	::device::tripot_2 move to 0.35898
+#      	::device::tripot_3 move to 0.36494
+	$m_opsafeposition startOperation
     }
 
     public method handleCenterGrabber { } {
@@ -551,6 +554,7 @@ class SimpleRobotWidget {
 #        set m_oprobotinit [$m_deviceFactory createOperation robotinit]
 #        set m_opcloselid [$m_deviceFactory createOperation close_lid]
         set m_opcentergrabber [$m_deviceFactory createOperation center_grabber]
+	set m_opsafeposition [$m_deviceFactory createOperation safe_position]
         set m_opdrygrabber [$m_deviceFactory createOperation dry_grabber]
         set m_opcoolgrabber [$m_deviceFactory createOperation cool_grabber]
         set m_oclearmountedstate [$m_deviceFactory createOperation clear_mounted_state]
@@ -691,12 +695,12 @@ class SimpleRobotWidget {
             keep -activeClientOnly
         }
 
-        itk_component add Mountpos {
+        itk_component add safePos {
             DCS::HotButton $site.mp \
-            -text "Mount Position"  \
+            -text "Safe Position"  \
             -confirmText "Confirm"\
             -width 9 \
-            -command "$this handleMountpos"
+            -command "$this handleSafePos"
         } {
             keep -activeClientOnly
         }
@@ -763,7 +767,7 @@ class SimpleRobotWidget {
 
             grid $itk_component(remove) -row 2 -column 2  -sticky w -columnspan 2
             grid $itk_component(Cool) -row 2 -column 3 -sticky w -columnspan 2
-            grid $itk_component(Mountpos) -row 3 -column 3 -sticky nw -columnspan 2
+            grid $itk_component(safePos) -row 3 -column 3 -sticky nw -columnspan 2
 
             grid columnconfigure $site 0 -weight 0
             grid columnconfigure $site 1 -weight 1

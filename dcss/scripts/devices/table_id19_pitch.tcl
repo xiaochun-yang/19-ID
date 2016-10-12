@@ -5,7 +5,7 @@ proc table_pitch_initialize {} {
 	
 	# specify children devices
 	set_children table_vert_1 table_vert_2 table_vert_3
-	set_siblings table__vert table_roll
+	set_siblings table_vert table_roll
 }
 
 
@@ -63,4 +63,14 @@ proc table_pitch_calculate { tv1 tv2 tv3 } {
 
 	return [expr (0.00096*$tv1 - 0.00048*$tv2 -0.00048*$tv3)*180/3.1415926]
 }
+
+#proc calculate_table_vert_1 { tv tp tr } {
+#	return [expr ($tv + 694*$tp*3.14159/180)]
+#}
+#proc calculate_table_vert_2 { tv tp tr } {
+#	return [expr ($tv + (366.5*$tr - 347*$tp)*3.14159/180)]
+#}
+#proc calculate_table_vert_3 { tv tp tr } {
+#        return [expr ($tv - (366.5*$tr - 347*$tp)*3.14159/180) ]
+#}
 

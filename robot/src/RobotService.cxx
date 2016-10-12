@@ -20,6 +20,7 @@ RobotService::OperationToMethod RobotService::m_OperationMap[] =
         {"dismount_crystal",                                    FALSE, &RobotService::DismountCrystal,	30},
 	{"center_grabber",					FALSE, &RobotService::CenterGrabber,	30},
 	{"dry_grabber",						FALSE, &RobotService::DryGrabber,	100},
+	{"safe_position",                                       FALSE, &RobotService::SafePosition,       100},
         {"cool_grabber",                                        FALSE, &RobotService::CoolGrabber,	100},
 	{"get_robotstate",                                      FALSE, &RobotService::GetRobotState,	4},
 	{"move_to_new_energy",                   		FALSE, &RobotService::MoveToNewEnergy,	100},
@@ -800,6 +801,11 @@ void RobotService::DismountCrystal()
 void RobotService::CenterGrabber()
 {
         WrapRobotMethod( &Robot::CenterGrabber );
+}
+
+void RobotService::SafePosition()
+{
+        WrapRobotMethod( &Robot::SafePosition );
 }
 
 void RobotService::DryGrabber()

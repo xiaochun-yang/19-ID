@@ -49,7 +49,7 @@ using namespace std;
 //#include "xia_xerxes.h"
 
 #define MAX_XIASATURN_CHANNELS 8192
-#define PEAKING_TIME 1
+#define PEAKING_TIME 0.1
 
 #define MAX_DCSS_RETURN_MESSAGE 1000
 #define XIA_SATURN_CONTROL_CHANNEL -1
@@ -269,6 +269,10 @@ xos_result_t connectToXiaSaturn ()
 
 	status = xiaGetAcquisitionValues(XIA_SATURN_CHANNEL, "mca_bin_width", &dmcaBinWidthReadback);
 	printf("connectToXiaSaturn: MCA bin width readback = %lf\n", dmcaBinWidthReadback);
+	if (status != XIA_SUCCESS) {
+                printf("connectToXiaSaturn: Failed to set MCA width.\n");
+                return XOS_FAILURE;
+        }
 
 	printf ("connectToXiaSaturn: Leave.\n");
 	return XOS_SUCCESS;
@@ -303,10 +307,9 @@ xos_result_t setElapsedTimePresetXiaSaturn (float presetTime )
 	int status;
 	double dpresetTime = (double) presetTime;
 	double dpresetTimeReadback;
-
 	double dpeakingTime = (double) PEAKING_TIME;
-
 	double peakingTimeReadback;
+	double presetType = XIA_PRESET_FIXED_REAL;
 
 	//check to see if the request preset time is reasonable
 	if ( dpresetTime < 0.000001 )
@@ -318,14 +321,19 @@ xos_result_t setElapsedTimePresetXiaSaturn (float presetTime )
 	// Set acquisition preset to the requested realtime (in seconds).
 	printf ("setElapsedTimePresetXiaSaturn: Set the acquisition preset to %lf.\n", dpresetTime);
 
-	status = xiaSetAcquisitionValues(XIA_SATURN_CONTROL_CHANNEL, "preset_runtime", &dpresetTime);
+	status = xiaSetAcquisitionValues(XIA_SATURN_CONTROL_CHANNEL, "preset_type", &presetType);
+        if (status != XIA_SUCCESS) {
+                printf("setElapsedTimePresetXiaSaturn: Failed to set preset_type.\n");
+                return XOS_FAILURE;
+        }
 
+	status = xiaSetAcquisitionValues(XIA_SATURN_CONTROL_CHANNEL, "preset_value", &dpresetTime);
 	if (status != XIA_SUCCESS) {
 		printf("setElapsedTimePresetXiaSaturn: Failed to set elapsed time preset.\n");
 		return XOS_FAILURE;
 	}
 
-	status = xiaGetAcquisitionValues(XIA_SATURN_CHANNEL, "preset_runtime", &dpresetTimeReadback);
+	status = xiaGetAcquisitionValues(XIA_SATURN_CHANNEL, "preset_value", &dpresetTimeReadback);
 	printf("setElapsedTimePresetXiaSaturn: Readback of preset time = %lf\n", dpresetTimeReadback);
 
 	status = xiaSetAcquisitionValues(XIA_SATURN_CONTROL_CHANNEL, "peaking_time", &dpeakingTime);
@@ -359,12 +367,15 @@ xos_result_t acquireSpectrumXiaSaturn ( char * operationHandle,
 	unsigned long mcaLength = 0;
 	double dnumMCAChannels = (double) numChannels;
 	double dnumMCAChannelsReadback;
+	int	n_channels_done;
 
 	// Start the acquisition.
 	printf ("acquireSpectrumXiaSaturn: Start the acquisition.\n");
 	printf ("acquireSpectrumXiaSaturn: Number of requested channels = %ld\n", numChannels);
 	printf ("acquireSpectrumXiaSaturn: Start channel = %ld\n", startChannel);
 
+
+//  original code
 	status = xiaSetAcquisitionValues(XIA_SATURN_CONTROL_CHANNEL, "number_mca_channels", &dnumMCAChannels);
 	if ( status != XIA_SUCCESS )
 		{
@@ -380,7 +391,7 @@ xos_result_t acquireSpectrumXiaSaturn ( char * operationHandle,
 		}
 
 	printf ("acquireSpectrumXiaSaturn: MCA channel readback = %lf\n", dnumMCAChannelsReadback);
-
+//
 	status = xiaStartRun(XIA_SATURN_CONTROL_CHANNEL, 0);
 
 	if ( status != XIA_SUCCESS )
@@ -392,22 +403,38 @@ xos_result_t acquireSpectrumXiaSaturn ( char * operationHandle,
 		printf ("acquireSpectrumXiaSaturn: started acquisition");
 	}
 
+
 	//let DCSS know that the detector is ready
 	sprintf( dcssCommand,
 				"htos_operation_update acquireSpectrum %s readyToAcquire ",
 				operationHandle );
 	sendToDcss( dcssCommand );
+/*
+	do {
+		int i;
+		n_channels_done = 0;
+		for (i=0; i<numChannels; i++){
+			printf("yangx before xiaGetRunData i=%d numChannels=%d \n",i,numChannels);
+			status = xiaGetRunData(i, "run_active", &run_active);
+			printf("yangx after xiaGetRunData run_active = %d\n", run_active);
+			if((run_active & 0x1) ==0)
+				n_channels_done++;
+		}
+		sleep(1);
+
+	} while (n_channels_done != numChannels);
+*/
 
 	// Wait for acquisition to complete.
 	while (1)
 		{
 		// Sleep for 50 ms
 		xos_thread_sleep (50);
-
 		status = xiaGetRunData(XIA_SATURN_CHANNEL, "run_active", &run_active);
+		//printf("****after xiaGetRunData ********** run_active=%d XIA_RUN_HARDWARE=%d\n", run_active ,XIA_RUN_HARDWARE);
 
 		//check to see if the detector is still busy
-		if (!(run_active & XIA_RUN_HARDWARE))
+		if (!(run_active & XIA_RUN_HARDWARE))		
 			break;
 
 		//check to see if the operation has been aborted

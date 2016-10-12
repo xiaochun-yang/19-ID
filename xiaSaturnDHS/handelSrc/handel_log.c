@@ -1,16 +1,7 @@
 /*
- * handel_log.c
- *
- * Routines used for controlling the logging functionality
- * in XerXes.
- *
- * Created 8/22/01 -- PJF
- *
- * Major upgrade 12/3/01 -- JEW
- *
- * Copyright (c) 2002,2003,2004, X-ray Instrumentation Associates
- *               2005, XIA LLC
- * All rights reserved.
+ * Copyright (c) 2002-2004 X-ray Instrumentation Associates
+ *               2005-2015 XIA LLC
+ * All rights reserved
  *
  * Redistribution and use in source and binary forms, 
  * with or without modification, are permitted provided 
@@ -23,7 +14,7 @@
  *     above copyright notice, this list of conditions and the 
  *     following disclaimer in the documentation and/or other 
  *     materials provided with the distribution.
- *   * Neither the name of X-ray Instrumentation Associates 
+ *   * Neither the name of XIA LLC 
  *     nor the names of its contributors may be used to endorse 
  *     or promote products derived from this software without 
  *     specific prior written permission.
@@ -41,6 +32,7 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF 
  * THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF 
  * SUCH DAMAGE.
+ *
  *
  */
 
@@ -146,3 +138,21 @@ HANDEL_EXPORT int HANDEL_API xiaSetLogOutput(char *filename)
   
   return XIA_SUCCESS;
 }	
+
+
+/*****************************************************************************
+ *
+ * This routine closes the logging stream
+ *
+ *****************************************************************************/
+HANDEL_EXPORT int HANDEL_API xiaCloseLog(void)
+{
+	if (handel_md_output == NULL) 
+	{ 
+		xiaInitHandel();
+	}
+
+	handel_md_output(NULL);
+
+	return XIA_SUCCESS;
+}

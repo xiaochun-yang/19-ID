@@ -170,8 +170,6 @@ class SetupTab {
 	itk_option define -beamWidthDevice beamWidthDevice BeamWidthDevice ""
 	itk_option define -beamHeightDevice beamHeightDevice BeamHeightDevice ""
 	itk_option define -beamstopDevice  beamstopDevice BeamstopDevice ""
-	itk_option define -beamstopHorzDevice  beamstopHorzDevice BeamstopHorzDevice ""
-	itk_option define -beamstopVertDevice  beamstopVertDevice BeamstopVertDevice ""
 
 	itk_option define -videoParameters videoParameters VideoParameters {}
 	itk_option define -videoEnabled videoEnabled VideoEnabled 0
@@ -636,6 +634,12 @@ body SetupTab::addTools {} {
         $itk_component(toolChest) add command \
         -label "Inline Camera Parameters"    \
         -command [list $this openToolChest inline_sample_camera_param]
+    }
+
+    if {[$m_deviceFactory stringExists inline_sample_camera_h_constant]} {
+        $itk_component(toolChest) add command \
+        -label "Inline Camera High R Parameters"    \
+        -command [list $this openToolChest inline_sample_camera_h_param]
     }
 
     $itk_component(toolChest) add command \
@@ -1158,8 +1162,6 @@ body SetupTab::launchWidget { name  } {
 				keep -detectorVertDevice
 				keep -detectorHorzDevice
 				keep -beamstopDevice
-				keep -beamstopHorzDevice
-				keep -beamstopVertDevice
 				keep -energyDevice
 			}
 
@@ -1181,7 +1183,7 @@ body SetupTab::launchWidget { name  } {
 				keep -gonioKappaDevice -detectorVertDevice
 				keep -detectorHorzDevice -detectorZDevice -energyDevice
                                 keep -attenuationDevice -beamWidthDevice -beamHeightDevice
-				keep -beamstopDevice -beamstopHorzDevice -beamstopVertDevice
+				keep -beamstopDevice 
 			}
 			pack $itk_component($name)
 			pack $path
@@ -2282,6 +2284,20 @@ body SetupTab::launchWidget { name  } {
 			pack $itk_component($name) -expand 1 -fill both
         }
 
+	inline_sample_camera_h_param {
+                        if [checkAndActivateExistingDocument $name] return
+                        set path [$itk_component(Mdi) addDocument $name -title "Inline Camera High R Parameters"  -width 600 -height 270 -resizable 1 ]
+
+            itk_component add $name {
+                DCS::SampleCameraParamView $path.$name inline_sample_camera_h_constant \
+                -activeClientOnly 0 -systemIdleOnly 0 \
+                -stringName ::device::sample_camera_constant \
+                -nameStringName ::device::sample_camera_constant_name_list
+            } {
+            }
+                        pack $itk_component($name) -expand 1 -fill both
+        }
+	
         reposition_view {
 			if [checkAndActivateExistingDocument $name] return
 			set path [$itk_component(Mdi) addDocument $name -title "Reposition View"  -width 600 -height 300 -resizable 1 ]
@@ -2780,7 +2796,7 @@ body SetupTab::launchWidget { name  } {
 				keep -gonioKappaDevice -detectorVertDevice
 				keep -detectorHorzDevice -detectorZDevice -energyDevice
 				keep -attenuationDevice -beamWidthDevice -beamHeightDevice
-				keep -beamstopDevice -beamstopHorzDevice -beamstopVertDevice -cameraZoomDevice
+				keep -beamstopDevice -cameraZoomDevice
 				keep -videoParameters
 				keep -sampleXDevice
 				keep -sampleYDevice
@@ -2903,8 +2919,6 @@ proc startSetupTab { configuration_ } {
 		 -beamWidthDevice ::device::$gMotorBeamWidth \
 		 -beamHeightDevice ::device::$gMotorBeamHeight \
 		 -beamstopDevice ::device::$gMotorBeamStop \
-		 -beamstopHorzDevice ::device::$gMotorBeamStopHorz \
-		 -beamstopVertDevice ::device::$gMotorBeamStopVert \
 		 -cameraZoomDevice ::device::camera_zoom \
 		 -videoParameters &resolution=high \
 		 -sampleXDevice ::device::sample_x \

@@ -1,14 +1,7 @@
 /*
- * psl.c
- *
- * Routines that are common
- * to all PSL modules.
- *
- * Created 04/04/02 -- PJF
- *
- * Copyright (c) 2002,2003,2004, X-ray Instrumentation Associates
- *               2005, XIA LLC
- * All rights reserved.
+ * Copyright (c) 2002-2004 X-ray Instrumentation Associates
+ *               2005-2012 XIA LLC
+ * All rights reserved
  *
  * Redistribution and use in source and binary forms, 
  * with or without modification, are permitted provided 
@@ -21,7 +14,7 @@
  *     above copyright notice, this list of conditions and the 
  *     following disclaimer in the documentation and/or other 
  *     materials provided with the distribution.
- *   * Neither the name of X-ray Instrumentation Associates 
+ *   * Neither the name of XIA LLC 
  *     nor the names of its contributors may be used to endorse 
  *     or promote products derived from this software without 
  *     specific prior written permission.
@@ -40,12 +33,16 @@
  * THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF 
  * SUCH DAMAGE.
  *
+ * $Id$
+ *
  */
 
 
 #include <stdio.h>
+#include <ctype.h>
 
-#include "xia_psl.h"
+#include "psl_common.h"
+
 #include "xia_handel.h"
 #include "xia_assert.h"
 
@@ -172,8 +169,8 @@ PSL_SHARED int pslRemoveDefault(char *name, XiaDefaults *defs,
  * @returns Error status indicating success or failure.
  *
  */
-PSL_SHARED int PSL_API pslGetModChan(int detChan, Module *m,
-									 unsigned int *modChan)
+PSL_SHARED int pslGetModChan(int detChan, Module *m,
+                             unsigned int *modChan)
 {
   unsigned int i;
 
@@ -264,7 +261,7 @@ PSL_SHARED int pslInvalidate(char *name, XiaDefaults *defs)
   }
 
   /* XXX What if state is modified? */
-  sprintf(info_string, "%p: e->state = %#x", e, e->state);
+  sprintf(info_string, "%s: e->state = %#x", e->name, e->state);
   pslLogDebug("pslInvalidate", info_string);
 
   e->state = AV_STATE_UNKNOWN;
@@ -318,4 +315,28 @@ PSL_SHARED double pslU64ToDouble(unsigned long *u64)
   d = (double)u64[0] + ((double)u64[1] * pow(2.0, 32.0));
 
   return d;
+}
+
+
+/* Checks if the string in @a s contains all upper-case characters
+ * (and digits).
+ */
+PSL_SHARED boolean_t pslIsUpperCase(char *s)
+{
+    size_t i;
+    size_t len;
+
+
+    ASSERT(s);
+
+
+    len = strlen(s);
+
+    for (i = 0; i < len; i++) {
+        if (!isupper((int)s[i]) && !isdigit((int)s[i])) {
+            return FALSE_;
+        }
+    }
+
+    return TRUE_;
 }

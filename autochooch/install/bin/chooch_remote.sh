@@ -131,13 +131,20 @@ if [ ! -e rawdata${uniqueName} ]; then
 	exit
 fi
 
-# Run Benny_auto to generate curves
-${CHOOCHBIN}/Benny_auto ${uniqueName}
+if [ ! -e ${CHOOCHBIN}/chooch ]; then
 
 
-# Run Chooch_auto to find f', f'' 
-${CHOOCHBIN}/Chooch_auto ${uniqueName}
+        # Run Benny_auto to generate curves
+        ${CHOOCHBIN}/Benny_auto ${uniqueName}
 
+
+        # Run Chooch_auto to find f', f'' 
+        ${CHOOCHBIN}/Chooch_auto ${uniqueName}
+
+else
+       ${CHOOCHBIN}/chooch -e $2 -a $3 -o anomfacs${uniqueName} $1 
+
+fi
 
 # Check if there is a par file for this beamline
 parFile=${4}_${uniqueName}.par
@@ -158,10 +165,21 @@ echo "Removing tmp files"
 
 # Remove temporary files
 echo "Deleting temp files *${uniqueName}"
-${RM} -f splinor${uniqueName} splinor_raw${uniqueName}
-${RM} -f atomdata${uniqueName} atomname${uniqueName}
-${RM} -f anomfacs${uniqueName} pre_poly${uniqueName} post_poly${uniqueName}
-${RM} -f valuefile${uniqueName}
+if [ -e splinor${uniqueName} ] ; then
+    ${RM} -f splinor${uniqueName} splinor_raw${uniqueName}
+fi
+if [ -e atomdata${uniqueName} ] ; then
+    ${RM} -f atomdata${uniqueName} atomname${uniqueName}
+fi
+if [ -e anomfacs${uniqueName} ] ; then
+    ${RM} -f anomfacs${uniqueName} 
+fi
+if [ -e pre_poly${uniqueName} ] ; then
+    ${RM} -f pre_poly${uniqueName} post_poly${uniqueName}
+fi
+if [ -e valuefile${uniqueName} ] ; then
+    ${RM} -f valuefile${uniqueName}
+fi
 ${RM} -f ${parFile}
 
 echo "Exiting chooch_remote.sh"

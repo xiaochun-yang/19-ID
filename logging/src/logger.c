@@ -702,7 +702,7 @@ void warning_details(const char* file,
  * @param ... - List of parameters 
  *
  *********************************************************/
-void info(logger_t* self, const char* format, ...)
+void myinfo(logger_t* self, const char* format, ...)
 {
 	va_list     ap;
 	va_start(ap, format);

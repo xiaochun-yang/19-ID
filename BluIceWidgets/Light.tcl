@@ -195,14 +195,13 @@ body LightControlWidget::handleStatusEvent { stringName_ targetReady_ alias_ con
     $itk_component(back_light) config -text $text
     if {$available != $m_available} {
         set m_available $available
-
         #pack forget $itk_component(lightFrame)
         set all [grid slaves $m_lightSite]
         if {[llength $all] > 0} {
             eval grid forget $all
         }
 
-        if {$m_available} {
+       if {$m_available} {
             grid $itk_component(back_label) $itk_component(side_label) -sticky news
             grid $itk_component(back_light) $itk_component(side_light) -sticky news
             grid columnconfig $m_lightSite 1 -weight 10
@@ -398,8 +397,8 @@ class ComboLightControlWidget {
         } {
         }
 
-        $itk_component(back_light) addInput \
-        "$m_objBackLight status inactive {Supporing Device}"
+#yangx        $itk_component(back_light) addInput \
+#yangx        "$m_objBackLight status inactive {Supporing Device}"
 
         if {$gInlineCameraExists} {
             $itk_component(back_light) addInput \
@@ -455,6 +454,7 @@ body ComboLightControlWidget::handleStatusEvent { stringName_ targetReady_ alias
     update_display
 }
 body ComboLightControlWidget::handleInlineStatusEvent { - targetReady_ alias_ contents_ - } {
+#yangx    puts "yangxx Light contents = $contents_"
     set m_inlineReady $targetReady_
     if {!$targetReady_} {
         update_display
@@ -502,7 +502,6 @@ body ComboLightControlWidget::update_display { } {
 
     if {$available != $m_available} {
         set m_available $available
-
         #pack forget $itk_component(lightFrame)
         set all [grid slaves $m_lightSite]
         if {[llength $all] > 0} {
@@ -884,7 +883,6 @@ body XPPLightControlWidget::update_display { } {
         if {[llength $all] > 0} {
             eval grid forget $all
         }
-
         if {$m_available} {
             grid \
             $itk_component(tweak_label) \

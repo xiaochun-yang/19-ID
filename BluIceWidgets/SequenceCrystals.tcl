@@ -69,8 +69,8 @@ class SequenceCrystals {
 
 
 #    private variable MAX_ROW        100
-#yangx change to 192 to cover 12 puck (16sample on each puck)     
-    private variable MAX_ROW        192
+#yangx change to 256 to cover 16 puck (16sample on each puck)     
+    private variable MAX_ROW        256
     private variable MAX_COL        100
     private variable INIT_NUM_LABEL     20
     private variable INIT_NUM_ENTRY     0
@@ -1432,7 +1432,7 @@ body SequenceCrystals::parseHeader { header {forced 0} } {
     -command "$this handlePreset refresh"
 
     itk_component add checkHeader {
-        ::DCS::Checkbutton $m_headerSite.checkHeader -selectcolor blue -systemIdleOnly 0
+        ::DCS::Checkbutton $m_headerSite.checkHeader -selectcolor yellow -systemIdleOnly 0
     } {} 
     bind $itk_component(checkHeader) <Map> "$this handleHeaderMap -1"
 
@@ -1598,7 +1598,7 @@ body SequenceCrystals::parseHeader { header {forced 0} } {
         -font $m_font \
         -text $i \
         -width 12
-        ::DCS::Checkbutton $f.check$i -selectcolor blue -systemIdleOnly 0
+        ::DCS::Checkbutton $f.check$i -selectcolor yellow -systemIdleOnly 0
 
         bind $f.state$i <Map> "$this handleCellMap $i -2"
         bind $f.check$i <Map> "$this handleCellMap $i -1"
@@ -1641,7 +1641,8 @@ body SequenceCrystals::rowConfig { row_no args } {
     ###here is a place more than necessary
     #updateRegisteredComponents -sampleInfo
 
-    set blue #a0a0c0
+   set blue #a0a0c0
+#    set blue #d0d000
 
     set nElements $MAX_ROW 
     set sel $m_indexSelect

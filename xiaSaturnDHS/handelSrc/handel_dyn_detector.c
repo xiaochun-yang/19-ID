@@ -1,16 +1,7 @@
 /*
- * handel_dyn_detector.c
- *
- *
- * Created 10/03/01 -- PJF
- *
- * This file is nothing more then the routines
- * that were once in the (now non-existent) file
- * handel_dynamic_config.c.
- *
- * Copyright (c) 2002,2003,2004, X-ray Instrumentation Associates
- *               2005, XIA LLC
- * All rights reserved.
+ * Copyright (c) 2002-2004 X-ray Instrumentation Associates
+ *               2005-2012 XIA LLC
+ * All rights reserved
  *
  * Redistribution and use in source and binary forms, 
  * with or without modification, are permitted provided 
@@ -23,7 +14,7 @@
  *     above copyright notice, this list of conditions and the 
  *     following disclaimer in the documentation and/or other 
  *     materials provided with the distribution.
- *   * Neither the name of X-ray Instrumentation Associates 
+ *   * Neither the name of XIA LLC 
  *     nor the names of its contributors may be used to endorse 
  *     or promote products derived from this software without 
  *     specific prior written permission.
@@ -42,6 +33,8 @@
  * THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF 
  * SUCH DAMAGE.
  *
+ * $Id$
+ *
  */
 
 
@@ -53,13 +46,13 @@
 #include "xerxes.h"
 #include "xerxes_errors.h"
 #include "xerxes_structures.h"
-
 #include "xia_handel.h"
+#include "xia_handel_structures.h"
+
 #include "handel_generic.h"
 #include "handeldef.h"
 #include "handel_errors.h"
-#include "xia_handel_structures.h"
-
+#include "handel_log.h"
 
 
 /** @brief Creates a new detector
@@ -224,28 +217,16 @@ HANDEL_EXPORT int HANDEL_API xiaAddDetectorItem(char *alias, char *name,
 /* convert the name to lower case */
 	for (i = 0; i < (unsigned int)strlen(name); i++)
 	{
-		strtemp[i] = (char)tolower(name[i]);
+		strtemp[i] = (char)tolower((int)name[i]);
 	}
 	strtemp[strlen(name)] = '\0';
 
 /* Switch thru the possible entries */
 	if (STREQ(strtemp, "number_of_channels"))
 	{
-/* make sure the number of channels is less than max, this is mostly a check for
- * poorly passed type of value...i.e. if value is passed as a double, it will
- likely
- * look like a bogus number of channels */
-		if (*((unsigned short *)value) > MAXDETECTOR_CHANNELS)
-		{
-			status = XIA_BAD_VALUE;
-			sprintf(info_string,"Number of channels too large: %u.", *((unsigned short
- *)value));
-			xiaLogError("xiaAddDetectorItem", info_string, status);
-			return status;
-		}
 		chosen->nchan    		= *((unsigned short *) value);
 		chosen->polarity 		= (unsigned short *)
- handel_md_alloc(chosen->nchan*sizeof(unsigned short));
+    handel_md_alloc(chosen->nchan*sizeof(unsigned short));
 		chosen->gain     		= (double *) handel_md_alloc(chosen->nchan*sizeof(double));
 		chosen->typeValue 	= (double *)handel_md_alloc(sizeof(double) * chosen->nchan);
 
@@ -253,6 +234,19 @@ HANDEL_EXPORT int HANDEL_API xiaAddDetectorItem(char *alias, char *name,
 		    (chosen->gain      == NULL) ||
 			(chosen->typeValue == NULL))
 		{
+      if (chosen->polarity) {
+          handel_md_free(chosen->polarity);
+          chosen->polarity = NULL;
+      }
+      if (chosen->gain) {
+          handel_md_free(chosen->gain);
+          chosen->gain = NULL;
+      }
+      if (chosen->typeValue) {
+          handel_md_free(chosen->typeValue);
+          chosen->typeValue = NULL;
+      }
+      
 			status = XIA_NOMEM;
 			xiaLogError("xiaAddDetectorItem", "Unable to allocate memory for detector info", status);
 			return status;
@@ -421,7 +415,7 @@ HANDEL_EXPORT int HANDEL_API xiaModifyDetectorItem(char *alias, char *name, void
 /* convert the name to lower case */
 	for (i = 0; i < (unsigned int)strlen(name); i++)
   	{
-		strtemp[i] = (char)tolower(name[i]);
+		strtemp[i] = (char)tolower((int)name[i]);
 	}
 	strtemp[strlen(name)] = '\0';
 
@@ -518,7 +512,7 @@ HANDEL_EXPORT int HANDEL_API xiaGetDetectorItem(char *alias, char *name, void
 /* Convert name to lowercase */
 	for (i = 0; i < (unsigned int)strlen(name); i++)
 	{
-		strtemp[i] = (char)tolower(name[i]);
+		strtemp[i] = (char)tolower((int)name[i]);
 	}
 	strtemp[strlen(name)] = '\0';
 
@@ -728,7 +722,7 @@ HANDEL_EXPORT int HANDEL_API xiaRemoveDetector(char *alias)
 /* Turn the alias into lower case version, and terminate with a null char */
 	for (i = 0; i < (int)strlen(alias); i++)
 	{
-		strtemp[i] = (char)tolower(alias[i]);
+		strtemp[i] = (char)tolower((int)alias[i]);
 	}
 	strtemp[strlen(alias)] = '\0';
 
@@ -788,7 +782,7 @@ HANDEL_SHARED Detector* HANDEL_API xiaFindDetector(char *alias)
 /* Turn the alias into lower case version, and terminate with a null char */
 	for (i = 0; i < (int)strlen(alias); i++)
 	{
-		strtemp[i] = (char)tolower(alias[i]);
+		strtemp[i] = (char)tolower((int)alias[i]);
 	}
 	strtemp[strlen(alias)] = '\0';
 

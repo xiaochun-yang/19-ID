@@ -191,7 +191,6 @@ body BluIce::createHutchTab {} {
       keep -detectorZDevice -energyDevice
       keep -attenuationDevice -beamWidthDevice
       keep -beamHeightDevice -beamstopDevice
-      keep -beamstopHorzDevice -beamstopVertDevice
       keep -videoParameters
       keep -videoEnabled
    }
@@ -457,7 +456,6 @@ body BluIce::createStaffTab { } {
       keep -detectorZDevice -energyDevice
       keep -attenuationDevice -beamWidthDevice
       keep -beamHeightDevice -beamstopDevice
-      keep -beamstopHorzDevice -beamstopVertDevice
       keep -cameraZoomDevice -videoParameters
       keep -sampleXDevice -sampleYDevice -sampleZDevice
       keep -videoEnabled
@@ -604,8 +602,6 @@ proc startBluIce { configuration_ } {
 		 -beamWidthDevice ::device::$gMotorBeamWidth \
 		 -beamHeightDevice ::device::$gMotorBeamHeight \
 		 -beamstopDevice ::device::$gMotorBeamStop \
-		 -beamstopHorzDevice ::device::$gMotorBeamStopHorz \
-		 -beamstopVertDevice ::device::$gMotorBeamStopVert \
 		 -cameraZoomDevice ::device::camera_zoom \
 		 -videoParameters &resolution=high \
 		 -sampleXDevice ::device::sample_x \
@@ -618,6 +614,8 @@ proc startBluIce { configuration_ } {
 
 	#pack .bluice -expand yes -fill both
 
+#		 -beamstopHorzDevice ::device::$gMotorBeamStopHorz \
+#		 -beamstopVertDevice ::device::$gMotorBeamStopVert \
 
 	DCS::ComponentGate ::dataCollectionActive
 	::dataCollectionActive addInput "::device::collectRun status inactive {Data collection is in progress.}"

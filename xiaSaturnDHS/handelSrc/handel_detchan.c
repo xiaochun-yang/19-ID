@@ -1,14 +1,7 @@
 /*
- * handel_detchan.c
- *
- * Created 10/04/01 -- PJF
- *
- * This file contains code that pertains to the manipulation
- * of DetChanElements.
- *
- * Copyright (c) 2002,2003,2004, X-ray Instrumentation Associates
- *               2005, XIA LLC
- * All rights reserved.
+ * Copyright (c) 2002-2004 X-ray Instrumentation Associates
+ *               2005-2012 XIA LLC
+ * All rights reserved
  *
  * Redistribution and use in source and binary forms, 
  * with or without modification, are permitted provided 
@@ -21,7 +14,7 @@
  *     above copyright notice, this list of conditions and the 
  *     following disclaimer in the documentation and/or other 
  *     materials provided with the distribution.
- *   * Neither the name of X-ray Instrumentation Associates 
+ *   * Neither the name of XIA LLC 
  *     nor the names of its contributors may be used to endorse 
  *     or promote products derived from this software without 
  *     specific prior written permission.
@@ -40,6 +33,8 @@
  * THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF 
  * SUCH DAMAGE.
  *
+ * $Id$
+ *
  */
 
 
@@ -48,7 +43,9 @@
 #include "xia_handel.h"
 #include "xia_handel_structures.h"
 #include "xia_common.h"
+
 #include "handel_errors.h"
+#include "handel_log.h"
 
 
 HANDEL_STATIC DetChanSetElem* HANDEL_API xiaGetDetSetTail(DetChanSetElem *head);
@@ -210,12 +207,9 @@ HANDEL_SHARED int HANDEL_API xiaAddDetChan(int type, unsigned int detChan, void 
 		  masterDetChan = xiaGetDetChanPtr(-1);
 		}
 
-		sprintf(info_string, "masterDetChan = %p", masterDetChan);
-		xiaLogDebug("xiaAddDetChan", info_string);
-
 		newSetElem = (DetChanSetElem *)handel_md_alloc(sizeof(DetChanSetElem));
-
-		if (newSetElem == NULL) {
+		
+    if (newSetElem == NULL) {
 
 		  status = XIA_NOMEM;
 		  xiaLogError("xiaAddDetChan", "Not enough memory to add channel to master detChan list", status);
@@ -227,9 +221,6 @@ HANDEL_SHARED int HANDEL_API xiaAddDetChan(int type, unsigned int detChan, void 
 		
 		masterTail = xiaGetDetSetTail(masterDetChan->data.detChanSet);
 		
-		sprintf(info_string, "masterTail = %p", masterTail);
-		xiaLogDebug("xiaAddDetChan", info_string);
-
 		if (masterTail == NULL) {
 
 		  masterDetChan->data.detChanSet = newSetElem;
@@ -238,6 +229,10 @@ HANDEL_SHARED int HANDEL_API xiaAddDetChan(int type, unsigned int detChan, void 
 
 		  masterTail->next = newSetElem;
 		}
+
+		sprintf(info_string, "Added detChan %u with modAlias %s", 
+            detChan, (char *)data);
+		xiaLogDebug("xiaAddDetChan", info_string);
 		
 		break;
 
@@ -311,22 +306,21 @@ HANDEL_SHARED int HANDEL_API xiaRemoveDetChan(unsigned int detChan)
 	prev = NULL;
 	next = current->next;
 
-	while (((int)detChan != current->detChan) &&
-		   (next != NULL))
-	{
+	while (((int)detChan != current->detChan) && (next != NULL)) {
 		prev = current;
 		current = next;
 		next = current->next;
 	}
 
-	if ((next == NULL) &&
-		((int)detChan != current->detChan))
-	{
+	if ((next == NULL) && ((int)detChan != current->detChan)) {
 		status = XIA_INVALID_DETCHAN;
 		sprintf(info_string, "Specified detChan %u doesn't exist", detChan);
 		xiaLogError("xiaRemoveDetChan", info_string, status);
 		return status;
 	}
+
+	sprintf(info_string, "Removing detChan %u", detChan);
+	xiaLogInfo("xiaRemoveDetChan", info_string);
 
 	if (current == xiaDetChanHead)
 	{

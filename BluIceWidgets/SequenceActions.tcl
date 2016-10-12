@@ -323,9 +323,9 @@ body ScreeningSequenceConfig::selectNewAction { index_} {
 		} {
 			keep -font
 		}
-
+#yangx change from blue to yellow
 		itk_component add actionCheck$a_index {
-			DCS::Checkbutton $f.check$a_index -selectcolor blue -systemIdleOnly 0
+			DCS::Checkbutton $f.check$a_index -selectcolor yellow -systemIdleOnly 0
 		} {}
 
 		
@@ -669,7 +669,7 @@ body ScreeningActionList::destructor {} {
       if {$a_condensedMandatory} {
 		   $itk_component(actionCheck$i) configure -selectcolor darkgreen 
       } else {
-		   $itk_component(actionCheck$i) configure -selectcolor blue
+		   $itk_component(actionCheck$i) configure -selectcolor yellow
       }
 		incr i
 	}

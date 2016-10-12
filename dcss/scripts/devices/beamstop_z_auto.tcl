@@ -77,12 +77,15 @@ proc beamstop_z_auto_calculate { dz } {
 
 proc removeInlineCamera {} {
     ### turn off the light
-    lightsControl_start setup inline_remove
+    variable inlineLightStatus
 
-    open_shutter inline_light_in
-    close_shutter inline_light_out
+#yang    lightsControl_start setup inline_remove
 
-    wait_for_devices inline_light_in inline_light_out
+
+    	 open_shutter inline_light_in
+#yang    close_shutter inline_light_out
+	 wait_for_devices inline_light_in
+#yang    wait_for_devices inline_light_in inline_light_out
     
     wait_for_time 500
     log_note "Waiting for inline light to move out." 
@@ -95,14 +98,15 @@ proc removeInlineCamera {} {
 }
 
 proc insertInlineCamera {} {
+
+#log_note "yangxx inlineLightStatus=$inlineLightStatus"
     ## max light
-    lightsControl_start setup inline_insert
-    collimatorMoveOut
-
-    close_shutter inline_light_in
-    open_shutter inline_light_out
-
-    wait_for_devices inline_light_in inline_light_out
+#yang    lightsControl_start setup inline_insert
+#yang    collimatorMoveOut
+         close_shutter inline_light_in
+#yang    open_shutter inline_light_out
+	 wait_for_devices inline_light_in
+#yang    wait_for_devices inline_light_in inline_light_out
     wait_for_time 500
 
     log_note "Waiting for inline light to move in." 
@@ -113,9 +117,11 @@ proc insertInlineCamera {} {
     }
     log_note "Inline light moved in" 
 }
+
 proc waitForInlineLightRemoved {} {
     variable inlineLightStatus
 
+#log_note "yangxx inlineLightStatus=$inlineLightStatus"
     set removed 0
     while {!$removed} {
         set paramList $inlineLightStatus
@@ -130,7 +136,8 @@ proc waitForInlineLightRemoved {} {
             break
         }
         log_note "Waiting for inline light to move out." 
-        wait_for_strings inlineLightStatus 5000
+set inlineLightStatus "INSERTED no REMOVED yes"
+#yangx        wait_for_strings inlineLightStatus 5000
     }
 }
 
@@ -144,6 +151,8 @@ proc waitForInlineLightInserted {} {
         no INSERTED field found
         return -code error field_INSERTED_not_found
     }
+    set inlineLightStatus "INSERTED yes REMOVED no"
+log_note "yangx inlineLightStatus=$inlineLightStatus"
     ### timeout can be added at the end of arguments
-    wait_for_string_contents inlineLightStatus yes $index 5000
+#yangx    wait_for_string_contents inlineLightStatus yes $index 5000
 }

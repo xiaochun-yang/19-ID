@@ -1,14 +1,7 @@
 /*
- * handel_xerxes.c
- *
- * Created 10/25/01 -- PJF
- *
- *
- * This serves as an interface to all calls to XerXes routines.
- *
- * Copyright (c) 2002,2003,2004, X-ray Instrumentation Associates
- *               2005, XIA LLC
- * All rights reserved.
+ * Copyright (c) 2002-2004 X-ray Instrumentation Associates
+ *               2005-2015 XIA LLC
+ * All rights reserved
  *
  * Redistribution and use in source and binary forms, 
  * with or without modification, are permitted provided 
@@ -21,7 +14,7 @@
  *     above copyright notice, this list of conditions and the 
  *     following disclaimer in the documentation and/or other 
  *     materials provided with the distribution.
- *   * Neither the name of X-ray Instrumentation Associates 
+ *   * Neither the name of XIA LLC 
  *     nor the names of its contributors may be used to endorse 
  *     or promote products derived from this software without 
  *     specific prior written permission.
@@ -40,31 +33,27 @@
  * THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF 
  * SUCH DAMAGE.
  *
+ *
  */
 
 
 #include <stdio.h>
 #include <limits.h>
 
-#include "xia_handel.h"
-#include "xia_system.h"
-#include "xia_assert.h"
-
-#include "handel_errors.h"
-#include "xia_handel_structures.h"
-#include "handel_xerxes.h"
-#include "handel_generic.h"
 #include "xerxes.h"
 #include "xerxes_errors.h"
 
+#include "xia_handel.h"
+#include "xia_system.h"
+#include "xia_assert.h"
+#include "xia_handel_structures.h"
+
+#include "handel_errors.h"
+#include "handel_xerxes.h"
+#include "handel_generic.h"
+#include "handel_log.h"
+
 #include "fdd.h"
-
-
-
-
-
-
-
 
 
 HANDEL_STATIC int xia__GetSystemFPGAName(Module *module, char *detType,
@@ -116,7 +105,8 @@ HANDEL_STATIC int xia__DoSystemFiPPI(Module *m, boolean_t *found);
 
 HANDEL_STATIC int xia__GetDetStringFromDetChan(int detChan, Module *m,
 											   char *type);
-
+HANDEL_STATIC int xia__SetupSingleChan(Module *module, unsigned int detChan, 
+                                        PSLFuncs *localFuncs);
 /*****************************************************************************
  *
  * This routine calls the XerXes fit routine. See XerXes for more details.
@@ -125,6 +115,9 @@ HANDEL_STATIC int xia__GetDetStringFromDetChan(int detChan, Module *m,
 HANDEL_EXPORT int HANDEL_API xiaFitGauss(long data[], int lower, int upper, float *pos, float *fwhm)
 {
   int statusX;
+
+  xiaLogWarning("xiaFitGauss", "xiaFitGauss is deprecated and will not be "
+        "available in Handel v1.3." );  
 
   statusX = dxp_fitgauss0(data, &lower, &upper, pos, fwhm);
 
@@ -146,6 +139,9 @@ HANDEL_EXPORT int HANDEL_API xiaFitGauss(long data[], int lower, int upper, floa
 HANDEL_EXPORT int HANDEL_API xiaFindPeak(long *data, int numBins, float thresh, int *lower, int *upper)
 {
   int statusX;
+
+  xiaLogWarning("xiaFindPeak", "xiaFindPeak is deprecated and will not be "
+        "available in Handel v1.3." );  
 
   statusX = dxp_findpeak(data, &numBins, &thresh, lower, upper);
 
@@ -324,175 +320,182 @@ HANDEL_SHARED int HANDEL_API xiaUserSetup(void)
 {
   int statusX;
   int status;
-  int detector_chan;
 
+  unsigned int i;
+  int detChanInModule;
+  
+  DetChanElement *chan = NULL;
+
+  Module *module = NULL;
+
+  PSLFuncs localFuncs;
+
+  XiaDefaults *defaults = NULL;
+  
+  statusX = dxp_user_setup();
+
+  if (statusX != DXP_SUCCESS) {
+      xiaLogError("xiaUserSetup", "Error downloading firmware via Xerxes.",
+                  XIA_XERXES);
+      return XIA_XERXES;
+  }
+
+  module = xiaGetModuleHead();
+  ASSERT(module);
+
+  /* The user setup function is iterated on modules first 
+   * this will allow insertion of per-module setup calls
+   */
+  while (module != NULL) {
+      
+    /* Clear the isSetup flag which will be toggled after the first channel
+     * in the module is set up.
+     */
+    module->isSetup = FALSE_;
+    status = xiaLoadPSL(module->type, &localFuncs);
+
+    if (status != XIA_SUCCESS) {
+        sprintf(info_string, "Unable to load PSL funcs for "
+                "module type %s.", module->type);
+        xiaLogError("xiaUserSetup", info_string, status);
+        return status;
+    }        
+      
+    /* Loop on channels in the module now. */
+    chan = xiaGetDetChanHead();
+
+    while (chan != NULL) {
+
+      if (xiaGetElemType(chan->detChan) == SINGLE 
+          && STREQ(chan->data.modAlias, module->alias)) {
+
+        status = xia__SetupSingleChan(module, chan->detChan, &localFuncs);
+
+        if (status != XIA_SUCCESS) {
+            sprintf(info_string, "Unable to set up channel %u for "
+                    "module alias %s.", chan->detChan, module->alias);
+            xiaLogError("xiaUserSetup", info_string, status);
+            return status;
+        }
+      }
+
+      chan = getListNext(chan);
+    }
+    
+    /* Module level setup function, need a detChan for the user functions
+     * we could just use the first active channel in the module
+     */
+    for (i = 0; i < module->number_of_channels; i++) {
+      if (module->channels[i] >= 0) {
+        break;
+      }
+    }
+
+    if (i == module->number_of_channels) {
+      sprintf(info_string, "Skipping module setup for %s, module is disabled",
+              module->alias);
+      xiaLogDebug("xiaUserSetup", info_string);
+    } else {    
+      detChanInModule = module->channels[i]; 
+      
+      defaults = xiaGetDefaultFromDetChan(detChanInModule);
+      status = localFuncs.moduleSetup(detChanInModule, defaults, module);
+
+      if (status != XIA_SUCCESS) {
+          sprintf(info_string, "Unable to do module setup for module %s.",
+                  module->alias);
+          xiaLogError("xiaUserSetup", info_string, status);
+          return status;
+      }
+    }
+    
+    module = getListNext(module);
+  }
+  
+  return XIA_SUCCESS;
+}
+
+
+/** @brief Set up a single channel in given module
+ *
+ */
+HANDEL_STATIC int xia__SetupSingleChan(Module *module, unsigned int detChan, 
+                                        PSLFuncs *localFuncs)
+{
+  int status;
+
+  int detector_chan;
   unsigned int modChan;
 
-  unsigned short polarity;
-  unsigned short type;
-
-  double typeValue;
-  double gainScale;
-
-  char boardType[MAXITEM_LEN];
-  char detectorType[MAXITEM_LEN];
-
-  char *alias;
   char *detAlias;
   char *firmAlias;
 
-  DetChanElement *current = NULL;
+  char detectorType[MAXITEM_LEN];
 
   FirmwareSet *firmwareSet = NULL;
 
   CurrentFirmware *currentFirmware = NULL;
 
-  Module *module = NULL;
-
   Detector *detector = NULL;
 
   XiaDefaults *defaults = NULL;
+  
+  ASSERT(module != NULL);
+  ASSERT(localFuncs != NULL);
+  
+  modChan = xiaGetModChan(detChan);
+  ASSERT(modChan < module->number_of_channels);
 
-  PSLFuncs localFuncs;
+  firmAlias         = module->firmware[modChan];
+  firmwareSet       = xiaFindFirmware(firmAlias);
+  detAlias          = module->detector[modChan];
+  detector_chan     = module->detector_chan[modChan];
+  detector          = xiaFindDetector(detAlias);
+  currentFirmware   = &module->currentFirmware[modChan];
+  defaults          = xiaGetDefaultFromDetChan(detChan);
 
-  statusX = dxp_user_setup();
+  switch (detector->type) {
+  case XIA_DET_RESET:
+    strcpy(detectorType, "RESET");
+    break;
 
-  if (statusX != DXP_SUCCESS)
-	{
-	  status = XIA_XERXES;
-	  xiaLogError("xiaUserSetup", "Error downloading firmware", status);
-	  return status;
-	}
+  case XIA_DET_RCFEED:
+    strcpy(detectorType, "RC");
+    break;
 
-  /* Add calls to xiaSetAcquisitionValues() here using values from the defaults
-   * list.
-   */
+  default:
+  case XIA_DET_UNKNOWN:
+    sprintf(info_string, "No detector type specified for detChan %u.", detChan);
+    xiaLogError("xia__SetupSingleChan", info_string, XIA_MISSING_TYPE);
+    return XIA_MISSING_TYPE;
+    break;
+  }
 
+  status = localFuncs->userSetup(detChan, defaults,
+                                firmwareSet, currentFirmware,
+                                detectorType, detector, detector_chan,
+                                module, modChan);
 
-  /* Set polarity and reset time from info in detector struct */
-  current = xiaGetDetChanHead();
- 	
-  while (current != NULL)
-	{
-	  switch (xiaGetElemType(current->detChan))
-		{
-		case SET:
-		  /* Skip SETs since all SETs are composed of SINGLES */
-		  break;
-		  
-		case SINGLE:
-		  status = xiaGetBoardType(current->detChan, boardType);
+  if (status != XIA_SUCCESS) {
+      sprintf(info_string, "Unable to complete user setup for "
+              "detChan %u.", detChan);
+      xiaLogError("xia__SetupSingleChan", info_string, status);
+      return status;
+  }
 
-		  if (status != XIA_SUCCESS)
-			{
-			  sprintf(info_string, "Unable to get boardType for detChan %u", current->detChan);
-			  xiaLogError("xiaUserSetup", info_string, status);
-			  return status;
-			}
+  /* Having a single channel set up is enough for some per module operation */
+  module->isSetup = TRUE_;
 
-		  alias         		= xiaGetAliasFromDetChan(current->detChan);
-		  module        		= xiaFindModule(alias);
-		  modChan       		= xiaGetModChan((unsigned int)current->detChan);
-		  firmAlias     		= module->firmware[modChan];
-		  firmwareSet   		= xiaFindFirmware(firmAlias);
-		  detAlias      		= module->detector[modChan];
-		  detector_chan 		= module->detector_chan[modChan];
-		  detector      		= xiaFindDetector(detAlias);
-		  polarity      		= detector->polarity[detector_chan];
-		  type			  		= detector->type;
-		  typeValue     		= detector->typeValue[detector_chan];
-		  gainScale             = module->gain[modChan];
-		  currentFirmware	    = &module->currentFirmware[modChan];
-		  defaults      		= xiaGetDefaultFromDetChan((unsigned int)current->detChan);
+  /* Do any DSP parameters that are in the list */
+  status = xiaUpdateUserParams(detChan);
 
-		  switch (detector->type)
-			{
-			case XIA_DET_RESET:
-			  strcpy(detectorType, "RESET");
-			  break;
-		
-			case XIA_DET_RCFEED:
-			  strcpy(detectorType, "RC");
-			  break;
-		
-			default:
-			case XIA_DET_UNKNOWN:
-			  status = XIA_MISSING_TYPE;
-			  sprintf(info_string, "No detector type specified for detChan %d", current->detChan);
-			  xiaLogError("xiaSetAcquisitionValues", info_string, status);
-			  return status;
-			  break;
-			}
-
-		  status = xiaLoadPSL(boardType, &localFuncs);
-
-		  if (status != XIA_SUCCESS)
-			{
-			  sprintf(info_string, "Unable to load PSL funcs for detChan %d", current->detChan);
-			  xiaLogError("xiaUserSetup", info_string, status);
-			  return status;
-			}
-
-		  status = localFuncs.setPolarity((int)current->detChan, detector,
-										  detector_chan, defaults, module);
-
-		  if (status != XIA_SUCCESS)
-			{
-			  sprintf(info_string, "Unable to set polarity for detChan %d", current->detChan);
-			  xiaLogError("xiaUserSetup", info_string, status);
-			  return status;
-			}
-
-		  status = localFuncs.setDetectorTypeValue((int)current->detChan, detector, detector_chan, defaults);
-
-		  if (status != XIA_SUCCESS)
-			{
-			  sprintf(info_string, "Unable to set detector typeValue for detChan %d", current->detChan);
-			  xiaLogError("xiaUserSetup", info_string, status);
-			  return status;
-			}
-
-		  /* Now we can do the defaults */
-		  status = localFuncs.userSetup((int)current->detChan, defaults, firmwareSet,
-										currentFirmware, detectorType, gainScale,
-										detector, detector_chan, module,
-										modChan);
-   
-		  if (status != XIA_SUCCESS)
-			{
-			  sprintf(info_string, "Unable to complete user setup for detChan %d",
-					  current->detChan);
-			  xiaLogError("xiaUserSetup", info_string, status);
-			  return status;
-			}
-
-		  /* Do any DSP parameters that are in the list */
-		  status = xiaUpdateUserParams(current->detChan);
-
-		  if (status != XIA_SUCCESS) {
-
-			sprintf(info_string, "Unable to update user parameters for detChan %d", current->detChan);
-			xiaLogError("xiaUserSetup", info_string, status);
-			return status;
-		  }
-
-		  break;
-
-		case 999:
-		  status = XIA_INVALID_DETCHAN;
-		  xiaLogError("xiaUserSetup", "detChan number is not in the list of valid values ", status);
-		  return status;
-		  break;
-		default:
-		  status = XIA_UNKNOWN;
-		  xiaLogError("xiaUserSetup", "Should not be seeing this message", status);
-		  return status;
-		  break;
-		}
-
-	  current = getListNext(current);
-	}
-
+  if (status != XIA_SUCCESS) {
+      sprintf(info_string, "Unable to update user parameters for "
+              "detChan %u.", detChan);
+      xiaLogError("xia__SetupSingleChan", info_string, status);
+      return status;
+  }
+  
   return XIA_SUCCESS;
 }
 
@@ -517,12 +520,6 @@ HANDEL_STATIC int xia__CopyInterfString(Module *m, char *interf)
 	return XIA_MISSING_INTERFACE;
 	break;
 
-#ifndef EXCLUDE_CAMAC
-  case JORWAY73A:
-  case GENERIC_SCSI:
-	strcpy(interf, "camacdll.dll");
-	break;
-#endif /* EXCLUDE_CAMAC */
 
 #ifndef EXCLUDE_EPP
   case EPP:
@@ -533,13 +530,13 @@ HANDEL_STATIC int xia__CopyInterfString(Module *m, char *interf)
 
 #ifndef EXCLUDE_USB
   case USB:
-	sprintf(interf, "%i", m->interface_info->info.usb->device_number);
+	sprintf(interf, "%u", m->interface_info->info.usb->device_number);
 	break;
 #endif /* EXCLUDE_USB */
 
 #ifndef EXCLUDE_USB2
   case USB2:
-    sprintf(interf, "%d", m->interface_info->info.usb2->device_number);
+    sprintf(interf, "%u", m->interface_info->info.usb2->device_number);
     break;
 #endif /* EXCLUDE_USB2 */
 
@@ -555,7 +552,6 @@ HANDEL_STATIC int xia__CopyInterfString(Module *m, char *interf)
 	break;
 #endif /* EXCLUDE_PLX */
 
-	/* XXX ARCNET stuff goes here... */
   }
 
   return XIA_SUCCESS;
@@ -583,15 +579,6 @@ HANDEL_STATIC int xia__CopyMDString(Module *m, char *md)
 	return XIA_MISSING_INTERFACE;
 	break;
 
-#ifndef EXCLUDE_CAMAC
-  case JORWAY73A:
-  case GENERIC_SCSI:
-	sprintf(md, "%u%u%02u", m->interface_info->info.jorway73a->scsi_bus, 
-			m->interface_info->info.jorway73a->crate_number,
-			m->interface_info->info.jorway73a->slot);
-	break;
-#endif /* EXCLUDE_CAMAC */
-
 #ifndef EXCLUDE_EPP
   case EPP:
   case GENERIC_EPP:
@@ -609,21 +596,22 @@ HANDEL_STATIC int xia__CopyMDString(Module *m, char *md)
 
 #ifndef EXCLUDE_USB
   case USB:
-	sprintf(md, "%i", m->interface_info->info.usb->device_number);
+	sprintf(md, "%u", m->interface_info->info.usb->device_number);
 	break;
 #endif /* EXCLUDE_USB */
 
 #ifndef EXCLUDE_USB2
   case USB2:
-    sprintf(md, "%d", m->interface_info->info.usb2->device_number);
+    sprintf(md, "%u", m->interface_info->info.usb2->device_number);
     break;
 #endif /* EXCLUDE_USB2 */
 
 #ifndef EXCLUDE_SERIAL
   case SERIAL:
-	sprintf(md, "%u", m->interface_info->info.serial->com_port);
+	sprintf(md, "%u:%u", m->interface_info->info.serial->com_port,
+			m->interface_info->info.serial->baud_rate);
 	break;
-#endif /* EXCLUDE_ARCNET */
+#endif /* EXCLUDE_SERIAL */
 
 #ifndef EXCLUDE_PLX
   case PLX:
@@ -633,7 +621,6 @@ HANDEL_STATIC int xia__CopyMDString(Module *m, char *md)
 
 #endif /* EXCLUDE_PLX */
 
-	/* XXX ARCNET stuff goes here... */
 
   }
 
@@ -653,8 +640,6 @@ HANDEL_STATIC int xia__GetDSPName(Module *module, int channel,
 								  char *detectorType, char *rawFilename)
 {
   char *firmAlias;
-  char *tmpPath = NULL;
-
   int status;
 
   FirmwareSet *firmwareSet = NULL;
@@ -675,34 +660,15 @@ HANDEL_STATIC int xia__GetDSPName(Module *module, int channel,
 	
   } else {
 
-    if (firmwareSet->tmpPath) {
-      tmpPath = firmwareSet->tmpPath;
-    } else {
-      tmpPath = utils->funcs->dxp_md_tmp_path();
-    }
-
-    status = xiaFddGetFirmware(firmwareSet->filename, tmpPath, "dsp", peakingTime, 
-                               (unsigned short)firmwareSet->numKeywords,
-                               firmwareSet->keywords, detectorType, dspName,
-                               rawFilename);
-
-	if (status != XIA_SUCCESS) {
-	  sprintf(info_string, "Error getting DSP code from FDD file %s @ "
-			  "peaking time = %f", firmwareSet->filename, peakingTime);
-	  xiaLogError("xiaGetDSPName", info_string, status);
-	  return status;
-	}
-
-	/* XXX Dump the FDD data */
-	xiaLogDebug("xiaGetDSPName", "***** Dump of data sent to FDD *****");
-	sprintf(info_string, "firmwareSet->filename = %s", firmwareSet->filename);
-	xiaLogDebug("xiaGetDSPName", info_string);
-	sprintf(info_string, "peakingTime = %.3f", peakingTime);
-	xiaLogDebug("xiaGetDSPName", info_string);
-	sprintf(info_string, "detectorType = %s", detectorType);
-	xiaLogDebug("xiaGetDSPName", info_string);
-	sprintf(info_string, "Returned DSPName = %s", dspName);
-	xiaLogDebug("xiaGetDSPName", info_string);
+		status = xiaFddGetAndCacheFirmware(firmwareSet, "dsp", peakingTime, 
+																		detectorType, dspName, rawFilename);
+		
+		if (status != XIA_SUCCESS) {
+			sprintf(info_string, "Error getting DSP code from FDD file %s @ "
+					"peaking time = %f", firmwareSet->filename, peakingTime);
+			xiaLogError("xiaGetDSPName", info_string, status);
+			return status;
+		}
   }
 
   return XIA_SUCCESS;
@@ -717,7 +683,6 @@ HANDEL_STATIC int xia__GetFiPPIName(Module *module, int channel,
 									char *detectorType, char *rawFilename)
 {
   char *firmAlias;
-  char *tmpPath = NULL;
 
   int status;
 
@@ -743,36 +708,15 @@ HANDEL_STATIC int xia__GetFiPPIName(Module *module, int channel,
 
 	} else {
 
-    if (firmwareSet->tmpPath) {
-      tmpPath = firmwareSet->tmpPath;
-    } else {
-      tmpPath = utils->funcs->dxp_md_tmp_path();
-    }
-
-	  status = xiaFddGetFirmware(firmwareSet->filename, tmpPath, "fippi",
-                               peakingTime,
-                               (unsigned short)firmwareSet->numKeywords,
-                               firmwareSet->keywords, detectorType, fippiName,
-                               rawFilename);
-
-
+		status = xiaFddGetAndCacheFirmware(firmwareSet, "fippi", peakingTime, 
+																		detectorType, fippiName, rawFilename);
+																		
 	  if (status != XIA_SUCCESS)
 		{
 		  sprintf(info_string, "Error getting FiPPI code from FDD file %s @ peaking time = %f", firmwareSet->filename, peakingTime);
 		  xiaLogError("xia__GetFiPPIName", info_string, status);
 		  return status;
 		}
-
-	  /* !!DEBUG!! sequence...used to test FDD stuff */
-	  xiaLogDebug("xia__GetFiPPIName", "***** Dump of data sent to FDD *****");
-	  sprintf(info_string, "firmwareSet->filename = %s", firmwareSet->filename);
-	  xiaLogDebug("xia__GetFiPPIName", info_string);
-	  sprintf(info_string, "peakingTime = %.3f", peakingTime);
-	  xiaLogDebug("xia__GetFiPPIName", info_string);
-	  sprintf(info_string, "detectorType = %s", detectorType);
-	  xiaLogDebug("xia__GetFiPPIName", info_string);
-	  sprintf(info_string, "Returned fippiName = %s", fippiName);
-	  xiaLogDebug("xia__GetFiPPIName", info_string);
 	}
 
   return XIA_SUCCESS;
@@ -830,10 +774,11 @@ HANDEL_STATIC int xia__AddSystemFPGA(Module *module, char *sysFPGAName,
 
   char *sysFPGAStr[1];
 
+  UNUSED(rawFilename);
+  UNUSED(module);
 
-  ASSERT(module != NULL);
+
   ASSERT(sysFPGAName != NULL);
-  ASSERT(rawFilename != NULL);
 
 
   sysFPGAStr[0] = (char *)handel_md_alloc(strlen(sysFPGAName) + 1);
@@ -888,8 +833,6 @@ HANDEL_STATIC int xia__GetSystemFPGAName(Module *module, char *detType,
 
   double fake_pt = 1.0;
 
-  char *tmpPath = NULL;
-
   FirmwareSet *fs = NULL;
 
 
@@ -911,26 +854,25 @@ HANDEL_STATIC int xia__GetSystemFPGAName(Module *module, char *detType,
 	return XIA_NULL_FIRMWARE;
   }
 
-  if (!fs->filename) {
-	sprintf(info_string, "No FDD defined in the firmware set '%s'",
-			module->firmware[0]);
-	xiaLogError("xia__GetSystemFPGAName", info_string, XIA_NO_FDD);
-	return XIA_NO_FDD;
+	status = xiaFddGetAndCacheFirmware(fs, "system_fpga", fake_pt, 
+																		detType, sysFPGAName, rawFilename);
+	
+  /* This is not necessarily an error. We will still pass the error value
+   * up to the top-level but only use an informational message. For products
+   * without system_fippis defined in their FDD files this message will always
+   * appear and we don't want them to be confused by spurious ERRORs.
+   */
+  if (status == XIA_FILEERR) {
+    sprintf(info_string, "Error finding system_fpga in %s", fs->filename);
+    xiaLogInfo("xia__GetSystemFPGAName", info_string);
+    return status;
   }
-
-  if (fs->tmpPath) {
-    tmpPath = fs->tmpPath;
-  } else {
-    tmpPath = utils->funcs->dxp_md_tmp_path();
-  }
-
-  status = xiaFddGetFirmware(fs->filename, tmpPath, "system_fpga", fake_pt, 0,
-                             NULL, detType, sysFPGAName, rawFilename);
-
+  
+  /* These are "real" errors, not just missing file problems. */
   if (status != XIA_SUCCESS) {
-	sprintf(info_string, "Error finding system_fpga in %s", fs->filename);
-	xiaLogError("xia__GetSystemFPGAName", info_string, status);
-	return status;
+    sprintf(info_string, "Error finding system_fpga in %s", fs->filename);
+    xiaLogError("xia__GetSystemFPGAName", info_string, status);
+    return status;
   }
 
   *found = TRUE_;
@@ -962,9 +904,6 @@ HANDEL_STATIC int xia__GetSystemDSPName(Module *module, char *detType,
   int status;
 
   double fake_pt = 1.0;
-
-  char *tmpPath = NULL;
-
   FirmwareSet *fs = NULL;
 
 
@@ -986,26 +925,25 @@ HANDEL_STATIC int xia__GetSystemDSPName(Module *module, char *detType,
 	return XIA_NULL_FIRMWARE;
   }
 
-  if (!fs->filename) {
-	sprintf(info_string, "No FDD defined in the firmware set '%s'",
-			module->firmware[0]);
-	xiaLogError("xia__GetSystemDSPName", info_string, XIA_NO_FDD);
-	return XIA_NO_FDD;
+	status = xiaFddGetAndCacheFirmware(fs, "system_dsp", fake_pt, 
+																		detType, sysDSPName, rawFilename);
+																		
+   /* This is not necessarily an error. We will still pass the error value
+   * up to the top-level but only use an informational message. For products
+   * without system_fippis defined in their FDD files this message will always
+   * appear and we don't want them to be confused by spurious ERRORs.
+   */
+  if (status == XIA_FILEERR) {
+    sprintf(info_string, "Cannot find system_dsp in %s", fs->filename);
+    xiaLogInfo("xia__GetSystemDSPName", info_string);
+    return status;
   }
-
-  if (fs->tmpPath) {
-    tmpPath = fs->tmpPath;
-  } else {
-    tmpPath = utils->funcs->dxp_md_tmp_path();
-  }
-
-  status = xiaFddGetFirmware(fs->filename, tmpPath, "system_dsp", fake_pt, 0, NULL,
-							 detType, sysDSPName, rawFilename);
-
+  
+  /* These are "real" errors, not just missing file problems. */
   if (status != XIA_SUCCESS) {
-	sprintf(info_string, "Error finding system_dsp in %s", fs->filename);
-	xiaLogError("xia__GetSystemDSPName", info_string, status);
-	return status;
+    sprintf(info_string, "Cannot find system_dsp in %s", fs->filename);
+    xiaLogError("xia__GetSystemDSPName", info_string, status);
+    return status;
   }
 
   *found = TRUE_;
@@ -1024,10 +962,11 @@ HANDEL_STATIC int xia__AddSystemDSP(Module *module, char *sysDSPName,
 
   char *sysDSPStr[1];
 
+  UNUSED(rawFilename);
+  UNUSED(module);
 
-  ASSERT(module != NULL);
+
   ASSERT(sysDSPName != NULL);
-  ASSERT(rawFilename != NULL);
 
 
   sysDSPStr[0] = (char *)handel_md_alloc(strlen(sysDSPName) + 1);
@@ -1076,8 +1015,6 @@ HANDEL_STATIC int xia__GetFiPPIAName(Module *module, char *detType,
 
   double fake_pt = 1.0;
   
-  char *tmpPath = NULL;
-
   FirmwareSet *fs = NULL;
 
 
@@ -1099,26 +1036,26 @@ HANDEL_STATIC int xia__GetFiPPIAName(Module *module, char *detType,
 	return XIA_NULL_FIRMWARE;
   }
 
-  if (!fs->filename) {
-	sprintf(info_string, "No FDD defined in the firmware set '%s'",
-			module->firmware[0]);
-	xiaLogError("xia__GetFiPPIAName", info_string, XIA_NO_FDD);
-	return XIA_NO_FDD;
+	status = xiaFddGetAndCacheFirmware(fs, "fippi_a", fake_pt, 
+																		detType, sysFippiAName, rawFilename);
+																									 
+
+   /* This is not necessarily an error. We will still pass the error value
+   * up to the top-level but only use an informational message. For products
+   * without system_fippis defined in their FDD files this message will always
+   * appear and we don't want them to be confused by spurious ERRORs.
+   */
+  if (status == XIA_FILEERR) {
+    sprintf(info_string, "Cannot find fippi_a in %s", fs->filename);
+    xiaLogInfo("xia__GetFiPPIAName", info_string);
+    return status;
   }
-
-  if (fs->tmpPath) {
-    tmpPath = fs->tmpPath;
-  } else {
-    tmpPath = utils->funcs->dxp_md_tmp_path();
-  }
-
-  status = xiaFddGetFirmware(fs->filename, tmpPath, "fippi_a", fake_pt, 0, NULL,
-							 detType, sysFippiAName, rawFilename);
-
+  
+  /* These are "real" errors, not just missing file problems. */
   if (status != XIA_SUCCESS) {
-	sprintf(info_string, "Error finding fippi_a in %s", fs->filename);
-	xiaLogError("xia__GetFiPPIAName", info_string, status);
-	return status;
+    sprintf(info_string, "Cannot find fippi_a in %s", fs->filename);
+    xiaLogError("xia__GetFiPPIAName", info_string, status);
+    return status;
   }
 
   *found = TRUE_;
@@ -1136,11 +1073,11 @@ HANDEL_STATIC int xia__AddFiPPIA(Module *module, char *sysFippiAName,
 
   char *sysFippiAStr[1];
 
+  UNUSED(rawFilename);
+  UNUSED(module);
 
-  ASSERT(module != NULL);
+
   ASSERT(sysFippiAName != NULL);
-  ASSERT(rawFilename != NULL);
-
 
   sysFippiAStr[0] = (char *)handel_md_alloc(strlen(sysFippiAName) + 1);
 
@@ -1261,7 +1198,7 @@ HANDEL_STATIC int xia__AddXerxesInterface(Module *m)
 {
   int status;
   int statusX;
-  int interfLen = 0;
+  size_t interfLen = 0;
 
   char *interf[2];
 
@@ -1274,7 +1211,7 @@ HANDEL_STATIC int xia__AddXerxesInterface(Module *m)
   interf[0] = (char *)handel_md_alloc(interfLen);
 
   if (!interf[0]) {
-	sprintf(info_string, "Error allocating %d bytes for 'interf[0]'", interfLen);
+	sprintf(info_string, "Error allocating %zu bytes for 'interf[0]'", interfLen);
 	xiaLogError("xia__AddXerxesInterface", info_string, XIA_NOMEM);
 	return XIA_NOMEM;
   }
@@ -1292,7 +1229,7 @@ HANDEL_STATIC int xia__AddXerxesInterface(Module *m)
 
   strcpy(interf[0], INTERF_LIST[m->interface_info->type]);
 
-  sprintf(info_string, "type = %d, name = '%s'", m->interface_info->type,
+  sprintf(info_string, "type = %u, name = '%s'", m->interface_info->type,
           INTERF_LIST[m->interface_info->type]);
   xiaLogDebug("xia__AddXerxesInterface", info_string);
 
@@ -1391,14 +1328,14 @@ HANDEL_STATIC int xia__AddXerxesModule(Module *m)
 
 	if (!modStr[i + 2]) {
 	  /* Need to unwind the previous allocations */
-	  for (j = i - 1; j >= 0; j--) {
-		handel_md_free(modStr[j + 2]);
-	  }
+        for (j = 0; j < i; j++) {
+            handel_md_free(modStr[j + 2]);
+        }
 	  
 	  handel_md_free(modStr);
 
 	  sprintf(info_string, "Error allocating %d bytes for 'modStr[%d]'",
-			  MAX_CHAN_LEN, i + 2);
+			  MAX_CHAN_LEN, (int)(i + 2));
 	  xiaLogError("xia__AddXerxesModule", info_string, XIA_NOMEM);
 	  return XIA_NOMEM;
 	}
@@ -1744,7 +1681,7 @@ HANDEL_STATIC int xia__DoDSP(Module *m)
 	dspStr[0] = &(chan[0]);
 	dspStr[1] = &(dspName[0]);
 
-	sprintf(dspStr[0], "%d", i);
+	sprintf(dspStr[0], "%u", i);
 
 	statusX = dxp_add_board_item("dsp", (char **)dspStr);
 
@@ -1881,7 +1818,7 @@ HANDEL_STATIC int xia__DoFiPPI(Module *m)
 	fippiStr[0] = &(chan[0]);
 	fippiStr[1] = &(fippiName[0]);
 
-	sprintf(fippiStr[0], "%d", i);
+	sprintf(fippiStr[0], "%u", i);
 
 	statusX = dxp_add_board_item("fippi", (char **)fippiStr);
 
@@ -1926,7 +1863,7 @@ HANDEL_STATIC int xia__AddXerxesParams(Module *m)
  */
 HANDEL_STATIC int xia__DoSystemFiPPI(Module *m, boolean_t *found)
 {
-  int detChan=0;
+  int detChan = -1;
   int status;
 
   unsigned int i;
@@ -2005,8 +1942,6 @@ HANDEL_STATIC int xia__GetSystemFiPPIName(Module *m, char *detType,
 
   double fakePT = 1.0;
 
-  char *tmpPath = NULL;
-
   FirmwareSet *fs = NULL;
 
 
@@ -2022,22 +1957,9 @@ HANDEL_STATIC int xia__GetSystemFiPPIName(Module *m, char *detType,
 
   fs = xiaFindFirmware(m->firmware[0]);
   ASSERT(fs != NULL);
-
-  if (fs->filename == NULL) {
-    sprintf(info_string, "No FDD defined in the firmware set '%s'",
-            m->firmware[0]);
-    xiaLogError("xia__GetSystemFiPPIName", info_string, XIA_NO_FDD);
-    return XIA_NO_FDD;
-  }
-
-  if (fs->tmpPath != NULL) {
-    tmpPath = fs->tmpPath;
-  } else {
-    tmpPath = utils->funcs->dxp_md_tmp_path();
-  }
-
-  status = xiaFddGetFirmware(fs->filename, tmpPath, "system_fippi", fakePT, 0,
-                             NULL, detType, sysFipName, rawFilename);
+	
+	status = xiaFddGetAndCacheFirmware(fs, "system_fippi", fakePT, detType, 
+																		sysFipName, rawFilename);
 
   /* This is not necessarily an error. We will still pass the error value
    * up to the top-level but only use an informational message. For products
@@ -2075,10 +1997,11 @@ HANDEL_STATIC int xia__AddSystemFiPPI(Module *m, char *sysFipName,
   /* Xerxes requires items as lists of strings. */
   char *sysFipStr[1];
 
+  UNUSED(rawFilename);
+  UNUSED(m);
 
-  ASSERT(m != NULL);
+
   ASSERT(sysFipName != NULL);
-  ASSERT(rawFilename != NULL);
 
 
   sysFipStr[0] = handel_md_alloc(strlen(sysFipName) + 1);
@@ -2106,3 +2029,5 @@ HANDEL_STATIC int xia__AddSystemFiPPI(Module *m, char *sysFipName,
 
   return XIA_SUCCESS;
 }
+
+
