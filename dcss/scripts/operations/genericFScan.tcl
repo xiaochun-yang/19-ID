@@ -49,7 +49,7 @@ proc genericFScan_start { time } {
 	set gStopFluorescenceScan 0
         
 	set resolution 25
-	set channels 1024
+	set channels 2048
 
 	if {$time > 60.0} {
 		return -code error "Scan time is excessive (>60.0 sec)."

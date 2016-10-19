@@ -176,6 +176,8 @@ XOS_THREAD_ROUTINE xiaSaturnControlThread( void * arg )
 						 &numChannels,
 						 &elapsedTimePreset);
 
+				puts(commandBuffer);
+
 				//check to see if the XiaSaturn can handle the request
 				if (numChannels > MAX_XIASATURN_CHANNELS)
 					{
@@ -260,6 +262,7 @@ xos_result_t connectToXiaSaturn ()
 	// set the MCA bin size
 	double dmcaBinWidth = 8.0;
 	double dmcaBinWidthReadback;
+
 	status = xiaSetAcquisitionValues(XIA_SATURN_CONTROL_CHANNEL, "mca_bin_width", &dmcaBinWidth);
 
 	if (status != XIA_SUCCESS) {
@@ -345,6 +348,10 @@ xos_result_t setElapsedTimePresetXiaSaturn (float presetTime )
 
 	status = xiaGetAcquisitionValues(XIA_SATURN_CHANNEL, "peaking_time", &peakingTimeReadback);
 	printf("setElapsedTimePresetXiaSaturn: Readback of peaking time = %lf\n", peakingTimeReadback);
+
+	int ignored = 0;
+
+	status = xiaBoardOperation(0, "apply", &ignored);
 
 	return XOS_SUCCESS;
 }

@@ -8,7 +8,7 @@ proc energy_initialize {} {
 
 proc energy_motorlist {} {
         # specify motors which move during e-tracking for BL9-2, omitting mono_angle/mono_theta
-        set result [list mono_crystal2_perp mono_crystal2_para]
+        set result [list mono_c2_perp mono_c2_para]
         return $result
 }
 
@@ -17,27 +17,27 @@ proc energy_move { new_energy } {
 	variable d_spacing
 	variable energy
         variable mono_theta
-	variable mono_crystal2_perp
-	variable mono_crystal2_para
+	variable mono_c2_perp
+	variable mono_c2_para
 
  
 	# calculate destination
 	set new_mono_theta [energy_calculate_mono_theta $new_energy $d_spacing]
-	set new_mono_crystal2_perp  [energy_calculate_mono_crystal2_perp $new_mono_theta]
-        set new_mono_crystal2_para  [energy_calculate_mono_crystal2_para $new_mono_theta]
+	set new_mono_c2_perp  [energy_calculate_mono_c2_perp $new_mono_theta]
+        set new_mono_c2_para  [energy_calculate_mono_c2_para $new_mono_theta]
 
 
 #	assertMotorLimit mono_theta $new_mono_theta
-#	assertMotorLimit mono_crystal2_para  $new_mono_crystal2_para
-#	assertMotorLimit mono_crystal2_perp  $new_mono_crystal2_perp
+#	assertMotorLimit mono_c2_para  $new_mono_c2_para
+#	assertMotorLimit mono_c2_perp  $new_mono_c2_perp
 
 	# move destination
         move mono_theta to $new_mono_theta
-	move mono_crystal2_perp to $new_mono_crystal2_perp 
-	move mono_crystal2_para to $new_mono_crystal2_para
+	move mono_c2_perp to $new_mono_c2_perp 
+	move mono_c2_para to $new_mono_c2_para
 
 	# wait for the move to complete
-	wait_for_devices mono_theta mono_crystal2_perp mono_crystal2_para 
+	wait_for_devices mono_theta mono_c2_perp mono_c2_para 
 }
 
 
@@ -46,31 +46,31 @@ proc energy_set { new_energy } {
 	# global variables
 	variable d_spacing
 	variable mono_theta
-	variable mono_crystal2_para
-	variable mono_crystal2_perp
+	variable mono_c2_para
+	variable mono_c2_perp
         variable mono_theta_offset
-        variable mono_crystal2_perp_offset
-        variable mono_crystal2_para_offset
+        variable mono_c2_perp_offset
+        variable mono_c2_para_offset
    
 	# calculate position of mono_theta
 	set  new_mono_theta [energy_calculate_mono_theta $new_energy $d_spacing]
-        set  new_mono_crystal2_perp [energy_calculate_mono_crystal2_perp $new_mono_theta]
-        set  new_mono_crystal2_para [energy_calculate_mono_crystal2_para $new_mono_theta]
+        set  new_mono_c2_perp [energy_calculate_mono_c2_perp $new_mono_theta]
+        set  new_mono_c2_para [energy_calculate_mono_c2_para $new_mono_theta]
 
 	set  mono_theta_offset [expr $mono_theta - $new_mono_theta + $mono_theta_offset]
-	set  mono_crystal2_perp_offset [expr $mono_crystal2_perp - $new_mono_crystal2_perp + $mono_crystal2_perp_offset]
-	set  mono_crystal2_para_offset [expr $mono_crystal2_para - $new_mono_crystal2_para + $mono_crystal2_para_offset]
+	set  mono_c2_perp_offset [expr $mono_c2_perp - $new_mono_c2_perp + $mono_c2_perp_offset]
+	set  mono_c2_para_offset [expr $mono_c2_para - $new_mono_c2_para + $mono_c2_para_offset]
 
 	# set position of mono_theta	
 	set mono_theta $new_mono_theta
-        set mono_crystal2_perp $new_mono_crystal2_perp
-	set mono_crystal2_para $new_mono_crystal2_para
+        set mono_c2_perp $new_mono_c2_perp
+	set mono_c2_para $new_mono_c2_para
 
-#	log_warning "set mono_crystal2_perp_offset to $mono_crystal2_perp_offset and mono_crystal2_para offset to $mono_crystal2_para_offset" 
+#	log_warning "set mono_c2_perp_offset to $mono_c2_perp_offset and mono_c2_para offset to $mono_c2_para_offset" 
 	if { [catch {
             set handle ""
             set handle [open /usr/local/dcs/dcss/tmp/optimizedEnergy.log a ]
-            puts $handle "[time_stamp] Set mono_theta_offset to $mono_theta_offset  mono_crystal2_perp_offset to $mono_crystal2_perp_offset and mono_crystal2_para_offset to $mono_crystal2_para_offset"
+            puts $handle "[time_stamp] Set mono_theta_offset to $mono_theta_offset  mono_c2_perp_offset to $mono_c2_perp_offset and mono_c2_para_offset to $mono_c2_para_offset"
 	        puts $handle ""
 	        close $handle
         } ] } {
@@ -116,7 +116,7 @@ proc energy_calculate_mono_theta { e ds } {
 
 }
 
-proc energy_calculate_mono_crystal2_perp { mt} {
+proc energy_calculate_mono_c2_perp { mt} {
 	variable h_beamexit
 #	h_beamexit is the distance between the centers of two crystals. It's a constant value.
 #	return [expr $h_beamexit/2/cos([rad $mt]) ]
@@ -124,7 +124,7 @@ proc energy_calculate_mono_crystal2_perp { mt} {
 	return [expr $h_beamexit/2/cos([expr $mt/57.29578])]
 }
 
-proc energy_calculate_mono_crystal2_para { mt} {
+proc energy_calculate_mono_c2_para { mt} {
 
 	variable h_beamexit
 #	return [expr h_beamexit/2/sin([rad $mt]) ] 

@@ -382,7 +382,7 @@ void xiaSaturnService::acquireSpectrum()
 	// Issue an asynchronous command.
 	xiaSaturn_start(m_pInstantOperation->GetText());
 
-   LOG_FINEST("xiaSaturnService::acquireSpectrum exit\n");
+   LOG_FINEST("xiaSaturnService::acquireSpectrum exit \n");
 }
 
 /********************************************************************
