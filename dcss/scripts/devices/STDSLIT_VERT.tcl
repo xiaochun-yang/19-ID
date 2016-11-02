@@ -70,12 +70,12 @@ proc PREFIX_vert_calculate { supper slower } {
 
 proc PREFIX_upper_calculate { sv svg } {
 
-	return [expr $sv + $svg / 2.0 ]
+	return [expr (2*$sv + $svg) / 2.0 ]
 }
 
 
 proc PREFIX_lower_calculate { sv svg } {
 
-	return [expr $sv - $svg / 2.0 ]
+	return [expr (2*$sv - $svg) / 2.0 ]
 }
 

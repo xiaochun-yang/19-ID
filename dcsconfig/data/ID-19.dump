@@ -550,7 +550,7 @@ galil7 mirror_pitch
 
 mirror_roll
 1
-galil7 mirror_pitch
+galil7 mirror_roll
 0 1 1 1 1
 0 0 0 0 0
 0
@@ -581,55 +581,55 @@ self STD_MOVE_TOGETHER
 1.500000 2.500230 0.150161 0 0 0 0 mm
 mirror_bend_1 mirror_bend_2
 
+screen_1
+6
+galil8 1 screen_1
+0 1 1 1 1
+0 1 1 1 1
+
+screen_2
+6
+galil8 1 screen_2
+0 1 1 1 1
+0 1 1 1 1
+
+screen_3
+6
+galil8 1 screen_3
+0 1 1 1 1
+0 1 1 1 1
+
 mirror_slit_upper
 1
-simDhs mirror_slit_upper
+galil8 mirror_slit_upper
 0 1 1 1 1
 0 0 0 0 0
 0
-4.811410 8.196513 0.000000 157.750000 500 125 -100 0 1 0 1 0 0 mm
+8.000000 20.000000 -20.000000 3200.000000 3200 80 0 0 0 0 0 0 0 mm
 
 mirror_slit_lower
 1
-simDhs mirror_slit_lower
+galil8 mirror_slit_lower
 0 1 1 1 1
 0 0 0 0 0
 0
--3.708399 0.000000 -8.000000 157.750000 500 125 100 1 0 0 1 0 0 mm
+-8.000000 20.000000 -20.000000 3200.000000 3200 50 0 0 0 0 0 0 0 mm
 
 mirror_slit_lobs
 1
-simDhs mirror_slit_lobs
+galil8 mirror_slit_lobs
 0 1 1 1 1
 0 0 0 0 0
 0
--3.708399 0.000000 -8.000000 157.750000 500 125 100 1 0 0 1 0 0 mm
+-8.000000 11.000000 -9.700000 3200.000000 3200 50 0 0 0 0 0 0 0 mm
 
 mirror_slit_ring
 1
-simDhs mirror_slit_ring
+galil8 mirror_slit_ring
 0 1 1 1 1
 0 0 0 0 0
 0
--3.708399 0.000000 -8.000000 157.750000 500 125 100 1 0 0 1 0 0 mm
-
-mirror_slit_vert
-2
-self STDSLIT_VERT
-0 1 1 1 1
-0 0 0 0 0
-1
-0.551506 10.000000 -10.000000 0 0 0 0 mm
-mirror_slit_upper mirror_slit_lower
-
-mirror_slit_vert_gap
-2
-self STDSLIT_VERT_GAP
-0 1 1 1 1
-0 0 0 0 0
-1
-8.519809 5.000000 -5.000000 0 0 0 0 mm
-mirror_slit_upper mirror_slit_lower
+8.000000 11.000000 -9.500000 3200.000000 3200 50 0 0 0 0 0 0 0 mm
 
 mirror_slit_horiz
 2
@@ -637,7 +637,7 @@ self STDSLIT_HORIZ
 0 1 1 1 1
 0 0 0 0 0
 1
--3.708399 10.000000 -10.000000 0 0 0 0 mm
+0.000000 10.000000 -10.000000 0 0 0 0 mm
 mirror_slit_lobs mirror_slit_ring
 
 mirror_slit_horiz_gap
@@ -646,8 +646,26 @@ self STDSLIT_HORIZ_GAP
 0 1 1 1 1
 0 0 0 0 0
 1
-0.000000 5.000000 -5.000000 0 0 0 0 mm
+16.000000 5.000000 -5.000000 0 0 0 0 mm
 mirror_slit_lobs mirror_slit_ring
+
+mirror_slit_vert
+2
+self STDSLIT_VERT
+0 1 1 1 1
+0 0 0 0 0
+1
+0.000000 10.000000 -10.000000 0 0 0 0 mm
+mirror_slit_upper mirror_slit_lower
+
+mirror_slit_vert_gap
+2
+self STDSLIT_VERT_GAP
+0 1 1 1 1
+0 0 0 0 0
+1
+16.000000 5.000000 -5.000000 0 0 0 0 mm
+mirror_slit_upper mirror_slit_lower
 
 toroid_vert
 1
@@ -683,7 +701,7 @@ simDhs m1bend
 
 mono_c2_perp
 1
-galil10 mono_c2_perp
+simDhs mono_c2_perp
 0 1 1 1 1
 0 0 0 0 0
 0
@@ -691,7 +709,7 @@ galil10 mono_c2_perp
 
 mono_c2_para
 1
-galil10 mono_c2_para
+simDhs mono_c2_para
 0 1 1 1 1
 0 0 0 0 0
 0
@@ -699,7 +717,7 @@ galil10 mono_c2_para
 
 mono_c2_bend_1
 1
-galil10 mono_c2_bend_1
+simDhs mono_c2_bend_1
 0 1 1 1 1
 0 0 0 0 0
 0
@@ -707,7 +725,7 @@ galil10 mono_c2_bend_1
 
 mono_c2_bend_2
 1
-galil10 mono_c2_bend_2
+simDhs mono_c2_bend_2
 0 1 1 1 1
 0 0 0 0 0
 0
@@ -724,7 +742,7 @@ mono_c2_bend_1 mono_c2_bend_2
 
 mono_c1_bend
 1
-galil10 mono_c1_bend
+simDhs mono_c1_bend
 0 1 1 1 1
 0 0 0 0 0
 0
@@ -750,7 +768,7 @@ self standardVirtualMotor
 
 mono_c2_pitch
 1
-galil10 mono_c2_pitch
+simDhs mono_c2_pitch
 0 1 1 1 1
 0 0 0 0 0
 0
@@ -758,7 +776,7 @@ galil10 mono_c2_pitch
 
 mono_c2_roll
 1
-galil10 mono_c2_roll
+simDhs mono_c2_roll
 0 1 1 1 1
 0 0 0 0 0
 0
@@ -766,7 +784,7 @@ galil10 mono_c2_roll
 
 mono_c2_yaw
 1
-galil10 mono_c2_yaw
+simDhs mono_c2_yaw
 0 1 1 1 1
 0 0 0 0 0
 0
@@ -818,11 +836,11 @@ self standardVirtualMotor
 
 energy
 2
-self standardVirtualMotor
+self energy_id19
 0 1 1 1 1
 0 0 0 0 0
 0
-9000.000000 16000.000000 5400.000000 0 0 0 0 eV
+12656.899058 16000.000000 5400.000000 0 0 0 0 eV
 0
 
 mono_piezo
@@ -871,9 +889,57 @@ simDhs white_beam_mask_x
 0
 13.299013 14.001014 0.000000 153.846000 500 125 98 1 1 0 1 0 0 mm
 
-white_beam_mask_y
+white_beam_mask_z
 1
-simDhs white_beam_mask_y
+simDhs white_beam_mask_z
+0 1 1 1 1
+0 0 0 0 0
+0
+13.299013 14.001014 0.000000 153.846000 500 125 98 1 1 0 1 0 0 mm
+
+white_beam_slit_upper
+1
+simDhs white_beam_slit_upper
+0 1 1 1 1
+0 0 0 0 0
+0
+13.299013 14.001014 0.000000 153.846000 500 125 98 1 1 0 1 0 0 mm
+
+white_beam_slit_lower
+1
+simDhs white_beam_slit_lower
+0 1 1 1 1
+0 0 0 0 0
+0
+13.299013 14.001014 0.000000 153.846000 500 125 98 1 1 0 1 0 0 mm
+
+bpm1_x
+1
+simDhs bpm1_x
+0 1 1 1 1
+0 0 0 0 0
+0
+13.299013 14.001014 0.000000 153.846000 500 125 98 1 1 0 1 0 0 mm
+
+bpm1_y
+1
+simDhs bpm1_y
+0 1 1 1 1
+0 0 0 0 0
+0
+13.299013 14.001014 0.000000 153.846000 500 125 98 1 1 0 1 0 0 mm
+
+bpm2_x
+1
+simDhs bpm1_x
+0 1 1 1 1
+0 0 0 0 0
+0
+13.299013 14.001014 0.000000 153.846000 500 125 98 1 1 0 1 0 0 mm
+
+bpm2_y
+1
+simDhs bpm1_y
 0 1 1 1 1
 0 0 0 0 0
 0
@@ -1051,13 +1117,13 @@ simDhs sample_camera_polarizer
 
 inline_light_in
 6
-galil1 1 inline_light_in
+galil1 0 inline_light_in
 0 1 1 1 1
 0 1 1 1 1
 
 inline_light_out
 6
-galil1 1 inline_light_out
+galil1 0 inline_light_out
 0 1 1 1 1
 0 1 1 1 1
 
@@ -1090,7 +1156,7 @@ inlineLightStatus
 self standardString
 0 1 1 1 1
 0 1 1 1 1
-INSERTED yes REMOVED no
+INSERTED no REMOVED yes
 
 inlineLightControl
 11
@@ -2204,7 +2270,7 @@ self attenuation
 0 1 1 1 1
 0 1 1 1 1
 0
-79.942213 100.000000 0.000000 0 0 0 0 %
+42.847301 100.000000 0.000000 0 0 0 0 %
 0
 
 acquireSpectrum
@@ -2255,7 +2321,7 @@ excitationScanStatus
 self fluorScanStatus
 0 1 1 1 1
 0 1 1 1 1
-0 {Excitation scan completed normally.} nysbc /home/nysbc/temp test Br-K {13974.000 eV} N/A {1.000 s} {12656.389648 -7.875937 2.192405 12704.049805 -4.233325 4.405492 9000.000000 -1.000000 0.900000 NULL/Se_7-1scan Se_7-1smooth_exp.bip Se_7-1smooth_norm.bip Se_7-1fp_fpp.bip} /home/nysbc/data/x4A/currentExcitationScan/ID-19.bip
+0 {DCSS was reset} nysbc /home/nysbc/temp test Se-K {13158.000 eV} N/A {1.000 s} {12656.389648 -7.875937 2.192405 12704.049805 -4.233325 4.405492 9000.000000 -1.000000 0.900000 NULL/Se_7-1scan Se_7-1smooth_exp.bip Se_7-1smooth_norm.bip Se_7-1fp_fpp.bip} /home/nysbc/data/x4A/currentExcitationScan/ID-19.bip
 
 sequenceDeviceState
 13
@@ -2294,7 +2360,7 @@ hutchDoorStatus
 simDhs standardString
 0 1 1 1 1
 0 1 1 1 1
-closed 1476896613
+closed 1478115765
 
 getPV
 11
@@ -2960,7 +3026,7 @@ scan_msg
 self standardString
 0 1 1 1 1
 0 1 1 1 1
-
+error: error ERROR: edge too close start of scan, modify scan range *
 
 auto_sample_msg
 13

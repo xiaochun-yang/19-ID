@@ -122,12 +122,24 @@ int	 ignored = 0;
                 //check to see if the detector is still busy
                 if (!(run_active & 0x1))
                         break;
+		sleep(1);
         }
 
 	// Get the data
 	 status = xiaStopRun(0);
+	 if (status != XIA_SUCCESS)
+        {
+                printf ("acquireSpectrumXiaSaturn: failed to stop acquisition.");
+                exit(1);
+        }
 
-	xiaGetRunData(0, "realtime", &realtime);
+	status = xiaGetRunData(0, "realtime", &realtime);
+	if (status != XIA_SUCCESS)
+        {
+                printf ("acquireSpectrumXiaSaturn: error to reading elapsed real time.");
+                exit(1);
+        }
+
 
 	// Read the spectrum length
         status = xiaGetRunData(0, "mca_length", (void *)&mcaLength);
@@ -136,6 +148,8 @@ int	 ignored = 0;
 		printf ("acquireSpectrumXiaSaturn: Error reading spectrum length.");
                 exit(1);
          }
+
+	printf("the mcaLength = %ld \n", mcaLength);
 
 	unsigned long spectrumData[mcaLength];
         printf ("acquireSpectrumXiaSaturn: Read the spectrum.\n");
@@ -146,8 +160,7 @@ int	 ignored = 0;
                 exit(1);
         }
 
-	int j;
-	for(j=0; j<mcaLength;j++)
-		printf("%ld ",spectrumData[j]);
+	for(i=0; i<mcaLength;i++)
+		printf("%ld ",spectrumData[i]);
 	xiaExit();
 }

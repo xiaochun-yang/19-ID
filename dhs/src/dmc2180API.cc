@@ -1365,6 +1365,20 @@ xos_result_t Dmc2180_motor::start_home( char * deviceName,  char * error_string 
                 /* construct and send message to dmc2180 */
                 controller_execute( command, &error_code,FALSE );
         }
+	else if(strncmp(deviceName,"mirror_slit",11) == 0)
+        {
+                sprintf(command, "FI%c", axisLabel );
+
+                /* construct and send message to dmc2180 */
+                controller_execute( command, &error_code,FALSE );
+        }
+	else if(strncmp(deviceName,"mono_c2",7) == 0)
+        {
+                sprintf(command, "FI%c", axisLabel );
+
+                /* construct and send message to dmc2180 */
+                controller_execute( command, &error_code,FALSE );
+        }
         else
         {
                 sprintf( command, "HM%c", axisLabel );

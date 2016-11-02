@@ -349,9 +349,9 @@ xos_result_t setElapsedTimePresetXiaSaturn (float presetTime )
 	status = xiaGetAcquisitionValues(XIA_SATURN_CHANNEL, "peaking_time", &peakingTimeReadback);
 	printf("setElapsedTimePresetXiaSaturn: Readback of peaking time = %lf\n", peakingTimeReadback);
 
-	int ignored = 0;
+	//int ignored = 0;
 
-	status = xiaBoardOperation(0, "apply", &ignored);
+	//status = xiaBoardOperation(0, "apply", &ignored);
 
 	return XOS_SUCCESS;
 }
