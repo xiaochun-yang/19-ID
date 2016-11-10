@@ -55,8 +55,8 @@ proc analyzer_roll_update {} {
 
 proc analyzer_roll_calculate { tv2 tv3 } {
 
-
-	return [expr ($tv2 - $tv3)*180/3.1415926/733]
+#width=200
+	return [expr ($tv2 - $tv3)*180/3.1415926/200]
 }
 
 

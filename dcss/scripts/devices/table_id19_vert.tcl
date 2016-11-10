@@ -74,8 +74,9 @@ proc table_vert_calculate { tv1 tv2 tv3 } {
 
 
 proc calculate_table_vert_1 { tv tp tr } {
-
-	return [expr ($tv + $tp*694*3.1415926/180) ]
+#length= 1041.67 mm
+#width= 733 mm
+	return [expr ($tv + 1041.67*2/3*$tp*3.1415926/180) ]
 }
 
 

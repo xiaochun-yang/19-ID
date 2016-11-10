@@ -55,6 +55,7 @@ proc table_roll_update {} {
 
 proc table_roll_calculate { tv2 tv3 } {
 
+#width between the two motors=733
 
 	return [expr ($tv2 - $tv3)*180/3.1415926/733]
 }

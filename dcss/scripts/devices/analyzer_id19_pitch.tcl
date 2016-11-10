@@ -59,9 +59,9 @@ proc analyzer_pitch_update {} {
 
 
 proc analyzer_pitch_calculate { tv1 tv2 tv3 } {
+#lenght=400
 
-
-	return [expr (0.00096*$tv1 - 0.00048*$tv2 -0.00048*$tv3)*180/3.1415926]
+	return [expr ($tv1/400 - $tv2/800 -$tv3/800)*180/3.1415926]
 }
 
 #proc calculate_analyzer_vert_1 { tv tp tr } {

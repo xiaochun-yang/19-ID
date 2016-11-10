@@ -74,19 +74,21 @@ proc analyzer_vert_calculate { tv1 tv2 tv3 } {
 
 
 proc calculate_analyzer_vert_1 { tv tp tr } {
-
-	return [expr ($tv + $tp*694*3.1415926/180) ]
+#length=400
+	return [expr ($tv + 2*400*$tp*3.1415926/180/3) ]
 }
 
 
 proc calculate_analyzer_vert_2 { tv tp tr} {
-	
+#set width 200	
+#set length 400
+
 #	return [expr $tv - $tp*902*3.14/180 + $tr*457*3.14/360]
-	return [expr $tv + $tr*366.5*3.1415926/180 -$tp*347*3.1415926/180]
+	return [expr ($tv + 200*$tr*3.1415926/180/2 -400*$tp*3.1415926/180/3)]
 }
 
 proc calculate_analyzer_vert_3 { tv tp tr} {
 
 #        return [expr $tv - $tp*902*3.14/180 - $tr*457*3.14/360]
-	 return [expr $tv - $tr*366.5*3.1415926/180 -$tp*347*3.1415926/180]
+	 return [expr ($tv - 200*$tr*3.1415926/180/2 -400*$tp*3.1415926/180/3)]
 }
