@@ -482,6 +482,7 @@ class DoubleCrystalMonoViewDoubleSetID19 {
 	mono_c2_bend_2 \
 	mono_c2_bend \
 	mono_c1_bend \
+	mono_angle \
         mono_theta \
         energy \
 #	mono_fine_pitch
@@ -508,8 +509,9 @@ class DoubleCrystalMonoViewDoubleSetID19 {
 	motorView mono_c2_pitch 670 300 se
         motorView mono_c2_roll  670 370 se
 	motorView mono_c2_yaw   670 440 se
-        motorView mono_theta 190 420 s
-        motorView energy 330 420 s
+	motorView mono_angle 80 420 s
+        motorView mono_theta 210 420 s
+        motorView energy 340 420 s
 #        motorView mono_fine_pitch 430 420 s
 
 #	ion_chamber_view i0 50 550 w
