@@ -57,7 +57,7 @@ proc energy_set { new_energy } {
         set  new_mono_c2_perp [energy_calculate_mono_c2_perp $new_mono_theta]
         set  new_mono_c2_para [energy_calculate_mono_c2_para $new_mono_theta]
 
-	set  mono_theta_offset [expr $mono_theta - $new_mono_theta + $mono_theta_offset]
+#	set  mono_theta_offset [expr $mono_theta - $new_mono_theta + $mono_theta_offset]
 	set  mono_c2_perp_offset [expr $mono_c2_perp - $new_mono_c2_perp + $mono_c2_perp_offset]
 	set  mono_c2_para_offset [expr $mono_c2_para - $new_mono_c2_para + $mono_c2_para_offset]
 
@@ -70,7 +70,7 @@ proc energy_set { new_energy } {
 	if { [catch {
             set handle ""
             set handle [open /usr/local/dcs/dcss/tmp/optimizedEnergy.log a ]
-            puts $handle "[time_stamp] Set mono_theta_offset to $mono_theta_offset  mono_c2_perp_offset to $mono_c2_perp_offset and mono_c2_para_offset to $mono_c2_para_offset"
+            puts $handle "[time_stamp] Set mono_c2_perp_offset to $mono_c2_perp_offset and mono_c2_para_offset to $mono_c2_para_offset"
 	        puts $handle ""
 	        close $handle
         } ] } {
@@ -118,17 +118,24 @@ proc energy_calculate_mono_theta { e ds } {
 
 proc energy_calculate_mono_c2_perp { mt} {
 	variable h_beamexit
+	variable asymmetric_cut
+
 #	h_beamexit is the distance between the centers of two crystals. It's a constant value.
 #	return [expr $h_beamexit/2/cos([rad $mt]) ]
-#	return [expr ($h_beamexit/2/cos([expr $mt/57.29578])) ]
-	return [expr $h_beamexit/2/cos([expr $mt/57.29578])]
+	set r [expr $h_beamexit/sin(2*$mt/57.29578)]
+	return [expr $r*sin( ($mt-$asymmetric_cut)/57.29578) ]
 }
 
 proc energy_calculate_mono_c2_para { mt} {
 
 	variable h_beamexit
+	variable asymmetric_cut
+
 #	return [expr h_beamexit/2/sin([rad $mt]) ] 
 #	return [expr (h_beamexit/2/sin([expr $mt/57.29578])) ]
-	return [expr $h_beamexit/2/sin([expr $mt/57.29578])]
+#	return [expr $h_beamexit/2/sin([expr $mt/57.29578])]
+
+	set r [expr $h_beamexit/sin(2*$mt/57.29578)]
+	return [expr $r*cos(($mt-$asymmetric_cut)/57.29578)]
 }
 

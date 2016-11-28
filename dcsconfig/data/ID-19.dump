@@ -22,15 +22,7 @@ galil3
 3
 localhost 2
 
-galil4
-3
-localhost 2
-
 galil5
-3
-localhost 2
-
-galil6
 3
 localhost 2
 
@@ -51,6 +43,10 @@ galil10
 localhost 2
 
 galil11
+3
+localhost 2
+
+galil12
 3
 localhost 2
 
@@ -83,7 +79,7 @@ analogInStatus1
 galil7 analogInStatus1
 0 1 1 1 1
 0 1 1 1 1
-2.582800 2.581300 2.582000 3.442000 2.581900 2.582200 2.581900 2.583300
+1.108000 0.964600 0.011600 2.573800 3.432300 2.577000 2.574400 2.575600
 
 get_robotstate
 11
@@ -515,7 +511,7 @@ galil7 mirror_vert
 0 1 1 1 1
 0 0 0 0 0
 0
-0.000000 10.000000 -10.000000 819200.000000 64000 100 0 1 1 0 1 0 0 mm
+-5.000000 10.000000 -10.000000 819200.000000 64000 100 0 1 1 0 1 0 0 mm
 
 mirror_vert_encoder
 12
@@ -562,7 +558,7 @@ galil7 mirror_bend_1
 0 1 1 1 1
 0 0 0 0 0
 0
-1.500000 7.400000 0.000000 1700000.000000 64000 100 0 1 1 0 0 0 0 mm
+-1.000000 5.000000 -5.000000 3200.000000 1600 10 0 0 0 0 0 0 0 mm
 
 mirror_bend_2
 1
@@ -570,7 +566,7 @@ galil7 mirror_bend_2
 0 1 1 1 1
 0 0 0 0 0
 0
-1.500000 7.300000 -1.400000 1700000.000000 64000 100 0 0 0 0 0 0 0 mm
+1.000000 10.000000 -10.000000 3200.000000 1600 10 0 0 0 0 0 0 0 mm
 
 mirror_bend
 2
@@ -578,7 +574,7 @@ self STD_MOVE_TOGETHER
 0 1 1 1 1
 0 0 0 0 0
 1
-1.500000 2.500230 0.150161 0 0 0 0 mm
+0.000000 2.500230 0.150161 0 0 0 0 mm
 mirror_bend_1 mirror_bend_2
 
 screen_1
@@ -701,35 +697,35 @@ simDhs m1bend
 
 mono_c2_perp
 1
-simDhs mono_c2_perp
+galil10 mono_c2_perp
 0 1 1 1 1
 0 0 0 0 0
 0
-15.186406 100.000000 -100.000000 25600.000000 17000 80 0 1 1 0 0 0 0 mm
+10.249004 22.150000 10.200000 51200.000000 50000 20 0 0 0 0 0 0 0 mm
 
 mono_c2_para
 1
-simDhs mono_c2_para
+galil10 mono_c2_para
 0 1 1 1 1
 0 0 0 0 0
 0
-96.033027 200.000000 -100.000000 51200.000000 25000 100 0 1 1 0 0 0 0 mm
+52.581016 150.000000 28.000000 25600.000000 80000 30 0 0 0 0 0 0 0 mm
 
 mono_c2_bend_1
 1
-simDhs mono_c2_bend_1
+galil10 mono_c2_bend_1
 0 1 1 1 1
 0 0 0 0 0
 0
-0.000000 1000.000000 -1000.000000 10000.000000 10000 20 0 0 0 0 0 0 0 mm
+0.000000 6.000000 0.000000 179200.000000 7000 10 0 1 1 0 0 0 0 mm
 
 mono_c2_bend_2
 1
-simDhs mono_c2_bend_2
+galil10 mono_c2_bend_2
 0 1 1 1 1
 0 0 0 0 0
 0
-0.000000 1000.000000 -1000.000000 10000.000000 10000 20 0 0 0 0 0 0 0 mm
+0.000000 6.000000 0.000000 179200.000000 7000 10 0 1 1 0 0 0 0 mm
 
 mono_c2_bend
 2
@@ -742,11 +738,11 @@ mono_c2_bend_1 mono_c2_bend_2
 
 mono_c1_bend
 1
-simDhs mono_c1_bend
+galil10 mono_c1_bend
 0 1 1 1 1
 0 0 0 0 0
 0
-0.000000 1000.000000 -1000.000000 153.000000 500 10 0 0 0 0 0 0 0 mm
+3.500000 7.000000 0.000000 313000.000000 7000 10 0 1 1 0 0 0 0 mm
 
 mono_c2_perp_offset
 2
@@ -768,27 +764,27 @@ self standardVirtualMotor
 
 mono_c2_pitch
 1
-simDhs mono_c2_pitch
+galil10 mono_c2_pitch
 0 1 1 1 1
 0 0 0 0 0
 0
-0.000000 1000.000000 -1000.000000 19277.000000 10000 50 0 0 0 0 0 0 0 mrad
+0.000000 15.000000 -15.000000 19286.000000 8000 50 0 0 0 0 0 0 0 mrad
 
 mono_c2_roll
 1
-simDhs mono_c2_roll
+galil10 mono_c2_roll
 0 1 1 1 1
 0 0 0 0 0
 0
-0.000000 1000.000000 -1000.000000 19277.000000 10000 50 0 1 1 0 0 0 0 mrad
+2.299907 13.600000 -13.100000 19286.000000 8000 50 0 0 0 0 0 0 0 mrad
 
 mono_c2_yaw
 1
-simDhs mono_c2_yaw
+galil10 mono_c2_yaw
 0 1 1 1 1
 0 0 0 0 0
 0
-0.000000 1000.000000 -1000.000000 19277.000000 10000 50 0 1 1 0 0 0 0 mrad
+-0.600000 4.000000 0.000000 313600.000000 6000 10 0 0 0 0 0 0 0 mrad
 
 d_spacing
 2
@@ -819,11 +815,11 @@ self standardVirtualMotor
 
 mono_angle
 1
-simDhs mono_angle
+galil9 mono_angle
 0 1 1 1 1
 0 0 0 0 0
 0
-14.986200 23.000000 4.200000 20000.000000 7000 50 0 1 1 0 0 0 0 deg
+23.032115 40.000000 0.000000 1000000.000000 50000 50 0 0 0 0 0 0 0 deg
 
 mono_angle_offset
 2
@@ -840,7 +836,7 @@ self mono_theta
 0 1 1 1 1
 0 0 0 0 0
 1
-8.986200 16.750000 8.350000 0 0 0 0 deg
+17.032115 16.750000 8.350000 0 0 0 0 deg
 mono_angle
 
 energy
@@ -849,7 +845,7 @@ self energy_id19
 0 1 1 1 1
 0 0 0 0 0
 0
-12657.597514 16000.000000 5400.000000 0 0 0 0 eV
+6749.817294 16000.000000 5400.000000 0 0 0 0 eV
 0
 
 mono_piezo
@@ -876,67 +872,67 @@ self standardString
 
 white_beam_filter_1
 1
-simDhs white_beam_filter_1
+galil11 white_beam_filter_1
 0 1 1 1 1
 0 0 0 0 0
 0
-13.299013 14.001014 0.000000 153.846000 500 125 98 1 1 0 1 0 0 mm
+19.000000 0.000000 -75.000000 128000.000000 80000 50 0 0 0 0 0 0 0 mm
 
 white_beam_filter_2
 1
-simDhs white_beam_filter_2
+galil11 white_beam_filter_2
 0 1 1 1 1
 0 0 0 0 0
 0
-13.299013 14.001014 0.000000 153.846000 500 125 98 1 1 0 1 0 0 mm
+16.230000 0.000000 -75.000000 128000.000000 80000 50 0 0 0 0 0 0 0 mm
 
 white_beam_mask_x
 1
-simDhs white_beam_mask_x
+galil11 white_beam_mask_x
 0 1 1 1 1
 0 0 0 0 0
 0
-13.299013 14.001014 0.000000 153.846000 500 125 98 1 1 0 1 0 0 mm
+0.182822 0.280000 -2.100000 320000.000000 100000 50 0 0 0 0 0 0 0 mm
 
 white_beam_mask_z
 1
-simDhs white_beam_mask_z
+galil11 white_beam_mask_z
 0 1 1 1 1
 0 0 0 0 0
 0
-13.299013 14.001014 0.000000 153.846000 500 125 98 1 1 0 1 0 0 mm
+1.300000 1.000000 -0.950000 320000.000000 100000 50 0 0 0 0 0 0 0 mm
 
 white_beam_slit_upper
 1
-simDhs white_beam_slit_upper
+galil11 white_beam_slit_upper
 0 1 1 1 1
 0 0 0 0 0
 0
-13.299013 14.001014 0.000000 153.846000 500 125 98 1 1 0 1 0 0 mm
+5.700000 5.700000 -3.400000 128000.000000 80000 50 0 1 1 0 0 0 0 mm
 
 white_beam_slit_lower
 1
-simDhs white_beam_slit_lower
+galil11 white_beam_slit_lower
 0 1 1 1 1
 0 0 0 0 0
 0
-13.299013 14.001014 0.000000 153.846000 500 125 98 1 1 0 1 0 0 mm
+-6.846219 2.000000 -6.700000 128000.000000 80000 50 0 0 0 0 0 0 0 mm
 
 bpm1_x
 1
-simDhs bpm1_x
+galil11 bpm1_x
 0 1 1 1 1
 0 0 0 0 0
 0
-13.299013 14.001014 0.000000 153.846000 500 125 98 1 1 0 1 0 0 mm
+0.000000 1000.000000 -1000.000000 1.000000 1000 10 0 0 0 0 0 0 0 mm
 
 bpm1_y
 1
-simDhs bpm1_y
+galil11 bpm1_y
 0 1 1 1 1
 0 0 0 0 0
 0
-13.299013 14.001014 0.000000 153.846000 500 125 98 1 1 0 1 0 0 mm
+0.000000 1000.000000 -1000.000000 1.000000 1000 10 0 0 0 0 0 0 0 mm
 
 bpm2_x
 1
@@ -956,7 +952,7 @@ simDhs bpm1_y
 
 analyzer_vert_1
 1
-simDhs analyzer_vert_1
+galil12 analyzer_vert_1
 0 1 1 1 1
 0 0 0 0 0
 0
@@ -964,7 +960,7 @@ simDhs analyzer_vert_1
 
 analyzer_vert_2
 1
-simDhs analyzer_vert_2
+galil12 analyzer_vert_2
 0 1 1 1 1
 0 0 0 0 0
 0
@@ -972,7 +968,7 @@ simDhs analyzer_vert_2
 
 analyzer_vert_3
 1
-simDhs analyzer_vert_3
+galil12 analyzer_vert_3
 0 1 1 1 1
 0 0 0 0 0
 0
@@ -2303,7 +2299,7 @@ self attenuation
 0 1 1 1 1
 0 1 1 1 1
 0
-42.842266 100.000000 0.000000 0 0 0 0 %
+97.773374 100.000000 0.000000 0 0 0 0 %
 0
 
 acquireSpectrum
@@ -2393,7 +2389,7 @@ hutchDoorStatus
 simDhs standardString
 0 1 1 1 1
 0 1 1 1 1
-closed 1478795478
+closed 1480309368
 
 getPV
 11

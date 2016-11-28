@@ -959,18 +959,18 @@ xos_result_t Dmc2180_motor::init() {
 	if (isStepper) {
 		/* STEPPER MOTOR */
 		/*STEPPER motor with active low step pulses*/
-		sprintf(command, "CE%c=0", axisLabel);
+/*yang comment out		sprintf(command, "CE%c=0", axisLabel);
 
 		if (controller_execute(command, &error_code, FALSE ) == XOS_FAILURE) {
 			xos_error("Dmc2180::initialize_motors -- Could not set motor type");
 			return XOS_FAILURE;
 		}
 
-		/*don't set the motor type at initialization.  This should be burned into the galil.*/
-/*		if (assertMotorType((char*) dmc2180->expectedStepperMotorType.c_str())
-				== XOS_FAILURE)
-			xos_error_exit(
-					"Please set the expected motor type correctly in the galil using the MT command");*/
+		// don't set the motor type at initialization.  This should be burned into the galil.*/
+		//if (assertMotorType((char*) dmc2180->expectedStepperMotorType.c_str())
+		//		== XOS_FAILURE)
+		//	xos_error_exit(
+		//			"Please set the expected motor type correctly in the galil using the MT command");
 	} else {
 		/*SERVO motor*/
 		/* CE -> configure encoder e.g. quadrature or pulse. plus direction*/
