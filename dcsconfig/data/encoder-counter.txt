@@ -1,0 +1,41 @@
+how to setup encoder as counter
+
+1) in config file add
+
+galil2.encoder=counter1 1 1 RELATIVE (or ABSOLUTE)
+........
+
+2) In dat file add
+
+counter1
+12
+galil2 counter1
+0 1 1 1 1
+0 1 1 1 1
+
+counter1_op
+11
+self counter1_op
+0 1 1 1 1
+0 1 1 1 1
+
+3) add counter1_op.tcl script in the ../dcss/scripts/operations
+
+#counter1_op.tcl
+proc counter1_op_initialize {} {
+}
+
+proc counter1_op_start { time_in_second } {
+    #reset the encoder to 0 first
+    set_encoder counter1 0
+
+    #wait for time_in_second, then read the counter1
+
+    get_encoder counter1
+    set encoderValue [wait_for_encoder counter1]
+    return [expr $encoderValue]
+}
+
+
+
+ 
