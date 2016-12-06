@@ -743,10 +743,13 @@ xos_result_t dmc2180_messages(xos_thread_t *pThread, Dmc2180 & dmc2180) {
                                 // parse_ion_message(message);
                                 /* signal calling thread */
                                 char commandToken[200];
+				float findex;
+				int  index;
                                 float i0,i1,i2,i3,i4,i5,i6,i7;
-                                sscanf( ((const char*) message),"%s %f %f %f %f %f %f %f %f",commandToken,&i0,&i1,&i2,&i3,&i4,&i5,&i6,&i7);
+                                sscanf( ((const char*) message),"%s %f %f %f %f %f %f %f %f %f",commandToken,&findex,&i0,&i1,&i2,&i3,&i4,&i5,&i6,&i7);
+				index=findex;
                                 // sprintf(htos_message, "htos_report_ion_chambers %f i0 %f i1 %f i2 %f e_lvdt_m1_ubend %f e_lvdt_m1_dbend %f",tm,i0,i1,i2,i3,i4);
-                                sprintf(htos_message, "htos_set_string_completed analogInStatus1 normal %f %f %f %f %f %f %f %f",i0,i1,i2,i3,i4,i5,i6,i7);
+                                sprintf(htos_message, "htos_set_string_completed analogInStatus%d normal %f %f %f %f %f %f %f %f",index,i0,i1,i2,i3,i4,i5,i6,i7);
                                 // LOG_INFO1("yang_ion : %s ",htos_message); 
 
 				/* signal calling thread */

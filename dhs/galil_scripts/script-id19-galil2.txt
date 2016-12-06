@@ -421,9 +421,6 @@ AT 0
 //IHA=>-2
 //IHB=>-2
 EN
-//make dummy #ION because the C program call this funtion
-#ION
-EN
 
 //Function: ExpServo (Exposure using Phi Servo Motor)
 //This script expects the following hardware configuration:
@@ -568,4 +565,36 @@ CB ShutCh
 //MG{EF} "galil script error: ", _TC
 //EN
 //#NOERR
+#ION
+A0=0
+A1=0
+A2=0
+A3=0
+A5=0
+A6=0
+A7=0
+CNT=8
+#anaLoop
+AT 0
+AT 250
+A0=A0+@AN[1]
+A1=A1+@AN[2]
+A2=A2+@AN[3]
+A3=A3+@AN[4]
+A4=A4+@AN[5]
+A5=A5+@AN[6]
+A6=A6+@AN[7]
+A7=A7+@AN[8]
+CNT=CNT-1
+JP #anaLoop,CNT>0
+A0=A0/8
+A1=A1/8
+A2=A2/8
+A3=A3/8
+A4=A4/8
+A5=A5/8
+A6=A6/8
+A7=A7/8
+MG{EF} "dtoh_ion_chamber",2,A0,A1,A2,A3,A4,A5,A6,A7
+JP #ION
 EN

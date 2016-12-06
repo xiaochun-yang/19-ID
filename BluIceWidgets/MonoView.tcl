@@ -1457,7 +1457,7 @@ class ID19MirrorView {
 
 	::mediator announceExistence $this
 	set m_deviceFactory [DCS::DeviceFactory::getObject]
-        set m_strBeamCurrent [$m_deviceFactory createString analogInStatus1]
+        set m_strBeamCurrent [$m_deviceFactory createString analogInStatus7]
         $m_strBeamCurrent register $this contents handleBeamCurrentChange
    }
 

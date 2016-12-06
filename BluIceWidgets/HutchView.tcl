@@ -65,7 +65,7 @@ package require DCSHardwareManager
 package require DCSPrompt
 package require DCSMotorControlPanel
 package require BLUICECanvasShapes
-
+package require DCSScriptCommand
 
 
 class OptimizeButton {
@@ -214,11 +214,13 @@ class DCS::HutchOverview {
 	public method handleShutter2
 	public method handleShutter3
         public method handleShutter4
-	public method handleBeamCurrentChange
+	public method handleBeamCurrentChange0
+	public method handleBeamCurrentChange1
 
    
    	private variable m_deviceFactory
-	private variable m_strBeamCurrent
+	private variable m_strBeamCurrent0
+	private variable m_strBeamCurrent1
 
 	constructor { args} {
 		# call base class constructor
@@ -335,7 +337,7 @@ class DCS::HutchOverview {
                    }
                 place $itk_component(load) -x 288 -y 10
 #puts "yangx this =$this  itk_component= $itk_component(load)\n"
-	        for {set i 0} {$i < 3} {incr i} {
+	        for {set i 0} {$i < 2} {incr i} {
 
                 	itk_component add ioncurrent$i {
                            # make the optimize beam button
@@ -349,8 +351,8 @@ class DCS::HutchOverview {
                            keep -foreground
                  	}
 		}
-#                place $itk_component(ioncurrent0) -x 120 -y 155
-#		place $itk_component(ioncurrent1) -x 305 -y 155
+                place $itk_component(ioncurrent0) -x 355 -y 90
+		place $itk_component(ioncurrent1) -x 565 -y 125
 #		place $itk_component(ioncurrent2) -x 375 -y 180
 
 		$itk_component(control) registerMotorWidget ::$itk_component(detector_vert)
@@ -377,9 +379,11 @@ class DCS::HutchOverview {
 
       		set m_deviceFactory [DCS::DeviceFactory::getObject]
 		set shutterObject [$m_deviceFactory createShutter shutter]
-	        set m_strBeamCurrent [$m_deviceFactory createString analogInStatus1]
-		$m_strBeamCurrent register $this contents handleBeamCurrentChange
-
+	        set m_strBeamCurrent1 [$m_deviceFactory createString analogInStatus2]
+		$m_strBeamCurrent1 register $this contents handleBeamCurrentChange1
+		set m_strBeamCurrent0 [$m_deviceFactory createString analogInStatus3]
+		$m_strBeamCurrent0 register $this contents handleBeamCurrentChange0
+	        
 		::mediator register $this $shutterObject state handleUpdateFromShutter
 	
 #yangx add to get rid of the canvas borderline (the borderline appears when you enter the
@@ -393,7 +397,10 @@ class DCS::HutchOverview {
 }
 
 body DCS::HutchOverview::destructor {} {
-	$m_strBeamCurrent unregister $this contents handleBeamCurrentChange
+	$m_strBeamCurrent0 unregister $this contents handleBeamCurrentChange0
+	mediator announceDestruction $this
+	
+	$m_strBeamCurrent1 unregister $this contents handleBeamCurrentChange1
 	mediator announceDestruction $this
 }
 
@@ -647,17 +654,59 @@ set frontendImage [ image create photo \
 #                bind $itk_component(shutterdv) <Button-1> "$shutterObject toggle"
 #}
 #
-body DCS::HutchOverview::handleBeamCurrentChange { name_ targetReady_ - contents_ - } {
+body DCS::HutchOverview::handleBeamCurrentChange0 { name_ targetReady_ - contents_ - } {
+
     if { ! $targetReady_} return
-#puts "contents=$contents_ \n"
+    #puts "contents=$contents_ \n"
     if { $contents_ == "" } return
-	
-    for {set i 0} {$i < 3} {incr i} {
+
+    for {set i 0} {$i < 1} {incr i} {
            set value [lindex $contents_ $i]
-           $itk_component(ioncurrent$i) configure \
+           $itk_component(ioncurrent0) configure \
                 -text [format "%.3f" $value] \
                 -state normal
-    }
+      }
+}
+
+body DCS::HutchOverview::handleBeamCurrentChange1 { name_ targetReady_ - contents_ - } {
+
+    if { ! $targetReady_} return
+    #puts "contents=$contents_ \n"
+    if { $contents_ == "" } return
+
+    for {set i 0} {$i < 1} {incr i} {
+           set value [lindex $contents_ $i]
+           $itk_component(ioncurrent1) configure \
+                -text [format "%.3f" $value] \
+                -state normal
+      }
+}
+
+
+#body DCS::HutchOverview::handleBeamCurrentChange { name_ targetReady_ - contents_ - } {
+#after 10000
+#namespace eval ::nScripts {
+#	read_ion_chambers 0.1 i1
+#	set i1_reading [get_ion_chamber_counts i1]}
+
+#    if { ! $targetReady_} return
+#    puts "contents=$contents_ \n"
+#    if { $contents_ == "" } return
+    # read_ion_chambers ::device::i1  
+#     nScripts::read_ion_chambers 0.1 i2 
+#     wait_for_devices ::device::i1 device::i2
+#     set i1_reading [nScript::get_ion_chamber_counts i1]		
+#     set i2_reading [nScript::get_ion_chamber_counts i1]		
+   
+#    $itk_component(ioncurrent0) configure -text [format "%.3f" $i1_reading] -state normal 
+#    $itk_component(ioncurrent1) configure -text [format "%.3f" $i2_reading] -state normal 
+
+#    for {set i 0} {$i < 2} {incr i} {
+#           set value [lindex $contents_ $i]
+#           $itk_component(ioncurrent$i) configure \
+#                -text [format "%.3f" $value] \
+#                -state normal
+#      }
 
     #if {[string is double -strict $contents_]} {
     #    set display [format "%.3f" $contents_]
@@ -666,7 +715,7 @@ body DCS::HutchOverview::handleBeamCurrentChange { name_ targetReady_ - contents
     #}
     #$itk_component(ioncurrent) configure -text $display
 #    log_error "yangxx display=$display"
-}
+#}
 
 body DCS::HutchOverview::handleShutter1 { - targetReady_ alias_ status_ -} {
     if {! $targetReady_} return
