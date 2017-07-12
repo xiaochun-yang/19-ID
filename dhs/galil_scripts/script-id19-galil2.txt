@@ -12,6 +12,7 @@ ER-1
 //set speed of phi homing
 HVA=40000
 BR0
+OTime=100
 SH
 EN
 #HOMA
@@ -45,6 +46,19 @@ MCG
 PRG=60800
 BGG
 MCG
+EN
+#IONOUT
+IONVAL=0
+Finished=0
+CNT=5
+#ANALOOP
+AT 0
+AT OTime/5
+IONVAL =IONVAL+@AN[~a]
+CNT=CNT-1
+JP #ANALOOP, (CNT>0)
+IONVAL=IONVAL/5
+Finished = 1
 EN
 #WATCH
 MG "START WATCH"

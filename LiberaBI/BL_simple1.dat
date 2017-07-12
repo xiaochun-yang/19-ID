@@ -1,0 +1,843 @@
+self
+3
+localhost 2
+
+simDhs
+3
+localhost 2
+
+detector
+3
+localhost 2
+
+beamlineID
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+BL_simple1
+
+test_epics_gw
+3
+localhost 2
+
+epics_float_in
+13
+test_epics_gw TEST:ain
+1 1 1 1 1
+1 1 1 1 1
+
+epics_float_out
+13
+test_epics_gw TEST:aout
+1 1 1 1 1
+1 1 1 1 1
+23.45
+
+epics_calc
+13
+test_epics_gw TEST:calc
+0 0 0 0 0
+0 0 0 0 0
+-1
+
+epics_stringin
+13
+test_epics_gw TEST:strin
+1 1 1 1 1
+1 1 1 1 1
+some string
+
+epics_float_wf
+13
+test_epics_gw TEST:wf
+1 1 1 1 1
+1 1 1 1 1
+0.0 0.0 0.0
+
+detector_collect_image
+11
+detector detector_collect_image
+0 1 1 1 1
+0 1 1 1 1
+
+detector_transfer_image
+11
+detector detector_transfer_image
+0 1 1 1 1
+0 1 1 1 1
+
+detector_oscillation_ready
+11
+detector detector_oscillation_ready
+0 1 1 1 1
+0 1 1 1 1
+
+detector_stop
+11
+detector detector_stop
+0 1 1 1 1
+0 1 1 1 1
+
+detector_reset_run
+11
+detector detector_reset_run
+0 1 1 1 1
+0 1 1 1 1
+
+collectStillImage
+11
+self collectStillImage
+0 1 1 1 1
+0 1 1 1 1
+
+collectRun
+11
+self collectRun
+0 1 1 1 1
+0 1 1 1 1
+
+collectRuns
+11
+self collectRuns
+0 1 1 1 1
+0 1 1 1 1
+
+collectFrame
+11
+self collectFrame
+0 1 1 1 1
+0 1 1 1 1
+
+pauseDataCollection
+11
+self pauseDataCollection
+0 1 1 1 1
+0 1 1 1 1
+
+
+
+shutter
+6
+simDhs 1 shutter
+0 1 1 1 1
+0 1 1 1 1
+
+energy
+1
+simDhs energy
+0 1 1 1 1
+0 1 1 1 1
+0
+11000.000000 16000.000000 6000.000000 100.000000 400000 500 -12500 1 1 0 0 1 0 eV
+0
+0
+1390945420
+1390945420
+
+gonio_omega
+1
+simDhs gonio_omega
+0 1 1 1 1
+0 1 1 1 1
+0
+180.000000 360.000000 5.000000 12500.000000 40000 500 -12500 1 1 0 0 1 0 deg
+0
+0
+1390945420
+1390945420
+
+gonio_kappa
+1
+simDhs gonio_kappa
+0 1 1 1 1
+0 1 1 1 1
+0
+0.000000 6.000000 -30.000000 200.000000 400 100 0 0 0 0 0 1 0 deg
+0
+0
+1390945420
+1390945420
+
+fakevariable
+1
+simDhs fakevariable
+0 1 1 1 1
+0 1 1 1 1
+0
+0.000000 6.000000 -30.000000 200.000000 400 100 0 0 0 0 0 1 0 deg
+0
+0
+13
+13
+
+gonio_phi
+1
+simDhs gonio_phi
+0 1 1 1 1
+0 1 1 1 1
+0
+0.000000 1000.000000 -1000.000000 2500.000000 20000 50 0 0 0 0 0 0 1 deg
+0
+0
+123456789
+123456789
+
+detector_z
+1
+simDhs detector_z
+0 1 1 1 1
+0 1 1 1 1
+0
+250.177800 705.000000 240.000000 157.480000 1000 50 -79 1 1 0 1 1 0 mm
+0
+0
+123212345
+123212345
+
+beam_size_x
+1
+simDhs beam_size_x
+0 1 1 1 1
+0 1 1 1 1
+0
+0.200000 0.500000 0.000000 1600.000000 200 100 -1600 0 0 0 0 0 0 mm
+0
+0
+55447788
+55447788
+
+beam_size_y
+1
+simDhs beam_size_y
+0 1 1 1 1
+0 1 1 1 1
+0
+0.200000 0.500000 0.000000 1600.000000 200 100 -1600 0 0 0 0 0 0 mm
+0
+0
+9878987
+9878987
+
+i0
+4
+simDhs hex1 0 rtc1 clock
+0 1 1 1 1
+0 1 1 1 1
+
+i1
+4
+simDhs hex1 1 rtc1 clock
+0 1 1 1 1
+0 1 1 1 1
+
+sample_x
+1
+simDhs sample_x
+0 1 1 1 1
+0 1 1 1 1
+0
+0.000000 4.500000 -4.500000 17500.000000 17560 100 875 0 0 0 0 0 0 mm
+0
+0
+55665566
+55665566
+
+sample_y
+1
+simDhs sample_y
+0 1 1 1 1
+0 1 1 1 1
+0
+0.000000 4.500000 -4.500000 17500.000000 17560 100 875 0 0 0 0 0 0 mm
+0
+0
+369852369
+369852369
+
+sample_z
+1
+simDhs sample_z
+0 1 1 1 1
+0 1 1 1 1
+0
+0.000000 10.000000 0.000000 17500.000000 10000 100 875 0 0 0 0 0 0 mm
+0
+0
+852369852
+852369852
+
+beamstop_z
+1
+simDhs beamstop_z
+0 1 1 1 1
+0 1 1 1 1
+0
+5.000000 5.000000 0.000000 1500.000000 400 100 53 1 1 0 1 1 0 mm
+0
+0
+789654789
+789654789
+
+detector_horz
+1
+simDhs detector_x
+0 1 1 1 1
+0 1 1 1 1
+0
+0.000000 3.000000 -105.000000 1574.800000 400 1000 1334 1 1 0 1 0 0 mm
+0
+0
+9658965896
+9658965896
+
+detector_vert
+1
+simDhs detector_y
+0 1 1 1 1
+0 1 1 1 1
+0
+0.000000 125.000000 -5.000000 3149.600000 4000 200 1600 1 1 0 1 0 0 mm
+0
+0
+123123123
+123123123
+
+normalize
+11
+self normalize
+0 1 1 1 1
+0 1 1 1 1
+
+expose
+11
+self expose
+0 1 1 1 1
+0 1 1 1 1
+
+requestExposureTime
+11
+self requestExposureTime
+0 1 1 1 1
+0 1 1 1 1
+
+requestCollectedImage
+11
+self requestCollectedImage
+1 1 1 1 1
+1 1 1 1 1
+
+prepareForScan
+11
+self prepareForScan
+0 1 1 1 1
+0 1 1 1 1
+
+recoverFromScan
+11
+self recoverFromScan
+0 1 1 1 1
+0 1 1 1 1
+
+acquireSpectrum
+11
+simDhs acquireSpectrum
+0 1 1 1 1
+0 1 1 1 1
+
+excitationScan
+11
+self excitationScan
+0 1 1 1 1
+0 1 1 1 1
+
+doseStoredCounts
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 1 1 1 1
+0
+3939.673625 100.000000 -100.000000 1 1 0 0 counts
+0
+0
+0
+555555555
+555555555
+
+doseLastCounts
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 1 1 1 1
+0
+3325.602784 100.000000 -100.000000 1 1 0 0 counts
+0
+0
+0
+8877887788
+8877887788
+
+doseStabilityRatio
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 1 1 1 1
+0
+0.050000 1000.000000 -1.000000 0 0 0 0 %
+0
+0
+0
+123456789
+123456789
+
+doseThreshold
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 1 1 1 1
+0
+500.000000 1000.000000 -1.000000 0 0 0 0 %
+0
+0
+0
+987789987
+987789987
+
+doseIntegrationPeriod
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 1 1 1 1
+0
+0.100000 1000.000000 -1.000000 0 0 0 0 s
+0
+0
+0
+369874125
+369874125
+
+maxOscTime
+2
+self standardVirtualMotor
+0 1 1 1 1
+0 1 1 1 1
+0
+60.000000 1000.000000 -1.000000 0 0 0 0 s
+0
+0
+0
+852369852
+852369852
+
+
+hutchDoorStatus
+13
+simDhs hutchDoorStatus
+0 1 1 1 1
+0 1 1 1 1
+closed 1098998333
+
+lastImageCollected
+13
+detector lastImageCollected
+0 1 1 1 1
+0 1 1 1 1
+{}
+
+
+collect_msg
+13
+self collectStatus
+0 1 1 1 1
+0 1 1 1 1
+inactive {DCSS was reset.}
+
+moveSample
+11
+self moveSample
+0 1 1 1 1
+0 1 1 1 1
+
+synchrotron
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+SSRL
+
+
+detectorType
+13
+detector detectorType
+0 1 1 1 1
+0 1 1 1 1
+{MAR345}
+
+
+system_idle
+13
+self startEmpty
+0 1 1 1 1
+0 1 1 1 1
+
+
+lock_operation
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+centerLoop collectRun collectRuns moveSample normalize optimalExcitation scan scanMotor
+
+
+scanMotor
+11
+self scanMotor
+0 1 1 1 1
+0 0 0 0 0
+
+
+scan_motor_status
+13
+self standardString
+0 1 1 1 1
+0 1 1 1 1
+/home/cohen/BL11-1_000.scan {21 of 21}
+
+camera_zoom
+1
+self camera_zoom
+0 1 1 1 1
+0 1 1 1 1
+0
+0.845618 1.006000 -0.002000 34000.000000 12000 50 1700 0 0 0 0 1 0 mm
+0
+0
+1381266502
+1381266502
+
+attenuation
+2
+self attenuation
+0 1 1 1 1
+0 1 1 1 1
+0
+46.163465 100.000000 0.000000 0 0 0 0 %
+0
+0
+0
+1381266502
+1381266502
+
+
+env_ioffset_0_mon
+13
+test_epics_gw LIBERA01:ENV:ENV_IOFFSET_0_MONITOR
+1 1 1 1 1
+1 1 1 1 1
+
+env_ioffset_1_mon
+13
+test_epics_gw LIBERA01:ENV:ENV_IOFFSET_1_MONITOR
+1 1 1 1 1
+1 1 1 1 1
+
+env_ioffset_2_mon
+13
+test_epics_gw LIBERA01:ENV:ENV_IOFFSET_2_MONITOR
+1 1 1 1 1
+1 1 1 1 1
+
+env_ioffset_3_mon
+13
+test_epics_gw LIBERA01:ENV:ENV_IOFFSET_3_MONITOR
+1 1 1 1 1
+1 1 1 1 1
+
+env_k1_mon
+13
+test_epics_gw LIBERA01:ENV:ENV_K1_MONITOR
+1 1 1 1 1
+1 1 1 1 1
+
+env_k2_mon
+13
+test_epics_gw LIBERA01:ENV:ENV_K2_MONITOR
+1 1 1 1 1
+1 1 1 1 1
+
+env_ki_0_mon
+13
+test_epics_gw LIBERA01:ENV:ENV_KI_0_MONITOR
+1 1 1 1 1
+1 1 1 1 1
+
+env_ki_1_mon
+13
+test_epics_gw LIBERA01:ENV:ENV_KI_1_MONITOR
+1 1 1 1 1
+1 1 1 1 1
+
+env_ki_2_mon
+13
+test_epics_gw LIBERA01:ENV:ENV_KI_2_MONITOR
+1 1 1 1 1
+1 1 1 1 1
+
+env_ki_3_mon
+13
+test_epics_gw LIBERA01:ENV:ENV_KI_3_MONITOR
+1 1 1 1 1
+1 1 1 1 1
+
+
+
+env_offset1_mon
+13
+test_epics_gw LIBERA01:ENV:ENV_OFFSET1_MONITOR
+1 1 1 1 1
+1 1 1 1 1
+
+env_offset2_mon
+13
+test_epics_gw LIBERA01:ENV:ENV_OFFSET2_MONITOR
+1 1 1 1 1
+1 1 1 1 1
+
+env_ioffset_0_sp
+13
+test_epics_gw LIBERA01:ENV:ENV_IOFFSET_0_SP
+1 1 1 1 1
+1 1 1 1 1
+
+env_ioffset_1_sp
+13
+test_epics_gw LIBERA01:ENV:ENV_IOFFSET_1_SP
+1 1 1 1 1
+1 1 1 1 1
+
+env_ioffset_2_sp
+13
+test_epics_gw LIBERA01:ENV:ENV_IOFFSET_2_SP
+1 1 1 1 1
+1 1 1 1 1
+
+env_ioffset_3_sp
+13
+test_epics_gw LIBERA01:ENV:ENV_IOFFSET_3_SP
+1 1 1 1 1
+1 1 1 1 1
+
+env_k1_sp
+13
+test_epics_gw LIBERA01:ENV:ENV_K1_SP
+1 1 1 1 1
+1 1 1 1 1
+
+env_k2_sp
+13
+test_epics_gw LIBERA01:ENV:ENV_K2_SP
+1 1 1 1 1
+1 1 1 1 1
+
+env_ki_0_sp
+13
+test_epics_gw LIBERA01:ENV:ENV_KI_0_SP
+1 1 1 1 1
+1 1 1 1 1
+
+env_ki_1_sp
+13
+test_epics_gw LIBERA01:ENV:ENV_KI_1_SP
+1 1 1 1 1
+1 1 1 1 1
+
+env_ki_2_sp
+13
+test_epics_gw LIBERA01:ENV:ENV_KI_2_SP
+1 1 1 1 1
+1 1 1 1 1
+
+env_ki_3_sp
+13
+test_epics_gw LIBERA01:ENV:ENV_KI_3_SP
+1 1 1 1 1
+1 1 1 1 1
+
+env_offset1_sp
+13
+test_epics_gw LIBERA01:ENV:ENV_OFFSET1_SP
+1 1 1 1 1
+1 1 1 1 1
+
+env_offset2_sp
+13
+test_epics_gw LIBERA01:ENV:ENV_OFFSET2_SP
+1 1 1 1 1
+1 1 1 1 1
+
+env_calib_mon
+13
+test_epics_gw LIBERA01:ENV:ENV_CALIB_MONITOR
+1 1 1 1 1
+1 1 1 1 1
+
+env_ilk_mode_mon
+13
+test_epics_gw LIBERA01:ENV:ENV_ILK_MODE_MONITOR
+1 1 1 1 1
+1 1 1 1 1
+
+
+env_calib_sp
+13
+test_epics_gw LIBERA01:ENV:ENV_CALIB_SP
+1 1 1 1 1
+1 1 1 1 1
+
+env_calib_sync
+13
+test_epics_gw LIBERA01:ENV:ENV_CALIB_SYNC
+1 1 1 1 1
+1 1 1 1 1
+
+env_calib_write
+13
+test_epics_gw LIBERA01:ENV:ENV_CALIB_WRITE
+1 1 1 1 1
+1 1 1 1 1
+
+env_opmode_sp
+13
+test_epics_gw LIBERA01:ENV:ENV_OPMODE_SP
+1 1 1 1 1
+1 1 1 1 1
+
+
+
+sa_a_mon
+13
+test_epics_gw LIBERA01:SA:SA_A_MONITOR
+1 1 1 1 1
+1 1 1 1 1
+
+sa_b_mon
+13
+test_epics_gw LIBERA01:SA:SA_B_MONITOR
+1 1 1 1 1
+1 1 1 1 1
+
+sa_cx_mon
+13
+test_epics_gw LIBERA01:SA:SA_CX_MONITOR
+1 1 1 1 1
+1 1 1 1 1
+
+sa_cy_mon
+13
+test_epics_gw LIBERA01:SA:SA_CY_MONITOR
+1 1 1 1 1
+1 1 1 1 1
+
+sa_c_mon
+13
+test_epics_gw LIBERA01:SA:SA_C_MONITOR
+1 1 1 1 1
+1 1 1 1 1
+
+sa_d_mon
+13
+test_epics_gw LIBERA01:SA:SA_D_MONITOR
+1 1 1 1 1
+1 1 1 1 1
+
+sa_q_mon
+13
+test_epics_gw LIBERA01:SA:SA_Q_MONITOR
+1 1 1 1 1
+1 1 1 1 1
+
+sa_sum_mon
+13
+test_epics_gw LIBERA01:SA:SA_SUM_MONITOR
+1 1 1 1 1
+1 1 1 1 1
+
+sa_x_mon
+13
+test_epics_gw LIBERA01:SA:SA_X_MONITOR
+1 1 1 1 1
+1 1 1 1 1
+
+sa_y_mon
+13
+test_epics_gw LIBERA01:SA:SA_Y_MONITOR
+1 1 1 1 1
+1 1 1 1 1
+
+env_arc_sp
+13
+test_epics_gw LIBERA01:ENV:ENV_ARC_SP
+1 1 1 1 1
+1 1 1 1 1
+
+env_arc_mon
+13
+test_epics_gw LIBERA01:ENV:ENV_ARC_MONITOR
+1 1 1 1 1
+1 1 1 1 1
+
+env_range_sp
+13
+test_epics_gw LIBERA01:ENV:ENV_RANGE_SP
+1 1 1 1 1
+1 1 1 1 1
+
+env_range_mon
+13
+test_epics_gw LIBERA01:ENV:ENV_RANGE_MONITOR
+1 1 1 1 1
+1 1 1 1 1
+
+dd1_dd_va_mon
+13
+test_epics_gw LIBERA01:DD1:DD_VA_MONITOR
+1 1 1 1 1
+1 1 1 1 1
+
+dd1_dd_vb_mon
+13
+test_epics_gw LIBERA01:DD1:DD_VB_MONITOR
+1 1 1 1 1
+1 1 1 1 1
+
+dd1_dd_vc_mon
+13
+test_epics_gw LIBERA01:DD1:DD_VC_MONITOR
+1 1 1 1 1
+1 1 1 1 1
+
+dd1_dd_vd_mon
+13
+test_epics_gw LIBERA01:DD1:DD_VD_MONITOR
+1 1 1 1 1
+1 1 1 1 1
+
+dd1_dd_st_mon
+13
+test_epics_gw LIBERA01:DD1:DD_ST_MONITOR
+1 1 1 1 1
+1 1 1 1 1
+
+dd1_dd_finished_mon
+13
+test_epics_gw LIBERA01:DD1:DD_FINISHED_MONITOR
+1 1 1 1 1
+1 1 1 1 1
+
+dd1_dd_request_cmd
+13
+test_epics_gw LIBERA01:DD1:DD_REQUEST_CMD
+1 1 1 1 1
+1 1 1 1 1
+
+END

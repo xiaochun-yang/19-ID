@@ -1,0 +1,123 @@
+'//Galil Script for CAMERA
+
+#AUTO
+TM 500
+HOMED=0
+#CO 1
+SB9
+SB10
+MOABCDEFGH
+MT -2.5,-2.5,-2,-2.5,-2.5,-2,-2,-2
+LC 1,1,15,1,1,15,15,0
+AG 1,1,0,1,1,0,2,0
+MOABCDEFGH
+SHABCDEFGH
+'TO TURN
+'LEAVE UPPER FOCUS(C), LOWER FOCUS(F) AND KAPPA(H) OFF
+'TO TURN IT ON LCx=1 SHx
+'TO TURN IT OFF LCx=0 MOx
+CN1,1
+'//HM
+'//BGG
+'//MCG
+IF _LFH=1
+'//KAPPA INSTALLED-HOME IT
+JS#HOMH
+ENDIF
+HOMED=1
+MG "HOMED"
+EN
+
+#W_Dog
+CW ,1
+Kick=0
+LastKic=0
+#WDog_ok
+'//MG{EF} "WATCHDOG ok"
+AT 0
+AT 5000
+JP #WDogBad,Kick=LastKic
+LastKic=Kick
+TimeOut=0
+JP #WDog_ok
+#WDogBad
+TimeOut=1
+'//DON'T Send an unsolicited message to DHS
+'//MG{EF} "dtoh_watchdog_timeout"
+JP #WDog_ok
+
+#ShutAll
+AT 0
+AT 1000
+IHA=>-2
+IHB=>-2
+IHC=>-2
+IHD=>-2
+IHE=>-2
+IHF=>-2
+EN
+
+#ZEROH
+PAH=0
+BGH
+MCH
+MG "DONE"
+EN
+
+#HOMH
+SHH
+SPH=25000;HVH=2000
+PRH=-25000
+BGH
+MCH
+HM
+BGH
+MCH
+PRH=-25000
+BGH
+MCH
+HM
+BGH
+MCH
+PRH=4000
+BGH
+MCH
+DPH=0
+EN
+
+#SE
+SB1
+WT1000
+CB1
+WT1000
+JP#SE
+EN
+
+#TID
+N=0
+SUM=0
+#TID1
+N=N+1
+SUM=SUM+@AN[1]
+IF N<10000
+ JP#TID1
+ENDIF
+MG SUM/10000
+JP#TID
+EN
+
+#FON
+LCF=1;SHF
+EN
+
+#FOFF
+LCF=0;MOF
+EN
+
+#HON
+LCH=1;SHH
+EN
+
+#HOFF
+LCH=0;MOH
+EN

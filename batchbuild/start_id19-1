@@ -29,7 +29,8 @@ then
 	BEAMLINE=$1
 else
 case $HOSTNAME in 
-   yangxc ) BEAMLINE="ID-19";;
+   xf19id1-ws2 ) BEAMLINE="19-ID";;
+#   xf19id1-ws2 ) BEAMLINE="ID-19";;
    blctlsim.slac.stanford.edu ) BEAMLINE="BL0-0";;
    blctl15.slac.stanford.edu ) BEAMLINE="BL1-5";;
    blctl71.slac.stanford.edu ) BEAMLINE="BL7-1";;
@@ -60,21 +61,45 @@ echo $DUMP_FILE
 echo -e `date` start_dcs called on $BEAMLINE \\ndumpfile: $DUMP_FILE |mail -s "$BEAMLINE restart_dcs start" yangx@bnl.gov
 
 case $BEAMLINE in
+    19-ID)
+        start_dcss
+        start_impdhs
+        start_epicsgw
+        start_dhs galil1
+        start_dhs galil2
+        start_dhs galil3
+#       start_dhs galil4
+        start_dhs galil5
+#       start_dhs galil7
+#       start_dhs galil8
+#       start_dhs galil9
+#       start_dhs galil10
+#       start_dhs galil11
+#       start_dhs galil12
+        start_dhs camera
+        start_dhs_inline inline_camera
+#       start_dhs detector
+#       start_simdetector
+        start_simdhs
+        start_image
+#        start_console
+        ;;    
+
     ID-19)
         start_dcss
         start_impdhs
         start_epicsgw
         start_dhs galil1
-#	start_dhs galil2
-#	start_dhs galil3
+	start_dhs galil2
+	start_dhs galil3
 #	start_dhs galil4
         start_dhs galil5
-#	start_dhs galil6
 #	start_dhs galil7
 #	start_dhs galil8
 #	start_dhs galil9
 #	start_dhs galil10
 #	start_dhs galil11
+#	start_dhs galil12
         start_dhs camera
 	start_dhs_inline inline_camera
 #       start_dhs detector

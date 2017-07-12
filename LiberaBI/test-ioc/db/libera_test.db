@@ -1,0 +1,278 @@
+
+
+#this is test data base
+# ENV Records 
+record(longin, "LIBERA01:ENV:ENV_K1_MONITOR") {
+	field(SCAN, "Passive")
+	field(PINI, "YES")
+	field(VAL, "1500000")
+	field(INP,"LIBERA01:ENV:ENV_K1_SP")
+}
+
+record(longout, "LIBERA01:ENV:ENV_K1_SP") {
+	field(SCAN, "Passive")
+	field(PINI, "YES")
+	field(FLNK, "LIBERA01:ENV:ENV_K1_MONITOR")
+}
+
+record(longin, "LIBERA01:ENV:ENV_K2_MONITOR") {
+	field(SCAN, "Passive")
+	field(PINI, "YES")
+	field(VAL, "1500000")
+	field(INP,"LIBERA01:ENV:ENV_K2_SP")
+}
+
+record(longout, "LIBERA01:ENV:ENV_K2_SP") {
+	field(SCAN, "Passive")
+	field(PINI, "YES")
+	field(FLNK, "LIBERA01:ENV:ENV_K2_MONITOR")
+}
+
+record(longin, "LIBERA01:ENV:ENV_OFFSET1_MONITOR") {
+	field(SCAN, "Passive")
+	field(PINI, "YES")
+	field(VAL, "0")
+	field(INP,"LIBERA01:ENV:ENV_OFFSET1_SP")
+}
+
+record(longout, "LIBERA01:ENV:ENV_OFFSET1_SP") {
+	field(SCAN, "Passive")
+	field(PINI, "YES")
+	field(FLNK, "LIBERA01:ENV:ENV_OFFSET1_MONITOR")
+}
+
+record(longin, "LIBERA01:ENV:ENV_OFFSET2_MONITOR") {
+	field(SCAN, "Passive")
+	field(PINI, "YES")
+	field(VAL, "0")
+	field(INP,"LIBERA01:ENV:ENV_OFFSET2_SP")
+}
+
+record(longout, "LIBERA01:ENV:ENV_OFFSET2_SP") {
+	field(SCAN, "Passive")
+	field(PINI, "YES")
+	field(FLNK, "LIBERA01:ENV:ENV_OFFSET2_MONITOR")
+}
+
+record(mbbi, "LIBERA01:ENV:ENV_ARC_MONITOR") {
+	field(SCAN, "Passive")
+	field(ZRVL, "0")
+	field(ONVL, "1")
+	field(ZRST, "MANUAL")
+	field(ONST, "AUTO")
+	field(PINI, "YES")
+	field(INP,"LIBERA01:ENV:ENV_ARC_SP")
+}
+
+record(mbbo, "LIBERA01:ENV:ENV_ARC_SP") {
+	field(ZRVL, "0")
+	field(ONVL, "1")
+	field(ZRST, "MANUAL")
+	field(ONST, "AUTO")
+	field(PINI, "YES")
+	field(FLNK, "LIBERA01:ENV:ENV_ARC_MONITOR")
+}
+
+record(longin, "LIBERA01:ENV:ENV_KI_0_MONITOR") {
+	field(SCAN, "Passive")
+	field(PINI, "YES")
+	field(VAL, "1000000")
+	field(INP, "LIBERA01:ENV:ENV_KI_0_SP")
+}
+
+record(longout, "LIBERA01:ENV:ENV_KI_0_SP") {
+	field(PINI, "YES")
+	field(FLNK, "LIBERA01:ENV:ENV_KI_0_MONITOR")
+}
+
+record(longin, "LIBERA01:ENV:ENV_KI_1_MONITOR") {
+	field(SCAN, "Passive")
+	field(PINI, "YES")
+	field(VAL, "1000000")
+	field(INP,"LIBERA01:ENV:ENV_KI_1_SP")
+}
+
+record(longout, "LIBERA01:ENV:ENV_KI_1_SP") {
+	field(PINI, "YES")
+	field(FLNK, "LIBERA01:ENV:ENV_KI_1_MONITOR")
+}
+
+record(longin, "LIBERA01:ENV:ENV_KI_2_MONITOR") {
+	field(SCAN, "Passive")
+	field(PINI, "YES")
+	field(VAL, "1000000")
+	field(INP,"LIBERA01:ENV:ENV_KI_2_SP")
+}
+
+record(longout, "LIBERA01:ENV:ENV_KI_2_SP") {
+	field(PINI, "YES")
+	field(FLNK, "LIBERA01:ENV:ENV_KI_2_MONITOR")
+}
+
+record(longin, "LIBERA01:ENV:ENV_KI_3_MONITOR") {
+	field(SCAN, "Passive")
+	field(PINI, "YES")
+	field(VAL, "1000000")
+	field(INP,"LIBERA01:ENV:ENV_KI_3_MONITOR")
+}
+
+record(longout, "LIBERA01:ENV:ENV_KI_3_SP") {
+	field(PINI, "YES")
+	field(FLNK, "LIBERA01:ENV:ENV_KI_3_MONITOR")
+}
+
+record(longin, "LIBERA01:ENV:ENV_IOFFSET_0_MONITOR") {
+	field(SCAN, "Passive")
+	field(PINI, "YES")
+	field(VAL, "0")
+	field(INP,"LIBERA01:ENV:ENV_IOFFSET_0_SP")
+}
+
+record(longout, "LIBERA01:ENV:ENV_IOFFSET_0_SP") {
+	field(PINI, "YES")
+	field(FLNK, "LIBERA01:ENV:ENV_IOFFSET_0_MONITOR")
+}
+
+record(longin, "LIBERA01:ENV:ENV_IOFFSET_1_MONITOR") {
+	field(SCAN, "Passive")
+	field(PINI, "YES")
+	field(VAL, "0")
+	field(INP,"LIBERA01:ENV:ENV_IOFFSET_1_SP")
+}
+
+record(longout, "LIBERA01:ENV:ENV_IOFFSET_1_SP") {
+	field(PINI, "YES")
+	field(FLNK, "LIBERA01:ENV:ENV_IOFFSET_1_MONITOR")
+}
+
+record(longin, "LIBERA01:ENV:ENV_IOFFSET_2_MONITOR") {
+	field(SCAN, "Passive")
+	field(PINI, "YES")
+	field(VAL, "0")
+	field(INP,"LIBERA01:ENV:ENV_IOFFSET_2_SP")
+}
+
+record(longout, "LIBERA01:ENV:ENV_IOFFSET_2_SP") {
+	field(PINI, "YES")
+	field(FLNK, "LIBERA01:ENV:ENV_IOFFSET_2_MONITOR")
+}
+
+record(longin, "LIBERA01:ENV:ENV_IOFFSET_3_MONITOR") {
+	field(SCAN, "Passive")
+	field(PINI, "YES")
+	field(VAL, "0")
+	field(INP,"LIBERA01:ENV:ENV_IOFFSET_3_SP")
+}
+
+record(longout, "LIBERA01:ENV:ENV_IOFFSET_3_SP") {
+	field(PINI, "YES")
+	field(FLNK, "LIBERA01:ENV:ENV_IOFFSET_3_MONITOR")
+}
+
+#Slow acquisition
+record(waveform, "LIBERA01:SA:SA_ARRAY_MONITOR") {
+	field(SCAN, "Passive")
+	field(DESC, "A B C D X Y Q S CX CY")
+	field(NELM, "16")
+	field(FTVL, "LONG")
+	field(FLNK, "LIBERA01:SA:SA_A_MONITOR PP")
+}
+
+record(subArray, "LIBERA01:SA:SA_A_MONITOR") {
+	field(INP, "LIBERA01:SA:SA_ARRAY_MONITOR")
+	field(INDX, "0")
+	field(MALM, "16")
+	field(FTVL, "LONG")
+	field(FLNK, "LIBERA01:SA:SA_B_MONITOR PP")
+
+}
+
+record(subArray, "LIBERA01:SA:SA_B_MONITOR") {
+	field(INP, "LIBERA01:SA:SA_ARRAY_MONITOR")
+	field(INDX, "1")
+	field(MALM, "16")
+	field(FTVL, "LONG")
+	field(FLNK, "LIBERA01:SA:SA_C_MONITOR PP")
+
+}
+
+record(subArray, "LIBERA01:SA:SA_C_MONITOR") {
+	field(INP, "LIBERA01:SA:SA_ARRAY_MONITOR")
+	field(INDX, "2")
+	field(MALM, "16")
+	field(FTVL, "LONG")
+	field(FLNK, "LIBERA01:SA:SA_D_MONITOR PP")
+
+}
+
+record(subArray, "LIBERA01:SA:SA_D_MONITOR") {
+	field(INP, "LIBERA01:SA:SA_ARRAY_MONITOR")
+	field(INDX, "3")
+	field(MALM, "16")
+	field(FTVL, "LONG")
+	field(FLNK, "LIBERA01:SA:SA_X_MONITOR PP")
+}
+
+record(subArray, "LIBERA01:SA:SA_X_MONITOR") {
+	field(INP, "LIBERA01:SA:SA_ARRAY_MONITOR")
+	field(INDX, "4")
+	field(MALM, "16")
+	field(NELM, "1")
+	field(FTVL, "LONG")
+	field(FLNK, "LIBERA01:SA:SA_Y_MONITOR PP")
+
+}
+
+record(subArray, "LIBERA01:SA:SA_Y_MONITOR") {
+	field(INP, "LIBERA01:SA:SA_ARRAY_MONITOR")
+	field(INDX, "5")
+	field(MALM, "16")
+	field(FTVL, "LONG")
+	field(FLNK, "LIBERA01:SA:SA_Q_MONITOR PP")
+
+}
+
+record(subArray, "LIBERA01:SA:SA_Q_MONITOR") {
+	field(INP, "LIBERA01:SA:SA_ARRAY_MONITOR")
+	field(INDX, "6")
+	field(MALM, "16")
+	field(FTVL, "LONG")
+	field(FLNK, "LIBERA01:SA:SA_SUM_MONITOR PP")
+
+}
+
+record(subArray, "LIBERA01:SA:SA_SUM_MONITOR") {
+	field(INP, "LIBERA01:SA:SA_ARRAY_MONITOR")
+	field(INDX, "7")
+	field(MALM, "16")
+	field(FTVL, "LONG")
+
+}
+
+## DD port
+record(waveform, "LIBERA01:DD1:DD_VA_MONITOR") {
+	field(DESC, "Data for VA")
+	field(NELM, "1000")
+	field(FTVL, "LONG")
+	field(FLNK, "LIBERA01:DD1:DD_VB_MONITOR PP")
+}
+
+record(waveform, "LIBERA01:DD1:DD_VB_MONITOR") {
+	field(DESC, "Data for VB")
+	field(NELM, "1000")
+	field(FTVL, "LONG")
+	field(FLNK, "LIBERA01:DD1:DD_VC_MONITOR PP")
+}
+
+record(waveform, "LIBERA01:DD1:DD_VC_MONITOR") {
+	field(DESC, "Data for VC")
+	field(NELM, "1000")
+	field(FTVL, "LONG")
+	field(FLNK, "LIBERA01:DD1:DD_VD_MONITOR PP")
+}
+
+record(waveform, "LIBERA01:DD1:DD_VD_MONITOR") {
+	field(DESC, "Data for VD")
+	field(NELM, "1000")
+	field(FTVL, "LONG")
+}

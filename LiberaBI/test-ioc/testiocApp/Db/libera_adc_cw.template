@@ -1,0 +1,94 @@
+###############################################################################
+#                       ADC continuous wave
+###############################################################################
+# ADC continuous wave monitor output is a matrix: [A B C D X Y SUM]
+# A .. D            ADC samples
+# X, Y, SUM         calculated values
+#
+
+record(bi, "$(DEVICE)ADCCW_MONITOR") {
+	field(SCAN, "Passive")
+	#field(DTYP, "asynUInt32Digital")
+	field(FLNK, "$(DEVICE)ADCCW_A_MONITOR PP")
+	#field(INP, "@asynMask($(PORT), 440, 0x1, 1.0)")
+}
+
+record(waveform, "$(DEVICE)ADCCW_A_MONITOR") {
+	#field(DTYP, "asynInt32ArrayIn")
+	#field(INP, "@asyn($(PORT), 440)")
+	field(NELM, "$(NELM)")
+	field(FTVL, "LONG")
+	field(FLNK, "$(DEVICE)ADCCW_B_MONITOR PP")
+}
+
+record(waveform, "$(DEVICE)ADCCW_B_MONITOR") {
+	#field(DTYP, "asynInt32ArrayIn")
+	#field(INP, "@asyn($(PORT), 441)")
+	field(NELM, "$(NELM)")
+	field(FTVL, "LONG")
+	field(FLNK, "$(DEVICE)ADCCW_C_MONITOR PP")
+}
+
+record(waveform, "$(DEVICE)ADCCW_C_MONITOR") {
+	#field(DTYP, "asynInt32ArrayIn")
+	#field(INP, "@asyn($(PORT), 442)")
+	field(NELM, "$(NELM)")
+	field(FTVL, "LONG")
+	field(FLNK, "$(DEVICE)ADCCW_D_MONITOR PP")
+}
+
+record(waveform, "$(DEVICE)ADCCW_D_MONITOR") {
+	#field(DTYP, "asynInt32ArrayIn")
+	#field(INP, "@asyn($(PORT), 443)")
+	field(NELM, "$(NELM)")
+	field(FTVL, "LONG")
+	field(FLNK, "$(DEVICE)ADCCW_X_MONITOR PP")
+}
+
+record(waveform, "$(DEVICE)ADCCW_X_MONITOR") {
+	#field(DTYP, "asynInt32ArrayIn")
+	#field(INP, "@asyn($(PORT), 444)")
+	field(NELM, "$(NELM)")
+	field(FTVL, "LONG")
+	field(FLNK, "$(DEVICE)ADCCW_Y_MONITOR PP")
+}
+
+record(waveform, "$(DEVICE)ADCCW_Y_MONITOR") {
+	#field(DTYP, "asynInt32ArrayIn")
+	#field(INP, "@asyn($(PORT), 445)")
+	field(NELM, "$(NELM)")
+	field(FTVL, "LONG")
+	field(FLNK, "$(DEVICE)ADCCW_SUM_MONITOR PP")
+}
+
+record(waveform, "$(DEVICE)ADCCW_SUM_MONITOR") {
+	#field(DTYP, "asynInt32ArrayIn")
+	#field(INP, "@asyn($(PORT), 446)")
+	field(NELM, "$(NELM)")
+	field(FTVL, "LONG")
+	field(FLNK, "$(DEVICE)ADCCW_FINISHED_MONITOR PP")
+}
+
+record(calc, "$(DEVICE)ADCCW_FINISHED_MONITOR") {
+	field(CALC, "A+1")
+	field(INPA, "$(DEVICE)ADCCW_FINISHED_MONITOR PP")
+}
+
+record(bo, "$(DEVICE)ADCCW_IGNORE_TRIG_SP") {
+	#field(DTYP, "asynUInt32Digital")
+	#field(OUT, "@asynMask($(PORT), 447, 0x1, 1.0)")
+	field(ZNAM, "Trigger Allowed")
+	field(ONAM, "Trigger Ignored")
+	field(FLNK, "$(DEVICE)ADCCW_IGNORE_TRIG_MONITOR PP")
+}
+
+record(calc, "$(DEVICE)ADCCW_IGNORE_TRIG_MONITOR") {
+	field(CALC, "A?1:0")
+	field(INPA, "$(DEVICE)ADCCW_IGNORE_TRIG_SP PP")
+}
+
+record(bo, "$(DEVICE)ADCCW_ON_NEXT_TRIG_CMD") {
+	#field(DTYP, "asynUInt32Digital")
+	#field(OUT, "@asynMask($(PORT), 448, 0x1, 1.0)")
+}
+

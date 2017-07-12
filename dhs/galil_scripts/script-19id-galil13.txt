@@ -1,0 +1,40 @@
+//
+//galil10 -- Galil Script for ID19 DMC4080
+//
+// WATCHDOG ROUTINE
+#AUTO
+TM 500
+EN
+#W_Dog
+CW ,1
+Kick=0
+LastKic=0
+#WDog_ok
+//MG{EF} "WATCHDOG ok"
+AT 0
+AT 5000
+JP #WDogBad,Kick=LastKic
+LastKic=Kick
+TimeOut=0
+JP #WDog_ok
+#WDogBad
+TimeOut=1
+//DON'T Send an unsolicited message to DHS
+//MG{EF} "dtoh_watchdog_timeout"
+JP #WDog_ok
+//
+//
+//This routine closes all sockets after waiting for 1 second.
+//The 1 second wait is useful to allow the client to disconnect cleanly.
+//
+#ShutAll
+AT 0
+AT 1000
+IHA=>-2
+IHB=>-2
+IHC=>-2
+IHD=>-2
+IHE=>-2
+IHF=>-2
+EN
+//end of the routine

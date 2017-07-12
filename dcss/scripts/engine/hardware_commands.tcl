@@ -518,6 +518,7 @@ proc get_encoder {encoder {ignore_abort 0}} {
 	    }
     }
 
+
 	if { $gDevice($encoder,status) != "inactive" } {
 		log_error "Still waiting for previous $encoder activity to complete."
 		return

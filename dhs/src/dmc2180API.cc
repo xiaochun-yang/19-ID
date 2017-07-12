@@ -37,6 +37,7 @@ xos_result_t Dmc2180::init_connection() {
 
 	xos_socket_address_init(&serverAddress);
 	LOG_INFO("get ip from hostname");
+	LOG_INFO1("get ip from hostname=%s", hostname.c_str() );
 
 	//label = hostname;
 
@@ -241,9 +242,9 @@ xos_result_t Dmc2180::init_connection() {
 	LOG_INFO("connect complete");
 
 	assertLimitSwitchPolarity();
-
+/*yangx don't check the sample rate and CN
 	assertSampleRate();
-/*
+
 	execute(command2, response, &error_code, FALSE );
 	if (error_code != 0) {
 		LOG_WARNING("Could not set CN\n");
@@ -263,23 +264,22 @@ xos_result_t Dmc2180::execute(char * command, char * response,
 
 	//timespec time_stamp;
 	//long start_time;
-
 	temp_cmd = command;
 	while ((next_cmd = strchr(temp_cmd, ';')) != NULL) {
 		number_of_commands++;
 		temp_cmd = next_cmd + 1;
 	}
-
 	//	clock_gettime( CLOCK_REALTIME, &time_stamp );
 	//start_time = time_stamp.tv_nsec + time_stamp.tv_sec * 1000000000;
 
 	//printf("found %d commands\n",number_of_commands);
+	//LOG_INFO1("found %d commands\n",number_of_commands);
+	//LOG_INFO1("found %s commands\n",command);
 
 	if (send_message(command, silent) == XOS_FAILURE) {
 		LOG_WARNING("Could not send command");
 		return XOS_FAILURE;
 	};
-
 	error = FALSE;
 	/* we must get a ? or a : for each command sent */
 	for (int cmd_cnt = 0; cmd_cnt < number_of_commands; cmd_cnt++) {
@@ -289,7 +289,6 @@ xos_result_t Dmc2180::execute(char * command, char * response,
 			error = TRUE;
 		}
 	}
-
 	if (error == TRUE) {
 		send_message("TC 1", FALSE);
 		/*get first character from response*/
@@ -395,7 +394,6 @@ xos_result_t Dmc2180::send_message(char * message, xos_boolean_t silent) {
 	sprintf(buffer2, "%s%c%c", message, 13, 10);
 
 	if (xos_socket_write(&socket, buffer2, strlen(buffer2)) == XOS_SUCCESS) {
-//LOG_INFO1("yangx message is sent to galil %s", buffer2);
 		if (!silent) {
 			LOG_INFO2("%s-> %s",hostname.c_str(), buffer2);
 		}
@@ -539,6 +537,18 @@ Dmc2180::Dmc2180() {
 		absoluteEncoder[axis].axisLabel = AxisLabels[axis];
 		absoluteEncoder[axis].axisIndex = axis;
 		absoluteEncoder[axis].dmc2180 = this; //allows motor to access controller data
+	}
+	for (int axis = 0; axis < DMC2180_MAX_ECOUNTER_ENCODERS; axis++) {
+		counterEncoder[axis].axisUsed = FALSE;
+		counterEncoder[axis].axisLabel = AxisLabels[axis];
+		counterEncoder[axis].axisIndex = axis;
+		counterEncoder[axis].dmc2180 = this; //allows motor to access controller data
+	}
+	for (int axis = 0; axis < DMC2180_MAX_PIEZO_ENCODERS; axis++) {
+		piezoEncoder[axis].axisUsed = FALSE;
+		piezoEncoder[axis].axisLabel = AxisLabels[axis];
+		piezoEncoder[axis].axisIndex = axis;
+		piezoEncoder[axis].dmc2180 = this; //allows motor to access controller data
 	}
 
 }
@@ -935,7 +945,7 @@ xos_result_t Dmc2180_motor::timedExposureServoMotor(
 			overshootPosition_counts, outputCompareDirection,
 			exposureScriptName.c_str());
 
-LOG_INFO1("yangxx buffer=  %s \n", buffer);
+//LOG_INFO1("yangxx buffer=  %s \n", buffer);
 
 	if (controller_execute(buffer, &error_code, FALSE ) == XOS_FAILURE)
 		return XOS_FAILURE;
@@ -1152,9 +1162,86 @@ xos_result_t Dmc2180RelativeEncoder::get_current_position(
 	return XOS_SUCCESS;
 }
 
+// This function read the encounder counts from the script
+xos_result_t Dmc2180CounterEncoder::get_current_position(dcs_scaled_t * position) {
+
+        LOG_INFO("Entering counter encoder\n");
+        int error_code;
+	int finished;
+        long counts;
+        //char commands[200];
+
+       // get position of axis
+       // sprintf(command, "TP%c", axisLabel);
+        LOG_INFO1("Yangx axisLabel %d \n", axisLabel);
+	sprintf(command, "~a=\"%c\";""XQ #ECounts,2", axisLabel);
+	*position = (dcs_scaled_t) 100;
+        //controller_execute("XQ #ECounts,2", &error_code, FALSE );
+        controller_execute(command, &error_code, FALSE );
+
+//LOG_INFO1("yangx start command=%s \n",command);
+        if (error_code == 0) {
+                //Chech to see if it finish counting
+                do {
+			usleep(10000);
+                        controller_execute("MG Finished", &error_code, FALSE);
+                        sscanf(lastResponse, "%d", &finished);
+LOG_INFO1("yangx encoder finished %d \n", finished);
+                }while(!finished);
+                // get the counts
+                controller_execute("MG Counts", &error_code, FALSE);
+                sscanf(lastResponse, "%ld", &counts);
+                *position = (dcs_scaled_t) counts;
+//LOG_INFO1("yangx counts %ld \n", counts);
+//LOG_INFO1("yangx postion %lf \n", *position);
+        } else {
+                LOG_WARNING("Error getting current position\n");
+                return XOS_FAILURE;
+        }
+      return XOS_SUCCESS;
+}
+
+// This function read the encounder counts from the script
+xos_result_t Dmc2180PiezoEncoder::get_current_position(dcs_scaled_t * position) {
+
+        LOG_INFO("Entering piezo encoder\n");
+        int error_code;
+	int finished;
+        float val;
+        //char commands[200];
+
+       // get position of axis
+        LOG_INFO1("Yangx axisIndex %d \n", axisIndex);
+        sprintf(command, "CHAN=%d;""XQ #GETV,3", axisIndex);
+        //sprintf(command,"XQ #GETV,3");
+  
+        controller_execute(command, &error_code, FALSE );
+
+        if (error_code == 0) {
+                //Chech to see if it finish counting
+                do {
+                        usleep(10000);
+                        controller_execute("MG Finished", &error_code, FALSE);
+                        sscanf(lastResponse, "%d", &finished);
+                }while(!finished);
+
+                // get the counts
+                controller_execute("MG RAL", &error_code, FALSE);
+                sscanf(lastResponse, "%f", &val);
+                *position = (dcs_scaled_t) val;
+LOG_INFO1("yangx counts %ld \n", val);
+LOG_INFO1("yangx postion %lf \n", *position);
+        } else {
+                LOG_WARNING("Error getting current position\n");
+                return XOS_FAILURE;
+        }
+      return XOS_SUCCESS;
+}
+
+/*
 xos_result_t Dmc2180AnalogEncoder::get_current_position(dcs_scaled_t * position) {
 	int error_code;
-	/* get position of axis */
+	//get position of axis 
 
 	sprintf(command, "MG @AN[%d]", axisIndex);
 	controller_execute(command, &error_code, FALSE );
@@ -1168,6 +1255,46 @@ xos_result_t Dmc2180AnalogEncoder::get_current_position(dcs_scaled_t * position)
 
 	return XOS_SUCCESS;
 }
+*/
+
+xos_result_t Dmc2180AnalogEncoder::get_current_position(dcs_scaled_t * position) {
+        LOG_INFO("Entering counter encoder\n");
+        int error_code;
+        int finished;
+        float voltage;
+        //char commands[200];
+
+       // get position of axis
+        LOG_INFO1("Yangx axisIndex %d \n", axisIndex);
+        sprintf(command, "~a=\"%d\";""XQ #IONOUT,4", axisIndex);
+        //sprintf(command, "~a=%d;""XQ #IONOUT,4", axisIndex);
+        *position = (dcs_scaled_t) 100;
+        controller_execute(command, &error_code, FALSE );
+
+//LOG_INFO1("yangx start command=%s \n",command);
+        if (error_code == 0) {
+                //Chech to see if it finish counting
+                do {
+                        usleep(10000);
+                        controller_execute("MG Finished", &error_code, FALSE);
+                        sscanf(lastResponse, "%d", &finished);
+			controller_execute("MG CNT", &error_code, FALSE);
+                        sscanf(lastResponse, "%f", &voltage);
+LOG_INFO2("yangx encoder CNT= %f finished %d \n", voltage, finished);
+                }while(!finished);
+                // get the counts
+                controller_execute("MG IONVAL", &error_code, FALSE);
+                sscanf(lastResponse, "%f", &voltage);
+                *position = (dcs_scaled_t) voltage;
+//LOG_INFO1("yangx counts %f \n", voltage);
+//LOG_INFO1("yangx postion %lf \n", *position);
+        } else {
+                LOG_WARNING("Error getting current position\n");
+                return XOS_FAILURE;
+        }
+      return XOS_SUCCESS;
+}
+
 
 xos_result_t Dmc2180AbsoluteEncoder::get_current_position(
 		dcs_scaled_t * position) {
@@ -1190,8 +1317,29 @@ xos_result_t Dmc2180AbsoluteEncoder::get_current_position(
 }
 
 xos_result_t Dmc2180AnalogEncoder::set_position(dcs_scaled_t newPosition) {
-	LOG_WARNING1("analog encoder cannot be set: channel %ld\n", axisLabel);
-	return XOS_SUCCESS;
+	//LOG_WARNING1("analog encoder cannot be set: channel %ld\n", axisLabel);
+        int error_code;
+        int IntegrationTime;
+
+        IntegrationTime = newPosition;
+        LOG_INFO1("Yangx Integration Time : %d\n",IntegrationTime);
+
+        sprintf(command, "OTime=%d", IntegrationTime);
+        /* construct and send message to dmc2180 */
+        controller_execute(command, &error_code, FALSE );
+
+        LOG_INFO1("error_code: %d\n",error_code);
+
+        /* check for errors */
+        if (error_code != 0) {
+                LOG_WARNING1("error_code: %d\n",error_code);
+
+                /* report failure */
+                return XOS_FAILURE;
+        }
+
+        /* report success */
+        return XOS_SUCCESS;
 }
 
 xos_result_t Dmc2180AbsoluteEncoder::set_position(dcs_scaled_t newPosition) {
@@ -1221,6 +1369,84 @@ xos_result_t Dmc2180RelativeEncoder::set_position(dcs_scaled_t newPosition) {
 
 	/* report success */
 	return XOS_SUCCESS;
+}
+
+// This function setup the integration time of the counter
+xos_result_t Dmc2180CounterEncoder::set_position(dcs_scaled_t newPosition) {
+        /* local variables */
+        int error_code;
+        int IntegrationTime;
+
+        IntegrationTime = newPosition;
+        LOG_INFO1("Yangx Integration Time : %d\n",IntegrationTime);
+
+        sprintf(command, "ITime=%d", IntegrationTime);
+        /* construct and send message to dmc2180 */
+        controller_execute(command, &error_code, FALSE );
+
+        LOG_INFO1("error_code: %d\n",error_code);
+
+        /* check for errors */
+        if (error_code != 0) {
+                LOG_WARNING1("error_code: %d\n",error_code);
+
+                /* report failure */
+                return XOS_FAILURE;
+        }
+
+        /* report success */
+        return XOS_SUCCESS;
+}
+/*
+xos_result_t Dmc2180PiezoEncoder::set_position(dcs_scaled_t newPosition) {
+        // local variables 
+        int error_code;
+        int IntegrationTime;
+
+        IntegrationTime = newPosition;
+        LOG_INFO1("Yangx Integration Time : %d\n",IntegrationTime);
+
+        sprintf(command, "ITime=%d", IntegrationTime);
+        // construct and send message to dmc2180 
+        controller_execute(command, &error_code, FALSE );
+
+        LOG_INFO1("error_code: %d\n",error_code);
+
+        // check for errors 
+        if (error_code != 0) {
+                LOG_WARNING1("error_code: %d\n",error_code);
+
+                // report failure 
+                return XOS_FAILURE;
+        }
+
+        // report success 
+        return XOS_SUCCESS;
+}
+*/
+
+xos_result_t Dmc2180PiezoEncoder::set_position(dcs_scaled_t newPosition) {
+        // local variables 
+        int error_code;
+
+        LOG_INFO2("Yangx volt=%f axisIndex : %d\n",newPosition, axisIndex);
+
+        sprintf(command, "VAL=%f;""CHAN=%d;""XQ #SETV,3", newPosition, axisIndex);
+        // construct and send message to dmc2180 
+        controller_execute(command, &error_code, FALSE );
+
+        LOG_INFO1("error_code: %d\n",error_code);
+
+        // check for errors 
+        if (error_code != 0) {
+                LOG_WARNING1("error_code: %d\n",error_code);
+
+                // report failure 
+                return XOS_FAILURE;
+        }
+        // report success 
+        return XOS_SUCCESS;
+
 }
 
 xos_result_t Dmc2180_motor::get_reference_position(dcs_unscaled_t * position) {
@@ -1365,14 +1591,28 @@ xos_result_t Dmc2180_motor::start_home( char * deviceName,  char * error_string 
                 /* construct and send message to dmc2180 */
                 controller_execute( command, &error_code,FALSE );
         }
-	else if(strncmp(deviceName,"mirror_slit",11) == 0)
+	else if( (strncmp(deviceName,"mirror",5) == 0) && (strncmp(deviceName,"mirror_bend",11) != 0) )
         {
                 sprintf(command, "FI%c", axisLabel );
 
                 /* construct and send message to dmc2180 */
                 controller_execute( command, &error_code,FALSE );
         }
+	else if(strncmp(deviceName,"mono_angle",10) == 0)
+        {
+                sprintf(command, "FI%c", axisLabel );
+
+                /* construct and send message to dmc2180 */
+                controller_execute( command, &error_code,FALSE );
+	}
 	else if(strncmp(deviceName,"mono_c2",7) == 0)
+        {
+                sprintf(command, "FI%c", axisLabel );
+
+                /* construct and send message to dmc2180 */
+                controller_execute( command, &error_code,FALSE );
+        }
+	else if(strncmp(deviceName,"white_beam",7) == 0)
         {
                 sprintf(command, "FI%c", axisLabel );
 

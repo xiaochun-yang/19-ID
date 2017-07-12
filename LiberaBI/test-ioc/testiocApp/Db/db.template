@@ -1,0 +1,36 @@
+record(ai, "$(PREFIX):ain") {
+    field(DESC, "Test input record")
+    field(SCAN, "Passive")
+    field(PINI, "YES")
+}
+
+record(ao, "$(PREFIX):aout") {
+    field(DESC, "Test output record")
+    field(SCAN, "Passive")
+    field(PINI, "YES")
+    field(OUT,  "TEST:ain PP")
+}
+
+record(stringin, "$(PREFIX):strin") {
+    field(DESC, "Test stringin record")
+    field(SCAN, "Passive")
+    field(PINI, "YES")
+    field(VAL,  "default stringin val")
+}
+
+record(calc, "$(PREFIX):calc") {
+    field(DESC, "Test calc record")
+    field(SCAN, "1 second")
+    field(CALC, "A+1")
+    field(INPA, "$(PREFIX):calc")
+    field(VAL,  "0")
+}
+
+record(waveform, "$(PREFIX):wf") {
+    field(DESC, "Test waveform float record")
+    field(SCAN, "Passive")
+    field(PINI, "YES")
+    field(FTVL, "FLOAT")
+    field(NELM, "5")
+}
+

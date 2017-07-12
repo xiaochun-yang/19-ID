@@ -154,7 +154,8 @@ proc scanMotor_start { user_ sessionId_ motorDef_ detectors_ filters_ timing_ pr
 
         # wait for ion chambers to become inactive
         #eval wait_for_devices $detectors_
-        
+#puts "yangx detectors=$detectors_"       
+ 
         # do the scans
         scanMotors $user_ $sessionId_ $motorDef_ $detectors_ \
         $integrationTime $motorSettlingTime $fullPath
@@ -421,7 +422,7 @@ proc doScanCounting { integrationTime_ detectors_ } {
             }
         }
     }    
-
+#puts "yangxx ionchamberlist=$ionChamberList"
     # do the counting
     eval read_ion_chambers [expr $integrationTime_ / 1000.0] $ionChamberList
     foreach encoder $encoderList {
@@ -438,6 +439,8 @@ proc doScanCounting { integrationTime_ detectors_ } {
             "encoder"     { set value $gDevice($device,position) }
             "ion_chamber" { set value $gDevice($device,counts) }
         }
+	
+#puts "yangxx type=$type value=$value"
         lappend scanData [expr double($value)]
     }
 

@@ -1,0 +1,58 @@
+###############################################################################
+#                        FA - fast acquisition
+###############################################################################
+# For FA acquisition FPGA memory read/write access is provided. SBC does not
+# see FA data, only defines parameters for FA stream.
+
+record(waveform, "$(DEVICE)FA_MEM_MONITOR") {
+	field(DESC, "FA Memory")
+	#field(DTYP, "asynInt32ArrayIn")
+	#field(INP, "@asyn($(PORT), 500)")
+	field(NELM, "8192")
+	field(FTVL, "ULONG")
+}
+
+record(waveform, "$(DEVICE)FA_MEM_SP") {
+	field(DESC, "FA memory writer")
+	#field(DTYP, "asynInt32ArrayOut")
+	#field(INP, "@asyn($(PORT), 501)")
+	field(NELM, "8192")
+	field(FTVL, "ULONG")
+}
+
+record(longout, "$(DEVICE)FA_OFFSET_SP") {
+	field(DESC, "FA memory writer offset")
+	field(PINI, "NO")
+	#field(DTYP, "asynInt32")
+	field(VAL, "0")
+	#field(OUT, "@asyn($(PORT), 502)")
+	field(DRVH, "8192")
+	field(DRVL, "0")
+	field(HOPR, "8192")
+	field(LOPR, "0")
+}
+
+record(longout, "$(DEVICE)FA_LENGTH_SP") {
+	field(DESC, "FA memory writer length")
+	field(PINI, "NO")
+	#field(DTYP, "asynInt32")
+	field(VAL, "8192")
+	#field(OUT, "@asyn($(PORT), 503)")
+	field(DRVH, "8192")
+	field(DRVL, "0")
+	field(HOPR, "8192")
+	field(LOPR, "0")
+}
+
+record(bo, "$(DEVICE)FA_MEM_READ_CMD") {
+	field(FLNK, "$(DEVICE)FA_MEM_MONITOR PP")
+	field(ZNAM, "Read Data")
+	field(ONAM, "Read Data")
+}
+
+record(bo, "$(DEVICE)FA_MEM_WRITE_CMD") {
+	field(FLNK, "$(DEVICE)FA_MEM_SP PP")
+	field(ZNAM, "Write Data")
+	field(ONAM, "Write Data")
+}
+

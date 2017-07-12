@@ -1,0 +1,217 @@
+#!/bin/bash
+#
+####from 02/01/2007, we separate each beamline into its own block.
+####Only share code when the setups are exactly the same
+
+#if [[ $1 = "-b" ]] || [[ $2 = "-b" ]]
+#then
+#    DCSDaemonMode=1
+#    echo "daemon mode"
+#else
+#    if [[ ${DISPLAY##*:} != "0.1" ]]; then
+#        echo "must run from vncserver 1"
+#        exit
+#    fi
+#fi
+
+DCS_ROOT=/usr/local/dcs
+source $DCS_ROOT/batchbuild/dcs_functions
+
+#####################
+#### xterm geometry
+POS_X=0
+POS_Y=0
+DELTA_X=20
+DELTA_Y=20
+
+if [ $# -ge 1 ] && [[ $1 != "-b" ]]
+then
+	BEAMLINE=$1
+else
+case $HOSTNAME in 
+   xf19id1-ws2 ) BEAMLINE="19-ID";;
+   blctlsim.slac.stanford.edu ) BEAMLINE="BL0-0";;
+   blctl15.slac.stanford.edu ) BEAMLINE="BL1-5";;
+   blctl71.slac.stanford.edu ) BEAMLINE="BL7-1";;
+   blctl91.slac.stanford.edu ) BEAMLINE="BL9-1";;
+   blctl92.slac.stanford.edu ) BEAMLINE="BL9-2";;
+   blctl93.slac.stanford.edu ) BEAMLINE="BL9-3";;
+   blctl111.slac.stanford.edu ) BEAMLINE="BL11-1";;
+   blctl122.slac.stanford.edu ) BEAMLINE="BL12-2";;
+   blctl141.slac.stanford.edu ) BEAMLINE="BL14-1";;
+   blctlhwi.slac.stanford.edu ) BEAMLINE="BL-HWI";;
+   smbdev2.slac.stanford.edu ) BEAMLINE="BL-sim";;
+   * ) echo "run this script on a blctl machine only"
+      exit
+      ;;
+esac
+fi
+
+echo $BEAMLINE
+echo $MACHINE
+
+#dump database file
+cd ${DCS_ROOT}/dcss/$MACHINE
+DUMP_FILE="${BEAMLINE}_restart_dump`date +%F-%T`"
+echo $DUMP_FILE
+
+./dcss $BEAMLINE -d $DUMP_FILE
+
+echo -e `date` start_dcs called on $BEAMLINE \\ndumpfile: $DUMP_FILE |mail -s "$BEAMLINE restart_dcs start" yangx@bnl.gov
+
+case $BEAMLINE in
+    19-ID)
+        start_dcss
+        start_impdhs
+        start_epicsgw
+       start_dhs galil1
+	start_dhs galil2
+	start_dhs galil3
+        start_dhs galil5
+	start_dhs galil7
+	start_dhs galil8
+	start_dhs galil9
+	start_dhs galil10
+	start_dhs galil11
+	start_dhs galil12
+        start_dhs camera
+	start_dhs_inline inline_camera
+#       start_dhs detector
+#	start_simdetector
+        start_simdhs
+        start_image
+#       start_console
+        ;;
+    BL7-1)
+        start_dcss
+        start_impdhs
+        start_epicsgw
+        start_dhs galil1
+        start_dhs galil2
+        start_dhs galil3
+        start_dhs galil4
+        start_dhs galil5
+        start_dhs galil6
+        start_cryojet
+        start_dhs camera
+        start_adsc
+        start_dhs_sd detector
+        ;;
+    BL9-1)
+        start_dcss
+        start_impdhs
+        start_epicsgw
+        start_dhs galil1
+        start_dhs galil2
+        start_dhs galil3
+        start_cryojet
+        start_dhs camera
+        start_adsc_detector
+        ;;
+    BL9-2)
+        start_dcss
+        start_impdhs
+        start_epicsgw
+        start_dhs galil1
+        start_dhs galil2
+        start_dhs galil3
+        start_dhs galil4
+        start_dhs galil5
+        start_dhs galil6
+        start_dhs galil7
+        start_dhs galil8
+        start_dhs galil9
+        start_cryojet
+        start_dhs camera
+        start_marccd_detector_with_hostname mar325-0011p 
+        ;;
+    BL9-3)
+        start_dcss
+        start_epicsgw
+        start_dhs galil1
+        start_dhs camera
+        start_scan345
+        ;;
+    BL11-1)
+        start_dcss
+        start_impdhs
+        start_epicsgw
+        start_dhs galil1
+        start_dhs galil2
+        start_dhs galil3
+        start_dhs galil4
+        start_dhs galil5
+        start_dhs galil6
+        start_dhs camera
+        start_cryojet
+        start_marccd_detector_with_hostname mar325-0020p
+        ;;
+    BL11-3)
+        start_dcss
+        start_impdhs
+        start_epicsgw
+        start_dhs galil1
+        start_dhs galil2
+        start_dhs galil3
+        start_dhs galil4
+        start_dhs camera
+        start_cryojet
+        start_scan345
+        start_sudo_dhs_detector
+        ;;
+    BL12-2)
+        start_dcss
+        start_impdhs
+        start_epicsgw
+        start_dhs galil1
+        start_dhs galil2
+        start_dhs galil3
+        start_dhs galil4
+        start_dhs galil5
+        start_dhs galil6
+        start_dhs galil7
+        start_dhs galil8
+        start_dhs galil9
+        start_dhs camera
+        start_cryojet
+        start_temperatureDhs
+        start_sr570
+        start_adsc
+        start_dhs_sd detector
+        ;;
+    BL14-1)
+        start_dcss
+        start_impdhs
+        start_epicsgw
+        start_dhs galil1
+        start_dhs galil2
+        start_dhs galil3
+        start_dhs galil4
+        start_dhs galil5
+        start_dhs galil6
+        start_dhs galil7
+        start_dhs camera
+        start_cryojet
+        #start_scan345
+        #start_sudo_dhs_detector
+        #start_adsc_detector
+        start_marccd_detector_with_hostname mar325-0022
+        ;;
+    BL-HWI)
+        start_dcss
+        start_impdhs
+        #start_epicsgw
+        start_dhs galil1
+        start_dhs camera
+        start_scan345
+        start_sudo_dhs_detector
+        ;;
+    SIM1-5 | SIM7-1 | SIM9-1 | SIM9-2 | SIM11-1 | SIM11-3 | SIM12-2 | BL-sim)
+        start_dcss
+        start_impdhs
+        start_epicsgw
+        start_simdhs
+        start_simdetector
+        ;;
+    *) ;;
+esac

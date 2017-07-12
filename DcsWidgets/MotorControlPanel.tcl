@@ -309,8 +309,15 @@ class DCS::MotorMoveView {
 	} elseif { $dname == "sample_y" } {
                 set value -0.61
 	} elseif { $dname == "sample_z" } {
-               # set value -0.5
 		set value 0.0
+	} elseif { $dname == "mirror_vert" } {
+		set value -0.40
+	} elseif { $dname == "mirror_horz" } {
+		set value -0.38
+	} elseif { $dname == "mirror_pitch" } {
+		set value 0.69
+	} elseif { $dname == "mirror_roll" } {
+		set value -0.80
 	} else {
 		set value 0.0
 	}

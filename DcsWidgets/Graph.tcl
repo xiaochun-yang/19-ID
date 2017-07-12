@@ -159,7 +159,8 @@ class DCS::Graph {
 	itk_option define -legendBackground legendBackground LegendBackground ""
 	itk_option define -legendPosition legendPosition LegendPosition ""
 	itk_option define -legendFont legendFont LegendFont ""
-	itk_option define -tickFont tickFont TickFont "*-Courier-Bold-R-Normal-*-100-*"
+	itk_option define -tickFont tickFont TickFont "*-helvetica-Bold-R-Normal-*-14-*-*-*-*-*-*-*"
+	#itk_option define -tickFont tickFont TickFont "*-Courier-Bold-R-Normal-*-100-*"
 
 	itk_option define -titleFont titleFont TitleFont ""
 	itk_option define -axisLabelFont axisLabelFont AxisLabelFont ""

@@ -1,0 +1,71 @@
+# Environment port database
+file "libera_env.template" {
+pattern
+{PORT, DEVICE}
+{ENV, LIBERA01:ENV:}
+}
+
+# Fast Application port database reading/writing 8192 samples
+file "libera_fa.template" {
+pattern
+{PORT, DEVICE}
+{FA, LIBERA01:FA:}
+}
+
+# ADC port database reading 1024 samples max
+file "libera_adc.template" {
+pattern
+{PORT, DEVICE, NELM}
+{ADC, LIBERA01:ADC:, 1024}
+}
+
+
+# ADC continuous wave port database reading 1024 samples max
+file "libera_adc_cw.template" {
+pattern
+{PORT, DEVICE, NELM}
+{ADCCW, LIBERA01:ADCCW:, 1024}
+}
+
+# Post Mortem port database reading 16000 samples
+file "libera_pm.template" {
+pattern
+{PORT, DEVICE, WF1, WF2, WF3, WF4, WF5, WF6, WF7, WF8, NELM}
+{PM, LIBERA01:PM:, VA, VB, VC, VD, X, Y, Q, SUM, 16000}
+}
+
+# Data on Demand port database reading 1000 samples
+file "libera_dd.template" {
+pattern
+{PORT, DEVICE, WF1, WF2, WF3, WF4, WF5, WF6, WF7, WF8, NELM}
+{DD1, LIBERA01:DD1:, VA, VB, VC, VD, X, Y, Q, SUM, 1000}
+}
+
+# Data on Demand port database reading 10000 samples of raw data
+file "libera_dd.template" {
+pattern
+{PORT, DEVICE, WF1, WF2, WF3, WF4, WF5, WF6, WF7, WF8, NELM}
+{DD2, LIBERA01:DD2:, IA, QA, IB, QB, IC, QC, ID, QD, 10000}
+}
+
+# Data on Demand port database reading 30000 samples
+file "libera_dd.template" {
+pattern
+{PORT, DEVICE, WF1, WF2, WF3, WF4, WF5, WF6, WF7, WF8, NELM}
+{DD3, LIBERA01:DD3:, VA, VB, VC, VD, X, Y, Q, SUM, 30000}
+}
+
+# Data on Demand port database reading 400000 samples
+file "libera_dd.template" {
+pattern
+{PORT, DEVICE, WF1, WF2, WF3, WF4, WF5, WF6, WF7, WF8, NELM}
+{DD4, LIBERA01:DD4:, VA, VB, VC, VD, X, Y, Q, SUM, 400000}
+}
+
+# Slow Acquisition port database
+file "libera_sa.template" {
+pattern
+{PORT, DEVICE}
+{SA, LIBERA01:SA:}
+}
+

@@ -1,0 +1,173 @@
+//
+//Galil Script for DMCi4080
+//
+#AUTO
+MO
+MT2,2,2.5,2,2.5,2,2.5,1
+LC1,1,1,1,1,1,1,1
+AG0,0,0,0,0,0,0,0
+ITime=100
+CN1
+SH
+auto=1
+//'SET RIO HANDLE 
+IHF=10,19,2,42<502>2
+DA * []
+DM V[1]
+DM R[1]
+VAL=0
+RAL=0
+CHAN=0
+DIV=65536; '0--10V 16 BITS
+MUL=10; '10V
+EN
+//16 BIT SET
+#SETV
+V[0]=VAL*DIV/MUL; 'VOLT TO NUMBER
+MBC=,16,CHAN,1,V[]; 'SET VOLT
+EN
+//16 BITS READ
+#READV
+MBC=,4,CHAN,1,R[]; 'READ VOLT IN NUMBER
+RAL=R[0]*MUL/DIV;  'CHANGE TO VOLT
+EN
+//'set voltage for piezo 32bits
+#SETV32
+RAL=6000 + CHAN
+AO RAL,VAL
+EN
+//'read piezo voltage 32 bits
+#GETV32
+finished=0
+MBF=,4,CHAN,1,R[]
+float=R[0]*$8000
+float= float + float + R[0]
+RAL = @REAL[float]
+finished=1
+EN
+//'ENCODER AS A COUNTER
+#ECounts
+CE~a=5
+Finished=0
+DE~a=0
+WT ITime
+Counts = _TD~a
+Finished = 1
+EN
+#HOMSLIT
+//'SET TIMEOUT TO 22 SECONDS
+SHDEFG
+DP,,,0,0,0,0
+FL,,,333333,333333,333333,333333
+RL,,,333333,333333,333333,333333
+OD=0
+OE=0
+OF=0
+OG=0
+HM
+BGDEFG
+MCDEFG
+PR,,,OD,OE+108288,OF,OG+108288
+BGDEFG
+MCDEFG
+MG "HOME COMPLETE"
+EN
+#LIMSWI
+MG TIME
+MG "SLITMOTOR TIMED OUT"
+RE
+//'
+//'
+#GO10
+MG TIME
+SHD
+DPD=0
+FLD=11000
+PAD=10000
+SPD=1000
+BGD
+MCD
+MG "MOVE COMPLETE"
+EN
+#BEGIN
+MG TIME
+SHD
+TWD=1
+PRD=10000
+SPD=2000
+BGD
+MCD
+MG "COMPLETE"
+EN
+//
+#W_Dog
+CW ,1
+Kick=0
+LastKic=0
+#WDog_ok
+//MG{EF} "WATCHDOG ok"
+AT 0
+AT 5000
+JP #WDogBad,Kick=LastKic
+LastKic=Kick
+TimeOut=0
+JP #WDog_ok
+#WDogBad
+//ST ABCDEFGH
+//ST S
+//#close shutter
+//SB 2
+TimeOut=1
+//DON'T Send an unsolicited message to DHS
+//MG{EF} "dtoh_watchdog_timeout"
+JP #WDog_ok
+EN
+//
+#ShutAll
+AT 0
+AT 1000
+//IHA=>-2
+//IHB=>-2
+//IHC=>-2
+//IHD=>-2
+//IHE=>-2
+//IHF=>-2
+EN
+
+#ION
+A0=0
+A1=0
+A2=0
+A3=0
+A5=0
+A6=0
+A7=0
+CNT=8
+#anaLoop
+AT 0
+AT 250
+A0=A0+@AN[1]
+A1=A1+@AN[2]
+A2=A2+@AN[3]
+A3=A3+@AN[4]
+A4=A4+@AN[5]
+A5=A5+@AN[6]
+A6=A6+@AN[7]
+A7=A7+@AN[8]
+CNT=CNT-1
+JP #anaLoop,CNT>0
+A0=A0/8
+A1=A1/8
+A2=A2/8
+A3=A3/8
+A4=A4/8
+A5=A5/8
+A6=A6/8
+A7=A7/8
+MG{EF} "dtoh_ion_chamber",3,A0,A1,A2,A3,A4,A5,A6,A7
+JP #ION
+
+#ION1
+//MG{EF} "dtoh_ion_chamber",2.0,1.1,2.2,3.3,4.4,5.5,6.6,7.7
+EN
+

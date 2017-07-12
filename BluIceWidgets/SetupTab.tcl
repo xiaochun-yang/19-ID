@@ -55,6 +55,8 @@ package require DCSLogView
 package require DCSMessageBoard
 package require BLUICECommandPrompt
 package require DCSLVDTForBL122
+#my own class
+package require DCSLiberaView
 
 package require BLUICEDiffImageViewer
 
@@ -406,6 +408,14 @@ body SetupTab::addViews {} {
              set widget_name $view
              set widget_class DCS::TableWidget
          }
+	 myTestWidget {
+             $itk_component(selectView) add command \
+                -label "My Test Widget" \
+                -command [list $this openToolChest myTestWidget]
+
+             set widget_name $view
+             set widget_class DCS::MyTestWidget
+         }
          frontEndSlits {
             $itk_component(selectView) add command \
                -label "Front End Slits"	\
@@ -618,6 +628,12 @@ body SetupTab::addTools {} {
     $itk_component(toolChest) add command \
        -label "Exposure Control"    \
        -command [list $this openToolChest dose_control]
+##################################################################################
+    $itk_component(toolChest) add command \
+       -label "Libera Control"    \
+       -command [list $this openToolChest libera_control]
+
+##################################################################################
 
     $itk_component(toolChest) add command \
          -label "File Viewer"    \
@@ -1204,6 +1220,22 @@ body SetupTab::launchWidget { name  } {
 			pack $path
 		}
 
+	myTestWidget {
+            puts "Open myTestWidget.."
+            if [checkAndActivateExistingDocument myTestWidget] return
+
+            set path [$itk_component(Mdi) addDocument $name -title "My Test Widget Title"]
+
+            itk_component add $name {
+                DCS::MyTestWidget $path.$name -mdiHelper $this
+            } {
+            }
+
+            pack $itk_component($name)
+            pack $path
+        }
+
+
 		slit0 {
 			if [checkAndActivateExistingDocument slit0] return
 
@@ -1730,6 +1762,31 @@ body SetupTab::launchWidget { name  } {
 			}
 			pack $itk_component($name) -expand 1 -fill both
         }
+
+	libera_control {
+                        if [checkAndActivateExistingDocument $name] return
+                        set path [$itk_component(Mdi) addDocument $name \
+                            -title "Libera Control"  -resizable 1  -width 750 -height 600]
+
+                        itk_component add $name {
+                                DCS::LiberaDetailView $path.$name
+                        } {
+                        }
+                        pack $itk_component($name) -expand 1 -fill both
+       }
+
+        PlotWin1 {
+                        if [checkAndActivateExistingDocument $name] return
+                        set path [$itk_component(Mdi) addDocument $name \
+                            -title "Plot window 1"  -resizable 1  -width 1550 -height 600]
+
+                        itk_component add $name {
+                                DCS::PlotWin1 $path.$name
+                        } {
+                        }
+                        pack $itk_component($name) -expand 1 -fill both
+       }
+
 
         screen_task {
 			if [checkAndActivateExistingDocument $name] return

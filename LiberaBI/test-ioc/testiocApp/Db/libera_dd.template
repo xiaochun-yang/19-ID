@@ -1,0 +1,156 @@
+###############################################################################
+#                                  DD
+###############################################################################
+# DD monitor output is a matrix: [Va Vb Vc Vd X Y Q SUM]
+# Va .. Vd            amplitudes
+# X, Y, Q, SUM        calculated positions and factors
+#
+
+record(bi, "$(DEVICE)DD_MONITOR") {
+	#field(DTYP, "asynUInt32Digital")
+	#field(INP, "@asynMask($(PORT), 100, 0x1, 1.0)")
+	field(SCAN, "Passive")
+	field(FLNK, "$(DEVICE)DD_$(WF1)_MONITOR PP")
+}
+
+record(waveform, "$(DEVICE)DD_$(WF1)_MONITOR") {
+	#field(DTYP, "asynInt32ArrayIn")
+	#field(INP, "@asyn($(PORT), 100)")
+	field(DESC, "Data for $(WF1)")
+	field(NELM, "$(NELM)")
+	field(FTVL, "LONG")
+	field(FLNK, "$(DEVICE)DD_$(WF2)_MONITOR PP")
+}
+
+record(waveform, "$(DEVICE)DD_$(WF2)_MONITOR") {
+	#field(DTYP, "asynInt32ArrayIn")
+	#field(INP, "@asyn($(PORT), 101)")
+	field(DESC, "Data for $(WF2)")
+	field(NELM, "$(NELM)")
+	field(FTVL, "LONG")
+	field(FLNK, "$(DEVICE)DD_$(WF3)_MONITOR PP")
+}
+
+record(waveform, "$(DEVICE)DD_$(WF3)_MONITOR") {
+	#field(DTYP, "asynInt32ArrayIn")
+	#field(INP, "@asyn($(PORT), 102)")
+	field(DESC, "Data for $(WF3)")
+	field(NELM, "$(NELM)")
+	field(FTVL, "LONG")
+	field(FLNK, "$(DEVICE)DD_$(WF4)_MONITOR PP")
+}
+
+record(waveform, "$(DEVICE)DD_$(WF4)_MONITOR") {
+	#field(DTYP, "asynInt32ArrayIn")
+	#field(INP, "@asyn($(PORT), 103)")
+	field(DESC, "Data for $(WF4)")
+	field(NELM, "$(NELM)")
+	field(FTVL, "LONG")
+	field(FLNK, "$(DEVICE)DD_$(WF5)_MONITOR PP")
+}
+
+record(waveform, "$(DEVICE)DD_$(WF5)_MONITOR") {
+	#field(DTYP, "asynInt32ArrayIn")
+	#field(INP, "@asyn($(PORT), 104)")
+	field(DESC, "Data for $(WF5)")
+	field(NELM, "$(NELM)")
+	field(FTVL, "LONG")
+	field(FLNK, "$(DEVICE)DD_$(WF6)_MONITOR PP")
+}
+
+record(waveform, "$(DEVICE)DD_$(WF6)_MONITOR") {
+	#field(DTYP, "asynInt32ArrayIn")
+	#field(INP, "@asyn($(PORT), 105)")
+	field(DESC, "Data for $(WF6)")
+	field(NELM, "$(NELM)")
+	field(FTVL, "LONG")
+	field(FLNK, "$(DEVICE)DD_$(WF7)_MONITOR PP")
+}
+
+record(waveform, "$(DEVICE)DD_$(WF7)_MONITOR") {
+	#field(DTYP, "asynInt32ArrayIn")
+	#field(INP, "@asyn($(PORT), 106)")
+	field(DESC, "Data for $(WF7)")
+	field(NELM, "$(NELM)")
+	field(FTVL, "LONG")
+	field(FLNK, "$(DEVICE)DD_$(WF8)_MONITOR PP")
+}
+
+record(waveform, "$(DEVICE)DD_$(WF8)_MONITOR") {
+	#field(DTYP, "asynInt32ArrayIn")
+	#field(INP, "@asyn($(PORT), 107)")
+	field(DESC, "Data for $(WF8)")
+	field(NELM, "$(NELM)")
+	field(FTVL, "LONG")
+	field(FLNK, "$(DEVICE)DD_FINISHED_MONITOR PP")
+}
+
+record(calc, "$(DEVICE)DD_FINISHED_MONITOR") {
+	field(CALC, "A+1")
+	field(INPA, "$(DEVICE)DD_FINISHED_MONITOR PP")
+}
+
+record(stringin, "$(DEVICE)DD_MT_MONITOR") {
+	#field(DTYP, "asynOctetRead")
+	#field(INP, "@asyn($(PORT), 108)")
+	field(SCAN, "Passive")
+	field(DESC, "DD machine time")
+}
+
+record(stringin, "$(DEVICE)DD_ST_MONITOR") {
+	#field(DTYP, "asynOctetRead")
+	#field(INP, "@asyn($(PORT), 109)")
+	field(DESC, "DD system time")
+	field(SCAN, "Passive")
+}
+
+record(bo, "$(DEVICE)DD_REQUEST_CMD") {
+	#field(DTYP, "asynUInt32Digital")
+	#field(OUT, "@asynMask($(PORT), 113, 0x1, 1.0)")
+	field(DESC, "DD request data")
+	field(ZNAM, "Request DD data")
+	field(ONAM, "Request DD data")
+}
+
+record(bo, "$(DEVICE)DD_IGNORE_TRIG_SP") {
+	#field(DTYP, "asynUInt32Digital")
+	#field(OUT, "@asynMask($(PORT), 115, 0x01, 1.0)")
+	field(DESC, "DD request data")
+	field(ZNAM, "Trigger Allowed")
+	field(ONAM, "Trigger Ignored")
+	field(FLNK, "$(DEVICE)DD_IGNORE_TRIG_MONITOR PP")
+}
+
+record(calc, "$(DEVICE)DD_IGNORE_TRIG_MONITOR") {
+	field(CALC, "A?1:0")
+	field(INPA, "$(DEVICE)DD_IGNORE_TRIG_SP PP")
+}
+
+record(mbbo, "$(DEVICE)DD_SEEK_POINT_SP") {
+	#field(DTYP, "asynInt32")
+	#field(OUT, "@asyn($(PORT), 116)")
+	field(ZRVL, "0")
+	field(ONVL, "1")
+	field(TWVL, "2")
+	field(ZRST, "Trigger")
+	field(ONST, "MT")
+	field(TWST, "ST")
+}
+
+record(stringout, "$(DEVICE)DD_MT_OFFSET_SP") {
+	#field(DTYP, "asynOctetWrite")
+	#field(OUT, "@asyn($(PORT), 117)")
+}
+
+record(stringout, "$(DEVICE)DD_ST_OFFSET_SP") {
+	#field(DTYP, "asynOctetWrite")
+	#field(OUT, "@asyn($(PORT), 118)")
+}
+
+record(bo, "$(DEVICE)DD_ON_NEXT_TRIG_CMD") {
+	#field(DTYP, "asynUInt32Digital")
+	#field(OUT, "@asynMask($(PORT), 119, 0x1, 1.0)")
+	field(ZNAM, "Acquire many")
+	field(ONAM, "Acquire once")
+}
+

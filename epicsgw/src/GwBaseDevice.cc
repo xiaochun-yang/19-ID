@@ -335,7 +335,9 @@ bool GwBaseDevice::connectEPICS( ) {
             );
         }
     }
+     LOG_FINEST( "yangxc begain ca_pend_io\n");
     int status = ca_pend_io( m_MAX_PEND_IO_TIME );
+    LOG_FINEST1("yangxc after ca_pend_io statu=%d\n", status);
     if (status != ECA_NORMAL) {
         LOG_SEVERE2( "connect: pend_io failed for %s: %s",
                              m_name,

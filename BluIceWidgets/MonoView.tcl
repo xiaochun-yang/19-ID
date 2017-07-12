@@ -66,7 +66,7 @@ package require DCSPrompt
 package require DCSMotorControlPanel
 package require BLUICECanvasShapes
 package require BLUICECanvasGifView
-
+package require DCSScriptCommand 1.0
 
 
 class SingleCrystalHorizFocusMonoView {
@@ -469,7 +469,9 @@ class DoubleCrystalMonoViewDoubleSet9_2 {
 class DoubleCrystalMonoViewDoubleSetID19 {
         inherit ::DCS::CanvasGifView
 
-        itk_option define -mdiHelper mdiHelper MdiHelper ""
+    itk_option define -mdiHelper mdiHelper MdiHelper ""
+    private variable m_deviceFactory
+    private variable m_strPiezoVoltage
 
     public proc getMotorList { } {
         return [list \
@@ -485,16 +487,34 @@ class DoubleCrystalMonoViewDoubleSetID19 {
 	mono_angle \
         mono_theta \
         energy \
-#	mono_fine_pitch
         ]
     }
-#    public method gotoToroidView { } {
-#        $itk_option(-mdiHelper) openToolChest toroid
-#    }
+
+#    public method handlePiezoVoltageChange
+
+    public method setPitchValue { } {
+	set deviceFactory [::DCS::DeviceFactory::getObject]
+	set obj [$deviceFactory getObjectName ion_chamber4]
+      	set volt [$itk_component(canvas).pitch get]
+	$obj set_position $volt
+#	$itk_component(canvas).pitch configure -textvariable $v 
+    }
+
+    public method setRollValue { } {
+	set deviceFactory [::DCS::DeviceFactory::getObject]
+        set obj [$deviceFactory getObjectName ion_chamber5]
+	set volt [$itk_component(canvas).roll get]
+#	puts "roll = $volt"
+        $obj set_position $volt
+    }
 
 
     constructor { args} {
-        set m_deviceFactory [::DCS::DeviceFactory::getObject]
+        set deviceFactory [::DCS::DeviceFactory::getObject]
+	set obj [$deviceFactory getObjectName ion_chamber4]
+	set obj1 [$deviceFactory getObjectName ion_chamber5]
+#	set pos [$obj cget -position]
+#	puts "yangxxx pos=$pos"
 
         loadBackdropImage id19-mono-yang-8.gif
                 place $itk_component(control) -x 220 -y 460
@@ -505,50 +525,92 @@ class DoubleCrystalMonoViewDoubleSetID19 {
 	motorView mono_c2_bend_2 185 140 nw
 	motorView mono_c2_bend 185 80 nw
 	motorView mono_c1_bend 50 200 nw
-     #  motorView mono_c2_pitch 130 314 n
 	motorView mono_c2_pitch 670 300 se
         motorView mono_c2_roll  670 370 se
 	motorView mono_c2_yaw   670 440 se
 	motorView mono_angle 80 420 s
         motorView mono_theta 210 420 s
         motorView energy 340 420 s
-#        motorView mono_fine_pitch 430 420 s
-
-#	ion_chamber_view i0 50 550 w
-#        ion_chamber_view i1 1 573 168
-
-#        moveHotSpot mono_c2_para 676 222 positive 0
-#        moveHotSpot mono_c2_para 655 229 negative 0
-
-#        moveHotSpot mono_c2_perp 535 273 positive 0
-#        moveHotSpot mono_c2_perp 509 279 negative 0
-
-#        moveHotSpot mono_c2_pitch 143 260 positive 0
-#        moveHotSpot mono_c2_pitch 143 291 negative 0
-#        moveHotSpot mono_c2_roll 120 68  positive 0
-#        moveHotSpot mono_c2_roll 120 96  negative 0
-
-#        moveHotSpot mono_theta 414 304 positive 0
-#        moveHotSpot mono_theta 328 304 negative 0
 
 
-  #### link button
-#        itk_component add link {
-#            button $itk_component(canvas).link \
-#            -text "goto toroidView ==>" \
-#            -command "$this gotoToroidView"
-#        } {
-#    	}
-#   	place $itk_component(link) -x 690 -y 440 -anchor ne
+#### yangx pitch button
+
+        itk_component add pitch {
+            DCS::Entry $itk_component(canvas).pitch \
+            -background  #d0d000 \
+            -systemIdleOnly 0 \
+            -activeClientOnly 1 \
+            -entryType positiveFloat \
+	    -entryWidth 5 \
+	    -promptText "Pitch" \
+	    -units v \
+	    -onSubmit "$this setPitchValue"
+        } {
+        }
+
+	itk_component add pitchl {
+                label $itk_component(canvas).pitchl \
+                      -text [format %4.2f [$obj cget -position]] \
+                      -relief sunken \
+                      -width 4
+                 #     -background #c0c0ff \
+                 #     -activebackground #c0c0ff
+                } {
+                           keep -foreground
+        }
+
+  itk_component add roll {
+            DCS::Entry $itk_component(canvas).roll \
+            -background  #d0d000 \
+            -systemIdleOnly 0 \
+            -activeClientOnly 1 \
+	    -entryWidth 5 \
+            -entryType positiveFloat \
+	    -promptText "Roll" \
+            -units v \
+	    -onSubmit "$this setRollValue"
+        } {
+        }
+
+	itk_component add rolll {
+                label $itk_component(canvas).rolll \
+                      -text [format %4.2f [$obj1 cget -position]] \
+                      -relief sunken \
+                      -width 4
+                 #     -background #c0c0ff \
+                 #     -activebackground #c0c0ff
+                } {
+                           keep -foreground
+        }
+
+        place $itk_component(pitchl) -x 495 -y 295 -anchor se
+	place $itk_component(pitch) -x 515 -y 320 -anchor se 
+      	place $itk_component(rolll) -x 495 -y 355 -anchor se
+      	place $itk_component(roll) -x 515 -y 380 -anchor se
+
 
         eval itk_initialize $args
-
+	
         configure -width 710 -height 500
    }
 
+#    destructor { }
 }
 
+#body DoubleCrystalMonoViewDoubleSetID19::destructor {} {
+#        $m_strPiezoVoltage unregister $this contents handlePiezoVoltageCurrentChange
+#        mediator announceDestruction $this
+#}
 
+#body DoubleCrystalMonoViewDoubleSetID19::handlePiezoVoltageChange { name_ targetReady_ - contents_ - } {
+#    if { ! $targetReady_} return
+#puts "contents=$contents_ \n"
+#         if { $contents_ == "" } return
+#         set value [lindex $contents_ 0]
+#         $itk_component(getPitch) configure \
+#                -text [format "%.5f" $value] \
+#                -state normal
+#}
 
 class DoubleCrystalMonoViewDoubleSet12_2 {
  	inherit ::DCS::CanvasShapes

@@ -1,0 +1,135 @@
+###############################################################################
+#                    PM - post mortem acquisition
+###############################################################################
+# PM monitor output is a matrix: [Va Vb Vc Vd X Y Q SUM]
+# Va .. Vd            amplitudes
+# X, Y, Q, SUM        calculated positions and factors
+#
+
+record(bi, "$(DEVICE)PM_MONITOR") {
+	#field(DTYP, "asynUInt32Digital")
+	#field(INP, "@asynMask($(PORT), 300, 0x1, 1.0)")
+	field(SCAN, "Passive")
+	field(FLNK, "$(DEVICE)PM_$(WF1)_MONITOR PP")
+}
+
+record(waveform, "$(DEVICE)PM_$(WF1)_MONITOR") {
+	#field(DTYP, "asynInt32ArrayIn")
+	#field(INP, "@asyn($(PORT), 300)")
+	field(DESC, "Data for $(WF1)")
+	field(NELM, "$(NELM)")
+	field(FTVL, "LONG")
+	field(FLNK, "$(DEVICE)PM_$(WF2)_MONITOR PP")
+}
+
+record(waveform, "$(DEVICE)PM_$(WF2)_MONITOR") {
+	#field(DTYP, "asynInt32ArrayIn")
+	#field(INP, "@asyn($(PORT), 301)")
+	field(DESC, "Data for $(WF2)")
+	field(NELM, "$(NELM)")
+	field(FTVL, "LONG")
+	field(FLNK, "$(DEVICE)PM_$(WF3)_MONITOR PP")
+}
+
+record(waveform, "$(DEVICE)PM_$(WF3)_MONITOR") {
+	#field(DTYP, "asynInt32ArrayIn")
+	#field(INP, "@asyn($(PORT), 302)")
+	field(DESC, "Data for $(WF3)")
+	field(NELM, "$(NELM)")
+	field(FTVL, "LONG")
+	field(FLNK, "$(DEVICE)PM_$(WF4)_MONITOR PP")
+}
+
+record(waveform, "$(DEVICE)PM_$(WF4)_MONITOR") {
+	#field(DTYP, "asynInt32ArrayIn")
+	#field(INP, "@asyn($(PORT), 303)")
+	field(DESC, "Data for $(WF4)")
+	field(NELM, "$(NELM)")
+	field(FTVL, "LONG")
+	field(FLNK, "$(DEVICE)PM_$(WF5)_MONITOR PP")
+}
+
+record(waveform, "$(DEVICE)PM_$(WF5)_MONITOR") {
+	#field(DTYP, "asynInt32ArrayIn")
+	#field(INP, "@asyn($(PORT), 304)")
+	field(DESC, "Data for $(WF5)")
+	field(NELM, "$(NELM)")
+	field(FTVL, "LONG")
+	field(FLNK, "$(DEVICE)PM_$(WF6)_MONITOR PP")
+}
+
+record(waveform, "$(DEVICE)PM_$(WF6)_MONITOR") {
+	#field(DTYP, "asynInt32ArrayIn")
+	#field(INP, "@asyn($(PORT), 305)")
+	field(DESC, "Data for $(WF6)")
+	field(NELM, "$(NELM)")
+	field(FTVL, "LONG")
+	field(FLNK, "$(DEVICE)PM_$(WF7)_MONITOR PP")
+}
+
+record(waveform, "$(DEVICE)PM_$(WF7)_MONITOR") {
+	#field(DTYP, "asynInt32ArrayIn")
+	#field(INP, "@asyn($(PORT), 306)")
+	field(DESC, "Data for $(WF7)")
+	field(NELM, "$(NELM)")
+	field(FTVL, "LONG")
+	field(FLNK, "$(DEVICE)PM_$(WF8)_MONITOR PP")
+}
+
+record(waveform, "$(DEVICE)PM_$(WF8)_MONITOR") {
+	#field(DTYP, "asynInt32ArrayIn")
+	#field(INP, "@asyn($(PORT), 307)")
+	field(DESC, "Data for $(WF8)")
+	field(NELM, "$(NELM)")
+	field(FTVL, "LONG")
+	field(FLNK, "$(DEVICE)PM_FINISHED_MONITOR PP")
+}
+
+record(calc, "$(DEVICE)PM_FINISHED_MONITOR") {
+	field(CALC, "A+1")
+	field(INPA, "$(DEVICE)PM_FINISHED_MONITOR PP")
+}
+
+record(stringin, "$(DEVICE)PM_MT_MONITOR") {
+	#field(DTYP, "asynOctetRead")
+	#field(INP, "@asyn($(PORT), 308)")
+	field(SCAN, "Passive")
+}
+
+record(stringin, "$(DEVICE)PM_ST_MONITOR") {
+	#field(DTYP, "asynOctetRead")
+	#field(INP, "@asyn($(PORT), 309)")
+	field(SCAN, "Passive")
+}
+
+record(bo, "$(DEVICE)PM_REQUEST_CMD") {
+	#field(DTYP, "asynUInt32Digital")
+	#field(OUT, "@asynMask($(PORT), 313, 0x1, 1.0)")
+	field(DESC, "PM request data")
+	field(ZNAM, "Request PM data")
+	field(ONAM, "Request PM data")
+}
+
+record(bo, "$(DEVICE)PM_IGNORE_TRIG_SP") {
+	#field(DTYP, "asynUInt32Digital")
+	#field(OUT, "@asynMask($(PORT), 315, 0x1, 1.0)")
+	field(DESC, "PM request data")
+	field(ZNAM, "Trigger Allowed")
+	field(ONAM, "Trigger Ignored")
+	field(FLNK, "$(DEVICE)PM_IGNORE_TRIG_MONITOR PP")
+}
+
+record(calc, "$(DEVICE)PM_IGNORE_TRIG_MONITOR") {
+	field(CALC, "A?1:0")
+	field(INPA, "$(DEVICE)PM_IGNORE_TRIG_SP PP")
+}
+
+record(bo, "$(DEVICE)PM_ON_NEXT_TRIG_CMD") {
+	#field(DTYP, "asynUInt32Digital")
+	#field(OUT, "@asynMask($(PORT), 319, 0x1, 1.0)")
+	field(DESC, "PM request data")
+	field(ZNAM, "Acquire many")
+	field(ONAM, "Acquire once")
+}
+
+

@@ -46,6 +46,12 @@ package ifneeded DCSFeedback 1.0		[list source [file join $dir Feedback.tcl]]
 package ifneeded DCSLabel 1.0		      [list source [file join $dir Label.tcl]]
 package ifneeded DCSLabelButton 1.0		      [list source [file join $dir LabelButton.tcl]]
 package ifneeded DCSStringView 1.0 			[list source [file join $dir StringView.tcl]]
+### add Libera Path
+package ifneeded DCSLiberaView 1.0                    [list source [file join $dir LiberaView.tcl]]
+package ifneeded PlotWinRAWNUME 1.0 		      [list source [file join $dir PlotWinRAWNUME.tcl]]
+package ifneeded PlotWinRAWCURR 1.0 		      [list source [file join $dir PlotWinRAWCURR.tcl]]
+package ifneeded PlotWinXY 1.0 			      [list source [file join $dir PlotWinXY.tcl]]
+###
 package ifneeded DCSClientList 1.0 		[list source [file join $dir ClientList.tcl]]
 
 package ifneeded DCSDeviceView 1.0 		[list source [file join $dir DeviceView.tcl]]

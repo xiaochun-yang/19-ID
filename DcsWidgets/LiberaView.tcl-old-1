@@ -1,0 +1,1147 @@
+#! /usr/bin/wish
+#
+#file create date : 2016-Aug-24
+#last update      : 2016-Dec-18
+
+package provide DCSLiberaView 1.0
+
+### load the required standard packages
+package require Itcl
+package require Iwidgets
+package require BWidget
+
+### This will load our own panedwindow using class IPanedwindow
+package require IPanedwindow
+namespace import ::itcl::*
+package require DCSUtil
+package require DCSProtocol
+package require DCSComponent
+package require DCSDeviceFactory
+package require DCSScrolledFrame
+package require DCSDevice
+package require DCSString
+### import some package to access variables
+package require ComponentGateExtension
+
+
+### Libera Photon GUI Create class ##########################################################################
+
+class DCS::LiberaDetailView {
+	#inherit ::itk::Widget
+	inherit ::DCS::ComponentGateExtension
+	#inherit ::DCS::StringViewBase <- No error but dones not show any widgets
+
+	#itk_option definition
+	#itk_option define -controlSystem controlSystem ControlSystem ::dcss
+	itk_option define -stringName stringName StringName ""
+	itk_option define -mdiHelper mdiHelper MdiHelper ""
+
+	#setup DeviceFactory to get device list
+	protected variable deviceFactory
+       set deviceFactory [DCS::DeviceFactory::getObject]
+	#puts $deviceFactory
+
+	#epics pvs name in dcss
+
+	#slow aquisiton(SA)port data
+	protected variable sa_a_mon_obj
+	protected variable sa_b_mon_obj
+	protected variable sa_c_mon_obj
+	protected variable sa_d_mon_obj
+	protected variable sa_x_mon_obj
+	protected variable sa_y_mon_obj
+	protected variable sa_q_mon_obj
+	protected variable sa_sum_mon_obj
+
+	protected variable sa_a_mon_val
+	protected variable sa_b_mon_val
+	protected variable sa_c_mon_val
+	protected variable sa_d_mon_val
+	protected variable sa_x_mon_val
+	protected variable sa_y_mon_val
+	protected variable sa_q_mon_val
+	protected variable sa_sum_mon_val
+
+	#offset and coefficeients for position values
+	protected variable env_k1_mon_obj
+	protected variable env_k2_mon_obj
+	protected variable env_offset1_mon_obj
+	protected variable env_offset2_mon_obj
+
+	protected variable env_k1_sp_obj
+	protected variable env_k2_sp_obj
+	protected variable env_offset1_sp_obj
+	protected variable env_offset2_sp_obj
+
+	protected variable env_k1_mon_val
+	protected variable env_k2_mon_val
+	protected variable env_offset1_mon_val
+	protected variable env_offset2_mon_val
+
+	protected variable env_k1_sp_val
+	protected variable env_k2_sp_val
+	protected variable env_offset1_sp_val
+	protected variable env_offset2_sp_val
+
+	#gain compensation for channel A-D
+	protected variable env_ki_0_mon_obj
+	protected variable env_ki_1_mon_obj
+	protected variable env_ki_2_mon_obj
+	protected variable env_ki_3_mon_obj
+
+	protected variable env_ki_0_sp_obj
+	protected variable env_ki_1_sp_obj
+	protected variable env_ki_2_sp_obj
+	protected variable env_ki_3_sp_obj
+
+	protected variable env_ioffset_0_mon_obj
+	protected variable env_ioffset_1_mon_obj
+	protected variable env_ioffset_2_mon_obj
+	protected variable env_ioffset_3_mon_obj
+
+	protected variable env_ioffset_0_sp_obj
+	protected variable env_ioffset_1_sp_obj
+	protected variable env_ioffset_2_sp_obj
+	protected variable env_ioffset_3_sp_obj
+
+	protected variable env_voltage0_mon_obj
+	protected variable env_voltage1_mon_obj
+	protected variable env_voltage2_mon_obj
+	protected variable env_voltage3_mon_obj
+	protected variable env_voltage4_mon_obj
+	protected variable env_voltage5_mon_obj
+	protected variable env_voltage6_mon_obj
+	protected variable env_voltage7_mon_obj
+	protected variable env_pbpp_1v25_mon_obj
+	protected variable env_pbpp_2v5_neg_mon_obj
+	protected variable env_opmode_mon_obj
+	protected variable env_ilk_status_mon_obj
+
+
+	protected variable env_bias_cl_mon_obj
+	protected variable env_bias_int_mon_obj
+	protected variable env_bias_current_mon_obj
+	protected variable env_bias_voltage_mon_obj
+
+	protected variable env_ilk_status_obj
+	protected variable env_posalg_mon_obj
+	protected variable env_idgap_mon_obj
+	protected variable env_calib_mon_obj
+	protected variable env_max_adc_mon_obj
+
+	#current range setup
+	protected variable env_arc_mon_obj
+	protected variable env_arc_sp_obj
+	protected variable env_range_mon_obj
+	protected variable env_range_sp_obj
+
+	#pll status
+	protected variable env_pll_mtlckst_mon_obj
+	protected variable env_pll_stlckst_mon_obj
+
+	#funs
+	protected variable env_back_vent_act_mon_obj
+	protected variable env_front_vent_act_mon_obj
+
+	#temperature
+	protected variable env_temp_mon_obj
+	protected variable env_temp_inner_mon_obj
+	protected variable env_temp_outer_mon_obj
+
+	# Data on Demand (DD) port data
+	#protected variable dd1_dd_va_mon_obj
+	#protected variable dd1_dd_vb_mon_obj
+	#protected variable dd1_dd_vc_mon_obj
+	#protected variable dd1_dd_vd_mon_obj
+	#protected variable dd1_dd_st_mon_obj
+	#protected variable dd1_dd_finished_mon_obj
+	#protected variable dd1_dd_request_cmd_obj
+
+	#protected variable dd1_dd_va_mon_val
+	#protected variable dd1_dd_vb_mon_val
+	#protected variable dd1_dd_vc_mon_val
+	#protected variable dd1_dd_vd_mon_val
+	#protected variable dd1_dd_st_mon_val
+	#protected variable dd1_dd_finished_mon_val
+
+	# etc
+	#protected variable triger_counter 0
+	protected variable bunch_counter 0
+	protected variable system_status 0
+	protected variable system_mode 0
+
+	protected variable liberadevlist [list Libera01 Libera02 Libera03 Libera04 Libera05]
+	protected variable liberabpmlist [list bpm01 bpm02 bpm03 bpm04 bpm05]
+	protected variable liberaNo
+	protected variable bpmNo
+	#protected variable liberaPosAlg [list behindID behindBM behindBMlog]
+	#protected variable scan_mode_list [list mode1 mode2 modeXYZ single_shot]
+	#protected variable currentrangeid [list 0 1 2 3 4 5 6]
+	protected variable currentrangeval [list 0:2nA 1:20nA 2:200nA 3:2uA 4:20uA 5:200uA 6:1850uA]
+	#protected variable currentrange 6
+	#protected variable rangemodeid [list 0 1]
+	protected variable rangemodeval [list 0:manual 1:auto]
+	#protected variable rangemode 0
+
+	#setup othre variable. This is same as StringViewBase
+	protected variable m_site
+	protected variable _lastStringName ""
+
+	protected method checkContentsBeforeSend { contentsREF } {
+       return 1
+	}
+
+	#methods
+	protected method updatepv
+	protected method ddRequestCmd
+	protected method getPlotData
+	protected method cpPlotData
+	protected method saveIntoFile
+	protected method applyARCmode
+	protected method applyCurrentRange
+
+	public method handleVector1
+	public method handleVector2
+	public method handleVector3
+	public method handleVector4
+	public method handleVector5
+	public method handleVector6
+
+	#proc 
+	proc range args {
+		foreach {start stop step} [switch -exact -- [llength $args] {
+			1 {concat 0 $args 1}
+			2 {concat   $args 1}
+			3 {concat   $args  }
+			default {error {wrong # of args: should be "range ?start? stop ?step?"}}
+       	}] break
+       	if {$step == 0} {error "cannot create a range when step == 0"}
+       	set range [list]
+       	while {$step > 0 ? $start < $stop : $stop < $start} {
+			lappend range $start
+			incr start $step
+        	}
+       	return $range
+	}
+
+	proc sa_monitor {} {
+		puts "trace_was_exeuted"
+	}
+
+	constructor { args } {}
+	destructor {
+		puts "This is destructor of LiberaDetailView class."
+		blt::vector destroy liberax1
+		blt::vector destroy liberay1
+		blt::vector destroy liberay2
+		blt::vector destroy liberay3		
+		blt::vector destroy liberay4
+    }
+}
+
+
+############################################################################################################
+# Following are body configurations.
+############################################################################################################
+
+body DCS::LiberaDetailView::constructor {args} {
+	puts "This is LiberaDetailView class constructor"
+
+### Setup left side frame #################################
+	itk_component add leftframe {
+		frame $itk_interior.lff
+	}
+### device selection box
+	itk_component add devicef {
+		frame $itk_interior.lff.devicef 
+	}
+	itk_component add deciceff1 {
+		frame $itk_interior.lff.devicef.f1
+	}
+	itk_component add deciceff2 {
+		frame $itk_interior.lff.devicef.f2
+	}
+
+	itk_component add devicefl1 {
+		label $itk_interior.lff.devicef.f1.l1 -text "Libera Device Selection Box:" -width 27
+	} {}
+	itk_component add devicefd1 {
+		ttk::combobox $itk_interior.lff.devicef.f1.d1 -textvariable libera_combovalue \
+						-values $liberadevlist -background yellow -foreground black -width 20 -justify left -state normal
+	} {}
+$itk_interior.lff.devicef.f1.d1 current 0
+
+bind $itk_interior.lff.devicef.f1.d1 <<ComboboxSelected>> [code $this updatepv]
+
+								
+	itk_component add devicefl2 {
+		label $itk_interior.lff.devicef.f2.l2 -text "BPM Selection Box:" -width 27
+
+	} {}
+	itk_component add devicefd2 {
+		ttk::combobox $itk_interior.lff.devicef.f2.d2 -textvariable bpm_combovalue \
+						-values $liberabpmlist -background yellow -foreground black -width 20 -justify left -state normal
+	} {}
+$itk_interior.lff.devicef.f2.d2 current 0
+bind $itk_interior.lff.devicef.f2.d2 <<ComboboxSelected>> [code $this updatepv]
+
+
+	#pack every components
+	pack $itk_interior.lff.devicef.f1.l1 $itk_interior.lff.devicef.f1.d1 -side left -padx 2
+	pack $itk_interior.lff.devicef.f2.l2 $itk_interior.lff.devicef.f2.d2 -side left -padx 2
+	pack $itk_interior.lff.devicef.f1 $itk_interior.lff.devicef.f2 -pady 5
+	pack $itk_interior.lff.devicef -anchor w -padx 5
+
+### update pv-gateway connection
+	updatepv
+
+### setup tabs frame for current status display and parameters config
+	itk_component add notetab {
+		ttk::notebook $itk_interior.lff.tabsf -width 500 -height 500
+	} {}
+
+	# add tabs
+	itk_component add tab1 {
+		ttk::frame $itk_interior.lff.tabsf.tab1;
+	} {}
+	$itk_interior.lff.tabsf add $itk_interior.lff.tabsf.tab1 -text "Status"
+
+	itk_component add tab2 {
+		ttk::frame $itk_interior.lff.tabsf.tab2;
+	} {}
+	$itk_interior.lff.tabsf add $itk_interior.lff.tabsf.tab2 -text "Coefficitents and Offsets"
+
+	itk_component add tab3 {
+		ttk::frame $itk_interior.lff.tabsf.tab3;
+	} {}
+	$itk_interior.lff.tabsf add $itk_interior.lff.tabsf.tab3 -text "Compensation factors"
+
+### status tab setup
+	itk_component add tab1flr {
+		frame $itk_interior.lff.tabsf.tab1.l -width 240
+		frame $itk_interior.lff.tabsf.tab1.r -width 240}
+
+	itk_component add tab1f {
+		frame $itk_interior.lff.tabsf.tab1.l.f1 -borderwidth 1 -relief solid
+		frame $itk_interior.lff.tabsf.tab1.l.f2 -borderwidth 1 -relief solid 
+		frame $itk_interior.lff.tabsf.tab1.l.f3 -borderwidth 1 -relief solid
+		frame $itk_interior.lff.tabsf.tab1.r.f4 -borderwidth 1 -relief solid
+		frame $itk_interior.lff.tabsf.tab1.r.f5 -borderwidth 1 -relief solid
+		frame $itk_interior.lff.tabsf.tab1.r.f6 -borderwidth 1 -relief solid
+		frame $itk_interior.lff.tabsf.tab1.r.f7 -borderwidth 1 -relief solid
+		frame $itk_interior.lff.tabsf.tab1.r.f8 -borderwidth 1 -relief solid
+	}
+
+	itk_component add dbv {
+		label $itk_interior.lff.tabsf.tab1.l.f1.t1 -text "Digital board Voltage \[V\]"}
+	itk_component add abv {
+		label $itk_interior.lff.tabsf.tab1.l.f2.t2 -text "Analog board Voltage \[V\]"}
+	itk_component add bs {
+		label $itk_interior.lff.tabsf.tab1.l.f3.t3 -text "BIAS status"}
+	itk_component add si {
+		label $itk_interior.lff.tabsf.tab1.r.f4.t4 -text "Signal Info"}
+	itk_component add plls {
+		label $itk_interior.lff.tabsf.tab1.r.f5.t5 -text "PLL status"}
+	itk_component add ilks {
+		label $itk_interior.lff.tabsf.tab1.r.f6.t6 -text "Interlock status"}
+	itk_component add fans {
+		label $itk_interior.lff.tabsf.tab1.r.f7.t7 -text "Fans \[RPM\]"}
+	itk_component add tmpera {
+		label $itk_interior.lff.tabsf.tab1.r.f8.t8 -text "Temperature \[deg.C.\]"}
+
+
+
+	# Digital and Analog Board Voltage monitor
+	itk_component add tab1fl1 {
+		label $itk_interior.lff.tabsf.tab1.l.f1.l1 -text "1.500 V" -width 18
+		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab1.l.f1.l2 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_voltage0_mon_obj} {}
+	itk_component add tab1fl2 {
+		label $itk_interior.lff.tabsf.tab1.l.f1.l3 -text "1.800 V" -width 18
+		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab1.l.f1.l4 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_voltage1_mon_obj} {}
+	itk_component add tab1fl3 {
+		label $itk_interior.lff.tabsf.tab1.l.f1.l5 -text "2.500 V" -width 18
+		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab1.l.f1.l6 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_voltage2_mon_obj} {}
+	itk_component add tab1fl4 {
+		label $itk_interior.lff.tabsf.tab1.l.f1.l7 -text "3.300 V" -width 18
+		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab1.l.f1.l8 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_voltage3_mon_obj} {}
+	itk_component add tab1fl5 {
+		label $itk_interior.lff.tabsf.tab1.l.f1.l9 -text "5.000 V" -width 18
+		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab1.l.f1.l10 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_voltage4_mon_obj} {}
+	itk_component add tab1fl6 {
+		label $itk_interior.lff.tabsf.tab1.l.f1.l11 -text "12.000 V" -width 18
+		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab1.l.f1.l12 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_voltage5_mon_obj} {}
+	itk_component add tab1fl7 {
+		label $itk_interior.lff.tabsf.tab1.l.f1.l13 -text "-12.000 V" -width 18
+		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab1.l.f1.l14 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_voltage6_mon_obj} {}
+	itk_component add tab1fl8 {
+		label $itk_interior.lff.tabsf.tab1.l.f1.l15 -text "-5.000 V" -width 18
+		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab1.l.f1.l16 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_voltage7_mon_obj} {}
+
+	itk_component add tab1fl9 {
+		label $itk_interior.lff.tabsf.tab1.l.f2.l1 -text "1.250 V" -width 18
+		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab1.l.f2.l2 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_pbpp_1v25_mon_obj} {}
+	itk_component add tab1fl10 {
+		label $itk_interior.lff.tabsf.tab1.l.f2.l3 -text "2.500 V" -width 18
+		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab1.l.f2.l4 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_pbpp_2v5_neg_mon_obj} {}
+
+	itk_component add tab1fl15 {
+		label $itk_interior.lff.tabsf.tab1.l.f3.l1 -text "Op Mode" -width 18
+		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab1.l.f3.l2 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_opmode_mon_obj} {}
+	itk_component add tab1fl11 {
+		label $itk_interior.lff.tabsf.tab1.l.f3.l3 -text "Internal BIAS" -width 18
+		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab1.l.f3.l4 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_bias_int_mon_obj} {}
+	itk_component add tab1fl12 {
+		label $itk_interior.lff.tabsf.tab1.l.f3.l5 -text "BIAS Voltage" -width 18
+		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab1.l.f3.l6 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_bias_voltage_mon_obj} {}
+	itk_component add tab1fl13 {
+		label $itk_interior.lff.tabsf.tab1.l.f3.l7 -text "BIAS Current" -width 18
+		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab1.l.f3.l8 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_bias_current_mon_obj} {}
+	itk_component add tab1fl14 {
+		label $itk_interior.lff.tabsf.tab1.l.f3.l9 -text "BIAS Curr. Lim." -width 18
+		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab1.l.f3.l10 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_bias_cl_mon_obj} {}
+
+
+
+
+
+
+
+#pack digital board voltages label
+	grid $itk_interior.lff.tabsf.tab1.l.f1.t1 -columnspan 2
+	grid $itk_interior.lff.tabsf.tab1.l.f1.l1 $itk_interior.lff.tabsf.tab1.l.f1.l2 -padx 2 -pady 3
+	grid $itk_interior.lff.tabsf.tab1.l.f1.l3 $itk_interior.lff.tabsf.tab1.l.f1.l4 -padx 2 -pady 3
+	grid $itk_interior.lff.tabsf.tab1.l.f1.l5 $itk_interior.lff.tabsf.tab1.l.f1.l6 -padx 2 -pady 3 
+	grid $itk_interior.lff.tabsf.tab1.l.f1.l7 $itk_interior.lff.tabsf.tab1.l.f1.l8 -padx 2 -pady 3 
+	grid $itk_interior.lff.tabsf.tab1.l.f1.l9 $itk_interior.lff.tabsf.tab1.l.f1.l10 -padx 2 -pady 3
+	grid $itk_interior.lff.tabsf.tab1.l.f1.l11 $itk_interior.lff.tabsf.tab1.l.f1.l12 -padx 2 -pady 3 
+	grid $itk_interior.lff.tabsf.tab1.l.f1.l13 $itk_interior.lff.tabsf.tab1.l.f1.l14 -padx 2 -pady 3 
+	grid $itk_interior.lff.tabsf.tab1.l.f1.l15 $itk_interior.lff.tabsf.tab1.l.f1.l16 -padx 2 -pady 3
+#pack analog board voltages label
+	grid $itk_interior.lff.tabsf.tab1.l.f2.t2 -columnspan 2
+	grid $itk_interior.lff.tabsf.tab1.l.f2.l1 $itk_interior.lff.tabsf.tab1.l.f2.l2 -padx 2 -pady 3 
+	grid $itk_interior.lff.tabsf.tab1.l.f2.l3 $itk_interior.lff.tabsf.tab1.l.f2.l4 -padx 2 -pady 3 
+#pack bias status
+	grid $itk_interior.lff.tabsf.tab1.l.f3.t3 -columnspan 2
+	grid $itk_interior.lff.tabsf.tab1.l.f3.l1 $itk_interior.lff.tabsf.tab1.l.f3.l2 -padx 2 -pady 3
+	grid $itk_interior.lff.tabsf.tab1.l.f3.l3 $itk_interior.lff.tabsf.tab1.l.f3.l4 -padx 2 -pady 3
+	grid $itk_interior.lff.tabsf.tab1.l.f3.l5 $itk_interior.lff.tabsf.tab1.l.f3.l6 -padx 2 -pady 3
+	grid $itk_interior.lff.tabsf.tab1.l.f3.l7 $itk_interior.lff.tabsf.tab1.l.f3.l8 -padx 2 -pady 3
+	grid $itk_interior.lff.tabsf.tab1.l.f3.l9 $itk_interior.lff.tabsf.tab1.l.f3.l10 -padx 2 -pady 3 
+
+
+
+
+	pack $itk_interior.lff.tabsf.tab1.l.f1 $itk_interior.lff.tabsf.tab1.l.f2 $itk_interior.lff.tabsf.tab1.l.f3  -pady 7 -padx 5 -fill x
+
+	#signal status
+	itk_component add tab1fr1 {
+		label $itk_interior.lff.tabsf.tab1.r.f4.l1 -text "Range" -width 18
+		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab1.r.f4.l2 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_range_mon_obj} {}
+	itk_component add tab1fr2 {
+		label $itk_interior.lff.tabsf.tab1.r.f4.l3 -text "MAX ADC" -width 18
+		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab1.r.f4.l4 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_max_adc_mon_obj} {}
+	itk_component add tab1fr3 {
+		label $itk_interior.lff.tabsf.tab1.r.f4.l5 -text "ARC" -width 18
+		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab1.r.f4.l6 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_arc_mon_obj} {}
+	itk_component add tab1fr4 {
+		label $itk_interior.lff.tabsf.tab1.r.f4.l7 -text "Calib" -width 18
+		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab1.r.f4.l8 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_calib_mon_obj} {}
+	itk_component add tab1fr5 {
+		label $itk_interior.lff.tabsf.tab1.r.f4.l9 -text "ID gap" -width 18
+		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab1.r.f4.l10 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_idgap_mon_obj} {}
+	itk_component add tab1fr6 {
+		label $itk_interior.lff.tabsf.tab1.r.f4.l11 -text "PosAlg" -width 18
+		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab1.r.f4.l12 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_posalg_mon_obj} {}
+	#PLL status
+	itk_component add tab1fr7 {
+		label $itk_interior.lff.tabsf.tab1.r.f5.l1 -text "MC PLL" -width 18
+		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab1.r.f5.l2 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_pll_mtlckst_mon_obj} {}
+	itk_component add tab1fr8 {
+		label $itk_interior.lff.tabsf.tab1.r.f5.l3 -text "SC PLL" -width 18
+		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab1.r.f5.l4 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_pll_stlckst_mon_obj} {}
+
+	#ILK
+	itk_component add tab1fr9 {
+		label $itk_interior.lff.tabsf.tab1.r.f6.l1 -text "ILK code" -width 18
+		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab1.r.f6.l2 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_ilk_status_mon_obj} {}
+
+	#Fands
+	itk_component add tab1fr10 {
+		label $itk_interior.lff.tabsf.tab1.r.f7.l1 -text "Front" -width 18
+		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab1.r.f7.l2 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_front_vent_act_mon_obj} {}
+	itk_component add tab1fr11 {
+		label $itk_interior.lff.tabsf.tab1.r.f7.l3 -text "Back" -width 18
+		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab1.r.f7.l4 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_back_vent_act_mon_obj} {}
+
+
+	#Temperature
+	itk_component add tab1fr12 {
+		label $itk_interior.lff.tabsf.tab1.r.f8.l1 -text "Front" -width 18
+		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab1.r.f8.l2 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_temp_mon_obj} {}
+	itk_component add tab1fr13 {
+		label $itk_interior.lff.tabsf.tab1.r.f8.l3 -text "Inner " -width 18
+		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab1.r.f8.l4 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_temp_inner_mon_obj} {}
+	itk_component add tab1fr14 {
+		label $itk_interior.lff.tabsf.tab1.r.f8.l5 -text "Outer " -width 18
+		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab1.r.f8.l6 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_temp_outer_mon_obj} {}
+
+
+#pack signalinfo 
+	grid $itk_interior.lff.tabsf.tab1.r.f4.t4 -columnspan 2 -pady 2
+	grid $itk_interior.lff.tabsf.tab1.r.f4.l1 $itk_interior.lff.tabsf.tab1.r.f4.l2 -padx 2 -pady 2
+	grid $itk_interior.lff.tabsf.tab1.r.f4.l3 $itk_interior.lff.tabsf.tab1.r.f4.l4 -padx 2 -pady 2
+	grid $itk_interior.lff.tabsf.tab1.r.f4.l5 $itk_interior.lff.tabsf.tab1.r.f4.l6 -padx 2 -pady 2
+	grid $itk_interior.lff.tabsf.tab1.r.f4.l7 $itk_interior.lff.tabsf.tab1.r.f4.l8 -padx 2 -pady 2
+	grid $itk_interior.lff.tabsf.tab1.r.f4.l9 $itk_interior.lff.tabsf.tab1.r.f4.l10 -padx 2 -pady 2
+	grid $itk_interior.lff.tabsf.tab1.r.f4.l11 $itk_interior.lff.tabsf.tab1.r.f4.l12 -padx 2 -pady 2
+#pack PLL status
+	grid $itk_interior.lff.tabsf.tab1.r.f5.t5 -columnspan 2 -pady 2
+	grid $itk_interior.lff.tabsf.tab1.r.f5.l1 $itk_interior.lff.tabsf.tab1.r.f5.l2 -padx 2 -pady 2
+	grid $itk_interior.lff.tabsf.tab1.r.f5.l3 $itk_interior.lff.tabsf.tab1.r.f5.l4 -padx 2 -pady 2
+
+#pack Interlocak status
+	grid $itk_interior.lff.tabsf.tab1.r.f6.t6 -columnspan 2 -pady 2
+	grid $itk_interior.lff.tabsf.tab1.r.f6.l1 $itk_interior.lff.tabsf.tab1.r.f6.l2 -padx 2 -pady 2
+
+#pack Fans status
+	grid $itk_interior.lff.tabsf.tab1.r.f7.t7 -columnspan 2 -pady 2
+	grid $itk_interior.lff.tabsf.tab1.r.f7.l1 $itk_interior.lff.tabsf.tab1.r.f7.l2 -padx 2 -pady 2
+	grid $itk_interior.lff.tabsf.tab1.r.f7.l3 $itk_interior.lff.tabsf.tab1.r.f7.l4 -padx 2 -pady 2
+
+#pack Temperature 
+	grid $itk_interior.lff.tabsf.tab1.r.f8.t8 -columnspan 2 -pady 2
+	grid $itk_interior.lff.tabsf.tab1.r.f8.l1 $itk_interior.lff.tabsf.tab1.r.f8.l2 -padx 2 -pady 2
+	grid $itk_interior.lff.tabsf.tab1.r.f8.l3 $itk_interior.lff.tabsf.tab1.r.f8.l4 -padx 2 -pady 2
+	grid $itk_interior.lff.tabsf.tab1.r.f8.l5 $itk_interior.lff.tabsf.tab1.r.f8.l6 -padx 2 -pady 2
+
+	pack $itk_interior.lff.tabsf.tab1.r.f4 $itk_interior.lff.tabsf.tab1.r.f5 $itk_interior.lff.tabsf.tab1.r.f6 $itk_interior.lff.tabsf.tab1.r.f7 $itk_interior.lff.tabsf.tab1.r.f8 -pady 3 -padx 5 -fill both
+
+#### add range widgets
+#	itk_component add tab1arm {
+#		ttk::combobox $itk_interior.lff.tabsf.tab1.r.f5.combo1 -textvariable rangemode -values $rangemodeval \
+#									-background yellow -foreground black -width 20 -justify left -state normal
+	#set rangemode "manual"
+#		DCS::LiberaStringViewEntry $itk_interior.lff.tabsf.tab1.r.f5.e1 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_arc_sp_obj} {keep -textvariable}
+# bind to apply change
+#$itk_interior.lff.tabsf.tab1.r.f5.combo1 current 0
+#bind $itk_interior.lff.tabsf.tab1.r.f5.combo1 <<ComboboxSelected>> [code $this applyARCmode]
+#
+#	itk_component add tab1f6e1 {
+#		ttk::combobox $itk_interior.lff.tabsf.tab1.r.f6.combo2 -textvariable currentrange -values $currentrangeval \
+#									-background yellow -foreground black -width 20 -justify left -state normal
+#		DCS::LiberaStringViewEntry $itk_interior.lff.tabsf.tab1.r.f6.e1 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_range_sp_obj} {keep -textvariable}
+# bind to apply change
+#$itk_interior.lff.tabsf.tab1.r.f6.combo2 current 6
+#bind $itk_interior.lff.tabsf.tab1.r.f6.combo2 <<ComboboxSelected>> [code $this applyCurrentRange]
+
+	#itk_component add tab1f5l2 {
+	#	DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab1.r.f5.l2 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_arc_mon_obj} {}
+	#itk_component add tab1f6l2 {
+	#	DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab1.r.f6.l2 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_range_mon_obj} {}
+#
+#	itk_component add tab1b {
+#		button $itk_interior.lff.tabsf.tab1.r.b1 -text "Reset" -command [puts "$this resetCMD"]
+#	} {}
+
+
+
+	pack $itk_interior.lff.tabsf.tab1.l $itk_interior.lff.tabsf.tab1.r -side left -padx 5 -pady 5 -fill both
+	#pack $itk_interior.lff.tabsf.tab1 do not pack this line
+
+
+
+### Offset tab setup
+	itk_component add tab2f {
+		frame $itk_interior.lff.tabsf.tab2.f1 
+		frame $itk_interior.lff.tabsf.tab2.f2 
+		frame $itk_interior.lff.tabsf.tab2.f3 
+		frame $itk_interior.lff.tabsf.tab2.f4 
+	}
+
+	itk_component add tab2fl1 {
+        	label $itk_interior.lff.tabsf.tab2.f1.l1 -text "k1 \[nm\]" -width 15
+		label $itk_interior.lff.tabsf.tab2.f2.l1 -text "k2 \[nm\]" -width 15
+		label $itk_interior.lff.tabsf.tab2.f3.l1 -text "Offset1 \[nm\]" -width 15
+		label $itk_interior.lff.tabsf.tab2.f4.l1 -text "Offset2 \[nm\]" -width 15
+	} { }
+### widget for setpoint
+	itk_component add tab2fe1 {
+		DCS::LiberaStringViewEntry $itk_interior.lff.tabsf.tab2.f1.e1 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_k1_sp_obj} {keep -textvariable}
+	itk_component add tab2fe2 {
+		DCS::LiberaStringViewEntry $itk_interior.lff.tabsf.tab2.f2.e1 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_k2_sp_obj} {keep -textvariable}
+	itk_component add tab2fe3 {
+		DCS::LiberaStringViewEntry $itk_interior.lff.tabsf.tab2.f3.e1 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_offset1_sp_obj} {keep -textvariable}
+	itk_component add tab2fe4 {
+		DCS::LiberaStringViewEntry $itk_interior.lff.tabsf.tab2.f4.e1 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_offset2_sp_obj} {keep -textvariable}
+### widget for readback
+	itk_component add tab2fl2 {
+		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab2.f1.l2 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_k1_mon_obj} {}
+	itk_component add tab2fl3 {
+		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab2.f2.l2 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_k2_mon_obj } {}
+	itk_component add tab2fl4 {
+		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab2.f3.l2 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_offset1_mon_obj} {}
+	itk_component add tab2fl5 {
+		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab2.f4.l2 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_offset2_mon_obj} {}
+
+	pack $itk_interior.lff.tabsf.tab2.f1.l1 $itk_interior.lff.tabsf.tab2.f1.e1 $itk_interior.lff.tabsf.tab2.f1.l2 -side left 
+	pack $itk_interior.lff.tabsf.tab2.f2.l1 $itk_interior.lff.tabsf.tab2.f2.e1 $itk_interior.lff.tabsf.tab2.f2.l2 -side left
+	pack $itk_interior.lff.tabsf.tab2.f3.l1 $itk_interior.lff.tabsf.tab2.f3.e1 $itk_interior.lff.tabsf.tab2.f3.l2 -side left 
+	pack $itk_interior.lff.tabsf.tab2.f4.l1 $itk_interior.lff.tabsf.tab2.f4.e1 $itk_interior.lff.tabsf.tab2.f4.l2 -side left
+	pack $itk_interior.lff.tabsf.tab2.f1 $itk_interior.lff.tabsf.tab2.f2 $itk_interior.lff.tabsf.tab2.f3 $itk_interior.lff.tabsf.tab2.f4 -pady 5
+
+### Calibration tab setup
+	itk_component add tab3f {
+		frame $itk_interior.lff.tabsf.tab3.f1
+		frame $itk_interior.lff.tabsf.tab3.f2
+		frame $itk_interior.lff.tabsf.tab3.f3
+		frame $itk_interior.lff.tabsf.tab3.f4
+		frame $itk_interior.lff.tabsf.tab3.f5 
+		frame $itk_interior.lff.tabsf.tab3.f6
+		frame $itk_interior.lff.tabsf.tab3.f7
+		frame $itk_interior.lff.tabsf.tab3.f8
+	} {}
+
+	itk_component add tab3fl1 {
+        	label $itk_interior.lff.tabsf.tab3.f1.l1 -text "KI_0" -width 15
+		label $itk_interior.lff.tabsf.tab3.f2.l1 -text "KI_1" -width 15
+		label $itk_interior.lff.tabsf.tab3.f3.l1 -text "KI_2" -width 15
+		label $itk_interior.lff.tabsf.tab3.f4.l1 -text "KI_3" -width 15
+
+        	label $itk_interior.lff.tabsf.tab3.f5.l1 -text "IOFFSET_0" -width 15
+		label $itk_interior.lff.tabsf.tab3.f6.l1 -text "IOFFSET_1" -width 15
+		label $itk_interior.lff.tabsf.tab3.f7.l1 -text "IOFFSET_2" -width 15
+		label $itk_interior.lff.tabsf.tab3.f8.l1 -text "IOFFSET_3" -width 15
+	} { }
+### widget for setpoint
+	itk_component add tab3fe1 {
+		DCS::LiberaStringViewEntry $itk_interior.lff.tabsf.tab3.f1.e1 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_ki_0_sp_obj } {keep -textvariable}
+	itk_component add tab3fe2 {
+		DCS::LiberaStringViewEntry $itk_interior.lff.tabsf.tab3.f2.e1 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_ki_1_sp_obj } {keep -textvariable}
+	itk_component add tab3fe3 {
+		DCS::LiberaStringViewEntry $itk_interior.lff.tabsf.tab3.f3.e1 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_ki_2_sp_obj } {keep -textvariable}
+	itk_component add tab3fe4 {
+		DCS::LiberaStringViewEntry $itk_interior.lff.tabsf.tab3.f4.e1 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_ki_3_sp_obj } {keep -textvariable}
+	itk_component add tab3fe5 {
+		DCS::LiberaStringViewEntry $itk_interior.lff.tabsf.tab3.f5.e1 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_ioffset_0_sp_obj } {keep -textvariable}
+	itk_component add tab3fe6 {
+		DCS::LiberaStringViewEntry $itk_interior.lff.tabsf.tab3.f6.e1 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_ioffset_1_sp_obj } {keep -textvariable}
+	itk_component add tab3fe7 {
+		DCS::LiberaStringViewEntry $itk_interior.lff.tabsf.tab3.f7.e1 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_ioffset_2_sp_obj } {keep -textvariable}
+	itk_component add tab3fe8 {
+		DCS::LiberaStringViewEntry $itk_interior.lff.tabsf.tab3.f8.e1 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_ioffset_3_sp_obj } {keep -textvariable}
+
+### widget for readback
+	itk_component add tab3f1l2 {
+		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab3.f1.l2 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_ki_0_mon_obj } {}
+	itk_component add tab3f2l2 {
+		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab3.f2.l2 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_ki_1_mon_obj } {}
+	itk_component add tab3f3l2 {
+		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab3.f3.l2 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_ki_2_mon_obj } {}
+	itk_component add tab3fl2 {
+		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab3.f4.l2 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_ki_3_mon_obj } {}
+	itk_component add tab3f5l2 {
+		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab3.f5.l2 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_ioffset_0_mon_obj } {}
+	itk_component add tab3f6l2 {
+		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab3.f6.l2 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_ioffset_1_mon_obj } {}
+	itk_component add tab3f7l2 {
+		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab3.f7.l2 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_ioffset_2_mon_obj } {}
+	itk_component add tab3f8l2 {
+		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab3.f8.l2 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_ioffset_3_mon_obj } {}
+	pack $itk_interior.lff.tabsf.tab3.f1.l1 $itk_interior.lff.tabsf.tab3.f1.e1 $itk_interior.lff.tabsf.tab3.f1.l2 -side left
+	pack $itk_interior.lff.tabsf.tab3.f2.l1 $itk_interior.lff.tabsf.tab3.f2.e1 $itk_interior.lff.tabsf.tab3.f2.l2 -side left
+	pack $itk_interior.lff.tabsf.tab3.f3.l1 $itk_interior.lff.tabsf.tab3.f3.e1 $itk_interior.lff.tabsf.tab3.f3.l2 -side left
+	pack $itk_interior.lff.tabsf.tab3.f4.l1 $itk_interior.lff.tabsf.tab3.f4.e1 $itk_interior.lff.tabsf.tab3.f4.l2 -side left
+	pack $itk_interior.lff.tabsf.tab3.f5.l1 $itk_interior.lff.tabsf.tab3.f5.e1 $itk_interior.lff.tabsf.tab3.f5.l2 -side left
+	pack $itk_interior.lff.tabsf.tab3.f6.l1 $itk_interior.lff.tabsf.tab3.f6.e1 $itk_interior.lff.tabsf.tab3.f6.l2 -side left
+	pack $itk_interior.lff.tabsf.tab3.f7.l1 $itk_interior.lff.tabsf.tab3.f7.e1 $itk_interior.lff.tabsf.tab3.f7.l2 -side left 
+	pack $itk_interior.lff.tabsf.tab3.f8.l1 $itk_interior.lff.tabsf.tab3.f8.e1 $itk_interior.lff.tabsf.tab3.f8.l2 -side left
+
+	pack $itk_interior.lff.tabsf.tab3.f1 $itk_interior.lff.tabsf.tab3.f2 $itk_interior.lff.tabsf.tab3.f3 $itk_interior.lff.tabsf.tab3.f4 \
+		$itk_interior.lff.tabsf.tab3.f5 $itk_interior.lff.tabsf.tab3.f6 $itk_interior.lff.tabsf.tab3.f7 $itk_interior.lff.tabsf.tab3.f8 -pady 5
+	#pack tabs frame
+	pack $itk_interior.lff.tabsf -pady 5
+
+
+### graph display
+	itk_component add graphf {
+		frame $itk_interior.graphf
+	}
+	itk_component add graphf1 {
+		frame $itk_interior.graphf.f1
+	}
+	itk_component add  graphf2 {
+		frame $itk_interior.graphf.f2
+		frame $itk_interior.graphf.f2.f1
+		frame $itk_interior.graphf.f2.f2
+		frame $itk_interior.graphf.f2.f3
+		frame $itk_interior.graphf.f2.f4
+		frame $itk_interior.graphf.f2.f5
+		frame $itk_interior.graphf.f2.f6
+	}
+	itk_component add  graphf3 {
+		frame $itk_interior.graphf.f3
+	}
+
+	itk_component add readbutton {
+		button $itk_interior.graphf.f1.b2 -text "DD Triger CMD" -command [code $this DCS::LiberaDetailView::ddRequestCmd]
+	} {}
+
+	itk_component add getpvdata {
+		button $itk_interior.graphf.f1.b3 -text "Update Plot" -command [code $this DCS::LiberaDetailView::getPlotData]
+	} {}
+
+  itk_component add ent {
+	button $itk_interior.graphf.f1.b4 -text "Save data" -command [code $this DCS::LiberaDetailView::saveIntoFile]
+    } {}
+    	#pack 
+	#pack $itk_interior.graphf.f1.b2 $itk_interior.graphf.f1.b3 $itk_interior.graphf.f1.b4 -side left -padx 5 -pady 5
+	#pack $itk_interior.graphf.f1.b2 $itk_interior.graphf.f1.b3 $itk_interior.graphf.f1.b4 $itk_interior.graphf.f1.ent -side left -padx 5 -pady 5
+	pack $itk_interior.graphf.f1.b4 -side left 
+	pack $itk_interior.graphf.f1 -pady 5
+
+### setup descriptive statistic value display ###################################
+	itk_component add discrff {
+		frame $itk_interior.graphf.f3.f1 
+		frame $itk_interior.graphf.f3.f2 
+	}
+
+	itk_component add discrflab {
+        	label $itk_interior.graphf.f3.f1.l1 -text "X position \[nm\]" -width 15
+		label $itk_interior.graphf.f3.f1.l3 -text "Y position \[nm\]" -width 15
+		label $itk_interior.graphf.f3.f1.l5 -text "SUM \[a.u.\] " -width 15
+		#label $itk_interior.graphf.f3.f2.l2 -text "Q" -width 15
+		} { 
+			keep -background -foreground -font
+		}
+
+	itk_component add discrftext {
+		DCS::LiberaStringViewLabel $itk_interior.graphf.f3.f1.l2 \
+			-systemIdleOnly 0 -activeClientOnly 0 -stringName $sa_x_mon_obj } {} 
+
+	itk_component add discrftext2 {
+		DCS::LiberaStringViewLabel $itk_interior.graphf.f3.f1.l4 \
+			-systemIdleOnly 0 -activeClientOnly 0 -stringName $sa_y_mon_obj } {} 
+
+	itk_component add discrftext3 {
+		DCS::LiberaStringViewLabel $itk_interior.graphf.f3.f1.l6 \
+			-systemIdleOnly 0 -activeClientOnly 0 -stringName $sa_sum_mon_obj } {} 		
+
+	#itk_component add discrftext4 {
+	#	DCS::LiberaStringViewLabel $itk_interior.graphf.f3.f2.l4 \
+	#		-systemIdleOnly 0 -activeClientOnly 0 -stringName $sa_q_mon_obj } {} 
+
+	pack $itk_interior.graphf.f3.f1.l1 $itk_interior.graphf.f3.f1.l2 $itk_interior.graphf.f3.f1.l3 \
+		$itk_interior.graphf.f3.f1.l4 $itk_interior.graphf.f3.f1.l5 $itk_interior.graphf.f3.f1.l6 -side left
+	pack $itk_interior.graphf.f3.f1 -pady 5 -fill x
+	pack $itk_interior.graphf.f3
+
+### setup graph plot option##################################################
+### variable definitions
+
+	blt::vector create liberax1
+	liberax1 set [range 300]
+
+	blt::vector create liberay1
+	blt::vector create liberay2 
+	blt::vector create liberay3  
+	blt::vector create liberay4 
+	blt::vector create liberay5
+	blt::vector create liberay6
+
+	liberay1 set ""
+	liberay2 set ""
+	liberay3 set ""
+	liberay4 set ""
+	liberay5 set ""
+	liberay6 set ""
+
+	#puts "vector liberay1 length is [liberay1 length]"
+### setup graph configurations
+	itk_component add graphplot1 {
+		blt::graph $itk_interior.graphf.f2.f1.g1 -title "Channel A" -plotbackground white -height 250 -width 330} {}
+	$itk_interior.graphf.f2.f1.g1 element create line1 -xdata liberax1 -ydata liberay1
+	$itk_interior.graphf.f2.f1.g1 element configure line1 -symbol circle -color black -linewidth 1 -pixels 0.01i
+	$itk_interior.graphf.f2.f1.g1 element show
+	$itk_interior.graphf.f2.f1.g1 axis configure x -title {SA samples (10 S/sec)} -max 300
+	$itk_interior.graphf.f2.f1.g1 legend configure -position right -relief groove -font fixed -fg blue -hide 1
+	$itk_interior.graphf.f2.f1.g1 grid configure -hide no -dashes { 2 2 }
+	
+
+	itk_component add graphplot2 {
+		blt::graph $itk_interior.graphf.f2.f2.g1 -title "Channel B" -plotbackground white -height 250 -width 330} {}
+	$itk_interior.graphf.f2.f2.g1 element create line1 -xdata liberax1 -ydata liberay2
+	$itk_interior.graphf.f2.f2.g1 element configure line1 -symbol circle -color black -linewidth 1 -pixels 0.01i
+	$itk_interior.graphf.f2.f2.g1 element show
+	$itk_interior.graphf.f2.f2.g1 axis configure x -title {SA samples (10 S/sec)} -max 300
+	$itk_interior.graphf.f2.f2.g1 legend configure -position right -relief groove -font fixed -fg blue -hide 1
+	$itk_interior.graphf.f2.f2.g1 grid configure -hide no -dashes { 2 2 }
+
+	itk_component add graphplot3 {
+		blt::graph $itk_interior.graphf.f2.f3.g1 -title "Channel C" -plotbackground white -height 250 -width 330} {}
+	$itk_interior.graphf.f2.f3.g1 element create line1 -xdata liberax1 -ydata liberay3
+	$itk_interior.graphf.f2.f3.g1 element configure line1 -symbol circle -color black -linewidth 1 -pixels 0.01i
+	$itk_interior.graphf.f2.f3.g1 element show
+	$itk_interior.graphf.f2.f3.g1 axis configure x -title {SA samples (10 S/sec)} -max 300
+	$itk_interior.graphf.f2.f3.g1 legend configure -position right -relief groove -font fixed -fg blue -hide 1
+	$itk_interior.graphf.f2.f3.g1 grid configure -hide no -dashes { 2 2 }
+
+	itk_component add graphplot4 {
+		blt::graph $itk_interior.graphf.f2.f4.g1 -title "Channel D" -plotbackground white -height 250 -width 330} {}
+	$itk_interior.graphf.f2.f4.g1 element create line1 -xdata liberax1 -ydata liberay4
+	$itk_interior.graphf.f2.f4.g1 element configure line1 -symbol circle -color black -linewidth 1 -pixels 0.01i
+	$itk_interior.graphf.f2.f4.g1 element show
+	$itk_interior.graphf.f2.f4.g1 axis configure x -title {SA samples (10 S/sec)} -max 300
+	$itk_interior.graphf.f2.f4.g1 legend configure -position right -relief groove -font fixed -fg blue -hide 1
+	$itk_interior.graphf.f2.f4.g1 grid configure -hide no -dashes { 2 2 }
+
+	itk_component add graphplot5 {
+		blt::graph $itk_interior.graphf.f2.f5.g1 -title "X position " -plotbackground white -height 250 -width 330} {}
+	$itk_interior.graphf.f2.f5.g1 element create line1 -xdata liberax1 -ydata liberay5
+	$itk_interior.graphf.f2.f5.g1 element configure line1 -symbol circle -color black -linewidth 1 -pixels 0.01i
+	$itk_interior.graphf.f2.f5.g1 element show
+	$itk_interior.graphf.f2.f5.g1 axis configure x -title {SA samples (10 S/sec)} -max 300
+	$itk_interior.graphf.f2.f5.g1 legend configure -position right -relief groove -font fixed -fg blue -hide 1
+	$itk_interior.graphf.f2.f5.g1 grid configure -hide no -dashes { 2 2 }
+
+	itk_component add graphplot6 {
+		blt::graph $itk_interior.graphf.f2.f6.g1 -title "Y position " -plotbackground white -height 250 -width 330} {}
+	$itk_interior.graphf.f2.f6.g1 element create line1 -xdata liberax1 -ydata liberay6
+	$itk_interior.graphf.f2.f6.g1 element configure line1 -symbol circle -color black -linewidth 1 -pixels 0.01i
+	$itk_interior.graphf.f2.f6.g1 element show
+	$itk_interior.graphf.f2.f6.g1 axis configure x -title {SA samples (10 S/sec)} -max 300
+	$itk_interior.graphf.f2.f6.g1 legend configure -position right -relief groove -font fixed -fg blue -hide 1
+	$itk_interior.graphf.f2.f6.g1 grid configure -hide no -dashes { 2 2 }
+
+# pack 6 graph 2x3
+	pack $itk_interior.graphf.f2.f1.g1 $itk_interior.graphf.f2.f2.g1 $itk_interior.graphf.f2.f5.g1 -padx 5 -pady 5
+	pack $itk_interior.graphf.f2.f3.g1 $itk_interior.graphf.f2.f4.g1 $itk_interior.graphf.f2.f6.g1 -padx 5 -pady 5
+	grid $itk_interior.graphf.f2.f1 $itk_interior.graphf.f2.f2 $itk_interior.graphf.f2.f5
+	grid $itk_interior.graphf.f2.f3 $itk_interior.graphf.f2.f4 $itk_interior.graphf.f2.f6
+	pack $itk_interior.graphf.f2
+	
+	#register valiables to monitor value change
+	::mediator register $this $sa_a_mon_obj contents DCS::LiberaDetailView::handleVector1
+	::mediator register $this $sa_b_mon_obj contents DCS::LiberaDetailView::handleVector2
+	::mediator register $this $sa_c_mon_obj contents DCS::LiberaDetailView::handleVector3
+	::mediator register $this $sa_d_mon_obj contents DCS::LiberaDetailView::handleVector4
+	::mediator register $this $sa_x_mon_obj contents DCS::LiberaDetailView::handleVector5
+	::mediator register $this $sa_y_mon_obj contents DCS::LiberaDetailView::handleVector6
+
+
+
+
+	
+### pack left and right frame
+	pack $itk_interior.lff $itk_interior.graphf -side left -fill y
+		# itk_initialize analize options and affect widgets
+		eval itk_initialize $args
+		announceExist
+### end of constructor 
+
+}
+
+
+body DCS::LiberaDetailView::updatepv {} {
+### This method will update variables connected with EPICS records.
+
+set liberaNo [$itk_interior.lff.devicef.f1.d1 current]
+set bpmNo [$itk_interior.lff.devicef.f2.d2 current]
+#puts ${liberaNo}_${bpmNo}_sa_a_mon
+	set deviceFactory [DCS::DeviceFactory::getObject]
+	puts $deviceFactory
+
+	# Check the device existance
+	if {0 == [DCS::DeviceFactory::stringExists ${liberaNo}_${bpmNo}_sa_a_mon]} then {
+		set liberaNo 0
+		set bpmNo 0
+		$itk_interior.lff.devicef.f1.d1 set [lindex $liberadevlist 0]
+		$itk_interior.lff.devicef.f2.d2 set [lindex $liberabpmlist 0]
+		puts "Device Not Found. Default device was selected."
+	}
+
+	#slow aquisiton data
+
+	set sa_a_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_sa_a_mon]
+	set sa_a_mon_val [$sa_a_mon_obj getContents]
+	set sa_b_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_sa_b_mon]
+	set sa_b_mon_val [$sa_a_mon_obj getContents]
+	set sa_c_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_sa_c_mon]
+	set sa_c_mon_val [$sa_a_mon_obj getContents]
+	set sa_d_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_sa_d_mon]
+	set sa_d_mon_val [$sa_a_mon_obj getContents]
+	set sa_x_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_sa_x_mon]
+	set sa_x_mon_val [$sa_a_mon_obj getContents]
+	set sa_y_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_sa_y_mon]
+	set sa_y_mon_val [$sa_a_mon_obj getContents]
+	set sa_q_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_sa_q_mon]
+	set sa_q_mon_val [$sa_a_mon_obj getContents]
+	set sa_sum_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_sa_sum_mon]
+	set sa_sum_mon_val [$sa_a_mon_obj getContents]
+
+	#offset values
+	set env_k1_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_env_k1_mon]
+	set env_k1_mon_val [$env_k1_mon_obj getContents]
+	set env_k2_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_env_k2_mon]
+	set env_k2_mon_val [$env_k1_mon_obj getContents]
+	set env_offset1_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_env_offset1_mon]
+	set env_offset1_mon_val [$env_offset1_mon_obj getContents]
+	set env_offset2_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_env_offset2_mon]
+	set env_offset2_mon_val [$env_offset2_mon_obj getContents]
+
+	set env_k1_sp_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_env_k1_sp]
+	set env_k1_sp_val [$env_k1_sp_obj getContents]
+	set env_k2_sp_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_env_k2_sp]
+	set env_k2_sp_val [$env_k1_sp_obj getContents]
+	set env_offset1_sp_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_env_offset1_sp]
+	set env_offset1_sp_val [$env_offset1_sp_obj getContents]
+	set env_offset2_sp_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_env_offset2_sp]
+	set env_offset2_sp_val [$env_offset2_sp_obj getContents]
+
+	#gain compensation for channel A-D
+	set env_ki_0_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_env_ki_0_mon]
+	set env_ki_0_mon_val [$env_ki_0_mon_obj getContents]
+	set env_ki_1_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_env_ki_1_mon]
+	set env_ki_1_mon_val [$env_ki_1_mon_obj getContents]
+	set env_ki_2_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_env_ki_2_mon]
+	set env_ki_2_mon_val [$env_ki_2_mon_obj getContents]
+	set env_ki_3_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_env_ki_3_mon]
+	set env_ki_3_mon_val [$env_ki_3_mon_obj getContents]
+
+	set env_ki_0_sp_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_env_ki_0_sp]
+	set env_ki_0_sp_val [$env_ki_0_sp_obj getContents]
+	set env_ki_1_sp_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_env_ki_1_sp]
+	set env_ki_1_sp_val [$env_ki_1_sp_obj getContents]
+	set env_ki_2_sp_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_env_ki_2_sp]
+	set env_ki_2_sp_val [$env_ki_2_sp_obj getContents]
+	set env_ki_3_sp_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_env_ki_3_sp]
+	set env_ki_3_sp_val [$env_ki_3_sp_obj getContents]
+
+	#set dd1_dd_va_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_dd1_dd_va_mon]
+	#set dd1_dd_vb_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_dd1_dd_vb_mon]
+	#set dd1_dd_vc_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_dd1_dd_vc_mon]
+	#set dd1_dd_vd_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_dd1_dd_vd_mon]
+
+	#set dd1_dd_st_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_dd1_dd_st_mon]
+	#set dd1_dd_finished_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_dd1_dd_finished_mon]
+	#puts "dd1_dd_finished_mon_obj is $dd1_dd_finished_mon_obj"
+	#set dd1_dd_request_cmd_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_dd1_dd_request_cmd]
+
+	#set dd1_dd_va_mon_val [$dd1_dd_va_mon_obj getContents]
+	#set dd1_dd_vb_mon_val [$dd1_dd_vb_mon_obj getContents]
+	#set dd1_dd_vc_mon_val [$dd1_dd_vc_mon_obj getContents]
+	#set dd1_dd_vd_mon_val [$dd1_dd_vd_mon_obj getContents]
+	#set dd1_dd_st_mon_val [$dd1_dd_st_mon_obj getContents]
+	#set dd1_dd_finished_mon_val [$dd1_dd_finished_mon_obj getContents]
+
+	set env_ioffset_0_sp_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_env_ioffset_0_sp]
+	set env_ioffset_0_sp_val [$env_ioffset_0_sp_obj getContents]
+	set env_ioffset_1_sp_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_env_ioffset_1_sp]
+	set env_ioffset_1_sp_val [$env_ioffset_1_sp_obj getContents]
+	set env_ioffset_2_sp_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_env_ioffset_2_sp]
+	set env_ioffset_2_sp_val [$env_ioffset_2_sp_obj getContents]
+	set env_ioffset_3_sp_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_env_ioffset_3_sp]
+	set env_ioffset_3_sp_val [$env_ioffset_3_sp_obj getContents]
+
+	set env_ioffset_0_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_env_ioffset_0_mon]
+	set env_ioffset_0_mon_val [$env_ioffset_0_sp_obj getContents]
+	set env_ioffset_1_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_env_ioffset_1_mon]
+	set env_ioffset_1_mon_val [$env_ioffset_1_sp_obj getContents]
+	set env_ioffset_2_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_env_ioffset_2_mon]
+	set env_ioffset_2_mon_val [$env_ioffset_2_sp_obj getContents]
+	set env_ioffset_3_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_env_ioffset_3_mon]
+	set env_ioffset_3_mon_val [$env_ioffset_3_sp_obj getContents]
+
+	set env_arc_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_env_arc_mon]
+	set env_arc_sp_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_env_arc_sp]
+	set env_range_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_env_range_mon]
+	set env_range_sp_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_env_range_sp]
+
+	set env_voltage0_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_env_voltage0_mon]
+	set env_voltage1_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_env_voltage1_mon]
+	set env_voltage2_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_env_voltage2_mon]
+	set env_voltage3_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_env_voltage3_mon]
+	set env_voltage4_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_env_voltage4_mon]
+	set env_voltage5_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_env_voltage5_mon]
+	set env_voltage6_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_env_voltage6_mon]
+	set env_voltage7_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_env_voltage7_mon]
+	set env_pbpp_1v25_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_env_pbpp_1v25_mon]
+	#set env_pbpp_1v25_mon_val [$env_pbpp_1v25_mon_obj getContents]
+	#puts $env_pbpp_1v25_mon_val
+	set env_pbpp_2v5_neg_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_env_pbpp_2v5_neg_mon]
+	set env_pbpp_2v5_neg_mon_val [$env_pbpp_2v5_neg_mon_obj getContents]
+	#puts $env_pbpp_2v5_neg_mon_val
+	set env_opmode_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_env_opmode_mon]
+	set env_opmode_mon_val [$env_opmode_mon_obj getContents]
+	#puts $env_opmode_mon_val
+
+	#interlock status
+	set env_ilk_status_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_env_ilk_status_mon]
+
+	set env_bias_cl_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_env_bias_cl_mon]
+	set env_bias_int_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_env_bias_int_mon]
+	set env_bias_current_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_env_bias_current_mon]
+	set env_bias_voltage_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_env_bias_voltage_mon]
+
+	#signal info
+	set env_ilk_status_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_env_ilk_status]
+	set env_posalg_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_env_posalg_mon]
+	set env_idgap_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_env_idgap_mon]
+	set env_calib_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_env_calib_mon]
+	set env_max_adc_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_env_max_adc_mon]
+
+	#pll status
+	set env_pll_mtlckst_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_env_pll_mtlckst_mon]
+	set env_pll_stlckst_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_env_pll_stlckst_mon]
+
+	#funs
+	set env_back_vent_act_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_env_back_vent_act_mon]
+	set env_front_vent_act_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_env_front_vent_act_mon]
+
+	#temperature
+	set env_temp_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_env_temp_mon]
+	set env_temp_inner_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_env_temp_inner_mon]
+	set env_temp_outer_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_env_temp_outer_mon]
+
+}
+
+
+body DCS::LiberaDetailView::ddRequestCmd {} {
+### This method send trigger request for DD1 port via epicsgw
+	#$dd1_dd_request_cmd_obj sendContentsToServer 1
+	#after 10000 [code $this getPlotData]
+}
+
+body DCS::LiberaDetailView::getPlotData {args} {
+### This method update variables of DD1 port
+### Updated vaules will be copied to blt vector variable
+
+#set dd1_dd_va_mon_val [$dd1_dd_va_mon_obj getContents]
+#set dd1_dd_vb_mon_val [$dd1_dd_vb_mon_obj getContents]
+#set dd1_dd_vc_mon_val [$dd1_dd_vc_mon_obj getContents]
+#set dd1_dd_vd_mon_val [$dd1_dd_vd_mon_obj getContents]
+#set dd1_dd_st_mon_val [$dd1_dd_st_mon_obj getContents]
+#puts $dd1_dd_va_mon_val
+after 500 [code $this cpPlotData] 
+
+}
+
+body DCS::LiberaDetailView::cpPlotData {} {
+### This method cp data to blt vector
+#liberay1 set $dd1_dd_va_mon_val
+#liberay2 set $dd1_dd_vb_mon_val
+#liberay3 set $dd1_dd_vc_mon_val
+#liberay4 set $dd1_dd_vd_mon_val
+}
+
+body DCS::LiberaDetailView::saveIntoFile {} {
+# Savefile file
+
+    set ftype { { "TEXT Files" .txt } { "All Files" * }}
+    set fname [ tk_getSaveFile -filetypes $ftype -parent . ]
+    if { $fname == "" } return
+
+    set fileid [ open $fname "w" ]
+
+set data "# index Ch.A Ch.B Ch.C Ch.d X Y of $sa_a_mon_obj"
+set maxlen [liberay1 length]
+    puts $fileid $data
+for {set i 0} {$i < $maxlen} {incr i} {
+	#lappend data \n
+	set data ""
+	lappend data "$i"
+	lappend data [liberay1 index $i]
+	lappend data [liberay2 index $i]
+	lappend data [liberay3 index $i]
+	lappend data [liberay4 index $i]
+	lappend data [liberay5 index $i]
+	lappend data [liberay6 index $i]
+    puts $fileid $data
+}
+
+    close $fileid
+
+}
+
+body DCS::LiberaDetailView::applyARCmode {} {
+	$env_arc_sp_obj sendContentsToServer [$itk_interior.lff.tabsf.tab1.f5.combo1 current ]
+	#puts [$itk_interior.lff.tabsf.tab1.f5.combo1 current]
+	
+#do something
+}
+
+body DCS::LiberaDetailView::applyCurrentRange {} {
+	$env_range_sp_obj sendContentsToServer [$itk_interior.lff.tabsf.tab1.f6.combo2 current ]
+	#do something
+}
+
+body DCS::LiberaDetailView::handleVector1 { stringName_ targetReady_ alias_ contents_ - } {
+	#puts $stringName
+	if { ! $targetReady_} return
+	if {[liberay1 length] > 300} then {
+		liberay1 delete 0
+		liberay1 append $contents_
+	} else {liberay1 append $contents_}
+}
+
+body DCS::LiberaDetailView::handleVector2 { stringName_ targetReady_ alias_ contents_ - } {
+	#puts $stringName
+	if { ! $targetReady_} return
+	if {[liberay2 length] > 300} then {
+		liberay2 delete 0
+		liberay2 append $contents_
+	} else {liberay2 append $contents_}
+}
+body DCS::LiberaDetailView::handleVector3 { stringName_ targetReady_ alias_ contents_ - } {
+	#puts $stringName
+	if { ! $targetReady_} return
+	if {[liberay3 length] > 300} then {
+		liberay3 delete 0
+		liberay3 append $contents_
+	} else {liberay3 append $contents_}
+}
+
+body DCS::LiberaDetailView::handleVector4 { stringName_ targetReady_ alias_ contents_ - } {
+	#puts $stringName
+	if { ! $targetReady_} return
+	if {[liberay4 length] > 300} then {
+		liberay4 delete 0
+		liberay4 append $contents_
+	} else {liberay4 append $contents_}
+}
+
+body DCS::LiberaDetailView::handleVector5 { stringName_ targetReady_ alias_ contents_ - } {
+	#puts $stringName
+	if { ! $targetReady_} return
+	if {[liberay5 length] > 300} then {
+		liberay5 delete 0
+		liberay5 append $contents_
+	} else {liberay5 append $contents_}
+}
+
+body DCS::LiberaDetailView::handleVector6 { stringName_ targetReady_ alias_ contents_ - } {
+	#puts $stringName
+	if { ! $targetReady_} return
+	if {[liberay6 length] > 300} then {
+		liberay6 delete 0
+		liberay6 append $contents_
+	} else {liberay6 append $contents_}
+}
+#############################################################################################################
+class DCS::LiberaStringViewLabel {
+	inherit ::DCS::StringViewLabel
+	constructor { args } {
+		eval itk_initialize $args
+		announceExist
+	}
+}
+class DCS::LiberaStringViewEntry {
+	inherit ::DCS::StringViewEntry
+	constructor { args } {
+		eval itk_initialize $args
+		announceExist
+	}
+}
+
+
+
+

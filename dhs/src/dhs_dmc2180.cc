@@ -616,6 +616,10 @@ xos_result_t dmc2180ConfigureEncoder( Dmc2180 & dmc2180 )
          encoder = &dmc2180.analogEncoder[channel];
        } else if ( strcmp(encoderTypeStr,"ABSOLUTE") == 0 ) {
          encoder = &dmc2180.absoluteEncoder[channel];
+       } else if ( strcmp(encoderTypeStr,"ECOUNTER") == 0 ) {
+         encoder = &dmc2180.counterEncoder[channel];
+       } else if ( strcmp(encoderTypeStr,"PIEZO") == 0 ) {
+         encoder = &dmc2180.piezoEncoder[channel];
       } else {
          LOG_SEVERE1("encoderType must be RELATIVE, ANALOG, or ABSOLUTE\n",gDhsInstanceName.c_str());
          xos_error_exit("Exit.");
