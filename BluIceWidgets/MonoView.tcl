@@ -490,31 +490,28 @@ class DoubleCrystalMonoViewDoubleSetID19 {
         ]
     }
 
-#    public method handlePiezoVoltageChange
+    public method handleEncoderUpdate
 
     public method setPitchValue { } {
 	set deviceFactory [::DCS::DeviceFactory::getObject]
-	set obj [$deviceFactory getObjectName ion_chamber4]
+	set obj1 [$deviceFactory getObjectName ion_chamber4]
       	set volt [$itk_component(canvas).pitch get]
-	$obj set_position $volt
-#	$itk_component(canvas).pitch configure -textvariable $v 
+	$obj1 set_position $volt
     }
 
     public method setRollValue { } {
 	set deviceFactory [::DCS::DeviceFactory::getObject]
-        set obj [$deviceFactory getObjectName ion_chamber5]
+        set obj2 [$deviceFactory getObjectName ion_chamber5]
 	set volt [$itk_component(canvas).roll get]
-#	puts "roll = $volt"
-        $obj set_position $volt
+        $obj2 set_position $volt
     }
 
 
     constructor { args} {
         set deviceFactory [::DCS::DeviceFactory::getObject]
-	set obj [$deviceFactory getObjectName ion_chamber4]
-	set obj1 [$deviceFactory getObjectName ion_chamber5]
-#	set pos [$obj cget -position]
-#	puts "yangxxx pos=$pos"
+	set obj1 [$deviceFactory getObjectName ion_chamber4]
+	set obj2 [$deviceFactory getObjectName ion_chamber5]
+
 
         loadBackdropImage id19-mono-yang-8.gif
                 place $itk_component(control) -x 220 -y 460
@@ -542,7 +539,7 @@ class DoubleCrystalMonoViewDoubleSetID19 {
             -activeClientOnly 1 \
             -entryType positiveFloat \
 	    -entryWidth 5 \
-	    -promptText "Pitch" \
+	    -promptText "Fine Pitch" \
 	    -units v \
 	    -onSubmit "$this setPitchValue"
         } {
@@ -550,7 +547,7 @@ class DoubleCrystalMonoViewDoubleSetID19 {
 
 	itk_component add pitchl {
                 label $itk_component(canvas).pitchl \
-                      -text [format %4.2f [$obj cget -position]] \
+                      -text [format %4.2f [$obj1 cget -position]] \
                       -relief sunken \
                       -width 4
                  #     -background #c0c0ff \
@@ -566,7 +563,7 @@ class DoubleCrystalMonoViewDoubleSetID19 {
             -activeClientOnly 1 \
 	    -entryWidth 5 \
             -entryType positiveFloat \
-	    -promptText "Roll" \
+	    -promptText "Fine Roll" \
             -units v \
 	    -onSubmit "$this setRollValue"
         } {
@@ -574,7 +571,7 @@ class DoubleCrystalMonoViewDoubleSetID19 {
 
 	itk_component add rolll {
                 label $itk_component(canvas).rolll \
-                      -text [format %4.2f [$obj1 cget -position]] \
+                      -text [format %4.2f [$obj2 cget -position]] \
                       -relief sunken \
                       -width 4
                  #     -background #c0c0ff \
@@ -589,29 +586,35 @@ class DoubleCrystalMonoViewDoubleSetID19 {
       	place $itk_component(roll) -x 515 -y 380 -anchor se
 
 
+	$obj1 register $this -value handleEncoderUpdate
+	$obj2 register $this -value handleEncoderUpdate
         eval itk_initialize $args
 	
         configure -width 710 -height 500
    }
 
-#    destructor { }
+   destructor {
+        set deviceFactory [::DCS::DeviceFactory::getObject]
+        set obj1 [$deviceFactory getObjectName ion_chamber4]
+        set obj2 [$deviceFactory getObjectName ion_chamber5]
+
+	$obj1 unregister $this -value handleEncoderUpdate
+	$obj2 unregister $this -value handleEncoderUpdate
+   }
 }
 
-#body DoubleCrystalMonoViewDoubleSetID19::destructor {} {
-#        $m_strPiezoVoltage unregister $this contents handlePiezoVoltageCurrentChange
-#        mediator announceDestruction $this
-#}
-
-#body DoubleCrystalMonoViewDoubleSetID19::handlePiezoVoltageChange { name_ targetReady_ - contents_ - } {
-#    if { ! $targetReady_} return
-#puts "contents=$contents_ \n"
-#         if { $contents_ == "" } return
-#         set value [lindex $contents_ 0]
-#         $itk_component(getPitch) configure \
-#                -text [format "%.5f" $value] \
-#                -state normal
-#}
-
+body DoubleCrystalMonoViewDoubleSetID19::handleEncoderUpdate {name_ targetReady_ - value_ -} {
+    
+     if {!$targetReady_} return
+     set tex [format %4.2f $value_]
+     #puts "name = $name_"
+     if {$name_ == "::device::ion_chamber4"} { 
+     	$itk_component(canvas).pitchl configure -text $tex 
+     } else {
+     	$itk_component(canvas).rolll configure -text $tex 
+     }
+}
+ 
 class DoubleCrystalMonoViewDoubleSet12_2 {
  	inherit ::DCS::CanvasShapes
 
