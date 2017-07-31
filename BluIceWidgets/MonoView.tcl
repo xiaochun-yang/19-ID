@@ -1417,6 +1417,56 @@ class BL14-1FocusingMirrorsView {
     }
 }
 
+class ID19WhiteBeamControlView {
+        inherit ::DCS::CanvasGifView
+
+        itk_option define -mdiHelper mdiHelper MdiHelper ""
+
+    public proc getMotorList { } {
+        return [list \
+        white_beam_filter_1 \
+        white_beam_filter_2 \
+        white_beam_mask_x \
+        white_beam_mask_z \
+        white_beam_slit_upper \
+        white_beam_slit_lower 
+        ]
+    }
+
+        constructor { args} {
+
+                place $itk_component(control) -x 230 -y 275
+
+                # construct the table widgets
+                motorView white_beam_filter_1 280 90 sw
+      		motorView white_beam_filter_2 145 90 sw
+      		motorView white_beam_mask_x 410 90 sw
+     	 	motorView white_beam_mask_z 540 90 sw
+      		motorView white_beam_slit_upper 215 200
+      		motorView white_beam_slit_lower 75 200
+                
+		# draw the table
+                #rect_solid 180 120 250 20 40 60 40
+
+#                motorArrow table_vert 330 90 {} 330 140 342 94 342 140
+#                motorArrow table_vert_1 210  90 {} 210 140 222 94 222 140
+#                motorArrow table_vert_2 450  90 {} 450 140 462 95 462 140
+#                motorArrow table_vert_3 580  90 {} 580 140 592 95 592 140
+#                motorArrow table_horz 305 170 {} 272 197 313 172 291 196
+#                motorArrow table_horz_1  190 170 {} 158 197 198 172 176 196
+#                motorArrow table_horz_2 430 170 {} 403 197 442 177 422 196
+#                motorArrow table_yaw 165 165 {125 137} 200 135 154 172 186 125
+#                motorArrow table_pitch 470  110 {500 120 500 160} 470 170 486 104 486 176
+
+
+                eval itk_initialize $args
+ 	        $itk_component(canvas) configure -width 660 -height 310
+
+        	configure -serialMove 1
+        }
+}
+
+
 class ID19MirrorView {
         inherit ::DCS::CanvasGifView
 

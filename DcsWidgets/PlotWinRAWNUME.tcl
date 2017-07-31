@@ -228,7 +228,7 @@ body DCS::PlotWinRAWNUME::constructor { args } {
 	.tpwRN.fl.g1 element create line1 -xdata liberax1 -ydata sa_a
 	.tpwRN.fl.g1 element configure line1 -symbol circle -color black -linewidth 1 -pixels 0.01i
 	.tpwRN.fl.g1 element show
-	.tpwRN.fl.g1 axis configure x -title {samples} -max 1024
+	.tpwRN.fl.g1 axis configure x -title {samples} -max 300
 	.tpwRN.fl.g1 legend configure -position right -relief groove -font fixed -fg blue -hide 1
 	.tpwRN.fl.g1 grid configure -hide no -dashes { 2 2 }
 
@@ -237,7 +237,7 @@ body DCS::PlotWinRAWNUME::constructor { args } {
 	.tpwRN.fl.g2 element create line1 -xdata liberax1 -ydata sa_c
 	.tpwRN.fl.g2 element configure line1 -symbol circle -color black -linewidth 1 -pixels 0.01i
 	.tpwRN.fl.g2 element show
-	.tpwRN.fl.g2 axis configure x -title {samples} -max 1024
+	.tpwRN.fl.g2 axis configure x -title {samples} -max 300
 	.tpwRN.fl.g2 legend configure -position right -relief groove -font fixed -fg blue -hide 1
 	.tpwRN.fl.g2 grid configure -hide no -dashes { 2 2 }
 
@@ -246,7 +246,7 @@ body DCS::PlotWinRAWNUME::constructor { args } {
 	.tpwRN.fr.g1 element create line1 -xdata liberax1 -ydata sa_b
 	.tpwRN.fr.g1 element configure line1 -symbol circle -color black -linewidth 1 -pixels 0.01i
 	.tpwRN.fr.g1 element show
-	.tpwRN.fr.g1 axis configure x -title {samples} -max 1024
+	.tpwRN.fr.g1 axis configure x -title {samples} -max 300
 	.tpwRN.fr.g1 legend configure -position right -relief groove -font fixed -fg blue -hide 1
 	.tpwRN.fr.g1 grid configure -hide no -dashes { 2 2 }
 
@@ -255,7 +255,7 @@ body DCS::PlotWinRAWNUME::constructor { args } {
 	.tpwRN.fr.g2 element create line1 -xdata liberax1 -ydata sa_d
 	.tpwRN.fr.g2 element configure line1 -symbol circle -color black -linewidth 1 -pixels 0.01i
 	.tpwRN.fr.g2 element show
-	.tpwRN.fr.g2 axis configure x -title {samples} -max 1024
+	.tpwRN.fr.g2 axis configure x -title {samples} -max 300
 	.tpwRN.fr.g2 legend configure -position right -relief groove -font fixed -fg blue -hide 1
 	.tpwRN.fr.g2 grid configure -hide no -dashes { 2 2 }
 
@@ -264,7 +264,7 @@ body DCS::PlotWinRAWNUME::constructor { args } {
 	.tpwRN.frr.g3 element create line1 -xdata liberax1 -ydata sa_sum
 	.tpwRN.frr.g3 element configure line1 -symbol circle -color black -linewidth 1 -pixels 0.01i
 	.tpwRN.frr.g3 element show
-	.tpwRN.frr.g3 axis configure x -title {samples} -max 1024
+	.tpwRN.frr.g3 axis configure x -title {samples} -max 300
 	.tpwRN.frr.g3 legend configure -position right -relief groove -font fixed -fg blue -hide 1
 	.tpwRN.frr.g3 grid configure -hide no -dashes { 2 2 }
 

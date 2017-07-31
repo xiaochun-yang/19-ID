@@ -248,7 +248,7 @@ class Pilatus::DetectorControl {
     public method connectToDetector {} {
         if {[catch {
             set _socket [socket $host $port]
-	    puts "yangx $_socket host=$host port=$port"
+	    puts "yangx1: $_socket host=$host port=$port"
             #fconfigure $_socket -blocking 0
             fconfigure $_socket -blocking 0 -translation binary
             fileevent $_socket readable [::itcl::code $this safeHandleDetectorResponse]
@@ -260,7 +260,7 @@ class Pilatus::DetectorControl {
             queryTemp
         } errorMsg ]} {
             set _connected false
-	    puts "yangx $_socket host=$host port=$port"
+	    puts "yangx2:2: $_socket host=$host port=$port"
             puts "ERROR: cannot connect to Pilatus detector $errorMsg"
 
             $dcss breakConnection

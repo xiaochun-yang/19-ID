@@ -139,27 +139,27 @@ configbody DCS::StringViewBase::stringName {
 	#puts "$itk_option(-stringName)"
     if {$itk_option(-stringName) != $_lastStringName} {
         if {$_lastStringName != ""} {
-			puts "$itk_option(-stringName)"
-			puts "_lastStringName is $_lastStringName"
+			#puts "$itk_option(-stringName)"
+			#puts "_lastStringName is $_lastStringName"
 			#unregister
 			::mediator unregister $this $_lastStringName contents
 			deleteInput "$_lastStringName status"
 			deleteInput "$_lastStringName permission"
         }
         set _lastStringName $itk_option(-stringName)
-	puts "_lastStringNamewas was set to $_lastStringName"
+	#puts "_lastStringNamewas was set to $_lastStringName"
         if {$itk_option(-stringName) != ""} {
             set stringName $itk_option(-stringName)
-		puts "stringName was set to $stringName"
-		puts "this is $this"
+		#puts "stringName was set to $stringName"
+		#puts "this is $this"
 		    ::mediator register $this $stringName contents handleStringConfigure
-		puts $contents
-		puts "handleStringConfigure was executed in stringName."
+		#puts $contents
+		#puts "handleStringConfigure was executed in stringName."
             if {[string first ::device::run $stringName] != 0 \
             && [string first ::device::virtualRun $stringName] \
             && [string first ::device::virtualPosition $stringName] != 0} {
 		        addInput "$stringName status inactive {supporting device}"
-			puts "last if statement was passed. addInput was $stringName status inactive {supporting device}"
+			#puts "last if statement was passed. addInput was $stringName status inactive {supporting device}"
             }
 		    addInput "$stringName permission GRANTED PERMISSION"
         }
@@ -171,8 +171,8 @@ configbody DCS::StringViewBase::stringName {
 body DCS::StringViewBase::handleStringConfigure { stringName_ targetReady_ alias_ contents_ - } {
 #########
    # puts "this is handleStringConfigure method."
-	puts "update string: $stringName_"
-	puts "$contents_"
+	#puts "update string: $stringName_"
+	#puts "$contents_"
 	if { ! $targetReady_} return
 	#puts "arg tagetReady_ is $targetReady_"
 	setContents $contents_
@@ -369,7 +369,7 @@ configbody DCS::StringViewBase3::stringName {
 
 body DCS::StringViewBase3::handleStringConfigure { stringName_ targetReady_ alias_ contents_ - } {
 	if { ! $targetReady_} return
-	setContents $contents_
+	#setContents $contents_
 }
 
 body DCS::StringViewBase3::applyChanges {} {
@@ -544,7 +544,7 @@ body DCS::StringFieldViewBase::setContents { contents_ } {
     }
 }
 body DCS::StringFieldViewBase::getNewContents { } {
-	puts "this is getNewContents method:"
+	#puts "this is getNewContents method:"
     set contents [$_lastStringName getContents]
     set ll [llength $contents]
     foreach {name index } $m_entryList {
@@ -559,7 +559,7 @@ body DCS::StringFieldViewBase::getNewContents { } {
             set contents [lreplace $contents $index $index $value]
         }
     }
-	puts "return is contents : $contents"
+	#puts "return is contents : $contents"
     return $contents
 }
 
@@ -1004,13 +1004,13 @@ class DCS::StringDictViewBase {
     }
 }
 body DCS::StringDictViewBase::setContents { contents_ } {
-    puts "$this is setContents method: arg is $contents_"
+    #puts "$this is setContents method: arg is $contents_"
     set ll [llength $contents_]
-	puts $ll
+	#puts $ll
     if {$ll % 2} {
         lappend contents_ {}
     }
-	puts $m_entryList
+	#puts $m_entryList
     foreach {name key} $m_entryList {
         if {[catch {dict get $contents_ $key} value]} {
             set value ""
@@ -1102,7 +1102,7 @@ body DCS::StringDictViewBase::setContents { contents_ } {
     }
 }
 body DCS::StringDictViewBase::getNewContents { } {
-	puts "this is StringDictViewBase::getNewContents"
+	#puts "this is StringDictViewBase::getNewContents"
     set contents [$_lastStringName getContents]
     set ll [llength $contents]
     if {$ll % 2} {
@@ -1205,7 +1205,7 @@ class DCS::StringDictFieldViewBase {
     }
 }
 body DCS::StringDictFieldViewBase::setContents { contents_ } {
-	puts "this is StringDictFieldViewBase::setContents method"
+	#puts "this is StringDictFieldViewBase::setContents method"
     #puts "level2 setContents: $contents_"
 
     foreach {name key1 index2} $m_entryList {
@@ -1312,7 +1312,7 @@ body DCS::StringDictFieldViewBase::setContents { contents_ } {
     }
 }
 body DCS::StringDictFieldViewBase::getNewContents { } {
-	puts "this is StringDictFieldViewBase::getNewContents"
+	#puts "this is StringDictFieldViewBase::getNewContents"
     if {$m_allFieldDisplayed} {
         set contents ""
     } else {
@@ -1348,8 +1348,10 @@ class DCS::StringView {
 	#puts "this is StringView class constructor."
 		itk_component add contents {
 			::iwidgets::Scrolledtext $m_site.c -textbackground white
+			#entry $m_site.c -width 15 -bg white -textvariable ""
 		} {
 			keep  -vscrollmode -hscrollmode -wrap
+			#keep -textvariable
 		}
         pack $itk_component(contents) -expand 1 -fill both
 
@@ -1359,9 +1361,9 @@ class DCS::StringView {
     }
 }
 body DCS::StringView::setContents { contents_ } {
-	puts "StringView::setContents was executed."
-	puts "contents_ is $contents_"
-	puts "itk_component(contents) is $itk_component(contents)"
+	#puts "StringView::setContents was executed."
+	#puts "contents_ is $contents_"
+	#puts "itk_component(contents) is $itk_component(contents)"
 	set state [$itk_component(contents) cget -state]
 	$itk_component(contents) configure -state normal
 
@@ -1371,7 +1373,7 @@ body DCS::StringView::setContents { contents_ } {
 	$itk_component(contents) configure -state $state
 }
 body DCS::StringView::getNewContents { } {
-	puts "StringView::getNewContents method was executed."
+	#puts "StringView::getNewContents method was executed."
 	return [$itk_component(contents) get 0.0 end]
 }
 #####################################################
@@ -1382,7 +1384,7 @@ class DCS::StringViewLabel {
 
 	constructor { args } {
 		itk_component add contents {
-			label $m_site.c -width 15 -height 1 -bg grey
+			label $m_site.c -width 15 -height 1 -bg grey -width 18 -font {{ＭＳ gothic} 8}
 		} {
 	} 
 	
@@ -1405,13 +1407,15 @@ class DCS::StringViewEntry {
 	inherit ::DCS::StringViewBase3
 	protected method setContents
 	protected method getNewContents
+	public method deleteAll
 
 	constructor { args } {
 		itk_component add contents {
-			entry $m_site.c -width 15 -bg white -textvariable ""
+			entry $m_site.c -width 15 -bg white -textvariable "" -width 18 -font {{ＭＳ gothic} 8}
 		} {
 		keep -textvariable
 		}
+	#bind $m_site.c <ButtonPress> "focus -force $m_site.c"
        pack $itk_component(contents) -fill both -padx 2
 		registerComponent $itk_component(contents)
 		eval itk_initialize $args
@@ -1419,15 +1423,23 @@ class DCS::StringViewEntry {
     }
 }
 body DCS::StringViewEntry::setContents { contents_ } {
+	#puts "setContents path is $itk_component(contents)"
 	set state [$itk_component(contents) cget -state]
+	#puts "setContents was called."
 	# Clear widget
 	$itk_component(contents) delete 0 end
 	$itk_component(contents) insert 0 $contents_
-	$itk_component(contents) configure -textvariable $contents_
+	#$itk_component(contents) configure -textvariable $contents_
 }
 body DCS::StringViewEntry::getNewContents { } {
-	puts "get Newgcon is  [$itk_component(contents) get]"
+	#puts "get Newgcon is  [$itk_component(contents) get]"
+	#puts "widgets path is $itk_component(contents)"
 	return [$itk_component(contents) get ]
+}
+
+body DCS::StringViewEntry::deleteAll { } {
+	$m_site.c delete 0 end
+	#puts "test"
 }
 
 
@@ -1602,9 +1614,9 @@ body DCS::StringDictView::showFields { } {
         eval grid forget $all
     }
 
-    puts "DictView showFields:"
-    puts "entryList: $m_entryList"
-    puts "chkbuttonList: $m_checkbuttonList"
+    #puts "DictView showFields:"
+    #puts "entryList: $m_entryList"
+    #puts "chkbuttonList: $m_checkbuttonList"
 
 
     set i 0
@@ -2805,7 +2817,7 @@ class DCS::AlignFrontEndConfigView {
         set UNITS_WIDTH 3
 
         set m_cntsNameString [::config getStr alignFrontEndConstantsNameList]
-        puts "namelist $m_cntsNameString"
+        #puts "namelist $m_cntsNameString"
 
         array set m_menubuttonIndex [list]
         if {[catch {
@@ -3354,7 +3366,7 @@ class DCS::SampleCameraParamView {
         set m_objOp [$deviceFactory createOperation calibrateSampleCamera]
 
         set mList [::config getStr sampleCameraConstantsNameList]
-        puts "mList: $mList"
+        #puts "mList: $mList"
         configure -fieldNameList $mList
         
         itk_component add start {
@@ -3566,7 +3578,7 @@ class DCS::AlignCollimatorConfigView {
         set UNITS_WIDTH 3
 
         set m_cntsNameString [::config getStr alignCollimatorConstantsNameList]
-        puts "namelist $m_cntsNameString"
+        #puts "namelist $m_cntsNameString"
 
         array set m_menubuttonIndex [list]
         if {[catch {
@@ -5110,7 +5122,7 @@ class DCS::RasteringNormalConfigView {
     } {
 
         set m_cntsNameString [::config getStr rastering.normalConstantNameList]
-        puts "namelist $m_cntsNameString"
+        #puts "namelist $m_cntsNameString"
 
         itk_component add loop_frame {
             iwidgets::Labeledframe $m_site.loopF \
@@ -6163,7 +6175,7 @@ body DCS::AlignTungstenConfigView::fillComponentList { } {
 ####### public method setDisplayLabel { name value }
 ####### public method setDisplayState { name state }
 class DCS::StringDisplayBase {
-	puts "this is StringDisplayBase class."
+	#puts "this is StringDisplayBase class."
 	public variable stringName ""
 
 	public method handleStringConfigure
@@ -6173,7 +6185,7 @@ class DCS::StringDisplayBase {
     ###derived classes need to implement following methods
 	protected method setContents { contents_ } {
        set name [lindex $m_labelList 0]
-	puts "m_host is $m_host, name is $name, contents_ is $contents_"
+	#puts "m_host is $m_host, name is $name, contents_ is $contents_"
        $m_host setDisplayLabel $name $contents_
    	}
 
@@ -6193,23 +6205,23 @@ class DCS::StringDisplayBase {
 	# call base class constructor
     ## updateCmd will be called as eval $updateCmd name value
 	constructor { host args } {
-	puts "this is contstructor of DisplayBaseClass."
+	#puts "this is contstructor of DisplayBaseClass."
         set m_host $host
 		eval configure $args
 	}
     destructor {
-	puts "this is destructor of StringDisplayBase class"
+	#puts "this is destructor of StringDisplayBase class"
         if {$_lastStringName != ""} {
 			#unregister
 			#::mediator unregister $this $_lastStringName contents
-			puts "_lastStringName Iis $_lastStringName"
+			#puts "_lastStringName Iis $_lastStringName"
 			$_lastStringName unregister $this contents handleStringConfigure
         }
     }
 }
 
 configbody DCS::StringDisplayBase::stringName {
-	puts "this is stringDistplayBase::stringName"
+	#puts "this is stringDistplayBase::stringName"
     if {$stringName != $_lastStringName} {
         if {$_lastStringName != ""} {
 			#unregister
@@ -6227,11 +6239,11 @@ configbody DCS::StringDisplayBase::stringName {
 
 
 body DCS::StringDisplayBase::handleStringConfigure { stringName_ targetReady_ alias_ contents_ - } {
-	puts "this is StringDisplayBase::handleStringConfigure"
+	#puts "this is StringDisplayBase::handleStringConfigure"
 	if { ! $targetReady_} return
 
 	setContents $contents_
-	puts "contents_ is $contents"
+	#puts "contents_ is $contents"
 }
 class DCS::StringDictDisplayBase {
 	inherit ::DCS::StringDisplayBase
@@ -6654,7 +6666,7 @@ class DCS::MicroSpecSystemBatchLevel2View {
     protected method setContents { contents_ } {
         set ll [llength $contents_]
 
-        puts "setContents ll=$ll"
+        #puts "setContents ll=$ll"
         adjustRows $ll
 
         clearAddField

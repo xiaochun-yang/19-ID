@@ -101,17 +101,31 @@ class DCS::PlotWinRAWCURR {
 
 	constructor { args } {}
 
-	destructor {}
+	destructor {
+		blt::vector destroy sa_a
+		blt::vector destroy sa_b
+		blt::vector destroy sa_c
+		blt::vector destroy sa_d
+		blt::vector destroy sa_sum
+	}
+
 }
 
 
 
 body DCS::PlotWinRAWCURR::constructor {args} {
-	toplevel .tpwRC
-	#label .tpwRC.l1 -text "ADC RAW Current display\n"
-	#pack .tpwRC.l1
 
+	toplevel .tpwRC
 	wm title .tpwRC "Current Plot"
+
+#wm protocol .tpwRC WM_DELETE_WINDOW {
+#    if {[tk_messageBox -message "Quit?" -type yesno] eq "yes"} {
+#       #exit
+#	#puts "close window."
+#	destroy .tpwRC
+#    }
+#}
+
 
 	set liberaNo [lindex $args 0]
 	set bpmNo [lindex $args 1]
@@ -139,6 +153,19 @@ body DCS::PlotWinRAWCURR::constructor {args} {
 	set chccurr 0
 	set chdcurr 0
 	set chsumcurr 0
+
+	#itk_component add debugfr {
+	#	DCS::LiberaStringViewLabel .tpwRC.f1.ldbg1 \
+	#		-systemIdleOnly 0 -activeClientOnly 0 -stringName $sa_a_mon_obj 
+	#	DCS::LiberaStringViewLabel .tpwRC.f1.ldbg2 \
+	#		-systemIdleOnly 0 -activeClientOnly 0 -stringName $sa_b_mon_obj
+	#	DCS::LiberaStringViewLabel .tpwRC.f1.ldbg3 \
+	#		-systemIdleOnly 0 -activeClientOnly 0 -stringName $sa_c_mon_obj
+	#	DCS::LiberaStringViewLabel .tpwRC.f1.ldbg4 \
+	#		-systemIdleOnly 0 -activeClientOnly 0 -stringName $sa_d_mon_obj
+	#	DCS::LiberaStringViewLabel .tpwRC.f1.ldbg5 \
+	#		-systemIdleOnly 0 -activeClientOnly 0 -stringName $sa_sum_mon_obj
+	#} {}
 
 	itk_component add f1v1 {
 		label .tpwRC.f1.l6 -text $chacurr -width 30 -bg gray} {keep -text} 
@@ -303,7 +330,8 @@ body DCS::PlotWinRAWCURR::constructor {args} {
 	::mediator register $this $sa_c_mon_obj contents DCS::PlotWinRAWCURR::handleVector3
 	::mediator register $this $sa_d_mon_obj contents DCS::PlotWinRAWCURR::handleVector4
 	::mediator register $this $sa_sum_mon_obj contents DCS::PlotWinRAWCURR::handleVector7
-
+	
+	#eval itk_initialize $args
 	announceExist
 }
 
@@ -398,8 +426,9 @@ body DCS::PlotWinRAWCURR::handleVector1 { stringName_ targetReady_ alias_ conten
 	#puts $stringName
 	set sa_a_mon_val [$sa_a_mon_obj getContents]
 	set env_range_mon_val [$env_range_mon_obj getContents]
+	#puts $contents_
 	#puts [expr {2*$sa_a_mon_val*(3.2768/pow(2,31))/(pow(10,(9-$env_range_mon_val)))*1000000}]
-	$itk_component(f1v1) configure -text [expr {2*$sa_a_mon_val*(3.2768/pow(2,31))/(pow(10,(9-$env_range_mon_val)))*1000000}]
+	.tpwRC.f1.l6 configure -text [format {%0.3g} [expr {2*$sa_a_mon_val*(3.2768/pow(2,31))/(pow(10,(9-$env_range_mon_val)))*1000000}]]
 	if { ! $targetReady_} return
 	if {[sa_a length] > 300} then {
 		sa_a delete 0
@@ -411,12 +440,13 @@ body DCS::PlotWinRAWCURR::handleVector1 { stringName_ targetReady_ alias_ conten
 	}
 }
 
+
 body DCS::PlotWinRAWCURR::handleVector2 { stringName_ targetReady_ alias_ contents_ - } {
 	#puts $stringName
 	set sa_b_mon_val [$sa_b_mon_obj getContents]
 	set env_range_mon_val [$env_range_mon_obj getContents]
 	#puts [expr {2*$sa_b_mon_val*(3.2768/pow(2,31))/(pow(10,(9-$env_range_mon_val)))*1000000}]
-	$itk_component(f1v2) configure -text [expr {2*$sa_b_mon_val*(3.2768/pow(2,31))/(pow(10,(9-$env_range_mon_val)))*1000000}]
+	.tpwRC.f1.l7 configure -text [format {%0.3g} [expr {2*$sa_b_mon_val*(3.2768/pow(2,31))/(pow(10,(9-$env_range_mon_val)))*1000000}]]
 	if { ! $targetReady_} return
 	if {[sa_b length] > 300} then {
 		sa_b delete 0
@@ -427,45 +457,50 @@ body DCS::PlotWinRAWCURR::handleVector2 { stringName_ targetReady_ alias_ conten
 		sa_b append [expr {2*$sa_b_mon_val*(3.2768/pow(2,31))/(pow(10,(9-$env_range_mon_val)))*1000000}]
 	}
 }
+
+
 body DCS::PlotWinRAWCURR::handleVector3 { stringName_ targetReady_ alias_ contents_ - } {
 	#puts $stringName
 	set sa_c_mon_val [$sa_c_mon_obj getContents]
 	set env_range_mon_val [$env_range_mon_obj getContents]
 	#puts [expr {2*$sa_c_mon_val*(3.2768/pow(2,31))/(pow(10,(9-$env_range_mon_val)))*1000000}]
-	$itk_component(f1v3) configure -text [expr {2*$sa_c_mon_val*(3.2768/pow(2,31))/(pow(10,(9-$env_range_mon_val)))*1000000}]
+	.tpwRC.f2.l8 configure -text [format {%0.3g} [expr {2*$sa_c_mon_val*(3.2768/pow(2,31))/(pow(10,(9-$env_range_mon_val)))*1000000}]]
 	if { ! $targetReady_} return
 	if {[sa_c length] > 300} then {
 		sa_c delete 0
 		#sa_c append $contents_
 		sa_c append [expr {2*$sa_c_mon_val*(3.2768/pow(2,31))/(pow(10,(9-$env_range_mon_val)))*1000000}]
 	} else {
-		sa_c append $contents_
+		#sa_c append $contents_
 		sa_c append [expr {2*$sa_c_mon_val*(3.2768/pow(2,31))/(pow(10,(9-$env_range_mon_val)))*1000000}]
 	}
 }
+
 
 body DCS::PlotWinRAWCURR::handleVector4 { stringName_ targetReady_ alias_ contents_ - } {
 	#puts $stringName
 	set sa_d_mon_val [$sa_d_mon_obj getContents]
 	set env_range_mon_val [$env_range_mon_obj getContents]
 	#puts [expr {2*$sa_d_mon_val*(3.2768/pow(2,31))/(pow(10,(9-$env_range_mon_val)))*1000000}]
-	$itk_component(f1v4) configure -text [expr {2*$sa_d_mon_val*(3.2768/pow(2,31))/(pow(10,(9-$env_range_mon_val)))*1000000}]
+	.tpwRC.f2.l9 configure -text [format {%0.3g} [expr {2*$sa_d_mon_val*(3.2768/pow(2,31))/(pow(10,(9-$env_range_mon_val)))*1000000}]]
 	if { ! $targetReady_} return
 	if {[sa_d length] > 300} then {
 		sa_d delete 0
 		#sa_d append $contents_
 		sa_d append [expr {2*$sa_d_mon_val*(3.2768/pow(2,31))/(pow(10,(9-$env_range_mon_val)))*1000000}]
 	} else {
-		sa_d append $contents_
+		#sa_d append $contents_
 		sa_d append [expr {2*$sa_d_mon_val*(3.2768/pow(2,31))/(pow(10,(9-$env_range_mon_val)))*1000000}]
 	}
 }
+
+
 body DCS::PlotWinRAWCURR::handleVector7 { stringName_ targetReady_ alias_ contents_ - } {
 	#puts $stringName
 	set sa_sum_mon_val [$sa_sum_mon_obj getContents]
 	set env_range_mon_val [$env_range_mon_obj getContents]
 	#puts [expr {2*$sa_sum_mon_val*(3.2768/pow(2,31))/(pow(10,(9-$env_range_mon_val)))*1000000}]
-	$itk_component(f1v5) configure -text [expr {2*$sa_sum_mon_val*(3.2768/pow(2,31))/(pow(10,(9-$env_range_mon_val)))*1000000}]
+	.tpwRC.f3.l10 configure -text [format {%0.3g} [expr {2*$sa_sum_mon_val*(3.2768/pow(2,31))/(pow(10,(9-$env_range_mon_val)))*1000000}]]
 	if { ! $targetReady_} return
 	if {[sa_sum length] > 300} then {
 		sa_sum delete 0
@@ -479,6 +514,7 @@ body DCS::PlotWinRAWCURR::handleVector7 { stringName_ targetReady_ alias_ conten
 
 
 body DCS::PlotWinRAWCURR::trigIGN {bw liberaNo bpmNo} {
+	# this method is for waveform data triger.
 	#puts "testtesttest"
 	#set deviceFactory [DCS::DeviceFactory::getObject]
 	#set adccw_ignore_trig_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_adccw_ignore_trig_mon]
@@ -495,4 +531,5 @@ body DCS::PlotWinRAWCURR::trigIGN {bw liberaNo bpmNo} {
 		$bw configure -text "TRIGGER-IGNORED"
 	}
 }
+
 

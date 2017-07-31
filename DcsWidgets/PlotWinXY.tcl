@@ -220,7 +220,7 @@ body DCS::PlotWinXY::handleVector5 { stringName_ targetReady_ alias_ contents_ -
 	set sa_x_mon_val [$sa_x_mon_obj getContents]
 	set sa_y_mon_val [$sa_y_mon_obj getContents]
 	set tcl_precision 3
-	$itk_component(radialposl) configure -text [expr {round(100*sqrt($sa_x_mon_val * $sa_x_mon_val + $sa_y_mon_val * $sa_y_mon_val))/100.0 }]
+	.tp0.graphf.f3.l2 configure -text [expr {round(100*sqrt($sa_x_mon_val * $sa_x_mon_val + $sa_y_mon_val * $sa_y_mon_val))/100.0 }]
 	if { ! $targetReady_} return
 	if {[sa_x length] > 300} then {
 		sa_x delete 0
@@ -235,7 +235,7 @@ body DCS::PlotWinXY::handleVector6 { stringName_ targetReady_ alias_ contents_ -
 	set sa_x_mon_val [$sa_x_mon_obj getContents]
 	set sa_y_mon_val [$sa_y_mon_obj getContents]
 	set tcl_precision 3
-	$itk_component(radialposl) configure -text [expr {round(100*sqrt($sa_x_mon_val * $sa_x_mon_val + $sa_y_mon_val * $sa_y_mon_val))/100.0 }]
+	.tp0.graphf.f3.l2 configure -text [expr {round(100*sqrt($sa_x_mon_val * $sa_x_mon_val + $sa_y_mon_val * $sa_y_mon_val))/100.0 }]
 	if { ! $targetReady_} return
 	if {[sa_y length] > 300} then {
 		sa_y delete 0

@@ -89,6 +89,17 @@ class DCS::LiberaDetailView {
 	protected variable env_offset1_sp_obj
 	protected variable env_offset2_sp_obj
 
+	# test variable scope
+	#public variable env_k1_mon_obj
+	#public variable env_k2_mon_obj
+	#public variable env_offset1_mon_obj
+	#public variable env_offset2_mon_obj
+
+	#public variable env_k1_sp_obj
+	#public variable env_k2_sp_obj
+	#public variable env_offset1_sp_obj
+	#public variable env_offset2_sp_obj
+
 	protected variable env_k1_mon_val
 	protected variable env_k2_mon_val
 	protected variable env_offset1_mon_val
@@ -388,8 +399,8 @@ body DCS::LiberaDetailView::constructor {args} {
 
 	### status tab setup (tab1)
 	itk_component add tab1flr {
-		frame $itk_interior.lff.tabsf.tab1.l -width 240
-		frame $itk_interior.lff.tabsf.tab1.r -width 240
+		frame $itk_interior.lff.tabsf.tab1.l -width 245
+		frame $itk_interior.lff.tabsf.tab1.r -width 245
 	}
 
 	itk_component add tab1f {
@@ -424,51 +435,51 @@ body DCS::LiberaDetailView::constructor {args} {
 
 	# Digital and Analog Board Voltage monitor
 	itk_component add tab1fl1 {
-		label $itk_interior.lff.tabsf.tab1.l.f1.l1 -text "1.500 V" -width 18
+		label $itk_interior.lff.tabsf.tab1.l.f1.l1 -text "1.500 V"
 		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab1.l.f1.l2 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_voltage0_mon_obj} {}
 	itk_component add tab1fl2 {
-		label $itk_interior.lff.tabsf.tab1.l.f1.l3 -text "1.800 V" -width 18
+		label $itk_interior.lff.tabsf.tab1.l.f1.l3 -text "1.800 V" -width 18 -font {{ＭＳ gothic} 8}
 		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab1.l.f1.l4 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_voltage1_mon_obj} {}
 	itk_component add tab1fl3 {
-		label $itk_interior.lff.tabsf.tab1.l.f1.l5 -text "2.500 V" -width 18
+		label $itk_interior.lff.tabsf.tab1.l.f1.l5 -text "2.500 V" -width 18 -font {{ＭＳ gothic} 8}
 		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab1.l.f1.l6 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_voltage2_mon_obj} {}
 	itk_component add tab1fl4 {
-		label $itk_interior.lff.tabsf.tab1.l.f1.l7 -text "3.300 V" -width 18
+		label $itk_interior.lff.tabsf.tab1.l.f1.l7 -text "3.300 V" -width 18 -font {{ＭＳ gothic} 8}
 		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab1.l.f1.l8 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_voltage3_mon_obj} {}
 	itk_component add tab1fl5 {
-		label $itk_interior.lff.tabsf.tab1.l.f1.l9 -text "5.000 V" -width 18
+		label $itk_interior.lff.tabsf.tab1.l.f1.l9 -text "5.000 V" -width 18 -font {{ＭＳ gothic} 8}
 		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab1.l.f1.l10 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_voltage4_mon_obj} {}
 	itk_component add tab1fl6 {
-		label $itk_interior.lff.tabsf.tab1.l.f1.l11 -text "12.000 V" -width 18
+		label $itk_interior.lff.tabsf.tab1.l.f1.l11 -text "12.000 V" -width 18 -font {{ＭＳ gothic} 8}
 		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab1.l.f1.l12 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_voltage5_mon_obj} {}
 	itk_component add tab1fl7 {
-		label $itk_interior.lff.tabsf.tab1.l.f1.l13 -text "-12.000 V" -width 18
+		label $itk_interior.lff.tabsf.tab1.l.f1.l13 -text "-12.000 V" -width 18 -font {{ＭＳ gothic} 8}
 		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab1.l.f1.l14 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_voltage6_mon_obj} {}
 	itk_component add tab1fl8 {
-		label $itk_interior.lff.tabsf.tab1.l.f1.l15 -text "-5.000 V" -width 18
+		label $itk_interior.lff.tabsf.tab1.l.f1.l15 -text "-5.000 V" -width 18 -font {{ＭＳ gothic} 8}
 		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab1.l.f1.l16 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_voltage7_mon_obj} {}
 
 	itk_component add tab1fl9 {
-		label $itk_interior.lff.tabsf.tab1.l.f2.l1 -text "1.250 V" -width 18
+		label $itk_interior.lff.tabsf.tab1.l.f2.l1 -text "1.250 V" -width 18 -font {{ＭＳ gothic} 8}
 		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab1.l.f2.l2 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_pbpp_1v25_mon_obj} {}
 	itk_component add tab1fl10 {
-		label $itk_interior.lff.tabsf.tab1.l.f2.l3 -text "2.500 V" -width 18
+		label $itk_interior.lff.tabsf.tab1.l.f2.l3 -text "2.500 V" -width 18 -font {{ＭＳ gothic} 8}
 		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab1.l.f2.l4 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_pbpp_2v5_neg_mon_obj} {}
 
 	itk_component add tab1fl15 {
-		label $itk_interior.lff.tabsf.tab1.l.f3.l1 -text "Op Mode" -width 18
+		label $itk_interior.lff.tabsf.tab1.l.f3.l1 -text "Op Mode" -width 18 -font {{ＭＳ gothic} 8}
 		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab1.l.f3.l2 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_opmode_mon_obj} {}
 	itk_component add tab1fl11 {
-		label $itk_interior.lff.tabsf.tab1.l.f3.l3 -text "Internal BIAS" -width 18
+		label $itk_interior.lff.tabsf.tab1.l.f3.l3 -text "Internal BIAS" -width 18 -font {{ＭＳ gothic} 8}
 		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab1.l.f3.l4 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_bias_int_mon_obj} {}
 	itk_component add tab1fl12 {
-		label $itk_interior.lff.tabsf.tab1.l.f3.l5 -text "BIAS Voltage" -width 18
+		label $itk_interior.lff.tabsf.tab1.l.f3.l5 -text "BIAS Voltage" -width 18 -font {{ＭＳ gothic} 8}
 		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab1.l.f3.l6 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_bias_voltage_mon_obj} {}
 	itk_component add tab1fl13 {
-		label $itk_interior.lff.tabsf.tab1.l.f3.l7 -text "BIAS Current" -width 18
+		label $itk_interior.lff.tabsf.tab1.l.f3.l7 -text "BIAS Current" -width 18 -font {{ＭＳ gothic} 8}
 		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab1.l.f3.l8 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_bias_current_mon_obj} {}
 	itk_component add tab1fl14 {
-		label $itk_interior.lff.tabsf.tab1.l.f3.l9 -text "BIAS Curr. Lim." -width 18
+		label $itk_interior.lff.tabsf.tab1.l.f3.l9 -text "BIAS Curr. Lim." -width 18 -font {{ＭＳ gothic} 8}
 		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab1.l.f3.l10 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_bias_cl_mon_obj} {}
 
 	#pack digital board voltages label
@@ -497,54 +508,54 @@ body DCS::LiberaDetailView::constructor {args} {
 
 	#signal status
 	itk_component add tab1fr1 {
-		label $itk_interior.lff.tabsf.tab1.r.f4.l1 -text "Range" -width 18
+		label $itk_interior.lff.tabsf.tab1.r.f4.l1 -text "Range" -width 18 -font {{ＭＳ gothic} 8}
 		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab1.r.f4.l2 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_range_mon_obj} {}
 	itk_component add tab1fr2 {
-		label $itk_interior.lff.tabsf.tab1.r.f4.l3 -text "MAX ADC" -width 18
+		label $itk_interior.lff.tabsf.tab1.r.f4.l3 -text "MAX ADC" -width 18 -font {{ＭＳ gothic} 8}
 		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab1.r.f4.l4 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_max_adc_mon_obj} {}
 	itk_component add tab1fr3 {
-		label $itk_interior.lff.tabsf.tab1.r.f4.l5 -text "ARC" -width 18
+		label $itk_interior.lff.tabsf.tab1.r.f4.l5 -text "ARC" -width 18 -font {{ＭＳ gothic} 8}
 		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab1.r.f4.l6 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_arc_mon_obj} {}
 	itk_component add tab1fr4 {
-		label $itk_interior.lff.tabsf.tab1.r.f4.l7 -text "Calib" -width 18
+		label $itk_interior.lff.tabsf.tab1.r.f4.l7 -text "Calib" -width 18 -font {{ＭＳ gothic} 8}
 		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab1.r.f4.l8 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_calib_mon_obj} {}
 	itk_component add tab1fr5 {
-		label $itk_interior.lff.tabsf.tab1.r.f4.l9 -text "ID gap" -width 18
+		label $itk_interior.lff.tabsf.tab1.r.f4.l9 -text "ID gap" -width 18 -font {{ＭＳ gothic} 8}
 		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab1.r.f4.l10 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_idgap_mon_obj} {}
 	itk_component add tab1fr6 {
-		label $itk_interior.lff.tabsf.tab1.r.f4.l11 -text "PosAlg" -width 18
+		label $itk_interior.lff.tabsf.tab1.r.f4.l11 -text "PosAlg" -width 18 -font {{ＭＳ gothic} 8}
 		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab1.r.f4.l12 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_posalg_mon_obj} {}
 	#PLL status
 	itk_component add tab1fr7 {
-		label $itk_interior.lff.tabsf.tab1.r.f5.l1 -text "MC PLL" -width 18
+		label $itk_interior.lff.tabsf.tab1.r.f5.l1 -text "MC PLL" -width 18 -font {{ＭＳ gothic} 8}
 		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab1.r.f5.l2 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_pll_mtlckst_mon_obj} {}
 	itk_component add tab1fr8 {
-		label $itk_interior.lff.tabsf.tab1.r.f5.l3 -text "SC PLL" -width 18
+		label $itk_interior.lff.tabsf.tab1.r.f5.l3 -text "SC PLL" -width 18 -font {{ＭＳ gothic} 8}
 		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab1.r.f5.l4 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_pll_stlckst_mon_obj} {}
 
 	#ILK
 	itk_component add tab1fr9 {
-		label $itk_interior.lff.tabsf.tab1.r.f6.l1 -text "ILK code" -width 18
+		label $itk_interior.lff.tabsf.tab1.r.f6.l1 -text "ILK code" -width 18 -font {{ＭＳ gothic} 8}
 		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab1.r.f6.l2 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_ilk_status_mon_obj} {}
 
 	#Fands
 	itk_component add tab1fr10 {
-		label $itk_interior.lff.tabsf.tab1.r.f7.l1 -text "Front" -width 18
+		label $itk_interior.lff.tabsf.tab1.r.f7.l1 -text "Front" -width 18 -font {{ＭＳ gothic} 8}
 		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab1.r.f7.l2 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_front_vent_act_mon_obj} {}
 	itk_component add tab1fr11 {
-		label $itk_interior.lff.tabsf.tab1.r.f7.l3 -text "Back" -width 18
+		label $itk_interior.lff.tabsf.tab1.r.f7.l3 -text "Back" -width 18 -font {{ＭＳ gothic} 8}
 		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab1.r.f7.l4 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_back_vent_act_mon_obj} {}
 
 
 	#Temperature
 	itk_component add tab1fr12 {
-		label $itk_interior.lff.tabsf.tab1.r.f8.l1 -text "Front" -width 18
+		label $itk_interior.lff.tabsf.tab1.r.f8.l1 -text "Front" -width 18 -font {{ＭＳ gothic} 8}
 		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab1.r.f8.l2 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_temp_mon_obj} {}
 	itk_component add tab1fr13 {
-		label $itk_interior.lff.tabsf.tab1.r.f8.l3 -text "Inner " -width 18
+		label $itk_interior.lff.tabsf.tab1.r.f8.l3 -text "Inner " -width 18 -font {{ＭＳ gothic} 8}
 		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab1.r.f8.l4 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_temp_inner_mon_obj} {}
 	itk_component add tab1fr14 {
-		label $itk_interior.lff.tabsf.tab1.r.f8.l5 -text "Outer " -width 18
+		label $itk_interior.lff.tabsf.tab1.r.f8.l5 -text "Outer " -width 18 -font {{ＭＳ gothic} 8}
 		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab1.r.f8.l6 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_temp_outer_mon_obj} {}
 
 	#pack signalinfo 
@@ -578,7 +589,7 @@ body DCS::LiberaDetailView::constructor {args} {
 	pack $itk_interior.lff.tabsf.tab1.r.f4 $itk_interior.lff.tabsf.tab1.r.f5 $itk_interior.lff.tabsf.tab1.r.f6 \
 			 $itk_interior.lff.tabsf.tab1.r.f7 $itk_interior.lff.tabsf.tab1.r.f8 -pady 3 -padx 5 -fill both
 
-	pack $itk_interior.lff.tabsf.tab1.l $itk_interior.lff.tabsf.tab1.r -side left -padx 5
+	pack $itk_interior.lff.tabsf.tab1.l $itk_interior.lff.tabsf.tab1.r -side left 
 	#pack $itk_interior.lff.tabsf.tab1
 	
 	
@@ -611,8 +622,8 @@ body DCS::LiberaDetailView::constructor {args} {
 
 	#internal calib button EMV_BIAS_
 	itk_component add intrcalib {
-		label $itk_interior.lff.tabsf.tab3.f1.title -text "Internal Calibration\n" -width 30
-		label $itk_interior.lff.tabsf.tab3.f1.l1 -text "Select and wait for finish" -width 34 -anchor w -padx 5
+		label $itk_interior.lff.tabsf.tab3.f1.title -text "Internal Calibration\n" -width 30 -font {{ＭＳ gothic} 8}
+		label $itk_interior.lff.tabsf.tab3.f1.l1 -text "Select and wait for finish" -width 34 -anchor w -padx 5 -font {{ＭＳ gothic} 8}
 
 	}
 	itk_component add intrcalibcomb {
@@ -629,19 +640,19 @@ body DCS::LiberaDetailView::constructor {args} {
 
 	#Bias control mode 0:IDLE mode, 1: GND mode, 2:InternalBIAS mode
 	itk_component add biascont {
-		label $itk_interior.lff.tabsf.tab3.f2.l1 -text "Bias Operating mode" -width 57 -anchor w -padx 5
+		label $itk_interior.lff.tabsf.tab3.f2.l1 -text "Bias Operating mode" -width 57 -anchor w -padx 5 -font {{ＭＳ gothic} 8}
 		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab3.f2.l2 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_opmode_mon_obj} {}
 
 	# status of internal BIAS voltage environment variable
 	itk_component add biasvolt {
-		label $itk_interior.lff.tabsf.tab3.f3.l1 -text "BIAS Voltabge \[V\]" -width 20 -anchor w -padx 5
+		label $itk_interior.lff.tabsf.tab3.f3.l1 -text "BIAS Voltabge \[V\]" -width 20 -anchor w -padx 5 -font {{ＭＳ gothic} 8}
 		DCS::LiberaStringViewEntry $itk_interior.lff.tabsf.tab3.f3.e1 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_bias_int_sp_obj} {keep -textvariable}
 	itk_component add biasvoltrb {
 		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab3.f3.l2 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_bias_int_mon_obj} {}
 
 	# status of BIAS current limit enviroment variable
 	itk_component add biascurr {
-		label $itk_interior.lff.tabsf.tab3.f4.l1 -text "BIAS Current limit" -width 20 -anchor w -padx 5
+		label $itk_interior.lff.tabsf.tab3.f4.l1 -text "BIAS Current limit" -width 20 -anchor w -padx 5 -font {{ＭＳ gothic} 8}
 		DCS::LiberaStringViewEntry $itk_interior.lff.tabsf.tab3.f4.e1 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_bias_cl_sp_obj} {keep -textvariable}
 	itk_component add biascurrrb {
 		DCS::LiberaStringViewLabel $itk_interior.lff.tabsf.tab3.f4.l2 -systemIdleOnly 0 -activeClientOnly 0 -stringName $env_bias_cl_mon_obj} {}
@@ -669,11 +680,11 @@ body DCS::LiberaDetailView::constructor {args} {
 
 	# measuring range control
 	itk_component add meascont {
-		label $itk_interior.lff.tabsf.tab4.f1.l1 -text "Measuring range control" -width 20 -anchor w -padx 5
-		label $itk_interior.lff.tabsf.tab4.f2.l1 -text "Range mode      " -width 20 -anchor w -padx 5
-		label $itk_interior.lff.tabsf.tab4.f3.l1 -text "Mearsuing Range " -width 20 -anchor w -padx 5
-		label $itk_interior.lff.tabsf.tab4.f4.l1 -text "MAX ADC         " -width 43 -anchor w -padx 5
-		label $itk_interior.lff.tabsf.tab4.f5.l1 -text "Position Algorithm " -width 20 -anchor w -padx 5
+		label $itk_interior.lff.tabsf.tab4.f1.l1 -text "Measuring range control" -width 20 -anchor w -padx 5 -font {{ＭＳ gothic} 8}
+		label $itk_interior.lff.tabsf.tab4.f2.l1 -text "Range mode      " -width 20 -anchor w -padx 5 -font {{ＭＳ gothic} 8}
+		label $itk_interior.lff.tabsf.tab4.f3.l1 -text "Mearsuing Range " -width 20 -anchor w -padx 5 -font {{ＭＳ gothic} 8}
+		label $itk_interior.lff.tabsf.tab4.f4.l1 -text "MAX ADC         " -width 43 -anchor w -padx 5 -font {{ＭＳ gothic} 8}
+		label $itk_interior.lff.tabsf.tab4.f5.l1 -text "Position Algorithm " -width 20 -anchor w -padx 5 -font {{ＭＳ gothic} 8}
 		label $itk_interior.lff.tabsf.tab4.f6.l1 -text   "___________________________________________________ \n \
 									 0 ...  behind insertion device\n \
 										X = k1((Ia+Id) - (Ib + Ic))/SUM - OFF1 \n \
@@ -760,11 +771,11 @@ body DCS::LiberaDetailView::constructor {args} {
 	}
 
 	itk_component add tab5fl1 {
-		label $itk_interior.lff.tabsf.tab5.f1.titlel -text "General geometry factors"
-        	label $itk_interior.lff.tabsf.tab5.f1.l1 -text "k1 \[nm\]" -width 15
-		label $itk_interior.lff.tabsf.tab5.f2.l1 -text "k2 \[nm\]" -width 15
-		label $itk_interior.lff.tabsf.tab5.f3.l1 -text "Offset1 \[nm\]" -width 15
-		label $itk_interior.lff.tabsf.tab5.f4.l1 -text "Offset2 \[nm\]" -width 15
+		label $itk_interior.lff.tabsf.tab5.f1.titlel -text "General geometry factors" -font {{ＭＳ gothic} 8}
+        	label $itk_interior.lff.tabsf.tab5.f1.l1 -text "k1 \[nm\]" -width 15 -font {{ＭＳ gothic} 8}
+		label $itk_interior.lff.tabsf.tab5.f2.l1 -text "k2 \[nm\]" -width 15 -font {{ＭＳ gothic} 8}
+		label $itk_interior.lff.tabsf.tab5.f3.l1 -text "Offset1 \[nm\]" -width 15 -font {{ＭＳ gothic} 8}
+		label $itk_interior.lff.tabsf.tab5.f4.l1 -text "Offset2 \[nm\]" -width 15 -font {{ＭＳ gothic} 8}
 	} { }
 	### widget for setpoint
 	itk_component add tab5fe1 {
@@ -805,16 +816,16 @@ body DCS::LiberaDetailView::constructor {args} {
 	} {}
 
 	itk_component add tab5calibl {
-		label $itk_interior.lff.tabsf.tab5.f5.titlel -text "Channel related factors"
-        	label $itk_interior.lff.tabsf.tab5.f5.l1 -text "KI_0" -width 15
-		label $itk_interior.lff.tabsf.tab5.f6.l1 -text "KI_1" -width 15
-		label $itk_interior.lff.tabsf.tab5.f7.l1 -text "KI_2" -width 15
-		label $itk_interior.lff.tabsf.tab5.f8.l1 -text "KI_3" -width 15
+		label $itk_interior.lff.tabsf.tab5.f5.titlel -text "Channel related factors" -font {{ＭＳ gothic} 8}
+        	label $itk_interior.lff.tabsf.tab5.f5.l1 -text "KI_0" -width 15 -font {{ＭＳ gothic} 8}
+		label $itk_interior.lff.tabsf.tab5.f6.l1 -text "KI_1" -width 15 -font {{ＭＳ gothic} 8}
+		label $itk_interior.lff.tabsf.tab5.f7.l1 -text "KI_2" -width 15 -font {{ＭＳ gothic} 8}
+		label $itk_interior.lff.tabsf.tab5.f8.l1 -text "KI_3" -width 15 -font {{ＭＳ gothic} 8}
 
-        	label $itk_interior.lff.tabsf.tab5.f9.l1 -text "IOFFSET_0" -width 15
-		label $itk_interior.lff.tabsf.tab5.f10.l1 -text "IOFFSET_1" -width 15
-		label $itk_interior.lff.tabsf.tab5.f11.l1 -text "IOFFSET_2" -width 15
-		label $itk_interior.lff.tabsf.tab5.f12.l1 -text "IOFFSET_3" -width 15
+        	label $itk_interior.lff.tabsf.tab5.f9.l1 -text "IOFFSET_0" -width 15 -font {{ＭＳ gothic} 8}
+		label $itk_interior.lff.tabsf.tab5.f10.l1 -text "IOFFSET_1" -width 15 -font {{ＭＳ gothic} 8}
+		label $itk_interior.lff.tabsf.tab5.f11.l1 -text "IOFFSET_2" -width 15 -font {{ＭＳ gothic} 8}
+		label $itk_interior.lff.tabsf.tab5.f12.l1 -text "IOFFSET_3" -width 15 -font {{ＭＳ gothic} 8}
 	} { }
 	### widget for setpoint
 	itk_component add tab5calibfe1 {
@@ -880,11 +891,11 @@ body DCS::LiberaDetailView::constructor {args} {
 	} {}
 
 	itk_component add tab5leakll {
-		label $itk_interior.lff.tabsf.tab6.f13.titlel -text "Leakage current compensation \(in pA\)"
-        	label $itk_interior.lff.tabsf.tab6.f13.l1 -text "Ch. A " -width 15
-		label $itk_interior.lff.tabsf.tab6.f14.l1 -text "Ch. B" -width 15
-		label $itk_interior.lff.tabsf.tab6.f15.l1 -text "Ch. C" -width 15
-		label $itk_interior.lff.tabsf.tab6.f16.l1 -text "Ch. D" -width 15	
+		label $itk_interior.lff.tabsf.tab6.f13.titlel -text "Leakage current compensation \(in pA\)" -font {{ＭＳ gothic} 8}
+        	label $itk_interior.lff.tabsf.tab6.f13.l1 -text "Ch. A " -width 15 -font {{ＭＳ gothic} 8}
+		label $itk_interior.lff.tabsf.tab6.f14.l1 -text "Ch. B" -width 15 -font {{ＭＳ gothic} 8}
+		label $itk_interior.lff.tabsf.tab6.f15.l1 -text "Ch. C" -width 15 -font {{ＭＳ gothic} 8}
+		label $itk_interior.lff.tabsf.tab6.f16.l1 -text "Ch. D" -width 15 -font {{ＭＳ gothic} 8}
 	} {}
 
 	### widget for setpoint
@@ -950,9 +961,10 @@ body DCS::LiberaDetailView::constructor {args} {
 	itk_component add  graphf3 {
 		frame $itk_interior.graphf.f3 -bd 1 -relief solid
 	}
-
+	
+	# Not used.
 	itk_component add readoutlabel {
-		label $itk_interior.graphf.f1.label -text "Data readout" 
+		label $itk_interior.graphf.f1.label -text "Data readout" -font {{ＭＳ gothic} 8}
 	}
 
 	itk_component add readbutton {
@@ -967,6 +979,8 @@ body DCS::LiberaDetailView::constructor {args} {
 		button $itk_interior.graphf.f1.b4 -text "Save data" -command [code $this DCS::LiberaDetailView::saveIntoFile]
 	} {}
 
+
+	### setup plot window launch button.
 	itk_component add open_window_rawneum {
 		button $itk_interior.graphf.f1.pb1 -text "ADC Data Plot(4 Ch.)" -height 5 -command [code $this openChildWin plotWinRAWNUME $liberaNo $bpmNo]
 	} {}
@@ -1051,7 +1065,7 @@ body DCS::LiberaDetailView::updatepv {} {
 
 set liberaNo [$itk_interior.lff.devicef.f1.d1 current]
 set bpmNo [$itk_interior.lff.devicef.f2.d2 current]
-#puts ${liberaNo}_${bpmNo}_sa_a_mon
+puts ${liberaNo}_${bpmNo}_sa_a_mon
 	set deviceFactory [DCS::DeviceFactory::getObject]
 	#puts $deviceFactory
 	#if { $pvupdatecounter > 0 } {puts "test"}
@@ -1304,9 +1318,35 @@ $itk_interior.lff.tabsf.tab6.f13.l2 configure -stringName $env_leakage_0_mon_obj
 $itk_interior.lff.tabsf.tab6.f14.l2 configure -stringName $env_leakage_1_mon_obj
 $itk_interior.lff.tabsf.tab6.f15.l2 configure -stringName $env_leakage_2_mon_obj
 $itk_interior.lff.tabsf.tab6.f16.l2 configure -stringName $env_leakage_3_mon_obj
+
+# clear the entry widgets value <- this cause entry widget linkage error.
+$itk_interior.lff.tabsf.tab3.f1.e1 deleteAll
+$itk_interior.lff.tabsf.tab3.f3.e1 deleteAll
+$itk_interior.lff.tabsf.tab3.f4.e1 deleteAll
+
+$itk_interior.lff.tabsf.tab4.f3.e1 deleteAll
+$itk_interior.lff.tabsf.tab4.f5.e1 deleteAll
+
+$itk_interior.lff.tabsf.tab5.f1.e1 deleteAll
+$itk_interior.lff.tabsf.tab5.f2.e1 deleteAll
+$itk_interior.lff.tabsf.tab5.f3.e1 deleteAll
+$itk_interior.lff.tabsf.tab5.f4.e1 deleteAll
+
+$itk_interior.lff.tabsf.tab5.f5.e1 deleteAll
+$itk_interior.lff.tabsf.tab5.f6.e1 deleteAll
+$itk_interior.lff.tabsf.tab5.f7.e1 deleteAll
+$itk_interior.lff.tabsf.tab5.f8.e1 deleteAll
+$itk_interior.lff.tabsf.tab5.f9.e1 deleteAll
+$itk_interior.lff.tabsf.tab5.f10.e1 deleteAll
+$itk_interior.lff.tabsf.tab5.f11.e1 deleteAll
+$itk_interior.lff.tabsf.tab5.f12.e1 deleteAll
+
+$itk_interior.lff.tabsf.tab6.f13.e1 deleteAll
+$itk_interior.lff.tabsf.tab6.f14.e1 deleteAll
+$itk_interior.lff.tabsf.tab6.f15.e1 deleteAll
+$itk_interior.lff.tabsf.tab6.f16.e1 deleteAll
 	}
 	set pvupdatecounter 1
-
 }
 
 body DCS::LiberaDetailView::saveIntoFile {} {
@@ -1392,7 +1432,8 @@ set bpmNo [$itk_interior.lff.devicef.f2.d2 current]
 		if {$name == "plotWinXY"} {
 			DCS::PlotWinXY $parentname.plotWinXY#auto $liberaNo $bpmNo
 		} elseif { $name == "plotWinRAWCURR" } {
-			DCS::PlotWinRAWCURR $parentname.plotwinRAWCURR#auto $liberaNo $bpmNo
+			#DCS::PlotWinRAWCURR $parentname.plotWinRAWCURR#auto $liberaNo $bpmNo
+			DCS::PlotWinRAWCURR .plotWinRAWCURR#auto $liberaNo $bpmNo
 		} else {
 			DCS::PlotWinRAWNUME $parentname.plotWinRAWNUME#auto $liberaNo $bpmNo
 		}
@@ -1424,7 +1465,7 @@ set bpmNo [$itk_interior.lff.devicef.f2.d2 current]
 	#pack $itk_component($name) -expand 1 -fill both
 }
 
-
+### following methodes are not used yet.
 
 body DCS::LiberaDetailView::openToolChest { name liberaNo bpmNo} {
 	#store the current pointer shape and set it to a watch/clock to show the system is busy
