@@ -125,8 +125,6 @@ package require L614SpecialWidgets
 package require BLUICEMotorLockView
 package require BLUICEEnergyList
 package require BLUICECollimatorMotorView
-package require BLUICEWBControl
-
 
 class SetupTab {
 	inherit ::itk::Widget
@@ -409,14 +407,6 @@ body SetupTab::addViews {} {
 
              set widget_name $view
              set widget_class DCS::TableWidget
-         }
-         wbcontrol {
-            $itk_component(selectView) add command \
-               -label "wbcontrol Control"	\
-               -command [list $this openToolChest wbcontrol]
-
-             set widget_name $view
-             set widget_class DCS::WBControlWidget
          }
 	 myTestWidget {
              $itk_component(selectView) add command \
@@ -1223,20 +1213,6 @@ body SetupTab::launchWidget { name  } {
 			
 			itk_component add $name {
             DCS::TableWidget $path.$name -mdiHelper $this
-         } {
-			}      
-
-			pack $itk_component($name)
-			pack $path
-		}
-
-		wbcontrol {
-			if [checkAndActivateExistingDocument wbcontrol] return
-
-			set path [$itk_component(Mdi) addDocument $name -title "Wbcontrol"]
-			
-			itk_component add $name {
-            DCS::WBControlWidget $path.$name -mdiHelper $this
          } {
 			}      
 

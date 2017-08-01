@@ -21,6 +21,7 @@ package ifneeded BLUICEHutchOverviewBL12-2 1.0 [list source [file join $dir Hutc
 package ifneeded BLUICEVideoNotebook 1.0  [list source [file join $dir BeamlineVideo.tcl]]
 package ifneeded BLUICESamplePosition 1.0  [list source [file join $dir SamplePositionWidget.tcl]]
 package ifneeded BLUICETable 1.0  [list source [file join $dir TableView.tcl]]
+package ifneeded BLUICEWBControl 1.0  [list source [file join $dir WBControlView.tcl]]
 package ifneeded BLUICESlit0View 1.0  [list source [file join $dir Slit0View.tcl]]
 package ifneeded BLUICEFrontEndSlitsView 1.0  [list source [file join $dir FrontEndSlitsView.tcl]]
 package ifneeded BLUICEMonoView 1.0  [list source [file join $dir MonoView.tcl]]
