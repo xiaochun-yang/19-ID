@@ -39,7 +39,7 @@ class DCS::WBControlWidget {
 
         constructor { args} {
 
-                place $itk_component(control) -x 230 -y 275
+                place $itk_component(control) -x 150 -y 275
 
                 # construct the table widgets
                 motorView white_beam_filter_1 125  90 sw
