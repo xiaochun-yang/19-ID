@@ -3,21 +3,35 @@
 //
 #AUTO
 MO
-MT-2.5,-2.5,-2,-2.5,-2,-2.5,-2,1
+MT2,2,2.5,2,2.5,2,2.5,1
 LC1,1,1,1,1,1,1,1
 AG0,0,0,0,0,0,0,0
-CEH=5
-ITime=1000
+ITime=100
+OTime=100
 CN1
 SH
 auto=1
 EN
-#ECOUNTS
-Finish=0
-DEH=0
+#ECounts
+CE~a=5
+Finished=0
+DE~a=0
 WT ITime
-Counts = _TDH
-Finish = 1
+Counts = _TD~a
+Finished = 1
+EN
+#IONOUT
+IONVAL=0
+Finished=0
+CNT=5
+#ANALOOP
+AT 0
+AT OTime/5
+IONVAL =IONVAL+@AN[~a]
+CNT=CNT-1
+JP #ANALOOP, (CNT>0)
+IONVAL=IONVAL/5
+Finished = 1
 EN
 #HOMSLIT
 //'SET TIMEOUT TO 22 SECONDS

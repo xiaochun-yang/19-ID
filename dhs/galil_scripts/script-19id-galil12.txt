@@ -3,13 +3,25 @@
 //USING EXTERNAL AMPLIFIER
 // WATCHDOG ROUTINE
 #AUTO
+MO
 MT2,2,2,2
 CN1
 AQ 1,4
 AQ 2,4
 AQ 3,4
 AQ 4,4
+CE,,,,5,5,5,5
 OTime=100
+ITime=1000
+SH
+EN
+#ECounts
+CE~a=5
+Finished=0
+DE~a=0
+WT ITime
+Counts = _TD~a
+Finished = 1
 EN
 #IONOUT
 IONVAL=0
