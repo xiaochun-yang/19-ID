@@ -230,6 +230,10 @@ class DCS::LiberaDetailView {
 	# variable to open child widget
 	private variable _widgetCount
 
+	# plot window existance flag
+	protected variable plotwinrawnumeexist 0
+	protected variable plotwinrawcurrexist 0
+	protected variable plotwinxyexist 0
 	
 	#######################################################################
 	#  methods
@@ -1065,7 +1069,7 @@ body DCS::LiberaDetailView::updatepv {} {
 
 set liberaNo [$itk_interior.lff.devicef.f1.d1 current]
 set bpmNo [$itk_interior.lff.devicef.f2.d2 current]
-puts ${liberaNo}_${bpmNo}_sa_a_mon
+#puts ${liberaNo}_${bpmNo}_sa_a_mon
 	set deviceFactory [DCS::DeviceFactory::getObject]
 	#puts $deviceFactory
 	#if { $pvupdatecounter > 0 } {puts "test"}
@@ -1430,12 +1434,39 @@ set bpmNo [$itk_interior.lff.devicef.f2.d2 current]
 	#	#if {![winfo exists $parentname.plotwinXY]} { }
 
 		if {$name == "plotWinXY"} {
-			DCS::PlotWinXY $parentname.plotWinXY#auto $liberaNo $bpmNo
+			if {$plotwinxyexist == 1} {
+				delete object $parentname.plotWinXY0
+				DCS::PlotWinXY $parentname.plotWinXY0 $liberaNo $bpmNo
+				set plotwinxyexist 1
+				#puts $plotwinxyexist
+			} else {
+				DCS::PlotWinXY $parentname.plotWinXY0 $liberaNo $bpmNo
+				#puts [DCS::PlotWinXY::$parentname.plotWinXY0 whoami]
+				set plotwinxyexist 1
+				#puts $plotwinxyexist
+			}
 		} elseif { $name == "plotWinRAWCURR" } {
-			#DCS::PlotWinRAWCURR $parentname.plotWinRAWCURR#auto $liberaNo $bpmNo
-			DCS::PlotWinRAWCURR .plotWinRAWCURR#auto $liberaNo $bpmNo
+			if {$plotwinrawcurrexist == 1} {
+				delete object $parentname.plotWinRAWCURR0
+				DCS::PlotWinRAWCURR $parentname.plotWinRAWCURR0 $liberaNo $bpmNo
+				#DCS::PlotWinRAWCURR .plotWinRAWCURR#auto $liberaNo $bpmNo
+				set plotwinrawcurrexist 1
+			} else {
+				DCS::PlotWinRAWCURR $parentname.plotWinRAWCURR0 $liberaNo $bpmNo
+				set plotwinrawcurrexist 1
+			}
 		} else {
-			DCS::PlotWinRAWNUME $parentname.plotWinRAWNUME#auto $liberaNo $bpmNo
+			if {$plotwinrawnumeexist == 1} {
+				delete object $parentname.plotWinRAWNUME0
+				DCS::PlotWinRAWNUME $parentname.plotWinRAWNUME0 $liberaNo $bpmNo
+				set plotwinrawnumeexist 1
+				#puts $plotwinrawnumeexist
+			} else {
+
+				DCS::PlotWinRAWNUME $parentname.plotWinRAWNUME0 $liberaNo $bpmNo
+				#puts [DCS::PlotWinXY::$parentname.plotWinXY0 whoami]
+				set plotwinrawnumeexist 1
+				#puts $plotwinrawnumeexist			}
 		}
 		
 		

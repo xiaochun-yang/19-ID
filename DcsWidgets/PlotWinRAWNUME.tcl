@@ -75,6 +75,8 @@ class DCS::PlotWinRAWNUME {
 	public method handleVector4
 	public method handleVector7
 
+	public method unregisterall
+
 	### set proc
 	proc range args {
 		foreach {start stop step} [switch -exact -- [llength $args] {
@@ -94,7 +96,14 @@ class DCS::PlotWinRAWNUME {
 
 	constructor { args } {}
 
-	destructor {}
+	destructor {
+		#puts "PlotWinRAWNUME destructor was called"
+		::mediator unregister $this $sa_a_mon_obj contents
+		::mediator unregister $this $sa_b_mon_obj contents
+		::mediator unregister $this $sa_c_mon_obj contents
+		::mediator unregister $this $sa_d_mon_obj contents
+		::mediator unregister $this $sa_sum_mon_obj contents
+	}
 }
 
 
@@ -305,6 +314,7 @@ body DCS::PlotWinRAWNUME::constructor { args } {
 	::mediator register $this $sa_c_mon_obj contents DCS::PlotWinRAWNUME::handleVector3
 	::mediator register $this $sa_d_mon_obj contents DCS::PlotWinRAWNUME::handleVector4
 	::mediator register $this $sa_sum_mon_obj contents DCS::PlotWinRAWNUME::handleVector7
+	
 
 	announceExist
 
@@ -460,5 +470,11 @@ body DCS::PlotWinRAWNUME::trigIGN {bw liberaNo bpmNo} {
 		$adccw_ignore_trig_sp_obj sendContentsToServer 1
 		$bw configure -text "TRIGGER-IGNORED"
 	}
+}
+
+body DCS::PlotWinRAWNUME::unregisterall {} {
+		puts "unregisterall"		
+		#::mediator unregister $this $sa_a_mon_obj contents DCS::PlotWinRAWNUME::handleVector1
+	
 }
 

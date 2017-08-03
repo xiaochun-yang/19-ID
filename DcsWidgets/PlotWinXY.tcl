@@ -71,7 +71,11 @@ class DCS::PlotWinXY {
 
 	constructor { args } {}
 
-	destructor {}
+	destructor {
+		#puts "PlotWinXY destructor called"
+		mediator unregister $this $sa_x_mon_obj contents
+		mediator unregister $this $sa_y_mon_obj contents
+	}
 }
 
 body DCS::PlotWinXY::constructor {args} {
@@ -87,6 +91,8 @@ body DCS::PlotWinXY::constructor {args} {
 	pack .tp0.l1
 
 	wm title .tp0 "Position Plot"
+
+puts $this
 
 	# Setup discriptive values
 	itk_component add discf {

@@ -102,11 +102,12 @@ class DCS::PlotWinRAWCURR {
 	constructor { args } {}
 
 	destructor {
-		blt::vector destroy sa_a
-		blt::vector destroy sa_b
-		blt::vector destroy sa_c
-		blt::vector destroy sa_d
-		blt::vector destroy sa_sum
+		#puts "PlotWinRAWCURR destructor was called."
+		::mediator unregister $this $sa_a_mon_obj contents
+		::mediator unregister $this $sa_b_mon_obj contents
+		::mediator unregister $this $sa_c_mon_obj contents
+		::mediator unregister $this $sa_d_mon_obj contents
+		::mediator unregister $this $sa_sum_mon_obj contents
 	}
 
 }
