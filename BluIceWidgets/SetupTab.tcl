@@ -126,6 +126,7 @@ package require BLUICEMotorLockView
 package require BLUICEEnergyList
 package require BLUICECollimatorMotorView
 package require BLUICEWBControl
+package require BLUICEGonioMotions
 
 
 class SetupTab {
@@ -417,6 +418,14 @@ body SetupTab::addViews {} {
 
              set widget_name $view
              set widget_class DCS::WBControlWidget
+         }
+         goniomotions {
+            $itk_component(selectView) add command \
+               -label "Gonio Motions"	\
+               -command [list $this openToolChest goniomotions]
+
+             set widget_name $view
+             set widget_class DCS::GonioMotionsWidget
          }
 	 myTestWidget {
              $itk_component(selectView) add command \
@@ -1237,6 +1246,20 @@ body SetupTab::launchWidget { name  } {
 			
 			itk_component add $name {
             DCS::WBControlWidget $path.$name -mdiHelper $this
+         } {
+			}      
+
+			pack $itk_component($name)
+			pack $path
+		}
+
+		goniomotions {
+			if [checkAndActivateExistingDocument goniomotions] return
+
+			set path [$itk_component(Mdi) addDocument $name -title "Goniomotions"]
+			
+			itk_component add $name {
+            DCS::GonioMotionsWidget $path.$name -mdiHelper $this
          } {
 			}      
 

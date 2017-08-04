@@ -22,6 +22,7 @@ package ifneeded BLUICEVideoNotebook 1.0  [list source [file join $dir BeamlineV
 package ifneeded BLUICESamplePosition 1.0  [list source [file join $dir SamplePositionWidget.tcl]]
 package ifneeded BLUICETable 1.0  [list source [file join $dir TableView.tcl]]
 package ifneeded BLUICEWBControl 1.0  [list source [file join $dir WBControlView.tcl]]
+package ifneeded BLUICEGonioMotions 1.0  [list source [file join $dir GonioMotions.tcl]]
 package ifneeded BLUICESlit0View 1.0  [list source [file join $dir Slit0View.tcl]]
 package ifneeded BLUICEFrontEndSlitsView 1.0  [list source [file join $dir FrontEndSlitsView.tcl]]
 package ifneeded BLUICEMonoView 1.0  [list source [file join $dir MonoView.tcl]]
