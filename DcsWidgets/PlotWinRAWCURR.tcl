@@ -103,11 +103,11 @@ class DCS::PlotWinRAWCURR {
 
 	destructor {
 		#puts "PlotWinRAWCURR destructor was called."
-		::mediator unregister $this $sa_a_mon_obj contents
-		::mediator unregister $this $sa_b_mon_obj contents
-		::mediator unregister $this $sa_c_mon_obj contents
-		::mediator unregister $this $sa_d_mon_obj contents
-		::mediator unregister $this $sa_sum_mon_obj contents
+		::mediator unregister $this $sa_a_mon_obj contents 
+		::mediator unregister $this $sa_b_mon_obj contents 
+		::mediator unregister $this $sa_c_mon_obj contents 
+		::mediator unregister $this $sa_d_mon_obj contents 
+		::mediator unregister $this $sa_sum_mon_obj contents 
 	}
 
 }

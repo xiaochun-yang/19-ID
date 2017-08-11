@@ -491,6 +491,7 @@ class DoubleCrystalMonoViewDoubleSetID19 {
     }
 
     public method handleEncoderUpdate
+    public method handleMotorTempChange
 
     public method setPitchValue { } {
 	set deviceFactory [::DCS::DeviceFactory::getObject]
@@ -511,7 +512,7 @@ class DoubleCrystalMonoViewDoubleSetID19 {
         set deviceFactory [::DCS::DeviceFactory::getObject]
 	set obj1 [$deviceFactory getObjectName ion_chamber4]
 	set obj2 [$deviceFactory getObjectName ion_chamber5]
-
+        set m_strBeamCurrent [$deviceFactory createString analogInStatus10]
 
         loadBackdropImage id19-mono-yang-8.gif
                 place $itk_component(control) -x 220 -y 460
@@ -580,26 +581,51 @@ class DoubleCrystalMonoViewDoubleSetID19 {
                            keep -foreground
         }
 
+        for {set i 0} {$i < 7} {incr i} {
+
+              itk_component add temp$i {
+                  # make the optimize beam button
+                  label $itk_component(canvas).temp$i \
+                      -text " " \
+                      -relief sunken \
+                      -width 4 \
+                      -background #c0c0ff \
+                      -activebackground #c0c0ff
+              } {
+                           keep -foreground
+              }
+        }
+
+	place $itk_component(temp1) -x 675 -y 270 -anchor se
+	place $itk_component(temp2) -x 675 -y 337 -anchor se
+	place $itk_component(temp3) -x 525 -y 100 -anchor se
+	place $itk_component(temp4) -x 195 -y 220 -anchor se
+	place $itk_component(temp5) -x 335 -y 160 -anchor se
+        place $itk_component(temp6) -x 675 -y 410 -anchor se
+
         place $itk_component(pitchl) -x 495 -y 295 -anchor se
 	place $itk_component(pitch) -x 515 -y 320 -anchor se 
       	place $itk_component(rolll) -x 495 -y 355 -anchor se
       	place $itk_component(roll) -x 515 -y 380 -anchor se
 
-
+        
+	$m_strBeamCurrent register $this contents handleMotorTempChange
 	$obj1 register $this -value handleEncoderUpdate
 	$obj2 register $this -value handleEncoderUpdate
         eval itk_initialize $args
 	
-        configure -width 710 -height 500
+        configure -width 730 -height 500
    }
 
    destructor {
         set deviceFactory [::DCS::DeviceFactory::getObject]
         set obj1 [$deviceFactory getObjectName ion_chamber4]
         set obj2 [$deviceFactory getObjectName ion_chamber5]
+        set m_strBeamCurrent [$deviceFactory createString analogInStatus10]
 
 	$obj1 unregister $this -value handleEncoderUpdate
 	$obj2 unregister $this -value handleEncoderUpdate
+	$m_strBeamCurrent unregister $this contents handleMotorTempChange
    }
 }
 
@@ -614,7 +640,28 @@ body DoubleCrystalMonoViewDoubleSetID19::handleEncoderUpdate {name_ targetReady_
      	$itk_component(canvas).rolll configure -text $tex 
      }
 }
- 
+
+body DoubleCrystalMonoViewDoubleSetID19::handleMotorTempChange { name_ targetReady_ - contents_ - } {
+    if { ! $targetReady_} return
+    #puts "contents=$contents_ \n"
+    if { $contents_ == "" } return
+
+    for {set i 0} {$i < 7} {incr i} {
+           set value [lindex $contents_ $i]
+           $itk_component(temp$i) configure \
+                -text [format "%.1f" $value] \
+                -state normal
+    }
+
+    #if {[string is double -strict $contents_]} {
+    #    set display [format "%.3f" $contents_]
+    #} else {
+    #    set display $contents_
+    #}
+    #$itk_component(ioncurrent) configure -text $display
+#    log_error "yangxx display=$display"
+}
+
 class DoubleCrystalMonoViewDoubleSet12_2 {
  	inherit ::DCS::CanvasShapes
 
@@ -813,6 +860,8 @@ class DoubleCrystalMonoViewDoubleSetAperture12_2 {
 	}
 
 }
+
+
 
 class DoubleCrystalMonoViewDown {
  	inherit ::DCS::CanvasShapes

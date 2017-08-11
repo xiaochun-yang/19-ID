@@ -209,10 +209,15 @@ class DoubleCrystalMonoView {
         mono_slit_spear \
         mono_slit_lower \
         mono_slit_vert \
-	mono_crystal2_perp \
-	mono_crystal2_para \
-        mono_pitch \
-        mono_roll \
+	mono_c2_perp \
+	mono_c2_para \
+        mono_c2_pitch \
+        mono_c2_roll \
+	mono_c2_yaw\
+	mono_c2_bend_1\
+	mono_c2_bend_2\
+	mono_c2_bend\
+	mono_c1_bend\
         mono_theta \
         energy \
         ]
@@ -227,8 +232,9 @@ class DoubleCrystalMonoView {
       motorView mono_slit_spear 120 189 n
       motorView mono_slit_lower 267 244 n
       motorView mono_slit_vert 230 42 e
-      motorView mono_pitch 645 130 w
-      motorView mono_roll 485 150 s
+      motorView mono_c2_pitch 645 130 w
+      motorView mono_c2_roll 645 150 w
+      motorView mono_c2_yaw 645 170 w
       motorView mono_theta 515 263 n
       motorView energy 725 226 n
 
@@ -239,8 +245,8 @@ class DoubleCrystalMonoView {
 	   motorArrow mono_slit_spear 202 164 {} 168 187 193 157 173 172
 	   motorArrow mono_slit_lower 248 199 {} 248 244 258 204 258 239
 	   motorArrow mono_slit_vert 248 41 {} 248 86 238 46 238 81 
-	   motorArrow mono_pitch 610 205 {640 195 640 155} 610 145 625 213 625 138
-	   motorArrow mono_roll 470 165 { 480 150 490 170 480 190 } 470 175 463 158 463 181
+	   motorArrow mono_c2_pitch 610 205 {640 195 640 155} 610 145 625 213 625 138
+	   motorArrow mono_c2_roll 470 165 { 480 150 490 170 480 190 } 470 175 463 158 463 181
       motorArrow mono_theta 540 230 {530 260 490 260} 480 230 551 238 467 241
 
       # draw the ssrl slit 
@@ -463,69 +469,135 @@ class DoubleCrystalMonoViewDoubleSet9_2 {
 class DoubleCrystalMonoViewDoubleSetID19 {
         inherit ::DCS::CanvasGifView
 
-        itk_option define -mdiHelper mdiHelper MdiHelper ""
+    itk_option define -mdiHelper mdiHelper MdiHelper ""
+    private variable m_deviceFactory
+    private variable m_strPiezoVoltage
 
     public proc getMotorList { } {
         return [list \
-        mono_crystal2_para \
-        mono_crystal2_perp \
-        mono_pitch \
-        mono_roll \
+        mono_c2_para \
+        mono_c2_perp \
+        mono_c2_pitch \
+        mono_c2_roll \
+	mono_c2_yaw \
+	mono_c2_bend_1 \
+	mono_c2_bend_2 \
+	mono_c2_bend \
+	mono_c1_bend \
+	mono_angle \
         mono_theta \
         energy \
         ]
     }
-    public method gotoToroidView { } {
-        $itk_option(-mdiHelper) openToolChest toroid
+
+#    public method handlePiezoVoltageChange
+
+    public method setPitchValue { } {
+	set deviceFactory [::DCS::DeviceFactory::getObject]
+	set obj [$deviceFactory getObjectName ion_chamber4]
+	set volt [$itk_component(canvas).pitch cget -text]
+	puts "yangxxxx $volt"
+	$obj set_position $volt"
+    }
+
+    public method setRollValue { } {
+	set deviceFactory [::DCS::DeviceFactory::getObject]
+        set obj [$deviceFactory getObjectName ion_chamber4]
+        $obj set_position 4.2
     }
 
 
     constructor { args} {
         set m_deviceFactory [::DCS::DeviceFactory::getObject]
 
-        loadBackdropImage ID19Mono.gif
+        loadBackdropImage id19-mono-yang-8.gif
                 place $itk_component(control) -x 220 -y 460
 
-        motorView mono_crystal2_para 709 208 se
-        motorView mono_crystal2_perp 539 322 n
-     #  motorView mono_pitch 130 314 n
-	motorView mono_pitch 539 150 se
-        motorView mono_roll 200 170 sw
-        motorView mono_theta 271 314 n
-        motorView energy 271 412 s
-
-#        moveHotSpot mono_crystal2_para 676 222 positive 0
-#        moveHotSpot mono_crystal2_para 655 229 negative 0
-
-#        moveHotSpot mono_crystal2_perp 535 273 positive 0
-#        moveHotSpot mono_crystal2_perp 509 279 negative 0
-
-        moveHotSpot mono_pitch 143 260 positive 0
-        moveHotSpot mono_pitch 143 291 negative 0
-        moveHotSpot mono_roll 120 68  positive 0
-        moveHotSpot mono_roll 120 96  negative 0
-
-        moveHotSpot mono_theta 414 304 positive 0
-        moveHotSpot mono_theta 328 304 negative 0
+        motorView mono_c2_para 510 80 ne
+        motorView mono_c2_perp 670 80 ne
+	motorView mono_c2_bend_1 50 140 nw
+	motorView mono_c2_bend_2 185 140 nw
+	motorView mono_c2_bend 185 80 nw
+	motorView mono_c1_bend 50 200 nw
+	motorView mono_c2_pitch 670 300 se
+        motorView mono_c2_roll  670 370 se
+	motorView mono_c2_yaw   670 440 se
+	motorView mono_angle 80 420 s
+        motorView mono_theta 210 420 s
+        motorView energy 340 420 s
 
 
-        #### link button
-        itk_component add link {
-            button $itk_component(canvas).link \
-            -text "goto toroidView ==>" \
-            -command "$this gotoToroidView"
+#### yangx pitch button
+	itk_component add setPitch {
+            button $itk_component(canvas).setPitch \
+            -text "SetPichV" \
+            -command "$this setPitchValue"
         } {
-    	}
-   	place $itk_component(link) -x 690 -y 440 -anchor ne
+        }
+
+	itk_component add setRoll {
+            button $itk_component(canvas).setRoll \
+            -text "SetRollV" \
+            -command "$this setRollValue"
+        } {
+        }
+
+	itk_component add pitch {
+                entry $itk_component(canvas).pitch \
+                      -text " " \
+                      -relief sunken \
+                      -width 8 
+                 #     -background #c0c0ff \
+                 #     -activebackground #c0c0ff
+                } {
+                           keep -foreground
+        }
+
+        itk_component add roll {
+                entry $itk_component(canvas).roll \
+                      -text " " \
+                      -relief sunken \
+                      -width 8 
+                 #     -background #c0c0ff \
+                 #     -activebackground #c0c0ff
+                } {
+                           keep -foreground
+          }
+
+   	place $itk_component(setPitch) -x 535 -y 310 -anchor se
+   	place $itk_component(setRoll) -x 535 -y 380 -anchor se
+
+	place $itk_component(pitch) -x 535 -y 280 -anchor se 
+       	place $itk_component(roll) -x 535 -y 350 -anchor se
+
 
         eval itk_initialize $args
+	
+#        ::mediator announceExistence $this
+#        set m_deviceFactory [DCS::DeviceFactory::getObject]
+#        set m_strPiezoVoltage [$m_deviceFactory createString ion_chamber2]
+#        $m_strPiezoVoltage register $this contents handlePiezoVoltageChange
 
         configure -width 710 -height 500
    }
 
+#    destructor { }
 }
 
+#body DoubleCrystalMonoViewDoubleSetID19::destructor {} {
+#        $m_strPiezoVoltage unregister $this contents handlePiezoVoltageCurrentChange
+#        mediator announceDestruction $this
+#}
 
+#body DoubleCrystalMonoViewDoubleSetID19::handlePiezoVoltageChange { name_ targetReady_ - contents_ - } {
+#    if { ! $targetReady_} return
+#puts "contents=$contents_ \n"
+#         if { $contents_ == "" } return
+#         set value [lindex $contents_ 0]
+#         $itk_component(getPitch) configure \
+#                -text [format "%.5f" $value] \
+#                -state normal
+#}
 
 class DoubleCrystalMonoViewDoubleSet12_2 {
  	inherit ::DCS::CanvasShapes
@@ -1338,10 +1410,14 @@ class ID19MirrorView {
         return [list \
                 mirror_slit_upper \
                 mirror_slit_lower \
+		mirror_slit_ring \
+		mirror_slit_lobs \
                 mirror_slit_vert \
                 mirror_slit_vert_gap \
-                mirror_bend_downstream \
-                mirror_bend_upstream \
+		mirror_slit_horz \
+		mirror_slit_horz_gap \
+                mirror_bend_1 \
+                mirror_bend_2 \
                 mirror_bend \
                 mirror_roll \
                 mirror_pitch \
@@ -1349,58 +1425,119 @@ class ID19MirrorView {
 		mirror_horz \
         ]
     }
+   
+    public method handleBeamCurrentChange
+ 
+    private variable m_deviceFactory
+    private variable m_strBeamCurrent
 
-        constructor { args} {
+   constructor { args} {
 
     if {[catch {
-        loadBackdropImage ID19Mirror.gif
+        loadBackdropImage id19-mirror-yang-9.gif
     } errMsg]} {
         log_error failed to load image: $errMsg
     }
 
-    motorView mirror_slit_upper 35 80 sw
-    motorView mirror_slit_lower 170 185 nw
-    motorView mirror_slit_vert 40 260 nw
-    motorView mirror_slit_vert_gap 40 320 nw
-    motorArrow mirror_slit_vert 35 115 {} 35 305 25 120 25 300
-    motorArrow mirror_slit_vert_gap 35 320 {} 35 365 25 325 25 360
+    motorView mirror_slit_upper 10 70 sw
+    motorView mirror_slit_lower 170 70 sw
+    motorView mirror_slit_vert 10 330 nw
+    motorView mirror_slit_vert_gap 170 330 nw
 
-   motorView mirror_bend_downstream 216 81 sw
-   motorView mirror_bend_upstream 558 81 sw
-   motorView mirror_roll 320 253 nw
-   motorView mirror_bend 400 81 sw
-   motorView mirror_pitch 596 178 nw
-   motorView mirror_horz 530 253 nw
-   motorView mirror_vert 400 90 nw
+    motorView mirror_slit_lobs 10 100 nw
+    motorView mirror_slit_ring 10 170 nw
+    motorView mirror_slit_horiz 10 250 nw
+    motorView mirror_slit_horiz_gap 170 250 nw
+
+#    motorArrow mirror_slit_vert 35 115 {} 35 305 25 120 25 300
+#    motorArrow mirror_slit_vert_gap 35 320 {} 35 365 25 325 25 360
+
+   motorView mirror_bend_1 350 150 sw
+   motorView mirror_bend_2 560 150 sw
+   motorView mirror_roll 350 290 nw
+   motorView mirror_bend 440 71 sw
+   motorView mirror_pitch 596 200 nw
+   motorView mirror_vert 560 280 nw
+   motorView mirror_horz 560 360 nw
+
+   for {set i 0} {$i < 2} {incr i} {
+
+   	itk_component add ioncurrent$i {
+        	# make the optimize beam button
+                label $itk_component(canvas).ioncurrent$i \
+                      -text " " \
+                      -relief sunken \
+                      -width 8 \
+                      -background #c0c0ff \
+                      -activebackground #c0c0ff
+                } {
+                           keep -foreground
+                }
+       }
+       place $itk_component(ioncurrent0) -x 350 -y 155
+       place $itk_component(ioncurrent1) -x 560 -y 155
 
 
-   moveHotSpot mirror_slit_upper 176 36 positive
-   moveHotSpot mirror_slit_upper 176 73 negative
+#   moveHotSpot mirror_slit_upper 176 36 positive
+#   moveHotSpot mirror_slit_upper 176 73 negative
 
-   moveHotSpot mirror_slit_lower 162 189 positive
-   moveHotSpot mirror_slit_lower 162 229 negative
+#   moveHotSpot mirror_slit_lower 162 189 positive
+#   moveHotSpot mirror_slit_lower 162 229 negative
    
-   moveHotSpot mirror_bend_downstream 314 93 positive
-   moveHotSpot mirror_bend_downstream 314 132 negative
+#   moveHotSpot mirror_bend_downstream 314 93 positive
+#   moveHotSpot mirror_bend_downstream 314 132 negative
 
-   moveHotSpot mirror_bend_upstream 574 93 positive
-   moveHotSpot mirror_bend_upstream 574 132 negative
+#   moveHotSpot mirror_bend_upstream 574 93 positive
+#   moveHotSpot mirror_bend_upstream 574 132 negative
 
-   moveHotSpot mirror_bend 728 332 positive
-   moveHotSpot mirror_bend 728 372 negative
+#   moveHotSpot mirror_bend 728 332 positive
+#   moveHotSpot mirror_bend 728 372 negative
    
-   moveHotSpot mirror_slit_vert 458 142 positive
-   moveHotSpot mirror_slit_vert 458 182 negative
+#   moveHotSpot mirror_slit_vert 458 142 positive
+#   moveHotSpot mirror_slit_vert 458 182 negative
 
 #   moveHotSpot mirror_roll 596 243 positive
 #   moveHotSpot mirror_roll 596 283 negative
 
-   moveHotSpot mirror_pitch 577 177 positive
-   moveHotSpot mirror_pitch 577 240 negative
+#   moveHotSpot mirror_pitch 577 200 positive
+#   moveHotSpot mirror_pitch 577 240 negative
 
         eval itk_initialize $args
+
+	::mediator announceExistence $this
+	set m_deviceFactory [DCS::DeviceFactory::getObject]
+        set m_strBeamCurrent [$m_deviceFactory createString analogInStatus7]
+        $m_strBeamCurrent register $this contents handleBeamCurrentChange
    }
 
+   destructor { }
+
+}
+
+body ID19MirrorView::destructor {} {
+        $m_strBeamCurrent unregister $this contents handleBeamCurrentChange
+        mediator announceDestruction $this
+}
+
+body ID19MirrorView::handleBeamCurrentChange { name_ targetReady_ - contents_ - } {
+    if { ! $targetReady_} return
+#puts "contents=$contents_ \n"
+    if { $contents_ == "" } return
+
+    for {set i 0} {$i < 2} {incr i} {
+           set value [lindex $contents_ $i]
+           $itk_component(ioncurrent$i) configure \
+                -text [format "%.5f" $value] \
+                -state normal
+    }
+
+    #if {[string is double -strict $contents_]} {
+    #    set display [format "%.3f" $contents_]
+    #} else {
+    #    set display $contents_
+    #}
+    #$itk_component(ioncurrent) configure -text $display
+#    log_error "yangxx display=$display"
 }
 
 
