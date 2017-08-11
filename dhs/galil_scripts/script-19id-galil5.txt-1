@@ -1,0 +1,82 @@
+#AUTO
+MT2.5,2,2.5,2,2,2
+LC15,15,15,15,15,15
+HV20000,20000,20000,20000,20000,20000
+CN1,1
+//CEH=5
+IHF=>-2
+ITime=100
+AT 0
+AT 500
+IHF=10,19,2,42<502>2
+//this one cause problem DA * []
+DM V[1]
+DM R[1]
+VAL=0
+RAL=0
+CHAN=0
+// 0--10V 16bits
+DIV=65536
+//10V
+MUL=10
+SH
+EN
+//16 BIT SET
+#SETV
+V[0]=VAL*DIV/MUL; 'VOLT TO NUMBER
+MBF=,16,CHAN,1,V[]; 'SET VOLT CHANNEL 0
+EN
+//16 BITS READ
+#GETV
+Finished=0
+MBF=,4,CHAN,1,R[]; 'READ VOLT IN CHANNEL 0
+RAL=R[0]*MUL/DIV;  'CHANGE TO VOLT
+Finished=1
+EN
+//'set voltage for piezo 32bits
+#SETV32
+RAL=6000 + CHAN
+AO RAL,VAL
+EN
+//'read piezo voltage 32 bits
+#GETV32
+Finished=0
+MBF=,4,CHAN,1,R[]
+float=R[0]*$8000
+float= float + float + R[0]
+RAL = @REAL[float]
+Finished=1
+EN
+#W_Dog
+CW ,1
+Kick=0
+LastKic=0
+#WDog_ok
+//MG{EF} "WATCHDOG ok"
+AT 0
+AT 5000
+JP #WDogBad,Kick=LastKic
+LastKic=Kick
+TimeOut=0
+JP #WDog_ok
+#WDogBad
+//ST ABCDEFGH
+//ST S
+//#close shutter
+//SB 2
+TimeOut=1
+//DON'T Send an unsolicited message to DHS
+//MG{EF} "dtoh_watchdog_timeout"
+JP #WDog_ok
+//
+#ShutAll
+AT 0
+AT 1000
+//IHA=>-2
+//IHB=>-2
+//IHC=>-2
+//IHD=>-2
+//IHE=>-2
+//IHF=>-2
+EN
+

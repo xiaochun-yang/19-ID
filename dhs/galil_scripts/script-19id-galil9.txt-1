@@ -1,0 +1,63 @@
+//
+//galil9 -- Galil Script for ID19 DMC4080
+//
+// WATCHDOG ROUTINE
+#AUTO
+TM 500
+// 2 -- ACTIVE LOW STEP PULSE 1 -- SERVO MOTOR
+MT-2.5,-2.5,-2.5,1
+// LIMIT SWITCH ACTIVE LOW
+CN1
+// 2 AMP CURRENT FOR D4140 
+AG2,2,2,2
+// 25% HOLDING CURRENT
+LC1,1,1
+//REVERSE QUADRATUR ON BOTH ENCODER
+CED=10
+//DUAL LOOP ENABLE
+DVD=1
+//DIGITAL FEED BACK
+AFD=0
+//ENABLE MOTOR SHUT OFF BY POSITION ERROR
+OED=1
+//ERROR LIMIT TO TRIGGER OED
+ERD=2000
+EN
+#W_Dog
+CW ,1
+Kick=0
+LastKic=0
+#WDog_ok
+//MG{EF} "WATCHDOG ok"
+AT 0
+AT 5000
+JP #WDogBad,Kick=LastKic
+LastKic=Kick
+TimeOut=0
+JP #WDog_ok
+#WDogBad
+//ST ABCDEFGH
+//ST S
+//#close shutter
+//SB 2
+TimeOut=1
+//DON'T Send an unsolicited message to DHS
+//MG{EF} "dtoh_watchdog_timeout"
+JP #WDog_ok
+//
+//
+//This routine closes all sockets after waiting for 1 second.
+//The 1 second wait is useful to allow the client to disconnect cleanly.
+//
+#ShutAll
+AT 0
+AT 1000
+IHA=>-2
+IHB=>-2
+IHC=>-2
+IHD=>-2
+IHE=>-2
+IHF=>-2
+EN
+//end of the routine
+//

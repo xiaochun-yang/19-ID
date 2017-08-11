@@ -581,7 +581,7 @@ class DoubleCrystalMonoViewDoubleSetID19 {
                            keep -foreground
         }
 
-        for {set i 0} {$i < 7} {incr i} {
+        for {set i 0} {$i < 6} {incr i} {
 
               itk_component add temp$i {
                   # make the optimize beam button
@@ -596,12 +596,12 @@ class DoubleCrystalMonoViewDoubleSetID19 {
               }
         }
 
-	place $itk_component(temp1) -x 675 -y 270 -anchor se
-	place $itk_component(temp2) -x 675 -y 337 -anchor se
-	place $itk_component(temp3) -x 525 -y 100 -anchor se
-	place $itk_component(temp4) -x 195 -y 220 -anchor se
-	place $itk_component(temp5) -x 335 -y 160 -anchor se
-        place $itk_component(temp6) -x 675 -y 410 -anchor se
+	place $itk_component(temp0) -x 675 -y 270 -anchor se
+	place $itk_component(temp1) -x 675 -y 337 -anchor se
+	place $itk_component(temp2) -x 525 -y 100 -anchor se
+	place $itk_component(temp3) -x 195 -y 220 -anchor se
+	place $itk_component(temp4) -x 335 -y 160 -anchor se
+        place $itk_component(temp5) -x 675 -y 410 -anchor se
 
         place $itk_component(pitchl) -x 495 -y 295 -anchor se
 	place $itk_component(pitch) -x 515 -y 320 -anchor se 
@@ -645,8 +645,8 @@ body DoubleCrystalMonoViewDoubleSetID19::handleMotorTempChange { name_ targetRea
     if { ! $targetReady_} return
     #puts "contents=$contents_ \n"
     if { $contents_ == "" } return
-
-    for {set i 0} {$i < 7} {incr i} {
+#puts "yangx contents = $contents_"
+    for {set i 0} {$i < 6} {incr i} {
            set value [lindex $contents_ $i]
            $itk_component(temp$i) configure \
                 -text [format "%.1f" $value] \
