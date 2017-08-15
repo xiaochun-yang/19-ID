@@ -648,9 +648,19 @@ body DoubleCrystalMonoViewDoubleSetID19::handleMotorTempChange { name_ targetRea
 #puts "yangx contents = $contents_"
     for {set i 0} {$i < 6} {incr i} {
            set value [lindex $contents_ $i]
-           $itk_component(temp$i) configure \
-                -text [format "%.1f" $value] \
-                -state normal
+	   if { $value > 24 } {	
+           	$itk_component(temp$i) configure \
+                	-text [format "%.1f" $value] \
+			-background #FF0000 \
+			-activebackground #FF0000 \
+                	-state normal
+	  } else {
+		$itk_component(temp$i) configure \
+                        -text [format "%.1f" $value] \
+                        -background #c0c0ff \
+                        -activebackground #c0c0ff \
+                        -state normal
+	  }	
     }
 
     #if {[string is double -strict $contents_]} {

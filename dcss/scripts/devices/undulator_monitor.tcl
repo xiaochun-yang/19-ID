@@ -43,7 +43,7 @@ proc undulator_monitor_trigger { triggerDevice } {
 
     if {$gDevice(undulator_gap,status) == "inactive" \
     && $gDevice(energy,status) == "inactive"} {
-        undltrCheckSyncWithEnergy
+    undltrCheckSyncWithEnergy
     }
 }
 
