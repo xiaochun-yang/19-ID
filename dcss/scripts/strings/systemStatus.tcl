@@ -582,9 +582,25 @@ proc STRING_getSecondaryMsg { } {
 
     set cfgList [::config getStr energy.config]
     if {[llength $cfgList] >= [llength $energy_config]} {
-        foreach enabled $energy_config name $cfgList {
+#original        foreach enabled $energy_config name $cfgList {
+#            if {$enabled == "0" \
+#            && $name != "adjust_detector_vert" \
+#            && $name != "move_table_horz" \
+#            && $name != "move_mfd_vert" \
+#            && $name != "move_mfd_horz" \
+#            } {
+#                lappend result $name
+#            }
+#        }
+#yangx modified 
+       foreach enabled $energy_config name $cfgList {
             if {$enabled == "0" \
             && $name != "adjust_detector_vert" \
+            && $name != "hold_mirror" \
+            && $name != "jump_harmonic" \
+            && $name != "move_table_vert" \
+            && $name != "set_preamplifiers" \
+            && $name != "set_detector_threshold" \
             && $name != "move_table_horz" \
             && $name != "move_mfd_vert" \
             && $name != "move_mfd_horz" \

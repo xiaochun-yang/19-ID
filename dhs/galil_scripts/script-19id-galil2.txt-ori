@@ -1,0 +1,617 @@
+//
+//Galil Script for DMC2180
+//
+#AUTO
+HOMED=1
+MOA
+MT 1,2.5,2.5,2,2,2,2.5,2.5
+LC 0,0,0,0,1,1,0,0
+CEA=0
+CN1,1
+ER-1
+//set speed of phi homing
+HVA=40000
+BR0
+OTime=100
+SH
+EN
+#HOMA
+JGA=900000
+ACA=4000000
+FI
+BGA
+MCA
+WT1000
+PRA=10000
+BGA
+MCA
+JGA=-20000
+FI
+BGA
+MCA
+SPA=450000
+PRA=160000
+BGA
+MCA
+WT500
+DPA=0
+DEA=0
+CB10;SB9
+CB11;SB12
+EN
+#HOMG
+JGG=-10000
+BGG
+MCG
+PRG=60800
+BGG
+MCG
+EN
+#IONOUT
+IONVAL=0
+Finished=0
+CNT=5
+#ANALOOP
+AT 0
+AT OTime/5
+IONVAL =IONVAL+@AN[~a]
+CNT=CNT-1
+JP #ANALOOP, (CNT>0)
+IONVAL=IONVAL/5
+Finished = 1
+EN
+#WATCH
+MG "START WATCH"
+MODE="SHIMZ"
+OUTPUT="FULL"
+MG "MODE=SHIMZ/SHIMXY  OUTPUT=FULL/SHORT "
+IF MODE="SHIMZ"
+MG "MODE=SHIMZ"
+ELSE
+MG "MODE=SHIMZY"
+ENDIF
+IF OUTPUT="FULL"
+MG "OUTPUT=FULL"
+ELSE
+MG "OUTPUT=SHORT"
+ENDIF
+IF OUTPUT="FULL"
+MG "REFINE  H1      H2     H3     H4    dX    dY Range D    T"
+MG " "
+ENDIF
+A=0
+B=0
+DEB=0
+DPB=0
+ZZERO=_TPB
+S21=_PAB
+DPE=0
+DPF=0
+SPA=900000
+REFINE=1
+DM H[4]
+AFLAG=1
+T0=TIME
+//
+#WATCH3
+HMAX=-10000
+HMIN=10000
+PAA=0
+BGA
+MCA
+WT1000
+//'JS#SHIMZ
+//'JS#SHIMXY
+CNT=0
+PRA=900000
+#WATCH2
+SUM=0
+N=1
+#WATCH1
+SUM=SUM+@AN[1]
+N=N+1
+IF (N<1001)
+JP#WATCH1
+ENDIF
+H[CNT]=(SUM)/1000*21.7
+IF(H[CNT]>HMAX)
+HMAX=H[CNT]
+ENDIF
+IF(H[CNT]<HMIN)
+HMIN=H[CNT]
+ENDIF
+//'MG CNT*90,H[CNT]
+BGA
+MCA
+WT1000
+//'IF MODE="SHIMZ"
+//'JS#SHIMZ
+//'ELSE
+//'JS#SHIMXY
+ENDIF
+IF(CNT<3)
+CNT=CNT+1
+JP#WATCH2
+ENDIF
+D2=(H[0]-H[2])/2
+D1=-(H[1]-H[3])/2
+//'MG "DELTA X=",D1," DELTA Y=",D2
+IF OUTPUT = "FULL"
+MG AFLAG{Z5.2},H[0],H[1],H[2],H[3],D1,D2,HMAX-HMIN,_PAD,(TIME-T0)*.976/60000
+ENDIF
+//'MG "HMAX=",HMAX," HMIN=", HMIN," RANGE=",HMAX-HMIN," MODE=",MODE{S6}
+IF (@ABS[D1]<.1)&(REFINE=1)
+IF( @ABS[D2]<.1)
+AFLAG=0
+REFINE=0
+DPE=0
+DPF=0
+X0=_PAE
+Y0=_PAF
+#WATCH4
+JS#DATA
+A=A+(SUMA/18)
+B=B+(SUMB/18)
+IF MODE="SHIMZ"
+MG "X0=",X0/12.8," Y0=",Y0/12.8," A=",A," B=",B," RANGE=",MAX1-MIN1," SHIMZ"
+ELSE
+MG "X0=",X0/12.8," Y0=",Y0/12.8," A=",A," B=",B," RANGE=",MAX1-MIN1," SHIMXY"
+ENDIF
+JP#WATCH4
+ENDIF
+ENDIF
+IF(AFLAG=1)
+BKE=0
+BKF=0
+PRE=D1*12.8
+PRF=D2*12.8
+BKE=1
+PRE=_PRE-300
+BKF=1
+PRF=_PRF-300
+BGEF
+MCEF
+IF(BKE=1)
+PRE=+300
+BGE
+MCE
+ENDIF
+IF(BKF=1)
+PRF=+300
+BGF
+MCF
+ENDIF
+ENDIF
+JP#WATCH3
+EN
+#COUNT
+SUM=0
+N=1
+#COUNT1
+SUM=SUM+@AN[1]
+N=N+1
+IF (N<1001)
+JP#COUNT1
+ENDIF
+EN
+#ROUND
+PAA=0
+BGA
+MCA
+ND=0
+#ROUND1
+JS#COUNT
+MG ND,(SUM-5000)/4
+ND=ND+5
+PAA=ND*10000
+BGA
+MCA
+WT500
+JP#ROUND1
+EN
+#DATA
+MIN1=1000
+MAX1=0
+JS#ADJZ
+JS#ADJZ
+JS#ADJZ
+S21=_PAB
+SUMA=0
+SUMB=0
+SUMX=0
+SUMY=0
+SPA=900000
+PAA=-100000
+BGA
+MCA
+PRA=100000
+SPA=200000
+#DATA2
+BGA
+MCA
+WT100
+IF MODE="SHIMZ"
+JS#SHIMZ
+ELSE
+JS#SHIMXY
+ENDIF
+WT1000
+N=0
+SUM=0
+#DATA1
+SUM=SUM+@AN[1]
+N=N+1
+IF N<1001
+JP#DATA1
+ENDIF
+SUM=(SUM/1000)*21.7
+OMEGAO=_TPA/10000
+SUMA=SUMA+(SUM*@COS[OMEGAO*2])
+SUMB=SUMB+(SUM*@SIN[OMEGAO*2])
+SUMX=SUMX+(SUM*@SIN[OMEGAO])
+SUMY=SUMY+(SUM*@COS[OMEGAO])
+IF OUTPUT="FULL"
+MG OMEGAO,SUM,_TDE,_TDF,_TDB
+ENDIF
+IF ((SUM)<MIN1)
+MIN1=SUM
+ENDIF
+IF ((SUM)>MAX1)
+MAX1=SUM
+ENDIF
+IF (OMEGAO<349)
+JP#DATA2
+ENDIF
+IF OUTPUT="FULL"
+MG "dA=",SUMA/18," dB=",SUMB/18
+MG "dX=",SUMX/18," dY=",SUMY/18
+MG "RANGE=",MAX1-MIN1
+ENDIF
+//'PRE=-(SUMX/18)*12.8
+//'PRF=(SUMY/18)*12.8
+X0=X0-((SUMX/18)*12.8)
+Y0=Y0+((SUMY/18)*12.8)
+PAE=X0
+PAF=Y0
+BGEF
+MCEF
+EN
+#W
+MG @AN[1]*21.7
+WT500
+JP#W
+EN
+//'
+#ADJZ
+PAA=0
+SPA=900000
+BGA
+MCA
+WT1000
+JS#COUNT
+SUM=21.7*SUM/1000
+//'MG "BEFORE ADJUSTMENT HEIGHT=",SUM
+MPB=((150+A-SUM)*20)+_TPB
+JS#SETB
+JS#COUNT
+SUM=SUM*21.7/1000
+//'MG "AFTER ADJUSTMENT HEIGHT=",SUM
+DPB=0
+DEB=0
+ZZERO=_TPB
+EN
+#H
+JS#COUNT
+MG SUM*21.7/1000
+JP#H
+EN
+#SHIMXY
+OMEGA=_PAA/10000
+D=((A*12.8*@COS[OMEGA*2])+(B*12.8*@SIN[OMEGA*2]))
+PAE=X0-(D*@SIN[OMEGA])
+PAF=Y0+(D*@COS[OMEGA])
+BGEF
+MCEF
+EN
+#SETB
+ENDIF
+DPB=_TPB
+PAB=MPB
+BGB
+MCB
+WT100
+COR=0
+#SETB1
+SPB=50
+IF (@ABS[_TPB-MPB]>0)& (COR=0)
+IF _TPB<MPB
+JGB=50
+BGB
+ELSE
+JGB=-50
+BGB
+ENDIF
+COR=1
+JP#SETB1
+ELSE
+IF @ABS[_TPB-MPB]<1
+STB
+ELSE
+JP#SETB1
+ENDIF
+ENDIF
+WT100
+DPB=_TPB
+EN
+#SHIMZ
+TOMEGA=2*_PAA/10000
+OFFSET=-((A*@COS[TOMEGA])+(B*@SIN[TOMEGA]))
+MPB=OFFSET*21.7+ZZERO
+JS#SETB
+EN
+#AMPERR
+MG "AMPERROR"
+EN
+#POSERR
+MG "POSERROR"
+EN
+#NICK
+DM S[360],C[360]
+PT0,0,0,0,1,1
+PAE=0
+PAF=12800
+MCA
+N=0
+#AA
+S[N]=@SIN[N]
+C[N]=@COS[N]
+N=N+1
+IF N=360
+N=0
+JP#B
+ELSE
+JP#AA
+ENDIF
+#B
+PAE=12800*S[N]
+PAF=12800*C[N]
+WT5
+N=N+1
+IF N=360
+N=0
+ENDIF
+JP#B
+EN
+#E
+CB11;SB12
+WT1000
+CB12
+EN
+#R
+CB12;SB11
+WT1000
+CB11
+EN
+#STEP
+PAA=5100000
+BGA
+MCA
+#STEP1
+PRA=1000
+BGA
+MCA
+WT100
+TPA
+TEA
+TTA
+JP#STEP1
+EN
+//
+#W_Dog
+CW ,1
+Kick=0
+LastKic=0
+#WDog_ok
+//MG{EF} "WATCHDOG ok"
+AT 0
+AT 5000
+JP #WDogBad,Kick=LastKic
+LastKic=Kick
+TimeOut=0
+JP #WDog_ok
+#WDogBad
+//ST ABCDEFGH
+//ST S
+//#close shutter
+//SB 2
+TimeOut=1
+//DON'T Send an unsolicited message to DHS
+//MG{EF} "dtoh_watchdog_timeout"
+JP #WDog_ok
+//
+#ShutAll
+AT 0
+//AT 1000
+//IHA=>-2
+//IHB=>-2
+EN
+
+//Function: ExpServo (Exposure using Phi Servo Motor)
+//This script expects the following hardware configuration:
+// 1) Phi motor to be on the set on the ~a variable axis.
+// 2) Phi Encoder on channel H.  Output compare signal drives detector trigger
+//Before running, set the following variables:
+// ExpStart...Exposure Start: phi location where shutter should open
+// ExpEnd...Exposure End: phi location where shutter should close
+// ExpVel...Exposure Velocity: speed of the motor during the exposure
+// ShutCh..Shutter channel
+// KSVal.  The desired value for KS that was used to calculate the ramp time.
+// RampCnt The number of counts required to get up to ExpVel
+// Trigger Digital output D0 which connect detector trgger.
+#Expose
+Trigger = 1
+//the trigger is assigned to galil2 DO1 port. (CB on 5V, SB off 0V).  
+SB Trigger
+//KS~a=KSVal
+// OcDir..Output compare direction
+//MotErr is some extra counts to give a minimum counts for rollback
+IF @ABS[ExpVel] < 100
+MotErr = 5
+ELSE
+MotErr = 50
+ENDIF
+IF ExpVel < 0
+MotErr = MotErr * -1
+OcDir = -65536;
+ELSE
+OcDir = 0
+ENDIF
+//ShutDel is shutter delay in seconds that the shutter takes to open. With a
+//pilatus we can be generous because the detector will clip the exposure.
+ShutDel=.010
+//ShutCnt is the number of counts that will pass by as the shutter opens at constant velocity
+ShutCnt=ShutDel * ExpVel
+//ShutOpen is position where to start opening the shutter, but it will take physical time
+ShutOpen=ExpStart - ShutCnt
+//ReadyPos is where to start the move from.  It include ramp time and the minimum counts
+ReadyPos = ShutOpen - RampCnt - MotErr
+MG{EF} "log_info ReadyPos", ReadyPos
+MG{EF} "log_info ShutOpen", ShutOpen
+OverPos=ExpEnd + RampCnt + ShutCnt + MotErr
+MG{EF} "log_info OverPos", OverPos
+MG{EF} "log_info ShutCh", ShutCh
+//The exposure command starts where we want the detector to be triggered.
+//Set the phi encoder position to 0 so that we can use zero to trigger the output compare.
+// This is ok because the encoder is not used for anything else...
+//Encoder is on channel H!  Thus DPH=0 to set the trigger position.
+//DPH=0
+//Move to ready position
+//close the shuttter CB Shutch
+CB ShutCh
+//Disable the output compare while we get into position
+//OCH=-1
+MG{EF} "log_info Expose start"
+PA~a=ReadyPos
+BG~a
+MC~a
+//enable the output compare trigger that goes to the detector, the script won't do anything with it.
+//OCH=0,OcDir
+SP~a=ExpVel
+PA~a=OverPos
+BG~a
+JP #WtRv1, ExpVel < 0
+MG{EF} "log_info Forward motor"
+#WtFw1
+JP #WtFw1, _TD~a < ShutOpen
+//open the shutter
+SB ShutCh
+//wait 10 millsec and trigger detector
+//WT 10
+CB Trigger
+CB Trigger
+JP #Cont1
+#WtRv1    //reverse direction
+JP #WtRv1, _TD~a > ShutOpen
+//open the shutter SB ShutCh
+SB ShutCh
+//trigger the detector to start data collection
+CB Trigger
+CB Trigger
+#Cont1
+//tell the dhs that the shutter is open
+MG{EF} "dtoh_shutter_open", ShutCh
+//keep waiting until the Output Compare is triggered, closing the shutter
+JP #WtRv2, ExpVel < 0
+#WtFw2
+JP #WtFw2, _TD~a < ExpEnd
+//tell the dhs that the shutter is closed
+//close the shutter CB ShutCh
+CB ShutCh
+//trigger detector to stop the data collection
+SB Trigger
+JP #Cont2
+#WtRv2
+JP #WtRv2, _TD~a > ExpEnd
+//close the shutter CB ShutCh
+CB ShutCh
+//trigger detector to stop
+SB trigger
+#Cont2
+MG{EF} "dtoh_shutter_closed ", ShutCh
+//stop the motor
+#StopExp
+//close the shutter CB ShutCh
+CB ShutCh
+//OCH=-1
+MC~a
+//AM~a
+EN
+#AbrtExp
+MG{EF} "dtoh_shutter_closed ", ShutCh
+CB ShutCh
+EN
+//
+//
+//use this to get the same motor timing without opening the shutter.
+#NoExps
+//Close shutter and move to ready position
+//close the shutter CB ShutCh
+CB ShutCh
+//Disable the output compare, because we don't want the shutter to open
+MG{EF} "log_info Expose start"
+PA~a=ReadyPos
+BG~a
+AM~a
+SP~a=ExpVel
+PA~a=OverPos
+BG~a
+AM~a
+EN
+#HALT
+MG{EF} "dtoh_shutter_closed", ShutCh
+//close the shutter CB ShutCh
+CB ShutCh
+//#CMDERR
+//MG{EF} "dtoh_shutter_closed", ShutCh
+//CB ShutCh
+//JP #NOERR,_TC=0
+//JP #UNERR,_TC<>22
+//MG{EF} "hit hardware limits"
+//EN
+//#UNERR
+//MG{EF} "galil script error: ", _TC
+//EN
+//#NOERR
+#ION
+A0=0
+A1=0
+A2=0
+A3=0
+A5=0
+A6=0
+A7=0
+CNT=8
+#anaLoop
+AT 0
+AT 250
+A0=A0+@AN[1]
+A1=A1+@AN[2]
+A2=A2+@AN[3]
+A3=A3+@AN[4]
+A4=A4+@AN[5]
+A5=A5+@AN[6]
+A6=A6+@AN[7]
+A7=A7+@AN[8]
+CNT=CNT-1
+JP #anaLoop,CNT>0
+A0=A0/8
+A1=A1/8
+A2=A2/8
+A3=A3/8
+A4=A4/8
+A5=A5/8
+A6=A6/8
+A7=A7/8
+MG{EF} "dtoh_ion_chamber",2,A0,A1,A2,A3,A4,A5,A6,A7
+JP #ION
+EN

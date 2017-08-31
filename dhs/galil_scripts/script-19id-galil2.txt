@@ -449,6 +449,7 @@ EN
 // RampCnt The number of counts required to get up to ExpVel
 // Trigger Digital output D0 which connect detector trgger.
 #Expose
+MG{EF} "log_info Expose called 1"
 Trigger = 1
 //the trigger is assigned to galil2 DO1 port. (CB on 5V, SB off 0V).  
 SB Trigger
@@ -466,6 +467,7 @@ OcDir = -65536;
 ELSE
 OcDir = 0
 ENDIF
+MG{EF} "log_info Expose called 2"
 //ShutDel is shutter delay in seconds that the shutter takes to open. With a
 //pilatus we can be generous because the detector will clip the exposure.
 ShutDel=.010
@@ -474,6 +476,7 @@ ShutCnt=ShutDel * ExpVel
 //ShutOpen is position where to start opening the shutter, but it will take physical time
 ShutOpen=ExpStart - ShutCnt
 //ReadyPos is where to start the move from.  It include ramp time and the minimum counts
+MG{EF} "log_info Expose called 3"
 ReadyPos = ShutOpen - RampCnt - MotErr
 MG{EF} "log_info ReadyPos", ReadyPos
 MG{EF} "log_info ShutOpen", ShutOpen
@@ -508,12 +511,14 @@ SB ShutCh
 //wait 10 millsec and trigger detector
 //WT 10
 CB Trigger
+CB Trigger
 JP #Cont1
 #WtRv1    //reverse direction
 JP #WtRv1, _TD~a > ShutOpen
 //open the shutter SB ShutCh
 SB ShutCh
 //trigger the detector to start data collection
+CB Trigger
 CB Trigger
 #Cont1
 //tell the dhs that the shutter is open
@@ -542,6 +547,7 @@ MG{EF} "dtoh_shutter_closed ", ShutCh
 CB ShutCh
 //OCH=-1
 MC~a
+//AM~a
 EN
 #AbrtExp
 MG{EF} "dtoh_shutter_closed ", ShutCh

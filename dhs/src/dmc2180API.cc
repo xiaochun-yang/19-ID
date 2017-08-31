@@ -810,7 +810,7 @@ xos_result_t Dmc2180_motor::timedExposureStepperMotor(
 		//"ReadyPos=%ld;"
 		//"OverPos=%ld;"
 		//"OcDir=%d;"
-		"XQ #%s,3", axisLabel, ks_value, exposeCmd.shutterChannel, exposureStart_counts, /*shutterOpenTrigger_counts,*/
+		"XQ #%s,7", axisLabel, ks_value, exposeCmd.shutterChannel, exposureStart_counts, /*shutterOpenTrigger_counts,*/
 			exposureEnd_counts, exposureVelocity_counts_per_s, accelerationDistance_counts, /*initialPosition_counts,*/
 			/*overshootPosition_counts, outputCompareDirection,*/
 			exposureScriptName.c_str());
@@ -940,7 +940,7 @@ xos_result_t Dmc2180_motor::timedExposureServoMotor(
 		"ReadyPos=%ld;"
 		"OverPos=%ld;"
 		"OcDir=%d;"
-		"XQ #%s,3", axisLabel, exposeCmd.shutterChannel, shutterOpenTrigger_counts,
+		"XQ #%s,7", axisLabel, exposeCmd.shutterChannel, shutterOpenTrigger_counts,
 			exposureEnd_counts, exposureVelocity_counts_per_s, accelerationDistance_counts, initialPosition_counts,
 			overshootPosition_counts, outputCompareDirection,
 			exposureScriptName.c_str());
@@ -1021,7 +1021,7 @@ xos_result_t Dmc2180_motor::init() {
 					"Dmc2180::initialize_motors -- Could not set motor pid parameters");
 			return XOS_FAILURE;
 		}
-
+/* yangx IT is being set in a indivivual script embeded in galil			
 		sprintf(command, "IT%c=0.1", axisLabel);
 
 		if (controller_execute(command, &error_code, FALSE ) == XOS_FAILURE) {
@@ -1029,7 +1029,7 @@ xos_result_t Dmc2180_motor::init() {
 					"Dmc2180::initialize_motors -- Could not set motor pid parameters");
 			return XOS_FAILURE;
 		}
-
+*/
 		//turn off dc motors
 		if (servoBetweenMoves) {
 			sprintf(command, "SH%c", axisLabel);
@@ -1431,7 +1431,7 @@ xos_result_t Dmc2180PiezoEncoder::set_position(dcs_scaled_t newPosition) {
 
         LOG_INFO2("Yangx volt=%f axisIndex : %d\n",newPosition, axisIndex);
 
-        sprintf(command, "VAL=%f;""CHAN=%d;""XQ #SETV,3", newPosition, axisIndex);
+        sprintf(command, "VAL=%f;""CHAN=%d;""XQ #SETV,6", newPosition, axisIndex);
         // construct and send message to dmc2180 
         controller_execute(command, &error_code, FALSE );
 
@@ -1749,8 +1749,9 @@ xos_boolean_t Dmc2180_motor::isMoving() {
 				//get_reference_position( &unscaledReference );
 
 				//verify that ALL of the steps have gone out
-                if ( abs(unscaledReference - unscaledPosition) < 5 ) {
-                    LOG_INFO("isMoving: STOP LEVEL4b: (reference - position) < 5 \n");
+				// yangx I change it to 20. original value is 5
+                if ( abs(unscaledReference - unscaledPosition) < 20 ) {
+                    LOG_INFO("isMoving: STOP LEVEL4b: (reference - position) < 20 \n");
 					// the dmc2180's internal state machine has stabilized
 					return FALSE;
 				}

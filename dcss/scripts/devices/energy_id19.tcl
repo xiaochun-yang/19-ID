@@ -19,11 +19,11 @@ proc energy_move { new_energy } {
         variable mono_theta
 	variable mono_c2_perp
 	variable mono_c2_para
-puts "yangx energy move"
-#	if { abs($energy - new_energy) < 0.5 } {
-#	   puts "less than a half ev don't need to move"
-#	   return
-# 	}
+puts "yangx energy move energy=$energy new energy=$new_energy"
+	if { abs($energy - $new_energy) < 1 } {
+	   puts "less than a half ev don't need to move"
+	   return
+ 	}
 	# calculate destination
 	set new_mono_theta [energy_calculate_mono_theta $new_energy $d_spacing]
 	set new_mono_c2_perp  [energy_calculate_mono_c2_perp $new_mono_theta]

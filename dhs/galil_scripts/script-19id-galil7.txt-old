@@ -1,0 +1,86 @@
+//
+//Galil Script for DMC2180
+//
+// WATCHDOG ROUTINE
+#AUTO
+MT2,2,2,2,2,2,2,2
+CE0,0,0,0,0,0,0,0
+CN 1
+AG 2,2,2,2,1,1,1,1
+LC1,1,1,1,1,1,1,1
+YA 64,64,64,64,16,16,16,16
+AQ 1,4
+AQ 2,4
+AQ 3,4
+SH
+EN
+#W_Dog
+CW ,1
+Kick=0
+LastKic=0
+#WDog_ok
+//MG{EF} "WATCHDOG ok"
+AT 0
+AT 5000
+JP #WDogBad,Kick=LastKic
+LastKic=Kick
+TimeOut=0
+JP #WDog_ok
+#WDogBad
+//ST ABCDEFGH
+//ST S
+//#close shutter
+//SB 2
+TimeOut=1
+//DON'T Send an unsolicited message to DHS
+//MG{EF} "dtoh_watchdog_timeout"
+JP #WDog_ok
+//
+//
+//This routine closes all sockets after waiting for 1 second.
+//The 1 second wait is useful to allow the client to disconnect cleanly.
+//
+#ShutAll
+AT 0
+AT 1000
+IHA=>-2
+IHB=>-2
+IHC=>-2
+IHD=>-2
+IHE=>-2
+IHF=>-2
+EN
+
+#ION
+A0=0
+A1=0
+A2=0
+A3=0
+A5=0
+A6=0
+A7=0
+CNT=4
+#anaLoop
+AT 0
+AT 500
+A0=A0+@AN[1]
+A1=A1+@AN[2]
+A2=A2+@AN[3]
+A3=A3+@AN[4]
+A4=A4+@AN[5]
+A5=A5+@AN[6]
+A6=A6+@AN[7]
+A7=A7+@AN[8]
+CNT=CNT-1
+JP #anaLoop,CNT>0
+A0=A0/4
+A1=A1/4
+A2=A2/4
+A3=A3/4
+A4=A4/4
+A5=A5/4
+A6=A6/4
+A7=A7/4
+MG{EF} "dtoh_ion_chamber",7,A0,A1,A2,A3,A4,A5,A6,A7
+JP #ION
+EN
