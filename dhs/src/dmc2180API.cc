@@ -810,12 +810,12 @@ xos_result_t Dmc2180_motor::timedExposureStepperMotor(
 		//"ReadyPos=%ld;"
 		//"OverPos=%ld;"
 		//"OcDir=%d;"
-		"XQ #%s,7", axisLabel, ks_value, exposeCmd.shutterChannel, exposureStart_counts, /*shutterOpenTrigger_counts,*/
+		"XQ #%s,3", axisLabel, ks_value, exposeCmd.shutterChannel, exposureStart_counts, /*shutterOpenTrigger_counts,*/
 			exposureEnd_counts, exposureVelocity_counts_per_s, accelerationDistance_counts, /*initialPosition_counts,*/
 			/*overshootPosition_counts, outputCompareDirection,*/
 			exposureScriptName.c_str());
 
-//LOG_INFO1("yangxx a=%c\n", axisLabel);
+LOG_INFO1("yangxx stepper =%c\n", axisLabel);
 
 	if (controller_execute(buffer, &error_code, FALSE ) == XOS_FAILURE)
 		return XOS_FAILURE;
@@ -940,19 +940,19 @@ xos_result_t Dmc2180_motor::timedExposureServoMotor(
 		"ReadyPos=%ld;"
 		"OverPos=%ld;"
 		"OcDir=%d;"
-		"XQ #%s,7", axisLabel, exposeCmd.shutterChannel, shutterOpenTrigger_counts,
+		"XQ #%s,3", axisLabel, exposeCmd.shutterChannel, shutterOpenTrigger_counts,
 			exposureEnd_counts, exposureVelocity_counts_per_s, accelerationDistance_counts, initialPosition_counts,
 			overshootPosition_counts, outputCompareDirection,
 			exposureScriptName.c_str());
 
-//LOG_INFO1("yangxx buffer=  %s \n", buffer);
+//LOG_INFO1("yangxx servo buffer=  %s \n", buffer);
 
 	if (controller_execute(buffer, &error_code, FALSE ) == XOS_FAILURE)
 		return XOS_FAILURE;
 
 	isScriptParticipant = TRUE;
     scriptThreadNumber =3;
-//yangx added
+
 //   LOG_INFO1("yangx to see a is %s \n", buffer);
 	return XOS_SUCCESS;
 }
@@ -1198,7 +1198,7 @@ LOG_INFO1("yangx encoder finished %d \n", finished);
                 LOG_WARNING("Error getting current position\n");
                 return XOS_FAILURE;
         }
-      return XOS_SUCCESS;
+    return XOS_SUCCESS;
 }
 
 // This function read the encounder counts from the script
@@ -1212,7 +1212,7 @@ xos_result_t Dmc2180PiezoEncoder::get_current_position(dcs_scaled_t * position) 
 
        // get position of axis
         LOG_INFO1("Yangx axisIndex %d \n", axisIndex);
-        sprintf(command, "CHAN=%d;""XQ #GETV,3", axisIndex);
+        sprintf(command, "CHAN=%d;""XQ #GETV,7", axisIndex);
         //sprintf(command,"XQ #GETV,3");
   
         controller_execute(command, &error_code, FALSE );
