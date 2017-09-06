@@ -454,11 +454,11 @@ class Pilatus::DetectorControl {
         putsDet "exttrigger $localDir${uid}_.cbf"
 	set _HF4M_ready 0
 #        puts "yangx _HF4M_ready = $_HF4M_ready"
-#	vwait _HF4m_ready
+#	vwait _HF4M_ready
 #	puts "yangxx _HF4M_ready = $_HF4M_ready"
-#after 1000	
-	puts "yangx: EXECUTE configure command"
-	configure -collecting true
+#after 100	
+#	puts "yangx: EXECUTE configure command"
+#	configure -collecting true
 
     }
 
@@ -608,9 +608,10 @@ class Pilatus::DetectorControl {
 
     private method handleReturnCode300 {  msg_ } {
 	puts "ReturnCode300> ${msg_}"
-#        puts "configure -collecting true"
-#	configure -collecting true
-#	set _HF4M_ready 1
+#	after 2000
+	puts "yangx configure -collecting true"
+	configure -collecting true
+	set _HF4M_ready 1
     }
 
     private method handleReturnCode15 {  msg_ } {

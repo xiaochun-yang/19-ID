@@ -1,0 +1,245 @@
+//
+//Galil Script for DMC2180
+//
+#AUTO
+HOMED=1
+MOA
+MT 1,2.5,2.5,2,2,2,2.5,2.5
+LC 0,0,0,0,1,1,0,0
+CEA=0
+CN1,1
+ER-1
+//set speed of phi homing
+HVA=40000
+BR0
+OTime=100
+SH
+EN
+#IONOUT
+IONVAL=0
+Finished=0
+CNT=5
+#ANALOOP
+AT 0
+AT OTime/5
+IONVAL =IONVAL+@AN[~a]
+CNT=CNT-1
+JP #ANALOOP, (CNT>0)
+IONVAL=IONVAL/5
+Finished = 1
+EN
+#W_Dog
+CW ,1
+Kick=0
+LastKic=0
+#WDog_ok
+//MG{EF} "WATCHDOG ok"
+AT 0
+AT 5000
+JP #WDogBad,Kick=LastKic
+LastKic=Kick
+TimeOut=0
+JP #WDog_ok
+#WDogBad
+//ST ABCDEFGH
+//ST S
+//#close shutter
+//SB 2
+TimeOut=1
+//DON'T Send an unsolicited message to DHS
+//MG{EF} "dtoh_watchdog_timeout"
+JP #WDog_ok
+//
+#ShutAll
+AT 0
+//AT 1000
+//IHA=>-2
+//IHB=>-2
+EN
+
+//Function: ExpServo (Exposure using Phi Servo Motor)
+//This script expects the following hardware configuration:
+// 1) Phi motor to be on the set on the ~a variable axis.
+// 2) Phi Encoder on channel H.  Output compare signal drives detector trigger
+//Before running, set the following variables:
+// ExpStart...Exposure Start: phi location where shutter should open
+// ExpEnd...Exposure End: phi location where shutter should close
+// ExpVel...Exposure Velocity: speed of the motor during the exposure
+// ShutCh..Shutter channel
+// KSVal.  The desired value for KS that was used to calculate the ramp time.
+// RampCnt The number of counts required to get up to ExpVel
+// Trigger Digital output D0 which connect detector trgger.
+#Expose
+MG{EF} "log_info Expose called Time=",TIME
+Trigger = 1
+//the trigger is assigned to galil2 DO1 port. (CB on 5V, SB off 0V).  
+SB Trigger
+//KS~a=KSVal
+// OcDir..Output compare direction
+//MotErr is some extra counts to give a minimum counts for rollback
+IF @ABS[ExpVel] < 100
+MotErr = 5
+ELSE
+MotErr = 50
+ENDIF
+IF ExpVel < 0
+MotErr = MotErr * -1
+OcDir = -65536;
+ELSE
+OcDir = 0
+ENDIF
+//ShutDel is shutter delay in seconds that the shutter takes to open. With a
+//pilatus we can be generous because the detector will clip the exposure.
+ShutDel=.010
+//ShutCnt is the number of counts that will pass by as the shutter opens at constant velocity
+ShutCnt=ShutDel * ExpVel
+//ShutOpen is position where to start opening the shutter, but it will take physical time
+ShutOpen=ExpStart - ShutCnt
+//ReadyPos is where to start the move from.  It include ramp time and the minimum counts
+MG{EF} "log_info Expose called 3"
+ReadyPos = ShutOpen - RampCnt - MotErr
+MG{EF} "log_info ReadyPos", ReadyPos
+MG{EF} "log_info ShutOpen", ShutOpen
+OverPos=ExpEnd + RampCnt + ShutCnt + MotErr
+MG{EF} "log_info OverPos", OverPos
+MG{EF} "log_info ShutCh", ShutCh
+//The exposure command starts where we want the detector to be triggered.
+//Set the phi encoder position to 0 so that we can use zero to trigger the output compare.
+// This is ok because the encoder is not used for anything else...
+//Encoder is on channel H!  Thus DPH=0 to set the trigger position.
+//DPH=0
+//Move to ready position
+//close the shuttter CB Shutch
+CB ShutCh
+//Disable the output compare while we get into position
+//OCH=-1
+MG{EF} "log_info Expose start"
+PA~a=ReadyPos
+BG~a
+MC~a
+MG{EF} "log_info In ready position"
+//enable the output compare trigger that goes to the detector, the script won't do anything with it.
+//OCH=0,OcDir
+SP~a=ExpVel
+PA~a=OverPos
+BG~a
+JP #WtRv1, ExpVel < 0
+MG{EF} "log_info Forward motor Time",TIME
+#WtFw1
+JP #WtFw1, _TP~a < ShutOpen
+//open the shutter
+SB ShutCh
+//wait 10 millsec and trigger detector
+WT 10
+CB Trigger
+MG{EF} "log_info Fw1 Trigger on Time",TIME
+JP #Cont1
+#WtRv1    //reverse direction
+JP #WtRv1, _TP~a > ShutOpen
+//open the shutter SB ShutCh
+SB ShutCh
+//trigger the detector to start data collection
+WT 100
+CB Trigger
+MG{EF} "log_info Rw1 Trigger on Time",TIME
+#Cont1
+//tell the dhs that the shutter is open
+MG{EF} "dtoh_shutter_open", ShutCh
+//keep waiting until the Output Compare is triggered, closing the shutter
+JP #WtRv2, ExpVel < 0
+#WtFw2
+JP #WtFw2, _TP~a < ExpEnd
+//tell the dhs that the shutter is closed
+//close the shutter CB ShutCh
+CB ShutCh
+//trigger detector to stop the data collection
+SB Trigger
+MG{EF} "log_info Fw Trigger off Time",TIME
+JP #Cont2
+#WtRv2
+JP #WtRv2, _TP~a > ExpEnd
+//close the shutter CB ShutCh
+CB ShutCh
+//trigger detector to stop
+SB trigger
+MG{EF} "log_info Rv Trigger off Time",TIME
+#Cont2
+MG{EF} "dtoh_shutter_closed ", ShutCh
+//stop the motor
+#StopExp
+//close the shutter CB ShutCh
+CB ShutCh
+//OCH=-1
+MC~a
+//MG{EF} "log_info yangx motor stopped"
+//AM~a
+EN
+#AbrtExp
+MG{EF} "dtoh_shutter_closed ", ShutCh
+CB ShutCh
+EN
+//
+//
+//use this to get the same motor timing without opening the shutter.
+#NoExps
+//Close shutter and move to ready position
+//close the shutter CB ShutCh
+CB ShutCh
+//Disable the output compare, because we don't want the shutter to open
+MG{EF} "log_info NoExpose start"
+PA~a=ReadyPos
+BG~a
+AM~a
+SP~a=ExpVel
+PA~a=OverPos
+BG~a
+AM~a
+EN
+#HALT
+MG{EF} "dtoh_shutter_closed", ShutCh
+//close the shutter CB ShutCh
+CB ShutCh
+//#CMDERR
+//MG{EF} "dtoh_shutter_closed", ShutCh
+//CB ShutCh
+//JP #NOERR,_TC=0
+//JP #UNERR,_TC<>22
+//MG{EF} "hit hardware limits"
+//EN
+//#UNERR
+//MG{EF} "galil script error: ", _TC
+//EN
+//#NOERR
+#ION
+A0=0
+A1=0
+A2=0
+A3=0
+A5=0
+A6=0
+A7=0
+CNT=8
+#anaLoop
+AT 0
+AT 250
+A0=A0+@AN[1]
+A1=A1+@AN[2]
+A2=A2+@AN[3]
+A3=A3+@AN[4]
+A4=A4+@AN[5]
+A5=A5+@AN[6]
+A6=A6+@AN[7]
+A7=A7+@AN[8]
+CNT=CNT-1
+JP #anaLoop,CNT>0
+A0=A0/8
+A1=A1/8
+A2=A2/8
+A3=A3/8
+A4=A4/8
+A5=A5/8
+A6=A6/8
+A7=A7/8
+MG{EF} "dtoh_ion_chamber",2,A0,A1,A2,A3,A4,A5,A6,A7
+JP #ION
+EN

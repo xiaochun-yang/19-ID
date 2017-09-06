@@ -73,7 +73,8 @@ EN
 MG{EF} "log_info Expose called Time=",TIME
 Trigger = 1
 //the trigger is assigned to galil2 DO1 port. (CB on 5V, SB off 0V).  
-//SB Trigger
+SB Trigger
+WT 1500
 //KS~a=KSVal
 // OcDir..Output compare direction
 //MotErr is some extra counts to give a minimum counts for rollback
@@ -130,8 +131,8 @@ JP #WtFw1, _TP~a < ShutOpen
 //open the shutter
 SB ShutCh
 //wait 10 millsec and trigger detector
-//WT 100
-SB Trigger
+WT 10
+CB Trigger
 MG{EF} "log_info Fw1 Trigger on Time",TIME
 JP #Cont1
 #WtRv1    //reverse direction
@@ -139,8 +140,8 @@ JP #WtRv1, _TP~a > ShutOpen
 //open the shutter SB ShutCh
 SB ShutCh
 //trigger the detector to start data collection
-//WT 100
-SB Trigger
+WT 100
+CB Trigger
 MG{EF} "log_info Rw1 Trigger on Time",TIME
 #Cont1
 //tell the dhs that the shutter is open
@@ -153,7 +154,7 @@ JP #WtFw2, _TP~a < ExpEnd
 //close the shutter CB ShutCh
 CB ShutCh
 //trigger detector to stop the data collection
-CB Trigger
+SB Trigger
 MG{EF} "log_info Fw Trigger off Time",TIME
 JP #Cont2
 #WtRv2
@@ -161,7 +162,7 @@ JP #WtRv2, _TP~a > ExpEnd
 //close the shutter CB ShutCh
 CB ShutCh
 //trigger detector to stop
-CB trigger
+SB trigger
 MG{EF} "log_info Rv Trigger off Time",TIME
 #Cont2
 MG{EF} "dtoh_shutter_closed ", ShutCh
