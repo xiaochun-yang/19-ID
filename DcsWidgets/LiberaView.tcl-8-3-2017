@@ -276,9 +276,20 @@ class DCS::LiberaDetailView {
        	return $range
 	}
 
+	proc sa_monitor {} {
+		puts "trace_was_exeuted"
+	}
+	
+	### new window open test.
+	#proc open_plot_window {} {
+	#	toplevel .t0
+	#	message .t0.msg -text "This is toplevel and message sample."
+	#	pack .t0.msg
+	#}
+
 	constructor { args } {}
 	destructor {
-		puts "Destructor of LiberaDetailView class was called."
+		puts "This is destructor of LiberaDetailView class."
 
     }
 }
@@ -991,6 +1002,43 @@ body DCS::LiberaDetailView::constructor {args} {
 	pack $itk_interior.graphf.f1.pb1 $itk_interior.graphf.f1.pb2 $itk_interior.graphf.f1.pb3 -pady 10 -padx 5 -fill x
 	pack $itk_interior.graphf.f1 -pady 5 -fill y -pady 80
 
+	### setup descriptive statistic value display 
+	#itk_component add discrff {
+	#	frame $itk_interior.graphf.f3.f1 
+	#	frame $itk_interior.graphf.f3.f2 
+	#}
+
+	#itk_component add discrflab {
+       # 	label $itk_interior.graphf.f3.f1.l1 -text "X position \[nm\]" -width 15
+	#	label $itk_interior.graphf.f3.f1.l3 -text "Y position \[nm\]" -width 15
+	#	label $itk_interior.graphf.f3.f1.l5 -text "SUM \[a.u.\] " -width 15
+	#	#label $itk_interior.graphf.f3.f2.l2 -text "Q" -width 15
+	#	} { 
+	#		keep -background -foreground -font
+	#	}
+
+	#itk_component add discrftext {
+	#	DCS::LiberaStringViewLabel $itk_interior.graphf.f3.f1.l2 \
+	#		-systemIdleOnly 0 -activeClientOnly 0 -stringName $sa_x_mon_obj } {} 
+
+	#itk_component add discrftext2 {
+	#	DCS::LiberaStringViewLabel $itk_interior.graphf.f3.f1.l4 \
+	#		-systemIdleOnly 0 -activeClientOnly 0 -stringName $sa_y_mon_obj } {} 
+
+	#itk_component add discrftext3 {
+	#	DCS::LiberaStringViewLabel $itk_interior.graphf.f3.f1.l6 \
+	#		-systemIdleOnly 0 -activeClientOnly 0 -stringName $sa_sum_mon_obj } {} 		
+
+	#itk_component add discrftext4 {
+	#	DCS::LiberaStringViewLabel $itk_interior.graphf.f3.f2.l4 \
+	#		-systemIdleOnly 0 -activeClientOnly 0 -stringName $sa_q_mon_obj } {} 
+
+	#pack $itk_interior.graphf.f3.f1.l1 $itk_interior.graphf.f3.f1.l2 $itk_interior.graphf.f3.f1.l3 \
+	#	$itk_interior.graphf.f3.f1.l4 $itk_interior.graphf.f3.f1.l5 $itk_interior.graphf.f3.f1.l6 -fill x
+	#pack $itk_interior.graphf.f3.f1 -pady 5 -fill x
+	#pack $itk_interior.graphf.f3
+
+	
 	### pack left and right frame
 	pack $itk_interior.lff $itk_interior.graphf -side left -fill y -padx 10 -pady 10
 		# itk_initialize analize options and affect widgets
@@ -1023,6 +1071,8 @@ set liberaNo [$itk_interior.lff.devicef.f1.d1 current]
 set bpmNo [$itk_interior.lff.devicef.f2.d2 current]
 #puts ${liberaNo}_${bpmNo}_sa_a_mon
 	set deviceFactory [DCS::DeviceFactory::getObject]
+	#puts $deviceFactory
+	#if { $pvupdatecounter > 0 } {puts "test"}
 
 	# Check the device existance
 	if {0 == [DCS::DeviceFactory::stringExists ${liberaNo}_${bpmNo}_sa_a_mon]} then {
@@ -1372,8 +1422,16 @@ body DCS::LiberaDetailView::openChildWin { name liberaNo bpmNo } {
 	#set path [$itk_component(Mdi) addDocument $name -title "Plot Window 1"  -resizable 1  -width 1550 -height 600]
 	set parentname [winfo parent [winfo parent $itk_component(leftframe)]]
 
-	set liberaNo [$itk_interior.lff.devicef.f1.d1 current]
-	set bpmNo [$itk_interior.lff.devicef.f2.d2 current]
+set liberaNo [$itk_interior.lff.devicef.f1.d1 current]
+set bpmNo [$itk_interior.lff.devicef.f2.d2 current]
+
+	#if {![winfo exists .t0]} {
+	#	toplevel .t0
+       #	wm title .t0 "About"
+       #	message .t0.msg -width 100 \
+       #      	   -text $parentname
+      	#  	pack .t0.msg
+	#	#if {![winfo exists $parentname.plotwinXY]} { }
 
 		if {$name == "plotWinXY"} {
 			if {$plotwinxyexist == 1} {
@@ -1390,48 +1448,60 @@ body DCS::LiberaDetailView::openChildWin { name liberaNo bpmNo } {
 		} elseif { $name == "plotWinRAWCURR" } {
 			if {$plotwinrawcurrexist == 1} {
 				delete object $parentname.plotWinRAWCURR0
-				if { [winfo exists $parentname.plotWinRAWNUME0 ]} {
-					if {[catch {winfo ismapped .tpwRN}]} {
-						delete object $parentname.plotWinRAWNUME0 
-						set plotwinrawnumeexist 0
-					}
-				}
 				DCS::PlotWinRAWCURR $parentname.plotWinRAWCURR0 $liberaNo $bpmNo
+				#DCS::PlotWinRAWCURR .plotWinRAWCURR#auto $liberaNo $bpmNo
 				set plotwinrawcurrexist 1
-
 			} else {
 				DCS::PlotWinRAWCURR $parentname.plotWinRAWCURR0 $liberaNo $bpmNo
 				set plotwinrawcurrexist 1
 			}
-		} elseif {$name == "plotWinRAWNUME"} {
+		} else {
 			if {$plotwinrawnumeexist == 1} {
 				delete object $parentname.plotWinRAWNUME0
-				if { [winfo exists $parentname.plotWinRAWCURR0 ]} {
-					if {[catch {winfo ismapped .tpwRC}]} {
-						delete object $parentname.plotWinRAWCURR0 
-						set plotwinrawcurrexist 0
-					}
-				}
-
 				DCS::PlotWinRAWNUME $parentname.plotWinRAWNUME0 $liberaNo $bpmNo
 				set plotwinrawnumeexist 1
-
+				#puts $plotwinrawnumeexist
 			} else {
 
 				DCS::PlotWinRAWNUME $parentname.plotWinRAWNUME0 $liberaNo $bpmNo
 				#puts [DCS::PlotWinXY::$parentname.plotWinXY0 whoami]
 				set plotwinrawnumeexist 1
 				#puts $plotwinrawnumeexist			}
-		} else {
-			puts "Invalid plot window name."
 		}
+		
+		
+	#}
+	
+	#set mdi widget
+	#itk_component add ring {
+	#	frame $itk_interior.r
+	#}
+	#
+	#itk_component add Mdi {
+	#	DCS::MDICanvas $itk_component(ring).m $this -background black
+	#} {}
+	#pack $itk_component(Mdi)
 
+	#set path
+	#set parentname [winfo parent $itk_component(tab3f1l2)]
+	#set path [$itk_component(Mdi) addDocument $name \
+	#	            -title "win1"  -resizable 1  -width 550 -height 600]
+
+	#create child window
+	#itk_component add $name {
+		#DCS::PlotWin1 .setup.r.m.r.mdiCanvas.lwchildsite.clipper.canvas.$name
+		#SetupTab::launchWidget $name
+	#	label $path.ll -text $parentname
+	#} {}
+	#pack $itk_component($name) -expand 1 -fill both
 }
 
 ### following methodes are not used yet.
 
 body DCS::LiberaDetailView::openToolChest { name liberaNo bpmNo} {
 	#store the current pointer shape and set it to a watch/clock to show the system is busy
+	#puts "test test test in the openToolChest definition"
+	#puts $name 
 	blt::busy hold . -cursor watch
 	update
 	

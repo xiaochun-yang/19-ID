@@ -19,6 +19,11 @@ package require DCSString
 ### import some package to access variables
 package require ComponentGateExtension
 
+
+
+
+
+
 class DCS::PlotWinRAWNUME {
 	inherit ::DCS::ComponentGateExtension
 	#inherit ::DCS::LiberaDetailView
@@ -105,12 +110,21 @@ class DCS::PlotWinRAWNUME {
 
 body DCS::PlotWinRAWNUME::constructor { args } {
 	toplevel .tpwRN
+	#label .tpwRN.l1 -text "ADC RAW NUMEent display\n"
+	#pack .tpwRN.l1
 	wm title .tpwRN "Numeric DATA Plot"
 
 	set liberaNo [lindex $args 0]
 	set bpmNo [lindex $args 1]
 
 	updatepv $liberaNo $bpmNo
+
+	#puts "sa_a_mon val is "
+	#$sa_a_mon_obj sendContentsToServer 100
+	#puts [$sa_a_mon_obj getContents]
+	#puts "trig_sp val is"
+	#puts [$adccw_ignore_trig_sp_obj getContents]
+
 
 	frame .tpwRN.f1
 	frame .tpwRN.f2
@@ -178,9 +192,6 @@ body DCS::PlotWinRAWNUME::constructor { args } {
 
 	### setup graph plot option##################################################
 	### variable definitions
-	set liberaNo [lindex $args 0]
-	set bpmNo [lindex $args 1]
-	updatepv $liberaNo $bpmNo
 
 	blt::vector create liberax1
 	liberax1 set [range 300]
@@ -296,6 +307,7 @@ body DCS::PlotWinRAWNUME::constructor { args } {
 
 	#set adccw_va_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_dd_va_mon]
 
+
 	#register valiables to monitor value change
 	::mediator register $this $sa_a_mon_obj contents DCS::PlotWinRAWNUME::handleVector1
 	::mediator register $this $sa_b_mon_obj contents DCS::PlotWinRAWNUME::handleVector2
@@ -313,9 +325,10 @@ body DCS::PlotWinRAWNUME::updatepv {liberaNo bpmNo} {
 
 	#puts $liberaNo
 	#puts $bpmNo
-	#puts "updatepv in raw num"
 
 	set deviceFactory [DCS::DeviceFactory::getObject]
+
+	#puts $deviceFactory
 
 	#set adccw_va_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_adccw_va_mon]
 	#set adccw_vb_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_adccw_vb_mon]
@@ -442,6 +455,10 @@ body DCS::PlotWinRAWNUME::handleVector7 { stringName_ targetReady_ alias_ conten
 
 
 body DCS::PlotWinRAWNUME::trigIGN {bw liberaNo bpmNo} {
+	#puts "testtesttest"
+	#set deviceFactory [DCS::DeviceFactory::getObject]
+	#set adccw_ignore_trig_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_adccw_ignore_trig_mon]
+	#set adccw_ignore_trig_sp_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_adccw_ignore_trig_sp]
 	set adccw_ignore_trig_mon_val [$adccw_ignore_trig_mon_obj getContents]
 	#puts $adccw_ignore_trig_mon_val
 	if {$adccw_ignore_trig_mon_val == 1} {

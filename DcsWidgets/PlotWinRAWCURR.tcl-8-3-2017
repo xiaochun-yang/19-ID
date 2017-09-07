@@ -103,11 +103,11 @@ class DCS::PlotWinRAWCURR {
 
 	destructor {
 		#puts "PlotWinRAWCURR destructor was called."
-		::mediator unregister $this $sa_a_mon_obj contents
-		::mediator unregister $this $sa_b_mon_obj contents
-		::mediator unregister $this $sa_c_mon_obj contents
-		::mediator unregister $this $sa_d_mon_obj contents
-		::mediator unregister $this $sa_sum_mon_obj contents
+		::mediator unregister $this $sa_a_mon_obj contents 
+		::mediator unregister $this $sa_b_mon_obj contents 
+		::mediator unregister $this $sa_c_mon_obj contents 
+		::mediator unregister $this $sa_d_mon_obj contents 
+		::mediator unregister $this $sa_sum_mon_obj contents 
 	}
 
 }
@@ -119,6 +119,15 @@ body DCS::PlotWinRAWCURR::constructor {args} {
 	toplevel .tpwRC
 	wm title .tpwRC "Current Plot"
 
+#wm protocol .tpwRC WM_DELETE_WINDOW {
+#    if {[tk_messageBox -message "Quit?" -type yesno] eq "yes"} {
+#       #exit
+#	#puts "close window."
+#	destroy .tpwRC
+#    }
+#}
+
+
 	set liberaNo [lindex $args 0]
 	set bpmNo [lindex $args 1]
 
@@ -126,6 +135,7 @@ body DCS::PlotWinRAWCURR::constructor {args} {
 
 	#puts "trig_sp val is"
 	#puts [$adccw_ignore_trig_sp_obj getContents]
+
 
 	frame .tpwRC.f1
 	frame .tpwRC.f2
@@ -333,6 +343,7 @@ body DCS::PlotWinRAWCURR::updatepv {liberaNo bpmNo} {
 	#puts $bpmNo
 
 	set deviceFactory [DCS::DeviceFactory::getObject]
+	#puts $deviceFactory
 
 	#set dd1_dd_va_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_dd1_dd_va_mon]
 	#set dd1_dd_vb_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_dd1_dd_vb_mon]
@@ -392,7 +403,7 @@ body DCS::PlotWinRAWCURR::saveIntoFile {} {
 
     set fileid [ open $fname "w" ]
 
-set data "# index Ch.A Ch.B Ch.C Ch.D X Y of $sa_a_mon_obj"
+set data "# index Ch.A Ch.B Ch.C Ch.d X Y of $sa_a_mon_obj"
 set maxlen [liberay1 length]
     #puts $fileid $data
 for {set i 0} {$i < $maxlen} {incr i} {
@@ -505,6 +516,10 @@ body DCS::PlotWinRAWCURR::handleVector7 { stringName_ targetReady_ alias_ conten
 
 body DCS::PlotWinRAWCURR::trigIGN {bw liberaNo bpmNo} {
 	# this method is for waveform data triger.
+	#puts "testtesttest"
+	#set deviceFactory [DCS::DeviceFactory::getObject]
+	#set adccw_ignore_trig_mon_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_adccw_ignore_trig_mon]
+	#set adccw_ignore_trig_sp_obj [$deviceFactory getObjectName ${liberaNo}_${bpmNo}_adccw_ignore_trig_sp]
 	set adccw_ignore_trig_mon_val [$adccw_ignore_trig_mon_obj getContents]
 	#puts $adccw_ignore_trig_mon_val
 	if {$adccw_ignore_trig_mon_val == 1} {
