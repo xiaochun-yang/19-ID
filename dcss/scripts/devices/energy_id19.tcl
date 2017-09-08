@@ -20,7 +20,7 @@ proc energy_move { new_energy } {
 	variable mono_c2_perp
 	variable mono_c2_para
 puts "yangx energy move energy=$energy new energy=$new_energy"
-	if { abs($energy - $new_energy) < 1 } {
+	if { abs($energy - $new_energy) < 0.5 } {
 	   puts "less than a half ev don't need to move"
 	   return
  	}
