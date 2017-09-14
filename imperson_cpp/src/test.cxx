@@ -958,13 +958,13 @@ printf("yangx 14444\n");
 		
 		testGetFilePermissions(run, rootDir + "/test/test1.txt");
 		testGetFileStatus(run, rootDir + "/test/test1.txt");
-		testCreateDirectory(run, rootDir + "/test2");
-		testDeleteDirectory(run, rootDir + "/test2");
+		testCreateDirectory(run, rootDir + "/test/test2");
+		testDeleteDirectory(run, rootDir + "/test/test2");
 		testCopyFile(run, rootDir + "/test/test1.txt", rootDir + "/test/out2.txt");
 		testRenameFile(run, rootDir + "/test/out2.txt", rootDir + "/test/out3.txt");
 		testDeleteFile(run, rootDir + "/test/out3.txt");
-		testCopyDirectory(run, rootDir + "/test", rootDir + "/test2");
-		testDeleteDirectory(run,  rootDir + "/test2");
+		testCopyDirectory(run, rootDir + "/test", rootDir + "/test/test2");
+		testDeleteDirectory(run,  rootDir + "/test/test2");
 		
 		char thisHost[50];
 	   strcpy(thisHost, getenv("HOST"));

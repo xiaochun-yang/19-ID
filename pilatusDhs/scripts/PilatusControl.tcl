@@ -230,7 +230,7 @@ class Pilatus::DetectorControl {
         if {$tmpDir ==""} {return -code error "Error: must configure tmpDir"}
 
         $_detectorStatus checkDiskSpace $tmpDir
-
+puts "yangx tmpDir=$tmpDir"
         #convert mm to pixel with pixelSize 172 um/pixel
         set _detectorPixelSizeFactorX [expr 1000.0 / $pixelXSizeUm ]
         set _detectorPixelSizeFactorY [expr 1000.0 / $pixelYSizeUm ]
@@ -260,7 +260,7 @@ class Pilatus::DetectorControl {
             queryTemp
         } errorMsg ]} {
             set _connected false
-	    puts "yangx2:2: $_socket host=$host port=$port"
+#	    puts "yangx2:2: $_socket host=$host port=$port"
             puts "ERROR: cannot connect to Pilatus detector $errorMsg"
 
             $dcss breakConnection
@@ -336,7 +336,7 @@ class Pilatus::DetectorControl {
 #yangx original putsDet "MXSettings Wavelength [$imageParams_ cget -wavelength]"
 #yangx get rid of MXSettings for all 6 following putsDet
 
-	puts "yangx reuseDark = [$imageParams_ cget -reuseDark]"
+#	puts "yangx reuseDark = [$imageParams_ cget -reuseDark]"
 	
         putsDet "Wavelength [$imageParams_ cget -wavelength]"
         putsDet "Detector_distance [expr [$imageParams_ cget -distance] * 0.001 ]"
@@ -436,16 +436,35 @@ class Pilatus::DetectorControl {
 #the file name here is prefix + _#. The _# is a run#
 
 	set fileName [$_multiImageParams cget -filename]
+	#yangx check if the file name is already exist
+        #should use imperson to deal with this. but
+	#haven't figour out how to do it yet
+	set ii 1
+	while {$ii} {
+		set fl [glob -nocomplain $destinationDir/$fileName*]
+#		puts "yangxx fl =$fl"
+		if {$fl != ""} {
+                	#make a new filename
+                	set destinationDir $destinationDir/OVERWRITTEN
+#			puts "yangx destinationDir =$destinationDir"
+        	} else {
+#			puts "yangx1 destinationDir =$destinationDir"
+			file mkdir $destinationDir
+                	set ii 0
+        	}
+	}
+	
 	putsDet "filename $fileName"
 	putsDet "directory $destinationDir"
-
+puts "yangx filename=$fileName"
+puts "yangx directory=$destinationDir"
         set startIndex [$_multiImageParams cget -startIndex]
         putsDet "startIndex $startIndex"
 
         #setup up local directory to put the data set
         set localDir "${tmpDir}/$userName/"
         file mkdir $localDir
-
+#puts "localdir=$localDir"
         #setup unique file names for local files
         set uid [clock seconds]
         $_multiImageParams configure -localUniqueRunId $uid
@@ -456,7 +475,6 @@ class Pilatus::DetectorControl {
 #        puts "yangx _HF4M_ready = $_HF4M_ready"
 #	vwait _HF4M_ready
 #	puts "yangxx _HF4M_ready = $_HF4M_ready"
-#after 100	
 #	puts "yangx: EXECUTE configure command"
 #	configure -collecting true
 
@@ -573,8 +591,8 @@ class Pilatus::DetectorControl {
                         set sessionId [stripPrivateKeyword [$_multiImageParams cget -sessionID]] 
 
                         $dcss sendMessage "htos_operation_completed detectorCollectShutterless [$_multiImageParams cget -operationHandle] normal"
-                      #  $fileMover moveFile $localFileName $remoteFileName $userName $sessionId false 
-                        $fileMover moveFile "/storage/test/hf262/devel/inverse/t-7_1_005.img" "/storage/test/hf262/devel/inverse/t-7_1_005.img" $userName $sessionId false 
+                        $fileMover moveFile $localFileName $remoteFileName $userName $sessionId false 
+                      #  $fileMover moveFile "/storage/test/hf262/devel/inverse/t-7_1_005.img" "/storage/test/hf262/devel/inverse/t-7_1_005.img" $userName $sessionId false 
 			puts "yangx false"
                     }
 		    puts "yangx localFileName=$localFileName remoteFileName=$remoteFileName userName=$userName sessionId=$sessionId\n"
