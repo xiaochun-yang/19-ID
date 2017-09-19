@@ -1,0 +1,103 @@
+//
+//galil10 -- Galil Script for ID19 DMC4080
+//
+// WATCHDOG ROUTINE
+#AUTO
+TM 500
+MT-2,-2,-2,-2.5,-2.5,-2.5,-2.5,-2.5
+CE2,2,0,2,0,0,0,0
+CN1
+AG2,2,2,3,2,2,2,2
+CL1,1,1,1,0,0,0,0
+WD0,0,0,0
+WC 500,500,500,500
+SK 32767,32676,32767,32767
+KS 8,8,8,8
+DB 5,5,5,5
+DS 2,2,2,2
+K1 5,5,6,7
+K2 0,0,0,0
+IT 0.1,0.1,0.1,0.1
+LC,,,,15,15,15,15
+YA16,16,16,16,16,16,16,16
+SH
+EN
+#W_Dog
+CW ,1
+Kick=0
+LastKic=0
+#WDog_ok
+//MG{EF} "WATCHDOG ok"
+AT 0
+AT 5000
+JP #WDogBad,Kick=LastKic
+LastKic=Kick
+TimeOut=0
+JP #WDog_ok
+#WDogBad
+//ST ABCDEFGH
+//ST S
+//#close shutter
+//SB 2
+TimeOut=1
+//DON'T Send an unsolicited message to DHS
+//MG{EF} "dtoh_watchdog_timeout"
+JP #WDog_ok
+//
+//
+//This routine closes all sockets after waiting for 1 second.
+//The 1 second wait is useful to allow the client to disconnect cleanly.
+//
+#ShutAll
+AT 0
+AT 1000
+IHA=>-2
+IHB=>-2
+IHC=>-2
+IHD=>-2
+IHE=>-2
+IHF=>-2
+EN
+#ION
+//A0=0
+//A1=0
+//A2=0
+//A3=0
+//A5=0
+//A6=0
+//A7=0
+//CNT=4
+//#anaLoop
+AT 0
+AT 500
+A0=@AN[1]
+A1=@AN[2]
+A2=@AN[3]
+A3=@AN[4]
+A4=@AN[5]
+A5=@AN[6]
+A6=@AN[7]
+A7=@AN[8]
+//CNT=CNT-1
+//JP #anaLoop,CNT>0
+//Change to voltage to temperature for
+//K thermcouple in the MONO
+A0=A0*1000/10.15
+A1=A1*1000/10.15
+A2=A2*1000/10.15
+A3=A3*1000/10.15
+A4=A4*1000/10.15
+A5=A5*1000/10.15
+A6=A6*1000/10.15
+A7=A7*1000/10.15
+MG{EF} "dtoh_ion_chamber",10,A0,A1,A2,A3,A4,A5,A6,A7
+//check the temperature if it's over the limit
+// if so, shutdown the motor power by set one output 
+// to 1 (this output link to ELO to trigger the ELO).
+// ELO state can be reset by issue MO first then SH
+//SB ELO-PORT
+WT 15000
+JP #ION
+
+EN
+//end of the routine
