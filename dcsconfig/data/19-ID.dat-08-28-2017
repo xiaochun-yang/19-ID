@@ -118,28 +118,28 @@ analogInStatus10
 galil10 analogInStatus10
 0 1 1 1 1
 0 1 1 1 1
-14.762700 15.213700 16.236000 24.955299 10.162500 12.477600 253.070496 254.453598
+17.378500 17.679199 16.626801 24.504299 11.214800 14.311700 254.453598 254.393494
 
 analogInStatus7
 13
 galil7 analogInStatus7
 0 1 1 1 1
 0 1 1 1 1
-1.136000 0.991400 0.003500 2.575700 3.437000 2.576100 2.573300 2.574600
+1.130600 0.990300 0.012000 2.574000 3.432100 2.577300 2.575500 2.575500
 
 analogInStatus2
 13
 galil2 analogInStatus2
 0 1 1 1 1
 0 1 1 1 1
-1.061800 2.574700 2.575500 2.575600 2.944500 2.576600 2.577400 2.576000
+0.093500 2.576900 2.575500 2.575000 2.944100 2.576600 2.575900 2.576900
 
 analogInStatus3
 13
 galil3 analogInStatus3
 0 1 1 1 1
 0 1 1 1 1
-0.133100 2.578500 2.577200 2.579000 2.946000 2.578600 2.577200 2.578800
+0.137600 2.577400 2.577200 2.578200 2.945800 2.578400 2.577300 2.579400
 
 get_robotstate
 11
@@ -417,7 +417,7 @@ self undulator_gap
 0 1 1 1 1
 0 0 0 0 0
 0
-5599.760000 20400.000000 5600.000000 1 1 0 0 mm
+20305.340000 20400.000000 5600.000000 1 1 0 0 mm
 0
 
 gap
@@ -425,7 +425,7 @@ gap
 epics_gateway SR:C19-ID:G1A{NYX:1-Ax:Gap}-Mtr.RBV
 1 1 1 1 1
 0 0 0 0 0
-5599.76
+20305.34
 
 gapRequestDrvH
 13
@@ -446,7 +446,7 @@ gapStatus
 epics_gateway SR:C19-ID:G1A{NYX:1-Ax:Gap}-Mtr.MOVN
 1 1 1 1 1
 0 0 0 0 0
-0.0000
+1.0000
 
 gapAbort
 13
@@ -460,14 +460,14 @@ gapReady
 epics_gateway SR:C19-ID:G1A{NYX:1-Ax:Gap}-Mtr.MOVN
 1 1 1 1 1
 0 0 0 0 0
-0
+1
 
 gapOwner
 13
 epics_gateway SR:C19-ID:G1A{NYX:1-Ax:Gap}-Mtr.MOVN
 1 1 1 1 1
 0 0 0 0 0
-0
+1
 
 energy_config
 13
@@ -636,7 +636,7 @@ galil7 mirror_vert
 0 1 1 1 1
 0 0 0 0 0
 0
--0.000400 6.300000 -13.700000 10000.000000 800 100 0 0 0 0 0 0 0 mm
+-0.000100 6.300000 -13.700000 10000.000000 600 100 0 0 0 0 0 0 0 mm
 
 mirror_vert_encoder
 12
@@ -726,7 +726,7 @@ galil8 mirror_slit_upper
 0 1 1 1 1
 0 0 0 0 0
 0
-7.999800 11.000000 -10.000000 10000.000000 10000 50 0 0 0 0 0 0 0 mm
+9.000000 20.000000 -20.000000 3200.000000 3200 80 30 0 0 0 1 0 0 mm
 
 mirror_slit_lower
 1
@@ -734,7 +734,7 @@ galil8 mirror_slit_lower
 0 1 1 1 1
 0 0 0 0 0
 0
--8.000000 10.000000 -10.000000 10000.000000 10000 50 0 0 0 0 0 0 0 mm
+-9.000000 20.000000 -20.000000 3200.000000 3200 50 30 0 0 0 0 0 0 mm
 
 mirror_slit_lobs
 1
@@ -742,7 +742,7 @@ galil8 mirror_slit_lobs
 0 1 1 1 1
 0 0 0 0 0
 0
--7.999900 10.000000 -9.700000 10000.000000 10000 120 0 0 0 0 0 0 0 mm
+-11.505937 11.000000 -9.700000 3200.000000 3200 50 0 0 0 0 0 0 0 mm
 
 mirror_slit_ring
 1
@@ -750,7 +750,7 @@ galil8 mirror_slit_ring
 0 1 1 1 1
 0 0 0 0 0
 0
-8.000000 10.000000 -9.500000 10000.000000 10000 120 0 0 0 0 0 0 0 mm
+13.732500 11.000000 -9.500000 3200.000000 3200 50 0 0 0 0 0 0 0 mm
 
 mirror_slit_horiz
 2
@@ -758,7 +758,7 @@ self STDSLIT_HORIZ
 0 1 1 1 1
 0 0 0 0 0
 1
-0.000050 10.000000 -10.000000 0 0 0 0 mm
+1.113282 10.000000 -10.000000 0 0 0 0 mm
 mirror_slit_lobs mirror_slit_ring
 
 mirror_slit_horiz_gap
@@ -767,7 +767,7 @@ self STDSLIT_HORIZ_GAP
 0 1 1 1 1
 0 0 0 0 0
 1
-15.999900 5.000000 -5.000000 0 0 0 0 mm
+25.238437 5.000000 -5.000000 0 0 0 0 mm
 mirror_slit_lobs mirror_slit_ring
 
 mirror_slit_vert
@@ -776,7 +776,7 @@ self STDSLIT_VERT
 0 1 1 1 1
 0 0 0 0 0
 1
--0.000100 10.000000 -10.000000 0 0 0 0 mm
+0.000000 10.000000 -10.000000 0 0 0 0 mm
 mirror_slit_upper mirror_slit_lower
 
 mirror_slit_vert_gap
@@ -785,7 +785,7 @@ self STDSLIT_VERT_GAP
 0 1 1 1 1
 0 0 0 0 0
 1
-15.999800 20.000000 -20.000000 0 0 0 0 mm
+18.000000 20.000000 -20.000000 0 0 0 0 mm
 mirror_slit_upper mirror_slit_lower
 
 toroid_vert
@@ -826,7 +826,7 @@ galil10 mono_c2_perp
 0 1 1 1 1
 0 0 0 0 0
 0
-6.735800 21.000000 4.028000 20000.000000 8000 50 50 0 0 0 0 0 0 mm
+6.736500 21.000000 4.028000 20000.000000 2000 50 50 0 0 0 0 0 0 mm
 
 mono_c2_para
 1
@@ -834,7 +834,7 @@ galil10 mono_c2_para
 0 1 1 1 1
 0 0 0 0 0
 0
-81.947800 150.000000 30.000000 20000.000000 30000 30 0 0 0 0 0 0 0 mm
+81.947700 150.000000 30.000000 20000.000000 20000 30 0 0 0 0 0 0 0 mm
 
 mono_c2_bend_1
 1
@@ -893,7 +893,7 @@ galil10 mono_c2_pitch
 0 1 1 1 1
 0 0 0 0 0
 0
-0.158130 21.500000 -5.620000 2460.000000 500 50 0 0 0 0 0 0 0 mrad
+0.155285 21.500000 -5.620000 2460.000000 100 30 0 0 0 0 0 0 0 mrad
 
 mono_c2_roll
 1
@@ -901,7 +901,7 @@ galil10 mono_c2_roll
 0 1 1 1 1
 0 0 0 0 0
 0
-5.617886 8.700000 -18.100000 2460.000000 1000 45 0 0 0 0 0 0 0 mrad
+5.613415 8.700000 -18.100000 2460.000000 1000 45 0 0 0 0 0 0 0 mrad
 
 mono_c2_yaw
 1
@@ -973,6 +973,15 @@ self energy_id19
 10649.068509 16000.000000 5400.000000 0 0 0 0 eV
 0
 
+mono_piezo
+2
+self mono_piezo_id19
+0 1 1 1 1
+0 0 0 0 0
+0
+0.000000 10.000000 0.000000 0 0 0 0 V
+0
+
 rio47_mono_piezo
 12
 simDhs rio47_mono_piezo
@@ -986,47 +995,13 @@ self standardString
 0 1 1 1 1
 0 {{Optimized table}} 1 0 0 0 0 0 0 12641.9987791 1109956666 100.00 3600.00 12.00 50.0000 0.100 11.000 -12.000 i2 0.095 0.095 0.100 20 0.050 0.10 0 20 0 {} {} {} {} 0 {}
 
-white_beam_filter1
-1
-simDhs white_beam_filter1
-0 1 1 1 1
-0 0 0 0 0
-0
-19.199600 1000.000000 -1000.000000 10000.000000 8000 50 0 0 0 0 0 0 0 mm
-
-white_beam_filter2
-1
-simDhs white_beam_filter2
-0 1 1 1 1
-0 0 0 0 0
-0
-16.250200 1000.000000 -1000.000000 10000.000000 8000 50 0 0 0 0 0 0 0 mm
-
-chutch_filter1
-2
-self chutch_filter1
-0 1 1 1 1
-0 0 0 0 0
-1
-1 4 1 0 0 0 0 deg
-white_beam_filter1
-
-chutch_filter2
-2
-self chutch_filter2
-0 1 1 1 1
-0 0 0 0 0
-1
-5 8 5 0 0 0 0 deg
-white_beam_filter2
-
 white_beam_filter_1
 1
 galil11 white_beam_filter_1
 0 1 1 1 1
 0 0 0 0 0
 0
-19.199600 1000.000000 -1000.000000 10000.000000 8000 50 0 0 0 0 0 0 0 mm
+19.500000 0.000000 -75.000000 128000.000000 80000 50 0 0 0 0 0 0 0 mm
 
 white_beam_filter_2
 1
@@ -1034,7 +1009,7 @@ galil11 white_beam_filter_2
 0 1 1 1 1
 0 0 0 0 0
 0
-16.250200 1000.000000 -1000.000000 10000.000000 8000 50 0 0 0 0 0 0 0 mm
+16.250000 0.000000 -75.000000 128000.000000 80000 50 50 0 0 0 0 0 0 mm
 
 white_beam_mask_x
 1
@@ -1042,7 +1017,7 @@ galil11 white_beam_mask_x
 0 1 1 1 1
 0 0 0 0 0
 0
-0.000000 1.130000 -1.200000 320000.000000 100000 50 0 0 0 0 0 0 0 mm
+0.000000 1.130000 -1.200000 320000.000000 100000 50 0 1 1 0 0 0 0 mm
 
 white_beam_mask_z
 1
@@ -1050,7 +1025,7 @@ galil11 white_beam_mask_z
 0 1 1 1 1
 0 0 0 0 0
 0
-0.000000 1.900000 -2.000000 320000.000000 100000 50 0 0 0 0 0 0 0 mm
+0.000000 1.900000 -2.000000 320000.000000 100000 50 0 1 1 0 0 0 0 mm
 
 white_beam_slit_upper
 1
@@ -1058,7 +1033,7 @@ galil11 white_beam_slit_upper
 0 1 1 1 1
 0 0 0 0 0
 0
-3.100100 5.000000 -4.400000 10000.000000 7000 50 0 0 0 0 0 0 0 mm
+3.000000 5.000000 -4.400000 128000.000000 80000 50 0 1 1 0 0 0 0 mm
 
 white_beam_slit_lower
 1
@@ -1066,7 +1041,7 @@ galil11 white_beam_slit_lower
 0 1 1 1 1
 0 0 0 0 0
 0
--2.999800 4.500000 -4.500000 10000.000000 7000 50 0 0 0 0 0 0 0 mm
+-3.000000 4.000000 -4.500000 128000.000000 80000 50 0 1 1 0 0 0 0 mm
 
 bpm1_x
 1
@@ -1227,7 +1202,7 @@ galil1 inline_camera_horz
 0 1 1 1 1
 0 0 0 1 1
 0
-1.407812 25.000000 -1.000000 12800.000000 10000 50 0 1 1 0 0 0 0 mm
+0.550000 25.000000 -1.000000 12800.000000 10000 50 0 1 1 0 0 0 0 mm
 
 inline_camera_focus
 1
@@ -1235,7 +1210,7 @@ galil1 inline_camera_focus
 0 1 1 1 1
 0 0 0 1 1
 0
-13.000000 15.000000 0.000000 23347.000000 20000 100 0 0 0 0 0 0 0 mm
+10.829828 15.000000 0.000000 23347.000000 20000 100 0 1 1 0 0 0 0 mm
 
 inline_camera_zoom
 1
@@ -1243,7 +1218,7 @@ simDhs inline_camera_zoom
 1 1 1 1 1
 0 1 1 1 1
 0
-1.000000 25.000000 0.000000 116736.000000 100000 100 0 1 1 0 0 0 1 mm
+0.149997 25.000000 0.000000 116736.000000 100000 100 0 1 1 0 0 0 1 mm
 
 inline_camera_zoom_h
 1
@@ -1303,7 +1278,7 @@ galil1 sample_camera_focus
 0 1 1 1 1
 0 0 0 1 1
 0
--0.200000 6.000000 -0.699000 400896.000000 100000 100 0 0 0 0 0 0 0 mm
+-0.220002 6.000000 -0.699000 400896.000000 100000 100 0 1 1 0 0 0 0 mm
 
 sample_camera_zoom
 1
@@ -1382,7 +1357,7 @@ galil1 sample_z
 0 1 1 1 1
 0 1 1 1 1
 0
-1.465843 13.000000 -13.000000 20157.000000 10000 50 0 0 0 0 0 1 0 mm
+0.801310 13.000000 -13.000000 20157.000000 10000 50 0 0 0 0 0 1 0 mm
 
 gonio_kappa
 1
@@ -1406,7 +1381,7 @@ galil2 gonio_phi
 0 1 1 1 1
 0 1 1 1 1
 0
-10.029200 1000.000000 -1000.000000 10000.000000 900000 100 0 0 0 0 0 0 1 deg
+20.000000 1000.000000 -1000.000000 10000.000000 900000 100 0 0 0 0 0 0 1 deg
 
 sample_vert
 1
@@ -1438,7 +1413,7 @@ galil2 sample_x
 0 1 1 1 1
 0 1 1 1 1
 0
--0.122422 6.000000 -6.000000 12800.000000 10000 50 0 0 0 0 0 1 0 mm
+-0.271641 6.000000 -6.000000 12800.000000 10000 50 0 0 0 0 0 1 0 mm
 
 sample_y
 1
@@ -1446,7 +1421,7 @@ galil2 sample_y
 0 1 1 1 1
 0 1 1 1 1
 0
--0.047969 7.000000 -6.000000 12800.000000 10000 50 0 0 0 0 0 0 0 mm
+0.017891 7.000000 -6.000000 12800.000000 10000 50 0 0 0 0 0 0 0 mm
 
 pitch
 1
@@ -2123,14 +2098,14 @@ run1
 self runDefinition
 0 1 1 1 1
 0 1 1 1 1
-inactive 0 1 test-20-frames /storage/hf4m/19id/test 1 Phi 0.00 10.0 0.50 180.0 0.20 200.000000 20.000000 59.536867 1 10649.069 0.0 0.0 0.0 0.0 0 0
+inactive 0 1 test_hwt_3 /storage/hf4m/19id 1 Phi 20.00 30.0 0.50 180.0 0.20 200.000000 20.000000 59.536867 1 10649.069 0.0 0.0 0.0 0.0 0 0
 
 run2
 13
 self runDefinition
 0 1 1 1 1
 0 1 1 1 1
-inactive 0 2 yangx-test /storage/hf4m/19id 1 Phi 0.00 2.5 0.50 180.0 0.10 200.000000 20.000000 59.536867 1 10649.069 0.0 0.0 0.0 0.0 0 0
+inactive 0 2 test2 /storage/hf4m/images 1 Phi 0.00 1.0 0.20 360.0 0.25 0.000 20.000000 50 1 12656.899058 {} {} {} {} 0 0
 
 run3
 13
@@ -2596,7 +2571,7 @@ hutchDoorStatus
 simDhs standardString
 0 1 1 1 1
 0 1 1 1 1
-closed 1505845408
+closed 1503950611
 
 getPV
 11
@@ -2615,7 +2590,7 @@ spear_current
 epics_gateway SR:OPS-BI{DCCT:1}I:Real-I
 0 1 1 1 1
 0 1 1 1 1
-324.7437959
+0
 
 dose_const
 13
@@ -3588,10 +3563,10 @@ self collectRasters
 
 detectorStatus
 13
-etector detectorStatus
+detector detectorStatus
 0 1 1 1 1
 0 1 1 1 1
-TEMP0 -99.0 TEMP1 -99.0 TEMP2 -99.0 HUMID0 -99.0 HUMID1 -99.0 HUMID2 -99.0 GAPFILL -1 EXPOSUREMODE null DISK_SIZE_KB 0 DISK_USED_KB 0 DISK_USE_PERCENT 40 FREE_IMAGE_SPACE 0 SUM_IMAGES false SUM_IMAGES_DELTA_DEG 0.1 N_FRAME_IMG 1 THRESHOLD 6329 GAIN lowg THRESHOLD_SET false SETTING_THRESHOLD false
+TEMP0 -99.0 TEMP1 -99.0 TEMP2 -99.0 HUMID0 -99.0 HUMID1 -99.0 HUMID2 -99.0 GAPFILL -1 EXPOSUREMODE null DISK_SIZE_KB 0 DISK_USED_KB 0 DISK_USE_PERCENT 5 FREE_IMAGE_SPACE 0 SUM_IMAGES false SUM_IMAGES_DELTA_DEG 0.1 N_FRAME_IMG 1 THRESHOLD 6329 GAIN lowg THRESHOLD_SET false SETTING_THRESHOLD false
 
 detectorSetThreshold
 11
@@ -3945,63 +3920,63 @@ epics_gateway LIBERA01:ENV:ENV_TEMP_OUTER_MONITOR
 epics_gateway LIBERA01:ENV:ENV_FRONT_VENT_ACT_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-3210
+3480
 
 0_0_env_back_vent_act_mon
 13
 epics_gateway LIBERA01:ENV:ENV_BACK_VENT_ACT_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-3210
+3480
 
 0_0_env_max_adc_mon
 13
 epics_gateway LIBERA01:ENV:ENV_MAX_ADC_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-11615
+11619
 
 0_0_sa_a_mon
 13
 epics_gateway LIBERA01:SA:SA_A_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-1047552
+1047496
 
 0_0_sa_b_mon
 13
 epics_gateway LIBERA01:SA:SA_B_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-1472171
+1472862
 
 0_0_sa_cx_mon
 13
 epics_gateway LIBERA01:SA:SA_CX_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-1702943843
+1573841753
 
 0_0_sa_cy_mon
 13
 epics_gateway LIBERA01:SA:SA_CY_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-113529527
+104922721
 
 0_0_sa_c_mon
 13
 epics_gateway LIBERA01:SA:SA_C_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-1291450
+1292479
 
 0_0_sa_d_mon
 13
 epics_gateway LIBERA01:SA:SA_D_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-1418926
+1419109
 
 0_0_sa_q_mon
 13
@@ -4015,21 +3990,21 @@ epics_gateway LIBERA01:SA:SA_Q_MONITOR
 epics_gateway LIBERA01:SA:SA_SUM_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-1307525
+1307986
 
 0_0_sa_x_mon
 13
 epics_gateway LIBERA01:SA:SA_X_MONITOR
 1 1 1 1 1
 1 1 1 1 1
--85221
+-85648
 
 0_0_sa_y_mon
 13
 epics_gateway LIBERA01:SA:SA_Y_MONITOR
 1 1 1 1 1
 1 1 1 1 1
--54680
+-54826
 
 0_0_env_arc_sp
 13
@@ -4064,7 +4039,7 @@ epics_gateway LIBERA01:ENV:ENV_RANGE_MONITOR
 epics_gateway LIBERA01:ENV:ENV_VOLTAGE0_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-1.54
+1.542
 
 0_0_env_voltage1_mon
 13
@@ -4078,7 +4053,7 @@ epics_gateway LIBERA01:ENV:ENV_VOLTAGE1_MONITOR
 epics_gateway LIBERA01:ENV:ENV_VOLTAGE2_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-2.488
+2.486
 
 0_0_env_voltage3_mon
 13
@@ -4092,21 +4067,21 @@ epics_gateway LIBERA01:ENV:ENV_VOLTAGE3_MONITOR
 epics_gateway LIBERA01:ENV:ENV_VOLTAGE4_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-5.027
+5.03
 
 0_0_env_voltage5_mon
 13
 epics_gateway LIBERA01:ENV:ENV_VOLTAGE5_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-12.018
+12.006
 
 0_0_env_voltage6_mon
 13
 epics_gateway LIBERA01:ENV:ENV_VOLTAGE6_MONITOR
 1 1 1 1 1
 1 1 1 1 1
--12.502
+-12.491
 
 0_0_env_voltage7_mon
 13
@@ -4505,63 +4480,63 @@ epics_gateway LIBERA02:ENV:ENV_TEMP_OUTER_MONITOR
 epics_gateway LIBERA02:ENV:ENV_FRONT_VENT_ACT_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-5730
+5760
 
 1_0_env_back_vent_act_mon
 13
 epics_gateway LIBERA02:ENV:ENV_BACK_VENT_ACT_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-5730
+5700
 
 1_0_env_max_adc_mon
 13
 epics_gateway LIBERA02:ENV:ENV_MAX_ADC_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-12509
+12525
 
 1_0_sa_a_mon
 13
 epics_gateway LIBERA02:SA:SA_A_MONITOR
 1 1 1 1 1
 1 1 1 1 1
--7970
+-8306
 
 1_0_sa_b_mon
 13
 epics_gateway LIBERA02:SA:SA_B_MONITOR
 1 1 1 1 1
 1 1 1 1 1
--3343
+-5019
 
 1_0_sa_cx_mon
 13
 epics_gateway LIBERA02:SA:SA_CX_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-529587908
+137746688
 
 1_0_sa_cy_mon
 13
 epics_gateway LIBERA02:SA:SA_CY_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-35305798
+9183050
 
 1_0_sa_c_mon
 13
 epics_gateway LIBERA02:SA:SA_C_MONITOR
 1 1 1 1 1
 1 1 1 1 1
--3268
+-1652
 
 1_0_sa_d_mon
 13
 epics_gateway LIBERA02:SA:SA_D_MONITOR
 1 1 1 1 1
 1 1 1 1 1
--3461
+-2563
 
 1_0_sa_q_mon
 13
@@ -4575,21 +4550,21 @@ epics_gateway LIBERA02:SA:SA_Q_MONITOR
 epics_gateway LIBERA02:SA:SA_SUM_MONITOR
 1 1 1 1 1
 1 1 1 1 1
--4511
+-4385
 
 1_0_sa_x_mon
 13
 epics_gateway LIBERA02:SA:SA_X_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-402823
+361315
 
 1_0_sa_y_mon
 13
 epics_gateway LIBERA02:SA:SA_Y_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-381518
+782754
 
 1_0_env_arc_sp
 13
@@ -4652,7 +4627,7 @@ epics_gateway LIBERA02:ENV:ENV_VOLTAGE3_MONITOR
 epics_gateway LIBERA02:ENV:ENV_VOLTAGE4_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-4.932
+4.93
 
 1_0_env_voltage5_mon
 13
@@ -4666,7 +4641,7 @@ epics_gateway LIBERA02:ENV:ENV_VOLTAGE5_MONITOR
 epics_gateway LIBERA02:ENV:ENV_VOLTAGE6_MONITOR
 1 1 1 1 1
 1 1 1 1 1
--12.272
+-12.266
 
 1_0_env_voltage7_mon
 13
@@ -4687,7 +4662,7 @@ epics_gateway LIBERA02:ENV:ENV_PBPP_1V25_MONITOR
 epics_gateway LIBERA02:ENV:ENV_PBPP_2V5_NEG_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-2.482
+2.463
 
 1_0_env_leakage_0_mon
 13
@@ -4778,14 +4753,14 @@ epics_gateway LIBERA03:ENV:ENV_IOFFSET_3_MONITOR
 epics_gateway LIBERA03:ENV:ENV_K1_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-150000
+1500000
 
 2_0_env_k2_mon
 13
 epics_gateway LIBERA03:ENV:ENV_K2_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-150000
+1500000
 
 2_0_env_ki_0_mon
 13
@@ -5058,7 +5033,7 @@ epics_gateway LIBERA03:ENV:ENV_TEMP_MONITOR
 epics_gateway LIBERA03:ENV:ENV_TEMP_OUTER_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-45
+44.75
 
 2_0_env_front_vent_act_mon
 13
@@ -5079,49 +5054,49 @@ epics_gateway LIBERA03:ENV:ENV_BACK_VENT_ACT_MONITOR
 epics_gateway LIBERA03:ENV:ENV_MAX_ADC_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-13893
+13895
 
 2_0_sa_a_mon
 13
 epics_gateway LIBERA03:SA:SA_A_MONITOR
 1 1 1 1 1
 1 1 1 1 1
--4741
+-3844
 
 2_0_sa_b_mon
 13
 epics_gateway LIBERA03:SA:SA_B_MONITOR
 1 1 1 1 1
 1 1 1 1 1
--5617
+-2187
 
 2_0_sa_cx_mon
 13
 epics_gateway LIBERA03:SA:SA_CX_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-518881883
+127040693
 
 2_0_sa_cy_mon
 13
 epics_gateway LIBERA03:SA:SA_CY_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-34592063
+8469317
 
 2_0_sa_c_mon
 13
 epics_gateway LIBERA03:SA:SA_C_MONITOR
 1 1 1 1 1
 1 1 1 1 1
--3022
+-2692
 
 2_0_sa_d_mon
 13
 epics_gateway LIBERA03:SA:SA_D_MONITOR
 1 1 1 1 1
 1 1 1 1 1
--3218
+-2850
 
 2_0_sa_q_mon
 13
@@ -5135,21 +5110,21 @@ epics_gateway LIBERA03:SA:SA_Q_MONITOR
 epics_gateway LIBERA03:SA:SA_SUM_MONITOR
 1 1 1 1 1
 1 1 1 1 1
--4150
+-2894
 
 2_0_sa_x_mon
 13
 epics_gateway LIBERA03:SA:SA_X_MONITOR
 1 1 1 1 1
 1 1 1 1 1
--6205
+23666
 
 2_0_sa_y_mon
 13
 epics_gateway LIBERA03:SA:SA_Y_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-37357
+6419
 
 2_0_env_arc_sp
 13
@@ -5184,14 +5159,14 @@ epics_gateway LIBERA03:ENV:ENV_RANGE_MONITOR
 epics_gateway LIBERA03:ENV:ENV_VOLTAGE0_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-1.49
+1.489
 
 2_0_env_voltage1_mon
 13
 epics_gateway LIBERA03:ENV:ENV_VOLTAGE1_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-1.74
+1.738
 
 2_0_env_voltage2_mon
 13
@@ -5205,7 +5180,7 @@ epics_gateway LIBERA03:ENV:ENV_VOLTAGE2_MONITOR
 epics_gateway LIBERA03:ENV:ENV_VOLTAGE3_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-3.198
+3.2
 
 2_0_env_voltage4_mon
 13
@@ -5219,14 +5194,14 @@ epics_gateway LIBERA03:ENV:ENV_VOLTAGE4_MONITOR
 epics_gateway LIBERA03:ENV:ENV_VOLTAGE5_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-11.78
+11.761
 
 2_0_env_voltage6_mon
 13
 epics_gateway LIBERA03:ENV:ENV_VOLTAGE6_MONITOR
 1 1 1 1 1
 1 1 1 1 1
--12.271
+-12.246
 
 2_0_env_voltage7_mon
 13
@@ -5247,7 +5222,7 @@ epics_gateway LIBERA03:ENV:ENV_PBPP_1V25_MONITOR
 epics_gateway LIBERA03:ENV:ENV_PBPP_2V5_NEG_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-2.427
+2.409
 
 2_0_env_leakage_0_mon
 13
