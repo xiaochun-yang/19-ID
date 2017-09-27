@@ -40,13 +40,13 @@ proc white_beam_filter1_update {} {
 proc white_beam_filter1_calculate { num } {
 
 	variable white_beam_filter_1
-	if { $num == 1 } {
+	if { $num == 4 } {
                         return 19.2
-        } elseif { $num == 2 } {
-                        return 1
         } elseif { $num == 3 } {
+                        return 1
+        } elseif { $num == 2 } {
                         return -17.5
-        } elseif { $num == 4 } {
+        } elseif { $num == 1 } {
                         return -35.5
         } else {
                         return $white_beam_filter_1
@@ -57,13 +57,13 @@ proc white_beam_filter1_calculate1 { white_beam_filter_1 } {
         variable white_beam_filter1
         
         if { [expr abs([expr $white_beam_filter_1 - 19.2])] < 0.2 } {
-                return 1
-        } elseif { [expr abs([expr $white_beam_filter_1 - 1])] < 0.2 } {
-                return 2
-        } elseif { [expr abs([expr $white_beam_filter_1 + 17.5])] < 0.2 } {
-                return 3
-        } elseif { [expr abs([expr $white_beam_filter_1 + 35.5])] < 0.2 } {
                 return 4
+        } elseif { [expr abs([expr $white_beam_filter_1 - 1])] < 0.2 } {
+                return 3
+        } elseif { [expr abs([expr $white_beam_filter_1 + 17.5])] < 0.2 } {
+                return 2
+        } elseif { [expr abs([expr $white_beam_filter_1 + 35.5])] < 0.2 } {
+                return 1
         } else {
                 return $white_beam_filter1
         }

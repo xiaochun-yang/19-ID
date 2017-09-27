@@ -55,22 +55,6 @@ class DCS::WBControlWidget {
 
                 # draw the table
                 #rect_solid 180 120 250 20 40 60 40
-		itk_component add filter1 {
-                  label $itk_component(canvas).filter1 \
-                      -text "Filter 1\n1:  Open\n2:250um\n3:500um\n4:   1mm" \
-                      -relief flat \
-                      -width 10 \
-              	} {
-                           keep -foreground
-              	}
-		itk_component add filter2 {
-                  label $itk_component(canvas).filter2 \
-                      -text "Filter 2\n5:  Open\n6:   2mm\n7:  open\n8:  Open" \
-                      -relief flat \
-                      -width 10 \
-              	} {
-                           keep -foreground
-              	}
 		itk_component add unit1 {
                   # make the optimize beam button
                   label $itk_component(canvas).unit1 \
@@ -89,8 +73,6 @@ class DCS::WBControlWidget {
               	} {
                            keep -foreground
               	}
-		place $itk_component(filter1) -x 20 -y 100 -anchor sw
-		place $itk_component(filter2) -x 450 -y 100 -anchor sw
 		place $itk_component(unit1) -x 220 -y 85 -anchor sw
 		place $itk_component(unit2) -x 395 -y 85 -anchor sw
 		

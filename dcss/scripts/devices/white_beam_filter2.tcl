@@ -40,13 +40,13 @@ proc white_beam_filter2_update {} {
 proc white_beam_filter2_calculate { num } {
 
 	variable white_beam_filter_2
-	if { $num == 5 } {
+	if { $num == 8 } {
                         return 16.23
-        } elseif { $num == 6 } {
-                        return -2.5
         } elseif { $num == 7 } {
+                        return -2.5
+        } elseif { $num == 6 } {
                         return -20
-        } elseif { $num == 8 } {
+        } elseif { $num == 5 } {
                         return -38.3
         } else {
                         return $white_beam_filter_2
