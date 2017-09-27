@@ -85,6 +85,11 @@ int	 ignored = 0;
                 exit(1);
         }
 
+	//qisheng asked to add those codes
+	xiaSetLogLevel(4);
+	xiaSetLogOutput("handel.log");
+
+
 /*	//Apply new acquisition value. this function is only for single channel
 	status = xiaBoardOperation(-1, "apply", &ignored);
 	if (status != XIA_SUCCESS) {

@@ -82,14 +82,26 @@ A7=@AN[8]
 //JP #anaLoop,CNT>0
 //Change to voltage to temperature for
 //K thermcouple in the MONO
+//if the temperature is great than 40C
+//then shut the motor power off.
+TEMP=40
+OUTPORT=1
 A0=A0*1000/10.15
+JP #SHUTOFF,(A0>TEMP) 
 A1=A1*1000/10.15
+JP #SHUTOFF,(A1>TEMP) 
 A2=A2*1000/10.15
+JP #SHUTOFF,(A2>TEMP) 
 A3=A3*1000/10.15
+JP #SHUTOFF,(A3>TEMP) 
 A4=A4*1000/10.15
+JP #SHUTOFF,(A4>TEMP) 
 A5=A5*1000/10.15
+JP #SHUTOFF,(A5>TEMP) 
 A6=A6*1000/10.15
+JP #SHUTOFF,(A6>TEMP) 
 A7=A7*1000/10.15
+JP #SHUTOFF,(A7>TEMP) 
 MG{EF} "dtoh_ion_chamber",10,A0,A1,A2,A3,A4,A5,A6,A7
 //check the temperature if it's over the limit
 // if so, shutdown the motor power by set one output 
@@ -98,6 +110,8 @@ MG{EF} "dtoh_ion_chamber",10,A0,A1,A2,A3,A4,A5,A6,A7
 //SB ELO-PORT
 WT 15000
 JP #ION
-
+#SHUTOFF
+CB OUTPORT
+JP #ION
 EN
 //end of the routine
