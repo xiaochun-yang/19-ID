@@ -57,13 +57,13 @@ proc white_beam_filter2_calculate1 { white_beam_filter_2 } {
         variable white_beam_filter2
         
         if { [expr abs([expr $white_beam_filter_2 - 16.23])] < 0.5 } {
-                return 5
-        } elseif { [expr abs([expr $white_beam_filter_2 + 2.5])] < 0.5 } {
-                return 6
-        } elseif { [expr abs([expr $white_beam_filter_2 + 20])] < 0.5 } {
-                return 7
-        } elseif { [expr abs([expr $white_beam_filter_2 + 38.3])] < 0.5 } {
                 return 8
+        } elseif { [expr abs([expr $white_beam_filter_2 + 2.5])] < 0.5 } {
+                return 7
+        } elseif { [expr abs([expr $white_beam_filter_2 + 20])] < 0.5 } {
+                return 6
+        } elseif { [expr abs([expr $white_beam_filter_2 + 38.3])] < 0.5 } {
+                return 5
         } else {
                 return $white_beam_filter2
         }
