@@ -34,7 +34,8 @@ class DCS::GonioMotionsWidget {
         yaw \
 	beamstop_vert \
 	beamstop_rota \
-	beamstop_z
+	beamstop_z \
+	sample_vert
         ]
     }
 
@@ -43,12 +44,14 @@ class DCS::GonioMotionsWidget {
                 place $itk_component(control) -x 150 -y 275
 
                 # construct the table widgets
-                motorView optic_vert 125  90 sw
-                motorView optic_horz 300 90 sw
-                motorView pitch 125 150 sw
-                motorView yaw 300 150 sw
-		motorView beamstop_vert 125 210 sw 
-		motorView beamstop_rota 300 210 sw 
+                motorView optic_vert 125  70 sw
+                motorView optic_horz 300 70 sw
+                motorView pitch 125 130 sw
+                motorView yaw 300 130 sw
+		motorView beamstop_vert 125 190 sw 
+		motorView beamstop_rota 300 190 sw 
+		motorView sample_vert 125 250 sw
+		motorView beamstop_horz 300 250 sw
 
 		 itk_component add unit1 {
                  
@@ -72,8 +75,8 @@ class DCS::GonioMotionsWidget {
                 # draw the table
                 #rect_solid 180 120 250 20 40 60 40
 
-		place $itk_component(unit1) -x 387 -y 205 -anchor sw
-		place $itk_component(pos) -x 430 -y 205 -anchor sw
+		place $itk_component(unit1) -x 387 -y 185 -anchor sw
+		place $itk_component(pos) -x 430 -y 185 -anchor sw
 
                 eval itk_initialize $args
                 $itk_component(canvas) configure -width 580 -height 310
