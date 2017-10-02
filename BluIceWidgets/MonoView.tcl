@@ -492,7 +492,8 @@ class DoubleCrystalMonoViewDoubleSetID19 {
 
     public method handleEncoderUpdate
     public method handleMotorTempChange
-
+    public method handleAutoPeak
+    
     public method setPitchValue { } {
 	set deviceFactory [::DCS::DeviceFactory::getObject]
 	set obj1 [$deviceFactory getObjectName ion_chamber4]
@@ -557,7 +558,7 @@ class DoubleCrystalMonoViewDoubleSetID19 {
                            keep -foreground
         }
 
-  itk_component add roll {
+  	itk_component add roll {
             DCS::Entry $itk_component(canvas).roll \
             -background  #d0d000 \
             -systemIdleOnly 0 \
@@ -596,6 +597,14 @@ class DoubleCrystalMonoViewDoubleSetID19 {
               }
         }
 
+	itk_component add autoPeak {
+            button $itk_component(canvas).autoPeak \
+            -text "Auto Peak" \
+	    -width 8 \
+            -command "$this handleAutoPeak"
+        } {
+        }
+
 	place $itk_component(temp0) -x 675 -y 270 -anchor se
 	place $itk_component(temp1) -x 675 -y 337 -anchor se
 	place $itk_component(temp2) -x 525 -y 100 -anchor se
@@ -607,6 +616,7 @@ class DoubleCrystalMonoViewDoubleSetID19 {
 	place $itk_component(pitch) -x 515 -y 320 -anchor se 
       	place $itk_component(rolll) -x 495 -y 355 -anchor se
       	place $itk_component(roll) -x 515 -y 380 -anchor se
+      	place $itk_component(autoPeak) -x 510 -y 415 -anchor se
 
         
 	$m_strBeamCurrent register $this contents handleMotorTempChange
@@ -639,6 +649,10 @@ body DoubleCrystalMonoViewDoubleSetID19::handleEncoderUpdate {name_ targetReady_
      } else {
      	$itk_component(canvas).rolll configure -text $tex 
      }
+}
+
+body DoubleCrystalMonoViewDoubleSetID19::handleAutoPeak { } {
+
 }
 
 body DoubleCrystalMonoViewDoubleSetID19::handleMotorTempChange { name_ targetReady_ - contents_ - } {
