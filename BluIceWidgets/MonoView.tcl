@@ -493,7 +493,28 @@ class DoubleCrystalMonoViewDoubleSetID19 {
     public method handleEncoderUpdate
     public method handleMotorTempChange
     public method handleAutoPeak
-    
+    public method doAutoPeak { } {
+	#ion_chamber4:pitch piezo;
+	#ion_chamber5:roll piezo;
+	#ion_chamber6:beampath ion_chamber
+	set deviceFactory [::DCS::DeviceFactory::getObject]
+	set obj1 [$deviceFactory getObjectName ion_chamber4]
+        set obj2 [$deviceFactory getObjectName ion_chamber5]
+	set obj_ion [$deviceFactory getObjectName ion_chamber6]
+
+      	#1. get current piezo value and set piezo boundry
+        set piezo1 [format %4.2f [$obj1 cget -position]] 
+        set piezo2 [format %4.2f [$obj2 cget -position]]
+ 	set uboundry  10
+        set lboundry  0
+	set optimumCounts [format %4.2f [$obj_ion cget -position]]
+	puts "piezo1=$piezo1 piezo2=$piezo2 optimumCounts=$optimumCounts"
+
+	#2. change pitch valtage value within the boundey and
+	#   find the value which will have max ionchamber reading
+	#   and then change the voltage to that value graduly
+	#   same to roll	    	   
+    }	 
     public method setPitchValue { } {
 	set deviceFactory [::DCS::DeviceFactory::getObject]
 	set obj1 [$deviceFactory getObjectName ion_chamber4]
@@ -598,10 +619,10 @@ class DoubleCrystalMonoViewDoubleSetID19 {
         }
 
 	itk_component add autoPeak {
-            button $itk_component(canvas).autoPeak \
+            DCS::Button $itk_component(canvas).autoPeak \
             -text "Auto Peak" \
 	    -width 8 \
-            -command "$this handleAutoPeak"
+            -command "$this doAutoPeak"
         } {
         }
 

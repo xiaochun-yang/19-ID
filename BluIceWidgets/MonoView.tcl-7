@@ -66,7 +66,7 @@ package require DCSPrompt
 package require DCSMotorControlPanel
 package require BLUICECanvasShapes
 package require BLUICECanvasGifView
-
+package require DCSScriptCommand 1.0
 
 
 class SingleCrystalHorizFocusMonoView {
@@ -469,7 +469,9 @@ class DoubleCrystalMonoViewDoubleSet9_2 {
 class DoubleCrystalMonoViewDoubleSetID19 {
         inherit ::DCS::CanvasGifView
 
-        itk_option define -mdiHelper mdiHelper MdiHelper ""
+    itk_option define -mdiHelper mdiHelper MdiHelper ""
+    private variable m_deviceFactory
+    private variable m_strPiezoVoltage
 
     public proc getMotorList { } {
         return [list \
@@ -487,17 +489,31 @@ class DoubleCrystalMonoViewDoubleSetID19 {
         energy \
         ]
     }
+
+    public method handleEncoderUpdate
+    public method handleMotorTempChange
+    public method handleAutoPeak
+    
     public method setPitchValue { } {
-#        $itk_option(-mdiHelper) openToolChest toroid
+	set deviceFactory [::DCS::DeviceFactory::getObject]
+	set obj1 [$deviceFactory getObjectName ion_chamber4]
+      	set volt [$itk_component(canvas).pitch get]
+	$obj1 set_position $volt
     }
 
     public method setRollValue { } {
-#        $itk_option(-mdiHelper) openToolChest toroid
+	set deviceFactory [::DCS::DeviceFactory::getObject]
+        set obj2 [$deviceFactory getObjectName ion_chamber5]
+	set volt [$itk_component(canvas).roll get]
+        $obj2 set_position $volt
     }
 
 
     constructor { args} {
-        set m_deviceFactory [::DCS::DeviceFactory::getObject]
+        set deviceFactory [::DCS::DeviceFactory::getObject]
+	set obj1 [$deviceFactory getObjectName ion_chamber4]
+	set obj2 [$deviceFactory getObjectName ion_chamber5]
+        set m_strBeamCurrent [$deviceFactory createString analogInStatus10]
 
         loadBackdropImage id19-mono-yang-8.gif
                 place $itk_component(control) -x 220 -y 460
@@ -517,57 +533,158 @@ class DoubleCrystalMonoViewDoubleSetID19 {
 
 
 #### yangx pitch button
-	itk_component add setPitch {
-            button $itk_component(canvas).setPitch \
-            -text "SetPichV" \
-            -command "$this setPitchValue"
+
+        itk_component add pitch {
+            DCS::Entry $itk_component(canvas).pitch \
+            -background  #d0d000 \
+            -systemIdleOnly 0 \
+            -activeClientOnly 1 \
+            -entryType positiveFloat \
+	    -entryWidth 5 \
+	    -promptText "Fine Pitch" \
+	    -units v \
+	    -onSubmit "$this setPitchValue"
         } {
         }
 
-	itk_component add setRoll {
-            button $itk_component(canvas).setRoll \
-            -text "SetRollV" \
-            -command "$this setRollValue"
-        } {
-        }
-
-	itk_component add pitch {
-                entry $itk_component(canvas).pitch \
-                      -text " " \
+	itk_component add pitchl {
+                label $itk_component(canvas).pitchl \
+                      -text [format %4.2f [$obj1 cget -position]] \
                       -relief sunken \
-                      -width 8 
+                      -width 4
                  #     -background #c0c0ff \
                  #     -activebackground #c0c0ff
                 } {
                            keep -foreground
         }
 
-        itk_component add roll {
-                entry $itk_component(canvas).roll \
-                      -text " " \
+  	itk_component add roll {
+            DCS::Entry $itk_component(canvas).roll \
+            -background  #d0d000 \
+            -systemIdleOnly 0 \
+            -activeClientOnly 1 \
+	    -entryWidth 5 \
+            -entryType positiveFloat \
+	    -promptText "Fine Roll" \
+            -units v \
+	    -onSubmit "$this setRollValue"
+        } {
+        }
+
+	itk_component add rolll {
+                label $itk_component(canvas).rolll \
+                      -text [format %4.2f [$obj2 cget -position]] \
                       -relief sunken \
-                      -width 8 
+                      -width 4
                  #     -background #c0c0ff \
                  #     -activebackground #c0c0ff
                 } {
                            keep -foreground
-          }
+        }
 
-   	place $itk_component(setPitch) -x 535 -y 310 -anchor se
-   	place $itk_component(setRoll) -x 535 -y 380 -anchor se
+        for {set i 0} {$i < 6} {incr i} {
 
-	place $itk_component(pitch) -x 535 -y 280 -anchor se 
-       	place $itk_component(roll) -x 535 -y 350 -anchor se
+              itk_component add temp$i {
+                  # make the optimize beam button
+                  label $itk_component(canvas).temp$i \
+                      -text " " \
+                      -relief sunken \
+                      -width 4 \
+                      -background #c0c0ff \
+                      -activebackground #c0c0ff
+              } {
+                           keep -foreground
+              }
+        }
 
+	itk_component add autoPeak {
+            button $itk_component(canvas).autoPeak \
+            -text "Auto Peak" \
+	    -width 8 \
+            -command "$this handleAutoPeak"
+        } {
+        }
 
+	place $itk_component(temp0) -x 675 -y 270 -anchor se
+	place $itk_component(temp1) -x 675 -y 337 -anchor se
+	place $itk_component(temp2) -x 525 -y 100 -anchor se
+	place $itk_component(temp3) -x 195 -y 220 -anchor se
+	place $itk_component(temp4) -x 335 -y 160 -anchor se
+        place $itk_component(temp5) -x 675 -y 410 -anchor se
+
+        place $itk_component(pitchl) -x 495 -y 295 -anchor se
+	place $itk_component(pitch) -x 515 -y 320 -anchor se 
+      	place $itk_component(rolll) -x 495 -y 355 -anchor se
+      	place $itk_component(roll) -x 515 -y 380 -anchor se
+      	place $itk_component(autoPeak) -x 510 -y 415 -anchor se
+
+        
+	$m_strBeamCurrent register $this contents handleMotorTempChange
+	$obj1 register $this -value handleEncoderUpdate
+	$obj2 register $this -value handleEncoderUpdate
         eval itk_initialize $args
-
-        configure -width 710 -height 500
+	
+        configure -width 730 -height 500
    }
+
+   destructor {
+        set deviceFactory [::DCS::DeviceFactory::getObject]
+        set obj1 [$deviceFactory getObjectName ion_chamber4]
+        set obj2 [$deviceFactory getObjectName ion_chamber5]
+        set m_strBeamCurrent [$deviceFactory createString analogInStatus10]
+
+	$obj1 unregister $this -value handleEncoderUpdate
+	$obj2 unregister $this -value handleEncoderUpdate
+	$m_strBeamCurrent unregister $this contents handleMotorTempChange
+   }
+}
+
+body DoubleCrystalMonoViewDoubleSetID19::handleEncoderUpdate {name_ targetReady_ - value_ -} {
+    
+     if {!$targetReady_} return
+     set tex [format %4.2f $value_]
+     #puts "name = $name_"
+     if {$name_ == "::device::ion_chamber4"} { 
+     	$itk_component(canvas).pitchl configure -text $tex 
+     } else {
+     	$itk_component(canvas).rolll configure -text $tex 
+     }
+}
+
+body DoubleCrystalMonoViewDoubleSetID19::handleAutoPeak { } {
 
 }
 
+body DoubleCrystalMonoViewDoubleSetID19::handleMotorTempChange { name_ targetReady_ - contents_ - } {
+    if { ! $targetReady_} return
+    #puts "contents=$contents_ \n"
+    if { $contents_ == "" } return
+#puts "yangx contents = $contents_"
+    for {set i 0} {$i < 6} {incr i} {
+           set value [lindex $contents_ $i]
+	   if { $value > 24 } {	
+           	$itk_component(temp$i) configure \
+                	-text [format "%.1f" $value] \
+			-background #FF0000 \
+			-activebackground #FF0000 \
+                	-state normal
+	  } else {
+		$itk_component(temp$i) configure \
+                        -text [format "%.1f" $value] \
+                        -background #c0c0ff \
+                        -activebackground #c0c0ff \
+                        -state normal
+	  }	
+    }
 
+    #if {[string is double -strict $contents_]} {
+    #    set display [format "%.3f" $contents_]
+    #} else {
+    #    set display $contents_
+    #}
+    #$itk_component(ioncurrent) configure -text $display
+#    log_error "yangxx display=$display"
+}
 
 class DoubleCrystalMonoViewDoubleSet12_2 {
  	inherit ::DCS::CanvasShapes
@@ -767,6 +884,8 @@ class DoubleCrystalMonoViewDoubleSetAperture12_2 {
 	}
 
 }
+
+
 
 class DoubleCrystalMonoViewDown {
  	inherit ::DCS::CanvasShapes

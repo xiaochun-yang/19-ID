@@ -491,7 +491,67 @@ class DoubleCrystalMonoViewDoubleSetID19 {
     }
 
     public method handleEncoderUpdate
+    public method handleMotorTempChange
+    public method handleAutoPeak
+    public method doAutoPeak { } {
+	#ion_chamber4:pitch piezo;
+	#ion_chamber5:roll piezo;
+	#ion_chamber6:beampath ion_chamber
+	set deviceFactory [::DCS::DeviceFactory::getObject]
+	set obj1 [$deviceFactory getObjectName ion_chamber4]
+        set obj2 [$deviceFactory getObjectName ion_chamber5]
+	set obj_ion [$deviceFactory getObjectName ion_chamber6]
 
+      	#1. get current piezo value and set piezo boundry
+        set piezo1 [format %4.2f [$obj1 cget -position]] 
+        set piezo2 [format %4.2f [$obj2 cget -position]]
+ 	set hboundry  10
+        set lboundry  0
+	set OptimumCounts [format %4.2f [$obj_ion cget -position]]
+	puts "piezo1=$piezo1 piezo2=$piezo2 OptimumCounts=$OptimumCounts"
+
+	#2. change pitch valtage value within the boundary and
+	#   find the value which will have max ionchamber reading
+	#   and then change the voltage to that value graduly
+	#   same to roll
+	#
+	for {set i 1} {$i <3} {incr i} {
+	
+		if { $piezo$i < 1 || $piezo$i > 9 } {
+			set piezo$i 5
+		}
+		set optimum$i $piezo$i
+
+		#Slowly move to the upper boundary
+		while { $piezo$i < $hboundary } {
+			set piezo$i [expr $piezo$i + 0.5]
+			$obj$i set_position $piezo$i
+			after 100
+		}
+		#start peak searching
+		while { $piezo$i > $lboundary } {
+			$obj$i set_position $piezo$i
+			after 100
+			#get value from ion_chamber
+			set counts [format %4.2f [$obj_ion cget -position]]
+			if { $OptimumCounts < $counts } {
+				set OptimumCounts $counts
+				set optimum$i $piezo$i
+			}
+			set piezo$i [expr $piezo$i - 0.25]
+		}
+		#slowly move back to the peak position
+		set optimum$i [expr $optimum$i + 0.25]
+		while { $piezo$i < $optimum$i } {
+			set piezo$i [expr $piezo$i + 0.25]
+			$obj$i set_position $piezo$i
+		} 
+    	}
+	
+	#display both optimum voltage on the screen
+#     	$itk_component(canvas).pitchl configure -text $optimum1 
+#     	$itk_component(canvas).rolll configure -text $optimum2 
+    }	 
     public method setPitchValue { } {
 	set deviceFactory [::DCS::DeviceFactory::getObject]
 	set obj1 [$deviceFactory getObjectName ion_chamber4]
@@ -511,7 +571,7 @@ class DoubleCrystalMonoViewDoubleSetID19 {
         set deviceFactory [::DCS::DeviceFactory::getObject]
 	set obj1 [$deviceFactory getObjectName ion_chamber4]
 	set obj2 [$deviceFactory getObjectName ion_chamber5]
-
+        set m_strBeamCurrent [$deviceFactory createString analogInStatus10]
 
         loadBackdropImage id19-mono-yang-8.gif
                 place $itk_component(control) -x 220 -y 460
@@ -556,7 +616,7 @@ class DoubleCrystalMonoViewDoubleSetID19 {
                            keep -foreground
         }
 
-  itk_component add roll {
+  	itk_component add roll {
             DCS::Entry $itk_component(canvas).roll \
             -background  #d0d000 \
             -systemIdleOnly 0 \
@@ -580,26 +640,60 @@ class DoubleCrystalMonoViewDoubleSetID19 {
                            keep -foreground
         }
 
+        for {set i 0} {$i < 6} {incr i} {
+
+              itk_component add temp$i {
+                  # make the optimize beam button
+                  label $itk_component(canvas).temp$i \
+                      -text " " \
+                      -relief sunken \
+                      -width 4 \
+                      -background #c0c0ff \
+                      -activebackground #c0c0ff
+              } {
+                           keep -foreground
+              }
+        }
+
+	itk_component add autoPeak {
+            DCS::Button $itk_component(canvas).autoPeak \
+            -text "Auto Peak" \
+	    -width 8 \
+            -command "$this doAutoPeak"
+        } {
+        }
+
+	place $itk_component(temp0) -x 675 -y 270 -anchor se
+	place $itk_component(temp1) -x 675 -y 337 -anchor se
+	place $itk_component(temp2) -x 525 -y 100 -anchor se
+	place $itk_component(temp3) -x 195 -y 220 -anchor se
+	place $itk_component(temp4) -x 335 -y 160 -anchor se
+        place $itk_component(temp5) -x 675 -y 410 -anchor se
+
         place $itk_component(pitchl) -x 495 -y 295 -anchor se
 	place $itk_component(pitch) -x 515 -y 320 -anchor se 
       	place $itk_component(rolll) -x 495 -y 355 -anchor se
       	place $itk_component(roll) -x 515 -y 380 -anchor se
+      	place $itk_component(autoPeak) -x 510 -y 415 -anchor se
 
-
+        
+	$m_strBeamCurrent register $this contents handleMotorTempChange
 	$obj1 register $this -value handleEncoderUpdate
 	$obj2 register $this -value handleEncoderUpdate
         eval itk_initialize $args
 	
-        configure -width 710 -height 500
+        configure -width 730 -height 500
    }
 
    destructor {
         set deviceFactory [::DCS::DeviceFactory::getObject]
         set obj1 [$deviceFactory getObjectName ion_chamber4]
         set obj2 [$deviceFactory getObjectName ion_chamber5]
+        set m_strBeamCurrent [$deviceFactory createString analogInStatus10]
 
 	$obj1 unregister $this -value handleEncoderUpdate
 	$obj2 unregister $this -value handleEncoderUpdate
+	$m_strBeamCurrent unregister $this contents handleMotorTempChange
    }
 }
 
@@ -614,7 +708,51 @@ body DoubleCrystalMonoViewDoubleSetID19::handleEncoderUpdate {name_ targetReady_
      	$itk_component(canvas).rolll configure -text $tex 
      }
 }
- 
+
+body DoubleCrystalMonoViewDoubleSetID19::handleAutoPeak {name_ targetReady_ - value_ -} {
+     if {!$targetReady_} return
+     set tex [format %4.2f $value_]
+     
+     #puts "name = $name_"
+     if {$name_ == "::device::ion_chamber6"} {
+     #	$itk_component(canvas).pitchl configure -text $tex
+     } else {
+     #	$itk_component(canvas).rolll configure -text $tex
+     }
+     
+}
+
+body DoubleCrystalMonoViewDoubleSetID19::handleMotorTempChange { name_ targetReady_ - contents_ - } {
+    if { ! $targetReady_} return
+    #puts "contents=$contents_ \n"
+    if { $contents_ == "" } return
+#puts "yangx contents = $contents_"
+    for {set i 0} {$i < 6} {incr i} {
+           set value [lindex $contents_ $i]
+	   if { $value > 24 } {	
+           	$itk_component(temp$i) configure \
+                	-text [format "%.1f" $value] \
+			-background #FF0000 \
+			-activebackground #FF0000 \
+                	-state normal
+	  } else {
+		$itk_component(temp$i) configure \
+                        -text [format "%.1f" $value] \
+                        -background #c0c0ff \
+                        -activebackground #c0c0ff \
+                        -state normal
+	  }	
+    }
+
+    #if {[string is double -strict $contents_]} {
+    #    set display [format "%.3f" $contents_]
+    #} else {
+    #    set display $contents_
+    #}
+    #$itk_component(ioncurrent) configure -text $display
+#    log_error "yangxx display=$display"
+}
+
 class DoubleCrystalMonoViewDoubleSet12_2 {
  	inherit ::DCS::CanvasShapes
 
@@ -813,6 +951,8 @@ class DoubleCrystalMonoViewDoubleSetAperture12_2 {
 	}
 
 }
+
+
 
 class DoubleCrystalMonoViewDown {
  	inherit ::DCS::CanvasShapes
@@ -1416,56 +1556,6 @@ class BL14-1FocusingMirrorsView {
         configure -width 617 -height 423
     }
 }
-
-class ID19WhiteBeamControlView {
-        inherit ::DCS::CanvasGifView
-
-        itk_option define -mdiHelper mdiHelper MdiHelper ""
-
-    public proc getMotorList { } {
-        return [list \
-        white_beam_filter_1 \
-        white_beam_filter_2 \
-        white_beam_mask_x \
-        white_beam_mask_z \
-        white_beam_slit_upper \
-        white_beam_slit_lower 
-        ]
-    }
-
-        constructor { args} {
-
-                place $itk_component(control) -x 230 -y 275
-
-                # construct the table widgets
-                motorView white_beam_filter_1 280 90 sw
-      		motorView white_beam_filter_2 145 90 sw
-      		motorView white_beam_mask_x 410 90 sw
-     	 	motorView white_beam_mask_z 540 90 sw
-      		motorView white_beam_slit_upper 215 200
-      		motorView white_beam_slit_lower 75 200
-                
-		# draw the table
-                #rect_solid 180 120 250 20 40 60 40
-
-#                motorArrow table_vert 330 90 {} 330 140 342 94 342 140
-#                motorArrow table_vert_1 210  90 {} 210 140 222 94 222 140
-#                motorArrow table_vert_2 450  90 {} 450 140 462 95 462 140
-#                motorArrow table_vert_3 580  90 {} 580 140 592 95 592 140
-#                motorArrow table_horz 305 170 {} 272 197 313 172 291 196
-#                motorArrow table_horz_1  190 170 {} 158 197 198 172 176 196
-#                motorArrow table_horz_2 430 170 {} 403 197 442 177 422 196
-#                motorArrow table_yaw 165 165 {125 137} 200 135 154 172 186 125
-#                motorArrow table_pitch 470  110 {500 120 500 160} 470 170 486 104 486 176
-
-
-                eval itk_initialize $args
- 	        $itk_component(canvas) configure -width 660 -height 310
-
-        	configure -serialMove 1
-        }
-}
-
 
 class ID19MirrorView {
         inherit ::DCS::CanvasGifView
