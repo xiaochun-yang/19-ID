@@ -118,28 +118,28 @@ analogInStatus10
 galil10 analogInStatus10
 0 1 1 1 1
 0 1 1 1 1
-17.528799 17.528799 16.205900 24.895100 12.267200 14.672500 254.393494 253.130707
+17.438601 17.589001 16.266001 24.834999 12.297200 14.702600 253.160706 253.160706
 
 analogInStatus7
 13
 galil7 analogInStatus7
 0 1 1 1 1
 0 1 1 1 1
-1.131900 0.994200 0.006500 2.574300 3.434800 2.574600 2.574500 2.574500
+1.132200 0.992900 0.006300 2.576400 3.433200 2.575900 2.573300 2.575800
 
 analogInStatus2
 13
 galil2 analogInStatus2
 0 1 1 1 1
 0 1 1 1 1
-0.467300 2.576300 2.575300 2.576200 2.943800 2.576600 2.575900 2.577600
+0.500700 2.577300 2.575200 2.576300 2.942300 2.576400 2.575200 2.577200
 
 analogInStatus3
 13
 galil3 analogInStatus3
 0 1 1 1 1
 0 1 1 1 1
-0.138600 2.577100 2.577500 2.577300 2.945800 2.577700 2.577900 2.578600
+0.135300 2.577600 2.578200 2.578000 2.946600 2.577400 2.577700 2.578300
 
 get_robotstate
 11
@@ -417,7 +417,7 @@ self undulator_gap
 0 1 1 1 1
 0 0 0 0 0
 0
-20315.305000 20400.000000 20000.000000 1 1 0 0 mm
+20315.320000 20400.000000 20000.000000 1 1 0 0 mm
 0
 
 gap
@@ -425,7 +425,7 @@ gap
 epics_gateway SR:C19-ID:G1A{NYX:1-Ax:Gap}-Mtr.RBV
 1 1 1 1 1
 0 0 0 0 0
-20315.305
+20315.32
 
 gapRequestDrvH
 13
@@ -1325,27 +1325,27 @@ galil1 1 inline_light_out
 0 1 1 1 1
 0 1 1 1 1
 
-flu_det_ext
+fluo_detector_extent
 6
-galil2 0 flu_det_ext
+galil2 1 fluo_detector_extent
 0 1 1 1 1
 0 1 1 1 1
 
-flu_det_ret
+fluo_detector_retract
 6
-galil2 1 flu_det_ret
+galil2 1 fluo_detector_retract
 0 1 1 1 1
 0 1 1 1 1
 
-ion_det_ext
+beamstop_extent
 6
-galil2 0 ion_det_ext
+galil2 1 beamstop_extent
 0 1 1 1 1
 0 1 1 1 1
 
-ion_det_ret
+beamstop_retract
 6
-galil2 1 ion_det_ret
+galil2 0 beamstop_retract
 0 1 1 1 1
 0 1 1 1 1
 
@@ -2597,7 +2597,7 @@ hutchDoorStatus
 simDhs standardString
 0 1 1 1 1
 0 1 1 1 1
-closed 1507237262
+closed 1507236271
 
 getPV
 11
@@ -2616,7 +2616,7 @@ spear_current
 epics_gateway SR:OPS-BI{DCCT:1}I:Real-I
 0 1 1 1 1
 0 1 1 1 1
-350.2186549
+349.9820922
 
 dose_const
 13
@@ -2887,7 +2887,7 @@ lock_operation
 self standardString
 0 1 1 1 1
 0 1 1 1 1
-optimized_energy energy attenuation beam_size_x beam_size_y beamstop_z detector_z detector_vert detector_horz gonio_omega gonio_kappa gonio_phi camera_zoom centerLoop moveSample moveMotors centerLoopC3D sequenceManual ISampleMountingDevice cryojet_anneal cryoBlock collectRun collectRuns normalize centerCrystal collectShutterless sequence moveCrystal madScan optimalExcitation fluorescence_z robot_config auto_sample_cal centerSlits megaScreening alignFrontEnd alignTable calibrateDetector calibrateSampleCamera calibrateInlineCamera q315_collect_background centerFluor scanMotor scan2Motors scan_n_motors fillRun collectWeb motorStopButton madCollect collimator_horz collimator_vert userAlignBeam scan3DSetup manualRastering alignTungsten alignCollimator matchup userCollimator collectRasters collectRaster rasterRunsConfig videoVisexSnapshot visexMoveSample visexRotatePhi 
+optimized_energy energy attenuation beam_size_x beam_size_y beamstop_z detector_z detector_vert detector_horz gonio_omega gonio_kappa gonio_phi camera_zoom centerLoop moveSample moveMotors centerLoopC3D sequenceManual ISampleMountingDevice cryojet_anneal cryoBlock collectRun collectRuns normalize centerCrystal collectShutterless sequence moveCrystal madScan optimalExcitation fluorescence_z robot_config auto_sample_cal centerSlits megaScreening alignFrontEnd alignTable calibrateDetector calibrateSampleCamera calibrateInlineCamera q315_collect_background centerFluor scanMotor scan2Motors scan_n_motors fillRun collectWeb motorStopButton madCollect collimator_horz collimator_vert userAlignBeam scan3DSetup manualRastering alignTungsten alignCollimator matchup userCollimator collectRasters collectRaster rasterRunsConfig videoVisexSnapshot visexMoveSample visexRotatePhi
 
 xraySearchParams
 13
