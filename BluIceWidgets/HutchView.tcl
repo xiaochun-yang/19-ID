@@ -379,9 +379,9 @@ class DCS::HutchOverview {
 
       		set m_deviceFactory [DCS::DeviceFactory::getObject]
 		set shutterObject [$m_deviceFactory createShutter shutter]
-	        set m_strBeamCurrent1 [$m_deviceFactory createString analogInStatus2]
+	        set m_strBeamCurrent1 [$m_deviceFactory createString analogInStatus3]
 		$m_strBeamCurrent1 register $this contents handleBeamCurrentChange1
-		set m_strBeamCurrent0 [$m_deviceFactory createString analogInStatus3]
+		set m_strBeamCurrent0 [$m_deviceFactory createString analogInStatus2]
 		$m_strBeamCurrent0 register $this contents handleBeamCurrentChange0
 	        
 		::mediator register $this $shutterObject state handleUpdateFromShutter

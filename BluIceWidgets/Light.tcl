@@ -266,8 +266,10 @@ class ComboLightControlWidget {
         } else {
             set text [$itk_component(back_light) cget -text]
             if {$text == "Insert"} {
+		puts "yangx insert m_objInlineLightControl=$m_objInlineLightControl"
                 $m_objInlineLightControl startOperation insert
             } else {
+		puts "yangx remove m_objInlineLightControl=$m_objInlineLightControl"
                 $m_objInlineLightControl startOperation remove
             }
         }

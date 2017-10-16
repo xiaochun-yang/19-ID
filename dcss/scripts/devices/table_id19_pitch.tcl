@@ -61,7 +61,7 @@ proc table_pitch_update {} {
 proc table_pitch_calculate { tv1 tv2 tv3 } {
 #length between front one motor and end two motors is 1041.67mm
 
-	return [expr ($tv1/1041.67 - $tv2/1041.67 -$tv3/1041.67)*180/3.1415926]
+	return [expr ($tv1/1041.67 - $tv2/1041.67/2 -$tv3/1041.67/2)*180/3.1415926]
 }
 
 #proc calculate_table_vert_1 { tv tp tr } {
