@@ -379,11 +379,11 @@ body DCS::BeamlineVideoNotebook::createCOMBO_INLINE_ONLYTab { nb } {
     puts "adding Combo: Inline alone"
 
     # construct the sample position widgets
-    set sampleSite [$nb add Inline -label "On-Axis-Low"]
+    set sampleSite [$nb add Inline -label "Sample-Low-Mag"]
         
     itk_component add inlineWidget {
         ComboSamplePositioningWidget $sampleSite.s \
-        "[::config getImageUrl 1] sample_camera_constant camera_zoom centerLoop moveSample" \
+        "[::config getImageUrl 1] sample_camera_constant camera_zoom centerLoop inlineMoveSample" \
         "[::config getImageUrl 5] inline_sample_camera_constant inline_camera_zoom inlineMoveSample" \
         -fixedView inline \
     } {
@@ -423,11 +423,11 @@ body DCS::BeamlineVideoNotebook::createCOMBO_INLINE_H_ONLYTab { nb } {
     puts "adding Combo: Inline alone"
 
     # construct the sample position widgets
-    set sampleSite [$nb add Inline -label "On-Axis-Hi"]
+    set sampleSite [$nb add Inline -label "Sample-Hi-Mag"]
 
     itk_component add inlineWidget_h {
         ComboSamplePositioningWidget $sampleSite.s \
-        "[::config getImageUrl 1] sample_camera_constant camera_zoom centerLoop moveSample" \
+        "[::config getImageUrl 1] sample_camera_constant camera_zoom centerLoop inlineMoveSample" \
         "[::config getImageUrl 6] inline_sample_camera_h_constant inline_camera_zoom_h inlineMoveSample" \
         -fixedView inline \
     } {
@@ -465,12 +465,16 @@ body DCS::BeamlineVideoNotebook::createCOMBO_INLINE_H_ONLYTab { nb } {
 body DCS::BeamlineVideoNotebook::createCOMBO_SAMPLE_ONLYTab { nb } {
     puts "adding Combo: Inline alone"
 
+#yangx add
+    #puts "yangx move gonio omega to 90"
+    #::device::gonio_omega move to 90 deg
+
     # construct the sample position widgets
-    set sampleSite [$nb add Sample -label "Sample"]
+    set sampleSite [$nb add Sample -label "Sample OnAxis"]
         
     itk_component add sampleWidget {
         ComboSamplePositioningWidget $sampleSite.s \
-        "[::config getImageUrl 1] sample_camera_constant camera_zoom centerLoop moveSample" \
+        "[::config getImageUrl 1] sample_camera_constant camera_zoom centerLoop inlineMoveSample" \
         "[::config getImageUrl 5] inline_sample_camera_constant inline_camera_zoom inlineMoveSample" \
         -fixedView sample \
     } {
