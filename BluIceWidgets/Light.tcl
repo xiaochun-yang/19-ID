@@ -398,7 +398,6 @@ class ComboLightControlWidget {
             -command "$this handleClick"
         } {
         }
-
 #yangx        $itk_component(back_light) addInput \
 #yangx        "$m_objBackLight status inactive {Supporing Device}"
 

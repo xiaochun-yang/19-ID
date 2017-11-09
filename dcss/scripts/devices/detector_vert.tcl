@@ -4,46 +4,41 @@
 proc detector_vert_initialize {} {
 	
 	# specify children devices
-	set_children mono_angle asymmetric_cut
+	set_children table_vert 
 }
 
 
 proc detector_vert_move { new_detector_vert } {
 
-	# global variables
-	variable asymmetric_cut
-
-	# move mono_angle
-	move mono_angle to [expr $new_detector_vert + $asymmetric_cut]
+	# move table_vert
+	move table_vert to [expr $new_detector_vert]
 
 	# wait for the moves to complete
-	wait_for_devices mono_angle
+	wait_for_devices table_vert
 }
 
 
 proc detector_vert_set { new_detector_vert} {
 
 	# global variables
-	variable asymmetric_cut
-	variable mono_angle
+	variable table_vert
 
-	# move the two motors
-	set mono_angle [expr $new_detector_vert + $asymmetric_cut]
+	# set motors positions
+	set table_vert [expr $new_detector_vert]
 }
 
 
 proc detector_vert_update {} {
 
 	# global variables
-	variable mono_angle
-	variable asymmetric_cut
+	variable table_vert
 
 	# calculate from real motor positions and motor parameters
-	return [detector_vert_calculate $mono_angle $asymmetric_cut]
+	return [detector_vert_calculate $table_vert]
 }
 
 
-proc detector_vert_calculate { ma ac } {
+proc detector_vert_calculate { ma } {
 
-	return [expr $ma - $ac]
+	return [expr $ma]
 }

@@ -12,5 +12,7 @@ proc ion_chamber2_op_start { time_in_second } {
     
     get_encoder ion_chamber2
     set encoderValue [wait_for_encoder ion_chamber2]
+    #set ion_chamber offset = 0.29 	
+    #return [expr $encoderValue - 0.29]
     return [expr $encoderValue]
 }

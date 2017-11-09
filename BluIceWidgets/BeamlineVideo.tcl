@@ -496,7 +496,7 @@ body DCS::BeamlineVideoNotebook::createCOMBO_SAMPLE_ONLYTab { nb } {
     if {$className == ""} {
         set className ComboLightControlWidget
     }
-    itk_component add light_control {
+   itk_component add light_control {
         $className $sampleSite.light \
         -switchWrap $wrap
     } { 
