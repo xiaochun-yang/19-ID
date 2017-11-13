@@ -436,29 +436,34 @@ puts "yangx tmpDir=$tmpDir"
 #the file name here is prefix + _#. The _# is a run#
 
 	set fileName [$_multiImageParams cget -filename]
-	#yangx check if the file name is already exist
-        #should use imperson to deal with this. but
-	#haven't figour out how to do it yet
-	set ii 1
-	while {$ii} {
-		set fl [glob -nocomplain $destinationDir/$fileName*]
-#		puts "yangxx fl =$fl"
-		if {$fl != ""} {
-                	#make a new filename
-                	set destinationDir $destinationDir/OVERWRITTEN
-#			puts "yangx destinationDir =$destinationDir"
-        	} else {
-#			puts "yangx1 destinationDir =$destinationDir"
-			file mkdir $destinationDir
-                	set ii 0
-        	}
+        set startIndex [$_multiImageParams cget -startIndex]
+
+	if {$startIndex <= 360}{
+		#startIndex is not less than 361 means it's continue from 360. In
+		#this case, it not need to check the directory. Otherwise 
+		#check if the file name is already exist in the current directory.
+        	#should use imperson to deal with this. but
+		#haven't figour out how to do it yet
+		set ii 1
+		while {$ii} {
+			set fl [glob -nocomplain $destinationDir/$fileName*]
+#			puts "yangxx fl =$fl"
+			if {$fl != ""} {
+                		#make a new filename
+                		set destinationDir $destinationDir/OVERWRITTEN
+#				puts "yangx destinationDir =$destinationDir"
+        		} else {
+#				puts "yangx1 destinationDir =$destinationDir"
+				file mkdir $destinationDir
+                		set ii 0
+        		}
+		}
 	}
-	
 	putsDet "filename $fileName"
 	putsDet "directory $destinationDir"
-puts "yangx filename=$fileName"
-puts "yangx directory=$destinationDir"
-        set startIndex [$_multiImageParams cget -startIndex]
+#puts "yangx filename=$fileName"
+#puts "yangx directory=$destinationDir"
+#       set startIndex [$_multiImageParams cget -startIndex]
         putsDet "startIndex $startIndex"
 
         #setup up local directory to put the data set

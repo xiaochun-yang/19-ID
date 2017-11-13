@@ -29,7 +29,7 @@
 set pilatusMessage -
 
 #yangx add
-set i 0
+#set i 0
 
 #puts with special frame header
 proc putsImg {level imageParams_ msg_} {
@@ -213,18 +213,23 @@ class Pilatus::DetectorControl {
 
 
     public method afterPropertiesSet {  } {
+
         set _buildingMsg ""
         set _abortOps ""
         set _detectorStatus [namespace current]::[Pilatus::DetectorStatus #auto true $_maxImageSizeKb]
+        
         #calculate center of center pixel
         if {$imageXSizePixels ==""} {return -code error "Error: must configure imageXSizePixels"}
         if {$imageYSizePixels ==""} {return -code error "Error: must configure imageYSizePixels"}
         set _detectorXCenterPixel [expr $imageXSizePixels / 2 + 0.5]
         set _detectorYCenterPixel [expr $imageYSizePixels / 2 + 0.5]
+
         if {$pixelXSizeUm ==""} {return -code error "Error: must configure pixelXSizeUm"}
         if {$pixelYSizeUm ==""} {return -code error "Error: must configure pixelYSizeUm"}
         if {$tmpDir ==""} {return -code error "Error: must configure tmpDir"}
+
         $_detectorStatus checkDiskSpace $tmpDir
+
         #convert mm to pixel with pixelSize 172 um/pixel
         set _detectorPixelSizeFactorX [expr 1000.0 / $pixelXSizeUm ]
         set _detectorPixelSizeFactorY [expr 1000.0 / $pixelYSizeUm ]
@@ -254,6 +259,7 @@ class Pilatus::DetectorControl {
             queryTemp
         } errorMsg ]} {
             set _connected false
+	    puts "yangx $_socket host=$host port=$port"
             puts "ERROR: cannot connect to Pilatus detector $errorMsg"
 
             $dcss breakConnection
@@ -326,16 +332,26 @@ class Pilatus::DetectorControl {
     }
 
     private method configureHeader { imageParams_ } {
-        putsDet "MXSettings Wavelength [$imageParams_ cget -wavelength]"
-        putsDet "MXSettings Detector_distance [expr [$imageParams_ cget -distance] * 0.001 ]"
-        putsDet "MXSettings Start_angle [$imageParams_ cget -oscillationStart]"
+#yangx original putsDet "MXSettings Wavelength [$imageParams_ cget -wavelength]"
+#yangx get rid of MXSettings for all 6 following putsDet
+
+	puts "yangx reuseDark = [$imageParams_ cget -reuseDark]"
+	
+        putsDet "Wavelength [$imageParams_ cget -wavelength]"
+        putsDet "Detector_distance [expr [$imageParams_ cget -distance] * 0.001 ]"
+        putsDet "Start_angle [$imageParams_ cget -oscillationStart]"
         if { [$imageParams_ cget -axisName] == "gonio_phi" } {
-            putsDet "MXSettings Phi [$imageParams_ cget -oscillationStart]"
+            putsDet "Phi [$imageParams_ cget -oscillationStart]"
         }
-        putsDet "MXSettings Angle_increment [$imageParams_ cget -oscillationRange]"
+        putsDet "Angle_increment [$imageParams_ cget -oscillationRange]"
+	#yangx hf262 detector's y absolute position 315 mm is based on zero position
+        #of the Q4. The real y position of hf262 at here should be 0.65. So substracting
+        #314.35 from 315 is 0.65 
+
         set detectorOffsetPixelsX [expr [$imageParams_ cget -detectorX] * $_detectorPixelSizeFactorX]
-        set detectorOffsetPixelsY [expr [$imageParams_ cget -detectorY] * $_detectorPixelSizeFactorY]
-        putsDet "MXSettings Beam_xy [expr $_detectorXCenterPixel + $detectorOffsetPixelsX ],[expr $_detectorYCenterPixel - $detectorOffsetPixelsY]"
+        set detectorOffsetPixelsY [expr ([$imageParams_ cget -detectorY] - 314.35) * $_detectorPixelSizeFactorY]
+	putsDet "Beam_x [expr $_detectorXCenterPixel + $detectorOffsetPixelsX]"
+        putsDet "Beam_y [expr $_detectorYCenterPixel - $detectorOffsetPixelsY]"
     }
 
     private method assertNotBusy {} {
@@ -408,10 +424,22 @@ class Pilatus::DetectorControl {
         set numImages [expr [$_multiImageParams cget -numImages] * $nFrameImg]
         putsDet "nimages [$_multiImageParams cget -numImages]"
         putsDet "nframeimg $nFrameImg"
+        putsDet "detectorMode [$_multiImageParams cget -detectorMode]"
+
+#puts "yangx nimages = [$_multiImageParams cget -numImages]  nframeimg=$nFrameImg"
 
         set userName [$_multiImageParams cget -userName]
         set destinationRootName [$_multiImageParams cget -filename]
         set destinationDir [$_multiImageParams cget -directory]
+#yangx add filename
+#the file name here is prefix + _#. The _# is a run#
+
+	set fileName [$_multiImageParams cget -filename]
+	putsDet "filename $fileName"
+	putsDet "directory $destinationDir"
+
+        set startIndex [$_multiImageParams cget -startIndex]
+        putsDet "startIndex $startIndex"
 
         #setup up local directory to put the data set
         set localDir "${tmpDir}/$userName/"
@@ -520,7 +548,10 @@ class Pilatus::DetectorControl {
                 7 {
                     #look for image written message
                     set localFileName $returnMsg
-        	        configure -collecting false
+        	    configure -collecting false
+
+		puts "operationType = [$_multiImageParams cget -operationType]"
+
                     if { [$_multiImageParams cget -operationType] == "detector_collect_image" } {
                         $dcss sendMessage "htos_operation_completed detector_collect_image [$_multiImageParams cget -operationHandle] normal"
 
@@ -528,15 +559,25 @@ class Pilatus::DetectorControl {
                         set userName [$_multiImageParams cget -userName]
                         set sessionId [stripPrivateKeyword [$_multiImageParams cget -sessionID]] 
                         $fileMover moveFile $localFileName $remoteFileName $userName $sessionId true
+			puts "yangx true"
                     } else {
                         set remoteFileName [$_multiImageParams lookupLastRemoteFileName]
-                        putsImg INFO $_multiImageParams "End shutterless, last image: $remoteFileName"
+
                         set userName [$_multiImageParams cget -userName]
                         set sessionId [stripPrivateKeyword [$_multiImageParams cget -sessionID]] 
 
                         $dcss sendMessage "htos_operation_completed detectorCollectShutterless [$_multiImageParams cget -operationHandle] normal"
-                        $fileMover moveFile $localFileName $remoteFileName $userName $sessionId false 
+                      #  $fileMover moveFile $localFileName $remoteFileName $userName $sessionId false 
+                        $fileMover moveFile "/storage/test/hf262/devel/inverse/t-7_1_005.img" "/storage/test/hf262/devel/inverse/t-7_1_005.img" $userName $sessionId false 
+			puts "yangx false"
                     }
+		    puts "yangx localFileName=$localFileName remoteFileName=$remoteFileName userName=$userName sessionId=$sessionId\n"
+		#yangx add to make sure that "Detector Ready" will be displayed on the
+                #system status bar. 1.5 is the handle value. I am using a fixed value
+                # here. see bluice notes for the status problem. 
+
+		$dcss sendMessage "htos_operation_completed detector_stop 1.5 normal"
+
                 }
                 15 {
                     handleReturnCode15 $returnMsg
@@ -634,13 +675,13 @@ class Pilatus::DetectorControl {
         set filename [$_multiImageParams cget -filename]
         set op [$_multiImageParams cget -operationType]
         $dcss sendMessage "htos_operation_update $op $opHandle start_oscillation shutter $expTime $filename"
+#$dcss sendMessage "htos_operation_update $op $opHandle start_oscillation shutter $expTime $filename"
         #    dcss sendMessage "htos_operation_update detectorCollectShutterless $opHandle start_oscillation"
     }
    
     public method queryTemp {} {
-global i
-set i [expr $i + 1]
-puts "yangx monitor temp $i"
+#global i
+#set i [expr $i + 1]
         assertNotBusy
         putsDet "th"
     }
@@ -667,7 +708,7 @@ puts "yangx monitor temp $i"
 
     #puts with special frame header
     public method putsImg {level imageParams_ msg_} {
-        puts "yangx12 DHS: $level \[[$imageParams_ cget -filename]\] $msg_"  
+        puts "DHS: $level \[[$imageParams_ cget -filename]\] $msg_"  
     }
 
 
