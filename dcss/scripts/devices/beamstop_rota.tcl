@@ -43,8 +43,11 @@ proc beamstop_rota_calculate { num } {
 	if { $num == 1 } {
                         return 359.0
         } elseif { $num == 2 } {
+                        return 270       
+        } elseif { $num == 3 } {
                         return 309.9
         } else {
+
                         return $beamstop_horz
         }
 }
@@ -54,8 +57,10 @@ proc beamstop_rota_calculate1 { beamstop_horz } {
         
         if { [expr abs([expr $beamstop_horz - 359])] < 0.2 } {
                 return 1
-        } elseif { [expr abs([expr $beamstop_horz -309.9])] < 0.2 } {
+        } elseif { [expr abs([expr $beamstop_horz -270])] < 0.2 } {
                 return 2
+        } elseif { [expr abs([expr $beamstop_horz -309.9])] < 0.2 } {
+                return 3
         } else {
                 return $beamstop_rota
         }

@@ -65,7 +65,7 @@ class DCS::GonioMotionsWidget {
 
 		  itk_component add pos {
                   	label $itk_component(canvas).pos \
-                      		-text "1:Beam Position\n2:Yag on Beam" \
+                      		-text "1:Beam Position\n2:Load sample\n3:Yag on Beam" \
                       		-relief flat \
                       		-width 15 
                   } {

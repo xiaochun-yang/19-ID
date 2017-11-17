@@ -1266,7 +1266,7 @@ xos_result_t Dmc2180AnalogEncoder::get_current_position(dcs_scaled_t * position)
 
        // get position of axis
         LOG_INFO1("Yangx axisIndex %d \n", axisIndex);
-        sprintf(command, "~a=\"%d\";""XQ #IONOUT,4", axisIndex);
+        sprintf(command, "~a=%d;""XQ #IONOUT,4", axisIndex);
         //sprintf(command, "~a=%d;""XQ #IONOUT,4", axisIndex);
         *position = (dcs_scaled_t) 100;
         controller_execute(command, &error_code, FALSE );
