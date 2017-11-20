@@ -125,37 +125,26 @@ class LoadButton {
 
 body LoadButton::handleStart {} {
 
-#    $m_optimizeEnergyParamsObj setLastOptimizedTime 0
-
 #	::device::gonio_phi move to 180 deg
 #	::device::gonio_kappa move to 90 deg
 
         #this is for move sample_x/y/z to robot mount/unmount position
 #       ::device::gonio_phi move to 0 deg
 #       ::device::gonio_kappa move to 0 deg
-#       ::device::tripot_1 move to 0    mm
-#       ::device::tripot_2 move to 0    mm
-#       ::device::tripot_3 move to 0    mm
 
         set text [.pw.pane0.childsite.bluice.n.canvas.notebook.cs.page1.cs.h.hutch.c.load cget -text]
-        if {$text == "Load"} {
-                set text "Unload"
-                ::device::gonio_phi move to 270 deg
-                ::device::gonio_kappa move to 180 deg
-
-	# can't recognized the wait_for_devices
-	# 	wait_for_devices ::device::gonio_phi ::device::gonio_kappa
-	#	set text "Unload"
+        if {$text == "Ion/In"} {
+                set text "Ion/Out"
+                ::device::ion_det_ext open
+                ::device::ion_det_ret close
+     #          ::device::gonio_kappa move to 180 deg
 
         } else {
-                set text "Load"
-                ::device::gonio_kappa move to 0 deg
-	#	wait_for_devices ::device::gonio_kappa
-	#	set text "Load"
+                set text "Ion/In"
+                ::device::ion_det_ext close
+                ::device::ion_det_ret open
         }
 
-#	puts "set m_loadParamsObj = $m_loadParamsObj \n"
-#        ::.pw.pane0.childsite.bluice.n.canvas.notebook.cs.page1.cs.h.hutch.c.load  configure -text $text 
 	.pw.pane0.childsite.bluice.n.canvas.notebook.cs.page1.cs.h.hutch.c.load configure -text $text
 }
 
@@ -327,7 +316,7 @@ class DCS::HutchOverview {
 		itk_component add load {
                            # make the optimize beam button
                            LoadButton $itk_component(canvas).load \
-				 -text "Load" \
+				 -text "Ion/In" \
 				 -font "courier -14 bold"\
                                  -width 8 \
 				 -background #c0c0ff \
@@ -483,7 +472,7 @@ body DCS::HutchOverview::constructGoniometer { x y } {
 		rename -device gonioKappaDevice gonioKappaDevice GonioKappaDevice
 	}
 
-	place $itk_component(kappa) -x [expr $x + 10] -y [expr $y - 235]
+	place $itk_component(kappa) -x [expr $x + 10] -y [expr $y - 225]
 
 	$itk_component(control) registerMotorWidget ::$itk_component(phi)
 	$itk_component(control) registerMotorWidget ::$itk_component(omega)
