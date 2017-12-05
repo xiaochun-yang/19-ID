@@ -302,8 +302,12 @@ class DCS::MotorMoveView {
 		set value -6.66
 	} elseif { $dname == "slit_0_lower" } {
                 set value 180
+	} elseif { $dname == "slit_0_upper" } {
+                set value 0.0
 	} elseif { $dname == "slit_0_lobs" } {
                 set value 180
+	} elseif { $dname == "slit_0_ring" } {
+                set value 0
 	} elseif { $dname == "sample_x" } {
                 set value -0.13
 	} elseif { $dname == "sample_y" } {

@@ -1,0 +1,56 @@
+# sample_optic_vert.tcl
+
+proc sample_optic_vert_initialize {} {
+
+	# specify children devices
+	set_children simu_vert optic_vert
+}
+
+
+proc sample_optic_vert_move { new_sample_optic_vert } {
+	#global namespace variables
+	global gDevice
+
+	# global variables
+	variable sample_optic_vert
+	variable simu_vert
+	variable optic_vert
+	
+puts "yangx1 "
+	# calculate new positions of the two motors
+	set new_optic_vert = $new_sample_optic_vert 
+	set new_simu_vert [sample_vert_calculate $new_sample_optic_vert  $gDevice(simu_vert,target)]
+
+puts "yangx2 "
+	#check to see if the move can be completed by the real motors
+	#assertMotorLimit simu_vert $new_simu_vert
+	#assertMotorLimit optic_vert $new_optic_vert
+
+puts "yangx3 "
+	move simu_vert to $new_simu_vert
+	move optic_vert to $new_optic_vert
+
+	# wait for the moves to complete
+	wait_for_devices simu_vert optic_vert
+}
+
+
+proc sample_optic_vert_set { new_sample_optic_vert } {
+
+	variable optic_vert
+	set optic_vert $new_sample_optic_vert
+}
+
+
+proc sample_optic_vert_update {} {
+
+	# global variables
+	variable optic_vert
+
+	return $optic_vert
+}
+
+proc sample_vert_calculate { ov sv } {
+
+	return [expr $ov - $sv + $sv]
+}

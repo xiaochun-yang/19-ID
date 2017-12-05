@@ -29,7 +29,6 @@
 set pilatusMessage -
 
 #yangx add
-set gdestinationDir ""
 #set i 0
 
 #puts with special frame header
@@ -407,9 +406,7 @@ puts "yangx tmpDir=$tmpDir"
     }
 
     private method externalTrigger { } {
-        global gdestinationDir
-
-	configureHeader $_multiImageParams
+        configureHeader $_multiImageParams
 
         #set the exposure time
         set nFrameImg [$_multiImageParams cget -nFrameImg ] 
@@ -439,47 +436,17 @@ puts "yangx tmpDir=$tmpDir"
 #the file name here is prefix + _#. The _# is a run#
 
 	set fileName [$_multiImageParams cget -filename]
-        set startIndex [$_multiImageParams cget -startIndex]
-
-	if {$startIndex <= 360} {
-                #startIndex is not less than 361 means it's continue from 360. In
-                #this case, it not need to check the directory. Otherwise 
-                #check if the file name is already exist in the current directory.
-                #should use imperson to deal with this. but
-                #haven't figour out how to do it yet
-                set ii 1
-                while {$ii} {
-                        set fl [glob -nocomplain $destinationDir/$fileName*]
-#                       puts "yangxx fl =$fl"
-                        if {$fl != ""} {
-                                #make a new filename
-                                set destinationDir $destinationDir/OVERWRITTEN
-#                               puts "yangx destinationDir =$destinationDir"
-                        } else {
-				set gdestinationDir $destinationDir
-#                                puts "yangx gdestinationDir =$gdestinationDir"
-                                file mkdir $destinationDir
-                                set ii 0
-                        }
-                }
-        }
-	# else {
-        #        puts "yangx else gdestinationDir =$gdestinationDir"
-        #	file mkdir $gdestinationDir
-        #}
-	
 	putsDet "filename $fileName"
-	putsDet "directory $gdestinationDir"
+	putsDet "directory $destinationDir"
+puts "filename=$fileName"
+puts "directory=$destinationDir"
+        set startIndex [$_multiImageParams cget -startIndex]
         putsDet "startIndex $startIndex"
-
-#puts "yangx filename=$fileName"
-#puts "yangx directory=$destinationDir"
-#puts "yangx startIndex=$startIndex"
 
         #setup up local directory to put the data set
         set localDir "${tmpDir}/$userName/"
         file mkdir $localDir
-#puts "yangx localdir=$localDir"
+puts "localdir=$localDir"
         #setup unique file names for local files
         set uid [clock seconds]
         $_multiImageParams configure -localUniqueRunId $uid

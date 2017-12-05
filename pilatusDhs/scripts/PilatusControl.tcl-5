@@ -29,6 +29,7 @@
 set pilatusMessage -
 
 #yangx add
+set gdestinationDir ""
 #set i 0
 
 #puts with special frame header
@@ -69,6 +70,7 @@ class Pilatus::DetectorStatus {
     public variable sumImagesDeltaDeg 0.1
 
     private variable _maxImageSizeKb 0
+    private variable _HF4M_ready 0
     
     constructor { root maxImageSizeKb} {
         set _maxImageSizeKb $maxImageSizeKb
@@ -229,7 +231,7 @@ class Pilatus::DetectorControl {
         if {$tmpDir ==""} {return -code error "Error: must configure tmpDir"}
 
         $_detectorStatus checkDiskSpace $tmpDir
-
+puts "yangx tmpDir=$tmpDir"
         #convert mm to pixel with pixelSize 172 um/pixel
         set _detectorPixelSizeFactorX [expr 1000.0 / $pixelXSizeUm ]
         set _detectorPixelSizeFactorY [expr 1000.0 / $pixelYSizeUm ]
@@ -247,7 +249,7 @@ class Pilatus::DetectorControl {
     public method connectToDetector {} {
         if {[catch {
             set _socket [socket $host $port]
-	    puts "yangx $_socket host=$host port=$port"
+	    puts "yangx1: $_socket host=$host port=$port"
             #fconfigure $_socket -blocking 0
             fconfigure $_socket -blocking 0 -translation binary
             fileevent $_socket readable [::itcl::code $this safeHandleDetectorResponse]
@@ -259,7 +261,7 @@ class Pilatus::DetectorControl {
             queryTemp
         } errorMsg ]} {
             set _connected false
-	    puts "yangx $_socket host=$host port=$port"
+#	    puts "yangx2:2: $_socket host=$host port=$port"
             puts "ERROR: cannot connect to Pilatus detector $errorMsg"
 
             $dcss breakConnection
@@ -335,7 +337,7 @@ class Pilatus::DetectorControl {
 #yangx original putsDet "MXSettings Wavelength [$imageParams_ cget -wavelength]"
 #yangx get rid of MXSettings for all 6 following putsDet
 
-	puts "yangx reuseDark = [$imageParams_ cget -reuseDark]"
+#	puts "yangx reuseDark = [$imageParams_ cget -reuseDark]"
 	
         putsDet "Wavelength [$imageParams_ cget -wavelength]"
         putsDet "Detector_distance [expr [$imageParams_ cget -distance] * 0.001 ]"
@@ -405,7 +407,9 @@ class Pilatus::DetectorControl {
     }
 
     private method externalTrigger { } {
-        configureHeader $_multiImageParams
+        global gdestinationDir
+
+	configureHeader $_multiImageParams
 
         #set the exposure time
         set nFrameImg [$_multiImageParams cget -nFrameImg ] 
@@ -435,23 +439,59 @@ class Pilatus::DetectorControl {
 #the file name here is prefix + _#. The _# is a run#
 
 	set fileName [$_multiImageParams cget -filename]
-	putsDet "filename $fileName"
-	putsDet "directory $destinationDir"
-
         set startIndex [$_multiImageParams cget -startIndex]
+
+	if {$startIndex <= 360} {
+                #startIndex is not less than 361 means it's continue from 360. In
+                #this case, it not need to check the directory. Otherwise 
+                #check if the file name is already exist in the current directory.
+                #should use imperson to deal with this. but
+                #haven't figour out how to do it yet
+                set ii 1
+                while {$ii} {
+                        set fl [glob -nocomplain $destinationDir/$fileName*]
+#                       puts "yangxx fl =$fl"
+                        if {$fl != ""} {
+                                #make a new filename
+                                set destinationDir $destinationDir/OVERWRITTEN
+#                               puts "yangx destinationDir =$destinationDir"
+                        } else {
+				set gdestinationDir $destinationDir
+#                                puts "yangx gdestinationDir =$gdestinationDir"
+                                file mkdir $destinationDir
+                                set ii 0
+                        }
+                }
+        }
+	# else {
+        #        puts "yangx else gdestinationDir =$gdestinationDir"
+        #	file mkdir $gdestinationDir
+        #}
+	
+	putsDet "filename $fileName"
+	putsDet "directory $gdestinationDir"
         putsDet "startIndex $startIndex"
+
+#puts "yangx filename=$fileName"
+#puts "yangx directory=$destinationDir"
+#puts "yangx startIndex=$startIndex"
 
         #setup up local directory to put the data set
         set localDir "${tmpDir}/$userName/"
         file mkdir $localDir
-
+#puts "yangx localdir=$localDir"
         #setup unique file names for local files
         set uid [clock seconds]
         $_multiImageParams configure -localUniqueRunId $uid
         $_multiImageParams configure -localDir $localDir
 
         putsDet "exttrigger $localDir${uid}_.cbf"
-        configure -collecting true
+	set _HF4M_ready 0
+#        puts "yangx _HF4M_ready = $_HF4M_ready"
+#	vwait _HF4M_ready
+#	puts "yangxx _HF4M_ready = $_HF4M_ready"
+#	puts "yangx: EXECUTE configure command"
+#	configure -collecting true
 
     }
 
@@ -482,7 +522,6 @@ class Pilatus::DetectorControl {
                 append response $a
             }
         }
-
 
         set response ${_buildingMsg}${response} 
         if {$response == ""} return
@@ -567,8 +606,8 @@ class Pilatus::DetectorControl {
                         set sessionId [stripPrivateKeyword [$_multiImageParams cget -sessionID]] 
 
                         $dcss sendMessage "htos_operation_completed detectorCollectShutterless [$_multiImageParams cget -operationHandle] normal"
-                      #  $fileMover moveFile $localFileName $remoteFileName $userName $sessionId false 
-                        $fileMover moveFile "/storage/test/hf262/devel/inverse/t-7_1_005.img" "/storage/test/hf262/devel/inverse/t-7_1_005.img" $userName $sessionId false 
+                        $fileMover moveFile $localFileName $remoteFileName $userName $sessionId false 
+                      #  $fileMover moveFile "/storage/test/hf262/devel/inverse/t-7_1_005.img" "/storage/test/hf262/devel/inverse/t-7_1_005.img" $userName $sessionId false 
 			puts "yangx false"
                     }
 		    puts "yangx localFileName=$localFileName remoteFileName=$remoteFileName userName=$userName sessionId=$sessionId\n"
@@ -585,6 +624,9 @@ class Pilatus::DetectorControl {
                 215 {
                     handleReturnCode15 $returnMsg
                 }
+                300 {
+                    handleReturnCode300 $returnMsg
+                }
             }
 
 
@@ -597,6 +639,13 @@ class Pilatus::DetectorControl {
 
     }
 
+    private method handleReturnCode300 {  msg_ } {
+	puts "ReturnCode300> ${msg_}"
+#	after 2000
+	puts "yangx configure -collecting true"
+	configure -collecting true
+	set _HF4M_ready 1
+    }
 
     private method handleReturnCode15 {  msg_ } {
         set exposureMode [$_detectorStatus cget -exposureMode]
