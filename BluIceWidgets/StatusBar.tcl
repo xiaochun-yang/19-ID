@@ -600,8 +600,30 @@ class StatusBar {
    public method handleXppShutter
    public method handleXppSetupConfig
    public method updateShutterDisplay
-    public method toggleShutter { } {
-        log_error no control.
+   public method toggleShutter { } {
+   	if { $m_shutterState == "closed" } {
+		set bp [lindex [::device::beamstop_horz getScaledPosition] 0]
+		if {abs([expr $bp - 359]) > 0.2} {
+            		set answer \
+                	[tk_messageBox \
+               		-icon question \
+               		-type yesno \
+               		-title Message \
+               		-parent . \
+               		-message "Beamstop is off the beam center! Do you want to open the Shutter?"]          
+        		if { $answer == "yes" } {
+				$m_objShutter open
+                		puts "Yes open it beamstop=$bp"
+        		} else {
+                		puts "no don't open it"
+        		}
+		} else {
+			$m_objShutter open
+		}
+   	} elseif {$m_shutterState == "open"} {
+		$m_objShutter close
+	}	
+   #     log_error no control.
     }
 
     public method saveSnapshot { ask } {
@@ -806,8 +828,8 @@ class StatusBar {
         grid columnconfig $itk_interior 8 -weight 10
 
 		#bind a click on the shutter to toggle the state.  Replace this with a button!
-		bind $itk_component(shutter) <Button-1> "$m_objShutter toggle"
-		#bind $itk_component(shutter) <Button-1> "$this toggleShutter"
+		#bind $itk_component(shutter) <Button-1> "$m_objShutter toggle"
+		bind $itk_component(shutter) <Button-1> "$this toggleShutter"
   
       configure -background $midhighlight
       #configure -disabledbackground $midhighlight

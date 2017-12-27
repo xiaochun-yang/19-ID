@@ -35,13 +35,14 @@ class DCS::GonioMotionsWidget {
 	beamstop_vert \
 	beamstop_rota \
 	beamstop_z \
-	sample_vert
+	sample_vert \
+	sample_optic_vert
         ]
     }
 
         constructor { args} {
 
-                place $itk_component(control) -x 150 -y 275
+                place $itk_component(control) -x 150 -y 330
 
                 # construct the table widgets
                 motorView optic_vert 125  70 sw
@@ -52,6 +53,7 @@ class DCS::GonioMotionsWidget {
 		motorView beamstop_rota 300 190 sw 
 		motorView sample_vert 125 250 sw
 		motorView beamstop_horz 300 250 sw
+		motorView sample_optic_vert 125 310 sw
 
 		 itk_component add unit1 {
                  
@@ -79,7 +81,7 @@ class DCS::GonioMotionsWidget {
 		place $itk_component(pos) -x 430 -y 185 -anchor sw
 
                 eval itk_initialize $args
-                $itk_component(canvas) configure -width 580 -height 310
+                $itk_component(canvas) configure -width 580 -height 360
 
                 configure -serialMove 1
         }
