@@ -1750,8 +1750,8 @@ xos_boolean_t Dmc2180_motor::isMoving() {
 
 				//verify that ALL of the steps have gone out
 				// yangx I change it to 20. original value is 5
-                if ( abs(unscaledReference - unscaledPosition) < 20 ) {
-                    LOG_INFO("isMoving: STOP LEVEL4b: (reference - position) < 20 \n");
+                if ( abs(unscaledReference - unscaledPosition) < 10 ) {
+                    LOG_INFO("isMoving: STOP LEVEL4b: (reference - position) < 10 \n");
 					// the dmc2180's internal state machine has stabilized
 					return FALSE;
 				}
