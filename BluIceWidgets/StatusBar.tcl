@@ -626,6 +626,19 @@ class StatusBar {
    #     log_error no control.
     }
 
+   public method toggleBpm { } {
+	set m_test [$itk_component(test) cget -text]
+        if {$m_test == "Test On"} {
+		set m_test "Test Off"
+                $itk_component(test) configure -text $m_test
+                #start auto bpm
+
+        } else {
+                set m_test "Test On"
+                $itk_component(test) configure -text $m_test
+        }
+    }
+
     public method saveSnapshot { ask } {
         global env
 
@@ -781,6 +794,27 @@ class StatusBar {
             keep -font
         }
 		
+		itk_component add test {
+		DCS::Button $itk_interior.test \
+			-text "Test On" \
+			-width 8 \
+			-command "$this toggleBpm" \
+			-background \#ffaaaa 
+		} {
+		}
+
+#	itk_component add test {
+#		::DCS::Button $itk_interior.test \
+#                	-text "Test On" \
+#			-background \#ffaaaa \
+#                	-activebackground \#ffaaaa \
+#                	-activeClientOnly 0 -width 8 -systemIdleOnly 1
+#		} {
+	#		keep -font -height -state
+        #                keep -activeforeground -foreground -relief
+#		}
+
+#       bind $itk_component(test) <Button-1> "$this toggleBpm"
 
       itk_component add time {
          TimeWidget $itk_interior.t
@@ -822,10 +856,11 @@ class StatusBar {
 		grid $itk_component(activeButton) -row 0 -column 4 -sticky w
 		grid $itk_component(l_shutter) -row 0 -column 5 -sticky w -padx 5
 		grid $itk_component(shutter) -row 0 -column 6 -sticky w -padx 5
-		grid $itk_component(time) -row 0 -column 7 -sticky w
-		grid $itk_component(snapshot) -row 0 -column 8 -sticky e
+		grid $itk_component(test) -row 0 -column 7 -sticky w -padx 5
+		grid $itk_component(time) -row 0 -column 8 -sticky w
+		grid $itk_component(snapshot) -row 0 -column 9 -sticky e
 
-        grid columnconfig $itk_interior 8 -weight 10
+        grid columnconfig $itk_interior 9 -weight 10
 
 		#bind a click on the shutter to toggle the state.  Replace this with a button!
 		#bind $itk_component(shutter) <Button-1> "$m_objShutter toggle"
