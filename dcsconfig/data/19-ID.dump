@@ -118,28 +118,28 @@ analogInStatus10
 galil10 analogInStatus10
 0 1 1 1 1
 0 1 1 1 1
-23.061100 22.549900 21.166901 24.444099 20.325001 21.527700 253.070496 253.130707
+23.181299 22.369499 21.226999 24.504299 20.264900 21.497601 254.453598 253.130707
 
 analogInStatus7
 13
 galil7 analogInStatus7
 0 1 1 1 1
 0 1 1 1 1
-1.120400 1.013000 0.003400 2.573900 3.434800 2.574100 2.573200 2.575100
+1.128800 1.012200 0.012100 2.575100 3.432900 2.574800 2.574800 2.576100
 
 analogInStatus2
 13
 galil2 analogInStatus2
 0 1 1 1 1
 0 1 1 1 1
--0.047900 2.575500 2.575800 2.576500 2.944000 2.575800 2.576400 2.576900
+-0.002700 2.576300 2.576300 2.576400 2.944100 2.576200 2.576800 2.576900
 
 analogInStatus3
 13
 galil3 analogInStatus3
 0 1 1 1 1
 0 1 1 1 1
-2.567900 2.577500 2.578700 2.578000 2.946900 2.578000 2.578400 2.578400
+2.561900 2.578800 2.577900 2.578200 2.946100 2.579300 2.577700 2.578900
 
 get_robotstate
 11
@@ -417,7 +417,7 @@ self undulator_gap
 0 1 1 1 1
 0 0 0 0 0
 0
-5600.325000 20400.000000 5600.000000 1 1 0 0 mm
+5600.520000 20400.000000 5600.000000 1 1 0 0 mm
 0
 
 gap
@@ -425,7 +425,7 @@ gap
 epics_gateway SR:C19-ID:G1A{NYX:1-Ax:Gap}-Mtr.RBV
 1 1 1 1 1
 0 0 0 0 0
-5600.325
+5600.52
 
 gapRequestDrvH
 13
@@ -1315,7 +1315,7 @@ simDhs sample_camera_polarizer
 
 inline_light_in
 6
-galil1 1 inline_light_in
+galil1 0 inline_light_in
 0 1 1 1 1
 0 1 1 1 1
 
@@ -1354,7 +1354,7 @@ inlineLightStatus
 self standardString
 0 1 1 1 1
 0 1 1 1 1
-INSERTED yes REMOVED no
+INSERTED no REMOVED yes
 
 inlineLightControl
 11
@@ -1398,7 +1398,7 @@ galil2 gonio_phi
 0 1 1 1 1
 0 1 1 1 1
 0
-264.552400 1000.000000 -1000.000000 10000.000000 900000 100 0 0 0 0 0 0 1 deg
+263.025200 1000.000000 -1000.000000 10000.000000 900000 100 0 0 0 0 0 0 1 deg
 
 sample_optic_vert
 2
@@ -1675,6 +1675,18 @@ simDhs dac
 0
 2.249638 10.000000 0.000000 6553.500000 0 0 0 0 0 0 1 0 0 mm
 
+cam1_op
+11
+self cam1_op
+1 1 1 1 1
+0 1 1 1 1
+
+cam2_op
+11
+self cam2_op
+1 1 1 1 1
+0 1 1 1 1
+
 cam3_op
 11
 self cam3_op
@@ -1835,6 +1847,18 @@ ion_chamber9_op
 11
 self ion_chamber9_op
 0 1 1 1 1
+0 1 1 1 1
+
+cam1Stats1Max
+4
+self cam1_op 0 rtc1 standardVirtualIonChamber
+1 1 1 1 1
+0 1 1 1 1
+
+cam2Stats1Max
+4
+self cam2_op 0 rtc1 standardVirtualIonChamber
+1 1 1 1 1
 0 1 1 1 1
 
 cam3Stats1Max
@@ -2677,7 +2701,7 @@ hutchDoorStatus
 simDhs standardString
 0 1 1 1 1
 0 1 1 1 1
-closed 1516747540
+closed 1516823847
 
 getEPICSPV
 11
@@ -2708,7 +2732,35 @@ spear_current
 epics_gateway SR:OPS-BI{DCCT:1}I:Real-I
 0 1 1 1 1
 0 1 1 1 1
-350.4981324
+350.6709407
+
+cam1_stats1_max
+13
+epics_gateway XF:19ID-BI{Cam:1}Stats1:MaxValue_RBV
+0 1 1 1 1
+0 1 1 1 1
+4095
+
+cam1_stats1_total
+13
+epics_gateway XF:19ID-BI{Cam:1}Stats1:Total_RBV
+0 1 1 1 1
+0 1 1 1 1
+61242693
+
+cam2_stats1_max
+13
+epics_gateway XF:19ID-BI{Cam:2}Stats1:MaxValue_RBV
+0 1 1 1 1
+0 1 1 1 1
+1462
+
+cam2_stats1_total
+13
+epics_gateway XF:19ID-BI{Cam:2}Stats1:Total_RBV
+0 1 1 1 1
+0 1 1 1 1
+380997
 
 cam3_stats1_max
 13
@@ -2716,6 +2768,13 @@ epics_gateway XF:19ID-BI{Cam:3}Stats1:MaxValue_RBV
 0 1 1 1 1
 0 1 1 1 1
 4095
+
+cam3_stats1_total
+13
+epics_gateway XF:19ID-BI{Cam:3}Stats1:Total_RBV
+0 1 1 1 1
+0 1 1 1 1
+24648153
 
 dose_const
 13
@@ -2979,7 +3038,7 @@ system_idle
 self startEmpty
 1 1 1 1 1
 0 0 0 0 0
-scanMotor gonio_phi
+
 
 lock_operation
 13
@@ -3006,7 +3065,7 @@ scan_motor_status
 self standardString
 0 1 1 1 1
 0 1 1 1 1
-/home/nysbc/19-ID_014.scan {10 of 10}
+/home/nysbc/19-ID_017.scan {10 of 10}
 
 sic0
 4
@@ -3337,7 +3396,7 @@ system_status
 self systemStatus
 1 1 1 1 1
 0 0 0 0 0
-{Scanning Motor - detector offline} black #d0d000
+{detector offline} black red
 
 scan_msg
 13
@@ -4566,21 +4625,21 @@ epics_gateway LIBERA02:ENV:ENV_BIAS_VOLTAGE_MONITOR
 epics_gateway LIBERA02:ENV:ENV_TEMP_INNER_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-45
+44.5
 
 1_0_env_temp_mon
 13
 epics_gateway LIBERA02:ENV:ENV_TEMP_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-39
+38
 
 1_0_env_temp_outer_mon
 13
 epics_gateway LIBERA02:ENV:ENV_TEMP_OUTER_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-45
+44.5
 
 1_0_env_front_vent_act_mon
 13
@@ -4601,49 +4660,49 @@ epics_gateway LIBERA02:ENV:ENV_BACK_VENT_ACT_MONITOR
 epics_gateway LIBERA02:ENV:ENV_MAX_ADC_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-14271
+14212
 
 1_0_sa_a_mon
 13
 epics_gateway LIBERA02:SA:SA_A_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-1239828
+1238345
 
 1_0_sa_b_mon
 13
 epics_gateway LIBERA02:SA:SA_B_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-1165167
+1163937
 
 1_0_sa_cx_mon
 13
 epics_gateway LIBERA02:SA:SA_CX_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-79587488
+90723098
 
 1_0_sa_cy_mon
 13
 epics_gateway LIBERA02:SA:SA_CY_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-5305770
+6048144
 
 1_0_sa_c_mon
 13
 epics_gateway LIBERA02:SA:SA_C_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-1382353
+1381871
 
 1_0_sa_d_mon
 13
 epics_gateway LIBERA02:SA:SA_D_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-1561020
+1559285
 
 1_0_sa_q_mon
 13
@@ -4657,21 +4716,21 @@ epics_gateway LIBERA02:SA:SA_Q_MONITOR
 epics_gateway LIBERA02:SA:SA_SUM_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-1337092
+1335859
 
 1_0_sa_x_mon
 13
 epics_gateway LIBERA02:SA:SA_X_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-71049
+70691
 
 1_0_sa_y_mon
 13
 epics_gateway LIBERA02:SA:SA_Y_MONITOR
 1 1 1 1 1
 1 1 1 1 1
--151000
+-151278
 
 1_0_env_arc_sp
 13
@@ -4713,21 +4772,21 @@ epics_gateway LIBERA02:ENV:ENV_VOLTAGE0_MONITOR
 epics_gateway LIBERA02:ENV:ENV_VOLTAGE1_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-1.761
+1.759
 
 1_0_env_voltage2_mon
 13
 epics_gateway LIBERA02:ENV:ENV_VOLTAGE2_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-2.44
+2.439
 
 1_0_env_voltage3_mon
 13
 epics_gateway LIBERA02:ENV:ENV_VOLTAGE3_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-3.215
+3.216
 
 1_0_env_voltage4_mon
 13
@@ -5126,7 +5185,7 @@ epics_gateway LIBERA03:ENV:ENV_BIAS_VOLTAGE_MONITOR
 epics_gateway LIBERA03:ENV:ENV_TEMP_INNER_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-45
+44.75
 
 2_0_env_temp_mon
 13
@@ -5140,70 +5199,70 @@ epics_gateway LIBERA03:ENV:ENV_TEMP_MONITOR
 epics_gateway LIBERA03:ENV:ENV_TEMP_OUTER_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-44
+43.75
 
 2_0_env_front_vent_act_mon
 13
 epics_gateway LIBERA03:ENV:ENV_FRONT_VENT_ACT_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-5820
+5730
 
 2_0_env_back_vent_act_mon
 13
 epics_gateway LIBERA03:ENV:ENV_BACK_VENT_ACT_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-5970
+5730
 
 2_0_env_max_adc_mon
 13
 epics_gateway LIBERA03:ENV:ENV_MAX_ADC_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-50783
+53032
 
 2_0_sa_a_mon
 13
 epics_gateway LIBERA03:SA:SA_A_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-1542554
+1543433
 
 2_0_sa_b_mon
 13
 epics_gateway LIBERA03:SA:SA_B_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-1532195
+1531498
 
 2_0_sa_cx_mon
 13
 epics_gateway LIBERA03:SA:SA_CX_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-79587668
+90723278
 
 2_0_sa_cy_mon
 13
 epics_gateway LIBERA03:SA:SA_CY_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-5305782
+6048156
 
 2_0_sa_c_mon
 13
 epics_gateway LIBERA03:SA:SA_C_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-6200586
+6516105
 
 2_0_sa_d_mon
 13
 epics_gateway LIBERA03:SA:SA_D_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-1418825
+1421882
 
 2_0_sa_q_mon
 13
@@ -5217,21 +5276,21 @@ epics_gateway LIBERA03:SA:SA_Q_MONITOR
 epics_gateway LIBERA03:SA:SA_SUM_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-2673540
+2753229
 
 2_0_sa_x_mon
 13
 epics_gateway LIBERA03:SA:SA_X_MONITOR
 1 1 1 1 1
 1 1 1 1 1
--669255
+-692228
 
 2_0_sa_y_mon
 13
 epics_gateway LIBERA03:SA:SA_Y_MONITOR
 1 1 1 1 1
 1 1 1 1 1
--637451
+-662367
 
 2_0_env_arc_sp
 13
@@ -5266,7 +5325,7 @@ epics_gateway LIBERA03:ENV:ENV_RANGE_MONITOR
 epics_gateway LIBERA03:ENV:ENV_VOLTAGE0_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-1.486
+1.489
 
 2_0_env_voltage1_mon
 13
@@ -5287,7 +5346,7 @@ epics_gateway LIBERA03:ENV:ENV_VOLTAGE2_MONITOR
 epics_gateway LIBERA03:ENV:ENV_VOLTAGE3_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-3.2
+3.201
 
 2_0_env_voltage4_mon
 13
@@ -5308,7 +5367,7 @@ epics_gateway LIBERA03:ENV:ENV_VOLTAGE5_MONITOR
 epics_gateway LIBERA03:ENV:ENV_VOLTAGE6_MONITOR
 1 1 1 1 1
 1 1 1 1 1
--12.275
+-12.271
 
 2_0_env_voltage7_mon
 13
