@@ -33,15 +33,17 @@ class DCS::WBControlWidget {
         white_beam_filter_1 \
         white_beam_filter_2 \
         white_beam_mask_x \
-        white_beam_mask_z \
+        white_beam_mask_y \
         white_beam_slit_upper \
-        white_beam_slit_lower
+        white_beam_slit_lower \
+	white_beam_slit_vert  \
+	white_beam_slit_vert_gap
         ]
     }
 
         constructor { args} {
 
-                place $itk_component(control) -x 150 -y 345
+                place $itk_component(control) -x 150 -y 445
 
                 # construct the table widgets
                 motorView white_beam_filter1 125  90 sw
@@ -49,9 +51,11 @@ class DCS::WBControlWidget {
                 motorView white_beam_filter_1 125 170 sw
                 motorView white_beam_filter_2 300 170 sw
                 motorView white_beam_mask_x 125 250 sw
-                motorView white_beam_mask_z 300 250 sw
+                motorView white_beam_mask_y 300 250 sw
                 motorView white_beam_slit_lower 125 320 sw
                 motorView white_beam_slit_upper 300 320 sw
+                motorView white_beam_slit_vert 125 390 sw
+                motorView white_beam_slit_vert_gap 300 390 sw
 
                 # draw the table
                 #rect_solid 180 120 250 20 40 60 40
@@ -116,7 +120,7 @@ class DCS::WBControlWidget {
               #        -activebackground #c0c0ff
 
                 eval itk_initialize $args
-                $itk_component(canvas) configure -width 560 -height 400
+                $itk_component(canvas) configure -width 560 -height 500
 
                 configure -serialMove 1
         }
