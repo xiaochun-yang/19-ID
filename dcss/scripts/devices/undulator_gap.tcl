@@ -94,11 +94,11 @@ proc undulator_gap_trigger { triggerDevice } {
 puts "yangx 4"
     switch -exact -- $triggerDevice {
         "gap" {
-            if {$gapStatus != 1} {
+            if {!$gapStatus} {
                 set oneLine "[time_stamp] gap=$gap request=$gapRequest"
-                if {abs($gap - $gapRequest) > 0.001} {
-                    append oneLine " EXCEED tolerance"
-                }
+                #if {abs($gap - $gapRequest) > 0.001} {
+                #    append oneLine " EXCEED tolerance"
+                #}
                 #undltrUpdateConfig
             } else {
                 #dcss2 sendMessage \
