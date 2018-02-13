@@ -1,0 +1,63 @@
+### SPEAR now uses gapReady to indicate gap is ready and we have the ownership.
+
+proc 19id_gap_initialize {} {
+
+	set_children
+	set_siblings
+
+    registerAbortCallback 19id_gap_abort
+}
+
+proc 19id_gap_move { pos } {
+    variable gapRequest
+    variable gapStatus
+    variable gap
+
+    #set gapRequest $pos will move the gap to the $pos		
+    puts "yangx right before moving gap gapStatus = $gapStatus"
+    set gapRequest $pos
+    after 1000
+#    vwait gGapMoveDoneFlag
+    set a [exec caget "SR:C19-ID:G1A{NYX:1-Ax:Gap}-Mtr.RBV"]
+    puts "current gap 1 = $a"
+    puts "current gap 1-1 = $gap"
+
+	
+    #loop gapStatus to check if it's finished
+    while {$gapStatus} {
+        puts "yangx after moving end  gapStatus = $gapStatus"
+	after 500
+    }
+
+    return
+}
+
+##this is the proc called in config
+#we will use this to inform user that config is not supported
+proc 19id_gap_set { new_19id_gap } {
+    log_error Cannot config 19id_gap.  Please do it through EPICS
+
+    undltrUpdateConfig
+
+    return -code error "config not supported"
+}
+
+proc 19id_gap_update {} {
+    variable gap
+    puts "current gap 2 = $gap"
+    return $gap
+}
+
+proc undltrUpdateConfig { } {
+    variable gap
+    variable gapRequestDrvH
+    variable gapRequestDrvL
+
+    dcss2 sendMessage "htos_configure_device 19id_gap $gap $gapRequestDrvH $gapRequestDrvL 1 1 0"
+}
+
+proc 19id_gap_abort { } {
+    variable gapAbort
+
+    log_warning aborted 19id gap too
+    set gapAbort 1

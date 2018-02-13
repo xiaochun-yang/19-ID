@@ -647,7 +647,7 @@ class StatusBar {
 
         ### file path
         set tsForFileName [clock format [clock seconds] -format "%Y%m%d_%H%M%S"]
-        set filePath [file join ~$env(USER) bluice_snapshot_$tsForFileName.jpg]
+        set filePath [file join ~$env(USER)/bluice_snapshot bluice_snapshot_$tsForFileName.jpg]
         if {$ask} {
             set types [list [list JPEG .jpg]]
 
