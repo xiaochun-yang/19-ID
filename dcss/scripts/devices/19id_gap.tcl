@@ -23,24 +23,22 @@ proc 19id_gap_move { pos } {
     variable gapWaitingState
     variable gap
     global   gGapMoveDoneFlag
-
-    puts "yangx gap=$gap pos=$pos"
     ### this is a workaround in case spear will not cycle gapStatus when there is no real move.
     if {abs($gap - $pos) < 0.001} {
         return
     }
 
 
-puts "yangx 1"
     set gapStartedByUs 1
 
-#yangx    undltrCheckReady 0
+#    undltrCheckReady 1
 
     set gGapMoveDoneFlag 0
     set gapWaitingState wait_for_0
     set gapRequest $pos
     vwait gGapMoveDoneFlag
-puts "yangx 2"
+
+puts "yangx 3"
     ### change to yours.
     #if {$gapStatus != "Stopped" && $gapStatus != "Move too small"} {
     #    regsub -all {[[:space:]]} $gapStatus _ oneWord
@@ -56,13 +54,12 @@ puts "yangx 2"
             set diffFromDesired $newDiff
         }
     }
-
-puts "yangx 3"
-    if {$diffFromDesired > 0.020} {
+    #original 0.020
+    if {$diffFromDesired > 0.52} {
         log_severe gap $gap not reach the desired position $pos
         return -code error move_gap_failed
     }
-    if {$diffFromDesired > 0.002} {
+    if {$diffFromDesired > 0.52} {
         log_warning gap $gap not reach the desired position $pos
     }
 }
@@ -94,14 +91,15 @@ proc 19id_gap_trigger { triggerDevice } {
     variable gapRequest
     global   gGapMoveDoneFlag
 
+puts "yangx 4"
     switch -exact -- $triggerDevice {
         "gap" {
-            if {$gapStatus != "Moving"} {
+            if {!$gapStatus} {
                 set oneLine "[time_stamp] gap=$gap request=$gapRequest"
-                if {abs($gap - $gapRequest) > 0.001} {
-                    append oneLine " EXCEED tolerance"
-                }
-                undltrUpdateConfig
+                #if {abs($gap - $gapRequest) > 0.001} {
+                #    append oneLine " EXCEED tolerance"
+                #}
+                #undltrUpdateConfig
             } else {
                 #dcss2 sendMessage \
                 #"htos_update_motor_position 19id_gap $gap normal"
@@ -109,7 +107,8 @@ proc 19id_gap_trigger { triggerDevice } {
             }
         }
         "gapStatus" {
-            if {$gapStatus != "Moving"} {
+            if {$gapStatus != 1} {
+puts "yangx 8"
                 if {$gapWaitingState == "wait_for_1"} {
                     set gapWaitingState wait_done
                     set gGapMoveDoneFlag 1
@@ -152,7 +151,7 @@ proc undltrCheckReady { waitForReady } {
             return -code error "not ready"
         }
     }
-    if {$gapStatus == "Moving"} {
+    if {$gapStatus == 1} {
         if {$waitForReady} {
             log_error 19id_gap not ready, waiting it to become Stopped
             log_error 19id_gap not ready, waiting it to become Stopped
