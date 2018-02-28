@@ -61,7 +61,7 @@ class DCS::WBControlWidget {
                 #rect_solid 180 120 250 20 40 60 40
 		itk_component add filter1 {
                  label $itk_component(canvas).filter1 \
-                      -text "#: Filter1\n1:  Open  \n2:  250um\n3:  500um\n4:  1mm  " \
+                      -text "#: Filter1\n1:  500um\n2:  250um\n3:  1 mm \n4:  open " \
                       -relief flat \
                       -width 10 \
               	} {
@@ -77,7 +77,7 @@ class DCS::WBControlWidget {
               	}
 		itk_component add filter2 {
                   label $itk_component(canvas).filter2 \
-                      -text "#: Filter2\n5:  Open \n6:  2 mm \n7:  open \n8:  Open " \
+                      -text "#: Filter2\n5:  Open \n6:  open \n7:  2 mm \n8:  Open " \
                       -relief flat \
                       -width 10 \
               	} {

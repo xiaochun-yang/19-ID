@@ -632,11 +632,40 @@ class StatusBar {
 		set m_test "Test Off"
                 $itk_component(test) configure -text $m_test
                 #start auto bpm
+		set m_bpmState 0
 
         } else {
                 set m_test "Test On"
                 $itk_component(test) configure -text $m_test
+		set m_bpmState 1
         }
+    }
+
+    public method handleBpmValue2yChange { name_ targetReady_ alias_ contents_ - } {
+        if {!$targetReady_} return
+
+#       set value $contents_
+#       if { abs($value - 0) < 0.005 } {
+#               after 60000
+#               return 
+#       }
+	if {$m_bpmState} {
+       	#	puts "yangx value = $contents_"
+		auto_bpm 
+	}
+    #    set nvalue [$s2_y_obj getContents]
+    #    puts "yangx nvalue = $nvalue"
+
+     #   set nvalue [$s2_y_obj getContents]
+     #   puts "yangx innvalue = $nvalue"
+
+
+#       auto_bpm ($value)
+    }
+
+    public method auto_bpm { } {
+
+       		puts "yangx value "
     }
 
     public method saveSnapshot { ask } {
@@ -714,6 +743,9 @@ class StatusBar {
 
     private variable m_objShutter ""
     private variable m_objXppShutter ""
+
+#yangx add
+    private variable m_bpmState "0"
 
    #colors
    private common midhighlight #e0e0f0
@@ -796,7 +828,7 @@ class StatusBar {
 		
 		itk_component add test {
 		DCS::Button $itk_interior.test \
-			-text "Test On" \
+			-text "Test Off" \
 			-width 8 \
 			-command "$this toggleBpm" \
 			-background \#ffaaaa 
@@ -832,10 +864,13 @@ class StatusBar {
         bind $itk_component(snapshot) <Button-1> "$this saveSnapshot 0"
         bind $itk_component(snapshot) <Button-3> "$this saveSnapshot 1"
 
-		eval itk_initialize $args
+	eval itk_initialize $args
 
-		set m_objShutter [$m_deviceFactory createShutter shutter]
+	set m_objShutter [$m_deviceFactory createShutter shutter]
         $m_objShutter register $this state handleShutter
+
+	set m_objBpm2y [$m_deviceFactory createString 2_0_sa_y_mon]
+        $m_objBpm2y register $this contents handleBpmValue2yChange
 
         if {[::config getConfigRootName] == "BL-XPP"} {
 		    set m_objXppShutter [$m_deviceFactory createShutter xppShutter]
