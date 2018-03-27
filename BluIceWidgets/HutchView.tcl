@@ -98,6 +98,74 @@ body OptimizeButton::handleStart {} {
     ::device::optimized_energy move by 0 eV
 }
 
+class LoadButton2 {
+
+        inherit DCS::Button
+        public method handleStart
+
+        constructor { args} {
+                eval itk_initialize $args
+                configure -command "$this handleStart"
+
+                #announceExist
+        }
+}
+
+body LoadButton2::handleStart {} {
+
+
+        set text [.pw.pane0.childsite.bluice.n.canvas.notebook.cs.page1.cs.h.hutch.c.load2 cget -text]
+        if {$text == "Beamstop/In"} {
+                set text "Beamstop/Out"
+	       	::device::beamstop_horz move to 359 deg
+     	#	wait_for_devices ::device::beamstop_horz
+
+        } else {
+	       	::device::beamstop_horz move to 270 deg
+     	#	wait_for_devices ::device::beamstop_horz
+                set text "Beamstop/In"
+        }
+        .pw.pane0.childsite.bluice.n.canvas.notebook.cs.page1.cs.h.hutch.c.load2 configure -text $text
+}
+
+class LoadButton1 {
+
+        inherit DCS::Button
+        public method handleStart
+#       public variable m_loadParamsObj
+
+        constructor { args} {
+                eval itk_initialize $args
+                configure -command "$this handleStart"
+                #set m_deviceFactory [DCS::DeviceFactory::getObject]
+
+                #if { [$m_deviceFactory stringExists optimizedEnergyParameters] } {
+                #       set m_optimizeEnergyParamsObj [DCS::OptimizedEnergyParams::getObject]
+                #       addInput "$m_optimizeEnergyParamsObj optimizeEnable 1 {Table optimizations are disabled.}"
+                #}
+
+                #announceExist
+#               set m_loadParamsObj 0
+        }
+}
+
+body LoadButton1::handleStart {} {
+
+
+        set text [.pw.pane0.childsite.bluice.n.canvas.notebook.cs.page1.cs.h.hutch.c.load1 cget -text]
+        if {$text == "Flu/In"} {
+                set text "Flu/Out"
+                ::device::flu_det_ext close
+                ::device::flu_det_ret open
+
+        } else {
+                set text "Flu/In"
+                ::device::flu_det_ext open
+                ::device::flu_det_ret close
+        }
+	.pw.pane0.childsite.bluice.n.canvas.notebook.cs.page1.cs.h.hutch.c.load1 configure -text $text
+}
+
 class LoadButton {
     	
 	inherit DCS::Button
@@ -125,9 +193,6 @@ class LoadButton {
 
 body LoadButton::handleStart {} {
 
-#	::device::gonio_phi move to 180 deg
-#	::device::gonio_kappa move to 90 deg
-
         #this is for move sample_x/y/z to robot mount/unmount position
 #       ::device::gonio_phi move to 0 deg
 #       ::device::gonio_kappa move to 0 deg
@@ -137,7 +202,6 @@ body LoadButton::handleStart {} {
                 set text "Ion/Out"
                 ::device::ion_det_ext open
                 ::device::ion_det_ret close
-     #          ::device::gonio_kappa move to 180 deg
 
         } else {
                 set text "Ion/In"
@@ -325,6 +389,34 @@ class DCS::HutchOverview {
                            keep -foreground
                    }
                 place $itk_component(load) -x 288 -y 10
+
+		itk_component add load1 {
+                           # make the optimize beam button
+                           LoadButton1 $itk_component(canvas).load1 \
+                                 -text "Flu/In" \
+                                 -font "courier -14 bold"\
+                                 -width 8 \
+                                 -background #c0c0ff \
+                                 -activebackground #c0c0ff
+                   } {
+                           keep -foreground
+                   }
+                place $itk_component(load1) -x 385 -y 10
+
+		itk_component add load2 {
+                           # make the optimize beam button
+                           LoadButton2 $itk_component(canvas).load2 \
+                                 -text "Beamstop/In" \
+                                 -font "courier -14 bold"\
+                                 -width 11 \
+                                 -background #c0c0ff \
+                                 -activebackground #c0c0ff
+                   } {
+                           keep -foreground
+                   }
+                  place $itk_component(load2) -x 485 -y 10
+
+
 #puts "yangx this =$this  itk_component= $itk_component(load)\n"
 	        for {set i 0} {$i < 2} {incr i} {
 
