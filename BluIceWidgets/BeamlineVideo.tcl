@@ -88,7 +88,7 @@ class DCS::BeamlineVideoNotebook {
     #### They are used in Crystal Rastering.
     private variable m_supportedList \
     [list Combo Sample Emission Hutch Robot Panel Diffraction \
-    COMBO_SAMPLE_ONLY COMBO_INLINE_ONLY COMBO_INLINE_H_ONLY]
+    COMBO_SAMPLE_ONLY COMBO_INLINE_ONLY]
     private variable m_enabledList [list Sample Hutch Robot Panel Diffraction]
 
     public method selectView { index } {
@@ -144,7 +144,6 @@ class DCS::BeamlineVideoNotebook {
         if {[lsearch -exact $m_enabledList Sample] < 0 && \
         [lsearch -exact $m_enabledList Combo] < 0 && \
         [lsearch -exact $m_enabledList COMBO_INLINE_ONLY] < 0 && \
-	[lsearch -exact $m_enabledList COMBO_INLINE_H_ONLY] < 0 && \
         [lsearch -exact $m_enabledList COMBO_SAMPLE_ONLY] \
         } {
             return
@@ -192,22 +191,13 @@ class DCS::BeamlineVideoNotebook {
 
     public method handleInlineResize { winID width height } {
         if {$winID != $m_inline_id} return
-#yangx modified below
-        if {[lsearch -exact $m_enabledList COMBO_INLINE_ONLY] >= 0} {
-        	set req_v_w [winfo reqwidth $itk_component(inlineWidget)]
-        	set req_v_h [winfo reqheight $itk_component(inlineWidget)]
-       		set req_l_h [winfo reqheight $itk_component(inline_light_control)]
-	} else {
-		return 
-	}
-	if {[lsearch -exact $m_enabledList COMBO_INLINE_H_ONLY] >= 0} {
-        	set req_v_w [winfo reqwidth $itk_component(inlineWidget_h)]
-        	set req_v_h [winfo reqheight $itk_component(inlineWidget_h)]
-       		set req_l_h [winfo reqheight $itk_component(inline_light_control_h)]
-	} else {
-		return 
-	}
-        
+        if {[lsearch -exact $m_enabledList COMBO_INLINE_ONLY] < 0} {
+            return
+        }
+
+        set req_v_w [winfo reqwidth $itk_component(inlineWidget)]
+        set req_v_h [winfo reqheight $itk_component(inlineWidget)]
+        set req_l_h [winfo reqheight $itk_component(inline_light_control)]
         puts "v resize: $width $height req : $req_v_w $req_v_h"
 
         ############## decide the height of sampleWidget #########
@@ -229,34 +219,20 @@ class DCS::BeamlineVideoNotebook {
                 set h_from_h $h_from_w
             }
         }
-	if {[lsearch -exact $m_enabledList COMBO_INLINE_ONLY] >= 0} {
-        	if {$h_from_h > 0} {
-            		place $itk_component(inlineWidget) \
-            		-x 0 \
-            		-y 0 \
-            		-width $width \
-            		-height $h_from_h
-        	}
-       		 puts "place light control at 0, $h_from_h"
-       		 place $itk_component(inline_light_control) \
-        		-x 0 \
-        		-y $h_from_h \
-        		-width $width
-	}
-	if {[lsearch -exact $m_enabledList COMBO_INLINE_H_ONLY] >= 0} {
-        	if {$h_from_h > 0} {
-            		place $itk_component(inlineWidget_h) \
-            		-x 0 \
-            		-y 0 \
-            		-width $width \
-            		-height $h_from_h
-        	}
-       		 puts "place light control at 0, $h_from_h"
-       		 place $itk_component(inline_light_control_h) \
-        		-x 0 \
-        		-y $h_from_h \
-        		-width $width
-	}
+
+        if {$h_from_h > 0} {
+            place $itk_component(inlineWidget) \
+            -x 0 \
+            -y 0 \
+            -width $width \
+            -height $h_from_h
+        }
+
+        puts "place light control at 0, $h_from_h"
+        place $itk_component(inline_light_control) \
+        -x 0 \
+        -y $h_from_h \
+        -width $width
     }
     public method addChildVisibilityControl
 
@@ -268,7 +244,6 @@ class DCS::BeamlineVideoNotebook {
     private method createPanelTab { nb }
     private method createDiffractionTab { nb }
     private method createCOMBO_INLINE_ONLYTab { nb }
-    private method createCOMBO_INLINE_H_ONLYTab { nb }
     private method createCOMBO_SAMPLE_ONLYTab { nb }
 
     constructor { subset args } {
@@ -379,11 +354,11 @@ body DCS::BeamlineVideoNotebook::createCOMBO_INLINE_ONLYTab { nb } {
     puts "adding Combo: Inline alone"
 
     # construct the sample position widgets
-    set sampleSite [$nb add Inline -label "Sample-Low-Mag"]
+    set sampleSite [$nb add Inline -label "Sample On-Axis"]
         
     itk_component add inlineWidget {
         ComboSamplePositioningWidget $sampleSite.s \
-        "[::config getImageUrl 1] sample_camera_constant camera_zoom centerLoop inlineMoveSample" \
+        "[::config getImageUrl 1] sample_camera_constant camera_zoom centerLoop moveSample" \
         "[::config getImageUrl 5] inline_sample_camera_constant inline_camera_zoom inlineMoveSample" \
         -fixedView inline \
     } {
@@ -418,63 +393,15 @@ body DCS::BeamlineVideoNotebook::createCOMBO_INLINE_ONLYTab { nb } {
     bind $m_inline_id <Configure> "$this handleInlineResize %W %w %h"
 }
 
-#yangx add high resolution camera 
-body DCS::BeamlineVideoNotebook::createCOMBO_INLINE_H_ONLYTab { nb } {
-    puts "adding Combo: Inline alone"
-
-    # construct the sample position widgets
-    set sampleSite [$nb add Inline -label "Sample-Hi-Mag"]
-
-    itk_component add inlineWidget_h {
-        ComboSamplePositioningWidget $sampleSite.s \
-        "[::config getImageUrl 1] sample_camera_constant camera_zoom centerLoop inlineMoveSample" \
-        "[::config getImageUrl 6] inline_sample_camera_h_constant inline_camera_zoom_h inlineMoveSample" \
-        -fixedView inline \
-    } {
-        keep -purpose
-        keep -mode
-        keep -videoParameters
-        keep -videoEnabled
-        keep -beamWidthWidget
-        keep -beamHeightWidget
-        keep -packOption
-        keep -useStepSize
-        keep -forL614
-        keep -beamMatchColor
-    }
-
-    set wrap [$itk_component(inlineWidget_h) getWrap]
-
-    set className [::config getStr bluice.lightClass]
-    if {$className == ""} {
-        set className ComboLightControlWidget
-    }
-    itk_component add inline_light_control_h {
-        $className $sampleSite.light \
-        -switchWrap $wrap
-    } {
-    }
-
-    $itk_component(inlineWidget_h) addChildVisibilityControl $nb activeTab Inline
-    pack $itk_component(inlineWidget_h) -expand 1 -fill both
-
-    set m_inline_id $sampleSite
-    bind $m_inline_id <Configure> "$this handleInlineResize %W %w %h"
-}
-
 body DCS::BeamlineVideoNotebook::createCOMBO_SAMPLE_ONLYTab { nb } {
     puts "adding Combo: Inline alone"
 
-#yangx add
-    #puts "yangx move gonio omega to 90"
-    #::device::gonio_omega move to 90 deg
-
     # construct the sample position widgets
-    set sampleSite [$nb add Sample -label "Sample OnAxis"]
+    set sampleSite [$nb add Sample -label "Sample Profile"]
         
     itk_component add sampleWidget {
         ComboSamplePositioningWidget $sampleSite.s \
-        "[::config getImageUrl 1] sample_camera_constant camera_zoom centerLoop inlineMoveSample" \
+        "[::config getImageUrl 1] sample_camera_constant camera_zoom centerLoop moveSample" \
         "[::config getImageUrl 5] inline_sample_camera_constant inline_camera_zoom inlineMoveSample" \
         -fixedView sample \
     } {
@@ -496,7 +423,7 @@ body DCS::BeamlineVideoNotebook::createCOMBO_SAMPLE_ONLYTab { nb } {
     if {$className == ""} {
         set className ComboLightControlWidget
     }
-   itk_component add light_control {
+    itk_component add light_control {
         $className $sampleSite.light \
         -switchWrap $wrap
     } { 

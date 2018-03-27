@@ -157,16 +157,16 @@ proc inlineMoveSampleRelativeMM { deltaXmm deltaYmm {phiOffset 0.0} } {
 
     variable cfgSampleMoveSerial
     if {$cfgSampleMoveSerial} {
-        move sample_x by $dx
+        move sample_x by -$dx
         wait_for_devices sample_x
-        move sample_y by $dy
+        move sample_y by -$dy
         wait_for_devices sample_y
-        move sample_z by $dz
+        move sample_z by -$dz
         wait_for_devices sample_z
     } else {
-        move sample_x by $dx
-        move sample_y by $dy
-        move sample_z by $dz
+        move sample_x by -$dx
+        move sample_y by -$dy
+        move sample_z by -$dz
 	
         # wait for all device motions to complete
         wait_for_devices sample_x sample_y sample_z

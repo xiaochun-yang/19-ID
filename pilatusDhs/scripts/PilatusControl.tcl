@@ -345,9 +345,12 @@ puts "yangx tmpDir=$tmpDir"
             putsDet "Phi [$imageParams_ cget -oscillationStart]"
         }
         putsDet "Angle_increment [$imageParams_ cget -oscillationRange]"
+	#yangx hf262 detector's y absolute position 315 mm is based on zero position
+        #of the Q4. The real y position of hf262 at here should be 0.65. So substracting
+        #314.35 from 315 is 0.65 
 
         set detectorOffsetPixelsX [expr [$imageParams_ cget -detectorX] * $_detectorPixelSizeFactorX]
-        set detectorOffsetPixelsY [expr ([$imageParams_ cget -detectorY]) * $_detectorPixelSizeFactorY]
+        set detectorOffsetPixelsY [expr ([$imageParams_ cget -detectorY] - 314.35) * $_detectorPixelSizeFactorY]
 	putsDet "Beam_x [expr $_detectorXCenterPixel + $detectorOffsetPixelsX]"
         putsDet "Beam_y [expr $_detectorYCenterPixel - $detectorOffsetPixelsY]"
     }
@@ -414,9 +417,7 @@ puts "yangx tmpDir=$tmpDir"
             putsDet "SetAckInt 1"
         } else {
             set sliceExposureTime [expr [$_multiImageParams cget -exposureTime] / double($nFrameImg) ]
-           #original  putsDet "exptime [expr $sliceExposureTime - 0.0023]"    
-	    #HF262
-            putsDet "exptime [expr $sliceExposureTime - 0.0073]"    
+            putsDet "exptime [expr $sliceExposureTime - 0.0023]"    
             putsDet "expp $sliceExposureTime"    
             putsDet "SetAckInt 1"
         }
@@ -457,7 +458,7 @@ puts "localdir=$localDir"
 #	vwait _HF4M_ready
 #	puts "yangxx _HF4M_ready = $_HF4M_ready"
 #	puts "yangx: EXECUTE configure command"
-	configure -collecting true
+#	configure -collecting true
 
     }
 

@@ -1,0 +1,553 @@
+##############################
+# 19-ID.config
+##############################
+
+# dcss server.
+dcss.host=xf19id1-ws2
+
+dcs.rootDir=/usr/local/dcs
+
+#serverPorts.txt file fields conversion table
+#   1st -->dcss.scriptPort 
+#   2nd -->dcss.hardwarePort
+#   3rd -->dcss.guiPort
+#dcss.ssl=1
+dcss.scriptPort=14244
+dcss.hardwarePort=14242
+dcss.guiPort=14243
+dcss.authProtocol=2
+
+# how often to validate session ids (in msec)
+dcss.validationRate=30000
+
+# Location of the dabase memory map file
+dcss.dbMapFile=/usr/local/dcs/dcss/dbmapfile/19-ID.dat
+dcss.certificate=/usr/local/dcs/dcsconfig/data/19-ID.crt
+
+# dcss logging: 
+# To turn off stdout logging, set logStdout to false
+# To turn off udp log, set logUdpHost or logUdpPort to an empty string.
+# To turn off log file, set logFilePattern or logFileSize or logFileMax to an empty string
+# logLevel can be OFF, SEVERE, WARNING, INFO, CONFIG, FINE, FINER, FINEST OR ALL.
+dcss.logStdout=true
+dcss.logUdpHost=
+dcss.logUdpPort=
+dcss.logFilePattern=./19-ID_dcss_log_%g_%u.log
+#dcss.logFilePattern=
+dcss.logFileSize=31457280
+dcss.logFileMax=20
+dcss.logLevel=ALL
+dcss.logLibs=
+
+# Dumping database.dat to text file. Set dbDumpFlag=false to turn it off.
+dcss.dbDumpFlag=true
+dcss.dbDumpFile=/usr/local/dcs/dcsconfig/data/19-ID.dump
+dcss.dbDumpRate=10000
+
+
+dcss.forcedDoor=closed
+
+#########################################
+##BluIce will show "Energy Config"
+##if it found this
+##The list must match with "energy_component_list" in the code.
+## You can have different name for each checkbox
+## the items must be in ONE_WORD due to itk widgets name limit
+##########################################
+#energy.config=hold_mirror move_undulator_gap jump_harmonic move_table_vert adjust_detector_vert set_preamplifiers set_detector_threshold move_table_horz move_mfd_vert move_mfd_horz
+energy.config=hold_mirror jump_harmonic move_table_vert adjust_detector_vert set_preamplifiers set_detector_threshold move_table_horz move_mfd_vert move_mfd_horz
+show.energy_offset=1
+show.gap_owner=1
+#show.lvdt=1
+show.auto_sample_cal=0
+
+# override the default config in default.config
+# authentication server
+#auth.host=localhost
+#auth.port=8088
+#auth.secureHost=localhost
+#auth.securePort=8443
+
+auth.host=localhost
+auth.port=8080
+auth.method=smb_config_database
+#auth.method=smb_pam
+auth.secureHost=localhost
+auth.securePort=8443
+#comment following to accept any certificates
+auth.trusted_ca_file=/usr/local/dcs/dcsconfig/data/19-ID.crt
+
+bluice.useSsl=0
+bluice.useRobot=1
+bluice.tabOrder=Hutch Collect Sample Screening Scan Rastering Users UserLog Staff
+rasterClass=FloatGridTab
+bluice.videoTabList=COMBO_SAMPLE_ONLY COMBO_INLINE_ONLY COMBO_INLINE_H_ONLY Hutch Panel Diffraction
+#bluice.videoTabList=Combo Hutch Panel Diffraction
+#bluice.tabOrder=Hutch Collect Sample Screening Scan Users UserLog Staff
+#bluice.deviceDefinitionFilename=
+bluice.mirrorView=ID19MirrorView
+#bluice.mirrorView=BL12-2FocusingMirrorsView
+bluice.hutchView=DCS::HutchOverview
+bluice.monoView=DoubleCrystalMonoViewDoubleSetID19
+#bluice.monoView=DoubleCrystalMonoViewDoubleSet
+#bluice.toroidView=ToroidView
+#bluice.beamlineView=goniometer detectorPosition
+bluice.beamlineView=detectorPosition goniometer table wbcontrol goniomotions frontEndApertures mirrorView monoView mirrorApertureView monoApertureView focusingMirrorsView hutchOverview inlineMotorView sampleMotorView slit1Aperture frontEndSlits frontEndApertures
+
+show.lvdt=1
+
+
+dcss.display=local dontcare xf19id1-ws2 :0.0 #Beamline console
+dcss.display=local dontcare xf19id1-ws2 :1.0 #Beamline console
+#dcss.display=local 10.19.0.206 :0.0
+#dcss.display=local 10.19.0.207 :1.0
+dcss.display=remote dontcare yangxc:0.0 # Beamline console
+dcss.display=remote dontcare yangxc:1.0 # Beamline console
+dcss.display=remote dontcare 10.19.0.205:0.0 # Beamline console
+
+#back light is DigitalOutput
+light.back=0 0
+##side light is AnalogOutput
+light.side=0 0
+# put the light in and on
+light.inline_on=1 2
+# dimmer
+#light.inline_dim=1 1
+#
+ 
+#detector.name=detector
+#detector.imageDir=/home/nysbc/temp
+#detector.imageFilter=*.img
+# File containing a list of screening result directories
+#detector.cassetteFile=/usr/local/dcs/simdetector/cassette_dirs.txt
+#detector.impHost=localhost
+#detector.impPort=61001
+
+#pilatus.name=detector
+#pilatus.host=localhost
+#pilatus.port=41234
+#pilatus.imageXSizePixels=2462
+#pilatus.imageYSizePixels=2526
+#pilatus.pixelXSizeUm=172
+#pilatus.pixelYSizeUm=172
+#pilatus.tmpDir=/home/nysbc/temp
+
+dhs.logStdout=TRUE
+dhs.logFileSize=31457280
+dhs.logFileMax=10
+dhs.logLevel=INFO
+
+#epics gateway
+epicsgw.name=epics_gateway
+epicsgw.beamlineOpenState.stringTypeRead=1
+epicsgw.String.UpdateRate=2
+
+#epicsgw.EPICS_CA_MAX_ARRAY_BYTES=500000
+#epicsdhs.name=test_epics
+#epicsdhs.pvFile=../data/epics.config
+#epicsgw.EPICS_CA_ADDR_LIST=10.19.0.202
+#epicsdhs.EPICS_TS_MIN_WEST=480
+
+epicsgw.gapStatus.stringTypeRead=1
+epicsgw.defaultMotorType=SSRLGapMotor
+epicsgw.gap.UpdateRate=5
+epicsgw.gapTaper.UpdateRate=5
+
+#### update rate is ticks; 1 tick is about 0.1 seconds
+#### 0 means immediately update up on epics
+#epicsgw.default.UpdateRate=0
+#class wide rate
+#epicsgw.String.UpdateRate=10
+#epicsgw.Motor.UpdateRate=10
+#epicsgw.Shutter.UpdateRate=10
+# object wide rate
+#epicsgw.epics_string1.UpdateRate=0
+#epicsgw.epics_motor1.UpdateRate=10
+#####string for EPICS array forced read rate per object#####
+#epicsgw.epics_string3.ForcedReadRate=10
+
+#the following lines are from chris-nelson's config
+epicsgw.defaultMotorType=ASGalilMotor
+#epicsgw.X17U1:OP:Mono:Soft_bragg=APSMotor
+#epicsgw.X17U1:ES:ATT:rotation=APSMotor
+
+
+## quantum 4 detector
+#dhs.instance=detector quantum4 /usr/local/dcs/19-ID/detector_%g_%u.log /usr/local/dcs/19-ID/detector.dat 500 1000 200
+
+#quantum4.hostname=10.0.0.2
+#quantum4.commandPort=8041
+#quantum4.dataPort=8042
+#quantum4.beamCenter=94.0 94.0
+#quantum4.nonUniformitySlowFile=/usr/local/dcs/ccd_dist/tables_api_418/NONUNF_slow
+#quantum4.nonUniformityFastFile=/usr/local/dcs/ccd_dist/tables_api_418/NONUNF_fast
+#quantum4.nonUniformitySlowBinFile=/usr/local/dcs/ccd_dist/tables_api_418/NONUNF_2x2
+#quantum4.nonUniformityFastBinFile=/usr/local/dcs/ccd_dist/tables_api_418/NONUNF_2x2
+#quantum4.distortionSlowFile=/usr/local/dcs/ccd_dist/tables_api_418/CALFIL
+#quantum4.distortionFastFile=/usr/local/dcs/ccd_dist/tables_api_418/CALFIL
+#quantum4.distortionSlowBinFile=/usr/local/dcs/ccd_dist/tables_api_418/CALFIL_2x2
+#quantum4.distortionFastBinFile=/usr/local/dcs/ccd_dist/tables_api_418/CALFIL_2x2
+#quantum4.postNonUniformitySlowFile=/usr/local/dcs/ccd_dist/tables_api_418/POSTNUF_slow
+#quantum4.postNonUniformityFastFile=/usr/local/dcs/ccd_dist/tables_api_418/POSTNUF_fast
+#quantum4.postNonUniformitySlowBinFile=/usr/local/dcs/ccd_dist/tables_api_418/POSTNUF_2x2
+#quantum4.postNonUniformityFastBinFile=/usr/local/dcs/ccd_dist/tables_api_418/POSTNUF_2x2
+#quantum4.darkDirectory=/usr/local/dcs/ccd_dist/tables_api_418/darkimages
+#quantum4.darkRefreshTime=7200
+#quantum4.darkExposureTolerance=0.10
+#quantum4.writeRawImages=y
+#quantum4.serialNumber=418 
+
+# quantum 416 detector
+#dhs.instance=detector quantum210 /usr/local/dcs/19-ID/detector_%g_%u.log /usr/local/dcs/19-ID/detector.dat 500 1000 200
+##quantum4.hostname=10.10.192.96
+#quantum210.commandHostname=yangxc
+#quantum210.commandPort=8041
+#quantum210.dataHostnameList=416-0 416-1 416-2 416-3 
+#quantum210.dataPortList=9042 9042 9042 9042 
+#quantum210.darkDirectory=/usr/local/dcs/ccd_dist/tables_api_418/darkimages
+#quantum210.beamCenter=94.0 94.0
+#quantum210.darkRefreshTime=7200
+#quantum210.darkExposureTolerance=0.10
+#quantum210.writeRawImages=n
+#quantum210.serialNumber=416
+
+# quantum 315 detector
+#dhs.instance=detector quantum315 /usr/local/dcs/X4/detector_%g_%u.log /usr/local/dcs/19-ID/detector.dat 500 1000 200
+#quantum315.commandHostname=koala
+#quantum315.commandPort=8041
+#quantum315.dataHostnameList=916-0 916-1 916-2 916-3 916-4 916-5 916-6 916-7 916-8
+#quantum315.dataPortList=9042 9042 9042 9042 9042 9042 9042 9042 9042
+#quantum315.beamCenter=157.5 157.5
+#quantum315.darkRefreshTime=7200
+#quantum315.darkExposureTolerance=0.10
+#quantum315.writeRawImages=n
+#quantum315.serialNumber=916
+
+
+# imperson dhs
+impdhs.name=imperson
+impdhs.tmpDir=/tmp
+impdhs.choochBinDir=/usr/local/dcs/autochooch/install/bin
+impdhs.choochDatDir=/usr/local/dcs/autochooch/install/data
+impdhs.cameraHost=localhost
+impdhs.cameraPort=80
+impdhs.impHost=localhost
+impdhs.impPort=61001
+
+
+# image server
+imgsrv.host=localhost
+imgsrv.guiPort=14005
+imgsrv.webPort=14006
+imgsrv.httpPort=14007
+imgsrv.tmpDir=/usr/local/dcs/19-ID/imgsrv-tmp/jpegscratch
+imgsrv.maxIdleTime=60
+imgsrv.logStdout=true
+imgsrv.logUdpHost=
+imgsrv.logUdpPort=
+imgsrv.logFilePattern=/usr/local/dcs/19-ID/imgsrv_log_%d.log
+imgsrv.logFileSize=31457280
+imgsrv.logFileMax=1
+imgsrv.logLevel=ALL
+imgsrv.logLibs=
+
+# impersoanation server
+imperson.host=localhost
+imperson.port=61001
+imperson.readonlyHost=localhost
+imperson.readonlyPort=61002
+
+#attenuation.filterThickness=Al_32 800 Al_16 400 Al_8 200 Al_4 100 Al_2 50 Al_1 25
+#bluice.filterLabelMap=Al_0.5 Fe Al_1 1 Al_2 2 Al_4 4 Al_8 8 Al_16 16 Al_32 32 Se Se
+
+#video.scaling=0
+
+#For camera server
+dhs.instance=camera axis2400 /usr/local/dcs/19-ID/camera_%g_%u.log /usr/local/dcs/19-ID/camera.dat 500 5000 5000
+dhs.instance=inline_camera axis2400inline /usr/local/dcs/19-ID/inline_camera_%g_%u.log /usr/local/dcs/19-ID/inline_camera.dat 500 5000 5000
+
+#axis2400.hostname=130.199.198.65
+axis2400.hostname=10.19.2.92
+axis2400.port=80
+axis2400.passwordFile=/usr/local/dcs/19-ID/axis2400Password.txt
+axis2400.url_path=/axis-cgi/jpg/image.cgi?camera=2&clock=0&date=0&text=0 HTTP/1.1\r\n
+
+#axis2400inline.hostname=130.199.198.65
+axis2400inline.hostname=10.19.2.92
+axis2400inline.port=80
+axis2400inline.passwordFile=/usr/local/dcs/19-ID/axis2400Password.txt
+axis2400inline.url_path=/axis-cgi/jpg/image.cgi?camera=2&clock=0&date=0&text=0 HTTP/1.1\r\n
+
+# video urls
+#video1.imageUrl=http://bm8axis.nec.aps.anl.gov/view/indexFrame.shtml
+#video1.imageUrl=http://130.199.193.65/axis-cgi/jpg/image.cgi?resolution=704x408&camera=1
+video1.imageUrl=http://10.19.2.92/axis-cgi/jpg/image.cgi?resolution=704x480&camera=3
+video2.imageUrl=http://10.19.2.92/axis-cgi/jpg/image.cgi?resolution=704x480&camera=4
+video3.imageUrl=http://10.19.2.92/axis-cgi/jpg/image.cgi?resolution=704x480&camera=4
+video4.imageUrl=http://10.19.2.92/axis-cgi/jpg/image.cgi?resolution=704x480&camera=4
+video5.imageUrl=http://10.19.2.92/axis-cgi/jpg/image.cgi?resolution=704x480&camera=1
+video6.imageUrl=http://10.19.2.92/axis-cgi/jpg/image.cgi?resolution=704x480&camera=2
+
+# for DCSS sampleVideo snapshot
+video.snapshotUrl=http://10.19.2.92/axis-cgi/jpg/image.cgi?camera=1
+
+##presets, needs the channel arguments
+#video1.presetRequestUrl=
+#video2.presetRequestUrl=http://130.199.198.65/axis-cgi/com/ptz.cgi?query=presetposcam
+#video3.presetRequestUrl=http://130.199.198.65/axis-cgi/com/ptz.cgi?query=presetposcam
+#video4.presetRequestUrl=http://130.199.198.65/axis-cgi/com/ptz.cgi?query=presetposcam
+
+##url for requesting a move, needs the channel arguments
+#video1.moveRequestUrl=
+#video2.moveRequestUrl=http://130.199.198.65/axis-cgi/com/ptz.cgi
+#video3.moveRequestUrl=http://130.199.198.65/axis-cgi/com/ptz.cgi
+#video4.moveRequestUrl=http://130.199.198.65/axis-cgi/com/ptz.cgi
+
+#more arguments
+video1.args=&camera=3
+video2.args=&camera=4
+video3.args=&camera=4
+video4.args=&camera=4
+video5.args=&camera=1
+video6.args=&camera=2
+
+#Configuring the DHS to control DMC 2180 Motion Controller (copied from manaul)
+#dhs.instance=instanceName hardwareType logFilePattern memoryMapName autoflush watchdog devicepollTime
+dhs.instance=galil1 dmc2180 /usr/local/dcs/19-ID/galil1_%g_%u.log /usr/local/dcs/19-ID/galil1.dat 500 1000 200
+dhs.instance=galil2 dmc2180 /usr/local/dcs/19-ID/galil2_%g_%u.log /usr/local/dcs/19-ID/galil2.dat 500 1000 200
+dhs.instance=galil3 dmc2180 /usr/local/dcs/19-ID/galil3_%g_%u.log /usr/local/dcs/19-ID/galil3.dat 500 1000 200
+dhs.instance=galil5 dmc2180 /usr/local/dcs/19-ID/galil5_%g_%u.log /usr/local/dcs/19-ID/galil5.dat 500 1000 200
+dhs.instance=galil7 dmc2180 /usr/local/dcs/19-ID/galil7_%g_%u.log /usr/local/dcs/19-ID/galil7.dat 500 1000 200
+dhs.instance=galil8  dmc2180 /usr/local/dcs/19-ID/galil8_%g_%u.log /usr/local/dcs/19-ID/galil8.dat 500 1000 200
+dhs.instance=galil9  dmc2180 /usr/local/dcs/19-ID/galil9_%g_%u.log /usr/local/dcs/19-ID/galil9.dat 500 1000 200
+dhs.instance=galil10 dmc2180 /usr/local/dcs/19-ID/galil10_%g_%u.log /usr/local/dcs/19-ID/galil10.dat 500 1000 200
+dhs.instance=galil11 dmc2180 /usr/local/dcs/19-ID/galil11_%g_%u.log /usr/local/dcs/19-ID/galil11.dat 500 1000 200
+dhs.instance=galil12 dmc2180 /usr/local/dcs/19-ID/galil12_%g_%u.log /usr/local/dcs/19-ID/galil12.dat 500 1000 200
+
+#dmc2180.control=dhsIstanceName dmc2180hostname scriptname connectbackhostname
+dmc2180.control=galil1 id19-galil-1 /usr/local/dcs/dhs/galil_scripts/script-19id-galil1.txt 10.19.2.8
+dmc2180.control=galil2 id19-galil-2 /usr/local/dcs/dhs/galil_scripts/script-19id-galil2.txt 10.19.2.8
+dmc2180.control=galil3 id19-galil-3 /usr/local/dcs/dhs/galil_scripts/script-19id-galil3.txt 10.19.2.8
+dmc2180.control=galil5 id19-galil-5  /usr/local/dcs/dhs/galil_scripts/script-19id-galil5.txt 10.19.2.8
+dmc2180.control=galil7 19id-galil-7 /usr/local/dcs/dhs/galil_scripts/script-19id-galil7.txt 10.19.2.8
+dmc2180.control=galil8 id19-galil-8 /usr/local/dcs/dhs/galil_scripts/script-19id-galil8.txt 10.19.2.8
+dmc2180.control=galil9 id19-galil-9 /usr/local/dcs/dhs/galil_scripts/script-19id-galil9.txt 10.19.2.8
+dmc2180.control=galil10 19id-galil-10 /usr/local/dcs/dhs/galil_scripts/script-19id-galil10.txt 10.19.2.8
+dmc2180.control=galil11 id19-galil-11 /usr/local/dcs/dhs/galil_scripts/script-19id-galil11.txt 10.19.2.8
+dmc2180.control=galil12 19id-galil-12 /usr/local/dcs/dhs/galil_scripts/script-19id-galil12.txt 10.19.2.8
+
+#             =motor_name channel P I D
+#galil1.stepper =detector_vert f		#detector distance
+#galil1.stepper =detector_z g
+#SSRL In order to make the Output comare work with the gonio_phi, it is necessary to configure the channel with the
+#encoder as a servo motor
+#galil1.shutter=shutter 2 open
+#galil1.shutter=shutter2 1 open
+#galil1.shutter=hslit_up_v 3 closed
+#galil1.shutter=hslit_up_h 4 closed
+#galil1.shutter=hslit_dn_v 5 closed
+#galil1.shutter=hslit_dn_h 6 closed
+
+#Diffractomator 4 DMC-4080; ggalil1, galil2, galil3, galil4
+galil1.stepper = inline_camera_horz d 
+galil1.stepper = inline_camera_vert e 
+galil1.stepper = inline_camera_focus f 
+galil1.stepper = sample_camera_horz a 
+galil1.stepper = sample_camera_vert b
+galil1.stepper = sample_camera_focus c
+galil1.stepper = sample_z g
+galil1.stepper = gonio_kappa    h
+
+galil1.shutter=inline_light_in 9 open
+galil1.shutter=inline_light_out 10 open
+#galil1.shutter=inline_sample_light 11 open
+#galil1.input=5 inlineLightStatus INSERTED yes no
+#galil1.input=6 inlineLightStatus REMOVED yes no
+
+#			KD KP KI 
+galil2.servo = gonio_phi a 64 6 0.05 on
+galil2.stepper = sample_vert b 
+galil2.stepper = optic_vert c
+galil2.stepper = optic_horz d
+galil2.stepper = sample_x e
+galil2.stepper = sample_y f
+galil2.stepper = pitch g
+galil2.stepper = yaw h
+
+galil2.limitSwitchPolarity=1
+
+galil2.shutter=shutter 13 closed
+galil2.shutter=flu_det_ext 9 closed
+galil2.shutter=flu_det_ret 10 closed
+galil2.shutter=ion_det_ret 11 closed
+galil2.shutter=ion_det_ext 12 closed
+
+#    channel scale ANALOG/RELATIVE/ABSOLUTE
+#This ion chamber is located right after shutter in the beampath. 
+galil2.encoder=ion_chamber2 1 1.0 ANALOG
+
+## galil3 replaces the oregon control for table
+galil3.stepper =beamstop_vert a
+galil3.stepper =beamstop_horz b
+#galil3.stepper =beamstop_dist c
+galil3.stepper =beamstop_z c
+galil3.stepper =slit_0_upper d
+galil3.stepper =slit_0_lower e
+galil3.stepper =slit_0_lobs f
+galil3.stepper =slit_0_ring g
+
+#this ion chamber is located at the beamstop position with extension arm
+galil3.encoder=ion_chamber1  1 1.0 ANALOG
+
+#this one used as a digital counter
+#galil3.encoder=ion_chamber3  7 1.0 ECOUNTER
+
+#used with RIO47100 analog output control
+galil5.encoder=ion_chamber4  2 1.0 PIEZO
+galil5.encoder=ion_chamber5  1 1.0 PIEZO
+galil5.stepper =detector_z a
+galil5.stepper =table_vert_1 b
+galil5.stepper =table_vert_2 c
+galil5.stepper =table_vert_3 d
+galil5.stepper =table_horz_1 e
+galil5.stepper =table_horz_2 f
+
+#galil4.encoder=mono_theta_encoder 3 160000.0000 RELATIVE
+
+#Mirror control 1 DCM-4080=galil5; 1 DMC-4040=galil6
+#
+galil7.limitSwitchPolarity=1
+
+galil7.servo =mirror_vert a 64 300 0 on 
+galil7.servo =mirror_horz b 64 98 0 on 
+galil7.servo =mirror_pitch c 64 45 0 on
+galil7.servo  =mirror_roll d 64 45 0 on
+galil7.stepper =mirror_bend_1 e
+galil7.stepper =mirror_bend_2 f
+galil7.stepper =bpm3_vert g
+galil7.stepper =bpm3_horz h
+#galil7.encoder=ion_chamber1 1 1.0 ANALOG
+#
+#galil8.limitSwitchPolarity=-1
+galil8.servo=mirror_slit_upper a 64 5 3 on
+galil8.servo=mirror_slit_lower b 64 5 3 on
+galil8.servo=mirror_slit_ring  c 64 5 3 on
+galil8.servo=mirror_slit_lobs  d 64 5 3 on
+
+#		name channel voltage_low_state		
+galil8.shutter=screen_1 1 open
+galil8.shutter=screen_2 2 closed
+galil8.shutter=screen_3 3 closed
+#
+#galil6.shutter =yag_screen 2  closed
+#
+#
+#Mono control 1 DMC-4040=galil7; 1 DMC-4080=galil9
+#galil9.servo = mono_theta d 20 300 0.1 on
+galil9.limitSwitchPolarity=1
+#			   KD KP  KI
+#galil9.servo = mono_angle d 120 8 0.3 on 
+galil9.servo = mono_angle d 5 10 0.1 on
+galil9.stepper =bpm2_x a
+galil9.stepper =bpm2_y b
+#one spare motor
+#
+#galil10.limitSwitchPolarity=-1
+galil10.servo =mono_c2_perp a 64 2.5 0.02 on
+galil10.servo =mono_c2_para b 64 4 0.03 on
+galil10.servo =mono_c2_pitch c 64 6 0.02 on
+galil10.servo =mono_c2_roll d 64 6 0.04 on
+galil10.stepper =mono_c2_yaw e
+galil10.stepper =mono_c2_bend_1 f
+galil10.stepper =mono_c2_bend_2 g
+galil10.stepper =mono_c1_bend h
+#galil10.stepper =mono_chrystal1_bend_2 f
+#two spare motor
+#piezo galil8 will be the master 
+#			    MUDbus addressing for IHB=10.0.0.30<502>2	
+#galil8.encoder=rio47_mono_piezo 2002 1.0 ANALOG
+#galil2.encoder=rio47_mono_piezo 2 1.0 ANALOG
+
+# Before Mono 1 DMC-4080=galil9
+galil11.stepper =bpm1_x a
+galil11.stepper =bpm1_y b
+galil11.servo =white_beam_filter_1 e 64 0 0 on
+galil11.servo =white_beam_filter_2 f 64 0 0 on
+galil11.stepper =white_beam_mask_x c 
+galil11.stepper =white_beam_mask_y d 
+galil11.servo =white_beam_slit_upper g 64 0 0 on
+galil11.servo =white_beam_slit_lower h 64 0 0 on
+
+galil12.stepper =analyzer_vert_1 a
+galil12.stepper =analyzer_vert_2 b
+galil12.stepper =analyzer_vert_3 c
+#this ion_chamber is the old X4 big ion_chamber
+galil12.encoder=ion_chamber6  1 1.0 ANALOG
+galil12.encoder=ion_chamber10 2 1.0 ANALOG
+galil12.encoder=ion_chamber11 3 1.0 ANALOG
+galil12.encoder=ion_chamber12 4 1.0 ANALOG
+
+#those are used as counters
+galil12.encoder=ion_chamber3  4 1.0 ECOUNTER
+galil12.encoder=ion_chamber7  5 1.0 ECOUNTER
+galil12.encoder=ion_chamber8  6 1.0 ECOUNTER
+galil12.encoder=ion_chamber9  7 1.0 ECOUNTER
+#
+#galil9.shutter =diamon_screen 1 closed
+###############################################
+# daqBoard 1000
+###############################################
+#daqBoard.board0.adc_mode=single_ended
+#daqBoard.board0.adc_mode=differential
+#daqBoard.board0.dioPortA=input
+#daqBoard.board0.dioPortB=output
+#daqBoard.board0.dioPortCHigh=output
+#daqBoard.board0.dioPortCLow=input
+#daqBoard.board1.adc_mode=single_ended
+#daqBoard.board1.dioPortA=input
+#daqBoard.board1.dioPortB=output
+#daqBoard.board1.dioPortCHigh=output
+#daqBoard.board1.dioPortCLow=input
+
+                  
+# the ./dcss 19-ID -s will have segment fault if the following not commented out these three screening url.
+# But somehow impdhs will not work if these are commented out. need to find a solution.
+# I guess I need to set up web server for these screening staff.
+
+
+#screening.latestEventIdUrl=http://localhost:8080/crystals/getLatestEventId.do
+#screening.defaultSILUrl=http://localhost:8080/crystals/createDefaultSil.do
+#screening.uploadSILUrl=http://localhost:8080/crystals/uploadSil.do
+#screening.downloadSILUrl=http://localhost:8080/crystals/downloadSil.do
+
+#screening.lockSILUrl=http://localhost:8080/crystals/setSilLock.do
+#screening.unassignSILUrl=http://localhost:8080/crystals/unassignSil.do
+#screening.deleteSILUrl=http://localhost:8080/crystals/deleteSil.do
+#screening.moveCrystalUrl=http://localhost:8080/crystals/moveCrystal.do
+
+#screening.cassetteDataUrl=http://localhost:8080/crystals/getCassetteData.do
+#screening.cassetteInfoUrl=https://localhost:8443/crystals/CassetteInfo.jsp
+##screening.cassetteInfoUrl=http://localhost:8080/crystals/CassetteList.html
+
+#screening.crystalDataUrl=http://localhost:8080/crystals/getCrystalData.do
+#screening.crystalUpdateUrl=http://localhost:8080/crystals/updateCrystalData.do
+#screening.crystalEditUrl=http://localhost:8080/crystals/setCrystal.do
+#screening.crystalSetAttributeUrl=http://localhost:8080/crystals/setCrystalAttribute.do
+#screening.crystalGetChangesUrl=http://localhost:8080/crystals/getChangesSince.do
+#screening.crystalClearImagesUrl=http://localhost:8080/crystals/clearCrystalImages.do
+#screening.crystalClearResultsUrl=http://localhost:8080/crystals/clearCrystal.do
+#screening.crystalClearAllCrystalsUrl=http://localhost:8080/crystals/clearAllCrystals.do
+#screening.crystalAddImageUrl=http://localhost:8080/crystals/addCrystalImage.do
+#screening.SILRowDataUrl=http://localhost:8080/crystals/jsp/getRow.jsp
+
+#screening.silIdAndEventIdUrl=http://localhost:8080/crystals/getSilIdAndEventId.do
+
+robot.probeScaled=1
+
+#gonio x,y,z move sequencially due to crystal logical x,y,z, are combo motion
+#sample_move_serial=1
+
+run.energy=energy
+
+## show raster_run
+#rasterRun.show=1
