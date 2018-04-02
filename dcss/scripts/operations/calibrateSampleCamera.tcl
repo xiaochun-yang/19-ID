@@ -294,7 +294,7 @@ proc determineScaleFactor { oldScaleFactor newScaleFactorRef pinXRef pinYRef } {
 		return -code error "Pin tip did not move enough."
 	}
 
-    if {abs($tipY2 - $tipY1) > 0.05} {
+    if {abs($tipY2 - $tipY1) > 0.15} {
         return -code error "sample_z cause sample moved vertial more than 5%"
     }
 

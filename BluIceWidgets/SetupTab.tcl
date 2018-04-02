@@ -648,9 +648,9 @@ body SetupTab::addTools {} {
        -label "Exposure Control"    \
        -command [list $this openToolChest dose_control]
 ##################################################################################
-    $itk_component(toolChest) add command \
-       -label "Libera Control"    \
-       -command [list $this openToolChest libera_control]
+#    $itk_component(toolChest) add command \
+#       -label "Libera Control"    \
+#       -command [list $this openToolChest libera_control]
 
 ##################################################################################
 
@@ -1810,17 +1810,17 @@ body SetupTab::launchWidget { name  } {
 			pack $itk_component($name) -expand 1 -fill both
         }
 
-	libera_control {
-                        if [checkAndActivateExistingDocument $name] return
-                        set path [$itk_component(Mdi) addDocument $name \
-                            -title "Libera Control"  -resizable 1  -width 750 -height 600]
+	#libera_control {
+        #                if [checkAndActivateExistingDocument $name] return
+        #                set path [$itk_component(Mdi) addDocument $name \
+        #                    -title "Libera Control"  -resizable 1  -width 750 -height 600]
 
-                        itk_component add $name {
-                                DCS::LiberaDetailView $path.$name
-                        } {
-                        }
-                        pack $itk_component($name) -expand 1 -fill both
-       }
+        #                itk_component add $name {
+        #                        DCS::LiberaDetailView $path.$name
+        #                } {
+        #                }
+        #                pack $itk_component($name) -expand 1 -fill both
+       #}
 
         PlotWin1 {
                         if [checkAndActivateExistingDocument $name] return
