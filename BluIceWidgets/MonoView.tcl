@@ -1570,6 +1570,25 @@ class ID19MirrorView {
    motorView mirror_vert 560 280 nw
    motorView mirror_horz 560 360 nw
 
+   itk_component add bend_1 {
+                 label $itk_component(canvas).bend_1 \
+                      -text "(upstream)" \
+                      -relief flat \
+                      -width 20 \
+                } {
+                           keep -foreground
+    }
+
+     itk_component add bend_2 {
+                 label $itk_component(canvas).bend_2 \
+                      -text "(dnstream)" \
+                      -relief flat \
+                      -width 20 \
+                } {
+                           keep -foreground
+    }
+	
+
    for {set i 0} {$i < 2} {incr i} {
 
    	itk_component add ioncurrent$i {
@@ -1586,6 +1605,8 @@ class ID19MirrorView {
        }
        place $itk_component(ioncurrent0) -x 350 -y 155
        place $itk_component(ioncurrent1) -x 560 -y 155
+       place $itk_component(bend_1) -x 320 -y 80
+       place $itk_component(bend_2) -x 530 -y 80
 
 
 #   moveHotSpot mirror_slit_upper 176 36 positive

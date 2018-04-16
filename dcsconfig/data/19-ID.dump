@@ -118,28 +118,28 @@ analogInStatus10
 galil10 analogInStatus10
 0 1 1 1 1
 0 1 1 1 1
-22.730301 22.038799 20.715900 24.474199 20.054399 21.317200 253.070496 253.190796
+22.730301 21.948601 20.685801 24.474199 19.904100 21.166901 254.423492 253.220901
 
 analogInStatus7
 13
 galil7 analogInStatus7
 0 1 1 1 1
 0 1 1 1 1
-4.913600 4.125500 0.008700 2.580600 3.436000 2.576000 2.575100 2.578400
+0.980800 1.003400 0.003200 2.575100 3.436000 2.576900 2.574200 2.576900
 
 analogInStatus2
 13
 galil2 analogInStatus2
 0 1 1 1 1
 0 1 1 1 1
--0.004200 2.575300 2.576200 2.575300 2.945000 2.575600 2.576200 2.576200
+0.003400 2.577900 2.575300 2.575700 2.943300 2.575900 2.575600 2.577600
 
 analogInStatus3
 13
 galil3 analogInStatus3
 0 1 1 1 1
 0 1 1 1 1
--0.031400 2.579200 2.578400 2.578100 2.946600 2.577700 2.577600 2.579100
+0.013200 2.578300 2.578300 2.578500 2.946400 2.577900 2.576900 2.578700
 
 get_robotstate
 11
@@ -683,7 +683,7 @@ galil7 mirror_bend_1
 0 1 1 1 1
 0 0 0 0 0
 0
-2.149998 7.000000 0.000000 26667.000000 2000 50 0 0 0 0 0 0 0 mm
+0.000037 7.500000 -0.100000 26667.000000 400 100 0 1 1 0 0 0 0 mm
 
 mirror_bend_2
 1
@@ -691,7 +691,7 @@ galil7 mirror_bend_2
 0 1 1 1 1
 0 0 0 0 0
 0
-1.725016 7.000000 0.000000 26667.000000 2000 50 0 0 0 0 0 0 0 mm
+-0.000037 7.000000 -0.100000 26667.000000 400 100 0 1 1 0 0 0 0 mm
 
 mirror_bend
 2
@@ -699,7 +699,7 @@ self STD_MOVE_TOGETHER
 0 1 1 1 1
 0 0 0 0 0
 1
-1.937507 2.500230 0.150161 0 0 0 0 mm
+0.000000 2.500230 0.150161 0 0 0 0 mm
 mirror_bend_1 mirror_bend_2
 
 screen_1
@@ -1096,7 +1096,7 @@ galil11 bpm1_y
 
 bpm2_x
 1
-simDhs bpm1_x
+simDhs bpm2_x
 0 1 1 1 1
 0 0 0 0 0
 0
@@ -1104,7 +1104,7 @@ simDhs bpm1_x
 
 bpm2_y
 1
-simDhs bpm1_y
+simDhs bpm2_y
 0 1 1 1 1
 0 0 0 0 0
 0
@@ -1392,7 +1392,7 @@ galil1 sample_z
 0 1 1 1 1
 0 1 1 1 1
 0
-3.092871 13.000000 -13.000000 20157.000000 10000 50 0 0 0 0 0 0 0 mm
+2.986952 13.000000 -13.000000 20157.000000 10000 50 0 0 0 0 0 0 0 mm
 
 gonio_kappa
 1
@@ -1416,7 +1416,7 @@ galil2 gonio_phi
 0 1 1 1 1
 0 1 1 1 1
 0
-270.019000 1000.000000 -1000.000000 10000.000000 900000 100 0 0 0 0 0 0 1 deg
+359.999500 1000.000000 -1000.000000 10000.000000 900000 100 0 0 0 0 0 0 1 deg
 
 sample_optic_vert
 2
@@ -1465,7 +1465,7 @@ galil2 sample_x
 0 1 1 1 1
 0 1 1 1 1
 0
--0.253906 6.000000 -6.000000 12800.000000 10000 50 0 0 0 0 0 0 0 mm
+-0.257109 6.000000 -6.000000 12800.000000 10000 50 0 0 0 0 0 0 0 mm
 
 sample_y
 1
@@ -1693,6 +1693,24 @@ simDhs dac
 0
 2.249638 10.000000 0.000000 6553.500000 0 0 0 0 0 0 1 0 0 mm
 
+test_bpm_optimize
+11
+self test_bpm_optimize
+1 1 1 1 1
+0 1 1 1 1
+
+upstream_bpm_op
+11
+self upstream_bpm_op
+1 1 1 1 1
+0 1 1 1 1
+
+downstream_bpm_op
+11
+self downstream_bpm_op
+1 1 1 1 1
+0 1 1 1 1
+
 cam1_op
 11
 self cam1_op
@@ -1871,6 +1889,18 @@ ion_chamber9_op
 11
 self ion_chamber9_op
 0 1 1 1 1
+0 1 1 1 1
+
+bpmUpStream
+4
+self upstream_bpm_op 0 rtc1 standardVirtualIonChamber
+1 1 1 1 1
+0 1 1 1 1
+
+bpmDownStream
+4
+self downstream_bpm_op 0 rtc1 standardVirtualIonChamber
+1 1 1 1 1
 0 1 1 1 1
 
 cam1Stats1Sum
@@ -2731,7 +2761,7 @@ hutchDoorStatus
 simDhs standardString
 0 1 1 1 1
 0 1 1 1 1
-closed 1523039913
+closed 1523910474
 
 getEPICSPV
 11
@@ -2762,49 +2792,49 @@ spear_current
 epics_gateway SR:OPS-BI{DCCT:1}I:Real-I
 0 1 1 1 1
 0 1 1 1 1
-375.4452198
+374.9090567
 
 cam1_stats1_max
 13
 epics_gateway XF:19ID-BI{Cam:1}Stats1:MaxValue_RBV
 0 1 1 1 1
 0 1 1 1 1
-291
+226
 
 cam1_stats1_total
 13
 epics_gateway XF:19ID-BI{Cam:1}Stats1:Total_RBV
 0 1 1 1 1
 0 1 1 1 1
-3443764
+2550656
 
 cam2_stats1_max
 13
 epics_gateway XF:19ID-BI{Cam:2}Stats1:MaxValue_RBV
 0 1 1 1 1
 0 1 1 1 1
-2460
+2521
 
 cam2_stats1_total
 13
 epics_gateway XF:19ID-BI{Cam:2}Stats1:Total_RBV
 0 1 1 1 1
 0 1 1 1 1
-15793563
+15804568
 
 cam3_stats1_max
 13
 epics_gateway XF:19ID-BI{Cam:3}Stats1:MaxValue_RBV
 0 1 1 1 1
 0 1 1 1 1
-340
+393
 
 cam3_stats1_total
 13
 epics_gateway XF:19ID-BI{Cam:3}Stats1:Total_RBV
 0 1 1 1 1
 0 1 1 1 1
-75302
+78337
 
 keithley_reading
 13
@@ -3802,5 +3832,33 @@ userNotify
 self userNotify
 1 1 1 1 1
 0 0 0 0 0
+
+2_0_sa_x_mon
+13
+epics_gateway LIBERA03:SA:SA_X_MONITOR
+1 1 1 1 1
+1 1 1 1 1
+-89301
+
+2_0_sa_y_mon
+13
+epics_gateway LIBERA03:SA:SA_Y_MONITOR
+1 1 1 1 1
+1 1 1 1 1
+-24815
+
+1_0_sa_x_mon
+13
+epics_gateway LIBERA02:SA:SA_X_MONITOR
+1 1 1 1 1
+1 1 1 1 1
+73307
+
+1_0_sa_y_mon
+13
+epics_gateway LIBERA02:SA:SA_Y_MONITOR
+1 1 1 1 1
+1 1 1 1 1
+-149969
 
 END
