@@ -118,28 +118,28 @@ analogInStatus10
 galil10 analogInStatus10
 0 1 1 1 1
 0 1 1 1 1
-22.730301 21.948601 20.685801 24.474199 19.904100 21.166901 254.423492 253.220901
+28.262600 26.729200 25.496500 25.767099 27.781500 27.691299 253.100601 253.130707
 
 analogInStatus7
 13
 galil7 analogInStatus7
 0 1 1 1 1
 0 1 1 1 1
-0.980800 1.003400 0.003200 2.575100 3.436000 2.576900 2.574200 2.576900
+0.983100 1.002800 0.005800 2.576900 3.436500 2.575400 2.576300 2.577200
 
 analogInStatus2
 13
 galil2 analogInStatus2
 0 1 1 1 1
 0 1 1 1 1
-0.003400 2.577900 2.575300 2.575700 2.943300 2.575900 2.575600 2.577600
+-0.042500 2.574400 2.576100 2.575300 2.945800 2.575300 2.576600 2.576200
 
 analogInStatus3
 13
 galil3 analogInStatus3
 0 1 1 1 1
 0 1 1 1 1
-0.013200 2.578300 2.578300 2.578500 2.946400 2.577900 2.576900 2.578700
+0.016100 2.576900 2.577000 2.578300 2.946000 2.578500 2.577900 2.578500
 
 get_robotstate
 11
@@ -1416,7 +1416,7 @@ galil2 gonio_phi
 0 1 1 1 1
 0 1 1 1 1
 0
-359.999500 1000.000000 -1000.000000 10000.000000 900000 100 0 0 0 0 0 0 1 deg
+355.997800 1000.000000 -1000.000000 10000.000000 900000 100 0 0 0 0 0 0 1 deg
 
 sample_optic_vert
 2
@@ -1424,7 +1424,7 @@ self sample_optic_vert
 0 1 1 1 1
 0 0 0 0 0
 1
--4.095350 2.000000 1.000000 0 0 0 0 mm
+-4.095450 2.000000 1.000000 0 0 0 0 mm
 optic_vert sample_vert
 
 simu_vert
@@ -1449,7 +1449,7 @@ galil2 optic_vert
 0 1 1 1 1
 0 1 1 1 1
 0
--4.095350 44.000000 -45.000000 20000.000000 20000 50 0 1 1 0 0 0 0 mm
+-4.095450 44.000000 -45.000000 20000.000000 20000 50 0 1 1 0 0 0 0 mm
 
 optic_horz
 1
@@ -1699,15 +1699,27 @@ self test_bpm_optimize
 1 1 1 1 1
 0 1 1 1 1
 
-upstream_bpm_op
+sample_bpm1_op
 11
-self upstream_bpm_op
+self sample_bpm1_op
 1 1 1 1 1
 0 1 1 1 1
 
-downstream_bpm_op
+sample_bpm2_op
 11
-self downstream_bpm_op
+self sample_bpm2_op
+1 1 1 1 1
+0 1 1 1 1
+
+sample_bpm3_op
+11
+self sample_bpm3_op
+1 1 1 1 1
+0 1 1 1 1
+
+sample_bpm4_op
+11
+self sample_bpm4_op
 1 1 1 1 1
 0 1 1 1 1
 
@@ -1891,15 +1903,27 @@ self ion_chamber9_op
 0 1 1 1 1
 0 1 1 1 1
 
-bpmUpStream
+sample_bpm1
 4
-self upstream_bpm_op 0 rtc1 standardVirtualIonChamber
+self sample_bpm1_op 0 rtc1 standardVirtualIonChamber
 1 1 1 1 1
 0 1 1 1 1
 
-bpmDownStream
+sample_bpm2
 4
-self downstream_bpm_op 0 rtc1 standardVirtualIonChamber
+self sample_bpm2_op 0 rtc1 standardVirtualIonChamber
+1 1 1 1 1
+0 1 1 1 1
+
+sample_bpm3
+4
+self sample_bpm3_op 0 rtc1 standardVirtualIonChamber
+1 1 1 1 1
+0 1 1 1 1
+
+sample_bpm4
+4
+self sample_bpm4_op 0 rtc1 standardVirtualIonChamber
 1 1 1 1 1
 0 1 1 1 1
 
@@ -2065,7 +2089,7 @@ simDhs spare1
 0 1 1 1 1
 0 1 1 1 1
 0
--3.000000 -2.000000 -88.000000 630.000000 4000 300 315 1 1 0 1 0 0 mm
+1.000000 -2.000000 -88.000000 630.000000 4000 300 315 0 0 0 0 0 0 mm
 
 spare_2
 1
@@ -2073,7 +2097,7 @@ simDhs spare2
 0 1 1 1 1
 0 1 1 1 1
 0
-3.561137 30.000000 -30.000000 784.300000 800 300 784 1 1 0 1 1 0 mm
+-0.999617 30.000000 -30.000000 784.300000 800 300 784 0 0 0 0 0 0 mm
 
 guard_shield_vert
 1
@@ -2761,7 +2785,7 @@ hutchDoorStatus
 simDhs standardString
 0 1 1 1 1
 0 1 1 1 1
-closed 1523910474
+closed 1524085337
 
 getEPICSPV
 11
@@ -2792,49 +2816,49 @@ spear_current
 epics_gateway SR:OPS-BI{DCCT:1}I:Real-I
 0 1 1 1 1
 0 1 1 1 1
-374.9090567
+375.8945538
 
 cam1_stats1_max
 13
 epics_gateway XF:19ID-BI{Cam:1}Stats1:MaxValue_RBV
 0 1 1 1 1
 0 1 1 1 1
-226
+0
 
 cam1_stats1_total
 13
 epics_gateway XF:19ID-BI{Cam:1}Stats1:Total_RBV
 0 1 1 1 1
 0 1 1 1 1
-2550656
+0
 
 cam2_stats1_max
 13
 epics_gateway XF:19ID-BI{Cam:2}Stats1:MaxValue_RBV
 0 1 1 1 1
 0 1 1 1 1
-2521
+0
 
 cam2_stats1_total
 13
 epics_gateway XF:19ID-BI{Cam:2}Stats1:Total_RBV
 0 1 1 1 1
 0 1 1 1 1
-15804568
+0
 
 cam3_stats1_max
 13
 epics_gateway XF:19ID-BI{Cam:3}Stats1:MaxValue_RBV
 0 1 1 1 1
 0 1 1 1 1
-393
+0
 
 cam3_stats1_total
 13
 epics_gateway XF:19ID-BI{Cam:3}Stats1:Total_RBV
 0 1 1 1 1
 0 1 1 1 1
-78337
+0
 
 keithley_reading
 13
@@ -3838,27 +3862,27 @@ self userNotify
 epics_gateway LIBERA03:SA:SA_X_MONITOR
 1 1 1 1 1
 1 1 1 1 1
--89301
+-90418
 
 2_0_sa_y_mon
 13
 epics_gateway LIBERA03:SA:SA_Y_MONITOR
 1 1 1 1 1
 1 1 1 1 1
--24815
+-25891
 
 1_0_sa_x_mon
 13
 epics_gateway LIBERA02:SA:SA_X_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-73307
+72715
 
 1_0_sa_y_mon
 13
 epics_gateway LIBERA02:SA:SA_Y_MONITOR
 1 1 1 1 1
 1 1 1 1 1
--149969
+-151574
 
 END

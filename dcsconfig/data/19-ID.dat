@@ -118,28 +118,28 @@ analogInStatus10
 galil10 analogInStatus10
 0 1 1 1 1
 0 1 1 1 1
-22.850599 22.008699 20.806101 24.414101 20.174700 21.377300 253.130707 253.160706
+23.451900 22.820499 24.113400 24.684700 21.467501 22.219200 253.100601 253.160706
 
 analogInStatus7
 13
 galil7 analogInStatus7
 0 1 1 1 1
 0 1 1 1 1
-0.978900 1.003300 0.011600 2.575700 3.434800 2.576000 2.578700 2.576300
+0.981400 1.003700 0.009200 2.575700 3.435200 2.577500 2.576300 2.577500
 
 analogInStatus2
 13
 galil2 analogInStatus2
 0 1 1 1 1
 0 1 1 1 1
-0.004600 2.576400 2.575600 2.575200 2.944900 2.575000 2.576100 2.576400
+0.020900 2.577700 2.574500 2.575600 2.943500 2.576300 2.576600 2.577500
 
 analogInStatus3
 13
 galil3 analogInStatus3
 0 1 1 1 1
 0 1 1 1 1
--0.033100 2.576100 2.577400 2.578000 2.947200 2.578500 2.578000 2.578800
+-0.028500 2.575100 2.578700 2.577400 2.945600 2.576900 2.577600 2.578000
 
 get_robotstate
 11
@@ -1416,7 +1416,7 @@ galil2 gonio_phi
 0 1 1 1 1
 0 1 1 1 1
 0
-15.000800 1000.000000 -1000.000000 10000.000000 900000 100 0 0 0 0 0 0 1 deg
+359.999500 1000.000000 -1000.000000 10000.000000 900000 100 0 0 0 0 0 0 1 deg
 
 sample_optic_vert
 2
@@ -1699,15 +1699,27 @@ self test_bpm_optimize
 1 1 1 1 1
 0 1 1 1 1
 
-upstream_bpm_op
+sample_bpm1_op
 11
-self upstream_bpm_op
+self sample_bpm1_op
 1 1 1 1 1
 0 1 1 1 1
 
-downstream_bpm_op
+sample_bpm2_op
 11
-self downstream_bpm_op
+self sample_bpm2_op
+1 1 1 1 1
+0 1 1 1 1
+
+sample_bpm3_op
+11
+self sample_bpm3_op
+1 1 1 1 1
+0 1 1 1 1
+
+sample_bpm4_op
+11
+self sample_bpm4_op
 1 1 1 1 1
 0 1 1 1 1
 
@@ -1891,15 +1903,27 @@ self ion_chamber9_op
 0 1 1 1 1
 0 1 1 1 1
 
-bpmUpStream
+sample_bpm1
 4
-self upstream_bpm_op 0 rtc1 standardVirtualIonChamber
+self sample_bpm1_op 0 rtc1 standardVirtualIonChamber
 1 1 1 1 1
 0 1 1 1 1
 
-bpmDownStream
+sample_bpm2
 4
-self downstream_bpm_op 0 rtc1 standardVirtualIonChamber
+self sample_bpm2_op 0 rtc1 standardVirtualIonChamber
+1 1 1 1 1
+0 1 1 1 1
+
+sample_bpm3
+4
+self sample_bpm3_op 0 rtc1 standardVirtualIonChamber
+1 1 1 1 1
+0 1 1 1 1
+
+sample_bpm4
+4
+self sample_bpm4_op 0 rtc1 standardVirtualIonChamber
 1 1 1 1 1
 0 1 1 1 1
 
@@ -2761,7 +2785,7 @@ hutchDoorStatus
 simDhs standardString
 0 1 1 1 1
 0 1 1 1 1
-closed 1523650603
+closed 1523986756
 
 getEPICSPV
 11
@@ -2792,49 +2816,49 @@ spear_current
 epics_gateway SR:OPS-BI{DCCT:1}I:Real-I
 0 1 1 1 1
 0 1 1 1 1
-374.4367488
+375.6204647
 
 cam1_stats1_max
 13
 epics_gateway XF:19ID-BI{Cam:1}Stats1:MaxValue_RBV
 0 1 1 1 1
 0 1 1 1 1
-221
+213
 
 cam1_stats1_total
 13
 epics_gateway XF:19ID-BI{Cam:1}Stats1:Total_RBV
 0 1 1 1 1
 0 1 1 1 1
-2555184
+2537739
 
 cam2_stats1_max
 13
 epics_gateway XF:19ID-BI{Cam:2}Stats1:MaxValue_RBV
 0 1 1 1 1
 0 1 1 1 1
-2440
+2468
 
 cam2_stats1_total
 13
 epics_gateway XF:19ID-BI{Cam:2}Stats1:Total_RBV
 0 1 1 1 1
 0 1 1 1 1
-15799329
+15821047
 
 cam3_stats1_max
 13
 epics_gateway XF:19ID-BI{Cam:3}Stats1:MaxValue_RBV
 0 1 1 1 1
 0 1 1 1 1
-310
+346
 
 cam3_stats1_total
 13
 epics_gateway XF:19ID-BI{Cam:3}Stats1:Total_RBV
 0 1 1 1 1
 0 1 1 1 1
-71280
+69928
 
 keithley_reading
 13
@@ -3838,27 +3862,27 @@ self userNotify
 epics_gateway LIBERA03:SA:SA_X_MONITOR
 1 1 1 1 1
 1 1 1 1 1
--89725
+-91202
 
 2_0_sa_y_mon
 13
 epics_gateway LIBERA03:SA:SA_Y_MONITOR
 1 1 1 1 1
 1 1 1 1 1
--26118
+-27041
 
 1_0_sa_x_mon
 13
 epics_gateway LIBERA02:SA:SA_X_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-73117
+72864
 
 1_0_sa_y_mon
 13
 epics_gateway LIBERA02:SA:SA_Y_MONITOR
 1 1 1 1 1
 1 1 1 1 1
--150362
+-149889
 
 END
