@@ -98,6 +98,30 @@ body OptimizeButton::handleStart {} {
     ::device::optimized_energy move by 0 eV
 }
 
+class LoadButton3 {
+
+	protected variable m_deviceFactory
+        protected variable m_opBpm
+
+        inherit DCS::Button
+        public method handleStart
+
+        constructor { args} {
+		set m_deviceFactory [DCS::DeviceFactory::getObject]
+        	set m_opBpm [$m_deviceFactory createOperation test_bpm_optimize]
+
+                eval itk_initialize $args
+                configure -command "$this handleStart"
+
+                #announceExist
+        }
+}
+
+body LoadButton3::handleStart {} {
+
+	$m_opBpm startOperation 
+}
+
 class LoadButton2 {
 
         inherit DCS::Button
@@ -414,7 +438,20 @@ class DCS::HutchOverview {
                    } {
                            keep -foreground
                    }
-                  place $itk_component(load2) -x 485 -y 10
+                  place $itk_component(load2) -x 480 -y 10
+
+                itk_component add load3 {
+                           # make the optimize beam button
+                           LoadButton3 $itk_component(canvas).load3 \
+                                 -text "Optimize BPM" \
+                                 -font "courier -14 bold"\
+                                 -width 12 \
+                                 -background #c0c0ff \
+                                 -activebackground #c0c0ff
+                   } {
+                           keep -foreground
+                   }
+                  place $itk_component(load3) -x 600 -y 10
 
 
 #puts "yangx this =$this  itk_component= $itk_component(load)\n"
