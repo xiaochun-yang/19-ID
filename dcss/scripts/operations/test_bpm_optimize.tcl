@@ -8,10 +8,10 @@ proc test_bpm_optimize_start { } {
 	#first number is a dummy
         set steps [list 0.00 0.004 0.004 0.0004 0.0004]
 
-	#set index of the bpm PV. 1&2 bpm3 (near sample) 3&4 bpm2
+	#set index of the bpm PV
 	set j 1
 
-        #foreach {mt} [list optic_vert optic_horz pitch yaw] {
+	#should be optic_vert optic_horz phi yaw
         foreach {mt} [list gonio_phi spare_1 spare_2] {
 
 	   #i controls the number of optimization steps 
@@ -21,24 +21,23 @@ proc test_bpm_optimize_start { } {
        	   read_ion_chambers 1 sample_bpm$j
            wait_for_devices sample_bpm$j
            set temp [get_ion_chamber_counts sample_bpm$j]
-	   set step [lindex steps $j]	 
-	   #puts "yangx bpm j=$j  temp = $temp motor = $mt step = $step"
+	   set step [lindex $steps $j]	 
+	   puts "yangx bpm j=$j  temp = $temp motor = $mt step = $step"
 
 	   #start the optimization 
            while 1 {
-		#set limits of optimization steps
 		if { $i > 3 } {
 			break
 		}
 
                 #compare current bpm value. Beam center value is 0 
-		#current bpm setting 10000 counts is about 1um
                 if { abs($temp - 0) < 10000 } {
+			puts "yangx close enough break"
                         break
                 }
 
                 if {$temp < 0} {
-                        set step -$step
+                        set step [expr $step*-1]
                 }
 
                 #move motor in step
@@ -51,7 +50,7 @@ proc test_bpm_optimize_start { } {
                 wait_for_devices sample_bpm$j
                 set bpm [get_ion_chamber_counts sample_bpm$j]
 
-	        puts "yangx bpm loop = $i temp = $temp bpm = $bpm"
+	        puts "yangx bpm motor=$mt i = $i temp = $temp bpm = $bpm"
                 if {$bpm > 0} {
                         if { [expr $temp - $bpm] > $temp } {
                                 set step [expr $step*0.5]
@@ -62,12 +61,14 @@ proc test_bpm_optimize_start { } {
                         }
                 }
 		# if the motor step size is too small. quit from
-		# the optimization
-		if {$j<3 && $step < 0.001} {
-			break
-		} else if {$j>2 && $step < 0.0001} {
-			break
-
+                # the optimization
+		if {$j<3 && abs($step) < 0.001} {
+			puts " yangx step is too small break"
+                        break
+                } elseif {$j>2 && abs($step) < 0.0001} {
+			puts "yangx step is too small break"
+                        break
+                }
 		set temp $bpm
 		incr i
          }

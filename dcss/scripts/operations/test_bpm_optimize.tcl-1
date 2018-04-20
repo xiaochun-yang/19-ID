@@ -21,8 +21,8 @@ proc test_bpm_optimize_start { } {
        	   read_ion_chambers 1 sample_bpm$j
            wait_for_devices sample_bpm$j
            set temp [get_ion_chamber_counts sample_bpm$j]
-	   set step [lindex steps $j]	 
-	   #puts "yangx bpm j=$j  temp = $temp motor = $mt step = $step"
+	   set step [lindex $steps $j]	 
+	   puts "yangx bpm j=$j  temp = $temp motor = $mt step = $step"
 
 	   #start the optimization 
            while 1 {
