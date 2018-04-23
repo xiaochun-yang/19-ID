@@ -108,11 +108,12 @@ class LoadButton3 {
 
         constructor { args} {
 		set m_deviceFactory [DCS::DeviceFactory::getObject]
-        	set m_opBpm [$m_deviceFactory createOperation test_bpm_optimize]
+        	set m_opBpm [$m_deviceFactory createOperation bpm_optimize]
 
                 eval itk_initialize $args
                 configure -command "$this handleStart"
 
+		addInput "$m_opBpm status inactive {BPM Optimization is runing}"
                 #announceExist
         }
 }

@@ -118,28 +118,28 @@ analogInStatus10
 galil10 analogInStatus10
 0 1 1 1 1
 0 1 1 1 1
-28.232500 27.059900 25.406300 25.706900 27.781500 27.721399 254.513702 253.070496
+26.669100 26.398500 25.255899 25.285999 26.127899 26.067699 253.130707 253.130707
 
 analogInStatus7
 13
 galil7 analogInStatus7
 0 1 1 1 1
 0 1 1 1 1
-0.986000 1.006500 0.002900 2.576600 3.436300 2.574800 2.574200 2.578400
+0.988200 1.005900 0.008900 2.576900 3.437600 2.576900 2.575700 2.577800
 
 analogInStatus2
 13
 galil2 analogInStatus2
 0 1 1 1 1
 0 1 1 1 1
--0.020400 2.575800 2.575400 2.576800 2.943600 2.576700 2.575500 2.577300
+-0.024100 2.575300 2.575500 2.575700 2.942900 2.575800 2.576200 2.576900
 
 analogInStatus3
 13
 galil3 analogInStatus3
 0 1 1 1 1
 0 1 1 1 1
-0.000600 2.579600 2.577900 2.578600 2.946400 2.578900 2.577100 2.578500
+-0.000800 2.576100 2.577100 2.578400 2.946500 2.578000 2.577900 2.579300
 
 get_robotstate
 11
@@ -1416,7 +1416,7 @@ galil2 gonio_phi
 0 1 1 1 1
 0 1 1 1 1
 0
-338.962000 1000.000000 -1000.000000 10000.000000 900000 100 0 0 0 0 0 0 1 deg
+338.942100 1000.000000 -1000.000000 10000.000000 900000 100 0 0 0 0 0 0 1 deg
 
 sample_optic_vert
 2
@@ -1696,6 +1696,12 @@ simDhs dac
 test_bpm_optimize
 11
 self test_bpm_optimize
+1 1 1 1 1
+0 1 1 1 1
+
+bpm_optimize
+11
+self bpm_optimize
 1 1 1 1 1
 0 1 1 1 1
 
@@ -2089,7 +2095,7 @@ simDhs spare1
 0 1 1 1 1
 0 1 1 1 1
 0
-17.966667 -2.000000 -88.000000 630.000000 4000 300 315 0 0 0 0 0 0 mm
+17.942857 -2.000000 -88.000000 630.000000 4000 300 315 0 0 0 0 0 0 mm
 
 spare_2
 1
@@ -2785,7 +2791,7 @@ hutchDoorStatus
 simDhs standardString
 0 1 1 1 1
 0 1 1 1 1
-closed 1524509733
+closed 1524518940
 
 getEPICSPV
 11
@@ -3136,7 +3142,7 @@ lock_operation
 self standardString
 0 1 1 1 1
 0 1 1 1 1
-energy attenuation beam_size_x beam_size_y beamstop_z detector_z detector_vert detector_horz gonio_omega gonio_kappa gonio_phi camera_zoom centerLoop moveSample moveMotors centerLoopC3D test_bpm_optimize sequenceManual ISampleMountingDevice cryojet_anneal cryoBlock collectRun collectRuns normalize centerCrystal collectShutterless sequence moveCrystal madScan optimalExcitation fluorescence_z robot_config auto_sample_cal centerSlits megaScreening alignFrontEnd alignTable calibrateDetector calibrateSampleCamera calibrateInlineCamera q315_collect_background centerFluor scanMotor scan2Motors scan_n_motors fillRun collectWeb motorStopButton madCollect collimator_horz collimator_vert userAlignBeam scan3DSetup manualRastering alignTungsten alignCollimator matchup userCollimator collectRasters collectRaster rasterRunsConfig videoVisexSnapshot visexMoveSample visexRotatePhi 
+optimized_energy energy attenuation beam_size_x beam_size_y beamstop_z detector_z detector_vert detector_horz gonio_omega gonio_kappa gonio_phi camera_zoom centerLoop moveSample moveMotors centerLoopC3D sequenceManual ISampleMountingDevice cryojet_anneal cryoBlock collectRun collectRuns normalize centerCrystal collectShutterless sequence moveCrystal madScan optimalExcitation fluorescence_z robot_config auto_sample_cal centerSlits bpm_optimize alignFrontEnd alignTable calibrateDetector calibrateSampleCamera calibrateInlineCamera q315_collect_background centerFluor scanMotor scan2Motors scan_n_motors fillRun collectWeb motorStopButton madCollect collimator_horz collimator_vert userAlignBeam scan3DSetup manualRastering alignTungsten alignCollimator matchup userCollimator collectRasters collectRaster rasterRunsConfig videoVisexSnapshot visexMoveSample visexRotatePhi 
 
 xraySearchParams
 13
@@ -3862,27 +3868,27 @@ self userNotify
 epics_gateway LIBERA03:SA:SA_X_MONITOR
 1 1 1 1 1
 1 1 1 1 1
--90934
+-90575
 
 2_0_sa_y_mon
 13
 epics_gateway LIBERA03:SA:SA_Y_MONITOR
 1 1 1 1 1
 1 1 1 1 1
--25993
+-25650
 
 1_0_sa_x_mon
 13
 epics_gateway LIBERA02:SA:SA_X_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-72305
+72476
 
 1_0_sa_y_mon
 13
 epics_gateway LIBERA02:SA:SA_Y_MONITOR
 1 1 1 1 1
 1 1 1 1 1
--151534
+-151659
 
 END
