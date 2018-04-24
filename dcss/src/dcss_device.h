@@ -32,7 +32,7 @@ items for any purpose whatsoever.                       Notice 91 02 01
 #define DCSS_DEVICE_H
 
 #define MAX_DEVICES 1000
-#define DEVICE_SIZE 1024
+#define DEVICE_SIZE 2048
 #define DEVICE_NAME_SIZE 40
 #define COMPUTER_NAME_SIZE 255
 #define PATH_SIZE 255
@@ -41,7 +41,7 @@ items for any purpose whatsoever.                       Notice 91 02 01
 #define MAX_FILENAME_SIZE 80
 #define MAX_DCS_COMMAND_NAME 40
 #define MAX_RUN_DEFINITION 800
-#define MAX_STRING_SIZE 880
+#define MAX_STRING_SIZE 1880
 
 /* this is for read the dump file */
 #define MAX_LINE_SIZE 1024
