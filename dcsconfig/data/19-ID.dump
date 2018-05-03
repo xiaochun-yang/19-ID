@@ -118,28 +118,28 @@ analogInStatus10
 galil10 analogInStatus10
 0 1 1 1 1
 0 1 1 1 1
-26.338301 26.097799 25.376200 25.075500 25.917400 25.797100 253.100601 253.190796
+26.819401 26.308300 25.616699 25.556601 26.308300 26.188000 253.130707 253.100601
 
 analogInStatus7
 13
 galil7 analogInStatus7
 0 1 1 1 1
 0 1 1 1 1
-0.985300 1.005200 0.009200 2.576300 3.435500 2.575400 2.574800 2.576900
+0.992700 0.998500 0.009000 2.577200 3.433700 2.578700 2.576300 2.576300
 
 analogInStatus2
 13
 galil2 analogInStatus2
 0 1 1 1 1
 0 1 1 1 1
--0.019600 2.576500 2.575300 2.575700 2.943400 2.577000 2.576700 2.577100
+0.067900 2.575100 2.576200 2.575500 2.942900 2.576200 2.575500 2.576500
 
 analogInStatus3
 13
 galil3 analogInStatus3
 0 1 1 1 1
 0 1 1 1 1
--0.028700 2.577400 2.578900 2.577500 2.946300 2.578300 2.577400 2.578400
+-0.010900 2.578700 2.577500 2.577400 2.946600 2.577700 2.577500 2.578000
 
 get_robotstate
 11
@@ -826,7 +826,7 @@ galil10 mono_c2_perp
 0 1 1 1 1
 0 0 0 0 0
 0
-5.062250 21.000000 4.900000 20000.000000 8000 50 50 1 1 0 0 0 0 mm
+3.215200 21.000000 3.300000 20000.000000 8000 50 50 1 1 0 0 0 0 mm
 
 mono_c2_para
 1
@@ -834,7 +834,7 @@ galil10 mono_c2_para
 0 1 1 1 1
 0 0 0 0 0
 0
-97.119300 150.000000 50.000000 20000.000000 30000 30 0 1 1 0 0 0 0 mm
+111.157300 140.000000 24.000000 20000.000000 30000 30 0 1 1 0 0 0 0 mm
 
 mono_c2_bend_1
 1
@@ -867,7 +867,7 @@ galil10 mono_c1_bend
 0 1 1 1 1
 0 0 0 0 0
 0
-6.000000 7.000000 0.000000 44800.000000 7000 10 50 1 1 0 0 0 0 mm
+6.000000 6.800000 0.000000 44800.000000 7000 10 50 1 1 0 0 0 0 mm
 
 mono_c2_perp_offset
 2
@@ -944,7 +944,7 @@ galil9 mono_angle
 0 1 1 1 1
 0 0 0 0 0
 0
-14.979511 40.000000 0.000000 1000000.000000 100000 50 0 0 0 0 0 0 0 deg
+13.863128 40.000000 0.000000 1000000.000000 100000 50 0 0 0 0 0 0 0 deg
 
 mono_angle_offset
 2
@@ -961,7 +961,7 @@ self mono_theta
 0 1 1 1 1
 0 0 0 0 0
 1
-8.979511 16.750000 6.350000 0 0 0 0 deg
+7.863128 16.750000 6.350000 0 0 0 0 deg
 mono_angle
 
 energy
@@ -970,7 +970,7 @@ self energy_id19
 0 1 1 1 1
 0 0 0 0 0
 0
-12666.948978 16000.000000 5400.000000 0 0 0 0 eV
+14451.541654 16000.000000 5400.000000 0 0 0 0 eV
 0
 
 rio47_mono_piezo
@@ -1702,6 +1702,18 @@ self test_bpm_optimize
 bpm_optimize
 11
 self bpm_optimize
+1 1 1 1 1
+0 1 1 1 1
+
+piezo_auto_peak_pitch
+11
+self piezo_auto_peak_pitch
+1 1 1 1 1
+0 1 1 1 1
+
+piezo_auto_peak_roll
+11
+self piezo_auto_peak_roll
 1 1 1 1 1
 0 1 1 1 1
 
@@ -2701,7 +2713,7 @@ self attenuation
 0 1 1 1 1
 0 1 1 1 1
 0
-59.453990 100.000000 0.000000 0 0 0 0 %
+47.496060 100.000000 0.000000 0 0 0 0 %
 0
 
 acquireSpectrum
@@ -2791,7 +2803,7 @@ hutchDoorStatus
 simDhs standardString
 0 1 1 1 1
 0 1 1 1 1
-closed 1524599643
+closed 1525362606
 
 getEPICSPV
 11
@@ -3142,7 +3154,7 @@ lock_operation
 self standardString
 0 1 1 1 1
 0 1 1 1 1
-optimized_energy energy attenuation beam_size_x beam_size_y beamstop_z detector_z detector_vert detector_horz gonio_omega gonio_kappa gonio_phi camera_zoom centerLoop moveSample moveMotors centerLoopC3D sequenceManual ISampleMountingDevice cryojet_anneal cryoBlock collectRun collectRuns normalize centerCrystal collectShutterless sequence moveCrystal madScan optimalExcitation fluorescence_z robot_config auto_sample_cal centerSlits bpm_optimize megaScreening alignFrontEnd alignTable calibrateDetector calibrateSampleCamera calibrateInlineCamera q315_collect_background centerFluor scanMotor scan2Motors scan_n_motors fillRun collectWeb motorStopButton madCollect collimator_horz collimator_vert userAlignBeam scan3DSetup manualRastering alignTungsten alignCollimator matchup userCollimator collectRasters collectRaster rasterRunsConfig videoVisexSnapshot visexMoveSample visexRotatePhi 
+optimized_energy energy attenuation beam_size_x beam_size_y beamstop_z detector_z detector_vert detector_horz gonio_omega gonio_kappa gonio_phi camera_zoom centerLoop moveSample moveMotors centerLoopC3D piezo_auto_peak sequenceManual ISampleMountingDevice cryojet_anneal cryoBlock collectRun collectRuns normalize centerCrystal collectShutterless sequence moveCrystal madScan optimalExcitation fluorescence_z robot_config auto_sample_cal centerSlits bpm_optimize megaScreening alignFrontEnd alignTable calibrateDetector calibrateSampleCamera calibrateInlineCamera q315_collect_background centerFluor scanMotor scan2Motors scan_n_motors fillRun collectWeb motorStopButton madCollect collimator_horz collimator_vert userAlignBeam scan3DSetup manualRastering alignTungsten alignCollimator matchup userCollimator collectRasters collectRaster rasterRunsConfig videoVisexSnapshot visexMoveSample visexRotatePhi 
 
 xraySearchParams
 13
@@ -3868,27 +3880,27 @@ self userNotify
 epics_gateway LIBERA03:SA:SA_X_MONITOR
 1 1 1 1 1
 1 1 1 1 1
--89951
+-88953
 
 2_0_sa_y_mon
 13
 epics_gateway LIBERA03:SA:SA_Y_MONITOR
 1 1 1 1 1
 1 1 1 1 1
--24702
+-23335
 
 1_0_sa_x_mon
 13
 epics_gateway LIBERA02:SA:SA_X_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-72891
+73539
 
 1_0_sa_y_mon
 13
 epics_gateway LIBERA02:SA:SA_Y_MONITOR
 1 1 1 1 1
 1 1 1 1 1
--151556
+-150332
 
 END

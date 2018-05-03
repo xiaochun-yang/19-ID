@@ -118,28 +118,28 @@ analogInStatus10
 galil10 analogInStatus10
 0 1 1 1 1
 0 1 1 1 1
-26.939699 26.488701 25.255899 25.285999 26.308300 26.278200 253.070496 253.100601
+26.759300 26.338301 25.676901 25.556601 26.338301 26.127899 253.100601 253.100601
 
 analogInStatus7
 13
 galil7 analogInStatus7
 0 1 1 1 1
 0 1 1 1 1
-0.987900 1.008500 0.006300 2.576000 3.437900 2.575100 2.575700 2.577200
+0.991200 1.000200 0.008700 2.576900 3.435000 2.575700 2.574800 2.576600
 
 analogInStatus2
 13
 galil2 analogInStatus2
 0 1 1 1 1
 0 1 1 1 1
--0.036200 2.575800 2.575200 2.577100 2.943600 2.576100 2.575500 2.576700
+0.068300 2.574200 2.575500 2.576200 2.944000 2.577700 2.575500 2.576900
 
 analogInStatus3
 13
 galil3 analogInStatus3
 0 1 1 1 1
 0 1 1 1 1
--0.013500 2.579200 2.578600 2.577700 2.946300 2.577600 2.578000 2.578600
+0.000200 2.576600 2.577200 2.577900 2.946100 2.577300 2.578100 2.578400
 
 get_robotstate
 11
@@ -198,7 +198,7 @@ robot dismount_crystal
 prepare_dismount_crystal
 11
 robot prepare_dismount_crystal
-0 0 0 1 1
+0 0 0 0 1
 0 0 0 0 0
 
 mount_next_crystal
@@ -317,7 +317,7 @@ crystalStatus
 self standardString
 0 1 1 1 1
 0 1 1 1 1
-{} {} robot 0 {} yes 0
+{} c_A1 manual 0 {} yes 0
 
 screening_msg
 13
@@ -826,7 +826,7 @@ galil10 mono_c2_perp
 0 1 1 1 1
 0 0 0 0 0
 0
-5.062250 21.000000 4.900000 20000.000000 8000 50 50 1 1 0 0 0 0 mm
+3.215200 21.000000 3.300000 20000.000000 8000 50 50 1 1 0 0 0 0 mm
 
 mono_c2_para
 1
@@ -834,7 +834,7 @@ galil10 mono_c2_para
 0 1 1 1 1
 0 0 0 0 0
 0
-97.119300 150.000000 50.000000 20000.000000 30000 30 0 1 1 0 0 0 0 mm
+111.157300 140.000000 24.000000 20000.000000 30000 30 0 1 1 0 0 0 0 mm
 
 mono_c2_bend_1
 1
@@ -867,7 +867,7 @@ galil10 mono_c1_bend
 0 1 1 1 1
 0 0 0 0 0
 0
-6.000000 7.000000 0.000000 44800.000000 7000 10 50 1 1 0 0 0 0 mm
+6.000000 6.800000 0.000000 44800.000000 7000 10 50 1 1 0 0 0 0 mm
 
 mono_c2_perp_offset
 2
@@ -944,7 +944,7 @@ galil9 mono_angle
 0 1 1 1 1
 0 0 0 0 0
 0
-14.979511 40.000000 0.000000 1000000.000000 100000 50 0 0 0 0 0 0 0 deg
+13.863128 40.000000 0.000000 1000000.000000 100000 50 0 0 0 0 0 0 0 deg
 
 mono_angle_offset
 2
@@ -961,7 +961,7 @@ self mono_theta
 0 1 1 1 1
 0 0 0 0 0
 1
-8.979511 16.750000 6.350000 0 0 0 0 deg
+7.863128 16.750000 6.350000 0 0 0 0 deg
 mono_angle
 
 energy
@@ -970,7 +970,7 @@ self energy_id19
 0 1 1 1 1
 0 0 0 0 0
 0
-12666.948978 16000.000000 5400.000000 0 0 0 0 eV
+14451.541654 16000.000000 5400.000000 0 0 0 0 eV
 0
 
 rio47_mono_piezo
@@ -1183,7 +1183,7 @@ self inlineMoveSample
 
 calibrateInlineCamera
 11
-self calibrateInlineCamera
+self calibrateInlineCamer
 0 1 1 1 1
 0 0 0 0 0
 
@@ -1195,7 +1195,7 @@ inline_camera initializeCamera
 
 getInlineLoopTip
 11
-inline_camera getLoopTip
+inline_camer getLoopTip
 1 1 1 1 1
 0 1 1 1 1
 
@@ -1205,7 +1205,7 @@ inline_camera getPinDiameters
 0 1 1 1 1
 0 1 1 1 1
 
-addInlineImageToList
+addInlineIma
 11
 inline_camera addImageToList
 0 1 1 1 1
@@ -1416,7 +1416,7 @@ galil2 gonio_phi
 0 1 1 1 1
 0 1 1 1 1
 0
-338.946100 1000.000000 -1000.000000 10000.000000 900000 100 0 0 0 0 0 0 1 deg
+338.893800 1000.000000 -1000.000000 10000.000000 900000 100 0 0 0 0 0 0 1 deg
 
 sample_optic_vert
 2
@@ -1479,7 +1479,7 @@ pitch
 1
 galil2 pitch
 0 1 1 1 1
-0 1 1 1 1
+0 1 1 1 0
 0
 -0.454730 1.000000 -10.000000 30075.000000 15000 50 0 1 1 0 0 0 0 deg
 
@@ -1493,7 +1493,7 @@ galil2 yaw
 
 beamstop_vert
 1
-galil3 beamstop_vert
+galil3 beamstop_ver
 0 1 1 1 1
 0 0 0 0 0
 0
@@ -1524,7 +1524,7 @@ galil3 beamstop_z
 0
 20.000000 1000.000000 -1000.000000 6400.000000 6000 10 0 0 0 0 0 0 0 mm
 
-beamstop_z_auto
+beam
 2
 self beamstop_z_auto
 0 1 1 1 1
@@ -1705,6 +1705,18 @@ self bpm_optimize
 1 1 1 1 1
 0 1 1 1 1
 
+piezo_auto_peak_pitch
+11
+self piezo_auto_peak_pitch
+1 1 1 1 1
+0 1 1 1 1
+
+piezo_auto_peak_roll
+11
+self piezo_auto_peak_roll
+1 1 1 1 1
+0 1 1 1 1
+
 sample_bpm1_op
 11
 self sample_bpm1_op
@@ -1798,7 +1810,7 @@ galil12 ion_chamber6
 ion_chamber10
 12
 galil12 ion_chamber10
-0 1 1 1 1
+0 0 1 1 1
 0 1 1 1 1
 
 ion_chamber11
@@ -1809,7 +1821,7 @@ galil12 ion_chamber11
 
 ion_chamber12
 12
-galil12 ion_chamber12
+galil12 ion_
 0 1 1 1 1
 0 1 1 1 1
 
@@ -2031,7 +2043,7 @@ self ion_chamber11_op 0 rtc1 standardVirtualIonChamber
 
 analog_input4
 4
-self ion_chamber12_op 0 rtc1 standardVirtualIonChamber
+self ion_chamber12_op 0 rtc1 standardVirtualI
 0 1 1 1 1
 0 1 1 1 1
 
@@ -2056,7 +2068,7 @@ simDhs 0 Al_1
 Al_2
 6
 simDhs 1 Al_2
-0 1 1 1 1
+0 1 1 0 1
 0 1 1 1 1
 
 Al_4
@@ -2095,7 +2107,7 @@ simDhs spare1
 0 1 1 1 1
 0 1 1 1 1
 0
-17.947619 -2.000000 -88.000000 630.000000 4000 300 315 0 0 0 0 0 0 mm
+17.885714 -2.000000 -88.000000 630.000000 4000 300 315 0 0 0 0 0 0 mm
 
 spare_2
 1
@@ -2332,7 +2344,7 @@ run3
 self runDefinition
 0 1 1 1 1
 0 1 1 1 1
-inactive 0 3 cata-dim2 /storage/hf4m/19id/03-14-2018/cata 1 Phi 90.00 91.0 0.50 360.0 0.15 400.000 20.000000 59.531178 1 12661.651 0.0 0.0 0.0 0.0 0 1
+inactive 0 3 cata-dim2 /storage/hf4m/19id/03-14-2018/cata 1 Phi 90.00 91.0 0.50 360.0 0.15 400.000 20.000000 59.531178 1 12661.651 0.0 0.0 0.0 0.0 0
 
 run4
 13
@@ -2346,7 +2358,7 @@ run5
 self runDefinition
 0 1 1 1 1
 0 1 1 1 1
-inactive 0 5 MtbFtsZ2 /storage/Lazo/MtbFtsZ 1 Phi 244.00 280.0 0.10 360.0 20.00 110.000000 50.000000 50 1 12665.003910 {} {} {} {} 0 0
+inactive 0 5 MtbFtsZ2 /storage/Lazo/MtbFtsZ 1 Phi 244.00 280.0 0.10 360.0 20.00 110.000000 50.000000
 
 run6
 13
@@ -2360,7 +2372,7 @@ run7
 self runDefinition
 0 1 1 1 1
 0 1 1 1 1
-inactive 0 7 lyso-t3_ib2_1 /storage/test/hf262/lyso_t3 1 Phi 185.042100 200.0421 0.50 180.0 2.00 76.000000 50.000000 50 1 14001.441410 {} {} {} {} 0 0
+inactive 0 7 lyso-t3_ib2_1 /storage/test/hf262/lyso_
 
 run8
 13
@@ -2374,7 +2386,7 @@ run9
 self runDefinition
 0 1 1 1 1
 0 1 1 1 1
-inactive 0 9 inverse-3 /storage/test/hf262/devel/reverse 1 Phi 30.00 38.0 1.00 2.0 0.50 76.000000 50.000000 50 1 6998.803710 {} {} {} {} 0 1
+inac
 
 run10
 13
@@ -2701,7 +2713,7 @@ self attenuation
 0 1 1 1 1
 0 1 1 1 1
 0
-59.453990 100.000000 0.000000 0 0 0 0 %
+47.496060 100.000000 0.000000 0 0 0 0 %
 0
 
 acquireSpectrum
@@ -2759,7 +2771,7 @@ sequenceDeviceState
 self standardString
 0 1 1 1 1
 0 1 1 1 1
-nysbc 1 {undefined  puck-JBGLDNFOH.xls(nysbc|unknown|56)  puck-f-p.xls(nysbc|unknown|54)  puck-A-P.xls(nysbc|unknown|52)  }
+gwolf 0 {undefined  puck-JBGLDNFOH.xls(nysbc|unknown|56)  puck-f-p.xls(nysbc|unknown|54)  puck-A-P.xls(nysbc|unknown|52)  }
 
 sequence
 11
@@ -2791,7 +2803,7 @@ hutchDoorStatus
 simDhs standardString
 0 1 1 1 1
 0 1 1 1 1
-closed 1524515545
+closed 1525359672
 
 getEPICSPV
 11
@@ -2906,7 +2918,7 @@ crystalSelectionList
 self standardString
 0 1 1 1 1
 0 1 1 1 1
--1 -1 {0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0}
+-1 0 {1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1}
 
 screeningActionList
 13
@@ -2920,7 +2932,7 @@ screeningParameters
 self standardString
 0 1 1 1 1
 0 1 1 1 1
-{{MountNextCrystal {}} {LoopAlignment {}} {Pause {}} {VideoSnapshot {1.000 0deg}} {CollectImage {1.000 1.000 1 {}}} {Rotate 90.000} {VideoSnapshot {1.000 90deg}} {CollectImage {1.000 1.000 1 {}}} {Pause {}} {Rotate -45.000} {VideoSnapshot {1.000 45deg}} {CollectImage {1.000 1.000 1 {}}} {ExcitationScan {10.000 test}} {ReOrient {}} {RunQueueTask {}} {Pause {}} {GrabberWarmCycle 5}} 1 /home/nysbc/temp 0.000 20.000 50
+{{MountNextCrystal {}} {LoopAlignment {}} {Pause {}} {VideoSnapshot {1.000 0deg}} {CollectImage {1.000 1.000 1 {}}} {Rotate 90.000}
 
 detectorType
 13
@@ -2959,7 +2971,7 @@ table_property
 13
 self standardString
 0 1 1 1 1
-0 1 1 1 1
+0 1 0 1 1
 1942.973 1371.6 114.3 53.975 673.1 317.5
 
 table_setup
@@ -2997,7 +3009,7 @@ self standardString
 0 1 1 1 1
 -1.190779 0.245065 1.167509 -0.3174 -0.331449 1.556 0.632027 0.526146
 
-dsensor_to_robot_config
+dsensor_to_r
 13
 self standardString
 0 1 1 1 1
@@ -3142,7 +3154,7 @@ lock_operation
 self standardString
 0 1 1 1 1
 0 1 1 1 1
-optimized_energy energy attenuation beam_size_x beam_size_y beamstop_z detector_z detector_vert detector_horz gonio_kappa gonio_phi camera_zoom centerLoop moveSample moveMotors centerLoopC3D test_bpm_optimize sequenceManual ISampleMountingDevice cryojet_anneal cryoBlock collectRun collectRuns normalize centerCrystal collectShutterless sequence moveCrystal madScan optimalExcitation fluorescence_z robot_config auto_sample_cal centerSlits alignFrontEnd alignTable calibrateDetector calibrateSampleCamera calibrateInlineCamera q315_collect_background centerFluor scanMotor scan2Motors scan_n_motors fillRun collectWeb motorStopButton madCollect collimator_horz collimator_vert userAlignBeam scan3DSetup manualRastering alignTungsten alignCollimator matchup userCollimator collectRasters collectRaster rasterRunsConfig videoVisexSnapshot visexMoveSample visexRotatePhi 
+optimized_energy energy attenuation beam_size_x beam_size_y beamstop_z detector_z detector_vert detector_horz gonio_omega gonio_kappa gonio_phi camera_zoom centerLoop moveSample moveMotors centerLoopC3D piezo_auto_peak sequenceManual ISampleMountingDevice cryojet_anneal cryoBlock collectRun collectRuns normalize centerCrystal collectShutterless sequence moveCrystal madScan optimalExcitation fluorescence_z robot_config auto_sample_cal centerSlits bpm_optimize megaScreening alignFrontEnd alignTable calibrateDetector calibrateSampleCamera calibrateInlineCamera q315_collect_background centerFluor scanMotor scan2Motors scan_n_motors fillRun collectWeb motorStopButton madCollect collimator_horz collimator_vert userAlignBeam scan3DSetup manualRastering alignTungsten alignCollimator matchup userCollimator collectRasters collectRaster rasterRunsConfig videoVisexSnapshot visexMoveSample visexRotatePhi 
 
 xraySearchParams
 13
@@ -3223,7 +3235,7 @@ scn_crystal_msg
 self standardString
 0 1 1 1 1
 0 1 1 1 1
-error: must select at least one crystal
+warning: no check for no-robot cassette
 
 scn_action_msg
 13
@@ -3242,7 +3254,7 @@ beamlineOpenState
 13
 epics_gateway xbeamavail
 0 1 1 1 1
-0 1 1 1 1
+0 1 1 1 0
 1
 
 beamlineOpenStateDelay
@@ -3254,7 +3266,7 @@ self standardString
 
 auto_sample_cal
 11
-self auto_sample_cal
+self auto_sample_
 0 1 1 1 1
 0 1 1 1 1
 
@@ -3279,7 +3291,7 @@ self standardString
 0 1 1 1 1
 
 
-wash_crystal
+wash
 11
 simDhs wash_crystal
 0 0 0 1 1
@@ -3532,7 +3544,7 @@ self standardString
 center_slits_data
 13
 self standardString
-0 1 1 1 1
+0 0 1 1 1
 0 1 1 1 1
 /data/jsong/centerSlitsSim/final.log 3.3630736534 5.03836892705 5.03836892672 17.2983300315 0 jsong F860AB363EDD805703874181AD675624 8 9 10
 
@@ -3545,7 +3557,7 @@ kappa max_loop_vertical max_loop_horizontal move_vertical move_horizontal thresh
 
 center_slits_data_name_list
 13
-self standardString
+self stan
 0 1 1 1 1
 0 1 1 1 1
 log_file_name hv_scale delta_omega delta_phi angle_phi_axis v0_offset user
@@ -3821,7 +3833,7 @@ self standardString
 collectRasters
 11
 self collectRasters
-0 1 1 1 1
+0 1 1 0 1
 0 1 1 1 1
 
 detectorStatus
@@ -3868,27 +3880,27 @@ self userNotify
 epics_gateway LIBERA03:SA:SA_X_MONITOR
 1 1 1 1 1
 1 1 1 1 1
--90920
+-89220
 
 2_0_sa_y_mon
 13
 epics_gateway LIBERA03:SA:SA_Y_MONITOR
 1 1 1 1 1
 1 1 1 1 1
--25562
+-23298
 
 1_0_sa_x_mon
 13
 epics_gateway LIBERA02:SA:SA_X_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-72566
+73435
 
 1_0_sa_y_mon
 13
 epics_gateway LIBERA02:SA:SA_Y_MONITOR
 1 1 1 1 1
 1 1 1 1 1
--151395
+-150245
 
 END

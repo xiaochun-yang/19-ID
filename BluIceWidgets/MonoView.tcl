@@ -472,6 +472,8 @@ class DoubleCrystalMonoViewDoubleSetID19 {
     itk_option define -mdiHelper mdiHelper MdiHelper ""
     private variable m_deviceFactory
     private variable m_strPiezoVoltage
+    protected variable m_opPiezoPitch
+    protected variable m_opPiezoRoll
 
     public proc getMotorList { } {
         return [list \
@@ -492,28 +494,20 @@ class DoubleCrystalMonoViewDoubleSetID19 {
 
     public method handleEncoderUpdate
     public method handleMotorTempChange
-    public method handleAutoPeak
-    public method doAutoPeak { } {
-	#ion_chamber4:pitch piezo;
-	#ion_chamber5:roll piezo;
-	#ion_chamber6:beampath ion_chamber
-	set deviceFactory [::DCS::DeviceFactory::getObject]
-	set obj1 [$deviceFactory getObjectName ion_chamber4]
-        set obj2 [$deviceFactory getObjectName ion_chamber5]
-	set obj_ion [$deviceFactory getObjectName ion_chamber6]
+    public method doAutoPeakPitch { } {
+		$m_opPiezoPitch startOperation
+	}	
+    public method doAutoPeakRoll { } {
+	
+	$m_opPiezoRoll startOperation
 
       	#1. get current piezo value and set piezo boundry
-        set piezo1 [format %4.2f [$obj1 cget -position]] 
-        set piezo2 [format %4.2f [$obj2 cget -position]]
- 	set uboundry  10
-        set lboundry  0
-	set optimumCounts [format %4.2f [$obj_ion cget -position]]
-	puts "piezo1=$piezo1 piezo2=$piezo2 optimumCounts=$optimumCounts"
-
-	#2. change pitch valtage value within the boundey and
-	#   find the value which will have max ionchamber reading
-	#   and then change the voltage to that value graduly
-	#   same to roll	    	   
+    #    set piezo1 [format %4.2f [$obj1 cget -position]] 
+    #    set piezo2 [format %4.2f [$obj2 cget -position]]
+    #	set uboundry  10
+    #        set lboundry  0
+    #	set optimumCounts [format %4.2f [$obj_ion cget -position]]
+#	puts "piezo1=$piezo1 piezo2=$piezo2 optimumCounts=$optimumCounts"
     }	 
     public method setPitchValue { } {
 	set deviceFactory [::DCS::DeviceFactory::getObject]
@@ -535,6 +529,8 @@ class DoubleCrystalMonoViewDoubleSetID19 {
 	set obj1 [$deviceFactory getObjectName ion_chamber4]
 	set obj2 [$deviceFactory getObjectName ion_chamber5]
         set m_strBeamCurrent [$deviceFactory createString analogInStatus10]
+	set m_opPiezoPitch [$deviceFactory createOperation piezo_auto_peak_pitch]
+	set m_opPiezoRoll [$deviceFactory createOperation piezo_auto_peak_roll]
 
         loadBackdropImage id19-mono-yang-8.gif
                 place $itk_component(control) -x 220 -y 460
@@ -545,9 +541,9 @@ class DoubleCrystalMonoViewDoubleSetID19 {
 	motorView mono_c2_bend_2 185 140 nw
 	motorView mono_c2_bend 185 80 nw
 	motorView mono_c1_bend 50 200 nw
-	motorView mono_c2_pitch 670 300 se
-        motorView mono_c2_roll  670 370 se
-	motorView mono_c2_yaw   670 440 se
+	motorView mono_c2_pitch 690 300 se
+        motorView mono_c2_roll  690 370 se
+	motorView mono_c2_yaw   690 440 se
 	motorView mono_angle 80 420 s
         motorView mono_theta 210 420 s
         motorView energy 340 420 s
@@ -618,26 +614,36 @@ class DoubleCrystalMonoViewDoubleSetID19 {
               }
         }
 
-	itk_component add autoPeak {
-            DCS::Button $itk_component(canvas).autoPeak \
-            -text "Auto Peak" \
-	    -width 8 \
-            -command "$this doAutoPeak"
+	itk_component add autoPeakPitch {
+            DCS::Button $itk_component(canvas).autoPeakPitch \
+            -text "Peak Pitch" \
+            -width 5 \
+            -command "$this doAutoPeakPitch"
         } {
         }
 
-	place $itk_component(temp0) -x 675 -y 270 -anchor se
-	place $itk_component(temp1) -x 675 -y 337 -anchor se
+
+	itk_component add autoPeakRoll {
+            DCS::Button $itk_component(canvas).autoPeakRoll \
+            -text "Peak Roll" \
+	    -width 5 \
+            -command "$this doAutoPeakRoll"
+        } {
+        }
+
+	place $itk_component(temp0) -x 695 -y 270 -anchor se
+	place $itk_component(temp1) -x 695 -y 337 -anchor se
 	place $itk_component(temp2) -x 525 -y 100 -anchor se
 	place $itk_component(temp3) -x 195 -y 220 -anchor se
 	place $itk_component(temp4) -x 335 -y 160 -anchor se
-        place $itk_component(temp5) -x 675 -y 410 -anchor se
+        place $itk_component(temp5) -x 695 -y 410 -anchor se
 
-        place $itk_component(pitchl) -x 495 -y 295 -anchor se
-	place $itk_component(pitch) -x 515 -y 320 -anchor se 
-      	place $itk_component(rolll) -x 495 -y 355 -anchor se
-      	place $itk_component(roll) -x 515 -y 380 -anchor se
-      	place $itk_component(autoPeak) -x 510 -y 415 -anchor se
+        place $itk_component(pitchl) -x 515 -y 295 -anchor se
+	place $itk_component(pitch) -x 535 -y 320 -anchor se 
+      	place $itk_component(rolll) -x 515 -y 355 -anchor se
+      	place $itk_component(roll) -x 535 -y 380 -anchor se
+      	place $itk_component(autoPeakPitch) -x 480 -y 415 -anchor se
+      	place $itk_component(autoPeakRoll) -x 550 -y 415 -anchor se
 
         
 	$m_strBeamCurrent register $this contents handleMotorTempChange
@@ -670,10 +676,6 @@ body DoubleCrystalMonoViewDoubleSetID19::handleEncoderUpdate {name_ targetReady_
      } else {
      	$itk_component(canvas).rolll configure -text $tex 
      }
-}
-
-body DoubleCrystalMonoViewDoubleSetID19::handleAutoPeak { } {
-
 }
 
 body DoubleCrystalMonoViewDoubleSetID19::handleMotorTempChange { name_ targetReady_ - contents_ - } {
