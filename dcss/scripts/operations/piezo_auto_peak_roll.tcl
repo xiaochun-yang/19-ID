@@ -22,9 +22,9 @@ proc piezo_auto_peak_roll_start { } {
 	# First move to upper boundry slowly
 	while { $volt < 10} {
 
-		set volt [expr $volt + 0.5]
 		set_encoder ion_chamber5 $volt
 		wait_for_encoder ion_chamber5
+		set volt [expr $volt + 0.5]
 		after 200
 	}
 
@@ -35,9 +35,9 @@ proc piezo_auto_peak_roll_start { } {
 	
 	while {$volt > 0} {
 		#set piezo voltage
-		set volt [expr $volt - $step]
 		set_encoder ion_chamber5 $volt
 		wait_for_encoder ion_chamber5
+		set volt [expr $volt - $step]
 		after 200
 
 		#read the ion chamber value
@@ -55,10 +55,10 @@ proc piezo_auto_peak_roll_start { } {
 	set step 0.2
 	set optimaVolt [expr $optimaVolt + $step]
 	while { $volt < $optimaVolt } {
-		set volt [expr $volt + $step]
 		set_encoder ion_chamber5 $volt
 		wait_for_encoder ion_chamber5
 		after 100
+		set volt [expr $volt + $step]
 	}
 }
 

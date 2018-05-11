@@ -142,11 +142,11 @@ body LoadButton2::handleStart {} {
         set text [.pw.pane0.childsite.bluice.n.canvas.notebook.cs.page1.cs.h.hutch.c.load2 cget -text]
         if {$text == "Beamstop/In"} {
                 set text "Beamstop/Out"
-	       	::device::beamstop_horz move to 359 deg
+	       	::device::beamstop_angle move to 0 deg
      	#	wait_for_devices ::device::beamstop_horz
 
         } else {
-	       	::device::beamstop_horz move to 270 deg
+	       	::device::beamstop_angle move to -90 deg
      	#	wait_for_devices ::device::beamstop_horz
                 set text "Beamstop/In"
         }

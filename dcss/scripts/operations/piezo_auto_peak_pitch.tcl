@@ -22,10 +22,10 @@ proc piezo_auto_peak_pitch_start { } {
 	# First move to upper boundry slowly
 	while { $volt < 10} {
 
-		set volt [expr $volt + 0.5]
 		set_encoder ion_chamber4 $volt
 		wait_for_encoder ion_chamber4
 		after 200
+		set volt [expr $volt + 0.5]
 	}
 
 	#Start peak search
@@ -35,10 +35,10 @@ proc piezo_auto_peak_pitch_start { } {
 	
 	while {$volt > 0} {
 		#set piezo voltage
-		set volt [expr $volt - $step]
 		set_encoder ion_chamber4 $volt
 		wait_for_encoder ion_chamber4
 		after 200
+		set volt [expr $volt - $step]
 
 		#read the ion chamber value
 		get_encoder ion_chamber6
@@ -55,10 +55,10 @@ proc piezo_auto_peak_pitch_start { } {
 	set step 0.2
 	set optimaVolt [expr $optimaVolt + $step]
 	while { $volt < $optimaVolt } {
-		set volt [expr $volt + $step]
 		set_encoder ion_chamber4 $volt
 		wait_for_encoder ion_chamber4
 		after 100
+		set volt [expr $volt + $step]
 	}
 }
 

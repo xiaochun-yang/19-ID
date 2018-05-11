@@ -602,7 +602,7 @@ class StatusBar {
    public method updateShutterDisplay
    public method toggleShutter { } {
    	if { $m_shutterState == "closed" } {
-		set bp [lindex [::device::beamstop_horz getScaledPosition] 0]
+		set bp [lindex [::device::beamstop_angle getScaledPosition] 0]
 		if {abs([expr $bp - 359]) > 0.2} {
             		set answer \
                 	[tk_messageBox \
