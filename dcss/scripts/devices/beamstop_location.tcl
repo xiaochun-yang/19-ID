@@ -4,62 +4,62 @@
 proc beamstop_location_initialize {} {
 	
 	# specify children devices
-	set_children beamstop_angle
+	set_children beamstop_horz
 }
 
 
 proc beamstop_location_move { new_beamstop_location } {
 
 	# global variables
-	variable beamstop_angle
+	variable beamstop_horz
 
-	# move beamstop_angle
-	move beamstop_angle to [beamstop_location_calculate $new_beamstop_location] 
+	# move beamstop_horz
+	move beamstop_horz to [beamstop_location_calculate $new_beamstop_location] 
 
 	# wait for the moves to complete
-	wait_for_devices beamstop_angle
+	wait_for_devices beamstop_horz
 }
 
 
 proc beamstop_location_set { new_beamstop_location} {
 
 	# global variables
-	variable beamstop_angle
-        set beamstop_angle [beamstop_location_calculate $new_beamstop_location]
+	variable beamstop_horz
+        set beamstop_horz [beamstop_location_calculate $new_beamstop_location]
 }
 
 
 proc beamstop_location_update {} {
 
 	# global variables
-	variable beamstop_angle
-        return [beamstop_location_calculate1 $beamstop_angle]
+	variable beamstop_horz
+        return [beamstop_location_calculate1 $beamstop_horz]
 }
 
 
 proc beamstop_location_calculate { num } {
 
-	variable beamstop_angle
+	variable beamstop_horz
 	if { $num == 1 } {
-                        return 359.0
+                        return 0
         } elseif { $num == 2 } {
-                        return 270       
+                        return 57.93       
         } elseif { $num == 3 } {
-                        return 309.9
+                        return 29
         } else {
 
-                        return $beamstop_angle
+                        return $beamstop_horz
         }
 }
 
-proc beamstop_location_calculate1 { beamstop_angle } {
+proc beamstop_location_calculate1 { beamstop_horz } {
         variable beamstop_location
         
-        if { [expr abs([expr $beamstop_angle - 359])] < 0.2 } {
+        if { [expr abs([expr $beamstop_horz - 0])] < 0.01 } {
                 return 1
-        } elseif { [expr abs([expr $beamstop_angle -270])] < 0.2 } {
+        } elseif { [expr abs([expr $beamstop_horz -57.93])] < 0.01 } {
                 return 2
-        } elseif { [expr abs([expr $beamstop_angle -309.9])] < 0.2 } {
+        } elseif { [expr abs([expr $beamstop_horz -29])] < 0.01 } {
                 return 3
         } else {
                 return $beamstop_location

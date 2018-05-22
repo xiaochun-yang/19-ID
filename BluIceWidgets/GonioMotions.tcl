@@ -33,8 +33,10 @@ class DCS::GonioMotionsWidget {
         pitch \
         yaw \
 	beamstop_vert \
-	beamstop_rota \
+	beamstop_horz \
+	beamstop_angle \
 	beamstop_z \
+	beamstop_vert_offset \
 	sample_vert \
 	sample_optic_vert
         ]
