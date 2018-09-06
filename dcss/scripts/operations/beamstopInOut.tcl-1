@@ -1,0 +1,20 @@
+beamstopInOut_initialize {} {
+
+}
+
+beamstopInOut_start {} {
+
+	global gDevice
+	variable beamstop_angle
+	set p [abs($gDevice(beamstop_angle,scaled)]
+	puts "the beamstop_angle = $p"
+
+	if { abs($gDevice(beamstop_angle,scaled)  < 25 } {
+		#rotate beamstop 90 degree
+		move beamstop_angle by -90 deg
+	       	# 	log_error kappa must be zero to run auto_sample_data
+        	#	return 0
+    	} else {
+		move beamstop_angle by 90 deg
+	}
+}

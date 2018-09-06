@@ -12,10 +12,12 @@ proc bpm_optimize_start { } {
 	set j 1
 
 	#should be optic_vert optic_horz phi yaw
-        foreach {mt} [list gonio_phi spare_1 spare_2] {
+        foreach {mt} [list optic_vert] {
 
 	   #i controls the number of optimization steps 
-	   set i 1
+	   #k cpntrols step settings
+	   set lp_index 1
+	   set bpm_limit 44000
 
 	   #Get the bpm PV value
        	   read_ion_chambers 1 sample_bpm$j
@@ -26,18 +28,19 @@ proc bpm_optimize_start { } {
 
 	   #start the optimization 
            while 1 {
-		if { $i > 3 } {
+		#set loop limit to prevent the dead loop
+		if { $lp_index > 30 } {
+			puts "Can not optimize bpm after $lp_index tries by moving $mt"
 			break
 		}
 
                 #compare current bpm value. Beam center value is 0 
-                if { abs($temp - 0) < 10000 } {
+		#for the current bpm, 1um motion result 10000 counts 
+		#change. so we stop the optimaztion when it less than 
+		#10000 counts 
+                if { abs($temp) < 10000 } {
 			puts "yangx close enough break"
                         break
-                }
-
-                if {$temp < 0} {
-                        set step [expr $step*-1]
                 }
 
                 #move motor in step
@@ -50,16 +53,23 @@ proc bpm_optimize_start { } {
                 wait_for_devices sample_bpm$j
                 set bpm [get_ion_chamber_counts sample_bpm$j]
 
-	        puts "yangx bpm motor=$mt i = $i temp = $temp bpm = $bpm"
-                if {$bpm > 0} {
-                        if { [expr $temp - $bpm] > $temp } {
-                                set step [expr $step*0.5]
-                        }
-                } else {
-                        if { [expr $temp - $bpm] < $temp } {
-                                set step [expr $step*0.5]
-                        }
-                }
+	        puts "yangx bpm motor=$mt i = $lp_index temp = $temp bpm = $bpm"
+
+		#Change step size based on bpm counts 
+		if {abs([expr $temp -$bpm]) < $bpm_limit} {
+                	set step [expr $step*0.5]
+			set bpm_limit [expr $bpm_limit*0.5]
+		}
+
+		#change step sign based on the current and previous bpm values.
+                if { ($temp >0 && $bpm > 0) || ($temp < 0 && $bpm <0) } {
+                        if { abs($temp) < abs($bpm) } {
+				set step [expr $step*-1]
+			}
+                } elseif { ($temp > 0 && $bpm < 0) || ($temp < 0 && $bpm > 0) } {
+                        set step [expr $step*-1]
+		}
+
 		# if the motor step size is too small. quit from
                 # the optimization
 		if {$j<3 && abs($step) < 0.001} {
@@ -70,7 +80,7 @@ proc bpm_optimize_start { } {
                         break
                 }
 		set temp $bpm
-		incr i
+		incr lp_index
          }
 	 incr j
       }

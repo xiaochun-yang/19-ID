@@ -35,7 +35,6 @@ class DCS::GonioMotionsWidget {
 	beamstop_vert \
 	beamstop_horz \
 	beamstop_angle \
-	beamstop_z \
 	beamstop_vert_offset \
 	sample_vert \
 	sample_optic_vert
@@ -62,7 +61,7 @@ class DCS::GonioMotionsWidget {
 		 itk_component add unit1 {
                  
                  	label $itk_component(canvas).unit1 \
-                      		-text "Pos" \
+                      		-text "Num" \
                       		-relief flat \
                       		-width 3 \
                   } {
@@ -81,7 +80,7 @@ class DCS::GonioMotionsWidget {
                 # draw the table
                 #rect_solid 180 120 250 20 40 60 40
 
-		place $itk_component(unit1) -x 387 -y 185 -anchor sw
+		place $itk_component(unit1) -x 395 -y 365 -anchor sw
 		place $itk_component(pos) -x 440 -y 375 -anchor sw
 
                 eval itk_initialize $args

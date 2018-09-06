@@ -350,9 +350,11 @@ puts "yangx tmpDir=$tmpDir"
         #314.35 from 315 is 0.65 
 
         set detectorOffsetPixelsX [expr [$imageParams_ cget -detectorX] * $_detectorPixelSizeFactorX]
-        set detectorOffsetPixelsY [expr ([$imageParams_ cget -detectorY] - 314.35) * $_detectorPixelSizeFactorY]
+        set detectorOffsetPixelsY [expr [$imageParams_ cget -detectorY] * $_detectorPixelSizeFactorY]
 	putsDet "Beam_x [expr $_detectorXCenterPixel + $detectorOffsetPixelsX]"
         putsDet "Beam_y [expr $_detectorYCenterPixel - $detectorOffsetPixelsY]"
+#	putsDet "Beam_x 1009"
+#	putsDet "Beam_y 987"
     }
 
     private method assertNotBusy {} {
