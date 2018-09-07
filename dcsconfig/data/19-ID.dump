@@ -118,28 +118,28 @@ analogInStatus10
 galil10 analogInStatus10
 0 1 1 1 1
 0 1 1 1 1
-17.589001 17.468700 16.025499 24.474199 13.229300 15.243800 253.070496 253.100601
+17.709200 17.558901 16.236000 24.504299 13.439800 15.394100 253.070496 254.393494
 
 analogInStatus7
 13
 galil7 analogInStatus7
 0 1 1 1 1
 0 1 1 1 1
-3.872100 3.682400 0.010500 2.576000 3.437100 2.576900 2.576000 2.576000
+3.869900 3.679400 0.009200 2.577200 3.433700 2.575400 2.574800 2.576900
 
 analogInStatus2
 13
 galil2 analogInStatus2
 0 1 1 1 1
 0 1 1 1 1
-0.085400 2.576200 2.575300 2.576600 2.943600 2.576600 2.575400 2.576700
+0.108100 2.577600 2.575100 2.575600 2.944100 2.575500 2.576400 2.576000
 
 analogInStatus3
 13
 galil3 analogInStatus3
 0 1 1 1 1
 0 1 1 1 1
-2.562500 2.578600 2.578300 2.578700 2.946200 2.578400 2.577800 2.578600
+2.573800 2.578300 2.578000 2.578200 2.945900 2.577900 2.577400 2.578700
 
 get_robotstate
 11
@@ -417,7 +417,7 @@ self undulator_gap
 0 1 1 1 1
 0 0 0 0 0
 0
-18499.245000 20400.000000 5590.000000 1 1 0 0 mm
+18499.965000 20400.000000 5590.000000 1 1 0 0 mm
 0
 
 gap
@@ -425,7 +425,7 @@ gap
 epics_gateway SR:C19-ID:G1A{NYX:1-Ax:Gap}-Mtr.RBV
 1 1 1 1 1
 0 0 0 0 0
-18499.245
+18499.965
 
 gapRequest
 13
@@ -1497,7 +1497,7 @@ self beamstop_horz
 0 1 1 1 1
 0 0 0 0 0
 1
-0.000000 2.000000 1.000000 0 0 0 0 mm
+0.002132 2.000000 1.000000 0 0 0 0 mm
 beamstop_angle
 
 beamstop_vert
@@ -1523,7 +1523,7 @@ galil3 beamstop_angle
 0 1 1 1 1
 0 0 0 0 0
 0
-0.000000 1000.000000 -1000.000000 1422.220000 10000 20 0 0 0 0 0 0 1 deg
+0.002109 1000.000000 -1000.000000 1422.220000 10000 20 0 0 0 0 0 0 1 deg
 
 beamstop_location
 2
@@ -1533,6 +1533,12 @@ self beamstop_location
 1
 1.000000 2.000000 1.000000 0 0 0 0 deg
 beamstop_horz
+
+beamstopInOut
+11
+self beamstopInOut
+1 1 1 1 1
+0 1 1 1 1
 
 beamstop_z
 1
@@ -2360,7 +2366,7 @@ run1
 self runDefinition
 0 1 1 1 1
 0 1 1 1 1
-paused 0 1 test-64bits-p2-p04s /storage/hf4m/19id/09-05-2018 1 Phi 335.059300 407.0593 0.20 360.0 0.04 800.000000 15.000000 50 1 12657.614278 {} {} {} {} 0 0
+inactive 0 1 test-64bits-p2d-p04s-1 /storage/hf4m/19id/09-06-2018 1 Phi 335.059300 337.0593 0.20 360.0 0.05 800.000000 15.000000 50 1 12657.614278 {} {} {} {} 0 0
 
 run2
 13
@@ -2833,7 +2839,7 @@ hutchDoorStatus
 simDhs standardString
 0 1 1 1 1
 0 1 1 1 1
-closed 1536260761
+closed 1536346728
 
 getEPICSPV
 11
@@ -2920,7 +2926,7 @@ keithley_reading
 epics_gateway XF:19ID1-BI:NYX{Keith:1}readFloat
 0 1 1 1 1
 0 1 1 1 1
--2.969653e-07
+-2.967372e-07
 
 dose_const
 13
@@ -3002,7 +3008,7 @@ run_time_estimates
 self standardString
 1 1 1 1 1
 0 1 1 1 1
-2 00:24:14 00:00:08 00:00:17 02:24:00 02:24:00 00:03:00 00:03:00 00:03:00 00:01:12 00:36:00 00:18:00 00:18:00 00:18:00 00:18:00 00:18:00 00:00:10
+2 00:00:41 00:00:08 00:00:17 02:24:00 02:24:00 00:03:00 00:03:00 00:03:00 00:01:12 00:36:00 00:18:00 00:18:00 00:18:00 00:18:00 00:18:00 00:00:10
 
 table_property
 13
@@ -3528,7 +3534,7 @@ detector_status
 self standardString
 0 1 1 1 1
 0 1 1 1 1
-Detector Error
+Detector Ready
 
 cassette_owner
 13
@@ -3917,27 +3923,27 @@ self userNotify
 epics_gateway LIBERA03:SA:SA_X_MONITOR
 1 1 1 1 1
 1 1 1 1 1
--732956
+-1021038
 
 2_0_sa_y_mon
 13
 epics_gateway LIBERA03:SA:SA_Y_MONITOR
 1 1 1 1 1
 1 1 1 1 1
--1210356
+-1263274
 
 1_0_sa_x_mon
 13
 epics_gateway LIBERA02:SA:SA_X_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-353753
+165662
 
 1_0_sa_y_mon
 13
 epics_gateway LIBERA02:SA:SA_Y_MONITOR
 1 1 1 1 1
 1 1 1 1 1
--452336
+-82710
 
 END

@@ -1,20 +1,23 @@
-beamstopInOut_initialize {} {
+proc beamstopInOut_initialize {} {
 
 }
 
-beamstopInOut_start {} {
+proc beamstopInOut_start {} {
 
 	global gDevice
-	variable beamstop_horz
-	set p [abs($gDevice(beamstop_horz,scaled)]
-	puts "the beamstop_horz = $p"
+	variable beamstop_angle
+	#puts "the beamstop_angle = $gDevice(beamstop_angle,scaled)"
+	set p [expr abs($gDevice(beamstop_angle,scaled))-90]
+	puts "the beamstop_angle = $p"
 
-	if { abs($gDevice(beamstop_horz,scaled)  < 2 } {
-		#move horz beamstop to 57.93 mm
-		move beamstop_horz to 57.93 mm
+	if { abs([expr $gDevice(beamstop_angle,scaled)-90])  < 0.1 } {
+		#rotate beamstop 90 degree
+		puts "move by -90"
+		move beamstop_angle by -90 deg
 	       	# 	log_error kappa must be zero to run auto_sample_data
         	#	return 0
     	} else {
-		move beamstop_horz to 0 mm
+		puts "move by 90"
+		move beamstop_angle by 90 deg
 	}
 }
