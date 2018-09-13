@@ -52,28 +52,25 @@ class DCS::GonioMotionsWidget {
                 motorView yaw 300 130 sw
 		motorView sample_vert 125 190 sw
 		motorView sample_optic_vert 300 190 sw
-		motorView beamstop_vert 125 280 sw 
-		motorView beamstop_horz 300 280 sw 
-		motorView beamstop_vert_offset 125 340 sw
-		motorView beamstop_angle 300 340 sw
+		motorView beamstop_vert 125 250 sw 
+		motorView beamstop_vert_offset 300 250 sw
+		motorView beamstop_horz 125 310 sw 
+		motorView beamstop_angle 300 310 sw
+		motorView beamstop_location 300 370 sw
 
-#		 itk_component add unit1 {
-#                 
-#                 	label $itk_component(canvas).unit1 \
-#                      		-text "Num" \
-#                      		-relief flat \
-#                      		-width 3 \
-#                  } {
-#                           keep -foreground
-#                  }
+		 itk_component add unit1 {
+                 
+                 	label $itk_component(canvas).unit1 \
+                      		-text "Num" \
+                      		-relief flat \
+                      		-width 3 \
+                  } {
+                           keep -foreground
+                  }
 
 		  itk_component add pos {
-                 	label $itk_component(canvas).pos \
-                     		-text "Set beamstop_angle\n \
-				       to 20.92 at sample\n \
-				       position after align\n\n \
-				       bmstop_vert_offset\n \
-				       can be moved/reset\n" \
+                  	label $itk_component(canvas).pos \
+                      		-text "1:Beam Position\n2:Load sample\n3:Yag on Beam" \
                       		-relief flat \
                       		-width 15 
                   } {
@@ -83,11 +80,11 @@ class DCS::GonioMotionsWidget {
                 # draw the table
                 #rect_solid 180 120 250 20 40 60 40
 
-#		place $itk_component(unit1) -x 395 -y 365 -anchor sw
-		place $itk_component(pos) -x 445 -y 375 -anchor sw
+		place $itk_component(unit1) -x 395 -y 365 -anchor sw
+		place $itk_component(pos) -x 440 -y 375 -anchor sw
 
                 eval itk_initialize $args
-                $itk_component(canvas) configure -width 610 -height 460
+                $itk_component(canvas) configure -width 580 -height 460
 
                 configure -serialMove 1
         }

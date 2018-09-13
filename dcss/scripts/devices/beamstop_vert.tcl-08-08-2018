@@ -1,5 +1,5 @@
 # beamstop_vert.tcl
-# beamstop_vert = beamstop_vert_offset + l x cos(beamstop_angle)
+
 
 proc beamstop_vert_initialize {} {
 	
@@ -15,17 +15,17 @@ proc beamstop_vert_move { new_beamstop_vert } {
 	variable beamstop_vert_offset
 
 	# move beamstop_angle
-	move beamstop_vert_offset to [beamstop_vert_calculate $new_beamstop_vert] 
+	move beamstop_angle to [beamstop_vert_calculate $new_beamstop_vert] 
 
 	# wait for the moves to complete
-	wait_for_devices beamstop_vert_offset
+	wait_for_devices beamstop_angle
 }
 
 
 proc beamstop_vert_set { new_beamstop_vert} {
 
-	set beamstop_vert $new_beamstop_vert
-        set beamstop_vert_offset [expr $new_beamstop_vert - ($l*cos($beamstop_angle*3.14159/180))]
+	# global variables
+        set beamstop_angle [beamstop_vert_calculate $new_beamstop_vert]
 }
 
 
@@ -42,9 +42,9 @@ proc beamstop_vert_update {} {
 
 proc beamstop_vert_calculate { y } {
 
-	variable beamstop_angle
+	variable beamstop_vert_offset
 
 	#l is the rotation radiu
 	set l 57.93
-	return [expr $y - $l*cos($beamstop_angle*3.14159/180)]
+	return [expr (acos(($y-$beamstop_vert_offset)/$l)*180/3.14159)]
 }

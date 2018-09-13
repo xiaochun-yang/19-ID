@@ -127,14 +127,8 @@ class LoadButton2 {
 
         inherit DCS::Button
         public method handleStart
-	private variable m_operation1
-	private variable m_operation2
 
         constructor { args} {
-		set m_deviceFactory [DCS::DeviceFactory::getObject]
-                set m_operation1 [$m_deviceFactory createOperation beamstopIn]
-                set m_operation2 [$m_deviceFactory createOperation beamstopOut]
-
                 eval itk_initialize $args
                 configure -command "$this handleStart"
 
@@ -148,15 +142,13 @@ body LoadButton2::handleStart {} {
         set text [.pw.pane0.childsite.bluice.n.canvas.notebook.cs.page1.cs.h.hutch.c.load2 cget -text]
         if {$text == "Beamstop/In"} {
                 set text "Beamstop/Out"
-	#      	::device::beamstop_angle move by -90 deg
-     	#	wait_for_devices ::device::beamstop_angle
-		$m_operation1 startOperation
+	       	::device::beamstop_horz move to 0 mm
+     	#	wait_for_devices ::device::beamstop_horz
 
         } else {
-	#      	::device::beamstop_angle move by 90 deg
+	       	::device::beamstop_horz move to 57.93 mm
      	#	wait_for_devices ::device::beamstop_horz
                 set text "Beamstop/In"
-		$m_operation2 startOperation
         }
         .pw.pane0.childsite.bluice.n.canvas.notebook.cs.page1.cs.h.hutch.c.load2 configure -text $text
 }
