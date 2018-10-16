@@ -112,7 +112,6 @@ class LoadButton3 {
 
                 eval itk_initialize $args
                 configure -command "$this handleStart"
-
 		addInput "$m_opBpm status inactive {BPM Optimization is runing}"
                 #announceExist
         }
@@ -443,7 +442,7 @@ class DCS::HutchOverview {
                                  -font "courier -14 bold"\
                                  -width 11 \
                                  -background #c0c0ff \
-                                 -activebackground #c0c0ff
+                                 -activebackground #c0c0ff 
                    } {
                            keep -foreground
                    }
@@ -456,7 +455,8 @@ class DCS::HutchOverview {
                                  -font "courier -14 bold"\
                                  -width 12 \
                                  -background #c0c0ff \
-                                 -activebackground #c0c0ff
+                                 -activebackground #c0c0ff \
+				 -state disabled 
                    } {
                            keep -foreground
                    }

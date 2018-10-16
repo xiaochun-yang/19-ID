@@ -118,28 +118,28 @@ analogInStatus10
 galil10 analogInStatus10
 0 1 1 1 1
 0 1 1 1 1
-17.709200 17.558901 16.236000 24.504299 13.439800 15.394100 253.070496 254.393494
+17.528799 17.378500 15.935300 24.504299 12.988800 15.063400 254.423492 253.070496
 
 analogInStatus7
 13
 galil7 analogInStatus7
 0 1 1 1 1
 0 1 1 1 1
-3.869900 3.679400 0.009200 2.577200 3.433700 2.575400 2.574800 2.576900
+3.871000 3.676100 0.004700 2.576000 3.437000 2.576000 2.574200 2.576600
 
 analogInStatus2
 13
 galil2 analogInStatus2
 0 1 1 1 1
 0 1 1 1 1
-0.108100 2.577600 2.575100 2.575600 2.944100 2.575500 2.576400 2.576000
+-0.199800 2.575300 2.574700 2.576600 2.943700 2.575500 2.575600 2.576900
 
 analogInStatus3
 13
 galil3 analogInStatus3
 0 1 1 1 1
 0 1 1 1 1
-2.565500 2.577900 2.579200 2.578000 2.947600 2.578100 2.578400 2.578400
+2.569200 2.578300 2.577900 2.578000 2.946400 2.578500 2.578500 2.579100
 
 get_robotstate
 11
@@ -417,7 +417,7 @@ self undulator_gap
 0 1 1 1 1
 0 0 0 0 0
 0
-18499.965000 20400.000000 5590.000000 1 1 0 0 mm
+18500.945000 20400.000000 5590.000000 1 1 0 0 mm
 0
 
 gap
@@ -425,7 +425,7 @@ gap
 epics_gateway SR:C19-ID:G1A{NYX:1-Ax:Gap}-Mtr.RBV
 1 1 1 1 1
 0 0 0 0 0
-18499.965
+18499.48
 
 gapRequest
 13
@@ -522,7 +522,7 @@ galil5 detector_z
 0 1 1 1 1
 0 0 0 0 0
 0
-800.000000 1000.000000 219.000000 19991.000000 50000 100 8000 1 1 0 0 0 0 mm
+400.000000 1000.000000 219.000000 19991.000000 50000 100 8000 1 1 0 0 0 0 mm
 
 table_vert
 2
@@ -704,7 +704,7 @@ mirror_bend_1 mirror_bend_2
 
 screen_1
 6
-galil8 1 screen_1
+galil8 0 screen_1
 0 1 1 1 1
 0 1 1 1 1
 
@@ -726,7 +726,7 @@ galil8 mirror_slit_upper
 0 1 1 1 1
 0 0 0 0 0
 0
-4.400100 11.000000 -10.000000 10000.000000 5000 50 0 1 1 0 0 0 0 mm
+4.800100 11.000000 -10.000000 10000.000000 5000 50 0 1 1 0 0 0 0 mm
 
 mirror_slit_lower
 1
@@ -734,7 +734,7 @@ galil8 mirror_slit_lower
 0 1 1 1 1
 0 0 0 0 0
 0
-2.799700 10.000000 -10.000000 10000.000000 5000 50 0 1 1 0 0 0 0 mm
+3.897600 10.000000 -10.000000 10000.000000 5000 50 0 1 1 0 0 0 0 mm
 
 mirror_slit_lobs
 1
@@ -742,7 +742,7 @@ galil8 mirror_slit_lobs
 0 1 1 1 1
 0 0 0 0 0
 0
--1.701100 10.000000 -9.700000 10000.000000 5000 100 0 1 1 0 0 0 0 mm
+-2.400100 10.000000 -9.700000 10000.000000 5000 100 0 1 1 0 0 0 0 mm
 
 mirror_slit_ring
 1
@@ -750,7 +750,7 @@ galil8 mirror_slit_ring
 0 1 1 1 1
 0 0 0 0 0
 0
--0.697300 10.000000 -9.500000 10000.000000 5000 100 0 1 1 0 0 0 0 mm
+-0.096900 10.000000 -9.500000 10000.000000 5000 100 0 1 1 0 0 0 0 mm
 
 mirror_slit_horiz
 2
@@ -758,7 +758,7 @@ self STDSLIT_HORIZ
 0 1 1 1 1
 0 0 0 0 0
 1
--1.199200 10.000000 -10.000000 0 0 0 0 mm
+-1.248500 10.000000 -10.000000 0 0 0 0 mm
 mirror_slit_lobs mirror_slit_ring
 
 mirror_slit_horiz_gap
@@ -767,7 +767,7 @@ self STDSLIT_HORIZ_GAP
 0 1 1 1 1
 0 0 0 0 0
 1
-1.003800 5.000000 -5.000000 0 0 0 0 mm
+2.303200 5.000000 -5.000000 0 0 0 0 mm
 mirror_slit_lobs mirror_slit_ring
 
 mirror_slit_vert
@@ -776,7 +776,7 @@ self STDSLIT_VERT
 0 1 1 1 1
 0 0 0 0 0
 1
-3.599900 10.000000 -10.000000 0 0 0 0 mm
+4.348850 10.000000 -10.000000 0 0 0 0 mm
 mirror_slit_upper mirror_slit_lower
 
 mirror_slit_vert_gap
@@ -785,7 +785,7 @@ self STDSLIT_VERT_GAP
 0 1 1 1 1
 0 0 0 0 0
 1
-1.600400 20.000000 -20.000000 0 0 0 0 mm
+0.902500 20.000000 -20.000000 0 0 0 0 mm
 mirror_slit_upper mirror_slit_lower
 
 toroid_vert
@@ -826,7 +826,7 @@ galil10 mono_c2_perp
 0 1 1 1 1
 0 0 0 0 0
 0
-5.064750 20.000000 2.300000 20000.000000 8000 50 50 1 1 0 0 0 0 mm
+5.299950 20.000000 2.300000 20000.000000 8000 50 50 1 1 0 0 0 0 mm
 
 mono_c2_para
 1
@@ -893,7 +893,7 @@ galil10 mono_c2_pitch
 0 1 1 1 1
 0 0 0 0 0
 0
--0.006098 21.500000 -5.620000 2460.000000 500 50 0 0 0 0 0 0 0 mrad
+-0.047154 21.500000 -5.620000 2460.000000 500 50 0 0 0 0 0 0 0 mrad
 
 mono_c2_roll
 1
@@ -944,7 +944,7 @@ galil9 mono_angle
 0 1 1 1 1
 0 0 0 0 0
 0
-14.986188 40.000000 0.000000 1000000.000000 100000 50 0 0 0 0 0 0 0 deg
+14.988022 40.000000 0.000000 1000000.000000 100000 50 0 0 0 0 0 0 0 deg
 
 mono_angle_offset
 2
@@ -961,7 +961,7 @@ self mono_theta
 0 1 1 1 1
 0 0 0 0 0
 1
-8.986188 16.750000 6.350000 0 0 0 0 deg
+8.988022 16.750000 6.350000 0 0 0 0 deg
 mono_angle
 
 energy
@@ -970,7 +970,7 @@ self energy_id19
 0 1 1 1 1
 0 0 0 0 0
 0
-12657.614278 16000.000000 5400.000000 0 0 0 0 eV
+12655.052714 16000.000000 5400.000000 0 0 0 0 eV
 0
 
 rio47_mono_piezo
@@ -1026,7 +1026,7 @@ galil11 white_beam_mask_x
 0 1 1 1 1
 0 0 0 0 0
 0
--0.800000 1.100000 -1.200000 320000.000000 100000 50 0 1 1 0 0 0 0 mm
+0.000000 1.020000 -1.120000 320000.000000 100000 50 0 1 1 0 0 0 0 mm
 
 white_beam_mask_y
 1
@@ -1034,7 +1034,7 @@ galil11 white_beam_mask_y
 0 1 1 1 1
 0 0 0 0 0
 0
--1.399875 1.400000 -1.400000 554256.000000 100000 50 0 0 0 0 0 0 0 mm
+0.000000 0.620000 -1.020000 554256.000000 100000 50 0 0 0 0 0 0 0 mm
 
 white_beam_slit_upper
 1
@@ -1042,7 +1042,7 @@ galil11 white_beam_slit_upper
 0 1 1 1 1
 0 0 0 0 0
 0
--0.400300 5.000000 -4.400000 10000.000000 2000 50 0 1 1 0 0 0 0 mm
+-0.542000 5.000000 -4.400000 10000.000000 2000 50 0 1 1 0 0 0 0 mm
 
 white_beam_slit_lower
 1
@@ -1050,7 +1050,7 @@ galil11 white_beam_slit_lower
 0 1 1 1 1
 0 0 0 0 0
 0
--2.499500 4.100000 -4.100000 10000.000000 2000 50 0 1 1 0 0 0 0 mm
+-2.449600 4.100000 -4.100000 10000.000000 2000 50 0 1 1 0 0 0 0 mm
 
 white_beam_slit_vert
 2
@@ -1058,7 +1058,7 @@ self STDSLIT_VERT
 0 1 1 1 1
 0 0 0 0 0
 1
--1.449900 10.000000 -10.000000 0 0 0 0 mm
+-1.495800 10.000000 -10.000000 0 0 0 0 mm
 white_beam_slit_upper white_beam_slit_lower
 
 white_beam_slit_vert_gap
@@ -1067,7 +1067,7 @@ self STDSLIT_VERT_GAP
 0 1 1 1 1
 0 0 0 0 0
 1
-2.099200 20.000000 -20.000000 0 0 0 0 mm
+1.907600 20.000000 -20.000000 0 0 0 0 mm
 white_beam_slit_upper white_beam_slit_lower
 
 1dummy-motor
@@ -1229,7 +1229,7 @@ galil1 sample_camera_vert
 0 1 1 1 1
 0 0 0 1 1
 0
-1.460000 22.000000 0.000000 12800.000000 10000 100 0 0 0 0 0 0 0 mm
+1.539453 22.000000 0.000000 12800.000000 10000 100 0 0 0 0 0 0 0 mm
 
 sample_camera_horz
 1
@@ -1237,7 +1237,7 @@ galil1 sample_camera_horz
 0 1 1 1 1
 0 0 0 1 1
 0
-22.705078 25.000000 -1.000000 12800.000000 10000 50 0 1 1 0 0 0 0 mm
+22.656250 25.000000 -1.000000 12800.000000 10000 50 0 1 1 0 0 0 0 mm
 
 sample_camera_focus
 1
@@ -1297,7 +1297,7 @@ galil1 inline_camera_horz
 0 1 1 1 1
 0 0 0 1 1
 0
--1.276406 7.000000 -17.000000 12800.000000 10000 100 0 1 1 0 0 0 0 mm
+-3.445547 7.000000 -17.000000 12800.000000 10000 100 0 1 1 0 0 0 0 mm
 
 inline_camera_vert
 1
@@ -1305,7 +1305,7 @@ galil1 inline_camera_vert
 0 1 1 1 1
 0 0 0 1 1
 0
--1.877031 8.000000 -12.000000 12800.000000 10000 100 0 1 1 0 0 0 0 mm
+-1.776094 8.000000 -12.000000 12800.000000 10000 100 0 1 1 0 0 0 0 mm
 
 inline_camera_focus
 1
@@ -1333,7 +1333,7 @@ simDhs sample_camera_polarizer
 
 inline_light_in
 6
-galil1 0 inline_light_in
+galil1 1 inline_light_in
 0 1 1 1 1
 0 1 1 1 1
 
@@ -1392,7 +1392,7 @@ galil1 sample_z
 0 1 1 1 1
 0 1 1 1 1
 0
-1.429875 13.000000 -13.000000 20157.000000 10000 50 0 0 0 0 0 0 0 mm
+0.907498 13.000000 -13.000000 20151.000000 10000 50 0 0 0 0 0 0 0 mm
 
 gonio_kappa
 1
@@ -1416,7 +1416,7 @@ galil2 gonio_phi
 0 1 1 1 1
 0 1 1 1 1
 0
-335.059300 1000.000000 -1000.000000 10000.000000 900000 100 0 0 0 0 0 0 1 deg
+10.038400 1000.000000 -1000.000000 10000.000000 900000 100 0 0 0 0 0 0 1 deg
 
 sample_optic_vert
 2
@@ -1424,7 +1424,7 @@ self sample_optic_vert
 0 1 1 1 1
 0 0 0 0 0
 1
--2.900400 2.000000 1.000000 0 0 0 0 mm
+0.260000 2.000000 1.000000 0 0 0 0 mm
 optic_vert sample_vert
 
 simu_vert
@@ -1441,7 +1441,7 @@ galil2 sample_vert
 0 1 1 1 1
 0 1 1 1 1
 0
-12.603000 45.000000 -36.000000 20000.000000 20000 50 0 0 0 0 0 0 0 mm
+0.137750 45.000000 -36.000000 20000.000000 20000 50 0 0 0 0 0 0 0 mm
 
 optic_vert
 1
@@ -1449,7 +1449,7 @@ galil2 optic_vert
 0 1 1 1 1
 0 1 1 1 1
 0
--2.900400 44.000000 -45.000000 20000.000000 20000 50 0 1 1 0 0 0 0 mm
+0.260000 44.000000 -45.000000 20000.000000 20000 50 0 1 1 0 0 0 0 mm
 
 optic_horz
 1
@@ -1457,7 +1457,7 @@ galil2 optic_horz
 0 1 1 1 1
 0 1 1 1 1
 0
-0.800000 25.000000 -37.000000 12800.000000 10000 50 0 1 1 0 0 0 0 mm
+0.700313 25.000000 -37.000000 12800.000000 10000 50 0 1 1 0 0 0 0 mm
 
 sample_x
 1
@@ -1465,7 +1465,7 @@ galil2 sample_x
 0 1 1 1 1
 0 1 1 1 1
 0
-0.077813 6.000000 -6.000000 12800.000000 10000 50 0 0 0 0 0 0 0 mm
+-0.255078 6.000000 -6.000000 12800.000000 10000 50 0 0 0 0 0 0 0 mm
 
 sample_y
 1
@@ -1473,7 +1473,7 @@ galil2 sample_y
 0 1 1 1 1
 0 1 1 1 1
 0
-0.175703 7.000000 -6.000000 12800.000000 10000 50 0 0 0 0 0 1 0 mm
+-1.306094 7.000000 -6.000000 12800.000000 10000 50 0 0 0 0 0 1 0 mm
 
 pitch
 1
@@ -1481,7 +1481,7 @@ galil2 pitch
 0 1 1 1 1
 0 1 1 1 0
 0
--0.382012 1.000000 -10.000000 30075.000000 15000 50 0 1 0 0 0 0 0 deg
+-0.600000 1.000000 -10.000000 30075.000000 15000 50 0 1 0 0 0 0 0 deg
 
 yaw
 1
@@ -1489,7 +1489,7 @@ galil2 yaw
 0 1 1 1 1
 0 1 1 1 1
 0
--0.144003 2.800000 -3.600000 71047.000000 30000 100 0 1 1 0 0 0 0 deg
+-0.160007 2.800000 -3.600000 71047.000000 30000 100 0 1 1 0 0 0 0 deg
 
 beamstop_horz
 2
@@ -1506,7 +1506,7 @@ self beamstop_vert
 0 1 1 1 1
 0 0 0 0 0
 1
-54.111214 2.000000 1.000000 0 0 0 0 mm
+54.511285 2.000000 1.000000 0 0 0 0 mm
 beamstop_angle beamstop_vert_offset
 
 beamstop_vert_offset
@@ -1515,7 +1515,7 @@ galil3 beamstop_vert_offset
 0 1 1 1 1
 0 0 0 0 0
 0
-0.000000 1000.000000 -1000.000000 41995.000000 40000 10 0 0 0 0 0 0 0 mm
+0.400071 1000.000000 -1000.000000 41995.000000 40000 10 0 0 0 0 0 0 0 mm
 
 beamstop_angle
 1
@@ -1552,7 +1552,7 @@ galil3 beamstop_z
 0 1 1 1 1
 0 0 1 1 1
 0
-15.000000 1000.000000 -1000.000000 6400.000000 6000 10 0 0 0 0 0 0 0 mm
+30.000000 1000.000000 -1000.000000 6400.000000 6000 10 0 0 0 0 0 0 0 mm
 
 beam
 2
@@ -2223,7 +2223,7 @@ galil3 slit_0_upper
 0 1 1 1 1
 0 1 1 1 1
 0
-57.499496 60.000000 -60.000000 600.527000 500 50 0 0 0 0 0 0 1 deg
+52.998450 60.000000 -60.000000 600.527000 500 50 0 0 0 0 0 0 1 deg
 
 slit_0_lower
 1
@@ -2231,7 +2231,7 @@ galil3 slit_0_lower
 0 1 1 1 1
 0 1 1 1 1
 0
-55.497921 60.000000 -60.000000 600.527000 500 50 0 0 0 0 0 0 1 deg
+105.001107 60.000000 -60.000000 600.527000 500 50 0 0 0 0 0 0 1 deg
 
 slit_0_lobs
 1
@@ -2239,7 +2239,7 @@ galil3 slit_0_lobs
 0 1 1 1 1
 0 1 1 1 1
 0
-50.505185 60.000000 -60.000000 600.572000 500 50 0 0 0 0 0 0 1 deg
+150.008658 60.000000 -60.000000 600.572000 500 50 0 0 0 0 0 0 1 deg
 
 slit_0_ring
 1
@@ -2247,7 +2247,7 @@ galil3 slit_0_ring
 0 1 1 1 1
 0 1 1 1 1
 0
-46.462373 60.000000 -60.000000 600.572000 500 50 0 0 0 0 0 0 1 deg
+5.001898 60.000000 -60.000000 600.572000 500 50 0 0 0 0 0 0 1 deg
 
 beam_size_x
 2
@@ -2255,7 +2255,7 @@ self beam_size_x_id19
 0 1 1 1 1
 0 1 1 1 1
 1
-0.649678 2.000000 0.000000 0 0 0 0 mm
+-1.739818 2.000000 0.000000 0 0 0 0 mm
 slit_0_ring slit_0_lobs
 
 slit_pos_x
@@ -2264,7 +2264,7 @@ self slit_pos_x_id19
 0 1 1 1 1
 0 1 1 1 1
 1
-0.052822 2.000000 0.000000 0 0 0 0 mm
+1.862293 2.000000 0.000000 0 0 0 0 mm
 slit_0_ring slit_0_lobs
 
 beam_size_y
@@ -2273,7 +2273,7 @@ self beam_size_y_id19
 0 1 1 1 1
 0 1 1 1 1
 1
-0.207486 2.000000 0.000000 0 0 0 0 mm
+-1.314002 2.000000 0.000000 0 0 0 0 mm
 slit_0_upper slit_0_lower
 
 slit_pos_y
@@ -2282,7 +2282,7 @@ self slit_pos_y_id19
 0 1 1 1 1
 0 1 1 1 1
 1
--0.029129 2.000000 0.000000 0 0 0 0 mm
+0.860674 2.000000 0.000000 0 0 0 0 mm
 slit_0_upper slit_0_lower
 
 camera_zoom
@@ -2351,7 +2351,7 @@ collect_msg
 self collectStatus
 0 1 1 1 1
 0 1 1 1 1
-0 {DCSS was reset.} 0 {} {} {} {}
+0 {Data collection completed normally} 6 19-ID nysbc {} 1
 
 runs
 13
@@ -2372,7 +2372,7 @@ run1
 self runDefinition
 0 1 1 1 1
 0 1 1 1 1
-inactive 0 1 test-64bits-p2d-p04s-1 /storage/hf4m/19id/09-06-2018 1 Phi 335.059300 337.0593 0.20 360.0 0.05 800.000000 15.000000 50 1 12657.614278 {} {} {} {} 0 0
+inactive 0 1 test-bs-4 /storage/hf4m/19id/10-16-2018 1 Phi 0.00 10.0 0.10 360.0 0.03 400.000 30.000000 50 1 12655.053 0.0 0.0 0.0 0.0 0 0
 
 run2
 13
@@ -2755,7 +2755,7 @@ self attenuation
 0 1 1 1 1
 0 1 1 1 1
 0
-49.870458 100.000000 0.000000 0 0 0 0 %
+49.890458 100.000000 0.000000 0 0 0 0 %
 0
 
 acquireSpectrum
@@ -2845,7 +2845,7 @@ hutchDoorStatus
 simDhs standardString
 0 1 1 1 1
 0 1 1 1 1
-closed 1536346728
+closed 1539718282
 
 getEPICSPV
 11
@@ -2883,56 +2883,56 @@ cam1_stats1_max
 epics_gateway XF:19ID-BI{Cam:1}Stats1:MaxValue_RBV
 0 1 1 1 1
 0 1 1 1 1
-0
+1819
 
 cam1_stats1_total
 13
 epics_gateway XF:19ID-BI{Cam:1}Stats1:Total_RBV
 0 1 1 1 1
 0 1 1 1 1
-0
+5982332
 
 cam2_stats1_max
 13
 epics_gateway XF:19ID-BI{Cam:2}Stats1:MaxValue_RBV
 0 1 1 1 1
 0 1 1 1 1
-0
+3270
 
 cam2_stats1_total
 13
 epics_gateway XF:19ID-BI{Cam:2}Stats1:Total_RBV
 0 1 1 1 1
 0 1 1 1 1
-0
+6256303
 
 cam3_stats1_max
 13
 epics_gateway XF:19ID-BI{Cam:3}Stats1:MaxValue_RBV
 0 1 1 1 1
 0 1 1 1 1
-0
+2526
 
 cam3_stats1_total
 13
 epics_gateway XF:19ID-BI{Cam:3}Stats1:Total_RBV
 0 1 1 1 1
 0 1 1 1 1
-0
+1168995
 
 cam4_stats1_total
 13
 epics_gateway XF:19ID-BI{Cam:4}Stats1:Total_RBV
 0 1 1 1 1
 0 1 1 1 1
-0
+409730
 
 keithley_reading
 13
 epics_gateway XF:19ID1-BI:NYX{Keith:1}readFloat
 0 1 1 1 1
 0 1 1 1 1
--2.967372e-07
+1.003227e-13
 
 dose_const
 13
@@ -3014,7 +3014,7 @@ run_time_estimates
 self standardString
 1 1 1 1 1
 0 1 1 1 1
-2 00:00:41 00:00:08 00:00:17 02:24:00 02:24:00 00:03:00 00:03:00 00:03:00 00:01:12 00:36:00 00:18:00 00:18:00 00:18:00 00:18:00 00:18:00 00:00:10
+2 00:06:43 00:00:08 00:00:17 02:24:00 02:24:00 00:03:00 00:03:00 00:03:00 00:01:12 00:36:00 00:18:00 00:18:00 00:18:00 00:18:00 00:18:00 00:00:10
 
 table_property
 13
@@ -3223,7 +3223,7 @@ scan_motor_status
 self standardString
 0 1 1 1 1
 0 1 1 1 1
-/home/nysbc/19-ID_430.scan {221 of 221}
+/home/nysbc/19-ID_033.scan {6 of 6}
 
 sic0
 4
@@ -3554,7 +3554,7 @@ system_status
 self systemStatus
 1 1 1 1 1
 0 0 0 0 0
-{detector offline} black red
+{some energy conponents disabled} black #00a040
 
 scan_msg
 13
@@ -3890,7 +3890,7 @@ detectorStatus
 etector detectorStatus
 0 1 1 1 1
 0 1 1 1 1
-TEMP0 -99.0 TEMP1 -99.0 TEMP2 -99.0 HUMID0 -99.0 HUMID1 -99.0 HUMID2 -99.0 GAPFILL -1 EXPOSUREMODE null DISK_SIZE_KB 0 DISK_USED_KB 0 DISK_USE_PERCENT 75 FREE_IMAGE_SPACE 0 SUM_IMAGES false SUM_IMAGES_DELTA_DEG 0.1 N_FRAME_IMG 1 THRESHOLD 6329 GAIN lowg THRESHOLD_SET false SETTING_THRESHOLD false
+TEMP0 -99.0 TEMP1 -99.0 TEMP2 -99.0 HUMID0 -99.0 HUMID1 -99.0 HUMID2 -99.0 GAPFILL -1 EXPOSUREMODE null DISK_SIZE_KB 0 DISK_USED_KB 0 DISK_USE_PERCENT 80 FREE_IMAGE_SPACE 0 SUM_IMAGES false SUM_IMAGES_DELTA_DEG 0.1 N_FRAME_IMG 1 THRESHOLD 6329 GAIN lowg THRESHOLD_SET false SETTING_THRESHOLD false
 
 detectorSetThreshold
 11
@@ -3929,27 +3929,27 @@ self userNotify
 epics_gateway LIBERA03:SA:SA_X_MONITOR
 1 1 1 1 1
 1 1 1 1 1
--1021038
+-68990
 
 2_0_sa_y_mon
 13
 epics_gateway LIBERA03:SA:SA_Y_MONITOR
 1 1 1 1 1
 1 1 1 1 1
--1263274
+-16873
 
 1_0_sa_x_mon
 13
 epics_gateway LIBERA02:SA:SA_X_MONITOR
 1 1 1 1 1
 1 1 1 1 1
-165662
+72172
 
 1_0_sa_y_mon
 13
 epics_gateway LIBERA02:SA:SA_Y_MONITOR
 1 1 1 1 1
 1 1 1 1 1
--82710
+-133025
 
 END

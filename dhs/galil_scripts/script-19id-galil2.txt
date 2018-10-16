@@ -501,6 +501,11 @@ MC~a
 MG{EF} "log_info In ready position"
 //enable the output compare trigger that goes to the detector, the script won't do anything with it.
 //OCH=0,OcDir
+//Trigger before the motion start due to it take long time for 
+//detector to setup
+//This is for large number of frames
+CB Trigger
+WT 70
 SP~a=ExpVel
 PA~a=OverPos
 BG~a
@@ -510,9 +515,9 @@ MG{EF} "log_info Forward motor Time",TIME
 JP #WtFw1, _TP~a < ShutOpen
 //open the shutter
 SB ShutCh
-//wait 10 millsec and trigger detector
-WT 10
-CB Trigger
+//This is for small number of frames. wait 10 millsec and trigger detector
+//WT 10
+//CB Trigger
 MG{EF} "log_info Fw1 Trigger on Time",TIME
 JP #Cont1
 #WtRv1    //reverse direction
