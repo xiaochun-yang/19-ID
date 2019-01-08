@@ -300,7 +300,7 @@ BOOL RobotControls::ConnectRobotServer()
 	close(sockfd);
 
 	address.sin_family = AF_INET;
-	address.sin_addr.s_addr = inet_addr("192.168.1.40");
+	address.sin_addr.s_addr = inet_addr("10.19.2.40");
 	//address.sin_addr.s_addr = inet_addr("130.199.198.72");
 	address.sin_port = htons(5002);
 

@@ -537,10 +537,10 @@ class DoubleCrystalMonoViewDoubleSetID19 {
 
         motorView mono_c2_para 510 80 ne
         motorView mono_c2_perp 670 80 ne
-	motorView mono_c2_bend_1 50 140 nw
-	motorView mono_c2_bend_2 185 140 nw
+	motorView mono_c2_bend_1 50 145 nw
+	motorView mono_c2_bend_2 185 145 nw
 	motorView mono_c2_bend 185 80 nw
-	motorView mono_c1_bend 50 200 nw
+	motorView mono_c1_bend 50 220 nw
 	motorView mono_c2_pitch 690 300 se
         motorView mono_c2_roll  690 370 se
 	motorView mono_c2_yaw   690 440 se
@@ -634,7 +634,7 @@ class DoubleCrystalMonoViewDoubleSetID19 {
 	place $itk_component(temp0) -x 695 -y 270 -anchor se
 	place $itk_component(temp1) -x 695 -y 337 -anchor se
 	place $itk_component(temp2) -x 525 -y 100 -anchor se
-	place $itk_component(temp3) -x 195 -y 220 -anchor se
+	place $itk_component(temp3) -x 195 -y 230 -anchor se
 	place $itk_component(temp4) -x 335 -y 160 -anchor se
         place $itk_component(temp5) -x 695 -y 410 -anchor se
 

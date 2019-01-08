@@ -13,6 +13,7 @@ proc slit_pos_x_move { new_slit_pos_x } {
 
 	global gDevice
 	variable beam_size_x
+	puts "slit_pos  beam_size_x=$beam_size_x"
   
 	# calculate new positions of the two motors
 	set new_slit_0_ring [slit_0_ring_calculate_p $new_slit_pos_x $gDevice(beam_size_x,target)]
@@ -61,10 +62,19 @@ proc slit_pos_x_calculate { ring lobs } {
 
 proc slit_0_ring_calculate_p { pos size } {
 
+    set a [expr ($size/4+0.5+$pos/2)]
+    puts "slit_pos a=$a"
+    set b [expr (acos($size/4+0.5+$pos/2)*180/3.1415926)]
+    puts "slit_pos b=$b"	
     return [expr (acos($size/4+0.5+$pos/2)*180/3.1415926)]
 }
 
 proc slit_0_lobs_calculate_p { pos size } {
+
+    set a [expr ($size/4+0.5-$pos/2)]
+    puts "slit_pos a=$a"
+    set b [expr (acos($size/4+0.5-$pos/2)*180/3.1415926)]
+    puts "slit_pos b=$b"
 
     return [expr (acos($size/4+0.5-$pos/2)*180/3.1415926)]
 }
